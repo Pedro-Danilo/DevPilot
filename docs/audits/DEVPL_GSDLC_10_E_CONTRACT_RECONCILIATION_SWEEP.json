@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "DEVPL-GSDLC-10-E-CONTRACT-RECONCILIATION-SWEEP",
+  "status": "PASS/LOCAL-PRE-WINDOWS",
+  "micro_sprint": "DEVPL-GSDLC-10-E",
+  "updated": "2026-09-10",
+  "checks": [
+    {
+      "check": "strict_schema_current_metadata",
+      "status": "PASS",
+      "evidence": "Project State/TCR v1/TCR v2/documentation governance validators pass on repo419-bound 10-E implementation."
+    },
+    {
+      "check": "derived_summary_registry",
+      "status": "PASS",
+      "evidence": "Source Registry, README, roadmap and current micro-sprint agree on repo419 and GSDLC-10-E Windows-pending state."
+    },
+    {
+      "check": "sensitive_action_binding",
+      "status": "PASS",
+      "evidence": "Source apply, Quality, stage and commit retain server-side policy/RBAC/approval authority; sessionStorage is UX-only."
+    },
+    {
+      "check": "ui_route_capability_mapping",
+      "status": "PASS",
+      "evidence": "Existing Story/Quality/Git UI surfaces are reused; 10-E adds lifecycle/handoff/status behavior rather than a parallel route or engine."
+    },
+    {
+      "check": "current_authority_pointers",
+      "status": "PASS",
+      "evidence": "Rebound prompt/backlog, Project State, Source Registry, local release criteria, README and roadmap are bound to repo419/GSDLC-10-E; next micro-sprint expectation is DEVPL-GSDLC-11."
+    },
+    {
+      "check": "historical_mutable_pointer_usage",
+      "status": "PASS",
+      "evidence": "The 10-A current-active UI assertion evolves by successor classification; at-close predecessor evidence remains untouched."
+    },
+    {
+      "check": "historical_pointer_reuse",
+      "status": "PASS",
+      "evidence": "repo419 is the immediate 10-D Windows successor; older repos remain historical only."
+    },
+    {
+      "check": "runtime_ephemeral_fixture_copy",
+      "status": "PASS",
+      "evidence": "runtime DBs, outputs, auth stores, browser Git metadata, node_modules and caches are excluded by bundle/package rules."
+    },
+    {
+      "check": "sealed_evidence_rewrite",
+      "status": "PASS",
+      "evidence": "10-D evidence is not modified; 10-E creates a separate evidence root and unique browser attempt workspace."
+    },
+    {
+      "check": "successor_registry_recognition",
+      "status": "PASS",
+      "evidence": "GSDLC-10-E Test Impact/TCR current contracts and repo419 rebind are represented without deleting historical contracts."
+    },
+    {
+      "check": "one_full_policy",
+      "status": "PASS",
+      "evidence": "Local implementation consumes 0 Full; Windows operator can create exactly one logical full-session only after browser/pre-Full PASS and can only resume that same session after infrastructure interruption."
+    },
+    {
+      "check": "frx_v2_4_isolation_coverage",
+      "status": "PASS",
+      "evidence": "Full collection preflight covers 3099 nodeids with isolation registry coverage complete; 41 GSDLC-10 post-snapshot tests are conservatively SERIAL_REQUIRED; governed plan projects 16 shards with Full budget still 0/1 and unreserved."
+    }
+  ],
+  "repaired_drift": [
+    "GSDLC-10 rebound frontmatter source still identified repo418/10-D activation rather than repo419/10-E execution authority",
+    "current-active 10-A UI assertion did not allow successor validation during remediation",
+    "Story lifecycle lacked runtime CHANGES_READY→VALIDATING and VALIDATING→COMMIT_READY transitions",
+    "Quality remediation UI handoff was not navigation-resilient without manual opaque-ID copying",
+    "Project Status had no explicit read-only story-complete/next-selection projection",
+    "local_release_candidate_criteria remained bound to GSDLC-10-D after 10-E activation",
+    "FRX-v2.4 isolation registry snapshot predated 41 current GSDLC-10 A-E nodeids; all were added as SERIAL_REQUIRED rather than implicitly unclassified or falsely promoted parallel-safe"
+  ],
+  "full_regression_runs": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "verdict": "PASS/LOCAL-PRE-WINDOWS — deterministic drift repaired before browser/Full; exactly one Full remains reserved for Windows closure."
+}

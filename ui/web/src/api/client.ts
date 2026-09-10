@@ -15,6 +15,14 @@ export const PROJECT_ENTRY_RESUME_TTL_MS = 30 * 60 * 1000;
 export const PROJECT_RECOVERY_INTENT_KEY = 'devpilot.gsdlc04e.projectRecoveryIntent.v1';
 export const PROJECT_RECOVERY_INTENT_TTL_MS = 15 * 60 * 1000;
 export const QUALITY_STORY_CONTEXT_KEY = 'devpilot.gsdlc10c.storyQualityContext.v1';
+export const QUALITY_REMEDIATION_HANDOFF_KEY = 'devpilot.gsdlc10e.qualityRemediationHandoff.v1';
+
+export interface QualityRemediationHandoff {
+  source_report_id: string;
+  remediation_trace_id: string;
+  story_execution_id?: string;
+  recorded_at_ms: number;
+}
 
 export interface QualityStoryContext {
   test_plan_id: string;
@@ -33,6 +41,16 @@ export function readQualityStoryContext(): QualityStoryContext | null {
 }
 
 export function clearQualityStoryContext(): void { try { sessionStorage.removeItem(QUALITY_STORY_CONTEXT_KEY); } catch {} }
+
+export function writeQualityRemediationHandoff(value: Omit<QualityRemediationHandoff, 'recorded_at_ms'>): void {
+  try { sessionStorage.setItem(QUALITY_REMEDIATION_HANDOFF_KEY, JSON.stringify({ ...value, recorded_at_ms: Date.now() })); } catch {}
+}
+
+export function readQualityRemediationHandoff(): QualityRemediationHandoff | null {
+  try { const raw=sessionStorage.getItem(QUALITY_REMEDIATION_HANDOFF_KEY); if(!raw)return null; const value=JSON.parse(raw) as QualityRemediationHandoff; return value?.source_report_id && value?.remediation_trace_id ? value : null; } catch { return null; }
+}
+
+export function clearQualityRemediationHandoff(): void { try { sessionStorage.removeItem(QUALITY_REMEDIATION_HANDOFF_KEY); } catch {} }
 
 export type ProjectJourneyPhase = 'entry' | 'project';
 export type ProjectEntryMode = 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';

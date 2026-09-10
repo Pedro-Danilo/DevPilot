@@ -4903,6 +4903,13 @@
       "required_for_security_gate": true,
       "requires_human_approval": true,
       "risk_level": "high",
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-10-D owner-approved scope",
+        "expires_at_utc": "2027-09-10T23:59:59Z",
+        "justification": "The focal contract intentionally mutates only isolated temporary Git fixtures to verify exact staging and commit semantics. It never mutates the official DevPilot repository under test, never pushes, and never enables force/rebase/reset-hard or arbitrary shell.",
+        "rollback_or_cleanup": "pytest temporary directories are disposable; governed fixture commits stay inside isolated tmp_path repositories and are removed by the test harness. No official repository source or remote history is changed.",
+        "scope": "tests/test_devpl_gsdlc_10_d_story_git_commit.py isolated Git fixture mutations only"
+      },
       "schema_version": "2.0",
       "source_contract_id": "devpl-gsdlc-10-d-story-git-commit",
       "source_mutations_allowed": false,
@@ -4964,14 +4971,7 @@
         "ui/web/src/api/types.ts",
         "ui/web/src/components/WorkspaceGitOperationsPanel.ts",
         "ui/web/src/pages/StoryCodeWorkbenchView.ts"
-      ],
-      "safety_exception": {
-        "approved_by": "DEVPL-GSDLC-10-D owner-approved scope",
-        "expires_at_utc": "2027-09-10T23:59:59Z",
-        "justification": "The focal contract intentionally mutates only isolated temporary Git fixtures to verify exact staging and commit semantics. It never mutates the official DevPilot repository under test, never pushes, and never enables force/rebase/reset-hard or arbitrary shell.",
-        "rollback_or_cleanup": "pytest temporary directories are disposable; governed fixture commits stay inside isolated tmp_path repositories and are removed by the test harness. No official repository source or remote history is changed.",
-        "scope": "tests/test_devpl_gsdlc_10_d_story_git_commit.py isolated Git fixture mutations only"
-      }
+      ]
     },
     {
       "approval_scope": "owner-approved-transversal-policy",
@@ -23758,9 +23758,103 @@
         "ui/web/",
         "scripts/visual_product_smoke.py"
       ]
+    },
+    {
+      "capability": "GSDLC10EStoryCycleBrowserFixture",
+      "classification_notes": [
+        "Successor current-active contract for GSDLC-10-E end-to-end story closure.",
+        "Fixture/test mutations are isolated; official source mutations remain forbidden to the test contract.",
+        "Exactly one logical Full is consumed only by the Windows closure operator after browser/pre-Full PASS."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "gsdlc10e-browser-story-cycle",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "product.ui",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 20,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "story-cycle",
+        "browser-e2e",
+        "source-change",
+        "test-plan",
+        "governed-jobs",
+        "quality-remediation",
+        "git-governance",
+        "traceability",
+        "project-status",
+        "frx-v2.4"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-10-E",
+      "owner_domain": "product.ui",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "medium",
+      "schema_ids": [],
+      "schema_version": "2.0",
+      "service_boundary": "application",
+      "source_contract_id": "gsdlc10e-browser-story-cycle",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-10-e-browser-fixture",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py",
+        "tests/test_devpl_gsdlc_10_e_browser_fixture.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-10-e",
+        "story-cycle",
+        "validating",
+        "quality-remediation",
+        "project-status",
+        "one-full"
+      ],
+      "validates": [
+        "UI-native StoryExecution lifecycle IN_PROGRESS→CHANGES_READY→VALIDATING→COMMIT_READY→DONE without operator substitution",
+        "controlled browser fixture produces typed test FAIL, Quality BLOCK, agent proposal-only remediation, successor impacted retest PASS and fresh Quality PASS",
+        "Quality remediation handoff is UX-only and server-revalidated after navigation",
+        "agent ToolIntent/ToolExecutionDecision never grants source/Quality/Git authority",
+        "exact governed commit and traceability remain provided by GSDLC-10-D engine",
+        "Project Status projects DONE as read-only next story/sprint selection readiness",
+        "FRX-v2.4 one-Full closure policy remains exactly one logical session after browser/pre-Full PASS"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/story_test_plan_service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/components/StoryQualityGatePanel.ts",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "tests/fixtures/gsdlc10e_story_value.py",
+        "tests/test_devpl_gsdlc_10_e_browser_fixture.py",
+        "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "05_PROMPT_DEVPL_GSDLC_10_E_v1_0_1_REBOUND_REPO419.md",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_4_APPROVED_REBOUND_REPO419.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_GSDLC_10_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_10_E_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_E_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_E_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_E_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_10_E_CHANGED_PATHS.txt"
+      ]
     }
   ],
-  "contracts_total": 328,
+  "contracts_total": 331,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
@@ -23831,7 +23925,8 @@
     "DEVPL-GSDLC-04-B adds explicit P0 application-service contract for governed runtime draft authoring.",
     "DEVPL-GSDLC-05-D adds explicit P0 StepActionAdvisor contract with server RBAC/API/UI parity and AGENT/RAG no-go enforcement.",
     "FRX-v2.2-A registers P0 incremental documentation consistency; it does not authorize a full regression outside FRX-v2.2-D.",
-    "DEVPL-GSDLC-10-B adds explicit P0 typed StoryValidationJob lifecycle/log/cancel/retry/orphan coverage without Full Regression."
+    "DEVPL-GSDLC-10-B adds explicit P0 typed StoryValidationJob lifecycle/log/cancel/retry/orphan coverage without Full Regression.",
+    "GSDLC-10-E adds successor contract gsdlc10e-browser-story-cycle; historical contracts remain unchanged."
   ],
   "profiles": [
     {

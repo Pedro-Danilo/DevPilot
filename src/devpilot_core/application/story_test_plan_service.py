@@ -103,11 +103,11 @@ class StoryTestPlanApplicationService:
         if failure:
             return failure
         assert story is not None
-        if story.status is not StoryExecutionStatus.CHANGES_READY:
+        if story.status not in {StoryExecutionStatus.CHANGES_READY, StoryExecutionStatus.VALIDATING}:
             return self._block(
                 command,
                 "GSDLC10A_STORY_NOT_CHANGES_READY_BLOCK",
-                f"Story must be CHANGES_READY before validation planning; current={story.status.value}.",
+                f"Story must be CHANGES_READY or VALIDATING before validation planning; current={story.status.value}.",
                 metadata={"story_execution_id": story.execution_id, "status": story.status.value},
             )
         if str(source.get("story_execution_id") or "") != story.execution_id:

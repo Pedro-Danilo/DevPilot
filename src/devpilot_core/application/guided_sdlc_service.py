@@ -194,9 +194,32 @@ class GuidedSDLCApplicationService:
         if isinstance(planning_payload, dict):
             story_root = context.effective_workspace_root if context.configured and context.valid else self.root
             story_workspace_id = server_active or resolved
-            planning_payload["current_story"] = StoryExecutionStore(
+            current_story = StoryExecutionStore(
                 story_root, workspace_id=story_workspace_id
             ).current_story_projection()
+            planning_payload["current_story"] = current_story
+            if isinstance(current_story, dict) and str(current_story.get("status") or "").upper() == "DONE":
+                planning_payload["story_cycle"] = {
+                    "status": "STORY_COMPLETE",
+                    "next_selection_ready": True,
+                    "next_kind": "NEXT_STORY_OR_SPRINT",
+                    "navigation_target": "planning-roadmap",
+                    "reason_code": "CURRENT_STORY_DONE",
+                    "read_only": True,
+                    "server_authoritative": True,
+                    "source_mutations_performed": False,
+                }
+            else:
+                planning_payload["story_cycle"] = {
+                    "status": "STORY_ACTIVE" if isinstance(current_story, dict) else "NO_ACTIVE_STORY",
+                    "next_selection_ready": False,
+                    "next_kind": None,
+                    "navigation_target": None,
+                    "reason_code": "CURRENT_STORY_NOT_DONE" if isinstance(current_story, dict) else "NO_ACTIVE_STORY",
+                    "read_only": True,
+                    "server_authoritative": True,
+                    "source_mutations_performed": False,
+                }
 
         return CommandResult(
             command="guided_sdlc.project_status",

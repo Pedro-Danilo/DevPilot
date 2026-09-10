@@ -36525,6 +36525,2255 @@
       "review": null
     },
     {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_01_known_delta_produces_deterministic_hash_bound_explainable_plan",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_02_stale_change_plan_hash_blocks",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_03_story_must_be_changes_ready",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_04_unknown_path_is_fail_closed_and_requires_explicit_human_reason",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_05_sensitive_delta_cannot_be_under_tested_or_waived",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_06_wrong_role_and_agent_authority_cannot_approve_or_waive",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_07_owner_waiver_is_bounded_reasoned_and_expiry_blocks_later_approval",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_08_api_human_session_contract_and_story_plan_endpoints",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_test_command",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_a_story_test_plan.py::test_10_a_closed_and_current_successor_preserves_full_budget_zero",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs",
+        "localhost-ports-server-lifecycle",
+        "network-external-service",
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "127.0.0.1"
+          ]
+        },
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "httpx.",
+            "network"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_approved_plan_derives_typed_test_build_lint_jobs_without_shell",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_log_store_redacts_secrets_and_is_bounded",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_no_command_string_or_full_regression_contract_exposed",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_orphan_reconciliation_never_promotes_to_pass",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_plan_is_idempotent_and_retry_keeps_exact_context_identity",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_stale_or_unapproved_story_test_plan_is_fail_closed",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_story_job_cancel_uses_process_tree_termination",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_ui_contract_exposes_typed_job_planning_job_console_and_no_free_form_command",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_worker_test_adapter_emits_junit_and_structured_result_refs",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py::test_worker_timeout_terminates_process_tree_and_reports_timed_out",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "clock-time-sensitive-state",
+        "fixed-filesystem-shared-outputs"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "monotonic",
+            "time.sleep"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_10_c_project_status_browser_recovery_uses_session_bound_fallback_without_granting_mutation",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_10_c_project_status_recovery_binds_restored_workspace_to_authenticated_scope",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_agent_route_never_grants_quality_or_source_authority",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_all_required_jobs_pass_produces_deterministic_pass_and_hash",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_quality_inputs_change_marks_report_stale",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_registries_routes_and_ui_quality_mapping_are_current",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_remediation_retest_requires_successor_plan_and_only_plans_impacted_jobs",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_required_validation_fail_and_pending_never_commit_ready",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_c_story_quality_gate.py::test_s0_s1_cannot_be_waived_and_agent_cannot_approve",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "localhost-ports-server-lifecycle"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_commit_plan_is_exact_quality_bound_and_zero_mutation",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_commit_requires_second_approval_and_creates_exact_git_record",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_destructive_git_surface_remains_unavailable",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_exact_stage_uses_separate_authenticated_approval_and_manifest",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_stale_quality_after_stage_blocks_commit_without_rerun_or_push",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_stale_quality_and_wrong_role_and_agent_authority_block",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_story_bound_max_32_does_not_expand_historical_uoc006_default",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_story_code_ui_reuses_workspace_git_panel_and_exposes_10d_safety_contract",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_story_git_routes_are_human_session_bound_and_owner_mutations_registered",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_d_story_git_commit.py::test_unexpected_dirty_path_blocks_before_plan",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "fixed-filesystem-shared-outputs",
+        "git-worktree-repo-mutation"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_browser_fixture.py::test_gsdlc10e_browser_story_value_is_ready",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "os.environ"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_fresh_quality_pass_advances_validating_to_commit_ready",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_project_status_projects_story_done_as_next_story_or_sprint_ready",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_quality_block_keeps_story_validating",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_quality_remediation_handoff_survives_ui_navigation_without_becoming_authority",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_story_workbench_allows_governed_remediation_while_validating",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_successor_test_plan_is_allowed_while_validating",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_test_plan_approval_advances_changes_ready_to_validating",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "process-global-env-cwd"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "New GSDLC-10-E coverage is conservatively serialized because it uses process-scoped workspace/environment state and has no BR dynamic proof authorizing parallel execution.",
+        "reviewed_at": "2026-09-10T21:20:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:focal-37-pass",
+          "GSDLC-10-E:frx-v2.4-preflight-remediation"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
       "explicit_review_required": true,
       "isolation_domains": [],
       "nodeid": "tests/test_devpl_gsdlc_transversal_validation_policy.py::test_backlog_closing_micro_sprint_runs_full_regression_exactly_once",
@@ -106494,6 +108743,80 @@
       ]
     },
     {
+      "nodeid": "tests/test_web_ui_job_console.py::test_job_console_manual_refresh_uses_same_selected_snapshot_refresh_path",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "subprocess-process-trees"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_web_ui_job_console.py::test_job_console_polling_refreshes_selected_detail_and_logs",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [
+        "subprocess-process-trees"
+      ],
+      "suggested_hints": [
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E implementation under owner-approved FRX-v2.4 policy",
+        "reason": "Current GSDLC-10 A-E test introduced after the prior isolation-registry snapshot. Conservatively serialized for the closing Full because no BR dynamic evidence exists to authorize parallel execution.",
+        "reviewed_at": "2026-09-10T21:28:00Z",
+        "evidence_ids": [
+          "DEVPL-GSDLC-10-E:full-preflight-collection-3099",
+          "DEVPL-GSDLC-10-E:focal-37-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
       "explicit_review_required": true,
       "isolation_domains": [],
       "nodeid": "tests/test_web_ui_job_console.py::test_job_console_supports_opaque_job_deep_links",
@@ -109021,9 +111344,9 @@
     "windows-named-resources-locks"
   ],
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
-  "source_commit": "3c06d72445525e9b6d246726e5d6c6eb58fd20d4",
+  "source_commit": "e1fbc1c93eba098cf7b82272dcaa9fe9b0100149+GSDLC-10-E",
   "status": "implemented-initial",
-  "updated": "2026-09-08T00:00:00Z",
+  "updated": "2026-09-10T21:28:00Z",
   "version": "1.0.0",
-  "registry_sha256": "146ff60d869c58bce7a52ece73c4166946d502c468a1eabad45ee9cbb6510e2a"
+  "registry_sha256": "af1b4d642f0e038bc29e86c8110e8396307bd92a9eb6b8db28aa030083d37422"
 }

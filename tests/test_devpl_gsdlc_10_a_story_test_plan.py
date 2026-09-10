@@ -274,13 +274,15 @@ def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_
         assert marker in text
     for marker in ["restoreApplyContext", "listApprovals", "sessionStorage", "storySourceChangePlan", "story_execution_id", "APPLY_CONTEXT_SESSION_KEY", "armApprovalCenterArtifactReviewHandoff", "handoff=artifact-review", "Abrir Approval Center dirigido", "storyStatus", "CHANGES_READY", "SourceChangePlan restaurado para validación"]:
         assert marker in text
-    assert "validateStory.disabled=!canAuthor||!plan||storyStatus!=='CHANGES_READY'" in text
+    assert "validationAllowed=new Set(['IN_PROGRESS','VALIDATING'])" not in text
+    assert "validationAllowed=new Set(['CHANGES_READY','VALIDATING'])" in text
     assert "validateStory.disabled=!canAuthor||!plan||!execution" not in text
-    assert "new Set(['IN_PROGRESS','CHANGES_READY']).has(currentStatus)" in text
+    assert "new Set(['IN_PROGRESS','CHANGES_READY','VALIDATING']).has(currentStatus)" in text
     assert "row?.metadata?.plan_hash" in text
     assert "boundHash!==String(candidate.plan_hash??'')" in text
-    assert "requestApproval.disabled=!isOwner||!plan||storyStatus!=='IN_PROGRESS'" in text
-    assert "apply.disabled=!isOwner||!plan||!approvalInput.value.trim()||storyStatus!=='IN_PROGRESS'" in text
+    assert "sourceChangeAllowed=new Set(['IN_PROGRESS','VALIDATING']).has(storyStatus)" in text
+    assert "requestApproval.disabled=!isOwner||!plan||!sourceChangeAllowed" in text
+    assert "apply.disabled=!isOwner||!plan||!approvalInput.value.trim()||!sourceChangeAllowed" in text
     for marker in ["storyTestPlanCreate", "storyTestPlanDecision", "/test-plan", "/test-plans/"]:
         assert marker in client
     assert "test command" not in text.lower()
@@ -293,9 +295,9 @@ def test_10_a_closed_and_current_successor_preserves_full_budget_zero() -> None:
     assert state["gsdlc_current_backlog"] == "DEVPL-GSDLC-10"
     assert state["gsdlc_10_a_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
     assert state["gsdlc_10_b_status"].startswith("CLOSED/PASS/WINDOWS-VALIDATED")
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-D"
+    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-E"
     assert state["gsdlc_10_c_authorized"] is True
-    assert state["gsdlc_10_status"] in {"APPROVED/ACTIVE/GSDLC-10-D", "CLOSED/PASS/WINDOWS-VALIDATED/GSDLC-10-D/10-E-AUTHORIZED"}
+    assert state["gsdlc_10_status"] in {"APPROVED/ACTIVE/GSDLC-10-E", "CLOSED/PASS/WINDOWS-VALIDATED/GSDLC-10-D/10-E-AUTHORIZED"}
     assert state["gsdlc_10_a_full_regression_runs"] == 0
     assert state["gsdlc_10_a_full_regression_runs_allowed"] == 0
     assert state["gsdlc_10_c_full_regression_runs_allowed"] == 0

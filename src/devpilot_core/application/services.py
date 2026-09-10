@@ -1464,7 +1464,28 @@ class ApplicationService:
         return self.story_test_plans.get(test_plan_id=test_plan_id)
 
     def story_test_plan_decide(self, *, test_plan_id: str, test_plan_hash: str, decision: str, actor: str, actor_role: str, reason: str | None = None, waived_test_ids: list[str] | None = None, ttl_minutes: int = 60, authority_source: str = "human-session") -> CommandResult:
-        return self.story_test_plans.decide(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, decision=decision, actor=actor, actor_role=actor_role, reason=reason, waived_test_ids=waived_test_ids, ttl_minutes=ttl_minutes, authority_source=authority_source)
+        result = self.story_test_plans.decide(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, decision=decision, actor=actor, actor_role=actor_role, reason=reason, waived_test_ids=waived_test_ids, ttl_minutes=ttl_minutes, authority_source=authority_source)
+        if not result.ok or str(decision).strip().upper() != "APPROVE":
+            return result
+        context = self.ui_workspace_context.resolve()
+        workspace_id = str(context.active_workspace_id or "").strip()
+        if not (context.configured and context.valid and workspace_id):
+            return result
+        store = StoryExecutionStore(context.effective_workspace_root, workspace_id=workspace_id)
+        state = store.load_state()
+        if state is None or state.status is StoryExecutionStatus.VALIDATING:
+            return result
+        if state.status is not StoryExecutionStatus.CHANGES_READY:
+            return result
+        try:
+            transitioned = state.transition(StoryExecutionStatus.VALIDATING, actor_id=actor, observed_at_utc=datetime.now(timezone.utc).isoformat())
+        except StoryExecutionTransitionError:
+            return result
+        story_payload = store.save_state(transitioned)
+        data = dict(result.data or {})
+        data["story_execution_state"] = story_payload
+        data["story_state_transition"] = {"from": "CHANGES_READY", "to": "VALIDATING", "trigger": "approved-story-test-plan", "runtime_only": True}
+        return CommandResult(result.command, result.ok, result.exit_code, result.message + " Story execution advanced to VALIDATING.", data=data, findings=result.findings)
 
     def story_validation_jobs_create(self, *, test_plan_id: str, test_plan_hash: str, actor: str, actor_role: str) -> CommandResult:
         return self.story_validation_jobs.create_for_plan(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, actor=actor, actor_role=actor_role)
@@ -1479,7 +1500,33 @@ class ApplicationService:
         return self.story_quality_gate.record_finding(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, origin=origin, severity=severity, message=message, actor=actor, actor_role=actor_role, source_ref=source_ref, authority_source=authority_source)
 
     def story_quality_evaluate(self, *, test_plan_id: str, test_plan_hash: str, actor: str, actor_role: str) -> CommandResult:
-        return self.story_quality_gate.evaluate(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, actor=actor, actor_role=actor_role)
+        result = self.story_quality_gate.evaluate(test_plan_id=test_plan_id, test_plan_hash=test_plan_hash, actor=actor, actor_role=actor_role)
+        if not result.ok:
+            return result
+        report = dict((result.data or {}).get("story_quality_report") or {})
+        if report.get("decision") != "PASS" or report.get("commit_ready") is not True:
+            return result
+        context = self.ui_workspace_context.resolve()
+        workspace_id = str(context.active_workspace_id or "").strip()
+        if not (context.configured and context.valid and workspace_id):
+            return result
+        store = StoryExecutionStore(context.effective_workspace_root, workspace_id=workspace_id)
+        state = store.load_state()
+        if state is None or state.status is StoryExecutionStatus.COMMIT_READY:
+            return result
+        if state.status is not StoryExecutionStatus.VALIDATING:
+            return result
+        if state.execution_id != str(report.get("story_execution_id") or ""):
+            return result
+        try:
+            transitioned = state.transition(StoryExecutionStatus.COMMIT_READY, actor_id=actor, observed_at_utc=datetime.now(timezone.utc).isoformat())
+        except StoryExecutionTransitionError:
+            return result
+        story_payload = store.save_state(transitioned)
+        data = dict(result.data or {})
+        data["story_execution_state"] = story_payload
+        data["story_state_transition"] = {"from": "VALIDATING", "to": "COMMIT_READY", "trigger": "fresh-quality-pass", "runtime_only": True}
+        return CommandResult(result.command, result.ok, result.exit_code, result.message + " Story execution advanced to COMMIT_READY.", data=data, findings=result.findings)
 
     def story_quality_report_get(self, *, report_id: str) -> CommandResult:
         return self.story_quality_gate.get_report(report_id=report_id)

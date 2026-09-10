@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "audit_id": "DEVPL-GSDLC-10-E-HISTORICAL-CONTRACT-SWEEP",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-10-E",
+  "updated": "2026-09-10",
+  "full_regression_runs": 0,
+  "classifications": [
+    {
+      "surface": "GSDLC-10-A through 10-D Windows closure facts/evidence",
+      "classification": "historical-freeze",
+      "decision": "preserved; predecessor evidence and at-close facts are not rewritten"
+    },
+    {
+      "surface": "10-A Story Workbench validation-state assertion",
+      "classification": "current-active/successor-needed",
+      "decision": "successor permits Validar in VALIDATING only to support governed remediation; historical 10-A capability remains documented"
+    },
+    {
+      "surface": "Story lifecycle CHANGES_READY/VALIDATING/COMMIT_READY",
+      "classification": "current-active",
+      "decision": "10-E completes missing runtime transitions without bypassing Quality"
+    },
+    {
+      "surface": "Quality remediation handoff in browser sessionStorage",
+      "classification": "runtime-ephemeral",
+      "decision": "UX pointer only; every reuse re-fetches server-side RemediationTrace/TestPlan/source authority"
+    },
+    {
+      "surface": "GSDLC-10-E browser fixture source/test contract",
+      "classification": "successor-needed",
+      "decision": "new isolated one-path fixture and TCR-v2 impact rule; no production source special-case"
+    },
+    {
+      "surface": "Project Status story-cycle completion projection",
+      "classification": "derived",
+      "decision": "read-only projection from server StoryExecution DONE; no planning/source mutation"
+    },
+    {
+      "surface": "FRX-v2.4 current execution profile and one-Full policy",
+      "classification": "historical-freeze/current-active",
+      "decision": "profile authority reused unchanged; 10-E invokes current profile by ID only after pre-Full gates"
+    },
+    {
+      "surface": "auth.db*, devpilot.db*, outputs/, node_modules, caches, browser workspace .git",
+      "classification": "runtime-ephemeral",
+      "decision": "excluded from source/evidence/final packages"
+    },
+    {
+      "surface": "local_release_candidate_criteria current-active expectations",
+      "classification": "current-active/derived",
+      "decision": "rebound from GSDLC-10-D to GSDLC-10-E/repo419; next micro-sprint expectation DEVPL-GSDLC-11; no historical snapshot rewritten"
+    },
+    {
+      "surface": "FRX-v2.4 isolation registry coverage for GSDLC-10 A-E tests",
+      "classification": "current-active",
+      "decision": "41 post-snapshot GSDLC-10 nodeids are explicitly covered as SERIAL_REQUIRED; no parallel-safe authority is inferred without BR evidence"
+    }
+  ],
+  "findings": [],
+  "s0_open": 0,
+  "s1_open": 0,
+  "verdict": "PASS — predecessor facts frozen; only current-active/successor contracts needed for the E2E story cycle evolved; Full remains 0/1 locally."
+}

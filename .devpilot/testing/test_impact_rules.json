@@ -4,8 +4,8 @@
   "registry_id": "devpilot-test-impact-rule-registry",
   "created_by": "POST-H-029-B",
   "status": "implemented-initial",
-  "version": "1.0.0",
-  "updated": "2026-07-13",
+  "version": "1.1.0",
+  "updated": "2026-09-10",
   "rules": [
     {
       "rule_id": "policy-security",
@@ -691,6 +691,46 @@
         "source_mutations_allowed": false,
         "tests_executed_from_rule": false
       }
+    },
+    {
+      "rule_id": "gsdlc10e-browser-story-cycle",
+      "title": "GSDLC-10-E deterministic browser story cycle fixture",
+      "description": "Current-active rule for the bounded browser fixture used to demonstrate FAIL→remediation→impacted retest→governed commit without arbitrary commands.",
+      "path_patterns": [
+        "tests/fixtures/gsdlc10e_story_value.py"
+      ],
+      "domains": [
+        "product.story-cycle.browser"
+      ],
+      "profiles": [
+        "impact"
+      ],
+      "criticalities": [
+        "P2"
+      ],
+      "risk_levels": [
+        "medium"
+      ],
+      "recommended_tests": [
+        "tests/test_devpl_gsdlc_10_e_browser_fixture.py"
+      ],
+      "recommended_commands": [],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": false,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "low",
+      "owner": "DEVPL-GSDLC-10-E",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
     }
   ],
   "unmatched_path_policy": {
@@ -726,6 +766,7 @@
     "POST-H-029-B moves impact-selection knowledge into source-controlled declarative rules.",
     "The registry is advisory and non-executing; tests.run or explicit operator commands remain approval-gated.",
     "Heuristic fallback may remain until POST-H-029-C/D/E complete the recommendation and regression guard layers.",
-    "POST-H-034-CLOSURE follow-up maps GitAdapter and multiagent repository inspection into operations.workspace impact coverage."
+    "POST-H-034-CLOSURE follow-up maps GitAdapter and multiagent repository inspection into operations.workspace impact coverage.",
+    "DEVPL-GSDLC-10-E adds a deterministic browser-fixture impact rule; it recommends one typed test and never authorizes Full Regression."
   ]
 }

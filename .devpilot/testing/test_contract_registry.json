@@ -3633,6 +3633,58 @@
       ]
     },
     {
+      "contract_id": "gsdlc10e-browser-story-cycle",
+      "critical": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "owner": "DEVPL-GSDLC-10-E",
+      "phase": "DEVPL-GSDLC-10",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q"
+      ],
+      "scope": "feature",
+      "test_files": [
+        "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py",
+        "tests/test_devpl_gsdlc_10_e_browser_fixture.py"
+      ],
+      "validates": [
+        "UI-native StoryExecution lifecycle IN_PROGRESS→CHANGES_READY→VALIDATING→COMMIT_READY→DONE without operator substitution",
+        "controlled browser fixture produces typed test FAIL, Quality BLOCK, agent proposal-only remediation, successor impacted retest PASS and fresh Quality PASS",
+        "Quality remediation handoff is UX-only and server-revalidated after navigation",
+        "agent ToolIntent/ToolExecutionDecision never grants source/Quality/Git authority",
+        "exact governed commit and traceability remain provided by GSDLC-10-D engine",
+        "Project Status projects DONE as read-only next story/sprint selection readiness",
+        "FRX-v2.4 one-Full closure policy remains exactly one logical session after browser/pre-Full PASS"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/story_test_plan_service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/components/StoryQualityGatePanel.ts",
+        "ui/web/src/pages/StoryCodeWorkbenchView.ts",
+        "ui/web/src/pages/ProjectStatusView.ts",
+        "tests/fixtures/gsdlc10e_story_value.py",
+        "tests/test_devpl_gsdlc_10_e_browser_fixture.py",
+        "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "05_PROMPT_DEVPL_GSDLC_10_E_v1_0_1_REBOUND_REPO419.md",
+        "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_4_APPROVED_REBOUND_REPO419.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_GSDLC_10_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_10_E_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_E_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_10_E_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_10_E_TEST_IMPACT.json",
+        "docs/audits/DEVPL_GSDLC_10_E_CHANGED_PATHS.txt"
+      ]
+    },
+    {
       "contract_id": "post-h-002-maturity-dashboard",
       "critical": true,
       "global_state_source": null,
@@ -13882,7 +13934,7 @@
       ]
     }
   ],
-  "contracts_total": 328,
+  "contracts_total": 331,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [
