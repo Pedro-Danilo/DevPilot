@@ -242,6 +242,11 @@ export class DevPilotApiClient {
     return this.get(`/guided-sdlc/status${this.query(filters)}`, { retryNetworkErrors: true }) as unknown as Promise<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>>;
   }
 
+  async projectStatusSessionRecovery(workspaceId?: string): Promise<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>> {
+    const path = `/guided-sdlc/status${this.query({ workspace_id: workspaceId })}`;
+    return this.authJson<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>>(path, { method: 'GET' });
+  }
+
   async stepActions(filters: { workspace_id?: string; expected_state_fingerprint?: string } = {}): Promise<DevPilotApplicationResponse<GuidedSdlcStepActionsResponseData>> {
     return this.get(`/guided-sdlc/step-actions${this.query(filters)}`, { retryNetworkErrors: true }) as unknown as Promise<DevPilotApplicationResponse<GuidedSdlcStepActionsResponseData>>;
   }
@@ -1072,6 +1077,7 @@ export function readProjectJourneyContext(): ProjectJourneyContext | null {
 
 export function restoreProjectJourneyContextFromProjectStatusRecovery(
   response: DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>,
+  expectedWorkspaceId?: string,
 ): ProjectJourneyContext | null {
   const data = response.data;
   const projectStatus = data?.project_status;
@@ -1087,6 +1093,7 @@ export function restoreProjectJourneyContextFromProjectStatusRecovery(
     && data?.mutations_performed === false
     && sourceMutations !== true
     && Boolean(workspaceId)
+    && (!expectedWorkspaceId || workspaceId === expectedWorkspaceId)
     && Boolean(projectId)
     && projectId.toLowerCase() !== 'unknown'
     && !['EMPTY', 'UNKNOWN'].includes(uiState);

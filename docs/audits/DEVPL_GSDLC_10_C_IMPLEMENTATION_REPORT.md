@@ -55,3 +55,8 @@ El test 10-A que congelaba el puntero current en 10-B se clasificó `successor-n
 ## PASS/BLOCK Windows
 
 PASS exige: focal/cumulative/gates PASS, HCA/reconciliation PASS, browser real del loop Quality PASS, S0/S1=0, Full=0, Git fast-forward sin force y packaging limpio. Cualquier false-PASS, waiver S0/S1, model authority, retest broad o evidencia UI inconsistente es BLOCK.
+
+
+## Corrective UX recovery 1.0.6
+
+La recuperación explícita de `/project/status?recover_project_context=server-active` mantiene el intento actor-neutral existente y añade un fallback de solo lectura ligado al único `workspace_scope` de la sesión humana autenticada. El fallback usa transporte session-only (cookie) y no usa ni renueva token legacy, approval ni autoridad de mutación. El `workspace_id` retornado debe coincidir con el scope autenticado; multi-scope permanece fail-closed. Este corrective responde a la discrepancia observada entre el preflight interno PASS y el redirect browser `server-context-failed`. Full Regression permanece reservada para el cierre del backlog y no se consume aquí.

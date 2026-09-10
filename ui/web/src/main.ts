@@ -74,7 +74,7 @@ async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
     }
     const envelope=await client.authSession();
     if (path === '/login' || path === '/first-run') return redirect(resolvePostLoginReturn(params.get('return')));
-    const projectStatusRecoveryOutcome=await recoverExplicitProjectStatusContext(client, path, params);
+    const projectStatusRecoveryOutcome=await recoverExplicitProjectStatusContext(client, envelope.session, path, params);
     if (projectStatusRecoveryOutcome === 'failed') {
       return redirect('/?guard=Estado%20del%20proyecto&attempted=%2Fproject%2Fstatus&recovery=server-context-failed');
     }
@@ -176,12 +176,23 @@ function renderNotFound(path:string):HTMLElement{const section=document.createEl
 function readEntryMode(value:string|null):'CREATE_NEW'|'OPEN_EXISTING'|'IMPORT_GIT'|undefined{if(value==='CREATE_NEW'||value==='OPEN_EXISTING'||value==='IMPORT_GIT')return value;return undefined;}
 function normalizePath(path:string):string{if(!path||path==='/')return '/';const normalized=path.replace(/\/+$/,'');return normalized||'/';}
 type ProjectRecoveryOutcome = 'not-requested' | 'already-project' | 'restored' | 'failed';
-async function recoverExplicitProjectStatusContext(client: DevPilotApiClient, path: string, params: URLSearchParams): Promise<ProjectRecoveryOutcome> {
+async function recoverExplicitProjectStatusContext(client: DevPilotApiClient, session: AuthSessionContext, path: string, params: URLSearchParams): Promise<ProjectRecoveryOutcome> {
   if (readProjectJourneyContext()?.phase === 'project') return 'already-project';
   if (path !== '/project/status' || params.get('recover_project_context') !== 'server-active') return 'not-requested';
+  const scopes=[...new Set((session.principal.workspace_scopes ?? []).map((value) => String(value).trim()).filter(Boolean))];
+  const expectedWorkspaceId=scopes.length===1 ? scopes[0] : undefined;
   try {
     const response=await client.projectStatus();
     const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response);
+    if (restored) {
+      try { globalThis.history?.replaceState(null, '', '/project/status'); } catch { /* cosmetic only; route authority is already server-validated. */ }
+      return 'restored';
+    }
+  } catch { /* session-bound fallback below keeps recovery read-only and fail-closed. */ }
+  if (!expectedWorkspaceId) return 'failed';
+  try {
+    const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
+    const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
     if (!restored) return 'failed';
     try { globalThis.history?.replaceState(null, '', '/project/status'); } catch { /* cosmetic only; route authority is already server-validated. */ }
     return 'restored';

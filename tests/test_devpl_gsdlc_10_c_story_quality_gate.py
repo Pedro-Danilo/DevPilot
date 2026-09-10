@@ -121,3 +121,32 @@ def test_registries_routes_and_ui_quality_mapping_are_current(tmp_path):
     assert all(not r['source_mutation_allowed'] and not r['remote_execution_allowed'] for r in api['routes'] if r['route_id'] in ids)
     quality=next(r for r in ui['routes'] if r['route_id']=='ui.quality')
     assert ids <= set(quality['allowed_api_routes'])
+
+
+def test_10_c_project_status_browser_recovery_uses_session_bound_fallback_without_granting_mutation():
+    root=Path(__file__).resolve().parents[1]
+    main=(root/'ui/web/src/main.ts').read_text(encoding='utf-8')
+    client=(root/'ui/web/src/api/client.ts').read_text(encoding='utf-8')
+    segment=main.split('async function recoverExplicitProjectStatusContext',1)[1].split('async function recoverExplicitServerProjectContext',1)[0]
+    assert 'client.projectStatus()' in segment
+    assert 'client.projectStatusSessionRecovery(expectedWorkspaceId)' in segment
+    assert 'session.principal.workspace_scopes' in segment
+    assert 'scopes.length===1 ? scopes[0] : undefined' in segment
+    assert "if (!expectedWorkspaceId) return 'failed'" in segment
+    assert 'projectStatusSessionRecovery(workspaceId?: string)' in client
+    helper=client.split('async projectStatusSessionRecovery',1)[1].split('async stepActions',1)[0]
+    assert "this.authJson<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>>" in helper
+    assert "{ method: 'GET' }" in helper
+    assert 'this.authHeaders()' not in helper
+
+
+def test_10_c_project_status_recovery_binds_restored_workspace_to_authenticated_scope():
+    root=Path(__file__).resolve().parents[1]
+    client=(root/'ui/web/src/api/client.ts').read_text(encoding='utf-8')
+    helper=client.split('export function restoreProjectJourneyContextFromProjectStatusRecovery',1)[1].split('export function beginProjectEntryJourney',1)[0]
+    assert 'expectedWorkspaceId?: string' in helper
+    assert '(!expectedWorkspaceId || workspaceId === expectedWorkspaceId)' in helper
+    assert 'data?.read_only === true' in helper
+    assert 'data?.actor_neutral === true' in helper
+    assert 'data?.mutations_performed === false' in helper
+    assert "phase: 'project'" in helper

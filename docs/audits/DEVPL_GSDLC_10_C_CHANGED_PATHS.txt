@@ -31,5 +31,6 @@ tests/test_devpl_gsdlc_10_c_story_quality_gate.py
 ui/web/src/api/client.ts
 ui/web/src/api/types.ts
 ui/web/src/components/StoryQualityGatePanel.ts
+ui/web/src/main.ts
 ui/web/src/pages/QualityOperationsView.ts
 ui/web/src/pages/StoryCodeWorkbenchView.ts
