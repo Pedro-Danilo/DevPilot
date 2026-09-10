@@ -156,7 +156,12 @@ def test_commit_plan_is_exact_quality_bound_and_zero_mutation(uoc006_env):
     assert plan["exact_paths"] == ["docs/review.md"] == plan["include_paths"]
     assert plan["exclude_paths"] == []
     assert plan["story_quality_report_hash"] == quality["report_hash"]
+    assert plan["approval"]["required"] is True
     assert plan["approval"]["required_role"] == "owner"
+    assert plan["approval"]["stage_approval_required"] is True
+    assert plan["approval"]["commit_approval_required"] is True
+    assert plan["approval"]["stage_and_commit_separate"] is True
+    assert plan["approval"]["authority_source"] == "server-rbac-policy-approval"
     assert plan["approval"]["agent_granted_authority"] is False
     assert plan["safety"]["git_add_all_enabled"] is False
     assert plan["safety"]["push_enabled"] is False
@@ -297,4 +302,12 @@ def test_story_code_ui_reuses_workspace_git_panel_and_exposes_10d_safety_contrac
         assert marker in panel
     assert "authority=human-session" in panel
     assert "Agente/modelo puede proponer, nunca conceder permiso Git" in panel
+    assert "stage_and_commit_separate" in panel
+    story_section = panel.split("function createStoryGitOperationsPanel", 1)[1]
+    assert "decideApproval(approval.approval_id, decision, { reason:" in story_section
+    assert "decideApproval(approval.approval_id, decision, { actor: ACTOR" not in story_section
+    client = (repo / "ui" / "web" / "src" / "api" / "client.ts").read_text(encoding="utf-8")
+    decide_method = client.split("async decideApproval", 1)[1].split("async ", 1)[0]
+    assert "{ reason: payload.reason }" in decide_method
+    assert "this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload" not in decide_method
     assert "createWorkspaceGitOperationsPanel" in story and "storyMode:true" in story

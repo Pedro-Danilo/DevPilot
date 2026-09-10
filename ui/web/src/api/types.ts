@@ -639,7 +639,7 @@ export interface StoryGitCommitPlan {
   story_quality_report_id: string;
   story_quality_report_hash: string;
   commit: { message: string; author_name: string; author_email: string };
-  approval: { required: boolean; required_role: 'owner'; stage_and_commit_separate: boolean; agent_granted_authority: false; model_route_granted_authority: false };
+  approval: { required: true; required_role: 'owner'; stage_approval_required: true; commit_approval_required: true; stage_and_commit_separate: true; authority_source: 'server-rbac-policy-approval'; agent_granted_authority: false; model_route_granted_authority: false };
   traceability: { requirement_ids: string[]; test_evidence_ids: string[] };
   safety: Record<string, boolean>;
   created_at_utc: string;

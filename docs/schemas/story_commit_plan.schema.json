@@ -193,14 +193,19 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "required",
         "required_role",
         "stage_approval_required",
         "commit_approval_required",
+        "stage_and_commit_separate",
         "authority_source",
         "agent_granted_authority",
         "model_route_granted_authority"
       ],
       "properties": {
+        "required": {
+          "const": true
+        },
         "required_role": {
           "const": "owner"
         },
@@ -208,6 +213,9 @@
           "const": true
         },
         "commit_approval_required": {
+          "const": true
+        },
+        "stage_and_commit_separate": {
           "const": true
         },
         "authority_source": {

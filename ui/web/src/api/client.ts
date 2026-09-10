@@ -391,7 +391,9 @@ export class DevPilotApiClient {
   }
 
   async decideApproval(approvalId: string, decision: 'approve' | 'deny', payload: { actor?: string; reason: string }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload, { timeoutMs: APPROVAL_CENTER_DECISION_TIMEOUT_MS });
+    // Authenticated human-session is the only approval authority. `actor` is a
+    // deprecated compatibility hint and must never be transported by current UI.
+    return this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, { reason: payload.reason }, { timeoutMs: APPROVAL_CENTER_DECISION_TIMEOUT_MS });
   }
 
   async runDryRunAction(payload: { action_id: string; target?: string; goal?: string; strict?: boolean; include_code_review?: boolean }): Promise<DevPilotApplicationResponse> {

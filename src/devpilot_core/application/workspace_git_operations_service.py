@@ -666,9 +666,11 @@ class WorkspaceGitOperationsApplicationService:
             "files": expected_files,
             "commit": {"message": message, "author_name": name, "author_email": email, "message_editable_before_plan": True},
             "approval": {
+                "required": True,
                 "required_role": "owner",
                 "stage_approval_required": True,
                 "commit_approval_required": True,
+                "stage_and_commit_separate": True,
                 "authority_source": "server-rbac-policy-approval",
                 "agent_granted_authority": False,
                 "model_route_granted_authority": False,
