@@ -83,6 +83,13 @@ async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
       clearProjectRecoveryIntent();
       return redirect('/?guard=Documentos&attempted=%2Fworkspace%2Fdocuments&recovery=server-context-failed');
     }
+    const routeRecoveryOutcome=await recoverSessionBoundProjectRouteContext(client, envelope.session, path);
+    if (routeRecoveryOutcome === 'failed') {
+      const route=resolveUiRoute(path);
+      const guard=encodeURIComponent(route?.title ?? 'Proyecto');
+      const attempted=encodeURIComponent(path);
+      return redirect(`/?guard=${guard}&attempted=${attempted}&recovery=session-bound-project-failed`);
+    }
     renderApplication(target,envelope.session);
   } catch (error) {
     if (path !== '/login' && path !== '/first-run') {
@@ -98,7 +105,7 @@ async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
 function renderApplication(target: HTMLElement, session: AuthSessionContext): void {
   const currentPath = normalizePath(globalThis.location.pathname);
   const jobsDetail = currentPath.match(/^\/jobs\/(job_[A-Za-z0-9_-]+)$/);
-  const route = UI_ROUTES.find((item) => item.path === currentPath) ?? (jobsDetail ? UI_ROUTES.find((item) => item.path === '/jobs') : undefined);
+  const route = resolveUiRoute(currentPath);
   const params = new URLSearchParams(globalThis.location?.search ?? '');
   const handoffKind = currentPath === '/approvals' ? (params.get('handoff') ?? '').trim() : '';
   const handoffApprovalId = currentPath === '/approvals' && ['project-entry','artifact-review'].includes(handoffKind) ? (params.get('approval_id') ?? '').trim() : '';
@@ -166,6 +173,31 @@ function routeAllowed(route: UiRoute, journey: ProjectJourneyContext | null): bo
 function routeVisible(route: UiRoute, journey: ProjectJourneyContext | null): boolean {
   if (route.scope === 'entry') return false;
   return routeAllowed(route, journey);
+}
+
+function resolveUiRoute(path: string): UiRoute | undefined {
+  const jobsDetail = path.match(/^\/jobs\/(job_[A-Za-z0-9_-]+)$/);
+  return UI_ROUTES.find((item) => item.path === path) ?? (jobsDetail ? UI_ROUTES.find((item) => item.path === '/jobs') : undefined);
+}
+
+async function recoverSessionBoundProjectRouteContext(
+  client: DevPilotApiClient,
+  session: AuthSessionContext,
+  path: string,
+): Promise<ProjectRecoveryOutcome> {
+  if (readProjectJourneyContext()?.phase === 'project') return 'already-project';
+  const route=resolveUiRoute(path);
+  if (!route || route.scope !== 'project') return 'not-requested';
+  const scopes=[...new Set((session.principal.workspace_scopes ?? []).map((value) => String(value).trim()).filter(Boolean))];
+  if (scopes.length !== 1) return 'failed';
+  const expectedWorkspaceId=scopes[0];
+  try {
+    const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
+    const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
+    return restored ? 'restored' : 'failed';
+  } catch {
+    return 'failed';
+  }
 }
 
 function renderRouteHeader(route: UiRoute, session: AuthSessionContext): HTMLElement {

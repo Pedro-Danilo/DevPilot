@@ -6706,3 +6706,7 @@ Estado: `CLOSED/PASS/WINDOWS-VALIDATED`. Stage/commit story-bound exacto con RBA
 ### DEVPL-GSDLC-10-E — implementation activation
 
 GSDLC-10-E se activa sobre `repo_DevPilot_Local_419_DEVPL_GSDLC_10_D_RBAC_GOVERNED_STAGE_COMMIT_WINDOWS_VALIDATED_CANDIDATE.zip` / `e1fbc1c93eba098cf7b82272dcaa9fe9b0100149` / SHA-256 `9cd19db4f0a0c28e59e69cd4184e73570815596618ada9581048d21aa00e0db5`. El micro-sprint cierra el ciclo UI-native completo y reserva exactamente una logical Full para el final, únicamente después de browser E2E + HCA + Contract Reconciliation + FRX-v2.4 current-profile preflight. Estado: `IMPLEMENTED/LOCAL-QUALIFICATION-IN-PROGRESS`; Full consumida=0/1.
+
+#### GSDLC-10-E project-route continuity corrective
+
+Project-scoped UI navigation no longer depends on browser `sessionStorage` surviving a page navigation. When UX context is absent, DevPilot recovers it read-only from the authenticated human session only when exactly one workspace scope exists and server Project Status validates that same workspace; otherwise it remains fail-closed. Browser storage is still UX-only and does not grant project/RBAC authority. Full remains 0/1 before Windows browser closure.

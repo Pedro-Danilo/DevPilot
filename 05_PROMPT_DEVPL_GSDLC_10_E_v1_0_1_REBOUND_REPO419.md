@@ -143,3 +143,7 @@ El operador no debe instalar dependencias ad hoc, no debe ejecutar checks ajenos
 - S0/S1=0.
 
 Salida: `GSDLC-10-E = CLOSED/PASS`, `DEVPL-GSDLC-10 = CLOSED/PASS`; autoriza GSDLC-11 únicamente después de la adjudicación final.
+
+## 10-E corrective de continuidad de contexto project-scoped — 2026-09-10
+
+La autoridad de proyecto no depende de `sessionStorage`. Para rutas `scope=project`, si falta el contexto UX, la UI debe recuperar de forma read-only usando el único `workspace_scope` de la sesión humana autenticada y validar el mismo workspace mediante Project Status server-side. Scope ausente/ambiguo o recovery inválido debe fallar cerrado. Este corrective no sustituye Crear/Abrir/Importar para una sesión sin proyecto activo y no concede RBAC adicional.

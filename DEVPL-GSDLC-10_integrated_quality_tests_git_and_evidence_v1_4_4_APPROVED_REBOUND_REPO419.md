@@ -529,3 +529,7 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 
 `GSDLC-10-D = CLOSED/PASS/WINDOWS-VALIDATED` después de validación focal/acumulativa, gates de contratos, browser live sobre fixture Git aislado, dos approvals human-session, commit exacto y traceability completa. `Full Regression = 0`. El successor candidato es `repo_DevPilot_Local_419_DEVPL_GSDLC_10_D_RBAC_GOVERNED_STAGE_COMMIT_WINDOWS_VALIDATED_CANDIDATE.zip`. `GSDLC-10-E` queda autorizado, no ejecutado por este cierre.
 
+
+## 10-E corrective de continuidad de contexto project-scoped — 2026-09-10
+
+La autoridad de proyecto no depende de `sessionStorage`. Para rutas `scope=project`, si falta el contexto UX, la UI debe recuperar de forma read-only usando el único `workspace_scope` de la sesión humana autenticada y validar el mismo workspace mediante Project Status server-side. Scope ausente/ambiguo o recovery inválido debe fallar cerrado. Este corrective no sustituye Crear/Abrir/Importar para una sesión sin proyecto activo y no concede RBAC adicional.

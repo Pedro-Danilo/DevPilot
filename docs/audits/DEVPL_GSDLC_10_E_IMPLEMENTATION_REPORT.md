@@ -2,7 +2,7 @@
 doc_id: "DEVPL-GSDLC-10-E-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-10-E — End-to-end story cycle browser closure — implementation report"
 status: "implemented/local-qualified/windows-validation-pending"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-09-10"
 approval: "pending_windows_validation"
@@ -23,6 +23,7 @@ GSDLC-10-E implementa la primera versión integrada del ciclo completo de una st
 - El Quality panel conserva un handoff UX-only de remediación en `sessionStorage`, pero recupera y valida la `RemediationTrace` desde autoridad server-side antes de reutilizarla.
 - La remediación agent-assisted resuelve el `source_id` desde el TestPlan/source tree current y muestra `ToolIntent`/`ToolExecutionDecision`; modelo/agente no obtiene source-write, Quality, approval ni Git authority.
 - Project Status proyecta una story `DONE` como `STORY_COMPLETE` y `next_selection_ready=true`, con navegación read-only a la selección de siguiente story/sprint; no sintetiza planning ni muta source.
+- Continuidad de rutas project-scoped: si `sessionStorage` no conserva el `ProjectJourneyContext`, la UI recupera contexto de forma read-only desde la sesión humana autenticada cuando existe exactamente un `workspace_scope`, y lo valida contra Project Status server-side. El browser storage sigue siendo UX-only y scope ambiguo/no válido falla cerrado.
 - Fixture browser controlado permite demostrar `legacy → broken → ready`: primer job test FAIL, Quality BLOCK, remediation proposal-only, successor retest PASS, Quality PASS, exact governed commit y trace graph.
 
 # 3. Arquitectura y seguridad
@@ -39,21 +40,21 @@ El test histórico de 10-A que congelaba `Validar` exclusivamente en `CHANGES_RE
 
 # 5. Pruebas locales
 
-- Focal acumulativa GSDLC-10 A/C/D/E seleccionada por impacto: **37/37 PASS**.
+- Focal acumulativa GSDLC-10 A/C/D/E seleccionada por impacto después del corrective de continuidad: **39/39 PASS**.
 - Lifecycle 10-E específico: **7/7 PASS**.
 - Project State schema/current authority: **PASS**.
 - Documentation Governance: **PASS**.
 - Test Contract Registry v1: **PASS**.
 - Test Contract Registry v2: **PASS**; 331 contratos, 2 warnings históricos `needs-review` no bloqueantes y 0 paths faltantes.
 - Test Impact Rule Registry: **PASS**; regla 10-E schema-valid con escalation/unmatched `review-required`, sin Full anticipada.
-- Test Impact v2 final: **28 paths / 183 contratos / 291 tests recomendados / 0 unmatched / full signal null**.
+- Test Impact v2 final: **29 paths / 183 contratos / 291 tests recomendados / 0 unmatched / full signal null**.
 - Browser fixture/API/verifier scripts: `py_compile` **PASS**.
 - Full Regression: **0** local; debe consumirse exactamente una logical session en Windows tras el pre-Full gate.
-- FRX-v2.4 preflight completo: **3099 nodeids / 16 shards / isolation coverage completa / plan PASS / budget 0/1 no reservado / tests no ejecutados**. Los 41 nodeids GSDLC-10 posteriores al snapshot del registry se clasifican conservadoramente `SERIAL_REQUIRED`; no se promueve paralelismo sin evidencia BR.
+- FRX-v2.4 preflight completo: **3101 nodeids / 16 shards / isolation coverage completa / plan PASS / budget 0/1 no reservado / tests no ejecutados**. Los 43 nodeids GSDLC-10 posteriores al snapshot del registry se clasifican conservadoramente `SERIAL_REQUIRED`; no se promueve paralelismo sin evidencia BR.
 
 # 6. Delta final
 
-El source delta local definitivo frente a repo419 contiene **28 paths exactos**. No incluye `outputs/`, runtime DB, `.git`, `.venv`, `node_modules`, caches ni browser workspaces. Los browser support scripts forman parte del bundle Windows, no del source delta del producto.
+El source delta local definitivo frente a repo419 contiene **29 paths exactos**. No incluye `outputs/`, runtime DB, `.git`, `.venv`, `node_modules`, caches ni browser workspaces. Los browser support scripts forman parte del bundle Windows, no del source delta del producto.
 
 # 7. Riesgos y limitaciones
 
@@ -72,3 +73,7 @@ El source delta local definitivo frente a repo419 contiene **28 paths exactos**.
 # 9. Verificación
 
 La guía única Windows del bundle es la autoridad operacional. No usar comandos alternativos ni mezclar versiones de guía/operador.
+
+## Corrective de continuidad project-scoped — v1.0.1
+
+La primera ejecución Windows recuperó correctamente Project Status, pero al navegar a Story Code Workbench el route guard perdió el `ProjectJourneyContext` UX y redirigió a Project Home. La corrección no amplía authority: generaliza una recuperación read-only para rutas `scope=project` usando únicamente el `workspace_scope` único de la sesión humana autenticada y `projectStatusSessionRecovery`. Si el scope es inexistente/ambiguo o el servidor no valida el proyecto, la ruta continúa fail-closed. Esta corrección también protege las navegaciones posteriores hacia Quality, Jobs y Project Status contra el mismo tipo de pérdida de estado efímero.

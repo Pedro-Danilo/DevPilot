@@ -38515,6 +38515,60 @@
       }
     },
     {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_browser_fixture.py::test_gsdlc10e_project_route_recovery_is_server_session_bound",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E corrective under owner-approved FRX-v2.4 policy",
+        "reason": "Project-route recovery contract checks are static current-active guards; serialize conservatively because no BR runtime isolation evidence authorizes parallel promotion.",
+        "reviewed_at": "2026-09-10T22:30:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:route-context-corrective-39-pass",
+          "GSDLC-10-E:historical-route-guards-64-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_10_e_browser_fixture.py::test_gsdlc10e_project_route_recovery_preserves_browser_storage_as_ux_only",
+      "state": "SERIAL_REQUIRED",
+      "parallel_safe": false,
+      "explicit_review_required": false,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": {
+        "reviewer": "GSDLC-10-E corrective under owner-approved FRX-v2.4 policy",
+        "reason": "Project-route recovery contract checks are static current-active guards; serialize conservatively because no BR runtime isolation evidence authorizes parallel promotion.",
+        "reviewed_at": "2026-09-10T22:30:00Z",
+        "evidence_ids": [
+          "GSDLC-10-E:route-context-corrective-39-pass",
+          "GSDLC-10-E:historical-route-guards-64-pass"
+        ],
+        "decision": "SERIAL_REQUIRED"
+      }
+    },
+    {
       "nodeid": "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py::test_10e_fresh_quality_pass_advances_validating_to_commit_ready",
       "state": "SERIAL_REQUIRED",
       "parallel_safe": false,
@@ -111346,7 +111400,7 @@
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
   "source_commit": "e1fbc1c93eba098cf7b82272dcaa9fe9b0100149+GSDLC-10-E",
   "status": "implemented-initial",
-  "updated": "2026-09-10T21:28:00Z",
+  "updated": "2026-09-10T22:30:00Z",
   "version": "1.0.0",
-  "registry_sha256": "af1b4d642f0e038bc29e86c8110e8396307bd92a9eb6b8db28aa030083d37422"
+  "registry_sha256": "69215af6e48f9edb4b077937a125905ae68c0cbe86f559640440b163158068e5"
 }

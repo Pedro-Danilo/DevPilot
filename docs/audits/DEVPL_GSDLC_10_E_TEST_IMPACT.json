@@ -12,7 +12,7 @@
     "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
     "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
     "rules_path": ".devpilot/testing/test_impact_rules.json",
-    "changed_paths_total": 28,
+    "changed_paths_total": 29,
     "contracts_total": 331,
     "matched_contracts_total": 183,
     "p0_selected_total": 113,
@@ -45,5 +45,5 @@
     "impact",
     "release-candidate-local"
   ],
-  "verdict": "PASS — 28 changed paths, 183 matched contracts, 291 recommended tests, 0 unmatched; Full Regression remains 0/1 locally and is reserved for Windows closure."
+  "verdict": "PASS — 29 changed paths, 183 matched contracts, 291 recommended tests, 0 unmatched; Full Regression remains 0/1 locally and is reserved for Windows closure."
 }

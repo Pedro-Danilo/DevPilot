@@ -4091,5 +4091,8 @@
   "uoc_011_status": "closed/PASS",
   "updated": "2026-09-10",
   "updated_at": "2026-08-09T09:18:00-05:00",
-  "updated_by": "DEVPL-GSDLC-10-E/LOCAL-IMPLEMENTATION"
+  "updated_by": "DEVPL-GSDLC-10-E/LOCAL-IMPLEMENTATION",
+  "gsdlc_10_e_project_route_session_recovery": true,
+  "gsdlc_10_e_project_route_recovery_authority": "authenticated-human-session/single-workspace-scope/server-project-status",
+  "gsdlc_10_e_browser_storage_authority": false
 }

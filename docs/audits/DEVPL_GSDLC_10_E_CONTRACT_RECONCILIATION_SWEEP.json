@@ -23,7 +23,7 @@
     {
       "check": "ui_route_capability_mapping",
       "status": "PASS",
-      "evidence": "Existing Story/Quality/Git UI surfaces are reused; 10-E adds lifecycle/handoff/status behavior rather than a parallel route or engine."
+      "evidence": "Existing Story/Quality/Git UI surfaces are reused; project-scoped route continuity now auto-recovers read-only context from authenticated session scope + server Project Status when browser UX storage is absent, with ambiguous scope fail-closed."
     },
     {
       "check": "current_authority_pointers",
@@ -63,7 +63,7 @@
     {
       "check": "frx_v2_4_isolation_coverage",
       "status": "PASS",
-      "evidence": "Full collection preflight covers 3099 nodeids with isolation registry coverage complete; 41 GSDLC-10 post-snapshot tests are conservatively SERIAL_REQUIRED; governed plan projects 16 shards with Full budget still 0/1 and unreserved."
+      "evidence": "Full collection preflight covers 3101 nodeids with isolation registry coverage complete; 43 GSDLC-10 post-snapshot tests are conservatively SERIAL_REQUIRED; governed plan projects 16 shards with Full budget still 0/1 and unreserved."
     }
   ],
   "repaired_drift": [
@@ -73,10 +73,11 @@
     "Quality remediation UI handoff was not navigation-resilient without manual opaque-ID copying",
     "Project Status had no explicit read-only story-complete/next-selection projection",
     "local_release_candidate_criteria remained bound to GSDLC-10-D after 10-E activation",
-    "FRX-v2.4 isolation registry snapshot predated 41 current GSDLC-10 A-E nodeids; all were added as SERIAL_REQUIRED rather than implicitly unclassified or falsely promoted parallel-safe"
+    "FRX-v2.4 isolation registry snapshot predated 41 current GSDLC-10 A-E nodeids; all were added as SERIAL_REQUIRED rather than implicitly unclassified or falsely promoted parallel-safe",
+    "Project-scoped routes depended on sessionStorage surviving navigation after explicit Project Status recovery; current routes now recover from authenticated single-workspace session scope and server Project Status, keeping browser storage UX-only."
   ],
   "full_regression_runs": 0,
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS/LOCAL-PRE-WINDOWS — deterministic drift repaired before browser/Full; exactly one Full remains reserved for Windows closure."
+  "verdict": "PASS/LOCAL-PRE-WINDOWS — deterministic drift including project-route continuity repaired before browser/Full; exactly one Full remains reserved for Windows closure."
 }

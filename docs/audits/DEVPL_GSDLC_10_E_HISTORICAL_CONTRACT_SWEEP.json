@@ -54,11 +54,16 @@
     {
       "surface": "FRX-v2.4 isolation registry coverage for GSDLC-10 A-E tests",
       "classification": "current-active",
-      "decision": "41 post-snapshot GSDLC-10 nodeids are explicitly covered as SERIAL_REQUIRED; no parallel-safe authority is inferred without BR evidence"
+      "decision": "43 post-snapshot GSDLC-10 nodeids are explicitly covered as SERIAL_REQUIRED; no parallel-safe authority is inferred without BR evidence"
+    },
+    {
+      "surface": "Project-scoped UI route continuity after server recovery",
+      "classification": "current-active/runtime-ephemeral",
+      "decision": "sessionStorage remains UX-only; if it is absent, any project-scoped route recovers context read-only from the authenticated human-session single workspace scope plus server Project Status; ambiguous/no scope fails closed"
     }
   ],
   "findings": [],
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS — predecessor facts frozen; only current-active/successor contracts needed for the E2E story cycle evolved; Full remains 0/1 locally."
+  "verdict": "PASS — predecessor facts frozen; project-route continuity now derives authority from authenticated server session rather than requiring browser sessionStorage survival; Full remains 0/1 locally."
 }

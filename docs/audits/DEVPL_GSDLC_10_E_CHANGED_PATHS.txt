@@ -24,5 +24,6 @@ tests/test_devpl_gsdlc_10_e_browser_fixture.py
 tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py
 ui/web/src/api/client.ts
 ui/web/src/components/StoryQualityGatePanel.ts
+ui/web/src/main.ts
 ui/web/src/pages/ProjectStatusView.ts
 ui/web/src/pages/StoryCodeWorkbenchView.ts
