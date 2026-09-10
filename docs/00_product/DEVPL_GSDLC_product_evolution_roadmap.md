@@ -647,3 +647,8 @@ GSDLC-10-C se activa sobre repo417. Eleva la superficie Quality existente con `S
 ## DEVPL-GSDLC-10-D — RBAC-governed stage and commit with traceability
 
 GSDLC-10-D se implementa sobre repo418 y reutiliza el Git engine gobernado existente. `CommitPlan` queda hash-bound a StoryExecution, SourceChangePlan, StoryTestPlan y Quality PASS/COMMIT_READY; stage usa exact paths y exige approval owner; commit exige un segundo approval independiente, produce `GitCommitRecord` con hash Git real y cierra la trazabilidad requirement→story→files→tests→quality→commit. Agent/model permanece proposal-only y no confiere authority. No push, force push, rebase ni reset-hard. Estado: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; Full Regression=0.
+
+### GSDLC-10-D — CLOSED/PASS/WINDOWS-VALIDATED
+
+Validado en Windows con normal journey UI `COMMIT_READY → CommitPlan → approval stage → exact stage → approval commit → governed commit`, evidencia de Git real aislado y traceability requirement→story→change-plan→tests→quality→commit. No push ni Git destructivo; S0/S1=0; Full=0. Autoriza GSDLC-10-E sobre successor repo419.
+

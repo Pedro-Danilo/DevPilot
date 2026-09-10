@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-10-D-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-10-D — RBAC-governed stage and commit with traceability — implementation report"
-status: "implemented-initial/local-qualified/windows-validation-pending"
-version: "1.0.0"
+status: "closed/pass/windows-validated"
+version: "1.0.1"
 owner: "Ordóñez"
 updated: "2026-09-10"
-approval: "pending_windows_validation"
+approval: "approved_by_windows_validation"
 ---
 # 1. Resultado de implementación local
 
@@ -18,7 +18,8 @@ GSDLC-10-D implementa el cierre gobernado de una story desde `COMMIT_READY` hast
 - `CommitPlan` inmutable/hash-bound a story, change plan, test plan, quality report, HEAD/branch y exact path set.
 - Revalidación inmediatamente antes de stage/commit: Quality vigente/no stale, expected paths, unexpected dirty paths, preimages semánticas y sesión/rol.
 - Stage de paths exactos; `git add .` y staging implícito quedan fuera.
-- Aprobaciones separadas para stage y commit.
+- Aprobaciones separadas para stage y commit, declaradas explícitamente en `CommitPlan.approval.stage_and_commit_separate=true`.
+- Las decisiones UI de Approval Center no transportan `actor`; la identidad autoritativa se deriva exclusivamente de la `human-session` autenticada.
 - `GitCommitRecord` con commit hash real, identidad/sesión, mensaje, exact paths y trace links.
 - Traceability requirement→story→change-plan→tests→quality→commit.
 - UI normal journey mediante el `WorkspaceGitOperationsPanel` existente; no se creó un segundo Git engine.
@@ -36,7 +37,8 @@ Se corrigieron únicamente contratos `current-active/derived`: puntero activo qu
 
 # 5. Pruebas locales
 
-- Focal 10-D: **10/10 PASS** antes de la reconciliación final; el bundle la ejecuta de nuevo sobre Windows.
+- Focal 10-D original: **10/10 PASS**; la calificación A→D previa permanece hash/commit-bound y no se repite.
+- Corrective browser authority: focal 10-D **10/10 PASS**, guard autenticado GSDLC-02-D **1/1 PASS** y type-check TypeScript dirigido **PASS** en laboratorio local.
 - Type-check dirigido del delta TypeScript: **PASS**.
 - Prueba programática con repositorio Git aislado: commit real exacto, doble approval, traceability y worktree clean: **PASS local**; no sustituye browser Windows.
 - Full Regression: **0**, conforme a la política de GSDLC-10-D.
@@ -59,3 +61,7 @@ Existe un diagnóstico global TypeScript heredado en `ArtifactAIPanel.ts` relaci
 # 8. Verificación
 
 La guía única Windows del bundle es la autoridad operacional. No ejecutar comandos alternativos ni Full Regression para este micro-sprint.
+
+# 9. Cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`: la calificación original `10/10 + 29/29` se preservó; el corrective v1.0.3 acreditó `10/10 + 1/1` sin Full; browser live ejecutó el commit mediante DevPilot (no por el operador), con `stage_and_commit_separate=true`, actor de aprobación derivado de human-session, dos approvals distintos, exact path set, GitCommitRecord/traceability completos y fixture clean. Full Regression permaneció en 0. GSDLC-10-E queda autorizado.

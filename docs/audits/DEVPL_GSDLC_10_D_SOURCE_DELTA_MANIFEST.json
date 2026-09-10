@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "manifest_id": "DEVPL-GSDLC-10-D-SOURCE-DELTA",
-  "status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "micro_sprint": "DEVPL-GSDLC-10-D",
   "updated": "2026-09-10",
   "source": {
@@ -57,17 +57,30 @@
     "force_push_enabled": false,
     "rebase_enabled": false,
     "reset_hard_enabled": false,
-    "full_regression_runs": 0
+    "full_regression_runs": 0,
+    "approval_actor_authority": "authenticated-human-session-only",
+    "stage_and_commit_separate": true
   },
   "qualification": {
-    "focal_10_d": "10/10 PASS (to be re-run by bundle)",
-    "targeted_ui_typecheck": "PASS",
+    "focal_10_d": "10/10 PASS original + 10/10 PASS browser-authority corrective",
+    "targeted_ui_typecheck": "PASS (corrective client/panel/types)",
     "browser_policy": "Windows live browser required; local isolated Git fixture proof only",
     "s0_open": 0,
-    "s1_open": 0
+    "s1_open": 0,
+    "authenticated_approval_guard": "1/1 PASS (GSDLC-02-D spoof/self-authority guard)",
+    "windows_operator_corrective": "v1.0.3"
   },
   "windows_candidate": {
     "repo": "repo_DevPilot_Local_419_DEVPL_GSDLC_10_D_RBAC_GOVERNED_STAGE_COMMIT_WINDOWS_VALIDATED_CANDIDATE.zip",
     "authorized_next_micro_sprint": "DEVPL-GSDLC-10-E after Windows PASS only"
+  },
+  "windows_validation": {
+    "browser_runs_live": 1,
+    "full_regression_runs": 0,
+    "s0_open": 0,
+    "s1_open": 0,
+    "candidate_repo": "repo_DevPilot_Local_419_DEVPL_GSDLC_10_D_RBAC_GOVERNED_STAGE_COMMIT_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "gsdlc_10_e_authorized": true,
+    "corrective_bundle": "DEVPL_GSDLC_10_D_WINDOWS_VALIDATION_BUNDLE_v1_0_3.zip"
   }
 }
