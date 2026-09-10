@@ -6682,3 +6682,13 @@ GSDLC-10-B `CLOSED/PASS/WINDOWS-VALIDATED/CORRECTIVE-104` sobre repo417. La prim
 ## DEVPL-GSDLC-10-C — Story Quality Gate and remediation loop
 
 GSDLC-10-C se activa sobre repo417. Eleva la superficie Quality existente con `StoryQualityReport`/`StoryQualityGate` deterministas, findings S0-S3, waiver gobernado server-side, provenance de remediación manual/agent proposal-only y retest acotado derivado de un StoryTestPlan successor. `COMMIT_READY` solo puede resultar de Quality PASS; S0/S1 no son waivable, modelo/ruta nunca concede authority y Full Regression=0. La implementación es una primera versión industrial del loop story-level; hardening E2E y release permanecen en 10-D/10-E.
+
+
+## DEVPL-GSDLC-10-C — WINDOWS CLOSURE
+
+- Status: `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Successor repo: `repo_DevPilot_Local_418_DEVPL_GSDLC_10_C_QUALITY_GATE_REMEDIATION_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Browser acceptance: `PASS/1`.
+- Full Regression: `0` (reserved for GSDLC-10-E).
+- S0/S1: `0/0`.
+- `GSDLC-10-D`: authorized.

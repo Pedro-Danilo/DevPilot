@@ -7,8 +7,8 @@
       "critical": true,
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "current_micro_sprint": "DEVPL-GSDLC-10-C",
-        "current_repo": "repo_DevPilot_Local_417_DEVPL_GSDLC_10_B_JOB_CONSOLE_LIVE_REFRESH_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_micro_sprint": "DEVPL-GSDLC-10-D",
+        "current_repo": "repo_DevPilot_Local_418_DEVPL_GSDLC_10_C_QUALITY_GATE_REMEDIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "last_registered_sprint": "DEVPL-GSDLC-08-E",
         "next_backlog_planned": true,
@@ -105,7 +105,7 @@
       "path": "README.md",
       "producer_sprint": "POST-H-026-D",
       "required_markers": [
-        "POST-H-026-D — Local install and run verification",
+        "POST-H-026-D \u2014 Local install and run verification",
         "release-candidate install-smoke"
       ],
       "title": "README and runbook document POST-H-026-A"
@@ -118,7 +118,7 @@
       "path": "docs/05_operations/runbook.md",
       "producer_sprint": "POST-H-026-D",
       "required_markers": [
-        "POST-H-026-D — Local install and run verification",
+        "POST-H-026-D \u2014 Local install and run verification",
         "release-candidate install-smoke"
       ],
       "title": "Operations runbook documents POST-H-026-A"
@@ -231,7 +231,7 @@
       "path": "README.md",
       "producer_sprint": "POST-H-026-C",
       "required_markers": [
-        "POST-H-026-C — UI/API local smoke under RC",
+        "POST-H-026-C \u2014 UI/API local smoke under RC",
         "release-candidate ui-api-smoke"
       ],
       "title": "README/runbook document POST-H-026-C"

@@ -501,3 +501,13 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
 
+
+
+## DEVPL-GSDLC-10-C — WINDOWS CLOSURE
+
+- Status: `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Successor repo: `repo_DevPilot_Local_418_DEVPL_GSDLC_10_C_QUALITY_GATE_REMEDIATION_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Browser acceptance: `PASS/1`.
+- Full Regression: `0` (reserved for GSDLC-10-E).
+- S0/S1: `0/0`.
+- `GSDLC-10-D`: authorized.
