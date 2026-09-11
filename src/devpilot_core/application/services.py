@@ -49,6 +49,7 @@ from .story_validation_jobs import StoryValidationJobApplicationService
 from .story_quality_gate import StoryQualityGateApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .release_readiness_service import ReleaseReadinessApplicationService
+from .release_package_service import ReleasePackageJobApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationsApplicationService
@@ -124,6 +125,7 @@ class ApplicationService:
         self._story_validation_jobs: StoryValidationJobApplicationService | None = None
         self._story_quality_gate: StoryQualityGateApplicationService | None = None
         self._release_readiness: ReleaseReadinessApplicationService | None = None
+        self._release_package: ReleasePackageJobApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -246,6 +248,13 @@ class ApplicationService:
                 git_status_loader=self.workspace_git_operations.status,
             )
         return self._release_readiness
+
+    @property
+    def release_package(self) -> ReleasePackageJobApplicationService:
+        """Lazily construct the GSDLC-11-B typed local release package workbench."""
+        if self._release_package is None:
+            self._release_package = ReleasePackageJobApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        return self._release_package
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:
@@ -1579,6 +1588,15 @@ class ApplicationService:
             workspace_scopes=workspace_scopes,
         )
 
+    def release_package_status(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_package.status(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_package_plan(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_package.plan(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_package_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str) -> CommandResult:
+        return self.release_package.execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash)
+
     def _story_commit_ready_quality_context(self, *, story_execution_id: str) -> CommandResult:
         command = "story git context recover"
         candidates = []
@@ -2294,6 +2312,9 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
             actor_roles=list(payload.get("actor_roles") or []),
             workspace_scopes=list(payload.get("workspace_scopes") or []),
         ),
+        "release.package.status": lambda payload: service.release_package_status(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.package.plan": lambda payload: service.release_package_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.package.execute": lambda payload: service.release_package_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
         "planning.closure.status": lambda payload: service.planning_closure_status(effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
@@ -2418,6 +2439,9 @@ def _capabilities() -> list[ServiceCapability]:
         ("planning.sprint.approve", "Human owner/product-owner approval of executable reviewed SprintPlan.", "runtime_approval_record", False, "Role-bound; no agent approval."),
         ("planning.sprint.freeze", "Freeze approved SprintPlan as immutable revision with content hash.", "runtime_frozen_artifact", False, "No source/code execution."),
         ("release.readiness", "Project-scoped deterministic release-readiness projection aggregating current story, Quality, Git traceability, approvals and local-release claim policy; readiness never grants release approval.", "none", True, "GET /api/v1/release/readiness; GSDLC-11-A read-only fail-closed projection"),
+        ("release.package.status", "Read GSDLC-11-B local release package job state and commit/SBOM/checksum references.", "none", True, "GET /api/v1/release/package; human-session project-scoped read."),
+        ("release.package.plan", "Create commit/tree-bound dry-run plan for the existing local packaging stack.", "runtime_plan_only", False, "POST /api/v1/release/package/plan; owner/release-manager; no source mutation."),
+        ("release.package.execute", "Execute the typed local package job using existing PackageBuild/ReleaseManifest/SBOM/reproducibility machinery.", "runtime_release_artifacts_only", False, "POST /api/v1/release/package/execute; exact plan binding; no publish/network."),
         ("planning.closure.status", "Project planning journey projection PRE_CODE_READY → PLANNING → IMPLEMENTING_READY with requirement→milestone→epic→story→sprint trace graph.", "none", True, "GSDLC-08-E project-scoped runtime-only closure projection; no source/code execution."),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
@@ -2568,6 +2592,9 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-08-D-SPRINT-APPROVE", "POST", "/api/v1/planning/sprint/approve", "planning.sprint.approve", ["GSDLC-08-E role-bound human sprint approval."]),
         ("APP-ROUTE-GSDLC-08-D-SPRINT-FREEZE", "POST", "/api/v1/planning/sprint/freeze", "planning.sprint.freeze", ["GSDLC-08-E immutable SprintPlan freeze bound to content hash."]),
         ("APP-ROUTE-GSDLC-11-A-RELEASE-READINESS", "GET", "/api/v1/release/readiness", "release.readiness", ["GSDLC-11-A authenticated project-scoped read-only release readiness; server RBAC/session authority; READY is not release approval."]),
+        ("APP-ROUTE-GSDLC-11-B-RELEASE-PACKAGE-STATUS", "GET", "/api/v1/release/package", "release.package.status", ["GSDLC-11-B authenticated project-scoped package status; source authority remains server/Git-bound."]),
+        ("APP-ROUTE-GSDLC-11-B-RELEASE-PACKAGE-PLAN", "POST", "/api/v1/release/package/plan", "release.package.plan", ["GSDLC-11-B owner/release-manager typed dry-run plan; no arbitrary shell/source mutation."]),
+        ("APP-ROUTE-GSDLC-11-B-RELEASE-PACKAGE-EXECUTE", "POST", "/api/v1/release/package/execute", "release.package.execute", ["GSDLC-11-B exact-plan local package execution; no publish/network; runtime artifacts only."]),
         ("APP-ROUTE-GSDLC-08-E-CLOSURE", "GET", "/api/v1/planning/closure", "planning.closure.status", ["GSDLC-08-E read-only journey + traceability projection to IMPLEMENTING_READY."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
         ("APP-ROUTE-GSDLC-09-B-STATUS", "GET", "/api/v1/story/code/status", "story.code.status", ["GSDLC-09-B project-scoped Code Workbench status; source apply remains absent until 09-C."]),

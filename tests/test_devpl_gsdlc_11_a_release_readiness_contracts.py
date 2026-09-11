@@ -46,19 +46,18 @@ def test_ui_mapping_is_project_scoped_read_only_and_authority_separated():
     assert "modelos/agentes" in page.lower()
 
 
-def test_activation_rebind_keeps_repo420_and_zero_full_budget_in_11_a():
+def test_11_a_activation_and_windows_close_are_historical_freeze():
     state = load_json(".devpilot/project_state.json")
-    assert state["current_repo"] == "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip"
-    assert state["current_phase"] == "DEVPL-GSDLC-11"
-    assert state["current_micro_sprint"] == "DEVPL-GSDLC-11-A"
-    assert state["gsdlc_10_status"] == "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"
+    # FRX-v2.4 HCA: this contract freezes the 11-A facts-at-close instead of
+    # asserting mutable current-active pointers after successor 11-B starts.
+    assert state["gsdlc_11_a_execution_source_repo_at_close"] == "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip"
+    assert state["gsdlc_11_a_status_at_close"] == "CLOSED/PASS/WINDOWS-VALIDATED"
+    assert state["gsdlc_11_a_successor_repo_at_close"] == "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip"
+    assert state["gsdlc_11_a_successor_commit_at_close"] == "01c28e73994b74699802dcbac9bb06d686841b89"
+    assert state["gsdlc_11_a_ui_version_at_close"] == "0.31.0-gsdlc-11-a"
     assert state["gsdlc_11_a_full_regression_runs"] == 0
     assert state["gsdlc_11_full_regression_budget_consumed"] == 0
     assert state["gsdlc_11_full_regression_budget_total"] == 1
-    assert state["gsdlc_11_b_authorized"] is False
-    package = load_json("ui/web/package.json")
-    assert package["version"] == "0.31.0-gsdlc-11-a"
-    assert package["devpilot"]["currentSprint"] == "DEVPL-GSDLC-11-A"
 
 
 def test_schema_and_no_overclaim_contract_are_registered():

@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.31.0-gsdlc-11-a",
+  "version": "0.32.0-gsdlc-11-b",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI — GSDLC-11-A Release Readiness aggregation and explainable project-scoped readiness.",
@@ -40,7 +40,8 @@
     "test:planning-closure": "node scripts/gsdlc08e-planning-closure-smoke.mjs",
     "test:story-code-workbench": "node scripts/gsdlc09b-code-workbench-smoke.mjs",
     "test:gsdlc09c": "node scripts/gsdlc09c-source-change-smoke.mjs",
-    "test:gsdlc10a": "node scripts/gsdlc10a-story-test-plan-smoke.mjs"
+    "test:gsdlc10a": "node scripts/gsdlc10a-story-test-plan-smoke.mjs",
+    "test:gsdlc11b": "node scripts/gsdlc11b-release-package-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -205,7 +206,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-11-A",
+    "currentSprint": "DEVPL-GSDLC-11-B",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -432,7 +433,9 @@
     "gsdlc10aFreeFormTestCommandAllowed": false,
     "gsdlc10aFullRegressionRuns": 0,
     "gsdlc10aStoryTestPlan": true,
-    "gsdlc10aTestImpactV2Reused": true
+    "gsdlc10aTestImpactV2Reused": true,
+    "gsdlc11bReleasePackage": true,
+    "gsdlc11bFullRegressionRuns": 0
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

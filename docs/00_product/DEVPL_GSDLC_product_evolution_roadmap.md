@@ -20,6 +20,15 @@ pilot_effect_if_approved: "pause-at-POST-H-EVAL-002-02-B-entry"
 backlogs_total: 15
 ---
 
+## 0.0 Estado GSDLC-11-B — local implementation — 2026-09-11
+
+- `GSDLC-11-A = CLOSED/PASS/WINDOWS-VALIDATED`; successor repo421 / `01c28e73994b74699802dcbac9bb06d686841b89` / SHA `e105736c539f37ea3ad81b96ad571149035c5bb77602e0303018f304c04e8955`.
+- `GSDLC-11-B = IMPLEMENTED/LOCAL-QUALIFICATION-PENDING/WINDOWS-VALIDATION-PENDING`.
+- Release package orchestration reuses the current package/manifest/SBOM/reproducibility machinery; no second stack, no publish/deploy.
+- Full Regression GSDLC-11 remains `0/1`; 11-B uses Test Impact + focal/cumulative only.
+- GSDLC-11-C remains unauthorized until Windows PASS of 11-B.
+
+
 ## 0.0 Estado GSDLC-07 reconciliado — 2026-08-29
 
 - `GSDLC-07-A = CLOSED/PASS`.

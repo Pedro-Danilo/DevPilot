@@ -13932,6 +13932,42 @@
         "ui/web/",
         "scripts/visual_product_smoke.py"
       ]
+    },
+    {
+      "contract_id": "gsdlc11b-release-package-reproducibility",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-11-B",
+      "phase": "DEVPL-GSDLC-11-B",
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_b_release_package.py",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+      ],
+      "validates": [
+        "commit/tree-bound typed package plan/execute",
+        "deterministic source ZIP and checksums",
+        "SBOM baseline schema/provenance",
+        "forbidden-entry/path-escape fail-closed",
+        "release package UI/API mapping and server RBAC"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/application/release_package_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        ".devpilot/release/gsdlc11b_artifact_manifest_policy.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/schemas/gsdlc11b_release_artifact_manifest.schema.json",
+        "docs/schemas/gsdlc11b_sbom_baseline.schema.json",
+        "ui/web/src/pages/ReleasePackageView.ts"
+      ]
     }
   ],
   "contracts_total": 331,

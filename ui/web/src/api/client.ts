@@ -1,3 +1,4 @@
+// Contract marker: ui.release-package — GSDLC-11-B typed local release package UI/API boundary.
 // UI route contract: ui.release-readiness
 // UI route contract markers: ui.quality; ui.story-code-workbench
 import type { AgentRuntimeSettingsData, AgentExecutionSettingsData, RagContextSettingsData, AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
@@ -577,6 +578,18 @@ export class DevPilotApiClient {
 
   async releaseReadiness(): Promise<DevPilotApplicationResponse<{ release_readiness: import('./types').ReleaseReadinessProjection; summary: { state: string; release_ready: boolean; blockers_total: number } }>> {
     return this.get('/release/readiness', { timeoutMs: READINESS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<{ release_readiness: import('./types').ReleaseReadinessProjection; summary: { state: string; release_ready: boolean; blockers_total: number } }>>;
+  }
+
+  async releasePackageStatus(): Promise<DevPilotApplicationResponse<{ release_package: import('./types').ReleasePackageResult | { state: string } }>> {
+    return this.get('/release/package', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<{ release_package: import('./types').ReleasePackageResult | { state: string } }>>;
+  }
+
+  async releasePackagePlan(): Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleasePackagePlan }>> {
+    return this.post('/release/package/plan', { dry_run: true }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleasePackagePlan }>>;
+  }
+
+  async releasePackageExecute(planId: string, planHash: string): Promise<DevPilotApplicationResponse<{ release_package: import('./types').ReleasePackageResult; reused: boolean }>> {
+    return this.post('/release/package/execute', { plan_id: planId, plan_hash: planHash }, { timeoutMs: 300000 }) as Promise<DevPilotApplicationResponse<{ release_package: import('./types').ReleasePackageResult; reused: boolean }>>;
   }
 
   async qualityOperations(): Promise<DevPilotApplicationResponse> {

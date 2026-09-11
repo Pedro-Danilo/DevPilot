@@ -1,0 +1,37 @@
+{
+  "schema_id": "DEVPL-GSDLC-11-B-HISTORICAL-CONTRACT-SWEEP-V1",
+  "sprint": "DEVPL-GSDLC-11-B",
+  "status": "PASS/LOCAL-QUALIFICATION",
+  "policy": "FRX-v2.4-A historical authority + DEVPL documentation contract reconciliation",
+  "classifications": [
+    {
+      "subject": "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py",
+      "classification": "historical-freeze",
+      "rationale": "GSDLC-11-A close facts must remain bound to repo421/01c28e73994b while current-active pointers advance to 11-B.",
+      "action": "assert *_at_close facts; do not pin current_repo/current_micro_sprint to 11-A"
+    },
+    {
+      "subject": "DEVPL-GSDLC-11 / GSDLC-11-B package contracts",
+      "classification": "current-active",
+      "rationale": "Release package/checksum/SBOM is the current successor capability and must evolve registries/API/UI/schema together.",
+      "action": "update current registries and source bindings to repo421"
+    },
+    {
+      "subject": "POST-H-017/POST-H-026/POST-H-027 packaging machinery",
+      "classification": "current-active",
+      "rationale": "GSDLC-11-B composes existing machinery; historical closure facts are not rewritten.",
+      "action": "extend reusable current implementations only where reproducibility/path safety is required"
+    },
+    {
+      "subject": "release package successor contract",
+      "classification": "successor-needed",
+      "rationale": "11-B adds a typed UI/API workbench without redefining historical POST-H facts.",
+      "action": "new GSDLC11B schemas/tests/routes and TCR contract"
+    }
+  ],
+  "historical_facts_rewritten": false,
+  "current_active_drift_reconciled": true,
+  "deprecated_after_proof": [],
+  "full_regression_runs": 0,
+  "gsdlc_11_full_budget": "0/1"
+}

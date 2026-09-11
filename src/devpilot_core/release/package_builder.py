@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import os
 import re
 import tarfile
 import tomllib
@@ -111,6 +112,24 @@ class PackageBuildBuilder:
 
         policy = load_source_zip_release_policy(self.root)
         included, excluded = self._classified_source_files(policy)
+        unsafe_links = self._unsafe_included_links(policy)
+        if unsafe_links:
+            findings.append(
+                Finding(
+                    "PACKAGE_UNSAFE_LINK_BLOCKED",
+                    "Clean package build detected symlink/junction/path-escape entries in the included source set.",
+                    Severity.BLOCK,
+                    metadata={"entries": unsafe_links[:25], "total": len(unsafe_links)},
+                )
+            )
+            return CommandResult(
+                command="package build",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Package build blocked because an included source path is a symlink, junction or escapes the source root.",
+                data={"summary": self._summary_template(valid_version=True), "unsafe_links": unsafe_links, "included_files": included, "excluded_files": excluded},
+                findings=findings,
+            )
         secret_risks = [item for item in included if _looks_like_secret_path(item)]
         if secret_risks:
             findings.append(
@@ -290,6 +309,30 @@ class PackageBuildBuilder:
                 included.append(rel)
         return included, excluded
 
+    def _unsafe_included_links(self, policy: dict[str, Any] | None = None) -> list[dict[str, str]]:
+        unsafe: list[dict[str, str]] = []
+        root_resolved = self.root.resolve()
+        for current, dirs, files in os.walk(self.root, followlinks=False):
+            base = Path(current)
+            for name in sorted(list(dirs) + list(files)):
+                path = base / name
+                try:
+                    rel = _to_posix(path.relative_to(self.root))
+                except ValueError:
+                    continue
+                if _is_excluded(rel, policy):
+                    continue
+                is_junction = bool(getattr(os.path, "isjunction", lambda value: False)(path))
+                if path.is_symlink() or is_junction:
+                    unsafe.append({"path": rel, "reason": "symlink-or-junction"})
+                    continue
+                try:
+                    resolved = path.resolve()
+                    resolved.relative_to(root_resolved)
+                except (OSError, ValueError):
+                    unsafe.append({"path": rel, "reason": "path-escape"})
+        return unsafe
+
     def _repo_zip_plan(self, included: list[str]) -> dict[str, Any]:
         path = f"dist/release/{_REPO_ZIP_NAME_TEMPLATE.format(version=self.options.version)}"
         return {
@@ -323,11 +366,23 @@ class PackageBuildBuilder:
         ]
 
     def _write_repo_zip(self, included: list[str], relative_output: str) -> dict[str, Any]:
+        """Write a byte-reproducible source ZIP.
+
+        Filesystem mtimes, platform-specific creator metadata and host EOL policy
+        must not change the package hash.  Source bytes are preserved exactly;
+        only ZIP container metadata is canonicalized.
+        """
         output = self.root / relative_output
         output.parent.mkdir(parents=True, exist_ok=True)
-        with zipfile.ZipFile(output, mode="w", compression=zipfile.ZIP_DEFLATED) as archive:
-            for rel in included:
-                archive.write(self.root / rel, rel)
+        with zipfile.ZipFile(output, mode="w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+            for rel in sorted(included):
+                content = (self.root / rel).read_bytes()
+                info = zipfile.ZipInfo(filename=rel, date_time=(1980, 1, 1, 0, 0, 0))
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.create_system = 3
+                info.external_attr = (0o100644 & 0xFFFF) << 16
+                info.flag_bits |= 0x800
+                archive.writestr(info, content, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
         return _artifact_metadata(self.root, output, "clean-source-zip")
 
     def _write_sdist(self, included: list[str], relative_output: str) -> dict[str, Any]:

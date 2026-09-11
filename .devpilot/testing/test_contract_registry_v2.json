@@ -23925,6 +23925,87 @@
       ],
       "source_contract_id": "gsdlc11a-release-readiness",
       "subgate_id": "gsdlc-11-a-release-readiness"
+    },
+    {
+      "contract_id": "gsdlc11b-release-package-reproducibility",
+      "schema_version": "2.0",
+      "domain": "release",
+      "capability": "GSDLC11BReleasePackageReproducibility",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_b_release_package.py",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/application/release_package_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        ".devpilot/release/gsdlc11b_artifact_manifest_policy.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/schemas/gsdlc11b_release_artifact_manifest.schema.json",
+        "docs/schemas/gsdlc11b_sbom_baseline.schema.json",
+        "ui/web/src/pages/ReleasePackageView.ts",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css"
+      ],
+      "validates": [
+        "commit/tree-bound typed package plan/execute",
+        "deterministic source ZIP and checksums",
+        "SBOM baseline schema/provenance",
+        "forbidden-entry/path-escape fail-closed",
+        "release package UI/API mapping and server RBAC",
+        "Full Regression remains 0 in GSDLC-11-B; backlog budget remains 0/1"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-11-B",
+      "owner_domain": "release",
+      "service_boundary": "application",
+      "impact_scope": [
+        "release-package",
+        "reproducibility",
+        "checksum",
+        "sbom",
+        "project-scope",
+        "rbac",
+        "product.ui"
+      ],
+      "trigger_hints": [
+        "gsdlc-11-b",
+        "release-package",
+        "sbom",
+        "checksum",
+        "reproducibility"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Current-active GSDLC-11-B contract evolves the existing package/manifest/SBOM/reproducibility stack; no second packaging stack.",
+        "Package plan/execute writes only excluded local runtime/release artifacts and never source/publish/deploy.",
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-B."
+      ],
+      "source_contract_id": "gsdlc11b-release-package-reproducibility",
+      "subgate_id": "gsdlc-11-b-release-package"
     }
   ],
   "contracts_total": 332,

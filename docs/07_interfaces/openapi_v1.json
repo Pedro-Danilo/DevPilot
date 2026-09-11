@@ -8345,6 +8345,103 @@
           }
         }
       }
+    },
+    "/api/v1/release/package": {
+      "get": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Package Status",
+        "operationId": "release_package_status_api_v1_release_package_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/package/plan": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Package Plan",
+        "operationId": "release_package_plan_api_v1_release_package_plan_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleasePackagePlanBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/package/execute": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Package Execute",
+        "operationId": "release_package_execute_api_v1_release_package_execute_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleasePackageExecuteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -10961,6 +11058,39 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "ReleasePackagePlanBody": {
+        "properties": {
+          "dry_run": {
+            "type": "boolean",
+            "title": "Dry Run",
+            "default": true
+          }
+        },
+        "type": "object",
+        "title": "ReleasePackagePlanBody"
+      },
+      "ReleasePackageExecuteBody": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Plan Id"
+          },
+          "plan_hash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "title": "Plan Hash"
+          }
+        },
+        "type": "object",
+        "required": [
+          "plan_id",
+          "plan_hash"
+        ],
+        "title": "ReleasePackageExecuteBody"
       }
     }
   },

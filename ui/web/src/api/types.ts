@@ -1,3 +1,4 @@
+// Contract marker: ui.release-package — GSDLC-11-B typed local release package UI/API boundary.
 // UI route contract: ui.release-readiness
 // UI route contract markers: ui.quality; ui.story-code-workbench
 export type FindingSeverity = 'info' | 'warning' | 'block' | 'error' | string;
@@ -1416,4 +1417,34 @@ export interface ReleaseReadinessProjection {
     forbidden_claims_enabled: string[];
   };
   safety: Record<string, boolean>;
+}
+
+export interface ReleasePackagePlan {
+  plan_id: string;
+  plan_hash: string;
+  release_version: string;
+  source_authority: { commit: string; tree: string; branch: string; dirty_tracked: boolean };
+  expected_package_path: string;
+  dry_run: boolean;
+  network_used: boolean;
+  external_api_used: boolean;
+  publish_performed: boolean;
+  arbitrary_shell_used: boolean;
+}
+
+export interface ReleasePackageResult {
+  schema_version: string;
+  manifest_id: string;
+  status: 'PASS' | string;
+  source_authority: { commit: string; tree: string; branch: string; dirty_tracked: boolean };
+  artifact: { path: string; sha256: string; size_bytes: number; file_count: number };
+  included_files_total: number;
+  excluded_files_total: number;
+  checksums: { path: string; sha256: string; entries: Record<string, string> };
+  sbom: { path: string; sha256: string; format: string; coverage: string };
+  release_manifest: { path: string; sha256: string };
+  reproducibility: { path: string; status: string; package_byte_reproducible: boolean; sbom_semantically_reproducible: boolean };
+  safety: Record<string, boolean>;
+  limitations: string[];
+  artifacts?: Record<string, string>;
 }

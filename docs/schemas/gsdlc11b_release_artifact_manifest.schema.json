@@ -1,0 +1,362 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC11B-RELEASE-ARTIFACT-MANIFEST-V1",
+  "title": "GSDLC-11-B Release Artifact Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "status",
+    "generated_at_utc",
+    "source_authority",
+    "artifact",
+    "included_files_total",
+    "excluded_files_total",
+    "exclusions",
+    "checksums",
+    "sbom",
+    "release_manifest",
+    "base_artifact_manifest",
+    "reproducibility",
+    "existing_stack",
+    "provenance",
+    "safety",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "manifest_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "status": {
+      "const": "PASS"
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 10
+    },
+    "source_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit",
+        "tree",
+        "branch",
+        "dirty_tracked"
+      ],
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "tree": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dirty_tracked": {
+          "const": false
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "file_count"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "file_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "included_files_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "excluded_files_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "exclusions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "forbidden_markers",
+        "forbidden_exact",
+        "runtime_state_excluded",
+        "local_provider_config_excluded",
+        "outputs_excluded",
+        "git_excluded",
+        "venv_excluded",
+        "node_modules_excluded",
+        "python_caches_excluded"
+      ],
+      "properties": {
+        "forbidden_markers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_exact": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runtime_state_excluded": {
+          "type": "boolean"
+        },
+        "local_provider_config_excluded": {
+          "type": "boolean"
+        },
+        "outputs_excluded": {
+          "type": "boolean"
+        },
+        "git_excluded": {
+          "type": "boolean"
+        },
+        "venv_excluded": {
+          "type": "boolean"
+        },
+        "node_modules_excluded": {
+          "type": "boolean"
+        },
+        "python_caches_excluded": {
+          "type": "boolean"
+        }
+      }
+    },
+    "checksums": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "entries"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "entries": {
+          "type": "object",
+          "minProperties": 3,
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "sbom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "format",
+        "coverage",
+        "schema_validation"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "format": {
+          "type": "string"
+        },
+        "coverage": {
+          "type": "string"
+        },
+        "schema_validation": {
+          "const": "PASS"
+        }
+      }
+    },
+    "release_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "base_artifact_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "schema_validation",
+        "checksums_verified"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "schema_validation": {
+          "const": "PASS"
+        },
+        "checksums_verified": {
+          "const": true
+        }
+      }
+    },
+    "reproducibility": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "path",
+        "status",
+        "package_byte_reproducible",
+        "sbom_semantically_reproducible"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "status": {
+          "const": "PASS"
+        },
+        "package_byte_reproducible": {
+          "const": true
+        },
+        "sbom_semantically_reproducible": {
+          "const": true
+        }
+      }
+    },
+    "existing_stack": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "job_type",
+        "actor",
+        "typed_operation",
+        "arbitrary_shell"
+      ],
+      "properties": {
+        "job_type": {
+          "const": "release.package.execute"
+        },
+        "actor": {
+          "type": "string"
+        },
+        "typed_operation": {
+          "const": true
+        },
+        "arbitrary_shell": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "network_used",
+        "external_api_used",
+        "publish_performed",
+        "deploy_performed",
+        "source_mutations_performed",
+        "arbitrary_shell_used",
+        "secrets_exposed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "publish_performed": {
+          "const": false
+        },
+        "deploy_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "arbitrary_shell_used": {
+          "const": false
+        },
+        "secrets_exposed": {
+          "const": false
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC11B-RELEASE-ARTIFACT-MANIFEST-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "DEVPL-GSDLC-11-B",
+  "x-devpilot-status": "current-active",
+  "x-devpilot-preliminary": true
+}

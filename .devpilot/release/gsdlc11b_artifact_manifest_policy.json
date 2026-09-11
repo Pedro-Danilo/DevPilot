@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-gsdlc11b-artifact-manifest-policy-v1",
+  "created_by": "DEVPL-GSDLC-11-B",
+  "status": "current-active",
+  "scope": "local-package",
+  "release_version_template": "{version}",
+  "required_artifacts": [
+    {
+      "artifact_id": "source-zip",
+      "artifact_type": "source_zip",
+      "path": "dist/release/devpilot-local-{version}-source.zip",
+      "classification": "distributable",
+      "source": "PackageBuildBuilder existing stack",
+      "notes": ["Deterministic clean source ZIP governed by SourceZipReleasePolicy."]
+    },
+    {
+      "artifact_id": "sbom-baseline",
+      "artifact_type": "sbom",
+      "path": "outputs/reports/sbom.json",
+      "classification": "generated-runtime-evidence",
+      "source": "ReleaseSbomBuilder existing stack",
+      "notes": ["CycloneDX-compatible local dependency inventory baseline; not SCA/compliance certification."]
+    },
+    {
+      "artifact_id": "release-manifest",
+      "artifact_type": "verification_report",
+      "path": "outputs/reports/release_manifest.json",
+      "classification": "generated-runtime-evidence",
+      "source": "ReleaseManifestBuilder existing stack",
+      "notes": ["Local-first release manifest bound by GSDLC-11-B orchestration to exact Git authority."]
+    }
+  ],
+  "optional_artifacts": [],
+  "safety": {
+    "local_first": true,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "publish_allowed": false,
+    "deploy_allowed": false,
+    "signing_required": false,
+    "source_mutations_allowed": false
+  },
+  "limitations": [
+    "GSDLC-11-B extends the existing artifact-manifest policy surface; it does not create a second packaging stack.",
+    "SBOM coverage is declared dependencies/lockfile inventory only; vulnerability/license attestation remains out of scope."
+  ]
+}

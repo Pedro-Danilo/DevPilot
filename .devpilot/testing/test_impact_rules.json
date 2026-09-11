@@ -797,19 +797,94 @@
         "tests/test_post_h_028_ui_route_registry_enforcement.py"
       ],
       "recommended_commands": [
-        "pytest -q tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py",
+        "python -m pytest -q tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py",
         "python -m devpilot_core project-state validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ],
       "escalation": {
         "manual_review_required": true,
-        "full_regression_required": false
+        "full_regression_required": false,
+        "level": "review-required",
+        "waiver_allowed_before_post_h_029_e": false
       },
       "safety": {
-        "network_required": false,
-        "external_api_required": false,
-        "source_mutation_required": false
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      },
+      "description": "Historical/current successor impact rule for GSDLC-11-A release readiness and its current-active successor surfaces.",
+      "profiles": [
+        "impact",
+        "release-candidate-local"
+      ],
+      "risk_levels": [
+        "high"
+      ],
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium"
+    },
+    {
+      "rule_id": "gsdlc11b-release-package-reproducibility",
+      "title": "GSDLC-11-B reproducible source package/checksum/SBOM",
+      "description": "Current-active impact rule for typed commit-bound local source packaging, checksum, SBOM and reproducibility UI/API.",
+      "owner": "DEVPL-GSDLC-11-B",
+      "path_patterns": [
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/application/release_package_service.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        ".devpilot/release/gsdlc11b_artifact_manifest_policy.json",
+        "docs/schemas/gsdlc11b_",
+        "ui/web/src/pages/ReleasePackageView.ts",
+        "tests/test_devpl_gsdlc_11_b_release_package",
+        "02_PROMPT_DEVPL_GSDLC_11_B_",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_",
+        "docs/audits/DEVPL_GSDLC_11_B_",
+        "docs/audits/devpl_gsdlc_11_b_"
+      ],
+      "domains": [
+        "release",
+        "supply-chain.local",
+        "product.ui"
+      ],
+      "profiles": [
+        "impact",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "high",
+        "medium"
+      ],
+      "recommended_tests": [
+        "tests/test_devpl_gsdlc_11_b_release_package.py",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
+        "tests/test_package_builder.py",
+        "tests/test_release_manifest.py",
+        "tests/test_release_sbom.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py tests/test_package_builder.py tests/test_release_manifest.py tests/test_release_sbom.py -q"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
       }
     }
   ],
@@ -847,6 +922,7 @@
     "The registry is advisory and non-executing; tests.run or explicit operator commands remain approval-gated.",
     "Heuristic fallback may remain until POST-H-029-C/D/E complete the recommendation and regression guard layers.",
     "POST-H-034-CLOSURE follow-up maps GitAdapter and multiagent repository inspection into operations.workspace impact coverage.",
-    "DEVPL-GSDLC-10-E adds a deterministic browser-fixture impact rule; it recommends one typed test and never authorizes Full Regression."
+    "DEVPL-GSDLC-10-E adds a deterministic browser-fixture impact rule; it recommends one typed test and never authorizes Full Regression.",
+    "DEVPL-GSDLC-11-B adds typed release-package impact coverage; A-D policy explicitly keeps Full Regression false."
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC11B-SBOM-BASELINE-V1",
+  "title":"GSDLC-11-B SBOM Baseline",
+  "type":"object",
+  "additionalProperties":true,
+  "required":["schema_version","sbom_id","release_version","generated_at_utc","source","components","cyclonedx","limitations"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},
+    "sbom_id":{"type":"string","minLength":4},
+    "release_version":{"type":"string","minLength":1},
+    "generated_at_utc":{"type":"string","minLength":10},
+    "source":{"type":"object"},
+    "components":{"type":"array"},
+    "cyclonedx":{"type":"object","required":["bomFormat","specVersion","metadata","components"],"properties":{"bomFormat":{"const":"CycloneDX"},"specVersion":{"const":"1.5"},"metadata":{"type":"object"},"components":{"type":"array"}}},
+    "limitations":{"type":"array","minItems":1,"items":{"type":"string"}}
+  },
+  "x-devpilot-schema-id":"SCHEMA-DEVPL-GSDLC11B-SBOM-BASELINE-V1",
+  "x-devpilot-version":"1.0.0",
+  "x-devpilot-sprint":"DEVPL-GSDLC-11-B",
+  "x-devpilot-status":"current-active",
+  "x-devpilot-preliminary":true
+}
