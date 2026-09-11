@@ -164,3 +164,6 @@ def test_10e_project_status_projects_story_done_as_next_story_or_sprint_ready(ru
     assert 'data.storyCycleStatus' not in page
     assert 'story.dataset.currentStoryStatus' in page
     assert 'cycleState.dataset.storyCycleStatus' in page
+    assert 'const projectStatusPlanning = ((data.project_status?.planning ?? {}) as Record<string, any>);' in page
+    assert 'planningClosure.current_story = currentStory;' in page
+    assert 'planningClosure.story_cycle = currentStoryCycle;' in page

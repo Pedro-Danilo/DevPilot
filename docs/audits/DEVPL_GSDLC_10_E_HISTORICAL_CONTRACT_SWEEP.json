@@ -60,10 +60,15 @@
       "surface": "Project-scoped UI route continuity after server recovery",
       "classification": "current-active/runtime-ephemeral",
       "decision": "sessionStorage remains UX-only; if it is absent, any project-scoped route recovers context read-only from the authenticated human-session single workspace scope plus server Project Status; ambiguous/no scope fails closed"
+    },
+    {
+      "surface": "Project Status UI planning-closure story-cycle projection",
+      "classification": "current-active/derived",
+      "decision": "UI must render server-authoritative planning.story_cycle together with current_story; browser must not derive completion from local state"
     }
   ],
   "findings": [],
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS — predecessor facts frozen; project-route continuity now derives authority from authenticated server session rather than requiring browser sessionStorage survival; Full remains 0/1 locally."
+  "verdict": "PASS — predecessor facts frozen; Project Status UI now renders server-authoritative story cycle consistently with StoryExecution DONE; Full remains 0/1 locally."
 }

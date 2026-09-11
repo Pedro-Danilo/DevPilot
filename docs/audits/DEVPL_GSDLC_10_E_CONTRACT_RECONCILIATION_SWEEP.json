@@ -13,7 +13,7 @@
     {
       "check": "derived_summary_registry",
       "status": "PASS",
-      "evidence": "Source Registry, README, roadmap and current micro-sprint agree on repo419 and GSDLC-10-E Windows-pending state."
+      "evidence": "Source Registry, README, roadmap and current micro-sprint agree on repo419/GSDLC-10-E; Project Status UI now carries both current_story and server-authoritative story_cycle into the planning closure view."
     },
     {
       "check": "sensitive_action_binding",
@@ -74,10 +74,11 @@
     "Project Status had no explicit read-only story-complete/next-selection projection",
     "local_release_candidate_criteria remained bound to GSDLC-10-D after 10-E activation",
     "FRX-v2.4 isolation registry snapshot predated 41 current GSDLC-10 A-E nodeids; all were added as SERIAL_REQUIRED rather than implicitly unclassified or falsely promoted parallel-safe",
-    "Project-scoped routes depended on sessionStorage surviving navigation after explicit Project Status recovery; current routes now recover from authenticated single-workspace session scope and server Project Status, keeping browser storage UX-only."
+    "Project-scoped routes depended on sessionStorage surviving navigation after explicit Project Status recovery; current routes now recover from authenticated single-workspace session scope and server Project Status, keeping browser storage UX-only.",
+    "ProjectStatusView copied current_story from server Project Status but omitted the matching story_cycle when merging planningClosure, producing a contradictory DONE/active-cycle UI projection."
   ],
   "full_regression_runs": 0,
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS/LOCAL-PRE-WINDOWS — deterministic drift including project-route continuity repaired before browser/Full; exactly one Full remains reserved for Windows closure."
+  "verdict": "PASS/LOCAL-PRE-WINDOWS — deterministic drift including Project Status story-cycle presentation repaired before browser-review/Full; exactly one Full remains reserved for Windows closure."
 }

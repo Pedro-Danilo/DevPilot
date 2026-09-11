@@ -39,8 +39,11 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     const data = response.data;
     const statePanel = renderState(data);
     const planningClosure = { ...(((planning.data as any).planning_closure ?? {}) as Record<string, any>) };
-    const currentStory = ((data.project_status?.planning as any)?.current_story ?? null) as Record<string, any> | null;
+    const projectStatusPlanning = ((data.project_status?.planning ?? {}) as Record<string, any>);
+    const currentStory = (projectStatusPlanning.current_story ?? null) as Record<string, any> | null;
+    const currentStoryCycle = ((projectStatusPlanning.story_cycle ?? {}) as Record<string, any>);
     planningClosure.current_story = currentStory;
+    planningClosure.story_cycle = currentStoryCycle;
     const planningPanel = renderPlanningJourney(planningClosure);
     const advisorMount = document.createElement('div');
     advisorMount.className = 'step-action-advisor-mount';

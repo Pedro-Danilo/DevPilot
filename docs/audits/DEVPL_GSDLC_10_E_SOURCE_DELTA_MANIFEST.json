@@ -48,14 +48,14 @@
     "test_engine": "reuse GSDLC-10-A/B TestPlan + typed StoryValidationJobs",
     "quality_engine": "reuse GSDLC-10-C StoryQualityGate/RemediationTrace",
     "git_engine": "reuse GSDLC-10-D WorkspaceGitOperationsApplicationService -> GovernedGitMutationAdapter",
-    "project_status": "read-only STORY_COMPLETE/next_selection_ready projection",
+    "project_status": "read-only STORY_COMPLETE/next_selection_ready projection rendered consistently from server planning.current_story + planning.story_cycle",
     "browser_storage_authority": false,
     "agent_model_authority": false,
     "full_regression_runs_local": 0,
     "project_route_recovery": "project-scoped routes recover read-only context from the authenticated human-session single workspace scope and server Project Status when UX sessionStorage is absent; ambiguous/no scope fails closed"
   },
   "qualification": {
-    "focal_selected": "39/39 PASS after project-route continuity corrective",
+    "focal_selected": "39/39 PASS effective focal; Project Status corrective targeted=2/2 (1 current-active test re-executed + 1 historical route guard rechecked)",
     "lifecycle_10_e": "7/7 PASS",
     "project_state": "PASS",
     "documentation_governance": "PASS",

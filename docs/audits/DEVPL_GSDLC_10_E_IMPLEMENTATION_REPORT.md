@@ -40,7 +40,7 @@ El test histórico de 10-A que congelaba `Validar` exclusivamente en `CHANGES_RE
 
 # 5. Pruebas locales
 
-- Focal acumulativa GSDLC-10 A/C/D/E seleccionada por impacto después del corrective de continuidad: **39/39 PASS**.
+- Focal current efectiva GSDLC-10 A/C/D/E: **39/39 PASS**; corrective Project Status dirigido: **2/2 PASS** (1 test current-active reejecutado + 1 guard histórico de ruta revalidado).
 - Lifecycle 10-E específico: **7/7 PASS**.
 - Project State schema/current authority: **PASS**.
 - Documentation Governance: **PASS**.
@@ -77,3 +77,7 @@ La guía única Windows del bundle es la autoridad operacional. No usar comandos
 ## Corrective de continuidad project-scoped — v1.0.1
 
 La primera ejecución Windows recuperó correctamente Project Status, pero al navegar a Story Code Workbench el route guard perdió el `ProjectJourneyContext` UX y redirigió a Project Home. La corrección no amplía authority: generaliza una recuperación read-only para rutas `scope=project` usando únicamente el `workspace_scope` único de la sesión humana autenticada y `projectStatusSessionRecovery`. Si el scope es inexistente/ambiguo o el servidor no valida el proyecto, la ruta continúa fail-closed. Esta corrección también protege las navegaciones posteriores hacia Quality, Jobs y Project Status contra el mismo tipo de pérdida de estado efímero.
+
+## Corrective Project Status story-cycle projection — v1.0.3
+
+La evidencia Windows del browser E2E demostró que `StoryExecution` ya estaba en `DONE`, pero `ProjectStatusView` mezclaba `planningClosure` con `current_story` proveniente de Project Status sin transportar el `story_cycle` server-side. El resultado visual era contradictorio: `Current story · ... · DONE` junto a `story activa o selección siguiente todavía no habilitada`. El corrective conserva Project Status como autoridad read-only y copia también `planning.story_cycle` al modelo de presentación; no deriva authority en el browser ni modifica la story. El browser journey 00–07 queda preservado y solo debe regenerarse la captura 08 después de reiniciar la UI/API sobre el mismo fixture committed.
