@@ -842,7 +842,8 @@
         "02_PROMPT_DEVPL_GSDLC_11_B_",
         "DEVPL-GSDLC-11_release_and_lifecycle_workbench_",
         "docs/audits/DEVPL_GSDLC_11_B_",
-        "docs/audits/devpl_gsdlc_11_b_"
+        "docs/audits/devpl_gsdlc_11_b_",
+        "tests/test_package_builder.py"
       ],
       "domains": [
         "release",

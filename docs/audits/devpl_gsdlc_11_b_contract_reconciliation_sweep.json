@@ -14,12 +14,15 @@
     "sealed_evidence_rewrite": "NOT-APPLICABLE/PRE-WINDOWS",
     "successor_registry_history": "PASS",
     "lf_crlf_semantic_policy": "PASS",
-    "frx_v2_4_profile_binding": "PASS"
+    "frx_v2_4_profile_binding": "PASS",
+    "clean_checkout_runtime_state_semantics": "PASS"
   },
   "notes": [
     "API route current-active drift corrected before Windows packaging: mutation justifications + static OpenAPI package routes.",
     "UI route source markers reconciled for client/types.",
-    "Source Registry current-active pointer reconciled to DEVPL-GSDLC-11-B; repo421 remains source authority until Windows PASS."
+    "Source Registry current-active pointer reconciled to DEVPL-GSDLC-11-B; repo421 remains source authority until Windows PASS.",
+    "Windows v1.0.0 focal validation exposed a stale physical-runtime-state assertion: clean repo421 correctly has no .devpilot/devpilot.db. Reconciled test/TCR/Test Impact to validate policy exclusion, not artifact presence.",
+    "tests/test_package_builder.py is now an explicit watched/test path of the GSDLC-11-B successor contract; Test Impact remains 42/212/324/0 with zero unmatched paths."
   ],
   "blocking_findings": [],
   "full_regression_runs": 0,

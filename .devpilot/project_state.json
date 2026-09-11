@@ -4153,11 +4153,12 @@
   "gsdlc_11_b_reproducible_package_available": true,
   "gsdlc_11_b_checksum_available": true,
   "gsdlc_11_b_sbom_baseline_available": true,
-  "gsdlc_11_b_source_delta_paths": 0,
+  "gsdlc_11_b_source_delta_paths": 42,
   "gsdlc_11_c_authorized": false,
   "gsdlc_11_b_network_used": false,
   "gsdlc_11_b_external_api_used": false,
   "gsdlc_11_b_s0_open": 0,
   "gsdlc_11_b_s1_open": 0,
-  "gsdlc_11_a_ui_version_at_close": "0.31.0-gsdlc-11-a"
+  "gsdlc_11_a_ui_version_at_close": "0.31.0-gsdlc-11-a",
+  "gsdlc_11_b_test_impact": "42/212/324/0"
 }

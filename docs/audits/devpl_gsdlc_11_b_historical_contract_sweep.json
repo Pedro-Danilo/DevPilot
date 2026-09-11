@@ -27,11 +27,18 @@
       "classification": "successor-needed",
       "rationale": "11-B adds a typed UI/API workbench without redefining historical POST-H facts.",
       "action": "new GSDLC11B schemas/tests/routes and TCR contract"
+    },
+    {
+      "subject": "tests/test_package_builder.py::test_package_build_repo_zip_dry_run_lists_inclusions_and_exclusions",
+      "classification": "current-active",
+      "rationale": "The historical assertion required .devpilot/devpilot.db to physically exist so it could appear in excluded_files. A clean canonical source checkout correctly omits runtime DBs entirely; exclusion authority lives in forbidden_exact/runtime_state_excluded and the included set.",
+      "action": "Assert policy exclusion + runtime_state_excluded=true + runtime DB absent from included_files; do not create/copy runtime DB merely to satisfy a test."
     }
   ],
   "historical_facts_rewritten": false,
   "current_active_drift_reconciled": true,
   "deprecated_after_proof": [],
   "full_regression_runs": 0,
-  "gsdlc_11_full_budget": "0/1"
+  "gsdlc_11_full_budget": "0/1",
+  "windows_v1_0_0_incident": "RECONCILED/PHYSICAL-RUNTIME-STATE-ASSUMPTION"
 }

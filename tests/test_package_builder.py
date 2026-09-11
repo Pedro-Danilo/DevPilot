@@ -34,7 +34,12 @@ def test_package_build_repo_zip_dry_run_lists_inclusions_and_exclusions() -> Non
     assert summary["repo_zip_supported"] is True
     assert package["outputs"][0]["id"] == "PKG-CLEAN-ZIP"
     assert package["outputs"][0]["status"] == "planned-dry-run"
-    assert ".devpilot/devpilot.db" in package["excluded_files"]
+    # Runtime DB may be physically absent in a clean canonical source checkout.
+    # The contract is policy exclusion + absence from the included source set, not
+    # the presence of a runtime artifact merely so it can appear in excluded_files.
+    assert ".devpilot/devpilot.db" in package["exclusions"]["forbidden_exact"]
+    assert package["exclusions"]["runtime_state_excluded"] is True
+    assert ".devpilot/devpilot.db" not in package["included_files"]
     assert ".devpilot/providers.yaml" in package["exclusions"]["forbidden_exact"]
     assert "src/devpilot_core/policy/secrets.py" in package["included_files"]
     assert not (ROOT / "dist").exists()

@@ -81,3 +81,11 @@ Durante la calificación local se detectó y corrigió drift determinista antes 
 **PASS Windows pendiente:** browser real + package job exact-plan PASS + artifacts/hash/SBOM/reproducibility evidence + clean Git + package final.
 
 **BLOCK:** forbidden/secret/path escape, commit/tree drift, hash mismatch, package no reproducible, SBOM inválido, role/scope bypass, publish/network, S0/S1 o Full ejecutada en 11-B.
+# 10. Corrective Windows v1.0.1 — runtime-state exclusion contract
+
+La primera validación Windows v1.0.0 aplicó correctamente los 41 paths y creó un worktree limpio, pero el focal se detuvo con 69 PASS / 1 FAIL. El residual era `tests/test_package_builder.py::test_package_build_repo_zip_dry_run_lists_inclusions_and_exclusions`: exigía que `.devpilot/devpilot.db` apareciera físicamente en `excluded_files`.
+
+Repo421 es un canonical clean package y, por contrato, **no contiene** `.devpilot/devpilot.db`. `PackageBuildBuilder.excluded_files` enumera archivos físicamente observados y excluidos; la autoridad para un runtime artifact ausente es `exclusions.forbidden_exact` + `runtime_state_excluded=true` + ausencia del path en `included_files`. Crear/copiar una DB efímera para satisfacer el test sería contrario a la política `runtime-ephemeral`.
+
+Se reconcilió el test como `current-active`, se incorporó a los watched/test paths del successor contract y a la regla Test Impact. El source delta pasa de 41 a **42 paths** exclusivamente por `tests/test_package_builder.py`; Test Impact queda **42/212/324/0**. Producto/runtime de packaging no cambia por este corrective.
+

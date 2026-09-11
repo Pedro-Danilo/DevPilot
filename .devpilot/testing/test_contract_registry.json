@@ -13943,10 +13943,11 @@
       "scope": "integration",
       "test_files": [
         "tests/test_devpl_gsdlc_11_b_release_package.py",
-        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
+        "tests/test_package_builder.py"
       ],
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py tests/test_package_builder.py -q"
       ],
       "validates": [
         "commit/tree-bound typed package plan/execute",
@@ -13966,7 +13967,8 @@
         ".devpilot/identity/server_rbac_policy_catalog.json",
         "docs/schemas/gsdlc11b_release_artifact_manifest.schema.json",
         "docs/schemas/gsdlc11b_sbom_baseline.schema.json",
-        "ui/web/src/pages/ReleasePackageView.ts"
+        "ui/web/src/pages/ReleasePackageView.ts",
+        "tests/test_package_builder.py"
       ]
     }
   ],
