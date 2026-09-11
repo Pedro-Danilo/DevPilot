@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -37186,13 +37186,13 @@
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-11-A",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
   "gsdlc_next_micro_sprint": "DEVPL-GSDLC-11-B",
-  "gsdlc_program_status": "active/GSDLC-11-A;GSDLC-10-CLOSED-COMPOSITE",
+  "gsdlc_program_status": "active/GSDLC-11;11-A-CLOSED-WINDOWS-VALIDATED;11-B-AUTHORIZED",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-11-A/ACTIVATION-RELEASE-READINESS",
+  "last_updated_by": "DEVPL-GSDLC-11-A/WINDOWS-CLOSURE",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -39738,7 +39738,7 @@
   },
   "updated": "2026-09-11",
   "updated_at": "2026-09-08",
-  "updated_by": "DEVPL-GSDLC-11-A/ACTIVATION-RELEASE-READINESS",
+  "updated_by": "DEVPL-GSDLC-11-A/WINDOWS-CLOSURE",
   "gsdlc_10_e_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
   "gsdlc_10_e_candidate_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_10_e_browser_runs_windows_live": 1,
@@ -39750,11 +39750,17 @@
   "gsdlc_10_e_s0_open": 0,
   "gsdlc_10_e_s1_open": 0,
   "gsdlc_11_authorized": true,
-  "gsdlc_11_status": "ACTIVE/GSDLC-11-A",
-  "gsdlc_11_a_status": "IMPLEMENTED/LOCAL-QUALIFICATION-IN-PROGRESS/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_11_status": "ACTIVE/GSDLC-11/11-A-CLOSED/11-B-AUTHORIZED",
+  "gsdlc_11_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_11_a_execution_source_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_11_a_execution_source_commit": "8d37c29214a67b28d1dfd70a204a8c9596c53ae8",
   "gsdlc_11_a_execution_source_sha256": "b45f53c28599df6755aedb14eeec6318ca30df8da27a8526727d0ff8a9e98822",
   "gsdlc_11_a_full_regression_runs": 0,
-  "gsdlc_11_b_authorized": false
+  "gsdlc_11_b_authorized": true,
+  "gsdlc_11_a_windows_validation_status": "CLOSED/PASS",
+  "gsdlc_11_a_browser_acceptance": "PASS/REAL-BROWSER",
+  "gsdlc_11_a_browser_runs": 1,
+  "gsdlc_11_a_successor_repo": "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_11_a_source_delta_paths": 43,
+  "gsdlc_11_a_test_impact": "43/211/322/0"
 }

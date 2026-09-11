@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-11-A-SOURCE-DELTA-MANIFEST-V1",
   "sprint": "DEVPL-GSDLC-11-A",
-  "status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "base_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "base_git_commit": "8d37c29214a67b28d1dfd70a204a8c9596c53ae8",
   "base_repo_sha256": "b45f53c28599df6755aedb14eeec6318ca30df8da27a8526727d0ff8a9e98822",
@@ -65,7 +65,7 @@
   ],
   "full_regression_runs": 0,
   "gsdlc_11_full_regression_budget": "0/1",
-  "browser_acceptance": "PENDING/WINDOWS-REAL-BROWSER",
+  "browser_acceptance": "PASS/WINDOWS-REAL-BROWSER",
   "s0_open": 0,
   "s1_open": 0,
   "network_used": false,
@@ -94,5 +94,6 @@
     "test_contract_registry_v2": "PASS"
   },
   "candidate_successor_repo": "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_11_b_authorized": false
+  "gsdlc_11_b_authorized": true,
+  "browser_runs_windows_live": 1
 }

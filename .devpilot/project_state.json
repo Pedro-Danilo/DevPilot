@@ -18,7 +18,7 @@
   "credentials_required": false,
   "current_micro_sprint": "DEVPL-GSDLC-11-A",
   "current_phase": "DEVPL-GSDLC-11",
-  "current_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "devpl_gsdlc_08_authorized": true,
   "devpl_gsdlc_10_b_status": "closed/PASS/WINDOWS-VALIDATED/CORRECTIVE-104",
   "devpl_gsdlc_10_b_successor_repo": "repo_DevPilot_Local_417_DEVPL_GSDLC_10_B_JOB_CONSOLE_LIVE_REFRESH_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -4111,9 +4111,9 @@
   "gsdlc_10_e_full_regression_accounting": "PASS/100%-TERMINAL/COMPOSITE",
   "gsdlc_10_e_second_full_regression_allowed": false,
   "gsdlc_11_authorized": true,
-  "gsdlc_11_status": "ACTIVE/GSDLC-11-A",
+  "gsdlc_11_status": "ACTIVE/GSDLC-11/11-A-CLOSED/11-B-AUTHORIZED",
   "gsdlc_11_activation_status": "ACTIVE/REBOUND-REPO420/INTEGRATED-IN-11-A",
-  "gsdlc_11_a_status": "IMPLEMENTED/LOCAL-QUALIFICATION-IN-PROGRESS/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_11_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_11_a_execution_source_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_11_a_execution_source_commit": "8d37c29214a67b28d1dfd70a204a8c9596c53ae8",
   "gsdlc_11_a_execution_source_sha256": "b45f53c28599df6755aedb14eeec6318ca30df8da27a8526727d0ff8a9e98822",
@@ -4127,5 +4127,11 @@
   "gsdlc_11_a_external_api_used": false,
   "gsdlc_11_a_s0_open": 0,
   "gsdlc_11_a_s1_open": 0,
-  "gsdlc_11_b_authorized": false
+  "gsdlc_11_b_authorized": true,
+  "gsdlc_11_a_windows_validation_status": "CLOSED/PASS",
+  "gsdlc_11_a_browser_acceptance": "PASS/REAL-BROWSER",
+  "gsdlc_11_a_browser_runs": 1,
+  "gsdlc_11_a_successor_repo": "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_11_a_source_delta_paths": 43,
+  "gsdlc_11_a_test_impact": "43/211/322/0"
 }

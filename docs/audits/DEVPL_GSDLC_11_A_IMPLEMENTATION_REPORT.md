@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-11-A-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-11-A — Release readiness aggregation implementation report"
-status: "implemented/local-qualified/windows-validation-pending"
+status: "closed/pass/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-11"
-approval: "pending_windows_validation"
+approval: "windows_validation_pass"
 ---
 
 # 1. Objetivo
@@ -79,13 +79,13 @@ La aceptación browser real queda para Windows porque 11-A introduce nueva UI. A
 
 1. Esta es la primera versión UI-native de release readiness; package/SBOM pertenecen a 11-B, install/rollback a 11-C y tag/approval a 11-D.
 2. `RELEASE_READY` depende de que exista evidencia current-active gobernada; ausencia o stale produce `UNKNOWN/BLOCKED` por diseño.
-3. Browser acceptance Windows debe demostrar render, fail-closed y separación de autoridad antes de autorizar 11-B.
+3. Browser acceptance Windows demostró render project-scoped, estado explícito/fail-closed, next action y separación de autoridad. GSDLC-11-B queda autorizado.
 
 # 9. PASS/BLOCK
 
 **PASS local:** contratos focales, registries, validators y UI smoke pasan; Full=0; S0/S1=0.
 
-**PASS Windows:** focal/Test Impact + browser acceptance + evidence machine-readable + clean Git/package hash-bound.
+**PASS Windows:** focal/Test Impact + browser acceptance + evidence machine-readable + clean Git/package hash-bound. **Resultado: PASS.**
 
 **BLOCK:** READY con evidencia missing/stale, autoridad desde browser storage, claim no soportado, role/scope bypass, Full ejecutada en 11-A o S0/S1 abierto.
 

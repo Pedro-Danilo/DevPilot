@@ -1,6 +1,6 @@
 {
   "schema_id": "DEVPL-GSDLC-11-A-CONTRACT-RECONCILIATION-SWEEP-V1",
-  "status": "PASS/LOCAL",
+  "status": "PASS/WINDOWS-VALIDATED",
   "micro_sprint": "DEVPL-GSDLC-11-A",
   "checks": {
     "schema_and_current_metadata_coherent": "PASS",
@@ -29,5 +29,7 @@
     "matched_contracts_total": 211,
     "recommended_tests_total": 322,
     "unmatched_paths_total": 0
-  }
+  },
+  "browser_acceptance": "PASS",
+  "gsdlc_11_b_authorized": true
 }

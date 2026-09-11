@@ -1,9 +1,20 @@
 {
   "schema_id": "DEVPL-GSDLC-11-A-RELEASE-READINESS-LOCAL-QUALIFICATION-V1",
-  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-BROWSER-PENDING",
+  "status": "PASS/WINDOWS-VALIDATED",
   "micro_sprint": "DEVPL-GSDLC-11-A",
-  "validated_states": ["RELEASE_READY", "BLOCKED", "UNKNOWN"],
-  "deterministic_blocker_fields": ["severity", "owner", "evidence_ref", "policy_source", "pending_approval", "next_action"],
+  "validated_states": [
+    "RELEASE_READY",
+    "BLOCKED",
+    "UNKNOWN"
+  ],
+  "deterministic_blocker_fields": [
+    "severity",
+    "owner",
+    "evidence_ref",
+    "policy_source",
+    "pending_approval",
+    "next_action"
+  ],
   "ready_requires_complete_current_evidence": true,
   "missing_or_stale_fails_closed": true,
   "readiness_is_release_approval": false,
@@ -16,5 +27,9 @@
   "secrets_exposed": false,
   "mutations_performed_by_readiness": false,
   "full_regression_runs": 0,
-  "windows_browser_acceptance": "PENDING"
+  "windows_browser_acceptance": "PASS",
+  "browser_runs": 1,
+  "screenshots_required": 2,
+  "s0_open": 0,
+  "s1_open": 0
 }

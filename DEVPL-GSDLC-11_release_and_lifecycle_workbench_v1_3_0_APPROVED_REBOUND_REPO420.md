@@ -26,7 +26,7 @@ local_first: true
 ui_complete_normal_journey: true
 dry_run_default: true
 backlog_id: "DEVPL-GSDLC-11"
-backlog_status: "APPROVED/READY-FOR-GSDLC-11-A"
+backlog_status: "APPROVED/ACTIVE/GSDLC-11-A-CLOSED-WINDOWS-VALIDATED/GSDLC-11-B-AUTHORIZED"
 micro_sprints_total: 5
 frx_execution_profile_id: "frx-v2.4-current"
 frx_execution_profile_sha256: "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
