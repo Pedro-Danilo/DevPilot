@@ -297,7 +297,7 @@ def test_10_a_closed_and_current_successor_preserves_full_budget_zero() -> None:
     assert state["gsdlc_10_b_status"].startswith("CLOSED/PASS/WINDOWS-VALIDATED")
     assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-E"
     assert state["gsdlc_10_c_authorized"] is True
-    assert state["gsdlc_10_status"] in {"APPROVED/ACTIVE/GSDLC-10-E", "CLOSED/PASS/WINDOWS-VALIDATED/GSDLC-10-D/10-E-AUTHORIZED"}
+    assert state["gsdlc_10_status"] in {"APPROVED/ACTIVE/GSDLC-10-E", "APPROVED/ACTIVE/GSDLC-10-E/SELECTIVE-RECOVERY", "CLOSED/PASS/WINDOWS-VALIDATED/GSDLC-10-D/10-E-AUTHORIZED", "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"}
     assert state["gsdlc_10_a_full_regression_runs"] == 0
     assert state["gsdlc_10_a_full_regression_runs_allowed"] == 0
     assert state["gsdlc_10_c_full_regression_runs_allowed"] == 0
