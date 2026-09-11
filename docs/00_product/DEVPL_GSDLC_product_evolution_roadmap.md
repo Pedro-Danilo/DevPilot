@@ -670,3 +670,7 @@ Browser E2E permanece `PASS`. La única logical Full de DEVPL-GSDLC-10 fue consu
 ### DEVPL-GSDLC-10-E — Windows composite closure
 
 GSDLC-10-E y DEVPL-GSDLC-10 quedan `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. La única Full `DEVPL-GSDLC-10-E-FULL-01` permanece preservada en `3054 PASS / 42 FAIL / 0 ERROR / 5 SKIP / 3101 accounted`; no se ejecutó una segunda Full. El cierre se adjudica mediante `42/42` exact failed-nodeid PASS + bounded impacted PASS + Historical Regression Guard PASS + post-recovery gates PASS. S0/S1=0. Successor: `repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`. `DEVPL-GSDLC-11` autorizado.
+
+## 2026-09-11 — DEVPL-GSDLC-11-A activation/rebind + Release Readiness
+
+GSDLC-11 se activa sobre el baseline canónico repo420 (`8d37c29214a67b28d1dfd70a204a8c9596c53ae8`). La activación se integra en 11-A, sin sprint administrativo. 11-A implementa una proyección release-readiness project-scoped que compone contratos existentes de Story/Quality/Git/approvals/release policy y falla cerrado ante evidencia missing/stale/unknown. `RELEASE_READY` permanece separado de release approval. Estado: implementación/local qualification; Windows validation pendiente. Full Regression=0; GSDLC-11 conserva budget 0/1 para 11-E. 11-B se autoriza únicamente después del cierre Windows de 11-A.

@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/release_readiness_projection.schema.json",
+  "title": "GSDLC-11-A ReleaseReadinessProjection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "workspace_id",
+    "state",
+    "release_ready",
+    "blockers",
+    "blockers_total",
+    "missing_or_unknown_evidence",
+    "next_action",
+    "evidence",
+    "release_authority",
+    "claims",
+    "safety"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "DEVPL-GSDLC-11-A-RELEASE-READINESS-PROJECTION-V1"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "workspace_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "enum": [
+        "RELEASE_READY",
+        "BLOCKED",
+        "UNKNOWN"
+      ]
+    },
+    "release_ready": {
+      "type": "boolean"
+    },
+    "blockers_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "missing_or_unknown_evidence": {
+      "type": "boolean"
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "blocker_id",
+          "severity",
+          "title",
+          "owner",
+          "evidence_ref",
+          "policy_source",
+          "next_action",
+          "pending_approval",
+          "state"
+        ],
+        "properties": {
+          "blocker_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "policy_source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "next_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pending_approval": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "title",
+        "owner",
+        "evidence_ref",
+        "mutating"
+      ],
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "evidence_ref": {
+          "type": "string"
+        },
+        "mutating": {
+          "const": false
+        }
+      }
+    },
+    "evidence": {
+      "type": "object"
+    },
+    "release_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed",
+        "effective_roles",
+        "release_roles",
+        "approval_required_later",
+        "readiness_is_release_approval",
+        "model_or_agent_can_approve"
+      ],
+      "properties": {
+        "allowed": {
+          "type": "boolean"
+        },
+        "effective_roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "release_roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approval_required_later": {
+          "const": true
+        },
+        "readiness_is_release_approval": {
+          "const": false
+        },
+        "model_or_agent_can_approve": {
+          "const": false
+        }
+      }
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "enterprise_ready_claim",
+        "compliance_certification_claim",
+        "public_release_claim",
+        "forbidden_claims_enabled"
+      ],
+      "properties": {
+        "scope": {
+          "const": "local-release-only"
+        },
+        "enterprise_ready_claim": {
+          "const": false
+        },
+        "compliance_certification_claim": {
+          "const": false
+        },
+        "public_release_claim": {
+          "const": false
+        },
+        "forbidden_claims_enabled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object"
+    }
+  }
+}

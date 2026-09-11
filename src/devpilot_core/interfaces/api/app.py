@@ -14,7 +14,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
 from .uoc011_hardening import FixedWindowRateLimiter, UOC011_API_HARDENING_HEADERS, Uoc011ApiHardeningConfig, inspect_request_hardening
-from .routers import actions, ai, approvals, auth, guided_sdlc, jobs, operator, planning, portfolio, project_entry, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations, story_code
+from .routers import actions, ai, approvals, auth, guided_sdlc, jobs, operator, planning, portfolio, project_entry, quality, reports, security_posture, settings, status, traces, validation, workspace_documents, workspace_edits, workspace_git, workspace_validations, story_code, release
 from .security import (
     API_ROUTE_POLICIES,
     API_SECURITY_HEADER_VALUE,
@@ -283,6 +283,7 @@ def create_app(
     app.include_router(workspace_git.router)
     app.include_router(jobs.router)
     app.include_router(quality.router)
+    app.include_router(release.router)
     app.include_router(ai.router)
     app.include_router(validation.router)
     app.include_router(actions.router)

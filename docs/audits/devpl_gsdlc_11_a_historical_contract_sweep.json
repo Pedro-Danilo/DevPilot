@@ -1,0 +1,40 @@
+{
+  "schema_id": "DEVPL-GSDLC-11-A-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-11-A",
+  "classifications": {
+    "historical-freeze": [
+      "GSDLC-10-E CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
+      "DEVPL-GSDLC-10-E-FULL-01 original FAIL/3054-PASS/42-FAIL/0-ERROR/5-SKIP/3101-accounted/preserved",
+      "repo420 predecessor commit/hash authority"
+    ],
+    "current-active": [
+      ".devpilot/project_state.json",
+      ".devpilot/docs_governance/source_registry.json current pointers",
+      ".devpilot/release/local_release_candidate_criteria.json",
+      "API/UI/RBAC route registries",
+      "ui/web package metadata",
+      "src/devpilot_core/interfaces/api/contracts.py canonical router inventory",
+      "docs/07_interfaces/openapi_v1.json",
+      "ui/web/package.json + package-lock.json"
+    ],
+    "successor-needed": [
+      "ReleaseReadinessProjection",
+      "GET /api/v1/release/readiness",
+      "ui.release-readiness"
+    ],
+    "derived": [
+      "registry summary counters",
+      "readiness blockers_total/state/next_action"
+    ],
+    "runtime-ephemeral": [
+      "outputs/story_execution/gsdlc_09_a",
+      "outputs/runtime/gsdlc10c_story_quality",
+      "outputs/uoc006_control/gsdlc10d_story_git/evidence",
+      ".devpilot/devpilot.db"
+    ],
+    "deprecated-after-proof": []
+  },
+  "historical_assertions_rewritten_for_test_pass": false,
+  "full_regression_runs": 0
+}

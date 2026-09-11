@@ -70,6 +70,7 @@ from .workspace_document_inspection_service import WorkspaceDocumentInspectionAp
 from .workspace_edit_plan_service import WorkspaceEditPlanApplicationService
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
+from .release_readiness_service import ReleaseReadinessApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityContract, GovernedJobCapabilityRegistry
 from .governed_jobs import GovernedJobConflict, GovernedJobError, GovernedJobFramework, GovernedJobHandle, GovernedJobPolicyBlock, GovernedJobStore
 
@@ -155,6 +156,7 @@ __all__ = [
     "WorkspaceEditPlanApplicationService",
     "WorkspaceEditExecutionApplicationService",
     "WorkspaceGitOperationsApplicationService",
+    "ReleaseReadinessApplicationService",
     "ArtifactLifecycleService",
     "ArtifactSourceType",
     "ArtifactState",

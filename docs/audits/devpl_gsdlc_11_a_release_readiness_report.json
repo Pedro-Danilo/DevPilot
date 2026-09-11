@@ -1,0 +1,20 @@
+{
+  "schema_id": "DEVPL-GSDLC-11-A-RELEASE-READINESS-LOCAL-QUALIFICATION-V1",
+  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-BROWSER-PENDING",
+  "micro_sprint": "DEVPL-GSDLC-11-A",
+  "validated_states": ["RELEASE_READY", "BLOCKED", "UNKNOWN"],
+  "deterministic_blocker_fields": ["severity", "owner", "evidence_ref", "policy_source", "pending_approval", "next_action"],
+  "ready_requires_complete_current_evidence": true,
+  "missing_or_stale_fails_closed": true,
+  "readiness_is_release_approval": false,
+  "model_or_agent_can_approve": false,
+  "enterprise_ready_claim": false,
+  "compliance_certification_claim": false,
+  "public_release_claim": false,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed_by_readiness": false,
+  "full_regression_runs": 0,
+  "windows_browser_acceptance": "PENDING"
+}

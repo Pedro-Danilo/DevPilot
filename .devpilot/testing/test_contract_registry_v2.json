@@ -23852,9 +23852,82 @@
         "docs/audits/DEVPL_GSDLC_10_E_TEST_IMPACT.json",
         "docs/audits/DEVPL_GSDLC_10_E_CHANGED_PATHS.txt"
       ]
+    },
+    {
+      "contract_id": "gsdlc11a-release-readiness",
+      "schema_version": "2.0",
+      "domain": "release",
+      "capability": "GSDLC11AReleaseReadiness",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_a_release_readiness.py",
+        "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/release_readiness_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/schemas/release_readiness_projection.schema.json",
+        "ui/web/src/pages/ReleaseReadinessView.ts"
+      ],
+      "validates": [
+        "RELEASE_READY only with complete current-active evidence",
+        "BLOCKED/UNKNOWN fail closed",
+        "readiness separated from release approval",
+        "project-scoped server authority",
+        "release-manager/owner authority not delegated to model route",
+        "no unsupported enterprise/compliance/public-release claims"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "DEVPL-GSDLC-11-A",
+      "owner_domain": "release",
+      "service_boundary": "application",
+      "impact_scope": [
+        "release-readiness",
+        "project-scope",
+        "rbac",
+        "ui",
+        "current-authority"
+      ],
+      "trigger_hints": [
+        "gsdlc-11-a",
+        "release-readiness",
+        "release-route",
+        "release-ui",
+        "project-status"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Current-active successor contract for GSDLC-11-A release readiness aggregation.",
+        "Readiness is read-only and does not grant release approval, tag, publish or rollback authority.",
+        "Full Regression is forbidden by routine in 11-A; GSDLC-11 budget remains 0/1."
+      ],
+      "source_contract_id": "gsdlc11a-release-readiness",
+      "subgate_id": "gsdlc-11-a-release-readiness"
     }
   ],
-  "contracts_total": 331,
+  "contracts_total": 332,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

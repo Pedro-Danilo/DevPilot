@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.30.0-gsdlc-10-a",
+  "version": "0.31.0-gsdlc-11-a",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-10-A Story → Validar → Test Impact v2 → StoryTestPlan review/approval.",
+  "description": "DevPilot Local Web UI — GSDLC-11-A Release Readiness aggregation and explainable project-scoped readiness.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -205,7 +205,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-10-E",
+    "currentSprint": "DEVPL-GSDLC-11-A",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,

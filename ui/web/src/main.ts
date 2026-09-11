@@ -6,6 +6,7 @@ import { renderReportsView } from './pages/ReportsView';
 import { renderTracesView } from './pages/TracesView';
 import { renderJobsView } from './pages/JobsView';
 import { renderQualityOperationsView } from './pages/QualityOperationsView';
+import { renderReleaseReadinessView } from './pages/ReleaseReadinessView';
 import { renderAiOperationsView } from './pages/AiOperationsView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
@@ -38,6 +39,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/traces', routeId: 'ui.traces', title: 'Trazas', scope: 'project' },
   { path: '/jobs', routeId: 'ui.jobs', title: 'Jobs', scope: 'project' },
   { path: '/quality', routeId: 'ui.quality', title: 'Calidad / Tests', scope: 'project' },
+  { path: '/release/readiness', routeId: 'ui.release-readiness', title: 'Release readiness', scope: 'project' },
   { path: '/ai', routeId: 'ui.ai', title: 'IA / RAG', scope: 'project' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center', scope: 'entry-or-project' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración', scope: 'global' },
@@ -141,6 +143,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     else if (route.path === '/traces') page.append(renderTracesView(() => readStoredToken()));
     else if (route.path === '/jobs') page.append(renderJobsView(() => readStoredToken(), jobsDetail?.[1]));
     else if (route.path === '/quality') page.append(renderQualityOperationsView(() => readStoredToken()));
+    else if (route.path === '/release/readiness') page.append(renderReleaseReadinessView(() => readStoredToken()));
     else if (route.path === '/ai') page.append(renderAiOperationsView(() => readStoredToken()));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView({ tokenProvider: () => readStoredToken(), session, handoffApprovalId: handoffApprovalId || undefined }));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));

@@ -1,0 +1,33 @@
+{
+  "schema_id": "DEVPL-GSDLC-11-A-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS/LOCAL",
+  "micro_sprint": "DEVPL-GSDLC-11-A",
+  "checks": {
+    "schema_and_current_metadata_coherent": "PASS",
+    "derived_registry_counters_reconciled": "PASS",
+    "sensitive_release_authority_separated": "PASS",
+    "ui_api_current_mapping_registered": "PASS",
+    "project_state_source_registry_readme_roadmap_rebound": "PASS",
+    "historical_full_preserved": "PASS",
+    "runtime_ephemeral_excluded": "PASS",
+    "sealed_evidence_rewritten": false,
+    "successor_contract_registered": "PASS",
+    "lf_crlf_physical_representation_used_for_block": false,
+    "canonical_router_inventory_reconciled": "PASS",
+    "static_openapi_current_route_reconciled": "PASS",
+    "project_phase_and_ui_metadata_current": "PASS"
+  },
+  "inherited_drift": {
+    "gsdlc_10_e_operator_version_narrative": "RECONCILED-v1.0.11",
+    "sealed_evidence_changed": false
+  },
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "test_impact": {
+    "changed_paths_total": 43,
+    "matched_contracts_total": 211,
+    "recommended_tests_total": 322,
+    "unmatched_paths_total": 0
+  }
+}

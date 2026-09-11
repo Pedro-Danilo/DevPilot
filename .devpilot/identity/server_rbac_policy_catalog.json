@@ -1723,6 +1723,30 @@
       "workspace_scope_required": false
     },
     {
+      "access_class": "human-session/project-release-readiness",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "release.readiness",
+      "path": "/api/v1/release/readiness",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.release.readiness",
+      "workspace_scope_required": true
+    },
+    {
       "access_class": "authenticated-read",
       "allowed_roles": [
         "owner",
@@ -4677,9 +4701,9 @@
     "gsdlc_10_a_story_test_plan_policies_total": 3,
     "gsdlc_10_b_legacy_token_allowed_total": 0,
     "gsdlc_10_b_story_validation_job_policies_total": 3,
-    "human_session_required_total": 130,
+    "human_session_required_total": 131,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 206,
+    "route_policies_total": 207,
     "sensitive_action_policies_total": 19,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
@@ -4688,16 +4712,18 @@
     "gsdlc_10_c_waiver_decision_owner_only": true,
     "gsdlc_10_d_story_git_policies_total": 8,
     "gsdlc_10_d_legacy_token_allowed_total": 0,
-    "gsdlc_10_d_owner_only_mutation_policies_total": 4
+    "gsdlc_10_d_owner_only_mutation_policies_total": 4,
+    "gsdlc_11_a_release_readiness_policies_total": 1
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-10",
-  "updated_by": "DEVPL-GSDLC-09-D",
+  "updated": "2026-09-11",
+  "updated_by": "DEVPL-GSDLC-11-A/release-readiness",
   "version": "1.1.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
     "default_local_workspace_id": "devpilot-local",
     "scope_required_for_workspace_routes": true
   },
-  "gsdlc_10_d_story_git_routes_registered": true
+  "gsdlc_10_d_story_git_routes_registered": true,
+  "gsdlc_11_a_release_readiness_route_registered": true
 }

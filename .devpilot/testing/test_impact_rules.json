@@ -731,6 +731,86 @@
         "source_mutations_allowed": false,
         "tests_executed_from_rule": false
       }
+    },
+    {
+      "rule_id": "gsdlc11a-release-readiness",
+      "title": "GSDLC-11-A release readiness aggregation and activation/rebind",
+      "owner": "DEVPL-GSDLC-11-A",
+      "path_patterns": [
+        "src/devpilot_core/application/release_readiness_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/__init__.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        "src/devpilot_core/interfaces/api/routers/__init__.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/release_readiness_projection.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "ui/web/src/pages/ReleaseReadinessView.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "ui/web/scripts/gsdlc11a-release-readiness-smoke.mjs",
+        "tests/test_devpl_gsdlc_11_a_release_readiness.py",
+        "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_0_APPROVED_REBOUND_REPO420.md",
+        "00_PROMPT_DEVPL_GSDLC_11_ACTIVATION_REBIND_v1_0_0_REPO420.md",
+        "01_PROMPT_DEVPL_GSDLC_11_A_v1_0_0_REPO420.md",
+        "docs/audits/DEVPL_GSDLC_11_A",
+        "docs/audits/devpl_gsdlc_11_a",
+        "docs/audits/DEVPL_GSDLC_10_E_IMPLEMENTATION",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md"
+      ],
+      "domains": [
+        "release",
+        "readiness",
+        "product.ui",
+        "governance"
+      ],
+      "execution_profiles": [
+        "impact",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1",
+        "P2"
+      ],
+      "risk": "high",
+      "recommended_tests": [
+        "tests/test_devpl_gsdlc_11_a_release_readiness.py",
+        "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py",
+        "tests/test_api_security.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "recommended_commands": [
+        "pytest -q tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "manual_review_required": true,
+        "full_regression_required": false
+      },
+      "safety": {
+        "network_required": false,
+        "external_api_required": false,
+        "source_mutation_required": false
+      }
     }
   ],
   "unmatched_path_policy": {

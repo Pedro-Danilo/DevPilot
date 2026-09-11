@@ -112,6 +112,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/auth/logout"): ApiRoutePolicy("auth.logout", "read", "protected-human-session-mutation"),
     ("POST", "/api/v1/auth/session/revoke"): ApiRoutePolicy("auth.session.revoke", "read", "protected-human-session-mutation"),
     ("GET", "/api/v1/workspace/status"): ApiRoutePolicy("workspace.status", "read", "protected-read"),
+    ("GET", "/api/v1/release/readiness"): ApiRoutePolicy("release.readiness", "read", "protected-human-session-project-read"),
     ("POST", "/api/v1/project-entry/environment-discovery"): ApiRoutePolicy("project_entry.environment_discovery", "read", "protected-human-session-project-entry-plan"),
     ("POST", "/api/v1/project-entry/bootstrap-plan"): ApiRoutePolicy("project_entry.bootstrap_plan", "read", "protected-human-session-project-entry-plan"),
     ("POST", "/api/v1/project-entry/dry-run"): ApiRoutePolicy("project_entry.dry_run", "read", "protected-human-session-project-entry-dry-run"),

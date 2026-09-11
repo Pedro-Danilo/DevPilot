@@ -8326,6 +8326,25 @@
           }
         }
       }
+    },
+    "/api/v1/release/readiness": {
+      "get": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Readiness",
+        "operationId": "release_readiness_api_v1_release_readiness_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11133,5 +11152,12 @@
     "typed_jobs_only": true,
     "arbitrary_shell": false,
     "full_regression_runs_allowed": 0
+  },
+  "x-devpilot-gsdlc-11-a": {
+    "status": "implemented-initial",
+    "route": "GET /api/v1/release/readiness",
+    "scope": "project-scoped/read-only/fail-closed",
+    "release_ready_is_release_approval": false,
+    "full_regression_runs": 0
   }
 }

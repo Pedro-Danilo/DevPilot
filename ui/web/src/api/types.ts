@@ -1,3 +1,4 @@
+// UI route contract: ui.release-readiness
 // UI route contract markers: ui.quality; ui.story-code-workbench
 export type FindingSeverity = 'info' | 'warning' | 'block' | 'error' | string;
 
@@ -1371,4 +1372,48 @@ export interface StoryQualityRemediationTrace {
   agent_proposal?: Record<string, unknown> | null;
   tool_authority: Record<string, unknown>;
   retest?: Record<string, unknown> | null;
+}
+
+
+export type ReleaseReadinessState = 'RELEASE_READY' | 'BLOCKED' | 'UNKNOWN';
+
+export interface ReleaseReadinessBlocker {
+  blocker_id: string;
+  severity: string;
+  title: string;
+  owner: string;
+  evidence_ref: string;
+  policy_source: string;
+  next_action: string;
+  pending_approval: boolean;
+  state: string;
+}
+
+export interface ReleaseReadinessProjection {
+  schema_id: string;
+  schema_version: string;
+  workspace_id: string;
+  state: ReleaseReadinessState;
+  release_ready: boolean;
+  blockers: ReleaseReadinessBlocker[];
+  blockers_total: number;
+  missing_or_unknown_evidence: boolean;
+  next_action: { action_id: string; title: string; owner: string; evidence_ref: string; mutating: boolean };
+  evidence: Record<string, unknown>;
+  release_authority: {
+    allowed: boolean;
+    effective_roles: string[];
+    release_roles: string[];
+    approval_required_later: boolean;
+    readiness_is_release_approval: boolean;
+    model_or_agent_can_approve: boolean;
+  };
+  claims: {
+    scope: string;
+    enterprise_ready_claim: boolean;
+    compliance_certification_claim: boolean;
+    public_release_claim: boolean;
+    forbidden_claims_enabled: string[];
+  };
+  safety: Record<string, boolean>;
 }

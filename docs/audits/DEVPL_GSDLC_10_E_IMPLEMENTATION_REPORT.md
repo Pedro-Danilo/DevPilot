@@ -62,6 +62,11 @@ El bundle v1.0.7 debe: verificar la Full original 1/1 y sus hashes; retirar úni
 
 # 8. Cierre Windows composite — 2026-09-11
 
-El corrective v1.0.7 cerró la recuperación autorizada sin segunda Full: **42/42 nodeids originales PASS**, bounded impacted retest PASS, Historical Regression Guard PASS y deterministic post-gates PASS. La Full histórica `DEVPL-GSDLC-10-E-FULL-01` permanece inmutable en **3054 PASS / 42 FAIL / 0 ERROR / 5 SKIP / 3101 accounted** y se conserva como antecedente de la adjudicación `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`.
+La recuperación autorizada fue cerrada finalmente en Windows por el operador **v1.0.11** (v1.0.7 fue un corrective preliminar, no la autoridad final): **42/42 nodeids originales PASS**, bounded impacted retest PASS, Historical Regression Guard PASS y deterministic post-gates PASS. La Full histórica `DEVPL-GSDLC-10-E-FULL-01` permanece inmutable en **3054 PASS / 42 FAIL / 0 ERROR / 5 SKIP / 3101 accounted** y se conserva como antecedente de la adjudicación `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`.
 
 Estado final: `GSDLC-10-E = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; `DEVPL-GSDLC-10 = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; S0/S1=0; `DEVPL-GSDLC-11` autorizado. Successor: `repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+
+## Erratum current-doc — 2026-09-11
+
+La narrativa anterior que atribuía el cierre efectivo a v1.0.7 queda reconciliada: la evidencia Windows sellada y la autoridad final corresponden a **v1.0.11**. Este erratum no reescribe ni sustituye la evidencia sellada de GSDLC-10-E, no cambia el commit de cierre y no reabre DEVPL-GSDLC-10.
