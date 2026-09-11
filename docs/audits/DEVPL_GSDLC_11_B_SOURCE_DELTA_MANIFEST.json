@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-11-B-SOURCE-DELTA-MANIFEST-V1",
   "sprint": "DEVPL-GSDLC-11-B",
-  "status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "base_repo": "repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "base_git_commit": "01c28e73994b74699802dcbac9bb06d686841b89",
   "base_repo_sha256": "e105736c539f37ea3ad81b96ad571149035c5bb77602e0303018f304c04e8955",
@@ -64,7 +64,7 @@
   ],
   "full_regression_runs": 0,
   "gsdlc_11_full_regression_budget": "0/1",
-  "browser_acceptance": "PENDING/WINDOWS-REAL-BROWSER",
+  "browser_acceptance": "PASS/REAL-BROWSER",
   "s0_open": 0,
   "s1_open": 0,
   "network_used": false,
@@ -89,7 +89,7 @@
     "api_route_contracts": "6/6 PASS",
     "api_contract_drift": "8/8 PASS",
     "ui_route_enforcement": "8/8 PASS",
-    "package_builder": "4/4 PASS/CLEAN-CANONICAL-CHECKOUT-NO-RUNTIME-DB-ASSUMPTION",
+    "package_builder": "4/4 PASS",
     "release_manifest": "11/11 PASS",
     "release_sbom": "4/4 PASS",
     "post_h_017_reproducibility": "19/19 PASS",
@@ -98,12 +98,12 @@
     "ui_static_smoke": "8/8 PASS"
   },
   "candidate_successor_repo": "repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_11_c_authorized": false,
-  "browser_runs_windows_live": 0,
+  "gsdlc_11_c_authorized": true,
+  "browser_runs_windows_live": 1,
   "windows_validation_history": {
     "v1_0_0_validate": "BLOCK/STALE-RUNTIME-PRESENCE-ASSERTION",
     "v1_0_0_focal_accounting": "69 PASS / 1 FAIL / 0 ERROR / 0 SKIP",
-    "corrective": "tests/test_package_builder.py now validates policy exclusion + not-in-included-files instead of requiring a physically present .devpilot/devpilot.db",
-    "source_path_expansion": "41→42; only tests/test_package_builder.py is a new delta path"
+    "corrective": "current-active test/TCR/Test Impact reconciled; clean canonical checkout does not require .devpilot/devpilot.db to physically exist",
+    "source_path_expansion": "41→42; tests/test_package_builder.py is the only new delta path"
   }
 }

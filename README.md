@@ -6728,3 +6728,11 @@ GSDLC-10-E y DEVPL-GSDLC-10 quedan `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECO
 ## DEVPL-GSDLC-11-A — Release readiness aggregation · activation/rebind
 
 DEVPL-GSDLC-11 se activa acumulativamente sobre repo420 y GSDLC-11-A cierra `CLOSED/PASS/WINDOWS-VALIDATED`. `ReleaseReadinessProjection` y `/release/readiness` agregan story/Quality/Git traceability/approvals/local-release policy de forma read-only y fail-closed; `RELEASE_READY` no equivale a aprobación de release ni concede autoridad a modelos/agentes. Browser real: PASS; focal/contract + bounded cumulative + Test Impact PASS; S0/S1=0; Full Regression en 11-A=`0` y el budget GSDLC-11 permanece `0/1` reservado para 11-E. Successor: `repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-11-B queda autorizado.
+
+
+### DEVPL-GSDLC-11-B — Reproducible package Windows closure
+
+- GSDLC-11-B = `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Successor: `repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Source delta `42`; Test Impact `42/212/324/0`; browser real PASS; Full Regression `0`; GSDLC-11 budget `0/1`.
+- Reproducible source package, checksum SHA-256 and SBOM baseline are available through governed typed operations; GSDLC-11-C is authorized.

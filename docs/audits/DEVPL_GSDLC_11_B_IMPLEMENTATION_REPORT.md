@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-11-B-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-11-B — Reproducibility, source package, checksum and SBOM implementation report"
-status: "implemented/local-qualified/windows-validation-pending"
+status: "closed/PASS/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-11"
-approval: "local_qualification_candidate"
+approval: "windows_validated"
 ---
 
 # 1. Objetivo
@@ -81,6 +81,19 @@ Durante la calificación local se detectó y corrigió drift determinista antes 
 **PASS Windows pendiente:** browser real + package job exact-plan PASS + artifacts/hash/SBOM/reproducibility evidence + clean Git + package final.
 
 **BLOCK:** forbidden/secret/path escape, commit/tree drift, hash mismatch, package no reproducible, SBOM inválido, role/scope bypass, publish/network, S0/S1 o Full ejecutada en 11-B.
+
+
+# 10. Windows closure
+
+- Status: `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Browser real: PASS (1 run).
+- Source delta: 42 paths.
+- Test Impact: 42/212/324/0.
+- Full Regression: 0; backlog budget remains 0/1.
+- Successor: `repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- S0/S1: 0/0.
+- GSDLC-11-C: authorized.
+
 # 10. Corrective Windows v1.0.1 — runtime-state exclusion contract
 
 La primera validación Windows v1.0.0 aplicó correctamente los 41 paths y creó un worktree limpio, pero el focal se detuvo con 69 PASS / 1 FAIL. El residual era `tests/test_package_builder.py::test_package_build_repo_zip_dry_run_lists_inclusions_and_exclusions`: exigía que `.devpilot/devpilot.db` apareciera físicamente en `excluded_files`.

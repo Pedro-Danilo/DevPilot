@@ -683,3 +683,11 @@ GSDLC-10-E y DEVPL-GSDLC-10 quedan `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECO
 ## 2026-09-11 — DEVPL-GSDLC-11-A activation/rebind + Release Readiness
 
 GSDLC-11 se activa sobre el baseline canónico repo420 (`8d37c29214a67b28d1dfd70a204a8c9596c53ae8`) y 11-A cierra `CLOSED/PASS/WINDOWS-VALIDATED`. La proyección release-readiness project-scoped compone contratos existentes de Story/Quality/Git/approvals/release policy y falla cerrado ante evidencia missing/stale/unknown; `RELEASE_READY` permanece separado de release approval. Browser real PASS; Test Impact final `43/211/322/0`; S0/S1=0; Full Regression=0. Successor `repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-11 conserva budget 0/1 para 11-E y GSDLC-11-B queda autorizado.
+
+
+### DEVPL-GSDLC-11-B — Windows closure
+
+- GSDLC-11-B = `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Successor: `repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Source delta `42`; Test Impact `42/212/324/0`; browser real PASS; Full Regression `0`; GSDLC-11 budget `0/1`.
+- Reproducible source package, checksum SHA-256 and SBOM baseline are available through governed typed operations; GSDLC-11-C is authorized.

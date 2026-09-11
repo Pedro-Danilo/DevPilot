@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-11-B-CONTRACT-RECONCILIATION-SWEEP-V1",
   "sprint": "DEVPL-GSDLC-11-B",
-  "status": "PASS/LOCAL-QUALIFICATION",
+  "status": "PASS/WINDOWS-CLOSURE",
   "checks": {
     "strict_schema_and_current_metadata": "PASS",
     "derived_summary_registry_sync": "PASS",
@@ -22,9 +22,12 @@
     "UI route source markers reconciled for client/types.",
     "Source Registry current-active pointer reconciled to DEVPL-GSDLC-11-B; repo421 remains source authority until Windows PASS.",
     "Windows v1.0.0 focal validation exposed a stale physical-runtime-state assertion: clean repo421 correctly has no .devpilot/devpilot.db. Reconciled test/TCR/Test Impact to validate policy exclusion, not artifact presence.",
-    "tests/test_package_builder.py is now an explicit watched/test path of the GSDLC-11-B successor contract; Test Impact remains 42/212/324/0 with zero unmatched paths."
+    "tests/test_package_builder.py is an explicit watched/test path of the GSDLC-11-B successor contract; Test Impact final authority is 42/212/324/0 with zero unmatched paths."
   ],
   "blocking_findings": [],
   "full_regression_runs": 0,
-  "gsdlc_11_full_budget": "0/1"
+  "gsdlc_11_full_budget": "0/1",
+  "decision": "PASS",
+  "windows_validation": "PASS",
+  "gsdlc_11_full_regression_budget": "0/1"
 }

@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-11-B-HISTORICAL-CONTRACT-SWEEP-V1",
   "sprint": "DEVPL-GSDLC-11-B",
-  "status": "PASS/LOCAL-QUALIFICATION",
+  "status": "PASS/WINDOWS-CLOSURE",
   "policy": "FRX-v2.4-A historical authority + DEVPL documentation contract reconciliation",
   "classifications": [
     {
@@ -40,5 +40,8 @@
   "deprecated_after_proof": [],
   "full_regression_runs": 0,
   "gsdlc_11_full_budget": "0/1",
+  "decision": "PASS",
+  "windows_validation": "PASS",
+  "gsdlc_11_full_regression_budget": "0/1",
   "windows_v1_0_0_incident": "RECONCILED/PHYSICAL-RUNTIME-STATE-ASSUMPTION"
 }

@@ -26,7 +26,7 @@ local_first: true
 ui_complete_normal_journey: true
 dry_run_default: true
 backlog_id: "DEVPL-GSDLC-11"
-backlog_status: "APPROVED/ACTIVE/GSDLC-11-B"
+backlog_status: "APPROVED/ACTIVE/GSDLC-11-B-CLOSED/11-C-AUTHORIZED"
 micro_sprints_total: 5
 frx_execution_profile_id: "frx-v2.4-current"
 frx_execution_profile_sha256: "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
@@ -477,3 +477,12 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
 
+
+
+## 0.0.3 GSDLC-11-B Windows closure — 2026-09-11
+
+- `GSDLC-11-B = CLOSED/PASS/WINDOWS-VALIDATED`; browser real = PASS; `Full Regression = 0`; `S0/S1 = 0`.
+- Successor Windows-validado: `repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Source delta = `42`; Test Impact = `42/212/324/0`.
+- Package job tipado demostró plan dry-run → execute, exact commit/tree binding, source ZIP reproducible, SHA-256 sidecar, SBOM baseline y reuse de evidencia PASS hash-bound.
+- GSDLC-11-C queda autorizado. El budget de Full de GSDLC-11 permanece `0/1`, reservado para 11-E salvo hard trigger owner-approved.
