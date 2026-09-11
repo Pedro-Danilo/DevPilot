@@ -325,6 +325,66 @@
               }
             }
           ]
+        },
+        "story_cycle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "next_selection_ready",
+            "next_kind",
+            "navigation_target",
+            "reason_code",
+            "read_only",
+            "server_authoritative",
+            "source_mutations_performed"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "NO_ACTIVE_STORY",
+                "STORY_ACTIVE",
+                "STORY_COMPLETE"
+              ]
+            },
+            "next_selection_ready": {
+              "type": "boolean"
+            },
+            "next_kind": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "NEXT_STORY_OR_SPRINT",
+                null
+              ]
+            },
+            "navigation_target": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reason_code": {
+              "type": "string",
+              "enum": [
+                "NO_ACTIVE_STORY",
+                "CURRENT_STORY_NOT_DONE",
+                "CURRENT_STORY_DONE"
+              ]
+            },
+            "read_only": {
+              "const": true
+            },
+            "server_authoritative": {
+              "const": true
+            },
+            "source_mutations_performed": {
+              "const": false
+            }
+          }
         }
       }
     },

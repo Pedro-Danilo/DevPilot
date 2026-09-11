@@ -33,7 +33,7 @@ r01_research_authority_sha256: "68487b2d210a0fd8fb6f2c46f2f70f205f925aeda7d556e1
 r01_binding_scope: "architecture-and-security-input; historical design origin remains unchanged"
 frx_execution_profile_id: "frx-v2.4-current"
 frx_execution_profile_sha256: "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
-backlog_status: "APPROVED/ACTIVE/GSDLC-10-E"
+backlog_status: "APPROVED/ACTIVE/GSDLC-10-E/SELECTIVE-RECOVERY"
 micro_sprints_total: 5
 validation_policy: "A-D cumulative-selective+TestImpact, no routine Full; E exactly-one-logical-Full; no rerun after functional failure; composite recovery"
 documentation_contract_policy: "DEVPL_DOCUMENTATION_CONTRACT_RECONCILIATION_POLICY_v1_0_0_APPROVED"
@@ -533,3 +533,8 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 ## 10-E corrective de continuidad de contexto project-scoped — 2026-09-10
 
 La autoridad de proyecto no depende de `sessionStorage`. Para rutas `scope=project`, si falta el contexto UX, la UI debe recuperar de forma read-only usando el único `workspace_scope` de la sesión humana autenticada y validar el mismo workspace mediante Project Status server-side. Scope ausente/ambiguo o recovery inválido debe fallar cerrado. Este corrective no sustituye Crear/Abrir/Importar para una sesión sin proyecto activo y no concede RBAC adicional.
+
+
+## 10-E post-Full selective-recovery checkpoint — 2026-09-11
+
+La aceptación browser ya es PASS y la única Full quedó consumida/inmutable en `DEVPL-GSDLC-10-E-FULL-01`: `3054 PASS / 42 FAIL / 0 ERROR / 5 SKIP / 3101 accounted`, attempts=1, second Full=false. Los FAIL son funcionales y activan exclusivamente el recovery compuesto definido por este backlog. El corrective post-Full reconcilia contratos/producto una sola vez; luego se permiten exact failed-nodeid retest, bounded impacted retest, Historical Regression Guard y deterministic post-gates. GSDLC-11 permanece no autorizado hasta cierre composite PASS.

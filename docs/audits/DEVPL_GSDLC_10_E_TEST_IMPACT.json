@@ -1,29 +1,30 @@
 {
   "schema_version": "1.0.0",
   "audit_id": "DEVPL-GSDLC-10-E-TEST-IMPACT",
-  "status": "PASS/LOCAL",
+  "status": "PASS/POST-FULL-CORRECTIVE-DRY-RUN",
   "micro_sprint": "DEVPL-GSDLC-10-E",
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "changed_paths_file": "docs/audits/DEVPL_GSDLC_10_E_CHANGED_PATHS.txt",
-  "full_regression_runs": 0,
+  "full_regression_runs": 1,
   "tests_executed": false,
   "dry_run": true,
   "summary": {
     "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
     "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
     "rules_path": ".devpilot/testing/test_impact_rules.json",
-    "changed_paths_total": 29,
+    "changed_paths_total": 39,
     "contracts_total": 331,
-    "matched_contracts_total": 183,
-    "p0_selected_total": 113,
-    "p1_selected_total": 66,
-    "heuristic_recommendations_total": 5,
-    "recommended_tests_total": 291,
-    "recommended_commands_total": 326,
+    "matched_contracts_total": 205,
+    "p0_selected_total": 126,
+    "p1_selected_total": 70,
+    "heuristic_recommendations_total": 9,
+    "recommended_tests_total": 315,
+    "recommended_commands_total": 377,
     "recommended_profiles": [
       "p0-critical",
       "docs-historical",
       "impact",
+      "release",
       "release-candidate-local"
     ],
     "unmatched_paths_total": 0,
@@ -36,14 +37,15 @@
     "preliminary": true
   },
   "full_regression_signal": null,
-  "recommended_tests_total": 291,
-  "recommended_commands_total": 326,
+  "recommended_tests_total": 315,
+  "recommended_commands_total": 377,
   "unmatched_paths": [],
   "recommended_profiles": [
     "p0-critical",
     "docs-historical",
     "impact",
+    "release",
     "release-candidate-local"
   ],
-  "verdict": "PASS — 29 changed paths, 183 matched contracts, 291 recommended tests, 0 unmatched; Full Regression remains 0/1 locally and is reserved for Windows closure."
+  "verdict": "PASS — 39 changed paths, 205 matched contracts, 315 recommended tests, 0 unmatched; the single Windows Full is already consumed and preserved; only selective/composite recovery is authorized."
 }

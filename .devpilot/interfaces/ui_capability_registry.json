@@ -11714,7 +11714,7 @@
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
     "current_active_capabilities_total": 210,
-    "current_ui_native_or_read_only_total": 16,
+    "current_ui_native_or_read_only_total": 26,
     "forbidden_capabilities_total": 5,
     "gsdlc_01_e_project_status": true,
     "gsdlc_02_b_auth_api_routes_total": 7,
@@ -11764,7 +11764,7 @@
       "PLANNED": 1,
       "POLICY-BLOCKED": 5,
       "UI-NATIVE": 15,
-      "UI-READ-ONLY": 1
+      "UI-READ-ONLY": 11
     },
     "planned_sprint_counts": {
       "CURRENT": 24,
@@ -11836,7 +11836,7 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-10-D",
+    "updated_by": "DEVPL-GSDLC-10-E/POST-FULL-CORRECTIVE",
     "gsdlc_10_c_story_quality_gate": true,
     "gsdlc_10_c_story_quality_api_routes_total": 9,
     "gsdlc_10_d_governed_git_commit": true,

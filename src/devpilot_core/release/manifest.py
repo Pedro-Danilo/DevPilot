@@ -434,5 +434,22 @@ def _safe_release_id(version: str) -> str:
 
 
 def _is_forbidden_for_manifest(path: Path, root: Path) -> bool:
-    rel = str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
-    return any(marker in rel for marker in _FORBIDDEN_RELEASE_MARKERS)
+    """Return True for release-excluded paths without following workspace links first.
+
+    The logical workspace-relative path is authoritative for exclusions such as
+    ``node_modules``.  Only after that cheap check do we resolve the path to
+    verify containment.  Junctions/symlinks escaping the workspace are treated
+    as excluded instead of raising ``ValueError`` while collecting a manifest.
+    """
+
+    try:
+        logical_rel = path.relative_to(root).as_posix()
+    except ValueError:
+        return True
+    if any(marker in logical_rel for marker in _FORBIDDEN_RELEASE_MARKERS):
+        return True
+    try:
+        path.resolve().relative_to(root.resolve())
+    except (ValueError, OSError, RuntimeError):
+        return True
+    return False

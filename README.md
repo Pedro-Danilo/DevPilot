@@ -6710,3 +6710,8 @@ GSDLC-10-E se activa sobre `repo_DevPilot_Local_419_DEVPL_GSDLC_10_D_RBAC_GOVERN
 #### GSDLC-10-E project-route continuity corrective
 
 Project-scoped UI navigation no longer depends on browser `sessionStorage` surviving a page navigation. When UX context is absent, DevPilot recovers it read-only from the authenticated human session only when exactly one workspace scope exists and server Project Status validates that same workspace; otherwise it remains fail-closed. Browser storage is still UX-only and does not grant project/RBAC authority. Full remains 0/1 before Windows browser closure.
+
+## GSDLC-10-E — post-Full selective-recovery checkpoint — 2026-09-11
+
+Browser E2E permanece `PASS`. La única logical Full de DEVPL-GSDLC-10 fue consumida `1/1` en `DEVPL-GSDLC-10-E-FULL-01` y se preserva inmutable con `3054 PASS / 42 FAIL funcionales / 0 ERROR / 5 SKIP / 3101 accounted`. No se permite otra Full. El corrective actual reconcilia ReleaseManifest/junctions, schemas current-active, punteros release/source, contadores UI, package metadata/budgets y tres contratos históricos que consultaban estado mutable. El cierre depende exclusivamente de exact-42 selective retest + bounded impact + Historical Regression Guard + deterministic post-gates; GSDLC-11 sigue no autorizado hasta ese PASS composite.
+

@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
   "audit_id": "DEVPL-GSDLC-10-E-HISTORICAL-CONTRACT-SWEEP",
-  "status": "PASS/LOCAL",
+  "status": "PASS/POST-FULL-CORRECTIVE-LOCAL",
   "micro_sprint": "DEVPL-GSDLC-10-E",
-  "updated": "2026-09-10",
-  "full_regression_runs": 0,
+  "updated": "2026-09-11",
+  "full_regression_runs": 1,
   "classifications": [
     {
       "surface": "GSDLC-10-A through 10-D Windows closure facts/evidence",
@@ -65,10 +65,25 @@
       "surface": "Project Status UI planning-closure story-cycle projection",
       "classification": "current-active/derived",
       "decision": "UI must render server-authoritative planning.story_cycle together with current_story; browser must not derive completion from local state"
+    },
+    {
+      "surface": "POST-H-009 documentation registry status test",
+      "classification": "historical-freeze/current-active-separation",
+      "decision": "POST-H-009 manifest keeps implemented-initial; live registry may be implemented-initial/windows-validated."
+    },
+    {
+      "surface": "GSDLC-09 activation current backlog assertion",
+      "classification": "historical-freeze/current-active-separation",
+      "decision": "activation report freezes 09-A intent; mutable Project State may advance to successor backlog 10."
+    },
+    {
+      "surface": "FRX-v2.3-B isolation serial_required_total",
+      "classification": "historical-freeze/current-active-separation",
+      "decision": "FRX-v2.3-B audit freezes historical zero; live registry validates its current derived SERIAL_REQUIRED partition."
     }
   ],
   "findings": [],
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS — predecessor facts frozen; Project Status UI now renders server-authoritative story cycle consistently with StoryExecution DONE; Full remains 0/1 locally."
+  "verdict": "PASS — historical close facts remain frozen in their own reports/snapshots; current-active registries/tests are successor-aware. Full 1/1 remains preserved with 42 functional FAILs pending exact selective recovery."
 }

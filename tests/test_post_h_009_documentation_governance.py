@@ -59,7 +59,8 @@ def test_post_h_009_a_registry_model_loads_expected_canonical_sources() -> None:
 
     assert registry.registry_id == "devpilot-documentation-source-registry"
     assert registry.schema_id == "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1"
-    assert registry.status == "implemented-initial"
+    # Current registry may advance through validated successors; the POST-H-009 manifest above freezes the historical fact.
+    assert registry.status in {"implemented-initial", "implemented-initial/windows-validated"}
     assert "docs/backlogs/post_h_prioritized_roadmap.md" in by_path
     assert ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json" in by_path
     assert "docs/backlogs/POST-H-009_documentation_governance.md" in by_path

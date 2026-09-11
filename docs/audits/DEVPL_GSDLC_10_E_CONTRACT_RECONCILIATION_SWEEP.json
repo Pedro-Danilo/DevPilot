@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
   "audit_id": "DEVPL-GSDLC-10-E-CONTRACT-RECONCILIATION-SWEEP",
-  "status": "PASS/LOCAL-PRE-WINDOWS",
+  "status": "PASS/POST-FULL-CORRECTIVE-LOCAL",
   "micro_sprint": "DEVPL-GSDLC-10-E",
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "checks": [
     {
       "check": "strict_schema_current_metadata",
@@ -75,10 +75,15 @@
     "local_release_candidate_criteria remained bound to GSDLC-10-D after 10-E activation",
     "FRX-v2.4 isolation registry snapshot predated 41 current GSDLC-10 A-E nodeids; all were added as SERIAL_REQUIRED rather than implicitly unclassified or falsely promoted parallel-safe",
     "Project-scoped routes depended on sessionStorage surviving navigation after explicit Project Status recovery; current routes now recover from authenticated single-workspace session scope and server Project Status, keeping browser storage UX-only.",
-    "ProjectStatusView copied current_story from server Project Status but omitted the matching story_cycle when merging planningClosure, producing a contradictory DONE/active-cycle UI projection."
+    "ProjectStatusView copied current_story from server Project Status but omitted the matching story_cycle when merging planningClosure, producing a contradictory DONE/active-cycle UI projection.",
+    "ReleaseManifest resolved Windows node_modules junction targets before applying logical release exclusions, raising ValueError outside the validation worktree; logical-path exclusion now precedes containment resolution and escaped link targets are excluded fail-safe.",
+    "Three current schemas lagged successor metadata/story_cycle: API route updated_by, documentation registry windows-validated status, and Guided SDLC planning.story_cycle.",
+    "Derived UI capability counters and package/package-lock current metadata lagged live successor state; counters/version/currentSprint are reconciled and UI current budgets are raised only to pre-existing hard ceilings.",
+    "Historical tests for POST-H-009, GSDLC-09 activation and FRX-v2.3-B were querying mutable current-active state as if it were frozen at close; historical facts remain in at-close artefacts while current tests accept validated successors.",
+    "Release-candidate expected_fields and Source Registry last registered micro-sprint lagged repo419/GSDLC-10-E current state."
   ],
-  "full_regression_runs": 0,
+  "full_regression_runs": 1,
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS/LOCAL-PRE-WINDOWS — deterministic drift including Project Status story-cycle presentation repaired before browser-review/Full; exactly one Full remains reserved for Windows closure."
+  "verdict": "PASS/POST-FULL-CORRECTIVE-LOCAL — deterministic causes behind the 42 Full FAILs are reconciled without rewriting the immutable Full; exact selective recovery remains mandatory on Windows and a second Full is forbidden."
 }

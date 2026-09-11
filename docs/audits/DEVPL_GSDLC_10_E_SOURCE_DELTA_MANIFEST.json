@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
   "manifest_id": "DEVPL-GSDLC-10-E-SOURCE-DELTA",
-  "status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "status": "WINDOWS-FULL-FAIL-PRESERVED/POST-FULL-CORRECTIVE-LOCAL-QUALIFIED/SELECTIVE-RECOVERY-PENDING",
   "micro_sprint": "DEVPL-GSDLC-10-E",
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "source": {
     "repo": "repo_DevPilot_Local_419_DEVPL_GSDLC_10_D_RBAC_GOVERNED_STAGE_COMMIT_WINDOWS_VALIDATED_CANDIDATE.zip",
     "git_commit": "e1fbc1c93eba098cf7b82272dcaa9fe9b0100149",
@@ -12,6 +12,7 @@
   },
   "changed_paths": [
     ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/interfaces/ui_capability_registry.json",
     ".devpilot/project_state.json",
     ".devpilot/release/local_release_candidate_criteria.json",
     ".devpilot/testing/test_contract_registry.json",
@@ -28,20 +29,29 @@
     "docs/audits/DEVPL_GSDLC_10_E_IMPLEMENTATION_REPORT.md",
     "docs/audits/DEVPL_GSDLC_10_E_SOURCE_DELTA_MANIFEST.json",
     "docs/audits/DEVPL_GSDLC_10_E_TEST_IMPACT.json",
+    "docs/schemas/api_route_contract_registry.schema.json",
+    "docs/schemas/documentation_source_registry.schema.json",
+    "docs/schemas/guided_sdlc_project_status.schema.json",
     "src/devpilot_core/application/guided_sdlc_service.py",
     "src/devpilot_core/application/services.py",
     "src/devpilot_core/application/story_test_plan_service.py",
+    "src/devpilot_core/release/manifest.py",
     "tests/fixtures/gsdlc10e_story_value.py",
+    "tests/test_devpl_gsdlc_09_activation_rebind.py",
     "tests/test_devpl_gsdlc_10_a_story_test_plan.py",
     "tests/test_devpl_gsdlc_10_e_browser_fixture.py",
     "tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py",
+    "tests/test_frx_v2_3_b_isolation_registry.py",
+    "tests/test_post_h_009_documentation_governance.py",
+    "ui/web/package-lock.json",
+    "ui/web/package.json",
     "ui/web/src/api/client.ts",
     "ui/web/src/components/StoryQualityGatePanel.ts",
     "ui/web/src/main.ts",
     "ui/web/src/pages/ProjectStatusView.ts",
     "ui/web/src/pages/StoryCodeWorkbenchView.ts"
   ],
-  "changed_paths_total": 29,
+  "changed_paths_total": 39,
   "architecture": {
     "story_cycle": "IN_PROGRESS -> CHANGES_READY -> VALIDATING -> COMMIT_READY -> DONE",
     "source_engine": "reuse GSDLC-09 governed SourceChangePlan engine",
@@ -52,7 +62,10 @@
     "browser_storage_authority": false,
     "agent_model_authority": false,
     "full_regression_runs_local": 0,
-    "project_route_recovery": "project-scoped routes recover read-only context from the authenticated human-session single workspace scope and server Project Status when UX sessionStorage is absent; ambiguous/no scope fails closed"
+    "project_route_recovery": "project-scoped routes recover read-only context from the authenticated human-session single workspace scope and server Project Status when UX sessionStorage is absent; ambiguous/no scope fails closed",
+    "full_regression_runs_windows": 1,
+    "original_full_result": "FAIL/3054-PASS/42-FAIL/0-ERROR/5-SKIP/3101-ACCOUNTED/PRESERVED",
+    "second_full_allowed": false
   },
   "qualification": {
     "focal_selected": "39/39 PASS effective focal; Project Status corrective targeted=2/2 (1 current-active test re-executed + 1 historical route guard rechecked)",
@@ -65,18 +78,19 @@
     "s0_open": 0,
     "s1_open": 0,
     "test_impact": {
-      "changed_paths": 29,
-      "matched_contracts": 183,
-      "recommended_tests": 291,
+      "changed_paths": 39,
+      "matched_contracts": 205,
+      "recommended_tests": 315,
       "unmatched_paths": 0,
       "full_signal": null
     },
-    "current_state_reconciliation": "PASS: Source Registry/Project State/local_release_candidate_criteria aligned to GSDLC-10-E on repo419; next=DEVPL-GSDLC-11",
-    "frx_v2_4_preflight": "PASS/LOCAL-READ-ONLY: full collection=3101 nodeids; isolation coverage complete; 16 governed shards; profile=frx-v2.4-current; budget=0/1 unreserved; tests_executed=false",
-    "project_route_recovery_historical_guards": "64/64 PASS across 03-E/04-E/05-C/10-E targeted contracts"
+    "current_state_reconciliation": "PASS/POST-FULL-CORRECTIVE: repo419 + GSDLC-10-E remain current until selective recovery/closure; local release candidate next pointer is 10-E until closure.",
+    "frx_v2_4_preflight": "PRESERVED: one logical Full already consumed in session DEVPL-GSDLC-10-E-FULL-01; 3101/3101 accounted; second Full forbidden.",
+    "project_route_recovery_historical_guards": "64/64 PASS across 03-E/04-E/05-C/10-E targeted contracts",
+    "post_full_corrective_local": "PASS: 15 pointer/schema/history tests + 11 API/Quality tests + 5 freshness/release checks + 2 ReleaseManifest tests + 2 UOC011 hardening/performance tests; no full rerun."
   },
   "windows_candidate": {
     "repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
-    "authorized_next_backlog": "DEVPL-GSDLC-11 only after Windows PASS and exactly-one Full/composite closure"
+    "authorized_next_backlog": "DEVPL-GSDLC-11 only after exact-42 selective recovery + bounded impact + Historical Regression Guard + closure PASS."
   }
 }

@@ -41,8 +41,9 @@ def test_09_activation_preserves_gsdlc08_and_requires_closed_frx_v24() -> None:
 
 def test_09_activation_current_pointers_are_rebound_and_functional_source_is_untouched() -> None:
     state = j(".devpilot/project_state.json")
-    assert state["gsdlc_current_backlog"] == "DEVPL-GSDLC-09"
-    # Activation intent is frozen in the activation report; mutable project state is expected to advance through 09-B..E.
+    # Activation intent is frozen in the report; mutable current state may advance to successor backlogs.
+    current_backlog_number = int(state["gsdlc_current_backlog"].rsplit("-", 1)[1])
+    assert current_backlog_number >= 9
     report = j("docs/audits/DEVPL_GSDLC_09_ACTIVATION_REBIND_REPORT.json")
     assert report["next_micro_sprint"] == "DEVPL-GSDLC-09-A"
     assert state["gsdlc_09_activation_functional_mutation"] is False
