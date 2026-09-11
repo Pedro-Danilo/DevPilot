@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "audit_id": "DEVPL-GSDLC-10-E-HISTORICAL-CONTRACT-SWEEP",
-  "status": "PASS/POST-FULL-CORRECTIVE-LOCAL",
+  "status": "PASS/WINDOWS-COMPOSITE-CLOSURE",
   "micro_sprint": "DEVPL-GSDLC-10-E",
   "updated": "2026-09-11",
   "full_regression_runs": 1,
@@ -85,5 +85,11 @@
   "findings": [],
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS — historical close facts remain frozen in their own reports/snapshots; current-active registries/tests are successor-aware. Full 1/1 remains preserved with 42 functional FAILs pending exact selective recovery."
+  "verdict": "PASS — historical close facts remain frozen; current-active assertions are successor-aware; immutable Full FAIL is accounted through authorized selective composite recovery with second Full=0.",
+  "composite_recovery": {
+    "exact_original_failed_nodeids": "42/42 PASS",
+    "historical_regression_guard": "PASS",
+    "logical_full_runs": 1,
+    "second_full_runs": 0
+  }
 }

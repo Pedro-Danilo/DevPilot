@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "manifest_id": "DEVPL-GSDLC-10-E-SOURCE-DELTA",
-  "status": "WINDOWS-FULL-FAIL-PRESERVED/POST-FULL-CORRECTIVE-LOCAL-QUALIFIED/SELECTIVE-RECOVERY-PENDING",
+  "status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
   "micro_sprint": "DEVPL-GSDLC-10-E",
   "updated": "2026-09-11",
   "source": {
@@ -87,10 +87,11 @@
     "current_state_reconciliation": "PASS/POST-FULL-CORRECTIVE: repo419 + GSDLC-10-E remain current until selective recovery/closure; local release candidate next pointer is 10-E until closure.",
     "frx_v2_4_preflight": "PRESERVED: one logical Full already consumed in session DEVPL-GSDLC-10-E-FULL-01; 3101/3101 accounted; second Full forbidden.",
     "project_route_recovery_historical_guards": "64/64 PASS across 03-E/04-E/05-C/10-E targeted contracts",
-    "post_full_corrective_local": "PASS: 15 pointer/schema/history tests + 11 API/Quality tests + 5 freshness/release checks + 2 ReleaseManifest tests + 2 UOC011 hardening/performance tests; no full rerun."
+    "post_full_corrective_local": "PASS: 15 pointer/schema/history tests + 11 API/Quality tests + 5 freshness/release checks + 2 ReleaseManifest tests + 2 UOC011 hardening/performance tests; no full rerun.",
+    "selective_recovery": "PASS/42-EXACT+BOUNDED-IMPACT+HISTORICAL-GUARD+POST-GATES",
+    "composite_adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
+    "full_regression_runs": 1,
+    "second_full_runs": 0
   },
-  "windows_candidate": {
-    "repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
-    "authorized_next_backlog": "DEVPL-GSDLC-11 only after exact-42 selective recovery + bounded impact + Historical Regression Guard + closure PASS."
-  }
+  "windows_candidate": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

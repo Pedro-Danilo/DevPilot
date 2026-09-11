@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "audit_id": "DEVPL-GSDLC-10-E-CONTRACT-RECONCILIATION-SWEEP",
-  "status": "PASS/POST-FULL-CORRECTIVE-LOCAL",
+  "status": "PASS/WINDOWS-COMPOSITE-CLOSURE",
   "micro_sprint": "DEVPL-GSDLC-10-E",
   "updated": "2026-09-11",
   "checks": [
@@ -85,5 +85,22 @@
   "full_regression_runs": 1,
   "s0_open": 0,
   "s1_open": 0,
-  "verdict": "PASS/POST-FULL-CORRECTIVE-LOCAL — deterministic causes behind the 42 Full FAILs are reconciled without rewriting the immutable Full; exact selective recovery remains mandatory on Windows and a second Full is forbidden."
+  "verdict": "PASS — post-Full contract/product reconciliation plus 42/42 exact selective recovery, bounded impacted retest, Historical Regression Guard and post-recovery deterministic gates. Original Full remains immutable; second Full=0.",
+  "composite_recovery": {
+    "original_full": {
+      "session_id": "DEVPL-GSDLC-10-E-FULL-01",
+      "accounted_total": 3101,
+      "pass_total": 3054,
+      "fail_total": 42,
+      "error_total": 0,
+      "skip_approved_total": 5,
+      "adjudication_sha256": "777f7c72379259e32dd784848af5226b5fb7023ca8c795dad69c59ea15e3a9aa"
+    },
+    "exact_failed_nodeids": "42/42 PASS",
+    "bounded_impacted": "PASS",
+    "historical_regression_guard": "PASS",
+    "post_recovery_gates": "PASS",
+    "logical_full_runs": 1,
+    "second_full_runs": 0
+  }
 }

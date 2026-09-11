@@ -6715,3 +6715,8 @@ Project-scoped UI navigation no longer depends on browser `sessionStorage` survi
 
 Browser E2E permanece `PASS`. La única logical Full de DEVPL-GSDLC-10 fue consumida `1/1` en `DEVPL-GSDLC-10-E-FULL-01` y se preserva inmutable con `3054 PASS / 42 FAIL funcionales / 0 ERROR / 5 SKIP / 3101 accounted`. No se permite otra Full. El corrective actual reconcilia ReleaseManifest/junctions, schemas current-active, punteros release/source, contadores UI, package metadata/budgets y tres contratos históricos que consultaban estado mutable. El cierre depende exclusivamente de exact-42 selective retest + bounded impact + Historical Regression Guard + deterministic post-gates; GSDLC-11 sigue no autorizado hasta ese PASS composite.
 
+
+
+### DEVPL-GSDLC-10-E — Windows composite closure
+
+GSDLC-10-E y DEVPL-GSDLC-10 quedan `CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. La única Full `DEVPL-GSDLC-10-E-FULL-01` permanece preservada en `3054 PASS / 42 FAIL / 0 ERROR / 5 SKIP / 3101 accounted`; no se ejecutó una segunda Full. El cierre se adjudica mediante `42/42` exact failed-nodeid PASS + bounded impacted PASS + Historical Regression Guard PASS + post-recovery gates PASS. S0/S1=0. Successor: `repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`. `DEVPL-GSDLC-11` autorizado.

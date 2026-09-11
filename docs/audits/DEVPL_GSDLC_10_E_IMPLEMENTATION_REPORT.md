@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-10-E-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-10-E — End-to-end story cycle browser closure — post-Full corrective report"
-status: "windows-full-fail-preserved/post-full-corrective-local-qualified/selective-recovery-pending"
-version: "1.0.2"
+status: "closed/PASS/windows-validated/composite-recovery"
+version: "1.0.3"
 owner: "Ordóñez"
 updated: "2026-09-11"
-approval: "pending_windows_selective_recovery"
+approval: "approved_by_windows_composite_recovery"
 ---
 # 1. Estado de continuidad
 
@@ -58,3 +58,10 @@ El bundle v1.0.7 debe: verificar la Full original 1/1 y sus hashes; retirar úni
 **PASS:** Full original intacta; corrective hash-bound; 42/42 exact PASS; bounded impact PASS; Historical Regression Guard PASS; gates post-recovery PASS; Full lógica total=1; segunda Full=0; S0/S1=0; closure/promotion/package coherentes.
 
 **BLOCK:** Full original alterada o ausente; recuentos/hashes distintos; segunda Full; junction físico borrado como si fuera link; cualquier residual FAIL/ERROR; autoridad current-state incoherente; secretos/runtime stores empaquetados.
+
+
+# 8. Cierre Windows composite — 2026-09-11
+
+El corrective v1.0.7 cerró la recuperación autorizada sin segunda Full: **42/42 nodeids originales PASS**, bounded impacted retest PASS, Historical Regression Guard PASS y deterministic post-gates PASS. La Full histórica `DEVPL-GSDLC-10-E-FULL-01` permanece inmutable en **3054 PASS / 42 FAIL / 0 ERROR / 5 SKIP / 3101 accounted** y se conserva como antecedente de la adjudicación `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`.
+
+Estado final: `GSDLC-10-E = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; `DEVPL-GSDLC-10 = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`; S0/S1=0; `DEVPL-GSDLC-11` autorizado. Successor: `repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`.
