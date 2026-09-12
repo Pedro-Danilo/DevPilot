@@ -491,3 +491,12 @@ El backlog solo puede adjudicarse `CLOSED/PASS` si todos los micro-sprints A→E
 - GSDLC-13 solo desde RC autoritativo.
 
 Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps estén clasificados S2/S3, tengan owner, evidencia y no invaliden la invariante de producto de esta ola.
+
+
+## 0.0.3 GSDLC-12-A Windows closure adjudication
+
+- `GSDLC-12-A = CLOSED/PASS/WINDOWS-VALIDATED`; browser restart/recovery acceptance = PASS/1.
+- Durable checkpoint/lock authority remains server-side metadata-only; no runtime DB snapshot or browser authority.
+- S0/S1 = 0; Full Regression in 12-A = 0; GSDLC-12 budget remains 0/1 reserved for 12-E.
+- Successor: `repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- `GSDLC-12-B` is authorized after this Windows PASS.

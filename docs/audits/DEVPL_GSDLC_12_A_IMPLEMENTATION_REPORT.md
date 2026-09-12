@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-12-A-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-12-A — Persistent resumability, crash/restart recovery and locks"
-status: "implemented-local-qualified/windows-validation-pending"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-12"
-approval: "pending_windows_validation"
+approval: "windows_validated"
 ---
 
 # 1. Source authority and activation
@@ -38,3 +38,7 @@ The corrective adds a strict, session-scope-bound `restoreProjectJourneyContextF
 # 5. Preliminary limitations
 
 This is the first local industrial recovery version. Locks are local-filesystem scoped, not distributed. Branch/external edit conflict UX belongs to GSDLC-12-B. Accessibility/mode parity and red-team/performance hardening remain in 12-C/12-D. Full browser matrix and the only GSDLC-12 Full belong to 12-E.
+
+# 6. Windows closure
+
+Windows validation closed PASS after one real-browser restart/recovery journey completed across a new human session. The durable checkpoint was used as a strict server-side project-context recovery fallback after the initial v1.0.0 guard defect was corrected; browser storage remained UX-only and no Project Entry replay was required. Focal/cumulative corrective qualification, HCA/Contract Reconciliation, S0/S1=0 and Full Regression=0 are preserved. The clean tracked successor is `repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-12-B is authorized.
