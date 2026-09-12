@@ -34,17 +34,19 @@ def test_ui_contract_is_typed_plan_bound_local_only_and_no_shell():
     assert 'SBOM' in page and 'Local-only' in page
 
 
-def test_11a_is_frozen_at_close_and_11b_is_current_active():
+def test_11a_and_11b_close_facts_are_frozen_while_current_pointer_can_advance():
     state=load('.devpilot/project_state.json')
     assert state['gsdlc_11_a_status_at_close']=='CLOSED/PASS/WINDOWS-VALIDATED'
     assert state['gsdlc_11_a_successor_repo_at_close']=='repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip'
     assert state['gsdlc_11_a_successor_commit_at_close']=='01c28e73994b74699802dcbac9bb06d686841b89'
-    assert state['current_repo']=='repo_DevPilot_Local_421_DEVPL_GSDLC_11_A_RELEASE_READINESS_WINDOWS_VALIDATED_CANDIDATE.zip'
-    assert state['current_micro_sprint']=='DEVPL-GSDLC-11-B'
+    assert state['gsdlc_11_b_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
+    assert state['gsdlc_11_b_successor_repo']=='repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip'
     assert state['gsdlc_11_b_full_regression_runs']==0
     assert state['gsdlc_11_full_regression_budget_consumed']==0
     assert state['gsdlc_11_full_regression_budget_total']==1
-    assert state['gsdlc_11_c_authorized'] is False
+    assert state['gsdlc_11_c_authorized'] is True
+    assert str(state['current_repo']).startswith('repo_DevPilot_Local_42')
+    assert str(state['current_micro_sprint']).startswith('DEVPL-GSDLC-11-')
 
 
 def test_new_schemas_and_test_contract_are_registered():

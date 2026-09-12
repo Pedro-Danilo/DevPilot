@@ -11661,7 +11661,8 @@
     "DEVPL-GSDLC-02-B adds seven local auth/session API routes; no new UI route is introduced in this micro-sprint.",
     "GSDLC-07-C ArtifactAIPanel is current-active under ui.workspace-documents.",
     "UOC-007/UOC-011 closed historically with 193 capabilities; successor current-active registries may grow and must remain coverage-exact without rewriting those closure manifests.",
-    "GSDLC-09-B adds a bounded source tree and runtime-only SourceDraftBuffer UI surface; the CLI catalog remains unchanged and source apply stays unavailable."
+    "GSDLC-09-B adds a bounded source tree and runtime-only SourceDraftBuffer UI surface; the CLI catalog remains unchanged and source apply stays unavailable.",
+    "GSDLC-11-C composes existing install/backup/upgrade/rollback machinery behind a typed sandbox-only lifecycle workbench."
   ],
   "registry_id": "devpilot-ui-capability-registry",
   "safety": {
@@ -11836,7 +11837,7 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-11-B",
+    "updated_by": "DEVPL-GSDLC-11-C",
     "gsdlc_10_c_story_quality_gate": true,
     "gsdlc_10_c_story_quality_api_routes_total": 9,
     "gsdlc_10_d_governed_git_commit": true,
@@ -11845,7 +11846,10 @@
     "gsdlc_11_a_release_readiness_api_routes_total": 1,
     "gsdlc_11_b_release_package_view": true,
     "gsdlc_11_b_release_package_api_routes_total": 3,
-    "gsdlc_11_b_full_regression_allowed": false
+    "gsdlc_11_b_full_regression_allowed": false,
+    "gsdlc_11_c_release_lifecycle_view": true,
+    "gsdlc_11_c_release_lifecycle_api_routes_total": 7,
+    "gsdlc_11_c_full_regression_allowed": false
   },
   "ui_routes": [
     {
@@ -12269,6 +12273,46 @@
         "executing": true
       },
       "title": "Release package"
+    },
+    {
+      "allowed_api_route_ids": [
+        "api.release.lifecycle.status",
+        "api.release.lifecycle.install.plan",
+        "api.release.lifecycle.install.execute",
+        "api.release.lifecycle.upgrade.plan",
+        "api.release.lifecycle.upgrade.execute",
+        "api.release.lifecycle.rollback.plan",
+        "api.release.lifecycle.rollback.execute"
+      ],
+      "connector_write_allowed": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "mapped_cli_capability_ids": [
+        "cli.install.plan",
+        "cli.install.windows-smoke",
+        "cli.backup.create",
+        "cli.backup.restore",
+        "cli.upgrade.check",
+        "cli.release.upgrade-rollback-dry-run"
+      ],
+      "page_component": "ReleaseLifecycleView",
+      "path": "/release/lifecycle",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.release-lifecycle",
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "block_visible": true,
+        "empty": true,
+        "error": true,
+        "loading": true,
+        "pass": true,
+        "planned": true,
+        "executing": true,
+        "rollback_required": true,
+        "rollback_verified": true
+      },
+      "title": "Install / rollback"
     },
     {
       "allowed_api_route_ids": [

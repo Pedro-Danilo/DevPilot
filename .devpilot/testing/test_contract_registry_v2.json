@@ -24008,9 +24008,102 @@
       ],
       "source_contract_id": "gsdlc11b-release-package-reproducibility",
       "subgate_id": "gsdlc-11-b-release-package"
+    },
+    {
+      "contract_id": "gsdlc11c-release-lifecycle",
+      "schema_version": "2.0",
+      "domain": "release",
+      "capability": "GSDLC11CReleaseLifecycle",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "release",
+      "cost_class": "medium",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle.py",
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_post_h_027_windows_install_smoke.py",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/release_lifecycle_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        "docs/schemas/gsdlc11c_install_smoke_report.schema.json",
+        "docs/schemas/gsdlc11c_upgrade_rollback_report.schema.json",
+        "ui/web/src/pages/ReleaseLifecycleView.ts",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ],
+      "validates": [
+        "clean install positive/negative and checksum/version binding",
+        "backup-before-upgrade gate",
+        "fault-injected rollback with exact restore proof",
+        "interruption/retry evidence reuse",
+        "unauthorized role negative",
+        "browser project-scoped lifecycle UI",
+        "Full Regression remains 0 in GSDLC-11-C; backlog budget remains 0/1"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": true,
+      "source_mutations_allowed": false,
+      "requires_human_approval": true,
+      "owner": "DEVPL-GSDLC-11-C",
+      "owner_domain": "release",
+      "service_boundary": "application",
+      "impact_scope": [
+        "install",
+        "upgrade",
+        "rollback",
+        "backup",
+        "project-scope",
+        "rbac",
+        "product.ui"
+      ],
+      "trigger_hints": [
+        "gsdlc-11-c",
+        "release-lifecycle",
+        "install",
+        "upgrade",
+        "rollback"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_027_windows_install_smoke.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Current-active GSDLC-11-C composes existing install/backup/upgrade/rollback machinery; no second lifecycle stack.",
+        "Mutations are sandbox-only under outputs/release/gsdlc11c; source/Git/production data are immutable.",
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-C.",
+        "TCR v2 mutation safety is explicitly owner-approved for the disposable sandbox test surface; product execute remains server-RBAC and exact-plan bound."
+      ],
+      "source_contract_id": "gsdlc11c-release-lifecycle",
+      "subgate_id": "gsdlc-11-c-release-lifecycle",
+      "safety_exception": {
+        "justification": "Owner-approved GSDLC-11-C tests mutate only a disposable controlled local sandbox to verify backup and rollback.",
+        "approved_by": "Ordóñez",
+        "expires_at_utc": "2026-12-31T23:59:59Z",
+        "scope": "outputs/release/gsdlc11c controlled sandbox only; no source/Git/production mutation"
+      }
     }
   ],
-  "contracts_total": 332,
+  "contracts_total": 334,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
@@ -24082,7 +24175,8 @@
     "DEVPL-GSDLC-05-D adds explicit P0 StepActionAdvisor contract with server RBAC/API/UI parity and AGENT/RAG no-go enforcement.",
     "FRX-v2.2-A registers P0 incremental documentation consistency; it does not authorize a full regression outside FRX-v2.2-D.",
     "DEVPL-GSDLC-10-B adds explicit P0 typed StoryValidationJob lifecycle/log/cancel/retry/orphan coverage without Full Regression.",
-    "GSDLC-10-E adds successor contract gsdlc10e-browser-story-cycle; historical contracts remain unchanged."
+    "GSDLC-10-E adds successor contract gsdlc10e-browser-story-cycle; historical contracts remain unchanged.",
+    "DEVPL-GSDLC-11-C adds typed sandbox lifecycle impact coverage; Full Regression remains false."
   ],
   "profiles": [
     {

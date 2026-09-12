@@ -5,7 +5,7 @@
   "created_by": "POST-H-029-B",
   "status": "implemented-initial",
   "version": "1.1.0",
-  "updated": "2026-09-10",
+  "updated": "2026-09-11",
   "rules": [
     {
       "rule_id": "policy-security",
@@ -887,6 +887,67 @@
         "source_mutations_allowed": false,
         "tests_executed_from_rule": false
       }
+    },
+    {
+      "rule_id": "gsdlc11c-release-lifecycle",
+      "title": "GSDLC-11-C controlled install/upgrade/rollback",
+      "description": "Current-active impact rule for package-bound clean install, backup-before-upgrade, controlled fault injection and exact rollback restoration.",
+      "owner": "DEVPL-GSDLC-11-C",
+      "path_patterns": [
+        "src/devpilot_core/application/release_lifecycle_service.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        "docs/schemas/gsdlc11c_",
+        "ui/web/src/pages/ReleaseLifecycleView.ts",
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle",
+        "03_PROMPT_DEVPL_GSDLC_11_C_",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_",
+        "docs/audits/DEVPL_GSDLC_11_C_",
+        "docs/audits/devpl_gsdlc_11_c_",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts"
+      ],
+      "domains": [
+        "release",
+        "lifecycle.local",
+        "product.ui"
+      ],
+      "profiles": [
+        "impact",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "high",
+        "medium"
+      ],
+      "recommended_tests": [
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle.py",
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_post_h_027_windows_install_smoke.py",
+        "tests/test_backup_upgrade.py",
+        "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_027_windows_install_smoke.py tests/test_backup_upgrade.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
     }
   ],
   "unmatched_path_policy": {
@@ -924,6 +985,7 @@
     "Heuristic fallback may remain until POST-H-029-C/D/E complete the recommendation and regression guard layers.",
     "POST-H-034-CLOSURE follow-up maps GitAdapter and multiagent repository inspection into operations.workspace impact coverage.",
     "DEVPL-GSDLC-10-E adds a deterministic browser-fixture impact rule; it recommends one typed test and never authorizes Full Regression.",
-    "DEVPL-GSDLC-11-B adds typed release-package impact coverage; A-D policy explicitly keeps Full Regression false."
+    "DEVPL-GSDLC-11-B adds typed release-package impact coverage; A-D policy explicitly keeps Full Regression false.",
+    "DEVPL-GSDLC-11-C adds controlled lifecycle impact coverage; A-D policy explicitly keeps Full Regression false."
   ]
 }

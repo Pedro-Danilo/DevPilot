@@ -50,6 +50,7 @@ from .story_quality_gate import StoryQualityGateApplicationService
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .release_readiness_service import ReleaseReadinessApplicationService
 from .release_package_service import ReleasePackageJobApplicationService
+from .release_lifecycle_service import ReleaseLifecycleApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationsApplicationService
@@ -126,6 +127,7 @@ class ApplicationService:
         self._story_quality_gate: StoryQualityGateApplicationService | None = None
         self._release_readiness: ReleaseReadinessApplicationService | None = None
         self._release_package: ReleasePackageJobApplicationService | None = None
+        self._release_lifecycle: ReleaseLifecycleApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -255,6 +257,13 @@ class ApplicationService:
         if self._release_package is None:
             self._release_package = ReleasePackageJobApplicationService(self.root, context_resolver=self.ui_workspace_context)
         return self._release_package
+
+    @property
+    def release_lifecycle(self) -> ReleaseLifecycleApplicationService:
+        """Lazily construct the GSDLC-11-C controlled install/upgrade/rollback workbench."""
+        if self._release_lifecycle is None:
+            self._release_lifecycle = ReleaseLifecycleApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        return self._release_lifecycle
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:
@@ -1597,6 +1606,27 @@ class ApplicationService:
     def release_package_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str) -> CommandResult:
         return self.release_package.execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash)
 
+    def release_lifecycle_status(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_lifecycle.status(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_lifecycle_install_plan(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_lifecycle.install_plan(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_lifecycle_install_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str) -> CommandResult:
+        return self.release_lifecycle.install_execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash)
+
+    def release_lifecycle_upgrade_plan(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_lifecycle.upgrade_plan(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_lifecycle_upgrade_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str) -> CommandResult:
+        return self.release_lifecycle.upgrade_execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash)
+
+    def release_lifecycle_rollback_plan(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_lifecycle.rollback_plan(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_lifecycle_rollback_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str) -> CommandResult:
+        return self.release_lifecycle.rollback_execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash)
+
     def _story_commit_ready_quality_context(self, *, story_execution_id: str) -> CommandResult:
         command = "story git context recover"
         candidates = []
@@ -2315,6 +2345,13 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "release.package.status": lambda payload: service.release_package_status(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "release.package.plan": lambda payload: service.release_package_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "release.package.execute": lambda payload: service.release_package_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
+        "release.lifecycle.status": lambda payload: service.release_lifecycle_status(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.lifecycle.install.plan": lambda payload: service.release_lifecycle_install_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.lifecycle.install.execute": lambda payload: service.release_lifecycle_install_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
+        "release.lifecycle.upgrade.plan": lambda payload: service.release_lifecycle_upgrade_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.lifecycle.upgrade.execute": lambda payload: service.release_lifecycle_upgrade_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
+        "release.lifecycle.rollback.plan": lambda payload: service.release_lifecycle_rollback_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.lifecycle.rollback.execute": lambda payload: service.release_lifecycle_rollback_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
         "planning.closure.status": lambda payload: service.planning_closure_status(effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
@@ -2442,6 +2479,13 @@ def _capabilities() -> list[ServiceCapability]:
         ("release.package.status", "Read GSDLC-11-B local release package job state and commit/SBOM/checksum references.", "none", True, "GET /api/v1/release/package; human-session project-scoped read."),
         ("release.package.plan", "Create commit/tree-bound dry-run plan for the existing local packaging stack.", "runtime_plan_only", False, "POST /api/v1/release/package/plan; owner/release-manager; no source mutation."),
         ("release.package.execute", "Execute the typed local package job using existing PackageBuild/ReleaseManifest/SBOM/reproducibility machinery.", "runtime_release_artifacts_only", False, "POST /api/v1/release/package/execute; exact plan binding; no publish/network."),
+        ("release.lifecycle.status", "Read GSDLC-11-C controlled install/upgrade/rollback evidence.", "none", True, "GET /api/v1/release/lifecycle; human-session project-scoped read."),
+        ("release.lifecycle.install.plan", "Create package/commit-bound controlled clean-install dry-run plan.", "runtime_plan_only", False, "POST /api/v1/release/lifecycle/install/plan; owner/release-manager."),
+        ("release.lifecycle.install.execute", "Extract and capability-check the 11-B source package inside the controlled local sandbox.", "runtime_release_sandbox_only", False, "POST /api/v1/release/lifecycle/install/execute; exact plan; no package manager/network."),
+        ("release.lifecycle.upgrade.plan", "Create controlled upgrade/fault plan with mandatory verified backup before mutation.", "runtime_plan_only", False, "POST /api/v1/release/lifecycle/upgrade/plan; sandbox only."),
+        ("release.lifecycle.upgrade.execute", "Create/verify backup then inject bounded sandbox-only upgrade fault for rollback verification.", "runtime_release_sandbox_only", False, "POST /api/v1/release/lifecycle/upgrade/execute; no production data."),
+        ("release.lifecycle.rollback.plan", "Create rollback dry-run plan bound to backup hash and pre-upgrade tree hash.", "runtime_plan_only", False, "POST /api/v1/release/lifecycle/rollback/plan."),
+        ("release.lifecycle.rollback.execute", "Restore controlled target from verified backup and prove exact hash/capability parity.", "runtime_release_sandbox_only", False, "POST /api/v1/release/lifecycle/rollback/execute; exact plan; sandbox only."),
         ("planning.closure.status", "Project planning journey projection PRE_CODE_READY → PLANNING → IMPLEMENTING_READY with requirement→milestone→epic→story→sprint trace graph.", "none", True, "GSDLC-08-E project-scoped runtime-only closure projection; no source/code execution."),
         ("guided_sdlc.reconcile.preview", "Inspect registered workspace filesystem/Git drift and project its REVALIDATION_REQUIRED successor without persisting state.", "none", True, "Bounded read-only filesystem/Git observation; no HTTP route in GSDLC-01-D"),
         ("guided_sdlc.reconcile.execute", "Persist only the reconciled WorkspaceEngineeringState through the atomic local state repository after bounded read-only drift inspection.", "engineering_state_only", False, "No managed workspace source or Git mutation; explicit internal execution only; HTTP/UI deferred"),
@@ -2595,6 +2639,13 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-11-B-RELEASE-PACKAGE-STATUS", "GET", "/api/v1/release/package", "release.package.status", ["GSDLC-11-B authenticated project-scoped package status; source authority remains server/Git-bound."]),
         ("APP-ROUTE-GSDLC-11-B-RELEASE-PACKAGE-PLAN", "POST", "/api/v1/release/package/plan", "release.package.plan", ["GSDLC-11-B owner/release-manager typed dry-run plan; no arbitrary shell/source mutation."]),
         ("APP-ROUTE-GSDLC-11-B-RELEASE-PACKAGE-EXECUTE", "POST", "/api/v1/release/package/execute", "release.package.execute", ["GSDLC-11-B exact-plan local package execution; no publish/network; runtime artifacts only."]),
+        ("APP-ROUTE-GSDLC-11-C-LIFECYCLE-STATUS", "GET", "/api/v1/release/lifecycle", "release.lifecycle.status", ["GSDLC-11-C controlled install/upgrade/rollback status."]),
+        ("APP-ROUTE-GSDLC-11-C-INSTALL-PLAN", "POST", "/api/v1/release/lifecycle/install/plan", "release.lifecycle.install.plan", ["GSDLC-11-C package-bound clean-install dry-run plan."]),
+        ("APP-ROUTE-GSDLC-11-C-INSTALL-EXECUTE", "POST", "/api/v1/release/lifecycle/install/execute", "release.lifecycle.install.execute", ["GSDLC-11-C controlled sandbox install smoke; no package manager/network."]),
+        ("APP-ROUTE-GSDLC-11-C-UPGRADE-PLAN", "POST", "/api/v1/release/lifecycle/upgrade/plan", "release.lifecycle.upgrade.plan", ["GSDLC-11-C upgrade plan with mandatory backup-before-mutation."]),
+        ("APP-ROUTE-GSDLC-11-C-UPGRADE-EXECUTE", "POST", "/api/v1/release/lifecycle/upgrade/execute", "release.lifecycle.upgrade.execute", ["GSDLC-11-C sandbox-only fault injection after verified backup."]),
+        ("APP-ROUTE-GSDLC-11-C-ROLLBACK-PLAN", "POST", "/api/v1/release/lifecycle/rollback/plan", "release.lifecycle.rollback.plan", ["GSDLC-11-C rollback dry-run bound to backup/tree hash."]),
+        ("APP-ROUTE-GSDLC-11-C-ROLLBACK-EXECUTE", "POST", "/api/v1/release/lifecycle/rollback/execute", "release.lifecycle.rollback.execute", ["GSDLC-11-C restore verification by exact tree hash/capability; sandbox only."]),
         ("APP-ROUTE-GSDLC-08-E-CLOSURE", "GET", "/api/v1/planning/closure", "planning.closure.status", ["GSDLC-08-E read-only journey + traceability projection to IMPLEMENTING_READY."]),
         ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
         ("APP-ROUTE-GSDLC-09-B-STATUS", "GET", "/api/v1/story/code/status", "story.code.status", ["GSDLC-09-B project-scoped Code Workbench status; source apply remains absent until 09-C."]),

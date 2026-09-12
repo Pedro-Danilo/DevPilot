@@ -8442,6 +8442,199 @@
           }
         }
       }
+    },
+    "/api/v1/release/lifecycle": {
+      "get": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Status",
+        "operationId": "release_lifecycle_status_api_v1_release_lifecycle_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/lifecycle/install/plan": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Install Plan",
+        "operationId": "release_lifecycle_install_plan_api_v1_release_lifecycle_install_plan_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/lifecycle/install/execute": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Install Execute",
+        "operationId": "release_lifecycle_install_execute_api_v1_release_lifecycle_install_execute_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleaseLifecycleExecuteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/lifecycle/upgrade/plan": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Upgrade Plan",
+        "operationId": "release_lifecycle_upgrade_plan_api_v1_release_lifecycle_upgrade_plan_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/lifecycle/upgrade/execute": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Upgrade Execute",
+        "operationId": "release_lifecycle_upgrade_execute_api_v1_release_lifecycle_upgrade_execute_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleaseLifecycleExecuteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/lifecycle/rollback/plan": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Rollback Plan",
+        "operationId": "release_lifecycle_rollback_plan_api_v1_release_lifecycle_rollback_plan_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/lifecycle/rollback/execute": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Lifecycle Rollback Execute",
+        "operationId": "release_lifecycle_rollback_execute_api_v1_release_lifecycle_rollback_execute_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleaseLifecycleExecuteBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11091,6 +11284,28 @@
           "plan_hash"
         ],
         "title": "ReleasePackageExecuteBody"
+      },
+      "ReleaseLifecycleExecuteBody": {
+        "properties": {
+          "plan_id": {
+            "type": "string",
+            "maxLength": 180,
+            "minLength": 1,
+            "title": "Plan Id"
+          },
+          "plan_hash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "title": "Plan Hash"
+          }
+        },
+        "type": "object",
+        "required": [
+          "plan_id",
+          "plan_hash"
+        ],
+        "title": "ReleaseLifecycleExecuteBody"
       }
     }
   },
@@ -11289,5 +11504,19 @@
     "scope": "project-scoped/read-only/fail-closed",
     "release_ready_is_release_approval": false,
     "full_regression_runs": 0
+  },
+  "x-devpilot-gsdlc-11-c": {
+    "status": "implemented-initial/local-qualified-pending-windows",
+    "routes": [
+      "/api/v1/release/lifecycle",
+      "/api/v1/release/lifecycle/install/execute",
+      "/api/v1/release/lifecycle/install/plan",
+      "/api/v1/release/lifecycle/rollback/execute",
+      "/api/v1/release/lifecycle/rollback/plan",
+      "/api/v1/release/lifecycle/upgrade/execute",
+      "/api/v1/release/lifecycle/upgrade/plan"
+    ],
+    "full_regression_runs": 0,
+    "scope": "controlled-local-install-upgrade-rollback-sandbox"
   }
 }

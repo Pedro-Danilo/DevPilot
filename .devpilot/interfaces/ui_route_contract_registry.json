@@ -15,7 +15,8 @@
     "GSDLC-03-E UX-003: Project Entry Approval handoff is exact-approval-id targeted and does not require the global approval list/portfolio to succeed.",
     "GSDLC-09-B adds /story/code as the dedicated project-scoped Code Workbench; drafts are runtime-only and source writes remain disabled until 09-C.",
     "DEVPL-GSDLC-09-D extends the current-active /story/code route with proposal-only agent-assist API bindings; original registry authority remains POST-H-014-C.",
-    "GSDLC-11-B adds /release/package with typed dry-run plan and exact-plan local package execution; no source/publish authority."
+    "GSDLC-11-B adds /release/package with typed dry-run plan and exact-plan local package execution; no source/publish authority.",
+    "GSDLC-11-C adds /release/lifecycle for sandbox-only install/upgrade/rollback with exact restore proof."
   ],
   "registry_id": "devpilot-ui-route-contract-registry",
   "routes": [
@@ -738,6 +739,71 @@
         "PENDING"
       ],
       "title": "Release package"
+    },
+    {
+      "allowed_api_routes": [
+        "api.release.lifecycle.status",
+        "api.release.lifecycle.install.plan",
+        "api.release.lifecycle.install.execute",
+        "api.release.lifecycle.upgrade.plan",
+        "api.release.lifecycle.upgrade.execute",
+        "api.release.lifecycle.rollback.plan",
+        "api.release.lifecycle.rollback.execute"
+      ],
+      "connector_write_allowed": false,
+      "critical": true,
+      "dry_run_badge_required": true,
+      "external_api_allowed": false,
+      "local_first_badge_required": true,
+      "local_only": true,
+      "mutation_controls": {
+        "approval_required": false,
+        "destructive_action_allowed": false,
+        "justification": "11-C mutations are restricted to a disposable local sandbox; owner/release-manager server RBAC plus exact-plan/hash binding is the applicable authority.",
+        "local_state_mutation_only": true,
+        "plan_only": false,
+        "typed_plan_required": true,
+        "source_write_enabled": false,
+        "publish_enabled": false
+      },
+      "no_remote_badge_required": true,
+      "notes": [
+        "GSDLC-11-C exposes clean install, backup-before-upgrade, controlled fault injection and rollback verification.",
+        "Rollback PASS requires exact restored tree hash and minimal capability verification.",
+        "First version is sandbox-only; non-sandbox/production lifecycle remains out of scope."
+      ],
+      "owner": "ui.web",
+      "page_component": "ReleaseLifecycleView",
+      "path": "/release/lifecycle",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.release-lifecycle",
+      "shows_mutation_controls": true,
+      "source_files": [
+        "ui/web/src/pages/ReleaseLifecycleView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts"
+      ],
+      "state_contract": {
+        "block_visible": true,
+        "empty": true,
+        "error": true,
+        "loading": true,
+        "pass": true,
+        "planned": true,
+        "executing": true,
+        "rollback_required": true,
+        "rollback_verified": true,
+        "unauthorized": true,
+        "forbidden": true
+      },
+      "status_visibility": [
+        "PASS",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "title": "Install / rollback"
     },
     {
       "allowed_api_routes": [
@@ -1470,19 +1536,21 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-11-B",
+    "updated_by": "DEVPL-GSDLC-11-C",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
     "workspace_validation_api_routes_total": 4,
     "gsdlc_10_c_story_quality_gate": true,
     "gsdlc_10_c_story_quality_api_routes_total": 9,
-    "last_updated_by": "DEVPL-GSDLC-11-B",
+    "last_updated_by": "DEVPL-GSDLC-11-C",
     "gsdlc_11_a_release_readiness_view": true,
     "gsdlc_11_a_release_readiness_api_routes_total": 1,
     "gsdlc_11_b_release_package_view": true,
     "gsdlc_11_b_release_package_api_routes_total": 3,
-    "gsdlc_11_b_source_write_enabled": false
+    "gsdlc_11_b_source_write_enabled": false,
+    "gsdlc_11_c_release_lifecycle_view": true,
+    "gsdlc_11_c_release_lifecycle_api_routes_total": 7
   },
   "updated": "2026-09-11"
 }

@@ -1,0 +1,14 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://devpilot.local/schemas/gsdlc11c_upgrade_rollback_report.schema.json",
+  "title":"GSDLC-11-C Upgrade Rollback Report",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","status","generated_at_utc","upgrade","rollback","restore_verified","backup_required_before_mutation","production_data_touched","safety","limitations"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},"status":{"enum":["ROLLBACK_REQUIRED","PASS"]},"generated_at_utc":{"type":"string"},
+    "upgrade":{"type":["object","null"]},"rollback":{"type":["object","null"]},"restore_verified":{"type":"boolean"},
+    "backup_required_before_mutation":{"const":true},"production_data_touched":{"const":false},"safety":{"type":"object"},
+    "limitations":{"type":"array","items":{"type":"string"}}
+  }
+}

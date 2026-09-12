@@ -1,4 +1,5 @@
 // Contract marker: ui.release-package — GSDLC-11-B typed local release package UI/API boundary.
+// Contract marker: ui.release-lifecycle — GSDLC-11-C typed local install/upgrade/rollback UI/API boundary.
 // UI route contract: ui.release-readiness
 // UI route contract markers: ui.quality; ui.story-code-workbench
 export type FindingSeverity = 'info' | 'warning' | 'block' | 'error' | string;
@@ -1447,4 +1448,19 @@ export interface ReleasePackageResult {
   safety: Record<string, boolean>;
   limitations: string[];
   artifacts?: Record<string, string>;
+}
+
+export interface ReleaseLifecyclePlan {
+  plan_id: string;
+  plan_hash: string;
+  operation: string;
+  source_authority: { commit: string; tree: string; branch: string; dirty_tracked: boolean };
+  target: string;
+  dry_run: boolean;
+  [key: string]: unknown;
+}
+
+export interface ReleaseLifecycleStatus {
+  state: 'NOT_STARTED' | 'INSTALLED' | 'ROLLBACK_REQUIRED' | 'ROLLBACK_VERIFIED' | string;
+  lifecycle: Record<string, unknown>;
 }

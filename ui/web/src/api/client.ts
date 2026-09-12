@@ -1,4 +1,5 @@
 // Contract marker: ui.release-package — GSDLC-11-B typed local release package UI/API boundary.
+// Contract marker: ui.release-lifecycle — GSDLC-11-C typed local install/upgrade/rollback UI/API boundary.
 // UI route contract: ui.release-readiness
 // UI route contract markers: ui.quality; ui.story-code-workbench
 import type { AgentRuntimeSettingsData, AgentExecutionSettingsData, RagContextSettingsData, AuthBootstrapStatus, AuthSessionContext, AuthSessionEnvelope, AuthSessionStatus, DevPilotApplicationResponse, GuidedSdlcProjectStatusResponseData, GuidedSdlcStepActionsResponseData, ModelGatewayEvaluationPayload, ModelGatewaySettingsData, OperatorDashboardResponseData } from './types';
@@ -590,6 +591,34 @@ export class DevPilotApiClient {
 
   async releasePackageExecute(planId: string, planHash: string): Promise<DevPilotApplicationResponse<{ release_package: import('./types').ReleasePackageResult; reused: boolean }>> {
     return this.post('/release/package/execute', { plan_id: planId, plan_hash: planHash }, { timeoutMs: 300000 }) as Promise<DevPilotApplicationResponse<{ release_package: import('./types').ReleasePackageResult; reused: boolean }>>;
+  }
+
+  async releaseLifecycleStatus(): Promise<DevPilotApplicationResponse<import('./types').ReleaseLifecycleStatus>> {
+    return this.get('/release/lifecycle', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<import('./types').ReleaseLifecycleStatus>>;
+  }
+
+  async releaseLifecycleInstallPlan(): Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleaseLifecyclePlan }>> {
+    return this.post('/release/lifecycle/install/plan', {}, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleaseLifecyclePlan }>>;
+  }
+
+  async releaseLifecycleInstallExecute(planId: string, planHash: string): Promise<DevPilotApplicationResponse<{ install: Record<string, unknown>; reused: boolean }>> {
+    return this.post('/release/lifecycle/install/execute', { plan_id: planId, plan_hash: planHash }, { timeoutMs: 300000 }) as Promise<DevPilotApplicationResponse<{ install: Record<string, unknown>; reused: boolean }>>;
+  }
+
+  async releaseLifecycleUpgradePlan(): Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleaseLifecyclePlan }>> {
+    return this.post('/release/lifecycle/upgrade/plan', {}, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleaseLifecyclePlan }>>;
+  }
+
+  async releaseLifecycleUpgradeExecute(planId: string, planHash: string): Promise<DevPilotApplicationResponse<{ upgrade: Record<string, unknown>; reused: boolean }>> {
+    return this.post('/release/lifecycle/upgrade/execute', { plan_id: planId, plan_hash: planHash }, { timeoutMs: 300000 }) as Promise<DevPilotApplicationResponse<{ upgrade: Record<string, unknown>; reused: boolean }>>;
+  }
+
+  async releaseLifecycleRollbackPlan(): Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleaseLifecyclePlan }>> {
+    return this.post('/release/lifecycle/rollback/plan', {}, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ plan: import('./types').ReleaseLifecyclePlan }>>;
+  }
+
+  async releaseLifecycleRollbackExecute(planId: string, planHash: string): Promise<DevPilotApplicationResponse<{ rollback: Record<string, unknown>; reused: boolean }>> {
+    return this.post('/release/lifecycle/rollback/execute', { plan_id: planId, plan_hash: planHash }, { timeoutMs: 300000 }) as Promise<DevPilotApplicationResponse<{ rollback: Record<string, unknown>; reused: boolean }>>;
   }
 
   async qualityOperations(): Promise<DevPilotApplicationResponse> {

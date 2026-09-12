@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://devpilot.local/schemas/gsdlc11c_install_smoke_report.schema.json",
+  "title":"GSDLC-11-C Install Smoke Report",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","status","generated_at_utc","source_authority","plan_id","plan_hash","package","release_version","target","installed_tree_sha256","checks","safety","limitations"],
+  "properties":{
+    "schema_version":{"const":"1.0.0"},"status":{"const":"PASS"},"generated_at_utc":{"type":"string"},
+    "source_authority":{"type":"object"},"plan_id":{"type":"string","minLength":1},"plan_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "package":{"type":"object"},"release_version":{"type":"string","minLength":1},"target":{"type":"string","minLength":1},
+    "installed_tree_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"checks":{"type":"object"},"safety":{"type":"object"},
+    "limitations":{"type":"array","items":{"type":"string"}}
+  }
+}

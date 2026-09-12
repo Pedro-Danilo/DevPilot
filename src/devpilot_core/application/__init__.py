@@ -72,6 +72,7 @@ from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationS
 from .workspace_git_operations_service import WorkspaceGitOperationsApplicationService
 from .release_readiness_service import ReleaseReadinessApplicationService
 from .release_package_service import ReleasePackageJobApplicationService
+from .release_lifecycle_service import ReleaseLifecycleApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityContract, GovernedJobCapabilityRegistry
 from .governed_jobs import GovernedJobConflict, GovernedJobError, GovernedJobFramework, GovernedJobHandle, GovernedJobPolicyBlock, GovernedJobStore
 
@@ -159,6 +160,7 @@ __all__ = [
     "WorkspaceGitOperationsApplicationService",
     "ReleaseReadinessApplicationService",
     "ReleasePackageJobApplicationService",
+    "ReleaseLifecycleApplicationService",
     "ArtifactLifecycleService",
     "ArtifactSourceType",
     "ArtifactState",

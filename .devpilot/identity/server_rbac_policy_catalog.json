@@ -4460,6 +4460,132 @@
       "risk_level": "medium",
       "route_id": "api.workspace.validations.status",
       "workspace_scope_required": true
+    },
+    {
+      "route_id": "api.release.lifecycle.status",
+      "method": "GET",
+      "path": "/api/v1/release/lifecycle",
+      "operation": "release.lifecycle.status",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "risk_level": "low",
+      "access_class": "human-session/project-release-lifecycle-read"
+    },
+    {
+      "route_id": "api.release.lifecycle.install.plan",
+      "method": "POST",
+      "path": "/api/v1/release/lifecycle/install/plan",
+      "operation": "release.lifecycle.install.plan",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "medium",
+      "access_class": "human-session/project-release-lifecycle-plan"
+    },
+    {
+      "route_id": "api.release.lifecycle.install.execute",
+      "method": "POST",
+      "path": "/api/v1/release/lifecycle/install/execute",
+      "operation": "release.lifecycle.install.execute",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "high",
+      "access_class": "human-session/project-release-lifecycle-execute"
+    },
+    {
+      "route_id": "api.release.lifecycle.upgrade.plan",
+      "method": "POST",
+      "path": "/api/v1/release/lifecycle/upgrade/plan",
+      "operation": "release.lifecycle.upgrade.plan",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "medium",
+      "access_class": "human-session/project-release-lifecycle-plan"
+    },
+    {
+      "route_id": "api.release.lifecycle.upgrade.execute",
+      "method": "POST",
+      "path": "/api/v1/release/lifecycle/upgrade/execute",
+      "operation": "release.lifecycle.upgrade.execute",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "high",
+      "access_class": "human-session/project-release-lifecycle-execute"
+    },
+    {
+      "route_id": "api.release.lifecycle.rollback.plan",
+      "method": "POST",
+      "path": "/api/v1/release/lifecycle/rollback/plan",
+      "operation": "release.lifecycle.rollback.plan",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "medium",
+      "access_class": "human-session/project-release-lifecycle-plan"
+    },
+    {
+      "route_id": "api.release.lifecycle.rollback.execute",
+      "method": "POST",
+      "path": "/api/v1/release/lifecycle/rollback/execute",
+      "operation": "release.lifecycle.rollback.execute",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "high",
+      "access_class": "human-session/project-release-lifecycle-execute"
     }
   ],
   "runtime_enforced": true,
@@ -4777,11 +4903,17 @@
       "owner",
       "release-manager"
     ],
-    "gsdlc_11_b_legacy_token_allowed_total": 0
+    "gsdlc_11_b_legacy_token_allowed_total": 0,
+    "gsdlc_11_c_release_lifecycle_policies_total": 7,
+    "gsdlc_11_c_mutation_roles": [
+      "owner",
+      "release-manager"
+    ],
+    "gsdlc_11_c_legacy_token_allowed_total": 0
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-11",
-  "updated_by": "DEVPL-GSDLC-11-A/release-readiness",
+  "updated_by": "DEVPL-GSDLC-11-C",
   "version": "1.1.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
@@ -4789,5 +4921,6 @@
     "scope_required_for_workspace_routes": true
   },
   "gsdlc_10_d_story_git_routes_registered": true,
-  "gsdlc_11_a_release_readiness_route_registered": true
+  "gsdlc_11_a_release_readiness_route_registered": true,
+  "gsdlc_11_c_release_lifecycle_routes_registered": true
 }

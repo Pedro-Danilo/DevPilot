@@ -20,6 +20,10 @@ pilot_effect_if_approved: "pause-at-POST-H-EVAL-002-02-B-entry"
 backlogs_total: 15
 ---
 
+## DEVPL-GSDLC-11-C — Install, upgrade and rollback workflows — local implementation
+
+GSDLC-11-C is implemented on Windows-validated repo422 (`836145a853fbae502f58e43b1cdab5126983a987`, SHA-256 `f6285bb75e79873f594f8edc47621c113a8100c301af4ff1ef64bcf01700c23c`). It composes the existing install/backup/upgrade/rollback machinery behind typed project-scoped API/UI operations. The first version is deliberately local and sandbox-only: clean install is extracted from the commit-bound 11-B source package, upgrade requires a verified backup before a controlled fault injection, and rollback is accepted only after exact tree-hash plus minimal capability restoration proof. Source/Git/production data remain untouched; no network, public release, package-manager install or arbitrary shell is introduced. Full Regression = 0; the GSDLC-11 budget remains 0/1 for 11-E.
+
 ## 0.0 Estado GSDLC-11-B — local implementation — 2026-09-11
 
 - `GSDLC-11-A = CLOSED/PASS/WINDOWS-VALIDATED`; successor repo421 / `01c28e73994b74699802dcbac9bb06d686841b89` / SHA `e105736c539f37ea3ad81b96ad571149035c5bb77602e0303018f304c04e8955`.

@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-09-11",
-  "sprint": "DEVPL-GSDLC-11-B",
+  "sprint": "DEVPL-GSDLC-11-C",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -3995,7 +3995,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "UOC-003"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC11C-INSTALL-SMOKE-REPORT-V1",
+      "title": "GSDLC-11-C Install Smoke Report",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc11c_install_smoke_report.schema.json",
+      "description": "Commit/package-bound controlled clean-install smoke evidence for GSDLC-11-C.",
+      "status": "registered",
+      "contract": "GSDLC11CInstallSmokeReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-11-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-11-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC11C-UPGRADE-ROLLBACK-REPORT-V1",
+      "title": "GSDLC-11-C Upgrade Rollback Report",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc11c_upgrade_rollback_report.schema.json",
+      "description": "Backup-before-mutation, controlled fault injection and exact restore proof for GSDLC-11-C.",
+      "status": "registered",
+      "contract": "GSDLC11CUpgradeRollbackReport",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-11-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-11-C"
     }
   ],
-  "schemas_total": 279
+  "schemas_total": 281
 }

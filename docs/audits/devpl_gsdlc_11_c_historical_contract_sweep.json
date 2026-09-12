@@ -1,0 +1,43 @@
+{
+  "schema_id": "DEVPL-GSDLC-11-C-HISTORICAL-CONTRACT-SWEEP-V1",
+  "sprint": "DEVPL-GSDLC-11-C",
+  "status": "PASS/LOCAL-QUALIFIED",
+  "classifications": [
+    {
+      "surface": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
+      "classification": "historical-freeze",
+      "rationale": "11-A/11-B closure facts remain frozen while current repo/micro-sprint pointers may advance through 11-C and later successors.",
+      "action": "Assert 11-A/11-B close facts and successor repo422; do not pin mutable current_repo/current_micro_sprint to repo421/11-B."
+    },
+    {
+      "surface": "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_1_APPROVED_REBOUND_REPO421.md",
+      "classification": "historical-freeze",
+      "rationale": "Repo421 rebound remains the 11-B execution authority record.",
+      "action": "Preserve; 11-C uses successor rebound v1.3.2 on repo422."
+    },
+    {
+      "surface": "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_2_APPROVED_REBOUND_REPO422.md",
+      "classification": "current-active",
+      "rationale": "Current 11-C execution contract bound to repo422.",
+      "action": "Evolve only through 11-C closure successor."
+    },
+    {
+      "surface": "release package/checksum/SBOM evidence from GSDLC-11-B",
+      "classification": "historical-freeze",
+      "rationale": "11-C consumes the package prerequisite but does not rewrite 11-B sealed evidence.",
+      "action": "Require commit/tree/hash-bound package evidence in active project runtime."
+    },
+    {
+      "surface": "release.lifecycle install/upgrade/rollback API/UI contracts",
+      "classification": "successor-needed",
+      "rationale": "11-C adds lifecycle behavior beyond 11-B packaging without rewriting predecessor contracts.",
+      "action": "Register explicit new API/UI/RBAC/TCR contracts."
+    }
+  ],
+  "historical_facts_rewritten": false,
+  "current_active_drift_reconciled": true,
+  "deprecated_after_proof": [],
+  "full_regression_runs": 0,
+  "gsdlc_11_full_budget": "0/1",
+  "decision": "PASS"
+}
