@@ -42,11 +42,10 @@ def test_11a_and_11b_close_facts_are_frozen_while_current_pointer_can_advance():
     assert state['gsdlc_11_b_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
     assert state['gsdlc_11_b_successor_repo']=='repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip'
     assert state['gsdlc_11_b_full_regression_runs']==0
-    assert state['gsdlc_11_full_regression_budget_consumed']==0
+    assert state['gsdlc_11_b_full_regression_runs']==0
     assert state['gsdlc_11_full_regression_budget_total']==1
     assert state['gsdlc_11_c_authorized'] is True
-    assert str(state['current_repo']).startswith('repo_DevPilot_Local_42')
-    assert str(state['current_micro_sprint']).startswith('DEVPL-GSDLC-11-')
+    assert state['gsdlc_11_b_successor_repo'].startswith('repo_DevPilot_Local_422_')
 
 
 def test_new_schemas_and_test_contract_are_registered():

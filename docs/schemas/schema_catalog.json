@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-11",
-  "sprint": "DEVPL-GSDLC-11-C",
+  "updated": "2026-09-12",
+  "sprint": "DEVPL-GSDLC-12-A",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
   "schemas": [
@@ -4023,7 +4023,35 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-11-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-12-A-RESUME-CHECKPOINT-V1",
+      "title": "GSDLC-12-A Durable Resume Checkpoint",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc12a_resume_checkpoint.schema.json",
+      "description": "Versioned server-side metadata-only checkpoint for safe restart/resume classification without browser or runtime DB authority.",
+      "status": "registered",
+      "contract": "GSDLC12AResumeCheckpoint",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-12-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-12-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-12-A-WORKSPACE-LOCK-V1",
+      "title": "GSDLC-12-A Workspace Action Lock",
+      "version": "1.0.0",
+      "path": "docs/schemas/gsdlc12a_workspace_lock.schema.json",
+      "description": "Actor/session-bound workspace/action lock with TTL, heartbeat and explicit stale recovery.",
+      "status": "registered",
+      "contract": "GSDLC12AWorkspaceLock",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-12-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-12-A"
     }
   ],
-  "schemas_total": 281
+  "schemas_total": 283
 }

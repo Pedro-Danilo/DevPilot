@@ -24331,16 +24331,129 @@
         "docs/audits/devpl_gsdlc_11_e_contract_reconciliation_sweep.json",
         "docs/audits/devpl_gsdlc_11_e_historical_contract_sweep.json"
       ]
+    },
+    {
+      "capability": "GSDLC12APersistentResumabilityRecoveryLocks",
+      "classification_notes": [
+        "Current-active GSDLC-12-A introduces server-authoritative durable recovery metadata under platform outputs, never runtime DB snapshots or browser authority.",
+        "Sensitive/incomplete operations are classification-only after restart and require revalidation/replan; no automatic mutation replay.",
+        "Workspace/action locks are actor+session-bound, stale recovery is explicit and role-limited.",
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 12-A.",
+        "TCR v2 schema reconciliation: application.service/manual is the current registry vocabulary; runtime metadata mutations remain human-session-bound and source_mutations_allowed=false."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "gsdlc12a-persistent-resumability-recovery-locks",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "application.service",
+      "execution_profile": "manual",
+      "expected_duration_seconds": 45,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "recovery",
+        "resumability",
+        "locks",
+        "session",
+        "git-authority",
+        "approval",
+        "project-status",
+        "product.ui"
+      ],
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-12-A",
+      "owner_domain": "application.service",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_12_a_resumability.py tests/test_devpl_gsdlc_12_a_recovery_contracts.py tests/test_devpl_gsdlc_12_a_recovery_transport.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
+      "risk_level": "high",
+      "safety_exception": {
+        "approved_by": "DEVPL-GSDLC-12-A owner-approved scope",
+        "expires_at_utc": "2027-09-12T23:59:59Z",
+        "justification": "GSDLC-12-A writes only platform-local recovery checkpoint/lock metadata. Managed workspace source, Git history, runtime DB snapshots and remote operations remain forbidden; sensitive work is never auto-executed.",
+        "rollback_or_cleanup": "Recovery metadata is bounded under outputs/workspaces/<workspace>/recovery; lock release/recovery is explicit and state-aware.",
+        "scope": "metadata-only recovery checkpoint and workspace/action lock records"
+      },
+      "schema_ids": [
+        "SCHEMA-DEVPL-GSDLC-12-A-RESUME-CHECKPOINT-V1",
+        "SCHEMA-DEVPL-GSDLC-12-A-WORKSPACE-LOCK-V1"
+      ],
+      "schema_version": "2.0",
+      "service_boundary": "application",
+      "source_contract_id": "gsdlc12a-persistent-resumability-recovery-locks",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-12-a-resumability",
+      "test_files": [
+        "tests/test_devpl_gsdlc_12_a_resumability.py",
+        "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+        "tests/test_devpl_gsdlc_12_a_recovery_transport.py"
+      ],
+      "test_type": "integration",
+      "trigger_hints": [
+        "gsdlc-12-a",
+        "resume",
+        "recovery",
+        "workspace-lock",
+        "restart",
+        "stale-approval",
+        "lifecycle-reconciliation"
+      ],
+      "validates": [
+        "server-side metadata-only versioned resume checkpoint",
+        "safe pending work classification across restart",
+        "sensitive/incomplete mutation never auto-executes",
+        "actor/session/source/approval revalidation and replanning",
+        "workspace/action lock ownership, heartbeat and explicit stale recovery",
+        "browser storage and runtime DB snapshots never become authority",
+        "Project Status RELEASED lifecycle reconciliation preserves non-authoritative gaps without contradictory aggregate BLOCKED",
+        "API/RBAC/UI registry and PolicyEngine parity",
+        "activation/rebind to repo425 with GSDLC-12 budget 0/1 and Full Regression 0 in 12-A"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/recovery/service.py",
+        "src/devpilot_core/recovery/__init__.py",
+        "src/devpilot_core/application/recovery_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/interfaces/api/routers/recovery.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/schemas/gsdlc12a_resume_checkpoint.schema.json",
+        "docs/schemas/gsdlc12a_workspace_lock.schema.json",
+        "ui/web/src/pages/RecoveryView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "00_PROMPT_DEVPL_GSDLC_12_ACTIVATION_REBIND_v1_0_0_REPO425.md",
+        "01_PROMPT_DEVPL_GSDLC_12_A_v1_0_0_REPO425.md",
+        "DEVPL-GSDLC-12_ux_resumability_reconciliation_and_industrial_hardening_v1_3_1_APPROVED_REBOUND_REPO425.md",
+        "docs/audits/DEVPL_GSDLC_12_A_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_12_A_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_12_A_TEST_IMPACT.json",
+        "docs/audits/devpl_gsdlc_12_a_historical_contract_sweep.json",
+        "docs/audits/devpl_gsdlc_12_a_contract_reconciliation_sweep.json",
+        "docs/audits/DEVPL_GSDLC_12_A_RESUME_MATRIX.json",
+        "docs/audits/DEVPL_GSDLC_12_A_WORKSPACE_LOCK_MATRIX.json"
+      ]
     }
   ],
-  "contracts_total": 336,
+  "contracts_total": 337,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",
   "migration_metadata": {
     "contracts_total": 328,
     "external_api_used": false,
-    "last_updated_by": "DEVPL-GSDLC-10-B",
+    "last_updated_by": "DEVPL-GSDLC-12-A",
     "migrator": "TestContractRegistryV2Migrator",
     "mutations_performed_by_default": false,
     "network_used": false,
@@ -24406,7 +24519,8 @@
     "FRX-v2.2-A registers P0 incremental documentation consistency; it does not authorize a full regression outside FRX-v2.2-D.",
     "DEVPL-GSDLC-10-B adds explicit P0 typed StoryValidationJob lifecycle/log/cancel/retry/orphan coverage without Full Regression.",
     "GSDLC-10-E adds successor contract gsdlc10e-browser-story-cycle; historical contracts remain unchanged.",
-    "DEVPL-GSDLC-11-C adds typed sandbox lifecycle impact coverage; Full Regression remains false."
+    "DEVPL-GSDLC-11-C adds typed sandbox lifecycle impact coverage; Full Regression remains false.",
+    "DEVPL-GSDLC-12-A adds explicit P0 durable recovery and lock governance without Full Regression."
   ],
   "profiles": [
     {

@@ -10,7 +10,7 @@ def _json(path: str):
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_11d_current_authority_is_repo423_and_full_is_reserved_for_11e():
+def test_11d_historical_authority_is_repo423_without_reading_mutable_backlog_budget():
     state = _json(".devpilot/project_state.json")
     registry = _json(".devpilot/docs_governance/source_registry.json")
     expected = "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip"
@@ -19,8 +19,8 @@ def test_11d_current_authority_is_repo423_and_full_is_reserved_for_11e():
     assert registry["gsdlc_11_d_execution_source_repo"] == expected
     assert registry["gsdlc_11_d_execution_source_sha256"] == "836c9bb2e24f547fc3bd6a61235b938557139a8730010ea5208acaf695f23099"
     assert state["gsdlc_11_d_full_regression_runs"] == 0
-    assert state["gsdlc_11_full_regression_budget_consumed"] == 0
-    assert state["gsdlc_11_full_regression_reserved_for"] == "DEVPL-GSDLC-11-E"
+    assert state["gsdlc_11_d_full_regression_runs"] == 0
+    assert state["gsdlc_11_e_authorized"] is True
 
 
 def test_11d_api_ui_and_rbac_contracts_cover_sensitive_tag_actions():

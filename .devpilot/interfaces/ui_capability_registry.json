@@ -11710,7 +11710,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 224,
+    "api_routes_total": 229,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
@@ -11796,8 +11796,8 @@
       "sensitive": 68
     },
     "sensitive_ui_native_without_approval_total": 0,
-    "ui_routes_mapped_total": 19,
-    "ui_routes_total": 19,
+    "ui_routes_mapped_total": 20,
+    "ui_routes_total": 20,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_document_links": true,
@@ -11851,7 +11851,9 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-11-E-post-full-recovery"
+    "updated_by": "DEVPL-GSDLC-12-A",
+    "gsdlc_12_a_recovery_api_routes_total": 5,
+    "gsdlc_12_a_recovery_view": true
   },
   "ui_routes": [
     {

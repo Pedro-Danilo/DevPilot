@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const checks=[];const add=(name,ok)=>{checks.push({name,ok});if(!ok)process.exitCode=1;};
+const main=fs.readFileSync(new URL('../src/main.ts',import.meta.url),'utf8');
+const view=fs.readFileSync(new URL('../src/pages/RecoveryView.ts',import.meta.url),'utf8');
+const client=fs.readFileSync(new URL('../src/api/client.ts',import.meta.url),'utf8');
+const types=fs.readFileSync(new URL('../src/api/types.ts',import.meta.url),'utf8');
+add('project-route',main.includes("path: '/recovery'")&&main.includes("routeId: 'ui.recovery'")&&main.includes('renderRecoveryView'));
+add('server-authority',view.includes('Browser storage authority')&&view.includes("?'NO':'BLOCK'"));
+add('durable-checkpoint',view.includes('Guardar checkpoint seguro')&&view.includes('Checkpoint sequence')&&view.includes('Draft refs'));
+add('safe-vs-sensitive',view.includes('draft.metadata.resume')&&view.includes('sensitive-action')&&view.includes('Pending safe work'));
+add('locks',view.includes('Adquirir lock sensible')&&view.includes('Workspace locks'));
+add('restart-guidance',view.includes('reinicia API/UI')&&view.includes('revalidación'));
+add('coherent-project-status',view.includes('Project Status coherence')&&view.includes('Display state'));
+add('api-client',client.includes("'/recovery'")&&client.includes("'/recovery/checkpoint'")&&client.includes("'/recovery/locks/acquire'"));
+add('types',types.includes('RecoveryStatusData')&&types.includes('RecoveryPendingWork'));
+add('no-browser-authority-code',!view.includes('sessionStorage')&&!view.includes('localStorage'));
+console.log(`${checks.filter(x=>x.ok).length}/${checks.length} PASS`);if(process.exitCode)console.error(checks.filter(x=>!x.ok));

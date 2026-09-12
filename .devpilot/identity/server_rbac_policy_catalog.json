@@ -22,7 +22,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "DEVPL-GSDLC-11-E",
+  "micro_sprint": "DEVPL-GSDLC-12-A",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -4722,6 +4722,120 @@
       "risk_level": "high",
       "route_id": "api.release.closure.finalize",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-recovery-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "recovery.status",
+      "path": "/api/v1/recovery",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.recovery.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-recovery-write",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "recovery.checkpoint",
+      "path": "/api/v1/recovery/checkpoint",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.recovery.checkpoint",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-lock-write",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "recovery.lock.acquire",
+      "path": "/api/v1/recovery/locks/acquire",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.recovery.lock.acquire",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-lock-write",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "recovery.lock.release",
+      "path": "/api/v1/recovery/locks/release",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.recovery.lock.release",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-lock-recover",
+      "allowed_roles": [
+        "owner",
+        "release-manager",
+        "operator"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "recovery.lock.recover",
+      "path": "/api/v1/recovery/locks/recover",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.recovery.lock.recover",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -4982,6 +5096,21 @@
       "original_status": "implemented-initial",
       "risk_level": "high",
       "workspace_scope_required": true
+    },
+    {
+      "action_id": "recovery.lock.recover_stale",
+      "allowed_roles": [
+        "owner",
+        "release-manager",
+        "operator"
+      ],
+      "deny_by_default": true,
+      "legacy_role_resolution": null,
+      "legacy_token_allowed": false,
+      "original_executable": true,
+      "original_status": "implemented-initial",
+      "risk_level": "high",
+      "workspace_scope_required": true
     }
   ],
   "source_repo": "repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -5046,20 +5175,27 @@
       "release-manager"
     ],
     "gsdlc_11_e_release_closure_policies_total": 2,
-    "human_session_required_total": 134,
+    "human_session_required_total": 153,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 224,
-    "sensitive_action_policies_total": 19,
+    "route_policies_total": 229,
+    "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
-    "unmapped_sensitive_actions_total": 0
+    "unmapped_sensitive_actions_total": 0,
+    "gsdlc_12_a_recovery_policies_total": 5,
+    "gsdlc_12_a_stale_lock_recovery_roles": [
+      "owner",
+      "release-manager",
+      "operator"
+    ]
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-12",
-  "updated_by": "DEVPL-GSDLC-11-C",
+  "updated_by": "DEVPL-GSDLC-12-A",
   "version": "1.1.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
     "default_local_workspace_id": "devpilot-local",
     "scope_required_for_workspace_routes": true
-  }
+  },
+  "gsdlc_12_a_recovery_routes_registered": true
 }

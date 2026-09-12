@@ -168,10 +168,34 @@ class GuidedSDLCApplicationService:
             freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
             revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
             lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
+            current_step = str(status_payload.get("current_step") or "").strip()
             miasi_gate = str((status_payload.get("miasi") or {}).get("gate_status") or "UNKNOWN").upper()
+            blocker_rows = [dict(row) for row in (status_payload.get("blockers") or []) if isinstance(row, dict)]
+            lifecycle_reconciliation: dict[str, Any] = {}
             if revalidation in {"REQUIRED", "IN_PROGRESS"} or lifecycle == "REVALIDATION_REQUIRED":
                 ui_state = "REVALIDATION_REQUIRED"
-            elif lifecycle == "BLOCKED" or miasi_gate == "BLOCK" or status_payload.get("blockers"):
+            elif lifecycle == "RELEASED" and current_step == "local-release-closed" and freshness != "STALE":
+                authoritative_categories = {"release", "git", "security", "revalidation", "source", "source-integrity", "runtime"}
+                authoritative_blockers = [row for row in blocker_rows if str(row.get("category") or "").lower() in authoritative_categories]
+                non_authoritative_gaps = [row for row in blocker_rows if row not in authoritative_blockers]
+                if miasi_gate == "BLOCK":
+                    non_authoritative_gaps.append({"category":"miasi","code":"POST_RELEASE_MIASI_DOMAIN_GAP"})
+                if str((status_payload.get("artifact_readiness") or {}).get("status") or "").upper() in {"UNKNOWN", "ATTENTION_REQUIRED"}:
+                    non_authoritative_gaps.append({"category":"artifact","code":"POST_RELEASE_ARTIFACT_DOMAIN_GAP"})
+                if str((status_payload.get("planning") or {}).get("status") or "").upper() == "UNKNOWN":
+                    non_authoritative_gaps.append({"category":"planning","code":"POST_RELEASE_PLANNING_DOMAIN_GAP"})
+                ui_state = "BLOCKED" if authoritative_blockers else "READY"
+                lifecycle_reconciliation = {
+                    "status": "BLOCKED_BY_AUTHORITATIVE_DOMAIN" if authoritative_blockers else "RELEASED_WITH_NON_AUTHORITATIVE_GAPS",
+                    "display_state": "BLOCKED" if authoritative_blockers else "RELEASED",
+                    "authoritative_lifecycle": "RELEASED",
+                    "authoritative_blocker_count": len(authoritative_blockers),
+                    "non_authoritative_gap_count": len(non_authoritative_gaps),
+                    "non_authoritative_gap_codes": sorted({str(row.get("code") or row.get("category") or "gap") for row in non_authoritative_gaps}),
+                    "blockers_preserved": True,
+                    "hidden_blockers": False,
+                }
+            elif lifecycle == "BLOCKED" or miasi_gate == "BLOCK" or blocker_rows:
                 ui_state = "BLOCKED"
             elif freshness == "STALE":
                 ui_state = "STALE"
@@ -184,6 +208,7 @@ class GuidedSDLCApplicationService:
             status_payload = unknown.status.to_payload()
             next_payload = unknown.next_action.to_payload()
             ui_state = "EMPTY"
+            lifecycle_reconciliation = {}
 
         # StoryExecution is an independent runtime authority. Project Status must
         # expose the current story even when WorkspaceEngineeringState is not yet
@@ -231,6 +256,7 @@ class GuidedSDLCApplicationService:
                 "workspace_id": resolved,
                 "project_status": status_payload,
                 "next_action": next_payload,
+                "lifecycle_reconciliation": lifecycle_reconciliation,
                 "read_only": True,
                 "actor_neutral": True,
                 "network_used": False,

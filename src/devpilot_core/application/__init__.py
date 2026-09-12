@@ -75,6 +75,7 @@ from .release_package_service import ReleasePackageJobApplicationService
 from .release_lifecycle_service import ReleaseLifecycleApplicationService
 from .release_metadata_service import ReleaseMetadataApplicationService
 from .release_closure_service import ReleaseClosureApplicationService
+from .recovery_service import RecoveryApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityContract, GovernedJobCapabilityRegistry
 from .governed_jobs import GovernedJobConflict, GovernedJobError, GovernedJobFramework, GovernedJobHandle, GovernedJobPolicyBlock, GovernedJobStore
 
@@ -165,6 +166,7 @@ __all__ = [
     "ReleaseLifecycleApplicationService",
     "ReleaseMetadataApplicationService",
     "ReleaseClosureApplicationService",
+    "RecoveryApplicationService",
     "ArtifactLifecycleService",
     "ArtifactSourceType",
     "ArtifactState",

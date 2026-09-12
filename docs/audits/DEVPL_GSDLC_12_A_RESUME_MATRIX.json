@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "micro_sprint": "DEVPL-GSDLC-12-A",
+  "status": "LOCAL-QUALIFIED",
+  "source_repo": "repo_DevPilot_Local_425_DEVPL_GSDLC_11_E_CLEAN_INSTALL_BROWSER_RELEASE_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "full_regression_runs": 0,
+  "authority": {
+    "server_side": true,
+    "browser_storage_authority": false,
+    "runtime_db_snapshot_used": false,
+    "managed_source_mutation": false
+  },
+  "scenarios": [
+    {
+      "id": "browser-reopen",
+      "expected": "SAFE_TO_RESUME for metadata-only draft refs",
+      "auto_execute": false,
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "api-ui-restart",
+      "expected": "server-valid workspace + checkpoint recovered; session change visible",
+      "auto_execute": false,
+      "validation": "FOCAL-PASS/BROWSER-WINDOWS-PENDING"
+    },
+    {
+      "id": "crash-plan-before-execute",
+      "expected": "REVALIDATION_REQUIRED or ABORTED_REQUIRES_REPLAN",
+      "auto_execute": false,
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "source-head-drift",
+      "expected": "ABORTED_REQUIRES_REPLAN",
+      "auto_execute": false,
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "stale-approval",
+      "expected": "ABORTED_REQUIRES_REPLAN",
+      "auto_execute": false,
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "released-with-non-authoritative-gaps",
+      "expected": "display RELEASED, gaps preserved, real authoritative blockers remain BLOCKED",
+      "auto_execute": false,
+      "validation": "CONTRACT-PASS/BROWSER-WINDOWS-PENDING"
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false
+}

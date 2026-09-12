@@ -651,6 +651,26 @@ export class DevPilotApiClient {
     return this.post('/release/closure/finalize', { graph_hash: graphHash }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<import('./types').ReleaseClosureStatus>>;
   }
 
+  async recoveryStatus(): Promise<DevPilotApplicationResponse<import('./types').RecoveryStatusData>> {
+    return this.get('/recovery', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<import('./types').RecoveryStatusData>>;
+  }
+
+  async recoveryCheckpoint(payload: { draft_refs:string[]; pending_work:import('./types').RecoveryPendingWork[]; evidence_refs:string[]; recovery_reason:string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/recovery/checkpoint', payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async recoveryLockAcquire(actionId:string, sensitive=true, ttlSeconds=300): Promise<DevPilotApplicationResponse> {
+    return this.post('/recovery/locks/acquire', { action_id: actionId, sensitive, ttl_seconds: ttlSeconds }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async recoveryLockRelease(actionId:string): Promise<DevPilotApplicationResponse> {
+    return this.post('/recovery/locks/release', { action_id: actionId }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async recoveryLockRecover(actionId:string): Promise<DevPilotApplicationResponse> {
+    return this.post('/recovery/locks/recover', { action_id: actionId, confirmation: 'RECOVER_STALE_LOCK' }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
   async qualityOperations(): Promise<DevPilotApplicationResponse> {
     return this.get('/quality/operations', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }

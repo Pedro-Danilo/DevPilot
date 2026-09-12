@@ -1552,3 +1552,7 @@ export interface ReleaseClosureStatus {
   final_release_status?: FinalReleaseStatus | null;
   safety: Record<string, unknown>;
 }
+
+// GSDLC-12-A durable recovery / resumability contracts.
+export interface RecoveryPendingWork { work_id:string; kind?:string; status?:string; sensitive?:boolean; safe_to_resume?:boolean; approval_id?:string|null; approval_actor?:string|null; approval_expires_at?:string|null; bound_git_head?:string|null; recovery_state?:'SAFE_TO_RESUME'|'REVALIDATION_REQUIRED'|'ABORTED_REQUIRES_REPLAN'|'COMPLETED'|string; reason_code?:string; auto_execute?:false; }
+export interface RecoveryStatusData { recovery: { state:string; workspace_id?:string; project_id?:string; current_step?:string; checkpoint?:Record<string,unknown>|null; pending_work?:RecoveryPendingWork[]; session_changed?:boolean; actor_changed?:boolean; git_match?:boolean|null; next_action?:string; browser_storage_authority:false; runtime_db_snapshot_used:false; auto_resume_mutation?:false; }; locks:{workspace_id?:string;locks?:Array<Record<string,unknown>>;locks_total?:number;auto_force_unlock?:false}; project_status_coherence?:{lifecycle_status?:string;aggregate_ui_state?:string;display_state?:string;non_authoritative_gap_count?:number;authoritative_blocker_count?:number;contradictory_message_present?:boolean}; authority?:{server_side?:true;browser_storage_authority?:false;runtime_db_snapshot_used?:false;roles?:string[]}; safety?:Record<string,unknown>; }

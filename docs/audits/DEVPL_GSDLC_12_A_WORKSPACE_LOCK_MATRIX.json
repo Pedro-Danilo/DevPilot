@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "micro_sprint": "DEVPL-GSDLC-12-A",
+  "status": "LOCAL-QUALIFIED",
+  "full_regression_runs": 0,
+  "rules": {
+    "ownership": "workspace+action+actor+session-fingerprint",
+    "exclusive_create": true,
+    "heartbeat_same_owner": true,
+    "steal_active_lock": false,
+    "stale_recovery": "explicit authorized human + RECOVER_STALE_LOCK",
+    "sensitive_after_recovery": "REVALIDATION_REQUIRED",
+    "auto_force_unlock": false
+  },
+  "scenarios": [
+    {
+      "id": "first-acquire",
+      "expected": "PASS exclusive lock",
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "same-session-heartbeat",
+      "expected": "PASS reused=true",
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "concurrent-owner-mismatch",
+      "expected": "BLOCK",
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "stale-no-confirmation",
+      "expected": "BLOCK",
+      "validation": "FOCAL-PASS"
+    },
+    {
+      "id": "stale-explicit-recovery",
+      "expected": "PASS recovered + requires_operation_revalidation=true",
+      "validation": "FOCAL-PASS"
+    }
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false
+}

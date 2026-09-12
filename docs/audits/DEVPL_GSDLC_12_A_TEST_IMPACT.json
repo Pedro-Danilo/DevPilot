@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "micro_sprint": "DEVPL-GSDLC-12-A",
+  "status": "PASS",
+  "changed_paths": 50,
+  "matched_contracts": 216,
+  "recommended_tests": 336,
+  "unmatched_paths": 0,
+  "contracts_total": 337,
+  "tests_executed": false,
+  "full_regression_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "source_mutations_performed": false
+}

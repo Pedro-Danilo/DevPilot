@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/gsdlc12a_workspace_lock.schema.json",
+  "title": "GSDLC-12-A Workspace Action Lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_id", "schema_version", "workspace_id", "action_id", "actor", "session_fingerprint", "sensitive", "acquired_at_utc", "heartbeat_at_utc", "expires_at_utc", "ttl_seconds", "state", "auto_force_unlock", "source_mutations_performed"],
+  "properties": {
+    "schema_id": {"const": "SCHEMA-DEVPL-GSDLC-12-A-WORKSPACE-LOCK-V1"},
+    "schema_version": {"const": "1.0"},
+    "workspace_id": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{1,256}$"},
+    "action_id": {"type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,256}$"},
+    "actor": {"type": "string", "minLength": 1, "maxLength": 256},
+    "session_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sensitive": {"type": "boolean"},
+    "acquired_at_utc": {"type": "string", "minLength": 1},
+    "heartbeat_at_utc": {"type": "string", "minLength": 1},
+    "expires_at_utc": {"type": "string", "minLength": 1},
+    "ttl_seconds": {"type": "integer", "minimum": 30, "maximum": 3600},
+    "state": {"const": "ACTIVE"},
+    "auto_force_unlock": {"const": false},
+    "source_mutations_performed": {"const": false}
+  }
+}

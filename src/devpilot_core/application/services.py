@@ -53,6 +53,7 @@ from .release_package_service import ReleasePackageJobApplicationService
 from .release_lifecycle_service import ReleaseLifecycleApplicationService
 from .release_metadata_service import ReleaseMetadataApplicationService
 from .release_closure_service import ReleaseClosureApplicationService
+from .recovery_service import RecoveryApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationsApplicationService
@@ -132,6 +133,7 @@ class ApplicationService:
         self._release_lifecycle: ReleaseLifecycleApplicationService | None = None
         self._release_metadata: ReleaseMetadataApplicationService | None = None
         self._release_closure: ReleaseClosureApplicationService | None = None
+        self.recovery = RecoveryApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -1666,6 +1668,21 @@ class ApplicationService:
     def release_closure_finalize(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], graph_hash: str) -> CommandResult:
         return self.release_closure.finalize(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, graph_hash=graph_hash)
 
+    def recovery_status(self, *, actor: str, roles: list[str], workspace_scopes: list[str], session_created_at: str, rotation_counter: int) -> CommandResult:
+        return self.recovery.status(actor=actor, roles=roles, workspace_scopes=workspace_scopes, session_created_at=session_created_at, rotation_counter=rotation_counter)
+
+    def recovery_checkpoint(self, *, actor: str, roles: list[str], workspace_scopes: list[str], session_created_at: str, rotation_counter: int, draft_refs: list[str], pending_work: list[dict[str, Any]], evidence_refs: list[str], recovery_reason: str) -> CommandResult:
+        return self.recovery.checkpoint(actor=actor, roles=roles, workspace_scopes=workspace_scopes, session_created_at=session_created_at, rotation_counter=rotation_counter, draft_refs=draft_refs, pending_work=pending_work, evidence_refs=evidence_refs, recovery_reason=recovery_reason)
+
+    def recovery_lock_acquire(self, *, actor: str, roles: list[str], workspace_scopes: list[str], session_created_at: str, rotation_counter: int, action_id: str, sensitive: bool, ttl_seconds: int) -> CommandResult:
+        return self.recovery.lock_acquire(actor=actor, roles=roles, workspace_scopes=workspace_scopes, session_created_at=session_created_at, rotation_counter=rotation_counter, action_id=action_id, sensitive=sensitive, ttl_seconds=ttl_seconds)
+
+    def recovery_lock_release(self, *, actor: str, roles: list[str], workspace_scopes: list[str], session_created_at: str, rotation_counter: int, action_id: str) -> CommandResult:
+        return self.recovery.lock_release(actor=actor, roles=roles, workspace_scopes=workspace_scopes, session_created_at=session_created_at, rotation_counter=rotation_counter, action_id=action_id)
+
+    def recovery_lock_recover(self, *, actor: str, roles: list[str], workspace_scopes: list[str], action_id: str, confirmation: str) -> CommandResult:
+        return self.recovery.lock_recover(actor=actor, roles=roles, workspace_scopes=workspace_scopes, action_id=action_id, confirmation=confirmation)
+
     def _story_commit_ready_quality_context(self, *, story_execution_id: str) -> CommandResult:
         command = "story git context recover"
         candidates = []
@@ -2398,6 +2415,11 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "release.metadata.tag.execute": lambda payload: service.release_metadata_tag_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), approval_id=str(payload.get("approval_id", ""))),
         "release.closure.status": lambda payload: service.release_closure_status(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "release.closure.finalize": lambda payload: service.release_closure_finalize(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), graph_hash=str(payload.get("graph_hash", ""))),
+        "recovery.status": lambda payload: service.recovery_status(actor=str(payload.get("actor", "")), roles=list(payload.get("roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), session_created_at=str(payload.get("session_created_at", "")), rotation_counter=int(payload.get("rotation_counter", 0))),
+        "recovery.checkpoint": lambda payload: service.recovery_checkpoint(actor=str(payload.get("actor", "")), roles=list(payload.get("roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), session_created_at=str(payload.get("session_created_at", "")), rotation_counter=int(payload.get("rotation_counter", 0)), draft_refs=list(payload.get("draft_refs") or []), pending_work=list(payload.get("pending_work") or []), evidence_refs=list(payload.get("evidence_refs") or []), recovery_reason=str(payload.get("recovery_reason", "manual-checkpoint"))),
+        "recovery.lock.acquire": lambda payload: service.recovery_lock_acquire(actor=str(payload.get("actor", "")), roles=list(payload.get("roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), session_created_at=str(payload.get("session_created_at", "")), rotation_counter=int(payload.get("rotation_counter", 0)), action_id=str(payload.get("action_id", "")), sensitive=bool(payload.get("sensitive", True)), ttl_seconds=int(payload.get("ttl_seconds", 300))),
+        "recovery.lock.release": lambda payload: service.recovery_lock_release(actor=str(payload.get("actor", "")), roles=list(payload.get("roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), session_created_at=str(payload.get("session_created_at", "")), rotation_counter=int(payload.get("rotation_counter", 0)), action_id=str(payload.get("action_id", ""))),
+        "recovery.lock.recover": lambda payload: service.recovery_lock_recover(actor=str(payload.get("actor", "")), roles=list(payload.get("roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), action_id=str(payload.get("action_id", "")), confirmation=str(payload.get("confirmation", ""))),
         "planning.closure.status": lambda payload: service.planning_closure_status(effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),

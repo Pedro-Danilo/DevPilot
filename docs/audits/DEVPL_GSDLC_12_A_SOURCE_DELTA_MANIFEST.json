@@ -1,0 +1,314 @@
+{
+  "schema_version": "1.0",
+  "micro_sprint": "DEVPL-GSDLC-12-A",
+  "status": "LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "baseline_repo": "repo_DevPilot_Local_425_DEVPL_GSDLC_11_E_CLEAN_INSTALL_BROWSER_RELEASE_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "b341370633e66355add6bb2611879b32f277ad0f",
+  "baseline_sha256": "d4a9cf4b3b8d544b71ee9b568e7ba3388cf39e74ce8d213d3b0e9f9d2946695d",
+  "path_count": 50,
+  "comparison": "semantic UTF-8/LF for text; byte hash otherwise",
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "baseline_semantic_sha256": "aeb7eab37b6bd55eb0363d51cd08271207702da5f9a0c586984233354197936d",
+      "post_semantic_sha256": "b8a5636320d4d8516a3ae90fef969e0cd605175dd856cf18ca69b1f4bc15a9ab",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/identity/server_rbac_policy_catalog.json",
+      "baseline_semantic_sha256": "e308b8bcd309da4d27f218d9fa9fa4ae15a86bccf3054c7c51529d655463f425",
+      "post_semantic_sha256": "b9db37f859339573cd501d64cd123372b50d6e6e5ca4548b61bda6ba872b0744",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/interfaces/api_route_contract_registry.json",
+      "baseline_semantic_sha256": "04b5bd2a7f5ff548bd303b0ca4fe279b1762486958dbba32f5b503c17c57d31b",
+      "post_semantic_sha256": "bfc414e95f71718944f3aa21db72c379c5fc59e79535dfe174683ff748b055bc",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_capability_registry.json",
+      "baseline_semantic_sha256": "45a6d94799070cdfc9dd1ba2238d6aa86ff23bf8fbb543d46ab117556540f456",
+      "post_semantic_sha256": "f74baccf3071ec41f28eafe0ba26acca79625637026c7b10f12e07eaaafb6bda",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/interfaces/ui_route_contract_registry.json",
+      "baseline_semantic_sha256": "ac8f025d3ad4db5a12e6f7b69229e62431b28fd2456a115fc040776041705725",
+      "post_semantic_sha256": "2f047a29c07d1502fc495314e88fb3dd5e24c42f7001f1e758990de8c9d38a0b",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "baseline_semantic_sha256": "0dffc4068b371a5e93386e268d5232a438103450c7170a1a8fd86f5c777b90ba",
+      "post_semantic_sha256": "543c12eccc8d600371d450bba2947757aecb6819f29d7ee9c1051f4511a297a0",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "baseline_semantic_sha256": "dd2b3b52ee0f945013f9826590fe01e6afbeb7911598003c66d4eda9d5b6fc77",
+      "post_semantic_sha256": "b97773d8d4e0d2d716611b0cfa52ae197296b98f5a8d8148777cffe3d2e59966",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "baseline_semantic_sha256": "5d879a88b971f647bddc4ac705f4404cf8d06d3ae028ee09873288d924d154a8",
+      "post_semantic_sha256": "2a43703a85a45a99b8e791f860a37071f556bbab36381363a84d5be601d5d38d",
+      "kind": "modified"
+    },
+    {
+      "path": ".devpilot/testing/test_impact_rules.json",
+      "baseline_semantic_sha256": "61e7d71ee21f4b584d94b0dd97747dc732d23266b858cd4dced5471b4b5b94ce",
+      "post_semantic_sha256": "4f9e8c0992c8363818bc2899da7998ebb44b4d839f9409524110b27eac5f2ef7",
+      "kind": "modified"
+    },
+    {
+      "path": "00_PROMPT_DEVPL_GSDLC_12_ACTIVATION_REBIND_v1_0_0_REPO425.md",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "7625f70d1c32906cc9b72366c05b9dc6d326b0d761ae8e0240d799f6cb3d89b4",
+      "kind": "added"
+    },
+    {
+      "path": "01_PROMPT_DEVPL_GSDLC_12_A_v1_0_0_REPO425.md",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "4123b0a22af8bca4c46803b1e7696870c4e882c093d66fc0f933c53cad6d4163",
+      "kind": "added"
+    },
+    {
+      "path": "DEVPL-GSDLC-12_ux_resumability_reconciliation_and_industrial_hardening_v1_3_1_APPROVED_REBOUND_REPO425.md",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "acbe6e05cfe86f0d7df5f58a8c6ccefb13427ec97bb92946241dce9ed691175f",
+      "kind": "added"
+    },
+    {
+      "path": "README.md",
+      "baseline_semantic_sha256": "62427578d3ecdae8c3f37c2a1343b9f8643401acbcf01344d33f1ad784e3713c",
+      "post_semantic_sha256": "12aed1a9a40d23030bbe1a14fcf439443bf852b3cba2fb56c64de55e6d2ed43c",
+      "kind": "modified"
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "baseline_semantic_sha256": "2eebbd12bc537e208c367d8c2439a93ab627981fde9d5bdf39cca4cc3877de44",
+      "post_semantic_sha256": "c2d1487944772117800d47ddf9d85c1791a0966ec3839efe1f824eafd4736ee4",
+      "kind": "modified"
+    },
+    {
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-12-A-durable-recovery-metadata-and-lock-authority.md",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "20ece331519066b8331382d7152641158b2b3654cdaf3bab6986a196f6ed972d",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_12_A_IMPLEMENTATION_REPORT.md",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "0a9bed992d60ea380bfd23c2edb9f34b95b84a71de86545ed44869307803406c",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_12_A_RESUME_MATRIX.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "daa1d74b8dff6c0a6099b16e75fc0310fc0434e4b02a9bd543cfa8c42beea21f",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_12_A_SOURCE_DELTA_MANIFEST.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "5975be629fc144b3b6f42f59be8a5b9ec9d74da41a6d077fbc7272f2cb34c99a",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_12_A_TEST_IMPACT.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "fa7027f8c6bd3d90ff0f821066d7bc1538d210974cc0a632e20e8572b5fca3ca",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/DEVPL_GSDLC_12_A_WORKSPACE_LOCK_MATRIX.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "936b0f421915af7f424aaa017ccafbe9fc854463f52e545782403de42513903b",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_12_a_contract_reconciliation_sweep.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "380902d2beeb44bb67d482c80b6e55eb402971974ae4ffa73dfa4dbd2727f436",
+      "kind": "added"
+    },
+    {
+      "path": "docs/audits/devpl_gsdlc_12_a_historical_contract_sweep.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "96cf7c7c7aac0c1ece01eb5b03cb6f2452874ae59d894620d98ef435be93333f",
+      "kind": "added"
+    },
+    {
+      "path": "docs/schemas/gsdlc12a_resume_checkpoint.schema.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "170c435bb937db31d50a8f6dde4870b02879ed58020b603575aeaf0d44edfa2c",
+      "kind": "added"
+    },
+    {
+      "path": "docs/schemas/gsdlc12a_workspace_lock.schema.json",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "815f290b91d964a025f2d89fa66d2199e1aebc72b6e4d3c5880b85c00432961d",
+      "kind": "added"
+    },
+    {
+      "path": "docs/schemas/schema_catalog.json",
+      "baseline_semantic_sha256": "dd7afedde51c5aeb96da985786ade67af17a1eb4ebd9c79a486bb38eeabf1945",
+      "post_semantic_sha256": "0b7eb7f677dbb7540fa4d88d301a1a4e381e8286a05032d2136d2812540dcc18",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/application/__init__.py",
+      "baseline_semantic_sha256": "0863af9f5f4b1c8c6459f818c98ff06316ebd08147fb514dc547104a687efdb8",
+      "post_semantic_sha256": "509c02b971b27c14f45ef2716ddf1f2cb54f4b857a273fe17f1f70996b903042",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/application/guided_sdlc_service.py",
+      "baseline_semantic_sha256": "83e10c56ed3e7b9f690d8f18740edb74ffe0c7bd7f755ec3b40aba0570302dd9",
+      "post_semantic_sha256": "8b705f4a5c8de4a65a4352c9c33f910981006273355b740293d290a106f53a13",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/application/recovery_service.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "85e2777b4e12d061a1cf7a7954d35e241215fa8605f3ff884185557f0f208248",
+      "kind": "added"
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "baseline_semantic_sha256": "9e0a01eff488b60d2a873996673b231108199fcbbabf736c4cc69bd814812f68",
+      "post_semantic_sha256": "465eee1ad26b7f15be540f6e5369681092437149a015f904219dbd1f953b9ff1",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/app.py",
+      "baseline_semantic_sha256": "e8f276902237e22a1b244dd76a0bad7374cc757009d907c5978eb07b2edba20f",
+      "post_semantic_sha256": "b5a0cee8a4b2911be652b9f81115ae4253a96c127a9dae1cd788b2424aa8354d",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/__init__.py",
+      "baseline_semantic_sha256": "11c9b449648a7eb5374652cd50a2843d8d6d0cea6fef90a14b2e8cc71969f2c6",
+      "post_semantic_sha256": "3576900cc4d39f98677b37083495110f1162d0a188e7931fa4135d252bf91ba6",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/recovery.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "de3094499cee5f14797328b55152b25947ad4d3d86b0dba9c3bc67dd53ccea1d",
+      "kind": "added"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/security.py",
+      "baseline_semantic_sha256": "6300c1e4936585d1c4e0da1befc3f3539d4d9b49b3f56a1014ec6e244c840acb",
+      "post_semantic_sha256": "79e48da7e2cacd31882e4c6fbb0903c6d6e97f6c372156d460d8e3332287b6f6",
+      "kind": "modified"
+    },
+    {
+      "path": "src/devpilot_core/recovery/__init__.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "91ff6b7b1e409cb068619a02da56adf128d846540e2f1dd766e72b4e74a37ae1",
+      "kind": "added"
+    },
+    {
+      "path": "src/devpilot_core/recovery/service.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "bfc9fbda3d8ffbb446ca6c1eba5165b2e1c0d9333c603250ed0fb6e8ac499f8c",
+      "kind": "added"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
+      "baseline_semantic_sha256": "282b5a195b9252a9edd98901e5e13985d4520e91d9374052df01a9510416d219",
+      "post_semantic_sha256": "54575af56d7257a723755af047968eead7dec7626eb501f846407ab4b85292e3",
+      "kind": "modified"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+      "baseline_semantic_sha256": "f18b9f5c73a44451da55823c9136f0e54627c8f7ee97885cd9bd79bd4c2b79f9",
+      "post_semantic_sha256": "7c1bc1e5b83c01c248deeef787304e6c9039fda8a33031a72bde58688d6a3d46",
+      "kind": "modified"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+      "baseline_semantic_sha256": "ec80ea374d1ac1889e0b3c3cc9c8a364b8faf70b31390b289359c83cf33db9f1",
+      "post_semantic_sha256": "5c0ab5f2d983b0d8641def7c9a87e65bfb3aff5207e359f667172878937fc56b",
+      "kind": "modified"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py",
+      "baseline_semantic_sha256": "55fe836e263e169b446b46da6f159e25e083f0fc9bd4445688398a2b405e2e70",
+      "post_semantic_sha256": "6b4b8180ecae1a43f03a851c24a43f8f20ca385c1204715dde908388fba4e778",
+      "kind": "modified"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "6626691175d2b532be8f445f14d275fe1eb0e1c14b872fc003ed2b61f3cda4b6",
+      "kind": "added"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_12_a_recovery_transport.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "4c57300be2ad91a7760f373a215e82c7d80cefd5a7780c965428857ea955f1e6",
+      "kind": "added"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_12_a_resumability.py",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "e27f5fe2f6f076b7188e629bfd59b5176944bcf61aa59c6a04b41225184e5129",
+      "kind": "added"
+    },
+    {
+      "path": "ui/web/package-lock.json",
+      "baseline_semantic_sha256": "4ca45c3776aee4002cf415dc2a623ec8b8fb06d70b62adbaf125e1715955e8cf",
+      "post_semantic_sha256": "90303c713942e7214722af7b2fc63632a54fcd8dc3ad24d1930b07aa89a0e2b6",
+      "kind": "modified"
+    },
+    {
+      "path": "ui/web/package.json",
+      "baseline_semantic_sha256": "d6ad14dafb70097af86aeff1e2bda38ee94c9dc629f9791e3dc11e3737ca455f",
+      "post_semantic_sha256": "02c0c2043714e6fd4f4ccb8a2e6364f6de2d78ae1a352fb705fbd5d27e918cea",
+      "kind": "modified"
+    },
+    {
+      "path": "ui/web/scripts/gsdlc12a-recovery-smoke.mjs",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "f059baa72f326b31018083c8e243a0b0494ec67cab165666d4364154446ed444",
+      "kind": "added"
+    },
+    {
+      "path": "ui/web/src/api/client.ts",
+      "baseline_semantic_sha256": "9f9ce185ad562ab860cb4a4dda219343a5a86a4a3ff9e875c50320de2e89b35a",
+      "post_semantic_sha256": "fea6f28785956a439d3b1463c0231806bb9da0cf834c19f7b5e6fb33368d4dd6",
+      "kind": "modified"
+    },
+    {
+      "path": "ui/web/src/api/types.ts",
+      "baseline_semantic_sha256": "2688f80e45c30183056cd02c5661789b82251ac435bf48ae104c5172eaba3387",
+      "post_semantic_sha256": "526b6529261905835f450675946587e0db347fb3ebc8ab91cb4f692a737c297b",
+      "kind": "modified"
+    },
+    {
+      "path": "ui/web/src/main.ts",
+      "baseline_semantic_sha256": "8485d642eed8c7fb0c3dead06faf21c82a382cc4eaa666074f59c218c3eedecd",
+      "post_semantic_sha256": "51957c8e768a8d174adf9a8387d7b052d4a2ae5bd32afb29d2af8cc38072c0cc",
+      "kind": "modified"
+    },
+    {
+      "path": "ui/web/src/pages/RecoveryView.ts",
+      "baseline_semantic_sha256": null,
+      "post_semantic_sha256": "abb5d82a834cfb869eec46d6bf09d8a0e2be48485918e1b99f9e31508d2bfd4f",
+      "kind": "added"
+    },
+    {
+      "path": "ui/web/src/styles.css",
+      "baseline_semantic_sha256": "4aa7b9a44e0f4141917522ef371a2ca10b30f08dae9cbebb502093fe2fd2ebcc",
+      "post_semantic_sha256": "bafbfd6bd5b49e403e29f072c586e9c5cdd57e1a33af7d1e0001d0128b1eeeda",
+      "kind": "modified"
+    }
+  ],
+  "test_impact": "50/216/336/0",
+  "full_regression_runs": 0
+}

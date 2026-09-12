@@ -5,7 +5,7 @@
   "created_by": "POST-H-029-B",
   "status": "implemented-initial",
   "version": "1.1.0",
-  "updated": "2026-09-11",
+  "updated": "2026-09-12",
   "rules": [
     {
       "rule_id": "policy-security",
@@ -948,6 +948,69 @@
         "source_mutations_allowed": false,
         "tests_executed_from_rule": false
       }
+    },
+    {
+      "rule_id": "gsdlc12a-persistent-resumability-recovery-locks",
+      "title": "GSDLC-12-A persistent resumability, recovery and locks",
+      "description": "Current-active impact rule for server-authoritative durable recovery checkpoints, restart classification, workspace/action locks and Project Status lifecycle reconciliation.",
+      "owner": "DEVPL-GSDLC-12-A",
+      "path_patterns": [
+        "src/devpilot_core/recovery/",
+        "src/devpilot_core/application/recovery_service.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/interfaces/api/routers/recovery.py",
+        "docs/schemas/gsdlc12a_",
+        "ui/web/src/pages/RecoveryView.ts",
+        "tests/test_devpl_gsdlc_12_a_",
+        "00_PROMPT_DEVPL_GSDLC_12_",
+        "01_PROMPT_DEVPL_GSDLC_12_A_",
+        "DEVPL-GSDLC-12_ux_resumability_",
+        "docs/audits/DEVPL_GSDLC_12_A_",
+        "docs/audits/devpl_gsdlc_12_a_"
+      ],
+      "domains": [
+        "workflow.recovery",
+        "security.session",
+        "product.ui",
+        "governance"
+      ],
+      "profiles": [
+        "impact",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "high",
+        "medium"
+      ],
+      "recommended_tests": [
+        "tests/test_devpl_gsdlc_12_a_resumability.py",
+        "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+        "tests/test_devpl_gsdlc_12_a_recovery_transport.py",
+        "tests/test_devpl_gsdlc_11_d_project_context_recovery.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_12_a_resumability.py tests/test_devpl_gsdlc_12_a_recovery_contracts.py tests/test_devpl_gsdlc_12_a_recovery_transport.py"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
     }
   ],
   "unmatched_path_policy": {
@@ -986,6 +1049,7 @@
     "POST-H-034-CLOSURE follow-up maps GitAdapter and multiagent repository inspection into operations.workspace impact coverage.",
     "DEVPL-GSDLC-10-E adds a deterministic browser-fixture impact rule; it recommends one typed test and never authorizes Full Regression.",
     "DEVPL-GSDLC-11-B adds typed release-package impact coverage; A-D policy explicitly keeps Full Regression false.",
-    "DEVPL-GSDLC-11-C adds controlled lifecycle impact coverage; A-D policy explicitly keeps Full Regression false."
+    "DEVPL-GSDLC-11-C adds controlled lifecycle impact coverage; A-D policy explicitly keeps Full Regression false.",
+    "DEVPL-GSDLC-12-A uses focal/cumulative impact validation only; routine Full Regression remains forbidden."
   ]
 }

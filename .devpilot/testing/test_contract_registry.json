@@ -14163,9 +14163,69 @@
         "docs/audits/devpl_gsdlc_11_e_contract_reconciliation_sweep.json",
         "docs/audits/devpl_gsdlc_11_e_historical_contract_sweep.json"
       ]
+    },
+    {
+      "contract_id": "gsdlc12a-persistent-resumability-recovery-locks",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-12-A",
+      "phase": "DEVPL-GSDLC-12-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_12_a_resumability.py tests/test_devpl_gsdlc_12_a_recovery_contracts.py tests/test_devpl_gsdlc_12_a_recovery_transport.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_12_a_resumability.py",
+        "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+        "tests/test_devpl_gsdlc_12_a_recovery_transport.py"
+      ],
+      "validates": [
+        "server-side metadata-only versioned resume checkpoint",
+        "safe pending work classification across restart",
+        "sensitive/incomplete mutation never auto-executes",
+        "actor/session/source/approval revalidation and replanning",
+        "workspace/action lock ownership, heartbeat and explicit stale recovery",
+        "browser storage and runtime DB snapshots never become authority",
+        "Project Status RELEASED lifecycle reconciliation preserves non-authoritative gaps without contradictory aggregate BLOCKED",
+        "API/RBAC/UI registry and PolicyEngine parity",
+        "activation/rebind to repo425 with GSDLC-12 budget 0/1 and Full Regression 0 in 12-A"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/recovery/service.py",
+        "src/devpilot_core/recovery/__init__.py",
+        "src/devpilot_core/application/recovery_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/guided_sdlc_service.py",
+        "src/devpilot_core/interfaces/api/routers/recovery.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/schemas/gsdlc12a_resume_checkpoint.schema.json",
+        "docs/schemas/gsdlc12a_workspace_lock.schema.json",
+        "ui/web/src/pages/RecoveryView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "00_PROMPT_DEVPL_GSDLC_12_ACTIVATION_REBIND_v1_0_0_REPO425.md",
+        "01_PROMPT_DEVPL_GSDLC_12_A_v1_0_0_REPO425.md",
+        "DEVPL-GSDLC-12_ux_resumability_reconciliation_and_industrial_hardening_v1_3_1_APPROVED_REBOUND_REPO425.md",
+        "docs/audits/DEVPL_GSDLC_12_A_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_12_A_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_12_A_TEST_IMPACT.json",
+        "docs/audits/devpl_gsdlc_12_a_historical_contract_sweep.json",
+        "docs/audits/devpl_gsdlc_12_a_contract_reconciliation_sweep.json",
+        "docs/audits/DEVPL_GSDLC_12_A_RESUME_MATRIX.json",
+        "docs/audits/DEVPL_GSDLC_12_A_WORKSPACE_LOCK_MATRIX.json"
+      ]
     }
   ],
-  "contracts_total": 336,
+  "contracts_total": 337,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [
@@ -14239,7 +14299,8 @@
     "DEVPL-GSDLC-05-D registers server-policy-bound StepActionCatalog/ExecutionModeAdvisor coverage with no model/network/full-regression execution.",
     "FRX-v2.2-A adds incremental cross-authority documentation consistency before expensive testing; full/browser runs remain zero.",
     "DEVPL-GSDLC-10-B registers typed StoryValidationJob lifecycle, worker/log/cancel/retry/orphan contracts with Full Regression=0.",
-    "DEVPL-GSDLC-11-C adds controlled install/backup/upgrade/rollback current-active coverage; Full Regression remains 0."
+    "DEVPL-GSDLC-11-C adds controlled install/backup/upgrade/rollback current-active coverage; Full Regression remains 0.",
+    "DEVPL-GSDLC-12-A adds durable restart/resume, workspace lock and lifecycle-coherence contracts; Full Regression remains 0 by backlog policy."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",
