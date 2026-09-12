@@ -26,7 +26,7 @@ local_first: true
 ui_complete_normal_journey: true
 dry_run_default: true
 backlog_id: "DEVPL-GSDLC-11"
-backlog_status: "APPROVED/ACTIVE/GSDLC-11-C"
+backlog_status: "APPROVED/ACTIVE/GSDLC-11-D"
 micro_sprints_total: 5
 frx_execution_profile_id: "frx-v2.4-current"
 frx_execution_profile_sha256: "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
@@ -497,3 +497,12 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 - Source delta = `42`; Test Impact = `42/212/324/0`.
 - Package job tipado demostró plan dry-run → execute, exact commit/tree binding, source ZIP reproducible, SHA-256 sidecar, SBOM baseline y reuse de evidencia PASS hash-bound.
 - GSDLC-11-C queda autorizado. El budget de Full de GSDLC-11 permanece `0/1`, reservado para 11-E salvo hard trigger owner-approved.
+
+
+## 0.0.4 GSDLC-11-C Windows closure y autorización de 11-D — 2026-09-11
+
+- `GSDLC-11-C = CLOSED/PASS/WINDOWS-VALIDATED`; real-browser install/upgrade/rollback = PASS; `Full Regression = 0`; `S0/S1 = 0`.
+- Successor canónico: `repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Clean install smoke, backup-before-upgrade, controlled fault injection y rollback exact restore proof quedaron acreditados.
+- Test Impact final: `39/213/326/0`; Full budget de GSDLC-11 permanece `0/1`.
+- `GSDLC-11-D` queda autorizado; 11-D deberá rebindearse a repo423 antes de implementar version/release notes/tag/approval.

@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-11-C-HISTORICAL-CONTRACT-SWEEP-V1",
   "sprint": "DEVPL-GSDLC-11-C",
-  "status": "PASS/LOCAL-QUALIFIED",
+  "status": "PASS/WINDOWS-CLOSURE",
   "classifications": [
     {
       "surface": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
@@ -39,5 +39,6 @@
   "deprecated_after_proof": [],
   "full_regression_runs": 0,
   "gsdlc_11_full_budget": "0/1",
-  "decision": "PASS"
+  "decision": "PASS",
+  "windows_validation": "PASS"
 }

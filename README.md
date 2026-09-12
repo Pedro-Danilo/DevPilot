@@ -1,3 +1,7 @@
+## DEVPL-GSDLC-11-C — Windows closure
+
+GSDLC-11-C quedó `CLOSED/PASS/WINDOWS-VALIDATED` sobre repo423. La UI normal acreditó package prerequisite, clean install en sandbox, backup obligatorio, fault injection controlada y rollback con restore proof por tree hash/capability. Full Regression = 0; budget GSDLC-11 = 0/1; S0/S1 = 0; GSDLC-11-D autorizado.
+
 ## DEVPL-GSDLC-11-C — Install, upgrade and rollback workflows — local implementation
 
 GSDLC-11-C is implemented on Windows-validated repo422 (`836145a853fbae502f58e43b1cdab5126983a987`, SHA-256 `f6285bb75e79873f594f8edc47621c113a8100c301af4ff1ef64bcf01700c23c`). It composes the existing install/backup/upgrade/rollback machinery behind typed project-scoped API/UI operations. The first version is deliberately local and sandbox-only: clean install is extracted from the commit-bound 11-B source package, upgrade requires a verified backup before a controlled fault injection, and rollback is accepted only after exact tree-hash plus minimal capability restoration proof. Source/Git/production data remain untouched; no network, public release, package-manager install or arbitrary shell is introduced. Full Regression = 0; the GSDLC-11 budget remains 0/1 for 11-E.

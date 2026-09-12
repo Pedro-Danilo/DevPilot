@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_repo": "repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -37185,7 +37185,7 @@
   "gsdlc_current_micro_sprint": "DEVPL-GSDLC-11-C",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-11-B",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-11-C",
+  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-11-D",
   "gsdlc_program_status": "active/GSDLC-11;11-B-CLOSED-WINDOWS-VALIDATED;11-C-AUTHORIZED",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
@@ -39750,7 +39750,7 @@
   "gsdlc_10_e_s0_open": 0,
   "gsdlc_10_e_s1_open": 0,
   "gsdlc_11_authorized": true,
-  "gsdlc_11_status": "ACTIVE/GSDLC-11/11-C-LOCAL-QUALIFIED",
+  "gsdlc_11_status": "ACTIVE/GSDLC-11/11-C-CLOSED/11-D-AUTHORIZED",
   "gsdlc_11_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_11_a_execution_source_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_11_a_execution_source_commit": "8d37c29214a67b28d1dfd70a204a8c9596c53ae8",
@@ -39780,14 +39780,16 @@
   "gsdlc_11_b_successor_repo": "repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_11_b_source_delta_paths": 42,
   "gsdlc_11_b_test_impact": "42/212/324/0",
-  "gsdlc_11_c_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_11_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_11_c_execution_source_repo": "repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_11_c_execution_source_commit": "836145a853fbae502f58e43b1cdab5126983a987",
   "gsdlc_11_c_execution_source_sha256": "f6285bb75e79873f594f8edc47621c113a8100c301af4ff1ef64bcf01700c23c",
   "gsdlc_11_c_full_regression_runs": 0,
-  "gsdlc_11_d_authorized": false,
+  "gsdlc_11_d_authorized": true,
   "gsdlc_11_c_source_delta_paths": 39,
   "gsdlc_11_c_test_impact": "39/213/326/0",
-  "gsdlc_11_c_browser_acceptance": "PENDING/WINDOWS",
-  "gsdlc_11_c_windows_validation_status": "PENDING"
+  "gsdlc_11_c_browser_acceptance": "PASS/REAL-BROWSER",
+  "gsdlc_11_c_windows_validation_status": "CLOSED/PASS",
+  "gsdlc_11_c_browser_runs": 1,
+  "gsdlc_11_c_successor_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

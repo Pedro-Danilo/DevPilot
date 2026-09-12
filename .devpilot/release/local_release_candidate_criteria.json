@@ -8,11 +8,11 @@
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
         "current_micro_sprint": "DEVPL-GSDLC-11-C",
-        "current_repo": "repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "last_registered_sprint": "DEVPL-GSDLC-08-E",
         "next_backlog_planned": true,
-        "next_micro_sprint": "DEVPL-GSDLC-11-C",
+        "next_micro_sprint": "DEVPL-GSDLC-11-D",
         "next_sprint": "POST-H-EVAL-002",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
@@ -26,10 +26,12 @@
         "post_h_eval_002_status": "approved/active-evaluation",
         "source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
         "gsdlc_10_status": "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
-        "gsdlc_11_status": "ACTIVE/GSDLC-11/11-C-IMPLEMENTATION",
+        "gsdlc_11_status": "ACTIVE/GSDLC-11/11-C-CLOSED/11-D-AUTHORIZED",
         "gsdlc_11_a_full_regression_runs": 0,
         "gsdlc_11_c_authorized": true,
-        "gsdlc_11_c_full_regression_runs": 0
+        "gsdlc_11_c_full_regression_runs": 0,
+        "gsdlc_11_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+        "gsdlc_11_d_authorized": true
       },
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
       "freshness_policy": "contextual-field-match",
@@ -696,9 +698,9 @@
     }
   ],
   "expected_current_micro_sprint": "DEVPL-GSDLC-11-C",
-  "expected_current_repo": "repo_DevPilot_Local_422_DEVPL_GSDLC_11_B_REPRODUCIBLE_PACKAGE_SBOM_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
-  "expected_next_micro_sprint": "DEVPL-GSDLC-11-C",
+  "expected_next_micro_sprint": "DEVPL-GSDLC-11-D",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
@@ -728,5 +730,5 @@
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
   "updated": "2026-09-11",
-  "updated_by": "DEVPL-GSDLC-11-C/local-implementation"
+  "updated_by": "DEVPL-GSDLC-11-C/windows-closure"
 }

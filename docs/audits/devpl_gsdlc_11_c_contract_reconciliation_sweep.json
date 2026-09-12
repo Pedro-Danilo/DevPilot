@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-11-C-CONTRACT-RECONCILIATION-SWEEP-V1",
   "sprint": "DEVPL-GSDLC-11-C",
-  "status": "PASS/LOCAL-QUALIFIED",
+  "status": "PASS/WINDOWS-CLOSURE",
   "checks": {
     "strict_schema_and_current_metadata": "PASS",
     "derived_summary_registry_sync": "PASS",
@@ -11,7 +11,7 @@
     "historical_snapshot_authority": "PASS",
     "historical_pointer_reuse": "PASS",
     "runtime_ephemeral_exclusion": "PASS",
-    "sealed_evidence_rewrite": "NOT-APPLICABLE/PRE-WINDOWS",
+    "sealed_evidence_rewrite": "PASS/NO-REWRITE",
     "successor_registry_history": "PASS",
     "lf_crlf_semantic_policy": "PASS",
     "frx_v2_4_profile_binding": "PASS",
@@ -29,5 +29,6 @@
   "blocking_findings": [],
   "full_regression_runs": 0,
   "gsdlc_11_full_budget": "0/1",
-  "decision": "PASS"
+  "decision": "PASS",
+  "windows_validation": "PASS"
 }

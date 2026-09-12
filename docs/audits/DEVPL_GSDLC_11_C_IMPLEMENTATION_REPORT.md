@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-11-C-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-11-C — Install, upgrade and rollback workflows implementation report"
-status: "implemented/local-qualified/windows-validation-pending"
+status: "closed/PASS/windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-11"
-approval: "local_qualified/windows_pending"
+approval: "windows_validated"
 ---
 
 # 1. Objetivo
@@ -74,3 +74,15 @@ Receipts PASS se reutilizan solo cuando input authority/hash permanece íntegro.
 **PASS Windows pendiente:** browser real + package prerequisite + clean install PASS + backup-before-upgrade + controlled fault + rollback exact restore + evidence + clean Git + repo423 package.
 
 **BLOCK:** package authority/hash stale, upgrade sin backup, restore no verificado, mutación fuera del sandbox, role/scope bypass, network/publish/deploy, S0/S1 o Full ejecutada en 11-C.
+
+
+# 10. Windows closure
+
+- Status: `CLOSED/PASS/WINDOWS-VALIDATED`.
+- Browser real: PASS (1 run).
+- Source delta: 39 paths.
+- Test Impact: 39/213/326/0.
+- Full Regression: 0; backlog budget remains 0/1.
+- Successor: `repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- S0/S1: 0/0.
+- GSDLC-11-D: authorized.
