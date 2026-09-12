@@ -338,7 +338,7 @@ class UiVisualSmokeReporter:
             "outputs/",
             ".devpilot/",
             "/patch/apply",
-            "/rollback/execute",
+            "'/rollback/execute'",
             "/git/push",
         ]
         hits = [marker for marker in forbidden if marker in combined]

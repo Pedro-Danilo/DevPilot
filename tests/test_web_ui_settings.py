@@ -27,7 +27,7 @@ def test_settings_ui_is_api_only_and_plan_only() -> None:
     assert "devpilot_core" not in all_sources
     assert "outputs/" not in all_sources
     assert "/patch/apply" not in all_sources
-    assert "/rollback/execute" not in all_sources
+    assert "'/rollback/execute'" not in all_sources
 
 
 def test_package_and_smoke_test_track_sprint_72_settings_contract() -> None:

@@ -292,10 +292,13 @@ def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_
 def test_10_a_closed_and_current_successor_preserves_full_budget_zero() -> None:
     # HCA: 10-A closure is historical-freeze; current GSDLC-10 pointer is current-active.
     state = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
-    assert state["gsdlc_current_backlog"] == "DEVPL-GSDLC-10"
     assert state["gsdlc_10_a_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
     assert state["gsdlc_10_b_status"].startswith("CLOSED/PASS/WINDOWS-VALIDATED")
-    assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-E"
+    if state.get("gsdlc_current_backlog") == "DEVPL-GSDLC-10":
+        assert state["gsdlc_current_micro_sprint"] == "DEVPL-GSDLC-10-E"
+    else:
+        assert state["gsdlc_10_status"] == "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"
+        assert state["gsdlc_current_backlog"].startswith("DEVPL-GSDLC-")
     assert state["gsdlc_10_c_authorized"] is True
     assert state["gsdlc_10_status"] in {"APPROVED/ACTIVE/GSDLC-10-E", "APPROVED/ACTIVE/GSDLC-10-E/SELECTIVE-RECOVERY", "CLOSED/PASS/WINDOWS-VALIDATED/GSDLC-10-D/10-E-AUTHORIZED", "CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY"}
     assert state["gsdlc_10_a_full_regression_runs"] == 0

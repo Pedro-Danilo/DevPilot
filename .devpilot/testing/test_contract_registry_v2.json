@@ -13730,7 +13730,8 @@
       "source_mutations_allowed": false,
       "subgate_id": "local-release-candidate",
       "test_files": [
-        "tests/test_post_h_026_install_smoke.py"
+        "tests/test_post_h_026_install_smoke.py",
+        "tests/test_release_sbom.py"
       ],
       "test_type": "release",
       "trigger_hints": [
@@ -13761,7 +13762,9 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "docs/schemas/local_install_smoke_report.schema.json",
-        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+        "src/devpilot_core/__init__.py",
+        "tests/test_release_sbom.py"
       ]
     },
     {

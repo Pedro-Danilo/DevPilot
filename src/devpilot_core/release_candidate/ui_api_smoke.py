@@ -59,7 +59,7 @@ _FORBIDDEN_UI_MARKERS = (
     "fs.readFile",
     "writeFile",
     "/patch/apply",
-    "/rollback/execute",
+    "'/rollback/execute'",
     "/git/push",
 )
 

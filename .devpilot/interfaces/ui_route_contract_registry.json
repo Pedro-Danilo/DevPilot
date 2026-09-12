@@ -1546,8 +1546,7 @@
         "PASS",
         "BLOCK",
         "ERROR",
-        "READY_TO_FINALIZE",
-        "RELEASED"
+        "PENDING"
       ],
       "title": "Release closure"
     }
@@ -1567,7 +1566,7 @@
   "status": "implemented-initial",
   "summary": {
     "allowed_api_routes_unique_total": 176,
-    "critical_routes_total": 16,
+    "critical_routes_total": 19,
     "current_routes_total": 19,
     "dashboard_max_concurrency": 2,
     "document_inspection_api_routes_total": 4,

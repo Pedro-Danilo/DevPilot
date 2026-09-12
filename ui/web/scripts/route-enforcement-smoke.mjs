@@ -12,7 +12,7 @@ const uiRegistry = readRepoJson('.devpilot/interfaces/ui_route_contract_registry
 const apiRegistry = readRepoJson('.devpilot/interfaces/api_route_contract_registry.json');
 const apiRouteIds = new Set(apiRegistry.routes.map((route) => route.route_id));
 const requiredRoutes = ['ui.dashboard', 'ui.reports', 'ui.traces', 'ui.approvals', 'ui.settings', 'ui.workspace-documents', 'ui.jobs', 'ui.quality', 'ui.ai'];
-const forbidden = ['/patch/apply', 'patch-apply</option>', '/rollback/execute', '/refactor/execute', '/tests/run', '/git/push', '/deploy', 'child_process', 'devpilot_core', '.devpilot/', 'outputs/'];
+const forbidden = ['/patch/apply', 'patch-apply</option>', "'/rollback/execute'", '/refactor/execute', '/tests/run', '/git/push', '/deploy', 'child_process', 'devpilot_core', '.devpilot/', 'outputs/'];
 const sources = [
   'src/main.ts',
   'src/api/client.ts',

@@ -57,7 +57,8 @@ def test_release_sbom_cli_json_and_report_are_parseable() -> None:
     assert payload["command"] == "release sbom"
     assert payload["ok"] is True
     assert payload["data"]["summary"]["reports_written"] is True
-    assert payload["data"]["sbom"]["release_version"] == "0.1.0"
+    project_version = next(line.split("=", 1)[1].strip().strip('"') for line in (ROOT / "pyproject.toml").read_text(encoding="utf-8").splitlines() if line.strip().startswith("version ="))
+    assert payload["data"]["sbom"]["release_version"] == project_version
     reports = payload["data"].get("reports")
     assert reports["json"] == "outputs/reports/release_sbom.json"
     assert reports["markdown"] == "outputs/reports/release_sbom.md"

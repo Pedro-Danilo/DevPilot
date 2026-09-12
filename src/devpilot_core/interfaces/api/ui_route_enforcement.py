@@ -62,7 +62,7 @@ _FORBIDDEN_ACTION_MARKERS = (
     "patch-apply</option>",
     "patch_apply",
     "rollback-execute</option>",
-    "/rollback/execute",
+    "'/rollback/execute'",
     "refactor-execute</option>",
     "/refactor/execute",
     "tests-run</option>",

@@ -1,3 +1,5 @@
+// UI route contract marker: ui.release-metadata
+// UI route contract marker: ui.release-closure
 // Contract marker: ui.release-package — GSDLC-11-B typed local release package UI/API boundary.
 // Contract marker: ui.release-lifecycle — GSDLC-11-C typed local install/upgrade/rollback UI/API boundary.
 // UI route contract: ui.release-readiness

@@ -48,3 +48,17 @@ This is a first production-oriented local release-closure implementation, not pu
 **PASS local candidate:** focal validation PASS, current-authority registries coherent, browser/full budget unconsumed, no S0/S1 known.
 
 **BLOCK final closure:** missing real-browser release journey, missing exact current package/install/rollback/tag evidence, Full not 100% accounted, second Full attempted, S0/S1 open, or push/publish/deploy detected.
+
+## Post-Full selective recovery note — UI budget and historical contracts
+
+The one logical Full exposed current-active drift that the pre-Full bounded gates did not cover. The recovery preserves the historical UOC-011 512 KiB budget while introducing bounded GSDLC current ceilings (896 KiB aggregate, 96 KiB single-source) and current budgets (832 KiB aggregate, 92 KiB single-source). Current measured source is 838711 bytes and largest source is 89555 bytes. This is a bounded successor allowance, not an unbounded waiver; future UI growth should refactor `api/client.ts` before exhausting the new ceiling. Generic historical `/rollback/execute` remains forbidden while the typed, policy/RBAC/approval-bound `/release/lifecycle/rollback/execute` successor introduced by GSDLC-11-C is explicitly allowed.
+
+## Post-Full composite recovery — 2026-09-12
+
+The single logical Full `DEVPL-GSDLC-11-E-FULL-01-R1` is preserved as immutable evidence: **3147/3147 accounted = 3077 PASS / 65 FAIL functional / 0 ERROR / 5 approved SKIP / 0 UNEXECUTED**, coverage 100%, logical attempts 1, second Full 0. Its failure is not rewritten as PASS and it must not be rerun.
+
+The 65 failures were traced to bounded current-active/documentation-contract drift rather than one release-closure functional defect: UI registry schema/counters and route markers, stale broad historical `/rollback/execute` substring guards that did not recognize the governed `/release/lifecycle/rollback/execute` successor, Python/UI package version drift, stale release-candidate/current-state pointers, bounded UI source-budget successors, TCR v1/v2 parity/coverage, and one historical GSDLC-10 assertion consulting mutable current state.
+
+Authorized recovery is **composite only**: apply the post-Full corrective, execute the exact 65 original failed nodeids without fail-fast, then a bounded impacted retest, Historical Regression Guard and deterministic post-gates. Closure is permitted only if all selective recovery stages PASS, original Full evidence remains immutable, logical Full total stays 1, second Full stays 0, and S0/S1 remain 0.
+
+Final cumulative Test Impact after the post-Full corrective is **55 changed paths / 205 matched contracts / 321 recommended tests / 0 unmatched**. The post-Full corrective itself is **28 paths / 181 matched contracts / 298 recommended tests / 0 unmatched**. No additional Full is authorized.

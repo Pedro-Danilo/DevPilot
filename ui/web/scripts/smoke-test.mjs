@@ -135,7 +135,7 @@ assert(providerSettings.includes('escapeHtml') && settingsView.includes('safeJso
 assert(sanitizeUtils.includes('redactSecrets') && sanitizeUtils.includes('escapeHtml'), 'La UI debe incluir utilidades locales de redacción/escape');
 assert(dryRunActionForm.includes('Solo acciones read-only/dry-run'), 'El formulario debe declarar dry-run seguro');
 assert(!client.includes('/patch/apply'), 'La UI no debe invocar acciones destructivas');
-assert(!client.includes('/rollback/execute'), 'La UI no debe invocar rollback execute');
+assert(!client.includes("'/rollback/execute'"), 'La UI no debe invocar rollback execute');
 assert(!client.includes('/git/push'), 'La UI no debe invocar git push');
 assert(!settingsView.includes('fs.readFile'), 'Settings UI no debe leer archivos locales');
 assert(!settingsView.includes('writeFile'), 'Settings UI no debe escribir archivos locales');

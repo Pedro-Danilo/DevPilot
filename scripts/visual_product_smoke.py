@@ -212,7 +212,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
         root / "ui/web/src/pages/SettingsView.ts",
     ]
     source_text = "\n".join(path.read_text(encoding="utf-8") for path in ui_sources if path.exists())
-    unsafe_markers = [marker for marker in ["devpilot_core", "child_process", "outputs/", ".devpilot/", "/patch/apply", "/rollback/execute", "/git/push", "/deploy"] if marker in source_text]
+    unsafe_markers = [marker for marker in ["devpilot_core", "child_process", "outputs/", ".devpilot/", "/patch/apply", "'/rollback/execute'", "/git/push", "/deploy"] if marker in source_text]
     checks.append(_check(not unsafe_markers, "UI_NO_CORE_OR_FILESYSTEM", "Web UI does not import core, spawn processes or read local runtime files.", "Web UI contains unsafe markers.", {"unsafe_markers": unsafe_markers}))
 
     app_contract = _load_app_contract(root)

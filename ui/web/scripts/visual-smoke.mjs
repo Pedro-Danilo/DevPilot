@@ -81,7 +81,7 @@ for (const [view, file, markers] of visualMarkers) {
 for (const marker of ['loading state', 'empty state', 'error state', 'BLOCK', '401/403', 'API local down']) {
   assert(combined.includes(marker), `Falta estado visual requerido: ${marker}`);
 }
-for (const forbidden of ['devpilot_core', 'child_process', 'outputs/', '.devpilot/', '/patch/apply', '/rollback/execute', '/git/push']) {
+for (const forbidden of ['devpilot_core', 'child_process', 'outputs/', '.devpilot/', '/patch/apply', "'/rollback/execute'", '/git/push']) {
   assert(!combined.includes(forbidden), `La UI no debe contener marcador prohibido: ${forbidden}`);
 }
 

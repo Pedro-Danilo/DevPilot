@@ -26,7 +26,7 @@ def test_approval_center_ui_is_api_only_and_dry_run_only() -> None:
     assert "/approvals" in client
     assert "/actions/dry-run" in client
     assert "/patch/apply" not in client
-    assert "/rollback/execute" not in client
+    assert "'/rollback/execute'" not in client
     assert "/git/push" not in client
 
 

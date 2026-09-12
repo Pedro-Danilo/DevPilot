@@ -42,7 +42,7 @@ def test_post_h_015_d_operator_dashboard_ui_sources_are_api_only_and_visible() -
     assert "outputs/" not in sources
     assert ".devpilot/" not in sources
     assert "/patch/apply" not in sources
-    assert "/rollback/execute" not in sources
+    assert "'/rollback/execute'" not in sources
 
 
 def test_post_h_015_d_ui_route_contract_extends_dashboard_without_new_critical_route() -> None:

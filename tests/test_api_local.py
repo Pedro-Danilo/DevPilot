@@ -136,4 +136,6 @@ def test_api_local_routes_are_limited_to_read_or_dry_run_mvp() -> None:
     assert "/api/v1/miasi/status" in paths
     assert "/api/v1/standards/status" in paths
     assert all("0.0.0.0" not in path for path in paths)
-    assert not any(fragment in path for path in paths for fragment in ["patch/apply", "rollback/execute", "refactor/execute"])
+    assert "/api/v1/patch/apply" not in paths
+    assert "/api/v1/rollback/execute" not in paths
+    assert "/api/v1/refactor/execute" not in paths

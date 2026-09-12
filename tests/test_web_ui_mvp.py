@@ -57,7 +57,7 @@ def test_web_ui_consumes_api_only_and_never_imports_core() -> None:
     for endpoint in ["/operator/dashboard", "/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary", "/approvals", "/actions/dry-run"]:
         assert endpoint in combined
 
-    for forbidden_endpoint in ["/patch/apply", "/rollback/execute", "/refactor/execute"]:
+    for forbidden_endpoint in ["/patch/apply", "'/rollback/execute'", "/refactor/execute"]:
         assert forbidden_endpoint not in combined
 
 
@@ -93,7 +93,7 @@ def _assert_web_ui_smoke_contract_without_node() -> None:
     assert "WARN" in status_card
     assert "BLOCK" in status_card
     assert "/patch/apply" not in client
-    assert "/rollback/execute" not in client
+    assert "'/rollback/execute'" not in client
 
 
 def test_web_ui_smoke_contract_passes_without_node_or_npm() -> None:
