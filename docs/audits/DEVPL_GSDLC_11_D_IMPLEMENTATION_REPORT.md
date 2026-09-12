@@ -2,7 +2,7 @@
 doc_id: "DEVPL-GSDLC-11-D-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-11-D — Version, release notes, tag and approval implementation report"
 status: "implemented-local-qualified"
-version: "1.0.1"
+version: "1.0.2"
 owner: "Ordóñez"
 updated: "2026-09-12"
 approval: "pending_windows_validation"
@@ -31,6 +31,17 @@ Estado local: **IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-VALIDATION-PENDING** sob
 La aceptación browser Windows detectó un gap funcional antes del cierre: las cinco rutas `/api/v1/release/metadata*` estaban presentes en router/OpenAPI/API registry y server RBAC, pero faltaban en `API_ROUTE_POLICIES` del middleware LocalAPI. El middleware fail-closed respondió correctamente `API_POLICY_BINDING_MISSING_BLOCK` (HTTP 403) antes de invocar `ReleaseMetadataApplicationService`.
 
 El corrective v1.0.4 agrega los cinco bindings de PolicyEngine en `src/devpilot_core/interfaces/api/security.py` y una prueba dedicada de paridad transporte/API registry/server RBAC. No se relaja seguridad, no se habilita legacy token y no se consume Full Regression. Test Impact corregido: `34/203/316/0`.
+
+
+# Corrective Windows de continuidad project-scoped — v1.0.5
+
+Después del corrective de transporte v1.0.4, el restart necesario de API invalidó la sesión anterior. El login posterior fue correcto, pero el guard de rutas project-scoped no pudo reconstruir el `ProjectJourneyContext`: el fallback existente consultaba únicamente `GuidedSDLC Project Status`, y el browser fixture GSDLC-03 correctamente registrado todavía no materializa `WorkspaceEngineeringState`, por lo que el status devuelve `ui_state=EMPTY`, `project_id=unknown` y el restorer falla cerrado.
+
+El corrective v1.0.5 conserva Project Status como autoridad primaria y agrega un fallback **UX-only/read-only** por `GET /api/v1/settings/workspace` cuando la sesión humana autenticada tiene exactamente un workspace scope. El fallback restaura únicamente `sessionStorage` si el workspace activo es exact-scope, PathGuard-valid, read-only, local, sin mutaciones, con `.devpilot/project.yaml` GSDLC-03-shaped (`project_type=agent-assisted-sdlc`, `miasi_required=true`, estándares MIPSoftware+MIASI) y `project_id == active_workspace_id`. No ejecuta Project Entry, no concede autorización server-side y no relaja el restorer fuerte de Project Status.
+
+La recuperación permite continuar después de restart/login sin repetir `OPEN_EXISTING`. El corrective cambia solo UI/recovery contracts + pruebas/documentación; no modifica ReleaseMetadataApplicationService ni PolicyEngine.
+
+Test Impact acumulativo después de v1.0.5: `35 changed paths / 203 matched contracts / 317 recommended tests / 0 unmatched`. La validación focal de continuidad cubre además la proyección backend real de `settings/workspace` sobre un `.devpilot/project.yaml` con forma GSDLC-03, no solo contratos estáticos UI. Full Regression permanece `0`.
 
 # Riesgos / limitaciones
 

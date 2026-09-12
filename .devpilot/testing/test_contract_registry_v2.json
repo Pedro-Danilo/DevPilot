@@ -24117,7 +24117,8 @@
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
-        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
+        "tests/test_devpl_gsdlc_11_d_project_context_recovery.py"
       ],
       "watched_paths": [
         "src/devpilot_core/application/release_metadata_service.py",
@@ -24146,7 +24147,9 @@
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",
         "src/devpilot_core/interfaces/api/security.py",
-        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
+        "tests/test_devpl_gsdlc_11_d_project_context_recovery.py",
+        "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs"
       ],
       "validates": [
         "semantic/version policy positive and negative",
@@ -24158,7 +24161,8 @@
         "no push/publication",
         "browser metadata/tag approval UI",
         "Full Regression remains 0 in GSDLC-11-D; backlog budget remains 0/1",
-        "LocalAPI PolicyEngine binding parity for every /api/v1/release/metadata* route"
+        "LocalAPI PolicyEngine binding parity for every /api/v1/release/metadata* route",
+        "session-bound project-route UX recovery falls back read-only to the exact authenticated registered workspace when Guided SDLC engineering state is legitimately EMPTY; Project Entry is not repeated and server authorization is not granted by browser storage"
       ],
       "required_for_release": true,
       "required_for_security_gate": true,
@@ -24186,10 +24190,12 @@
         "version-decision",
         "tag-plan",
         "release-approval",
-        "annotated-tag"
+        "annotated-tag",
+        "session-bound-project-recovery",
+        "registered-workspace-recovery"
       ],
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
       ],
       "classification_status": "explicit",
       "classification_notes": [
@@ -24197,7 +24203,8 @@
         "Git mutation is restricted to one annotated local tag after exact human approval; push/publish/deploy remain false.",
         "Agent/model routes are proposal-only and cannot approve or tag.",
         "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-D.",
-        "Windows browser corrective v1.0.4 closes the missing LocalAPI API_ROUTE_POLICIES binding discovered by real-browser acceptance; fail-closed middleware remains unchanged."
+        "Windows browser corrective v1.0.4 closes the missing LocalAPI API_ROUTE_POLICIES binding discovered by real-browser acceptance; fail-closed middleware remains unchanged.",
+        "Windows browser corrective v1.0.5 preserves ProjectStatus as the primary recovery authority and adds a bounded settings/workspace fallback only for an authenticated single-scope registered GSDLC-03 workspace when WorkspaceEngineeringState is EMPTY; UX recovery grants no server authority and does not repeat Project Entry."
       ],
       "source_contract_id": "gsdlc11d-release-metadata-tag-approval",
       "subgate_id": "gsdlc-11-d-release-metadata",

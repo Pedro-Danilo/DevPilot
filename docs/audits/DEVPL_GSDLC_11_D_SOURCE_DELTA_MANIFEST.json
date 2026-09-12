@@ -4,7 +4,7 @@
   "execution_source_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "3161ff7c9e216b039ac657fa52a9667a249d879d",
   "execution_source_sha256": "836c9bb2e24f547fc3bd6a61235b938557139a8730010ea5208acaf695f23099",
-  "changed_paths_count": 34,
+  "changed_paths_count": 35,
   "changed_paths": [
     ".devpilot/docs_governance/source_registry.json",
     ".devpilot/identity/server_rbac_policy_catalog.json",
@@ -30,6 +30,7 @@
     "src/devpilot_core/interfaces/api/routers/release.py",
     "src/devpilot_core/interfaces/api/security.py",
     "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+    "tests/test_devpl_gsdlc_11_d_project_context_recovery.py",
     "tests/test_devpl_gsdlc_11_d_release_metadata.py",
     "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
     "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
@@ -46,5 +47,9 @@
   "external_api_used": false,
   "secrets_exposed": false,
   "status": "PASS/CORRECTED-BEFORE-WINDOWS-CLOSURE",
-  "windows_corrective": "v1.0.4/local-api-policy-binding"
+  "windows_corrective": "v1.0.5/session-bound-registered-workspace-recovery",
+  "windows_corrective_chain": [
+    "v1.0.4/local-api-policy-binding",
+    "v1.0.5/session-bound-registered-workspace-recovery"
+  ]
 }

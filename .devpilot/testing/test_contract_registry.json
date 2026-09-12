@@ -14022,10 +14022,11 @@
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
-        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
+        "tests/test_devpl_gsdlc_11_d_project_context_recovery.py"
       ],
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
       ],
       "validates": [
         "SemVer/version/package alignment",
@@ -14034,7 +14035,8 @@
         "server-side role-bound hash-bound approval",
         "local annotated tag exact commit",
         "existing tag conflict fail-closed",
-        "no push/publication and Full Regression remains 0"
+        "no push/publication and Full Regression remains 0",
+        "session-bound project-route UX recovery falls back read-only to the exact authenticated registered workspace when Guided SDLC engineering state is legitimately EMPTY; Project Entry is not repeated and server authorization is not granted by browser storage"
       ],
       "watched_paths": [
         "src/devpilot_core/application/release_metadata_service.py",
@@ -14061,7 +14063,9 @@
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
         "src/devpilot_core/interfaces/api/security.py",
-        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
+        "tests/test_devpl_gsdlc_11_d_project_context_recovery.py",
+        "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs"
       ]
     }
   ],

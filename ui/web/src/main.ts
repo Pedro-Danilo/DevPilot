@@ -1,4 +1,4 @@
-import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromProjectStatusRecovery, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
+import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromProjectStatusRecovery, restoreProjectJourneyContextFromRegisteredWorkspaceRecovery, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
 import type { ProjectJourneyContext } from './api/client';
 import type { AuthSessionContext } from './api/types';
 import { renderDashboard } from './pages/Dashboard';
@@ -206,6 +206,11 @@ async function recoverSessionBoundProjectRouteContext(
   try {
     const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
     const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
+    if (restored) return 'restored';
+  } catch { /* A registered project may legitimately have no WorkspaceEngineeringState yet. */ }
+  try {
+    const workspace=await client.settingsWorkspace();
+    const restored=restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(workspace, expectedWorkspaceId);
     return restored ? 'restored' : 'failed';
   } catch {
     return 'failed';

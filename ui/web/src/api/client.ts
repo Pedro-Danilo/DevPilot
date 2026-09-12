@@ -1231,6 +1231,58 @@ export function restoreProjectJourneyContextFromProjectStatusRecovery(
   return value;
 }
 
+export function restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(
+  response: DevPilotApplicationResponse,
+  expectedWorkspaceId: string,
+): ProjectJourneyContext | null {
+  const data = (response.data ?? {}) as Record<string, unknown>;
+  const summary = (data.summary ?? {}) as Record<string, unknown>;
+  const workspace = (data.workspace ?? {}) as Record<string, unknown>;
+  const context = (data.workspace_context ?? {}) as Record<string, unknown>;
+  const nestedProject = (workspace.project ?? {}) as Record<string, unknown>;
+  const workspaceId = String(context.active_workspace_id ?? '').trim();
+  const projectId = String(workspace.project_id ?? nestedProject.id ?? summary.project_id ?? '').trim();
+  const workspaceRoot = String(context.active_workspace_root ?? '').trim();
+  const projectFile = String(context.project_file ?? '').trim();
+  const standards = Array.isArray(workspace.standards) ? workspace.standards.map((item) => String(item)) : [];
+  const valid = response.ok === true
+    && summary.scope === 'active-workspace'
+    && summary.exists === true
+    && summary.write_enabled === false
+    && summary.plan_only === true
+    && summary.secrets_redacted === true
+    && context.configured === true
+    && context.valid === true
+    && context.read_only === true
+    && context.network_used === false
+    && context.external_api_used === false
+    && context.mutations_performed === false
+    && Boolean(workspaceId)
+    && workspaceId === expectedWorkspaceId
+    && Boolean(projectId)
+    && projectId === workspaceId
+    && projectId.toLowerCase() !== 'unknown'
+    && Boolean(workspaceRoot)
+    && Boolean(projectFile)
+    && String(workspace.project_type ?? '').trim() === 'agent-assisted-sdlc'
+    && workspace.miasi_required === true
+    && standards.includes('MIPSoftware')
+    && standards.includes('MIASI');
+  if (!valid) return null;
+  const value: ProjectJourneyContext = {
+    phase: 'project',
+    project_id: projectId,
+    target_root: workspaceRoot,
+    activated_at: new Date().toISOString(),
+  };
+  clearProjectEntryResumeState();
+  clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
+  try { globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(value)); } catch { return null; }
+  return value;
+}
+
+
 export function beginProjectEntryJourney(entryMode: ProjectEntryMode): void {
   clearProjectRecoveryIntent();
   clearApprovalCenterEntryHandoff();

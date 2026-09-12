@@ -13,7 +13,8 @@
     "runtime_ephemeral_store_copied": false,
     "sealed_evidence_rewritten": false,
     "successor_without_registry_history_update": false,
-    "api_route_missing_policy_binding": false
+    "api_route_missing_policy_binding": false,
+    "project_route_recovery_requires_nonempty_engineering_state": false
   },
   "sensitive_action": "annotated local Git tag",
   "binding": [
@@ -27,11 +28,20 @@
   "external_api_used": false,
   "secrets_exposed": false,
   "full_regression_runs": 0,
-  "windows_corrective": {
-    "version": "1.0.4",
-    "finding": "missing API_ROUTE_POLICIES binding for /api/v1/release/metadata* discovered by real-browser acceptance",
-    "resolution": "five LocalAPI PolicyEngine bindings added; dedicated transport parity test added",
-    "security_relaxed": false,
-    "full_regression_runs": 0
-  }
+  "windows_correctives": [
+    {
+      "version": "1.0.4",
+      "finding": "missing API_ROUTE_POLICIES binding for /api/v1/release/metadata* discovered by real-browser acceptance",
+      "resolution": "five LocalAPI PolicyEngine bindings added; dedicated transport parity test added",
+      "security_relaxed": false,
+      "full_regression_runs": 0
+    },
+    {
+      "version": "1.0.5",
+      "finding": "session-bound project-route recovery failed after restart because registered OPEN_EXISTING fixture had no WorkspaceEngineeringState and Project Status honestly returned EMPTY/unknown",
+      "resolution": "Project Status remains primary; bounded authenticated single-scope settings/workspace read-only UX fallback restores browser project context without repeating Project Entry or granting server authority",
+      "security_relaxed": false,
+      "full_regression_runs": 0
+    }
+  ]
 }
