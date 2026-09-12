@@ -1,5 +1,5 @@
 {
-  "collection_sha256": "d9ca578594163a1ada1d09f3966702cc4f80d7b54a4a3283b93610cf937b91b9",
+  "collection_sha256": "625588e775112435b770b3299168bb840c80c715dd759fe72dc1f41ec8f53fc1",
   "entries": [
     {
       "explicit_review_required": true,
@@ -38826,6 +38826,1390 @@
         ],
         "decision": "SERIAL_REQUIRED"
       }
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness.py::test_project_scope_mismatch_blocks_before_projection",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness.py::test_ready_projection_is_deterministic_and_not_release_approval",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness.py::test_stale_dirty_pending_and_traceability_block_with_owner_and_next_action",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness.py::test_unknown_missing_quality_fails_closed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness.py::test_unsupported_claim_blocks_and_never_overclaims",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "localhost-ports-server-lifecycle",
+          "confidence": "suggested",
+          "evidence": [
+            "port="
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py::test_11_a_activation_and_windows_close_are_historical_freeze",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py::test_api_route_is_registered_read_only_human_session_project_scoped",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py::test_schema_and_no_overclaim_contract_are_registered",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py::test_ui_mapping_is_project_scoped_read_only_and_authority_separated",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package.py::test_package_builder_blocks_included_symlink",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package.py::test_package_builder_repo_zip_is_byte_reproducible",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package.py::test_release_package_plan_is_role_bound_and_stale_commit_fails_closed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package.py::test_sbom_baseline_schema_accepts_current_builder_payload",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py::test_11a_and_11b_close_facts_are_frozen_while_current_pointer_can_advance",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py::test_new_schemas_and_test_contract_are_registered",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py::test_release_artifact_manifest_schema_covers_current_exclusions_contract",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py::test_routes_and_rbac_are_project_scoped_and_role_bound",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_b_release_package_contracts.py::test_ui_contract_is_typed_plan_bound_local_only_and_no_shell",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle.py::test_11c_clean_install_upgrade_fault_and_rollback_restore",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "['git'"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle.py::test_11c_install_blocks_checksum_mismatch",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "['git'"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle.py::test_11c_mutation_requires_release_role",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "['git'"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py::test_11c_api_ui_rbac_contracts_are_registered",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py::test_11c_closed_fact_survives_successor_and_full_budget_zero",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py::test_11c_ui_and_docs_current_active_markers",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_project_context_recovery.py::test_11_d_recovery_does_not_relax_existing_project_status_authority_contract",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_project_context_recovery.py::test_11_d_registered_workspace_fallback_backend_projection_matches_open_existing_shape",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_project_context_recovery.py::test_11_d_registered_workspace_recovery_is_scope_bound_read_only_and_gsdlc03_shaped",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_project_context_recovery.py::test_11_d_restart_recovery_keeps_project_status_as_primary_and_registered_workspace_as_read_only_fallback",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "process-global-env-cwd",
+          "confidence": "suggested",
+          "evidence": [
+            "monkeypatch.setenv"
+          ]
+        },
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata.py::test_11d_agent_proposal_has_no_approval_authority",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata.py::test_11d_approval_hash_mismatch_blocks_tag",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata.py::test_11d_existing_tag_conflict_fails_closed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata.py::test_11d_happy_path_creates_only_exact_local_annotated_tag",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata.py::test_11d_unauthorized_role_cannot_prepare_or_approve",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata.py::test_11d_version_drift_blocks",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py::test_11d_api_ui_and_rbac_contracts_cover_sensitive_tag_actions",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py::test_11d_current_authority_is_repo423_and_full_is_reserved_for_11e",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py::test_11d_hca_and_contract_reconciliation_are_pass_without_historical_rewrite",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py::test_11d_release_metadata_routes_have_local_api_policy_binding",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py::test_11d_transport_policy_binding_matches_api_and_server_rbac_registries",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure.py::test_release_closure_blocks_stale_package",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "['git'"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure.py::test_release_closure_finalize_requires_release_role",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "['git'"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure.py::test_release_closure_ready_and_finalize_released",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "['git'"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py::test_11e_full_regression_policy_is_exactly_one_at_closure",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py::test_11e_routes_policy_rbac_ui_are_coherent",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure_transport.py::test_11e_release_closure_routes_cross_policy_engine",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure_transport.py::test_11e_release_closure_transport_registry_coherence",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
     },
     {
       "explicit_review_required": true,
@@ -111398,9 +112782,9 @@
     "windows-named-resources-locks"
   ],
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
-  "source_commit": "e1fbc1c93eba098cf7b82272dcaa9fe9b0100149+GSDLC-10-E",
+  "source_commit": "5e57bfd5670525981da77ac16ec3bf924cd187a4+GSDLC-11-E-pre-full-isolation-coverage",
   "status": "implemented-initial",
-  "updated": "2026-09-10T22:30:00Z",
+  "updated": "2026-09-12T16:00:00Z",
   "version": "1.0.0",
-  "registry_sha256": "69215af6e48f9edb4b077937a125905ae68c0cbe86f559640440b163158068e5"
+  "registry_sha256": "1245a8b481c7d2f6643fb0da5ddb6c68a33d0a72129f7606b46b1b0948b9cf9e"
 }
