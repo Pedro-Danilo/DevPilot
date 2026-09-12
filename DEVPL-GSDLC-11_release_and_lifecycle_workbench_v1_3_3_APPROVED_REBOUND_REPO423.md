@@ -26,7 +26,7 @@ local_first: true
 ui_complete_normal_journey: true
 dry_run_default: true
 backlog_id: "DEVPL-GSDLC-11"
-backlog_status: "ACTIVE/GSDLC-11/11-C-CLOSED/11-D-IMPLEMENTED-LOCAL-QUALIFIED"
+backlog_status: "ACTIVE/GSDLC-11/11-D-CLOSED/11-E-AUTHORIZED"
 micro_sprints_total: 5
 frx_execution_profile_id: "frx-v2.4-current"
 frx_execution_profile_sha256: "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
@@ -515,3 +515,8 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 - Clean install smoke, backup-before-upgrade, controlled fault injection y rollback exact restore proof quedaron acreditados.
 - Test Impact final: `39/213/326/0`; Full budget de GSDLC-11 permanece `0/1`.
 - `GSDLC-11-D` queda autorizado; 11-D deberá rebindearse a repo423 antes de implementar version/release notes/tag/approval.
+
+
+## 0.0.5 Windows closure GSDLC-11-D
+
+11-D = `CLOSED/PASS/WINDOWS-VALIDATED`; annotated tag local exact-commit + approval human role-bound acreditados, no push/publication, browser=1, S0/S1=0, Full=0. Successor repo424 y 11-E autorizado.

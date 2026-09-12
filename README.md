@@ -6749,3 +6749,8 @@ DEVPL-GSDLC-11 se activa acumulativamente sobre repo420 y GSDLC-11-A cierra `CLO
 ## DEVPL-GSDLC-11-D — Version, release notes, tag and approval — local qualification
 
 GSDLC-11-D is implemented on the exact Windows-validated repo423 source (`3161ff7c9e216b039ac657fa52a9667a249d879d`, SHA-256 `836c9bb2e24f547fc3bd6a61235b938557139a8730010ea5208acaf695f23099`). It adds an evidence-derived `VersionDecision`, release-notes provenance, exact-commit dry-run `TagPlan`, server-side owner/release-manager approval bound to the plan hash, and local annotated-tag execution only after fresh approval. Agent/model paths remain proposal-only; existing-tag conflict fails closed; no push, publish, deploy, external API or network authority is introduced. Status: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; Full Regression=`0`, GSDLC-11 budget remains `0/1` reserved for 11-E.
+
+
+### DEVPL-GSDLC-11-D — Windows closure
+
+GSDLC-11-D queda `CLOSED/PASS/WINDOWS-VALIDATED`. La UI normal acreditó VersionDecision coherente, release notes con provenance, TagPlan exact-commit dry-run, approval owner/release-manager hash-bound y annotated local tag verificado en el commit aprobado. No hubo push/publication/deploy; browser real=1; S0/S1=0; Full Regression=0 y GSDLC-11 conserva 0/1 para 11-E. Successor: `repo_DevPilot_Local_424_DEVPL_GSDLC_11_D_VERSION_RELEASE_NOTES_TAG_APPROVAL_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-11-E queda autorizado.

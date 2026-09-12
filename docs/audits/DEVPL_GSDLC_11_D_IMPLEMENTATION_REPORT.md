@@ -1,16 +1,16 @@
 ---
 doc_id: "DEVPL-GSDLC-11-D-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-11-D — Version, release notes, tag and approval implementation report"
-status: "implemented-local-qualified"
-version: "1.0.2"
+status: "closed-pass-windows-validated"
+version: "1.0.3"
 owner: "Ordóñez"
 updated: "2026-09-12"
-approval: "pending_windows_validation"
+approval: "windows_validated"
 ---
 
 # Resultado
 
-Estado local: **IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-VALIDATION-PENDING** sobre repo423. GSDLC-11-C está previamente adjudicado CLOSED/PASS/WINDOWS-VALIDATED.
+Estado final: **CLOSED / PASS / WINDOWS-VALIDATED** sobre repo423. GSDLC-11-C está previamente adjudicado CLOSED/PASS/WINDOWS-VALIDATED.
 
 # Capacidad implementada
 
@@ -63,3 +63,8 @@ Test Impact acumulativo después de v1.0.5: `35 changed paths / 203 matched cont
 `PYTHONPATH=src pytest -q tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py`
 
 `cd ui/web && npm run test:release-metadata`
+
+
+# Windows closure
+
+Browser real=PASS; session-bound project context recovered read-only without repeating Project Entry; exact annotated tag=PASS; approval binding=PASS; no push/publication=PASS; S0/S1=0; Full Regression=0.
