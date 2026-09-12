@@ -29,6 +29,12 @@ No automatic mutation replay, arbitrary shell, remote operation, runtime DB snap
 
 Local qualification: GSDLC-12-A focal recovery 11/11 PASS; predecessor historical-contract reconciliation 13/13 PASS; selected auth/project-entry cumulative checks 24/24 PASS; UI recovery smoke 10/10 PASS; Project State/TCR v1/TCR v2/Test Impact Rules/Test Impact/HCA/Contract Reconciliation PASS. Test Impact = 50/216/336/0. The global docs-governance CLI exceeded this sandbox time budget and is therefore not claimed PASS locally; Windows validation uses bounded frontmatter/current-authority checks instead of repeating an expensive unrelated global scan. Real browser restart acceptance remains mandatory on Windows. Full Regression = 0.
 
+# 4.1 Browser restart corrective
+
+Windows browser acceptance exposed a current-active bootstrap gap: after API/UI restart and a new human session, the generic project-route guard tried historical Project Status/settings fallbacks but did not consult the new GSDLC-12-A durable recovery checkpoint before redirecting to Project Home. The server-side checkpoint and lock had survived correctly; the defect was in UI route-context restoration.
+
+The corrective adds a strict, session-scope-bound `restoreProjectJourneyContextFromDurableRecovery` fallback. It accepts only a PASS server response with `authority.server_side=true`, browser/runtime DB authority false, matching workspace scope, a versioned checkpoint bound to the same workspace, and no source mutation. It performs no Project Entry replay and grants no new server authority. Historical GSDLC-11-D project-status/settings recovery remains primary and unchanged. Local corrective qualification: 56/56 focused + historical project-context tests PASS and UI recovery smoke 11/11 PASS. The 50-path source delta and Test Impact `50/216/336/0` remain unchanged because all corrective files were already in the original 12-A path set. Full Regression remains 0.
+
 # 5. Preliminary limitations
 
 This is the first local industrial recovery version. Locks are local-filesystem scoped, not distributed. Branch/external edit conflict UX belongs to GSDLC-12-B. Accessibility/mode parity and red-team/performance hardening remain in 12-C/12-D. Full browser matrix and the only GSDLC-12 Full belong to 12-E.

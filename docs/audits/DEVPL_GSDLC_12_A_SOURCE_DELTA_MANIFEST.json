@@ -101,7 +101,7 @@
     {
       "path": "docs/audits/DEVPL_GSDLC_12_A_IMPLEMENTATION_REPORT.md",
       "baseline_semantic_sha256": null,
-      "post_semantic_sha256": "0a9bed992d60ea380bfd23c2edb9f34b95b84a71de86545ed44869307803406c",
+      "post_semantic_sha256": "d9a8aedd9b05edf4160ecb868ffe6e52ddf65859670be8846534aa0aa7ab6c56",
       "kind": "added"
     },
     {
@@ -245,7 +245,7 @@
     {
       "path": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
       "baseline_semantic_sha256": null,
-      "post_semantic_sha256": "6626691175d2b532be8f445f14d275fe1eb0e1c14b872fc003ed2b61f3cda4b6",
+      "post_semantic_sha256": "6c511b231da24598d0113d096ab730fe40ea0782975a310a88e9be8f80ec0c53",
       "kind": "added"
     },
     {
@@ -275,13 +275,13 @@
     {
       "path": "ui/web/scripts/gsdlc12a-recovery-smoke.mjs",
       "baseline_semantic_sha256": null,
-      "post_semantic_sha256": "f059baa72f326b31018083c8e243a0b0494ec67cab165666d4364154446ed444",
+      "post_semantic_sha256": "3c67164dd262a59a92e6be25c7e29fb920e46b1a74d7a21cff124ae29710d0e8",
       "kind": "added"
     },
     {
       "path": "ui/web/src/api/client.ts",
       "baseline_semantic_sha256": "9f9ce185ad562ab860cb4a4dda219343a5a86a4a3ff9e875c50320de2e89b35a",
-      "post_semantic_sha256": "fea6f28785956a439d3b1463c0231806bb9da0cf834c19f7b5e6fb33368d4dd6",
+      "post_semantic_sha256": "e066f87a4c0f5cfa4c9f4c5cd91fbe984def21b49c0ae81d3f554a4d2b5a98fc",
       "kind": "modified"
     },
     {
@@ -293,7 +293,7 @@
     {
       "path": "ui/web/src/main.ts",
       "baseline_semantic_sha256": "8485d642eed8c7fb0c3dead06faf21c82a382cc4eaa666074f59c218c3eedecd",
-      "post_semantic_sha256": "51957c8e768a8d174adf9a8387d7b052d4a2ae5bd32afb29d2af8cc38072c0cc",
+      "post_semantic_sha256": "d5b190723baade2879c480ed8d9afedbe77bba7e951aa501677e971b3b3fd6ea",
       "kind": "modified"
     },
     {
@@ -310,5 +310,19 @@
     }
   ],
   "test_impact": "50/216/336/0",
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "corrective": "v1.0.1/new-session-durable-route-context-recovery",
+  "corrective_changed_paths": [
+    "ui/web/src/main.ts",
+    "ui/web/src/api/client.ts",
+    "ui/web/scripts/gsdlc12a-recovery-smoke.mjs",
+    "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+    "docs/audits/DEVPL_GSDLC_12_A_IMPLEMENTATION_REPORT.md",
+    "docs/audits/DEVPL_GSDLC_12_A_SOURCE_DELTA_MANIFEST.json"
+  ],
+  "corrective_validation": {
+    "pytest": "56/56 PASS",
+    "ui_smoke": "11/11 PASS",
+    "full_regression_runs": 0
+  }
 }

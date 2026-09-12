@@ -1313,6 +1313,51 @@ export function restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(
 }
 
 
+export function restoreProjectJourneyContextFromDurableRecovery(
+  response: DevPilotApplicationResponse<import('./types').RecoveryStatusData>,
+  expectedWorkspaceId: string,
+): ProjectJourneyContext | null {
+  const data = response.data;
+  const recovery = data?.recovery;
+  const authority = data?.authority;
+  const checkpoint = recovery?.checkpoint;
+  const workspaceId = String(recovery?.workspace_id ?? '').trim();
+  const projectId = String(recovery?.project_id ?? workspaceId).trim();
+  const checkpointRecord = checkpoint && typeof checkpoint === 'object' && !Array.isArray(checkpoint)
+    ? checkpoint as Record<string, unknown>
+    : null;
+  const valid = response.ok === true
+    && authority?.server_side === true
+    && authority?.browser_storage_authority === false
+    && authority?.runtime_db_snapshot_used === false
+    && recovery?.browser_storage_authority === false
+    && recovery?.runtime_db_snapshot_used === false
+    && recovery?.auto_resume_mutation === false
+    && Boolean(workspaceId)
+    && workspaceId === expectedWorkspaceId
+    && Boolean(projectId)
+    && projectId.toLowerCase() !== 'unknown'
+    && checkpointRecord !== null
+    && String(checkpointRecord.schema_version ?? '') === '1.0'
+    && String(checkpointRecord.workspace_id ?? '') === workspaceId
+    && checkpointRecord.browser_storage_authority === false
+    && checkpointRecord.runtime_db_snapshot_used === false
+    && checkpointRecord.source_mutations_performed === false;
+  if (!valid) return null;
+  const value: ProjectJourneyContext = {
+    phase: 'project',
+    entry_mode: 'OPEN_EXISTING',
+    project_id: projectId,
+    activated_at: new Date().toISOString(),
+  };
+  clearProjectEntryResumeState();
+  clearApprovalCenterEntryHandoff();
+  clearApprovalCenterArtifactReviewHandoff();
+  try { globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY, JSON.stringify(value)); } catch { return null; }
+  return value;
+}
+
+
 export function beginProjectEntryJourney(entryMode: ProjectEntryMode): void {
   clearProjectRecoveryIntent();
   clearApprovalCenterEntryHandoff();

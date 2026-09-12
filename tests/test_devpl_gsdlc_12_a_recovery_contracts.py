@@ -93,3 +93,33 @@ def test_12_a_activation_sources_are_bound_to_repo425() -> None:
     assert expected_commit in backlog and expected_commit in activation
     assert expected_sha in backlog and expected_sha in activation
     assert "Full Regression = 0" in prompt
+
+
+def test_12_a_new_human_session_restores_project_route_from_durable_recovery_before_guarding_home() -> None:
+    main = (ROOT / "ui/web/src/main.ts").read_text(encoding="utf-8")
+    client = (ROOT / "ui/web/src/api/client.ts").read_text(encoding="utf-8")
+    segment = main.split("async function recoverSessionBoundProjectRouteContext", 1)[1].split("function renderRouteHeader", 1)[0]
+    assert "client.projectStatusSessionRecovery(expectedWorkspaceId)" in segment
+    assert "client.settingsWorkspace()" in segment
+    assert "client.recoveryStatus()" in segment
+    assert "restoreProjectJourneyContextFromDurableRecovery(recovery, expectedWorkspaceId)" in segment
+    assert segment.index("projectStatusSessionRecovery") < segment.index("settingsWorkspace") < segment.index("recoveryStatus")
+    helper = client.split("export function restoreProjectJourneyContextFromDurableRecovery", 1)[1].split("export function beginProjectEntryJourney", 1)[0]
+    for required in [
+        "response.ok === true",
+        "authority?.server_side === true",
+        "authority?.browser_storage_authority === false",
+        "authority?.runtime_db_snapshot_used === false",
+        "recovery?.browser_storage_authority === false",
+        "recovery?.runtime_db_snapshot_used === false",
+        "recovery?.auto_resume_mutation === false",
+        "workspaceId === expectedWorkspaceId",
+        "checkpointRecord !== null",
+        "String(checkpointRecord.schema_version ?? '') === '1.0'",
+        "String(checkpointRecord.workspace_id ?? '') === workspaceId",
+        "checkpointRecord.source_mutations_performed === false",
+        "phase: 'project'",
+        "globalThis.sessionStorage?.setItem(PROJECT_JOURNEY_CONTEXT_KEY",
+    ]:
+        assert required in helper
+    assert "projectEntry" not in helper

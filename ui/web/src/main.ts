@@ -1,4 +1,4 @@
-import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromProjectStatusRecovery, restoreProjectJourneyContextFromRegisteredWorkspaceRecovery, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
+import { clearProjectJourneyContext, clearProjectRecoveryIntent, DevPilotApiClient, DevPilotApiError, parseExplicitProjectRecoveryIntent, projectRecoveryTarget, readApprovalCenterArtifactReviewHandoff, readApprovalCenterEntryHandoff, readProjectJourneyContext, readProjectRecoveryIntent, readStoredToken, resolvePostLoginReturn, restoreProjectJourneyContextFromDurableRecovery, restoreProjectJourneyContextFromProjectStatusRecovery, restoreProjectJourneyContextFromRegisteredWorkspaceRecovery, restoreProjectJourneyContextFromServerRecovery, saveProjectRecoveryIntent } from './api/client';
 import type { ProjectJourneyContext } from './api/client';
 import type { AuthSessionContext } from './api/types';
 import { renderDashboard } from './pages/Dashboard';
@@ -217,6 +217,11 @@ async function recoverSessionBoundProjectRouteContext(
   try {
     const workspace=await client.settingsWorkspace();
     const restored=restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(workspace, expectedWorkspaceId);
+    if (restored) return 'restored';
+  } catch { /* A minimal OPEN_EXISTING fixture may not satisfy the richer settings projection contract. */ }
+  try {
+    const recovery=await client.recoveryStatus();
+    const restored=restoreProjectJourneyContextFromDurableRecovery(recovery, expectedWorkspaceId);
     return restored ? 'restored' : 'failed';
   } catch {
     return 'failed';

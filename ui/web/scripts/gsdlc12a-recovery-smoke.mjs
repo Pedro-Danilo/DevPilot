@@ -12,6 +12,7 @@ add('locks',view.includes('Adquirir lock sensible')&&view.includes('Workspace lo
 add('restart-guidance',view.includes('reinicia API/UI')&&view.includes('revalidación'));
 add('coherent-project-status',view.includes('Project Status coherence')&&view.includes('Display state'));
 add('api-client',client.includes("'/recovery'")&&client.includes("'/recovery/checkpoint'")&&client.includes("'/recovery/locks/acquire'"));
+add('durable-route-recovery',main.includes('restoreProjectJourneyContextFromDurableRecovery')&&main.includes('client.recoveryStatus()')&&client.includes('restoreProjectJourneyContextFromDurableRecovery'));
 add('types',types.includes('RecoveryStatusData')&&types.includes('RecoveryPendingWork'));
 add('no-browser-authority-code',!view.includes('sessionStorage')&&!view.includes('localStorage'));
 console.log(`${checks.filter(x=>x.ok).length}/${checks.length} PASS`);if(process.exitCode)console.error(checks.filter(x=>!x.ok));
