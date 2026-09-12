@@ -128,6 +128,8 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/release/metadata/tag-plan"): ApiRoutePolicy("release.metadata.tag-plan", "read", "protected-human-session-release-metadata-governed"),
     ("POST", "/api/v1/release/metadata/approve"): ApiRoutePolicy("release.metadata.approve", "read", "protected-human-session-release-metadata-governed"),
     ("POST", "/api/v1/release/metadata/tag/execute"): ApiRoutePolicy("release.metadata.tag.execute", "read", "protected-human-session-release-metadata-governed"),
+    ("GET", "/api/v1/release/closure"): ApiRoutePolicy("release.closure.status", "read", "protected-human-session-project-release-closure-read"),
+    ("POST", "/api/v1/release/closure/finalize"): ApiRoutePolicy("release.closure.finalize", "read", "protected-human-session-release-closure-finalize"),
     ("POST", "/api/v1/project-entry/environment-discovery"): ApiRoutePolicy("project_entry.environment_discovery", "read", "protected-human-session-project-entry-plan"),
     ("POST", "/api/v1/project-entry/bootstrap-plan"): ApiRoutePolicy("project_entry.bootstrap_plan", "read", "protected-human-session-project-entry-plan"),
     ("POST", "/api/v1/project-entry/dry-run"): ApiRoutePolicy("project_entry.dry_run", "read", "protected-human-session-project-entry-dry-run"),

@@ -6754,3 +6754,7 @@ GSDLC-11-D is implemented on the exact Windows-validated repo423 source (`3161ff
 ### DEVPL-GSDLC-11-D — Windows closure
 
 GSDLC-11-D queda `CLOSED/PASS/WINDOWS-VALIDATED`. La UI normal acreditó VersionDecision coherente, release notes con provenance, TagPlan exact-commit dry-run, approval owner/release-manager hash-bound y annotated local tag verificado en el commit aprobado. No hubo push/publication/deploy; browser real=1; S0/S1=0; Full Regression=0 y GSDLC-11 conserva 0/1 para 11-E. Successor: `repo_DevPilot_Local_424_DEVPL_GSDLC_11_D_VERSION_RELEASE_NOTES_TAG_APPROVAL_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-11-E queda autorizado.
+
+## DEVPL-GSDLC-11-E — local candidate
+
+GSDLC-11-D is `CLOSED/PASS/WINDOWS-VALIDATED` on repo424. GSDLC-11-E is implemented locally on that exact successor and adds the final local release closure surface (`/release/closure`). The release version advances to `0.1.1` so historical annotated tag `v0.1.0` is never moved or reused. The only GSDLC-11 Full Regression remains `0/1` and is reserved for the Windows closure operator after real-browser acceptance and all pre-Full reconciliation gates.

@@ -47,6 +47,10 @@ class ReleaseMetadataTagExecuteBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=200)
 
 
+class ReleaseClosureFinalizeBody(BaseModel):
+    graph_hash: str = Field(min_length=64, max_length=64)
+
+
 def _json(payload: dict[str, Any], status_code: int) -> JSONResponse:
     return JSONResponse(content=payload, status_code=status_code)
 
@@ -198,4 +202,17 @@ def release_metadata_tag_execute(request: Request, body: ReleaseMetadataTagExecu
     identity, error = _identity(request, service, operation="release.metadata.tag.execute")
     if error: return error
     return _json(*dispatch_application_request(service, operation="release.metadata.tag.execute", payload={**_identity_payload(identity), "plan_id": body.plan_id, "plan_hash": body.plan_hash, "approval_id": body.approval_id}))
+
+@router.get("/api/v1/release/closure")
+def release_closure_status(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.closure.status")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.closure.status", payload=_identity_payload(identity)))
+
+
+@router.post("/api/v1/release/closure/finalize")
+def release_closure_finalize(request: Request, body: ReleaseClosureFinalizeBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.closure.finalize")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.closure.finalize", payload={**_identity_payload(identity), "graph_hash": body.graph_hash}))
 

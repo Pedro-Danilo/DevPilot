@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+const checks=[]; const add=(name,ok)=>{checks.push({name,ok}); if(!ok) process.exitCode=1;};
+const main=fs.readFileSync(new URL('../src/main.ts',import.meta.url),'utf8');
+const view=fs.readFileSync(new URL('../src/pages/ReleaseClosureView.ts',import.meta.url),'utf8');
+const client=fs.readFileSync(new URL('../src/api/client.ts',import.meta.url),'utf8');
+add('route',main.includes("'/release/closure'")&&main.includes('renderReleaseClosureView'));
+add('ui-route-id',view.includes('ui.release-closure'));
+add('ready-state',view.includes('ready_to_finalize')&&view.includes('Finalizar release local'));
+add('blockers-visible',view.includes('Blockers / missing evidence'));
+add('released-visible',view.includes('Final release status')&&view.includes('RELEASED'));
+add('api-client',client.includes("'/release/closure'")&&client.includes("'/release/closure/finalize'"));
+add('no-publish-claim',view.includes('Push / publish / deploy'));
+add('external-script-visible',view.includes('External script'));
+console.log(`${checks.filter(x=>x.ok).length}/${checks.length} PASS`); if(process.exitCode) console.error(checks.filter(x=>!x.ok));

@@ -1,0 +1,22 @@
+import { DevPilotApiClient, DevPilotApiError } from '../api/client';
+import type { ReleaseClosureStatus } from '../api/types';
+
+function fact(label:string,value:unknown):HTMLElement{const r=document.createElement('div');r.className='release-metadata-fact';const k=document.createElement('strong');k.textContent=label;const v=document.createElement('span');v.textContent=String(value??'—');r.append(k,v);return r;}
+function panel(title:string):HTMLElement{const a=document.createElement('article');a.className='panel';const h=document.createElement('h3');h.textContent=title;a.append(h);return a;}
+function render(data:ReleaseClosureStatus):HTMLElement{
+  const g=data.release_closure; const wrap=document.createElement('div'); wrap.className='release-closure-result';
+  const summary=panel('Local release closure'); const lead=document.createElement('p'); lead.textContent=`Estado: ${g.state}. ${g.next_action}`;summary.append(lead);
+  const facts=document.createElement('div');facts.className='release-metadata-facts';facts.append(fact('Source commit',g.source_authority?.commit),fact('Package',g.nodes.package?.status),fact('Install / rollback',g.nodes.install_rollback?.status),fact('Version / tag',g.nodes.metadata?.status),fact('External script',g.normal_user_external_script),fact('Push / publish / deploy',g.push_performed||g.publish_performed||g.deploy_performed?'BLOCK':'NONE'));summary.append(facts);
+  if(g.blockers.length){const b=panel('Blockers / missing evidence');const ul=document.createElement('ul');for(const item of g.blockers){const li=document.createElement('li');li.textContent=`${item.id}: ${item.message}`;ul.append(li);}b.append(ul);wrap.append(summary,b);}else wrap.append(summary);
+  if(data.final_release_status){const f=panel('Final release status');f.append(fact('Lifecycle',data.final_release_status.status),fact('Scope',data.final_release_status.release_scope),fact('Tag',data.final_release_status.tag_name),fact('Tag exact commit',data.final_release_status.tag_target_commit===data.final_release_status.source_commit?'PASS':'BLOCK'),fact('Project Status evidence',data.final_release_status.engineering_state_mode));wrap.append(f);}
+  return wrap;
+}
+export function renderReleaseClosureView(tokenProvider:()=>string|null):HTMLElement{
+  const section=document.createElement('section');section.className='release-closure-view';section.dataset.uiRouteId='ui.release-closure';
+  const h=document.createElement('h2');h.textContent='Clean-install browser release closure';const p=document.createElement('p');p.textContent='Aggregate current release evidence, explain remaining blockers and finalize one local-only release after package, install/rollback and exact approved tag are proven.';
+  const actions=document.createElement('div');actions.className='release-metadata-form';const refresh=document.createElement('button');refresh.textContent='Actualizar release graph';const finalize=document.createElement('button');finalize.textContent='Finalizar release local';finalize.disabled=true;actions.append(refresh,finalize);
+  const content=document.createElement('div');section.append(h,p,actions,content);let current:ReleaseClosureStatus|null=null;const api=()=>new DevPilotApiClient({token:tokenProvider()});
+  const fail=(e:unknown)=>{const a=panel('Operación bloqueada');const p=document.createElement('p');p.textContent=e instanceof DevPilotApiError?e.message:e instanceof Error?e.message:String(e);a.append(p);content.replaceChildren(a);};
+  const load=async()=>{try{const r=await api().releaseClosureStatus();current=r.data;content.replaceChildren(render(r.data));finalize.disabled=!r.data.release_closure.ready_to_finalize||r.data.final_release_status?.status==='RELEASED';}catch(e){fail(e);}};
+  refresh.onclick=()=>void load();finalize.onclick=()=>void(async()=>{if(!current)return;finalize.disabled=true;try{const r=await api().releaseClosureFinalize(current.release_closure.graph_hash);current=r.data;await load();}catch(e){fail(e);finalize.disabled=false;}})();void load();return section;
+}

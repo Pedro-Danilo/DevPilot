@@ -8730,6 +8730,64 @@
           }
         }
       }
+    },
+    "/api/v1/release/closure": {
+      "get": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Closure Status",
+        "operationId": "release_closure_status_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/closure/finalize": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Finalize Local Release",
+        "operationId": "release_closure_finalize_api",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "graph_hash"
+                ],
+                "properties": {
+                  "graph_hash": {
+                    "type": "string",
+                    "minLength": 64,
+                    "maxLength": 64
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11613,5 +11671,14 @@
     ],
     "full_regression_runs": 0,
     "scope": "controlled-local-install-upgrade-rollback-sandbox"
+  },
+  "x-devpilot-gsdlc-11-e": {
+    "status": "local-qualified",
+    "routes": [
+      "GET /api/v1/release/closure",
+      "POST /api/v1/release/closure/finalize"
+    ],
+    "local_only": true,
+    "push_publish_deploy": false
   }
 }

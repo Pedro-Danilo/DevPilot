@@ -2814,6 +2814,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only excluded local release/runtime artifacts under dist/ and outputs/ after exact plan/commit binding; no source, Git, publish, network or external-service mutation.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-B executes only the exact typed plan and writes excluded local release/runtime artifacts.",
@@ -2843,8 +2844,7 @@
         "reproducibility",
         "human-session",
         "gsdlc-11-b"
-      ],
-      "mutation_exception_justification": "Writes only excluded local release/runtime artifacts under dist/ and outputs/ after exact plan/commit binding; no source, Git, publish, network or external-service mutation."
+      ]
     },
     {
       "application_service_required": true,
@@ -2856,6 +2856,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only a bounded local runtime dry-run plan under outputs/runtime; no source, Git, publish, network or external-service mutation.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-B creates only an immutable runtime dry-run plan bound to exact Git commit/tree.",
@@ -2883,8 +2884,7 @@
         "dry-run",
         "human-session",
         "gsdlc-11-b"
-      ],
-      "mutation_exception_justification": "Writes only a bounded local runtime dry-run plan under outputs/runtime; no source, Git, publish, network or external-service mutation."
+      ]
     },
     {
       "application_service_required": true,
@@ -4292,6 +4292,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-10-D story Git route. Human-session/project-scoped; agent/model may propose but never grants Git authority; no push/force/rebase/reset-hard."
@@ -4319,8 +4320,7 @@
         "human-session",
         "project-scoped",
         "gsdlc-10-d"
-      ],
-      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path."
+      ]
     },
     {
       "application_service_required": true,
@@ -4332,6 +4332,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-10-D story Git route. Human-session/project-scoped; agent/model may propose but never grants Git authority; no push/force/rebase/reset-hard."
@@ -4359,8 +4360,7 @@
         "human-session",
         "project-scoped",
         "gsdlc-10-d"
-      ],
-      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path."
+      ]
     },
     {
       "application_service_required": true,
@@ -4372,6 +4372,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-10-D story Git route. Human-session/project-scoped; agent/model may propose but never grants Git authority; no push/force/rebase/reset-hard."
@@ -4399,8 +4400,7 @@
         "human-session",
         "project-scoped",
         "gsdlc-10-d"
-      ],
-      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path."
+      ]
     },
     {
       "application_service_required": true,
@@ -4529,6 +4529,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-10-D story Git route. Human-session/project-scoped; agent/model may propose but never grants Git authority; no push/force/rebase/reset-hard."
@@ -4556,8 +4557,7 @@
         "human-session",
         "project-scoped",
         "gsdlc-10-d"
-      ],
-      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path."
+      ]
     },
     {
       "application_service_required": true,
@@ -4569,6 +4569,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-10-D story Git route. Human-session/project-scoped; agent/model may propose but never grants Git authority; no push/force/rebase/reset-hard."
@@ -4596,8 +4597,7 @@
         "human-session",
         "project-scoped",
         "gsdlc-10-d"
-      ],
-      "mutation_exception_justification": "GSDLC-10-D permits only typed exact-path Git index/commit or approval-runtime mutations after server-side Quality/RBAC/approval revalidation; no arbitrary shell, push, force, rebase, reset-hard or unapproved path."
+      ]
     },
     {
       "application_service_required": true,
@@ -4609,8 +4609,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -4648,8 +4648,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -4725,8 +4725,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -4802,8 +4802,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -4841,8 +4841,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -4880,8 +4880,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -4919,8 +4919,8 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
-      "mutations_allowed": true,
       "mutation_exception_justification": "Writes only governed GSDLC-10-C runtime quality/evidence state or plans typed GSDLC-10-B jobs; source mutation, arbitrary shell, remote execution, connector write and plugin execution remain disabled.",
+      "mutations_allowed": true,
       "notes": [
         "GSDLC-10-C StoryQualityGate route. Human-session project scope; deterministic fail-closed quality authority; no model/provider permission and no direct source mutation."
       ],
@@ -7651,6 +7651,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only to the controlled disposable sandbox under outputs/release/gsdlc11c after exact-plan binding; source/Git/production data remain untouched.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-C execute is typed, project-scoped and sandbox-only.",
@@ -7679,8 +7680,7 @@
         "rollback",
         "human-session",
         "gsdlc-11-c"
-      ],
-      "mutation_exception_justification": "Writes only to the controlled disposable sandbox under outputs/release/gsdlc11c after exact-plan binding; source/Git/production data remain untouched."
+      ]
     },
     {
       "application_service_required": true,
@@ -7732,6 +7732,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only to the controlled disposable sandbox under outputs/release/gsdlc11c after exact-plan binding; source/Git/production data remain untouched.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-C execute is typed, project-scoped and sandbox-only.",
@@ -7760,8 +7761,7 @@
         "rollback",
         "human-session",
         "gsdlc-11-c"
-      ],
-      "mutation_exception_justification": "Writes only to the controlled disposable sandbox under outputs/release/gsdlc11c after exact-plan binding; source/Git/production data remain untouched."
+      ]
     },
     {
       "application_service_required": true,
@@ -7813,6 +7813,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only to the controlled disposable sandbox under outputs/release/gsdlc11c after exact-plan binding; source/Git/production data remain untouched.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-C execute is typed, project-scoped and sandbox-only.",
@@ -7841,8 +7842,7 @@
         "rollback",
         "human-session",
         "gsdlc-11-c"
-      ],
-      "mutation_exception_justification": "Writes only to the controlled disposable sandbox under outputs/release/gsdlc11c after exact-plan binding; source/Git/production data remain untouched."
+      ]
     },
     {
       "application_service_required": true,
@@ -7894,6 +7894,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only release runtime evidence and, for tag.execute, one exact local annotated Git tag after owner/release-manager approval; no source-file write, push or publication.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-D release metadata route is typed, project-scoped and human-session governed.",
@@ -7922,8 +7923,7 @@
         "approval",
         "human-session",
         "gsdlc-11-d"
-      ],
-      "mutation_exception_justification": "Writes only release runtime evidence and, for tag.execute, one exact local annotated Git tag after owner/release-manager approval; no source-file write, push or publication."
+      ]
     },
     {
       "application_service_required": true,
@@ -7975,6 +7975,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only release runtime evidence and, for tag.execute, one exact local annotated Git tag after owner/release-manager approval; no source-file write, push or publication.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-D release metadata route is typed, project-scoped and human-session governed.",
@@ -8003,8 +8004,7 @@
         "approval",
         "human-session",
         "gsdlc-11-d"
-      ],
-      "mutation_exception_justification": "Writes only release runtime evidence and, for tag.execute, one exact local annotated Git tag after owner/release-manager approval; no source-file write, push or publication."
+      ]
     },
     {
       "application_service_required": true,
@@ -8016,6 +8016,7 @@
       "local_only": true,
       "local_state_mutation_allowed": true,
       "method": "POST",
+      "mutation_exception_justification": "Writes only release runtime evidence and, for tag.execute, one exact local annotated Git tag after owner/release-manager approval; no source-file write, push or publication.",
       "mutations_allowed": true,
       "notes": [
         "GSDLC-11-D release metadata route is typed, project-scoped and human-session governed.",
@@ -8044,8 +8045,83 @@
         "approval",
         "human-session",
         "gsdlc-11-d"
+      ]
+    },
+    {
+      "application_service_required": true,
+      "auth_required": true,
+      "connector_write_allowed": false,
+      "destructive_action_allowed": false,
+      "dry_run_only": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "local_state_mutation_allowed": false,
+      "method": "GET",
+      "mutations_allowed": false,
+      "notes": [
+        "GSDLC-11-E aggregates current release evidence and blockers on exact Git authority.",
+        "No network, publish, deploy or source mutation."
       ],
-      "mutation_exception_justification": "Writes only release runtime evidence and, for tag.execute, one exact local annotated Git tag after owner/release-manager approval; no source-file write, push or publication."
+      "operation": "release.closure.status",
+      "owner": "interfaces.api.release",
+      "path": "/api/v1/release/closure",
+      "path_subject": "active project final local release closure",
+      "plugin_execution_allowed": false,
+      "policy_action": "read",
+      "policy_check_required": true,
+      "policy_sensitivity": "protected-human-session-project-release-closure-read",
+      "public": false,
+      "remote_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "low",
+      "route_id": "api.release.closure.status",
+      "router_module": "devpilot_core.interfaces.api.routers.release",
+      "source_mutation_allowed": false,
+      "tags": [
+        "release",
+        "closure",
+        "gsdlc-11-e",
+        "human-session"
+      ]
+    },
+    {
+      "application_service_required": true,
+      "auth_required": true,
+      "connector_write_allowed": false,
+      "destructive_action_allowed": false,
+      "dry_run_only": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "local_state_mutation_allowed": true,
+      "method": "POST",
+      "mutation_exception_justification": "Writes only graph-bound platform release evidence and platform WorkspaceEngineeringState after owner/release-manager authority; no workspace source mutation or remote action.",
+      "mutations_allowed": true,
+      "notes": [
+        "GSDLC-11-E finalizes only an exact hash-bound PASS release graph.",
+        "Mutation is limited to platform-local release evidence and WorkspaceEngineeringState=RELEASED; no managed source write, push, publish or deploy."
+      ],
+      "operation": "release.closure.finalize",
+      "owner": "interfaces.api.release",
+      "path": "/api/v1/release/closure/finalize",
+      "path_subject": "active project final local release closure",
+      "plugin_execution_allowed": false,
+      "policy_action": "execute",
+      "policy_check_required": true,
+      "policy_sensitivity": "protected-human-session-release-closure-finalize",
+      "public": false,
+      "remote_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "route_id": "api.release.closure.finalize",
+      "router_module": "devpilot_core.interfaces.api.routers.release",
+      "source_mutation_allowed": false,
+      "tags": [
+        "release",
+        "closure",
+        "finalize",
+        "gsdlc-11-e",
+        "human-session"
+      ]
     }
   ],
   "safety": {
@@ -8062,7 +8138,7 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "application_service_routes_total": 205,
+    "application_service_routes_total": 219,
     "connector_write_allowed_total": 0,
     "connector_write_routes_total": 0,
     "explicit_ui_workspace_context": true,
@@ -8113,23 +8189,33 @@
     "gsdlc_10_a_story_test_plan_routes_total": 3,
     "gsdlc_10_b_source_write_routes_total": 0,
     "gsdlc_10_b_story_validation_job_routes_total": 3,
+    "gsdlc_10_c_source_write_routes_total": 0,
+    "gsdlc_10_c_story_quality_routes_total": 9,
+    "gsdlc_11_a_release_readiness_routes_total": 1,
+    "gsdlc_11_b_release_package_routes_total": 3,
+    "gsdlc_11_b_source_write_routes_total": 0,
+    "gsdlc_11_c_release_lifecycle_routes_total": 7,
+    "gsdlc_11_c_source_write_routes_total": 0,
+    "gsdlc_11_d_routes_added": 5,
+    "gsdlc_11_e_release_closure_routes_total": 2,
+    "last_updated_by": "DEVPL-GSDLC-11-E",
     "memory_only_document_search_routes_total": 1,
-    "mutating_routes_total": 90,
+    "mutating_routes_total": 97,
     "mutating_routes_with_justification_total": 90,
     "plugin_execution_allowed_total": 0,
     "plugin_execution_routes_total": 0,
-    "policy_bound_routes_total": 203,
+    "policy_bound_routes_total": 217,
     "post_h_015_c_operator_dashboard_route_registered": true,
     "post_h_016_d_portfolio_status_route_registered": true,
     "preliminary": true,
-    "protected_routes_total": 203,
+    "protected_routes_total": 217,
     "public_routes_total": 7,
-    "read_only_routes_total": 120,
+    "read_only_routes_total": 127,
     "read_only_workspace_document_routes_total": 7,
     "recursive_report_discovery": true,
     "remote_execution_allowed_total": 0,
     "remote_execution_routes_total": 0,
-    "routes_total": 210,
+    "routes_total": 224,
     "runtime_evidence_only_routes_total": 1,
     "scoped_observability": true,
     "security_posture_routes_total": 1,
@@ -8156,22 +8242,13 @@
     "uoc_008_job_routes_total": 5,
     "uoc_009_quality_routes_total": 6,
     "uoc_010_ai_routes_total": 6,
-    "updated_by": "DEVPL-GSDLC-11-C",
+    "updated_by": "DEVPL-GSDLC-11-E",
     "workspace_document_routes_total": 7,
     "workspace_traceability_routes_total": 1,
     "workspace_validation_execute_routes_total": 1,
     "workspace_validation_plan_routes_total": 1,
-    "workspace_validation_status_routes_total": 1,
-    "gsdlc_10_c_story_quality_routes_total": 9,
-    "gsdlc_10_c_source_write_routes_total": 0,
-    "last_updated_by": "DEVPL-GSDLC-11-C",
-    "gsdlc_11_a_release_readiness_routes_total": 1,
-    "gsdlc_11_b_release_package_routes_total": 3,
-    "gsdlc_11_b_source_write_routes_total": 0,
-    "gsdlc_11_c_release_lifecycle_routes_total": 7,
-    "gsdlc_11_c_source_write_routes_total": 0,
-    "gsdlc_11_d_routes_added": 5
+    "workspace_validation_status_routes_total": 1
   },
-  "updated": "2026-09-11",
-  "updated_by": "DEVPL-GSDLC-11-D"
+  "updated": "2026-09-12",
+  "updated_by": "DEVPL-GSDLC-11-E"
 }

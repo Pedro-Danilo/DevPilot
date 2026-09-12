@@ -1516,3 +1516,37 @@ export interface ReleaseMetadataStatus {
   authority: Record<string, unknown>;
   safety: Record<string, unknown>;
 }
+
+export interface ReleaseClosureGraph {
+  schema_version: string;
+  release_scope: string;
+  state: 'BLOCKED'|'READY_TO_FINALIZE';
+  ready_to_finalize: boolean;
+  next_action: string;
+  graph_hash: string;
+  source_authority: { commit: string; tree: string; branch: string; dirty_tracked: boolean } | null;
+  nodes: Record<string, Record<string, unknown>>;
+  blockers: Array<{ id: string; message: string }>;
+  metadata: Record<string, unknown>;
+  normal_user_external_script: number;
+  push_performed: boolean;
+  publish_performed: boolean;
+  deploy_performed: boolean;
+}
+export interface FinalReleaseStatus {
+  status: 'RELEASED';
+  release_scope: 'LOCAL_ONLY';
+  graph_hash: string;
+  workspace_id: string;
+  project_id: string;
+  source_commit: string;
+  tag_name: string;
+  tag_target_commit: string;
+  engineering_state_mode: string;
+  normal_user_external_script: number;
+}
+export interface ReleaseClosureStatus {
+  release_closure: ReleaseClosureGraph;
+  final_release_status?: FinalReleaseStatus | null;
+  safety: Record<string, unknown>;
+}

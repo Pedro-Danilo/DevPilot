@@ -23854,19 +23854,62 @@
       ]
     },
     {
-      "contract_id": "gsdlc11a-release-readiness",
-      "schema_version": "2.0",
-      "domain": "release",
       "capability": "GSDLC11AReleaseReadiness",
-      "criticality": "P0",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
+      "classification_notes": [
+        "Current-active successor contract for GSDLC-11-A release readiness aggregation.",
+        "Readiness is read-only and does not grant release approval, tag, publish or rollback authority.",
+        "Full Regression is forbidden by routine in 11-A; GSDLC-11 budget remains 0/1."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "gsdlc11a-release-readiness",
       "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "release",
+      "execution_profile": "impact",
       "expected_duration_seconds": 15,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "release-readiness",
+        "project-scope",
+        "rbac",
+        "ui",
+        "current-authority"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-11-A",
+      "owner_domain": "release",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "risk_level": "high",
+      "schema_version": "2.0",
+      "service_boundary": "application",
+      "source_contract_id": "gsdlc11a-release-readiness",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-11-a-release-readiness",
       "test_files": [
         "tests/test_devpl_gsdlc_11_a_release_readiness.py",
         "tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-11-a",
+        "release-readiness",
+        "release-route",
+        "release-ui",
+        "project-status"
+      ],
+      "validates": [
+        "RELEASE_READY only with complete current-active evidence",
+        "BLOCKED/UNKNOWN fail closed",
+        "readiness separated from release approval",
+        "project-scoped server authority",
+        "release-manager/owner authority not delegated to model route",
+        "no unsupported enterprise/compliance/public-release claims"
       ],
       "watched_paths": [
         "src/devpilot_core/application/release_readiness_service.py",
@@ -23881,66 +23924,68 @@
         ".devpilot/release/local_release_candidate_criteria.json",
         "docs/schemas/release_readiness_projection.schema.json",
         "ui/web/src/pages/ReleaseReadinessView.ts"
+      ]
+    },
+    {
+      "capability": "GSDLC11BReleasePackageReproducibility",
+      "classification_notes": [
+        "Current-active GSDLC-11-B contract evolves the existing package/manifest/SBOM/reproducibility stack; no second packaging stack.",
+        "Package plan/execute writes only excluded local runtime/release artifacts and never source/publish/deploy.",
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-B."
       ],
-      "validates": [
-        "RELEASE_READY only with complete current-active evidence",
-        "BLOCKED/UNKNOWN fail closed",
-        "readiness separated from release approval",
-        "project-scoped server authority",
-        "release-manager/owner authority not delegated to model route",
-        "no unsupported enterprise/compliance/public-release claims"
+      "classification_status": "explicit",
+      "contract_id": "gsdlc11b-release-package-reproducibility",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "release",
+      "execution_profile": "impact",
+      "expected_duration_seconds": 30,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "release-package",
+        "reproducibility",
+        "checksum",
+        "sbom",
+        "project-scope",
+        "rbac",
+        "product.ui"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-11-B",
+      "owner_domain": "release",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py tests/test_package_builder.py -q"
       ],
       "required_for_release": true,
       "required_for_security_gate": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
       "requires_human_approval": false,
-      "owner": "DEVPL-GSDLC-11-A",
-      "owner_domain": "release",
-      "service_boundary": "application",
-      "impact_scope": [
-        "release-readiness",
-        "project-scope",
-        "rbac",
-        "ui",
-        "current-authority"
-      ],
-      "trigger_hints": [
-        "gsdlc-11-a",
-        "release-readiness",
-        "release-route",
-        "release-ui",
-        "project-status"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Current-active successor contract for GSDLC-11-A release readiness aggregation.",
-        "Readiness is read-only and does not grant release approval, tag, publish or rollback authority.",
-        "Full Regression is forbidden by routine in 11-A; GSDLC-11 budget remains 0/1."
-      ],
-      "source_contract_id": "gsdlc11a-release-readiness",
-      "subgate_id": "gsdlc-11-a-release-readiness"
-    },
-    {
-      "contract_id": "gsdlc11b-release-package-reproducibility",
-      "schema_version": "2.0",
-      "domain": "release",
-      "capability": "GSDLC11BReleasePackageReproducibility",
-      "criticality": "P0",
       "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "impact",
-      "cost_class": "medium",
-      "expected_duration_seconds": 30,
+      "schema_version": "2.0",
+      "service_boundary": "application",
+      "source_contract_id": "gsdlc11b-release-package-reproducibility",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-11-b-release-package",
       "test_files": [
         "tests/test_devpl_gsdlc_11_b_release_package.py",
         "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
         "tests/test_package_builder.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-11-b",
+        "release-package",
+        "sbom",
+        "checksum",
+        "reproducibility"
+      ],
+      "validates": [
+        "commit/tree-bound typed package plan/execute",
+        "deterministic source ZIP and checksums",
+        "SBOM baseline schema/provenance",
+        "forbidden-entry/path-escape fail-closed",
+        "release package UI/API mapping and server RBAC",
+        "Full Regression remains 0 in GSDLC-11-B; backlog budget remains 0/1"
       ],
       "watched_paths": [
         "src/devpilot_core/release/package_builder.py",
@@ -23962,70 +24007,78 @@
         "ui/web/src/main.ts",
         "ui/web/src/styles.css",
         "tests/test_package_builder.py"
+      ]
+    },
+    {
+      "capability": "GSDLC11CReleaseLifecycle",
+      "classification_notes": [
+        "Current-active GSDLC-11-C composes existing install/backup/upgrade/rollback machinery; no second lifecycle stack.",
+        "Mutations are sandbox-only under outputs/release/gsdlc11c; source/Git/production data are immutable.",
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-C.",
+        "TCR v2 mutation safety is explicitly owner-approved for the disposable sandbox test surface; product execute remains server-RBAC and exact-plan bound."
       ],
-      "validates": [
-        "commit/tree-bound typed package plan/execute",
-        "deterministic source ZIP and checksums",
-        "SBOM baseline schema/provenance",
-        "forbidden-entry/path-escape fail-closed",
-        "release package UI/API mapping and server RBAC",
-        "Full Regression remains 0 in GSDLC-11-B; backlog budget remains 0/1"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "network_allowed": false,
+      "classification_status": "explicit",
+      "contract_id": "gsdlc11c-release-lifecycle",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "release",
+      "execution_profile": "release",
+      "expected_duration_seconds": 45,
       "external_api_allowed": false,
-      "mutations_allowed": false,
-      "source_mutations_allowed": false,
-      "requires_human_approval": false,
-      "owner": "DEVPL-GSDLC-11-B",
-      "owner_domain": "release",
-      "service_boundary": "application",
       "impact_scope": [
-        "release-package",
-        "reproducibility",
-        "checksum",
-        "sbom",
+        "install",
+        "upgrade",
+        "rollback",
+        "backup",
         "project-scope",
         "rbac",
         "product.ui"
       ],
-      "trigger_hints": [
-        "gsdlc-11-b",
-        "release-package",
-        "sbom",
-        "checksum",
-        "reproducibility"
-      ],
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-11-C",
+      "owner_domain": "release",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py tests/test_package_builder.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_027_windows_install_smoke.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
       ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Current-active GSDLC-11-B contract evolves the existing package/manifest/SBOM/reproducibility stack; no second packaging stack.",
-        "Package plan/execute writes only excluded local runtime/release artifacts and never source/publish/deploy.",
-        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-B."
-      ],
-      "source_contract_id": "gsdlc11b-release-package-reproducibility",
-      "subgate_id": "gsdlc-11-b-release-package"
-    },
-    {
-      "contract_id": "gsdlc11c-release-lifecycle",
-      "schema_version": "2.0",
-      "domain": "release",
-      "capability": "GSDLC11CReleaseLifecycle",
-      "criticality": "P0",
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
       "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "release",
-      "cost_class": "medium",
-      "expected_duration_seconds": 45,
+      "safety_exception": {
+        "approved_by": "Ordóñez",
+        "expires_at_utc": "2026-12-31T23:59:59Z",
+        "justification": "Owner-approved GSDLC-11-C tests mutate only a disposable controlled local sandbox to verify backup and rollback.",
+        "scope": "outputs/release/gsdlc11c controlled sandbox only; no source/Git/production mutation"
+      },
+      "schema_version": "2.0",
+      "service_boundary": "application",
+      "source_contract_id": "gsdlc11c-release-lifecycle",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-11-c-release-lifecycle",
       "test_files": [
         "tests/test_devpl_gsdlc_11_c_release_lifecycle.py",
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
         "tests/test_post_h_027_upgrade_rollback_dry_run.py",
         "tests/test_post_h_027_windows_install_smoke.py",
         "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-11-c",
+        "release-lifecycle",
+        "install",
+        "upgrade",
+        "rollback"
+      ],
+      "validates": [
+        "clean install positive/negative and checksum/version binding",
+        "backup-before-upgrade gate",
+        "fault-injected rollback with exact restore proof",
+        "interruption/retry evidence reuse",
+        "unauthorized role negative",
+        "browser project-scoped lifecycle UI",
+        "Full Regression remains 0 in GSDLC-11-C; backlog budget remains 0/1"
       ],
       "watched_paths": [
         "src/devpilot_core/application/release_lifecycle_service.py",
@@ -24047,78 +24100,88 @@
         "ui/web/src/main.ts",
         "ui/web/src/styles.css",
         "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
+      ]
+    },
+    {
+      "capability": "GSDLC11DReleaseMetadataTagApproval",
+      "classification_notes": [
+        "Current-active GSDLC-11-D prepares local release metadata and exact annotated tag; no remote publication stack is introduced.",
+        "Git mutation is restricted to one annotated local tag after exact human approval; push/publish/deploy remain false.",
+        "Agent/model routes are proposal-only and cannot approve or tag.",
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-D.",
+        "Windows browser corrective v1.0.4 closes the missing LocalAPI API_ROUTE_POLICIES binding discovered by real-browser acceptance; fail-closed middleware remains unchanged.",
+        "Windows browser corrective v1.0.5 preserves ProjectStatus as the primary recovery authority and adds a bounded settings/workspace fallback only for an authenticated single-scope registered GSDLC-03 workspace when WorkspaceEngineeringState is EMPTY; UX recovery grants no server authority and does not repeat Project Entry."
       ],
-      "validates": [
-        "clean install positive/negative and checksum/version binding",
-        "backup-before-upgrade gate",
-        "fault-injected rollback with exact restore proof",
-        "interruption/retry evidence reuse",
-        "unauthorized role negative",
-        "browser project-scoped lifecycle UI",
-        "Full Regression remains 0 in GSDLC-11-C; backlog budget remains 0/1"
-      ],
-      "required_for_release": true,
-      "required_for_security_gate": true,
-      "network_allowed": false,
+      "classification_status": "explicit",
+      "contract_id": "gsdlc11d-release-metadata-tag-approval",
+      "cost_class": "low",
+      "criticality": "P0",
+      "domain": "release",
+      "execution_profile": "release",
+      "expected_duration_seconds": 30,
       "external_api_allowed": false,
-      "mutations_allowed": true,
-      "source_mutations_allowed": false,
-      "requires_human_approval": true,
-      "owner": "DEVPL-GSDLC-11-C",
-      "owner_domain": "release",
-      "service_boundary": "application",
       "impact_scope": [
-        "install",
-        "upgrade",
-        "rollback",
-        "backup",
-        "project-scope",
+        "release-metadata",
+        "version",
+        "release-notes",
+        "tag",
+        "approval",
+        "git",
         "rbac",
         "product.ui"
       ],
-      "trigger_hints": [
-        "gsdlc-11-c",
-        "release-lifecycle",
-        "install",
-        "upgrade",
-        "rollback"
-      ],
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-11-D",
+      "owner_domain": "release",
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_027_windows_install_smoke.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
       ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Current-active GSDLC-11-C composes existing install/backup/upgrade/rollback machinery; no second lifecycle stack.",
-        "Mutations are sandbox-only under outputs/release/gsdlc11c; source/Git/production data are immutable.",
-        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-C.",
-        "TCR v2 mutation safety is explicitly owner-approved for the disposable sandbox test surface; product execute remains server-RBAC and exact-plan bound."
-      ],
-      "source_contract_id": "gsdlc11c-release-lifecycle",
-      "subgate_id": "gsdlc-11-c-release-lifecycle",
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
+      "risk_level": "high",
       "safety_exception": {
-        "justification": "Owner-approved GSDLC-11-C tests mutate only a disposable controlled local sandbox to verify backup and rollback.",
         "approved_by": "Ordóñez",
         "expires_at_utc": "2026-12-31T23:59:59Z",
-        "scope": "outputs/release/gsdlc11c controlled sandbox only; no source/Git/production mutation"
-      }
-    },
-    {
-      "contract_id": "gsdlc11d-release-metadata-tag-approval",
+        "justification": "Owner-approved GSDLC-11-D acceptance creates exactly one local annotated Git tag after RBAC/approval binding; no source file mutation or remote operation is performed by tag execution.",
+        "scope": "single local annotated tag on exact approved commit; no push/publication/deploy"
+      },
       "schema_version": "2.0",
-      "domain": "release",
-      "capability": "GSDLC11DReleaseMetadataTagApproval",
-      "criticality": "P0",
-      "risk_level": "high",
-      "test_type": "contract",
-      "execution_profile": "release",
-      "cost_class": "low",
-      "expected_duration_seconds": 30,
+      "service_boundary": "application",
+      "source_contract_id": "gsdlc11d-release-metadata-tag-approval",
+      "source_mutations_allowed": true,
+      "subgate_id": "gsdlc-11-d-release-metadata",
       "test_files": [
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
         "tests/test_devpl_gsdlc_11_d_project_context_recovery.py"
+      ],
+      "test_type": "contract",
+      "trigger_hints": [
+        "gsdlc-11-d",
+        "release-metadata",
+        "version-decision",
+        "tag-plan",
+        "release-approval",
+        "annotated-tag",
+        "session-bound-project-recovery",
+        "registered-workspace-recovery"
+      ],
+      "validates": [
+        "semantic/version policy positive and negative",
+        "release notes provenance",
+        "agent proposal authority separation",
+        "approval role/expiry/hash binding",
+        "annotated tag exact commit",
+        "existing tag conflict",
+        "no push/publication",
+        "browser metadata/tag approval UI",
+        "Full Regression remains 0 in GSDLC-11-D; backlog budget remains 0/1",
+        "LocalAPI PolicyEngine binding parity for every /api/v1/release/metadata* route",
+        "session-bound project-route UX recovery falls back read-only to the exact authenticated registered workspace when Guided SDLC engineering state is legitimately EMPTY; Project Entry is not repeated and server authorization is not granted by browser storage"
       ],
       "watched_paths": [
         "src/devpilot_core/application/release_metadata_service.py",
@@ -24150,73 +24213,124 @@
         "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
         "tests/test_devpl_gsdlc_11_d_project_context_recovery.py",
         "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs"
+      ]
+    },
+    {
+      "capability": "GSDLC11ECleanInstallBrowserReleaseClosure",
+      "classification_notes": [
+        "Final local release is high risk because it changes lifecycle status to RELEASED, but only platform-local state after exact evidence and human authority.",
+        "Full Regression remains separately governed by FRX-v2.4 current profile and is not executed by focal qualification."
       ],
-      "validates": [
-        "semantic/version policy positive and negative",
-        "release notes provenance",
-        "agent proposal authority separation",
-        "approval role/expiry/hash binding",
-        "annotated tag exact commit",
-        "existing tag conflict",
-        "no push/publication",
-        "browser metadata/tag approval UI",
-        "Full Regression remains 0 in GSDLC-11-D; backlog budget remains 0/1",
-        "LocalAPI PolicyEngine binding parity for every /api/v1/release/metadata* route",
-        "session-bound project-route UX recovery falls back read-only to the exact authenticated registered workspace when Guided SDLC engineering state is legitimately EMPTY; Project Entry is not repeated and server authorization is not granted by browser storage"
+      "classification_status": "explicit",
+      "contract_id": "gsdlc11e-clean-install-browser-release-closure",
+      "cost_class": "medium",
+      "criticality": "P0",
+      "domain": "release",
+      "execution_profile": "release",
+      "expected_duration_seconds": 60,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "release",
+        "lifecycle",
+        "browser",
+        "git",
+        "evidence",
+        "full-regression",
+        "docs",
+        "test-contracts"
+      ],
+      "mutations_allowed": true,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-11-E",
+      "owner_domain": "release",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_11_e_release_closure.py tests/test_devpl_gsdlc_11_e_release_closure_contracts.py tests/test_devpl_gsdlc_11_e_release_closure_transport.py"
       ],
       "required_for_release": true,
       "required_for_security_gate": true,
-      "network_allowed": false,
-      "external_api_allowed": false,
-      "mutations_allowed": true,
-      "source_mutations_allowed": true,
       "requires_human_approval": true,
-      "owner": "DEVPL-GSDLC-11-D",
-      "owner_domain": "release",
-      "service_boundary": "application",
-      "impact_scope": [
-        "release-metadata",
-        "version",
-        "release-notes",
-        "tag",
-        "approval",
-        "git",
-        "rbac",
-        "product.ui"
-      ],
-      "trigger_hints": [
-        "gsdlc-11-d",
-        "release-metadata",
-        "version-decision",
-        "tag-plan",
-        "release-approval",
-        "annotated-tag",
-        "session-bound-project-recovery",
-        "registered-workspace-recovery"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
-      ],
-      "classification_status": "explicit",
-      "classification_notes": [
-        "Current-active GSDLC-11-D prepares local release metadata and exact annotated tag; no remote publication stack is introduced.",
-        "Git mutation is restricted to one annotated local tag after exact human approval; push/publish/deploy remain false.",
-        "Agent/model routes are proposal-only and cannot approve or tag.",
-        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-D.",
-        "Windows browser corrective v1.0.4 closes the missing LocalAPI API_ROUTE_POLICIES binding discovered by real-browser acceptance; fail-closed middleware remains unchanged.",
-        "Windows browser corrective v1.0.5 preserves ProjectStatus as the primary recovery authority and adds a bounded settings/workspace fallback only for an authenticated single-scope registered GSDLC-03 workspace when WorkspaceEngineeringState is EMPTY; UX recovery grants no server authority and does not repeat Project Entry."
-      ],
-      "source_contract_id": "gsdlc11d-release-metadata-tag-approval",
-      "subgate_id": "gsdlc-11-d-release-metadata",
+      "risk_level": "high",
       "safety_exception": {
-        "justification": "Owner-approved GSDLC-11-D acceptance creates exactly one local annotated Git tag after RBAC/approval binding; no source file mutation or remote operation is performed by tag execution.",
-        "approved_by": "Ordóñez",
-        "expires_at_utc": "2026-12-31T23:59:59Z",
-        "scope": "single local annotated tag on exact approved commit; no push/publication/deploy"
-      }
+        "approved_by": "DEVPL-GSDLC-11-E owner-approved scope",
+        "expires_at_utc": "2027-09-12T23:59:59Z",
+        "justification": "GSDLC-11-E permits only platform-local release evidence and WorkspaceEngineeringState lifecycle update to RELEASED after an exact PASS release graph and authorized human finalization. Managed workspace source, push, publish and deploy remain forbidden.",
+        "rollback_or_cleanup": "Finalization is graph-hash-bound and idempotent. WorkspaceEngineeringState uses atomic replace plus optimistic sequence control; no managed source or Git history is rewritten.",
+        "scope": "GSDLC-11-E final local release state/evidence mutation only"
+      },
+      "schema_ids": [],
+      "schema_version": "2.0",
+      "service_boundary": "release",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-11-e-release-closure",
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_e_release_closure.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_transport.py"
+      ],
+      "test_type": "integration",
+      "trigger_hints": [
+        "gsdlc-11-e",
+        "release-closure",
+        "released",
+        "one-full"
+      ],
+      "validates": [
+        "src/devpilot_core/application/release_closure_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "ui/web/src/pages/ReleaseClosureView.ts",
+        "ui/web/src/pages/ReleaseMetadataView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/package.json",
+        "pyproject.toml",
+        "05_PROMPT_DEVPL_GSDLC_11_E_v1_0_1_REBOUND_REPO424.md",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_4_APPROVED_REBOUND_REPO424.md",
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-11-E-evidence-backed-local-release-adoption.md",
+        "tests/test_devpl_gsdlc_11_e_release_closure.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/release_closure_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "ui/web/src/pages/ReleaseClosureView.ts",
+        "ui/web/src/pages/ReleaseMetadataView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/package.json",
+        "pyproject.toml",
+        "05_PROMPT_DEVPL_GSDLC_11_E_v1_0_1_REBOUND_REPO424.md",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_4_APPROVED_REBOUND_REPO424.md",
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-11-E-evidence-backed-local-release-adoption.md",
+        "tests/test_devpl_gsdlc_11_e_release_closure.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_transport.py",
+        "docs/audits/DEVPL_GSDLC_11_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_11_E_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_11_E_TEST_IMPACT.json",
+        "docs/audits/devpl_gsdlc_11_e_contract_reconciliation_sweep.json",
+        "docs/audits/devpl_gsdlc_11_e_historical_contract_sweep.json"
+      ]
     }
   ],
-  "contracts_total": 335,
+  "contracts_total": 336,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

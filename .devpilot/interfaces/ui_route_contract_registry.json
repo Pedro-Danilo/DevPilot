@@ -648,6 +648,8 @@
         "block": true,
         "block_visible": true,
         "cancelled": true,
+        "commit_blocked": true,
+        "commit_ready": true,
         "empty": true,
         "error": true,
         "failed_counts": true,
@@ -656,18 +658,16 @@
         "pass": true,
         "pending_approval": true,
         "planned": true,
+        "quality_report_stale": true,
         "ready": true,
+        "remediation_planned": true,
+        "retest_planned": true,
         "running": true,
         "stale_data": true,
         "timeout": true,
         "unauthorized": true,
-        "warn": true,
-        "commit_blocked": true,
-        "commit_ready": true,
-        "quality_report_stale": true,
-        "remediation_planned": true,
-        "retest_planned": true,
-        "waiver_pending": true
+        "waiver_pending": true,
+        "warn": true
       },
       "status_visibility": [
         "PASS",
@@ -698,9 +698,9 @@
         "justification": "GSDLC-11-B permits only runtime release-artifact generation after an exact dry-run plan; source/Git/publish authority is absent.",
         "local_state_mutation_only": true,
         "plan_only": false,
-        "typed_plan_required": true,
+        "publish_enabled": false,
         "source_write_enabled": false,
-        "publish_enabled": false
+        "typed_plan_required": true
       },
       "no_remote_badge_required": true,
       "notes": [
@@ -724,13 +724,13 @@
         "block_visible": true,
         "empty": true,
         "error": true,
+        "executing": true,
+        "forbidden": true,
         "loading": true,
         "pass": true,
         "planned": true,
-        "executing": true,
         "reused_pass": true,
-        "unauthorized": true,
-        "forbidden": true
+        "unauthorized": true
       },
       "status_visibility": [
         "PASS",
@@ -762,9 +762,9 @@
         "justification": "11-C mutations are restricted to a disposable local sandbox; owner/release-manager server RBAC plus exact-plan/hash binding is the applicable authority.",
         "local_state_mutation_only": true,
         "plan_only": false,
-        "typed_plan_required": true,
+        "publish_enabled": false,
         "source_write_enabled": false,
-        "publish_enabled": false
+        "typed_plan_required": true
       },
       "no_remote_badge_required": true,
       "notes": [
@@ -788,14 +788,14 @@
         "block_visible": true,
         "empty": true,
         "error": true,
+        "executing": true,
+        "forbidden": true,
         "loading": true,
         "pass": true,
         "planned": true,
-        "executing": true,
         "rollback_required": true,
         "rollback_verified": true,
-        "unauthorized": true,
-        "forbidden": true
+        "unauthorized": true
       },
       "status_visibility": [
         "PASS",
@@ -843,6 +843,7 @@
       ],
       "state_contract": {
         "api_down": true,
+        "approval_separated": true,
         "block": true,
         "block_visible": true,
         "empty": true,
@@ -850,13 +851,12 @@
         "forbidden": true,
         "loading": true,
         "pass": true,
+        "pending_approval": true,
         "ready": true,
         "stale_data": true,
         "timeout": true,
         "unauthorized": true,
-        "unknown": true,
-        "approval_separated": true,
-        "pending_approval": true
+        "unknown": true
       },
       "status_visibility": [
         "PASS",
@@ -1136,10 +1136,14 @@
         "applied": true,
         "approval_pending": true,
         "block_visible": true,
+        "commit_approval_pending": true,
+        "commit_plan_ready": true,
+        "committed": true,
         "conflict": true,
         "draft_saved": true,
         "empty": true,
         "error": true,
+        "exact_staged": true,
         "forbidden": true,
         "loading": true,
         "path_block": true,
@@ -1149,22 +1153,18 @@
         "rolled_back": true,
         "sensitive_impact_visible": true,
         "source_unchanged": true,
+        "stage_approval_pending": true,
         "stale_preimage": true,
+        "stale_quality_block": true,
         "test_plan_approved": true,
         "test_plan_ready": true,
         "test_plan_rejected": true,
         "test_plan_review_required": true,
+        "traceability_complete": true,
+        "unexpected_dirty_block": true,
         "unknown_impact_visible": true,
         "unsafe_agent_proposal_blocked": true,
         "waiver_expired_block": true,
-        "commit_plan_ready": true,
-        "unexpected_dirty_block": true,
-        "stage_approval_pending": true,
-        "exact_staged": true,
-        "commit_approval_pending": true,
-        "committed": true,
-        "traceability_complete": true,
-        "stale_quality_block": true,
         "wrong_role_block": true
       },
       "status": "implemented-initial/gsdlc-10-d",
@@ -1451,9 +1451,9 @@
         "justification": "Annotated local tag execute requires exact TagPlan plus server-authenticated owner/release-manager approval; models/agents remain proposal-only.",
         "local_state_mutation_only": true,
         "plan_only": false,
-        "typed_plan_required": true,
+        "publish_enabled": false,
         "source_write_enabled": false,
-        "publish_enabled": false
+        "typed_plan_required": true
       },
       "no_remote_badge_required": true,
       "notes": [
@@ -1473,17 +1473,17 @@
         "ui/web/src/api/types.ts"
       ],
       "state_contract": {
+        "approval_pending": true,
+        "approved": true,
         "block_visible": true,
         "empty": true,
         "error": true,
+        "forbidden": true,
         "loading": true,
         "pass": true,
         "planned": true,
-        "approval_pending": true,
-        "approved": true,
         "tag_verified": true,
-        "unauthorized": true,
-        "forbidden": true
+        "unauthorized": true
       },
       "status_visibility": [
         "PASS",
@@ -1492,6 +1492,64 @@
         "PENDING"
       ],
       "title": "Version / tag"
+    },
+    {
+      "allowed_api_routes": [
+        "api.release.closure.status",
+        "api.release.closure.finalize"
+      ],
+      "connector_write_allowed": false,
+      "critical": true,
+      "dry_run_badge_required": true,
+      "external_api_allowed": false,
+      "local_first_badge_required": true,
+      "local_only": true,
+      "mutation_controls": {
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "justification": "Final release requires exact PASS graph and owner/release-manager authority; mutation is platform release state only.",
+        "local_state_mutation_only": true,
+        "plan_only": false,
+        "publish_enabled": false,
+        "source_write_enabled": false,
+        "typed_plan_required": true
+      },
+      "no_remote_badge_required": true,
+      "notes": [
+        "GSDLC-11-E aggregates readiness/package/install/rollback/version/tag evidence into one explainable final release graph.",
+        "Finalization advances platform Project Status to RELEASED without push/publish/deploy."
+      ],
+      "owner": "ui.web",
+      "page_component": "ReleaseClosureView",
+      "path": "/release/closure",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.release-closure",
+      "shows_mutation_controls": true,
+      "source_files": [
+        "ui/web/src/pages/ReleaseClosureView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts"
+      ],
+      "state_contract": {
+        "block_visible": true,
+        "empty": true,
+        "error": true,
+        "forbidden": true,
+        "loading": true,
+        "pass": true,
+        "ready_to_finalize": true,
+        "released": true,
+        "unauthorized": true
+      },
+      "status_visibility": [
+        "PASS",
+        "BLOCK",
+        "ERROR",
+        "READY_TO_FINALIZE",
+        "RELEASED"
+      ],
+      "title": "Release closure"
     }
   ],
   "safety": {
@@ -1510,7 +1568,7 @@
   "summary": {
     "allowed_api_routes_unique_total": 176,
     "critical_routes_total": 16,
-    "current_routes_total": 16,
+    "current_routes_total": 19,
     "dashboard_max_concurrency": 2,
     "document_inspection_api_routes_total": 4,
     "dry_run_badged_routes_total": 15,
@@ -1562,8 +1620,20 @@
     "gsdlc_10_b_job_console_reused": true,
     "gsdlc_10_b_story_validation_api_routes_total": 3,
     "gsdlc_10_b_story_validation_jobs": true,
+    "gsdlc_10_c_story_quality_api_routes_total": 9,
+    "gsdlc_10_c_story_quality_gate": true,
+    "gsdlc_11_a_release_readiness_api_routes_total": 1,
+    "gsdlc_11_a_release_readiness_view": true,
+    "gsdlc_11_b_release_package_api_routes_total": 3,
+    "gsdlc_11_b_release_package_view": true,
+    "gsdlc_11_b_source_write_enabled": false,
+    "gsdlc_11_c_release_lifecycle_api_routes_total": 7,
+    "gsdlc_11_c_release_lifecycle_view": true,
+    "gsdlc_11_e_release_closure_api_routes_total": 2,
+    "gsdlc_11_e_release_closure_view": true,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
-    "local_only_routes_total": 16,
+    "last_updated_by": "DEVPL-GSDLC-11-E",
+    "local_only_routes_total": 19,
     "mutation_control_routes_total": 10,
     "no_remote_badged_routes_total": 15,
     "opaque_document_identifiers": true,
@@ -1572,7 +1642,7 @@
     "read_only_document_routes_total": 1,
     "recursive_report_discovery": true,
     "reports_traces_route_specific": true,
-    "routes_total": 16,
+    "routes_total": 19,
     "runtime_evidence_only": true,
     "scoped_observability": true,
     "source_write_enabled": true,
@@ -1598,21 +1668,11 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-11-C",
+    "updated_by": "DEVPL-GSDLC-11-E",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
-    "workspace_validation_api_routes_total": 4,
-    "gsdlc_10_c_story_quality_gate": true,
-    "gsdlc_10_c_story_quality_api_routes_total": 9,
-    "last_updated_by": "DEVPL-GSDLC-11-C",
-    "gsdlc_11_a_release_readiness_view": true,
-    "gsdlc_11_a_release_readiness_api_routes_total": 1,
-    "gsdlc_11_b_release_package_view": true,
-    "gsdlc_11_b_release_package_api_routes_total": 3,
-    "gsdlc_11_b_source_write_enabled": false,
-    "gsdlc_11_c_release_lifecycle_view": true,
-    "gsdlc_11_c_release_lifecycle_api_routes_total": 7
+    "workspace_validation_api_routes_total": 4
   },
-  "updated": "2026-09-11"
+  "updated": "2026-09-12"
 }

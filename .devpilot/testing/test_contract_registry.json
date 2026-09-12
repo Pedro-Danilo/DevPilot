@@ -13940,14 +13940,14 @@
       "mutable_global_state_allowed": false,
       "owner": "DEVPL-GSDLC-11-B",
       "phase": "DEVPL-GSDLC-11-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py tests/test_package_builder.py -q"
+      ],
       "scope": "integration",
       "test_files": [
         "tests/test_devpl_gsdlc_11_b_release_package.py",
         "tests/test_devpl_gsdlc_11_b_release_package_contracts.py",
         "tests/test_package_builder.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_b_release_package.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py tests/test_package_builder.py -q"
       ],
       "validates": [
         "commit/tree-bound typed package plan/execute",
@@ -13978,6 +13978,9 @@
       "mutable_global_state_allowed": false,
       "owner": "DEVPL-GSDLC-11-C",
       "phase": "DEVPL-GSDLC-11-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_027_windows_install_smoke.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
+      ],
       "scope": "integration",
       "test_files": [
         "tests/test_devpl_gsdlc_11_c_release_lifecycle.py",
@@ -13985,9 +13988,6 @@
         "tests/test_post_h_027_upgrade_rollback_dry_run.py",
         "tests/test_post_h_027_windows_install_smoke.py",
         "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_c_release_lifecycle.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_027_windows_install_smoke.py tests/test_devpl_gsdlc_11_b_release_package_contracts.py -q"
       ],
       "validates": [
         "package-bound clean install in controlled sandbox",
@@ -14017,6 +14017,9 @@
       "mutable_global_state_allowed": false,
       "owner": "DEVPL-GSDLC-11-D",
       "phase": "DEVPL-GSDLC-11-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+      ],
       "scope": "integration",
       "test_files": [
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
@@ -14024,9 +14027,6 @@
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
         "tests/test_devpl_gsdlc_11_d_project_context_recovery.py"
-      ],
-      "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
       ],
       "validates": [
         "SemVer/version/package alignment",
@@ -14067,9 +14067,64 @@
         "tests/test_devpl_gsdlc_11_d_project_context_recovery.py",
         "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs"
       ]
+    },
+    {
+      "contract_id": "gsdlc11e-clean-install-browser-release-closure",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-11-E",
+      "phase": "DEVPL-GSDLC-11-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_11_e_release_closure.py tests/test_devpl_gsdlc_11_e_release_closure_contracts.py tests/test_devpl_gsdlc_11_e_release_closure_transport.py"
+      ],
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_e_release_closure.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_transport.py"
+      ],
+      "validates": [
+        "final exact-commit release graph",
+        "package/checksum/SBOM and install/rollback aggregation",
+        "role-bound local release finalization",
+        "Project Status RELEASED",
+        "normal-user external script=0 and no push/publish/deploy",
+        "FRX-v2.4 one-Full policy reserved for Windows closure"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/release_closure_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "ui/web/src/pages/ReleaseClosureView.ts",
+        "ui/web/src/pages/ReleaseMetadataView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/package.json",
+        "pyproject.toml",
+        "05_PROMPT_DEVPL_GSDLC_11_E_v1_0_1_REBOUND_REPO424.md",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_4_APPROVED_REBOUND_REPO424.md",
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-11-E-evidence-backed-local-release-adoption.md",
+        "tests/test_devpl_gsdlc_11_e_release_closure.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py",
+        "tests/test_devpl_gsdlc_11_e_release_closure_transport.py",
+        "docs/audits/DEVPL_GSDLC_11_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_11_E_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_11_E_TEST_IMPACT.json",
+        "docs/audits/devpl_gsdlc_11_e_contract_reconciliation_sweep.json",
+        "docs/audits/devpl_gsdlc_11_e_historical_contract_sweep.json"
+      ]
     }
   ],
-  "contracts_total": 334,
+  "contracts_total": 335,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [

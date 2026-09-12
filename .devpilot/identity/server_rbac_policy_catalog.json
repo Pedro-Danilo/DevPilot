@@ -16,10 +16,13 @@
   "gsdlc_07_d_agent_execution_routes_registered": true,
   "gsdlc_07_e_agent_evals_route_registered": true,
   "gsdlc_09_d_agent_proposal_routes_registered": true,
+  "gsdlc_10_d_story_git_routes_registered": true,
+  "gsdlc_11_a_release_readiness_route_registered": true,
+  "gsdlc_11_c_release_lifecycle_routes_registered": true,
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "DEVPL-GSDLC-11-D",
+  "micro_sprint": "DEVPL-GSDLC-11-E",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -1723,49 +1726,41 @@
       "workspace_scope_required": false
     },
     {
-      "route_id": "api.release.package.execute",
+      "access_class": "human-session/project-release-package-execute",
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/package/execute",
       "operation": "release.package.execute",
+      "path": "/api/v1/release/package/execute",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
-      "allowed_roles": [
-        "owner",
-        "release-manager"
-      ],
       "risk_level": "high",
-      "access_class": "human-session/project-release-package-execute"
+      "route_id": "api.release.package.execute",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.package.plan",
-      "method": "POST",
-      "path": "/api/v1/release/package/plan",
-      "operation": "release.package.plan",
-      "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "access_class": "human-session/project-release-package-plan",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "release.package.plan",
+      "path": "/api/v1/release/package/plan",
+      "public": false,
       "risk_level": "medium",
-      "access_class": "human-session/project-release-package-plan"
+      "route_id": "api.release.package.plan",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.package.status",
-      "method": "GET",
-      "path": "/api/v1/release/package",
-      "operation": "release.package.status",
-      "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "access_class": "human-session/project-release-package-read",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -1777,8 +1772,16 @@
         "operator",
         "agent-supervisor"
       ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "release.package.status",
+      "path": "/api/v1/release/package",
+      "public": false,
       "risk_level": "low",
-      "access_class": "human-session/project-release-package-read"
+      "route_id": "api.release.package.status",
+      "workspace_scope_required": true
     },
     {
       "access_class": "human-session/project-release-readiness",
@@ -4462,141 +4465,133 @@
       "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.lifecycle.status",
+      "access_class": "human-session/project-release-lifecycle-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "GET",
-      "path": "/api/v1/release/lifecycle",
       "operation": "release.lifecycle.status",
+      "path": "/api/v1/release/lifecycle",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
-      "allowed_roles": [
-        "owner",
-        "product-owner",
-        "architect",
-        "security-reviewer",
-        "developer",
-        "qa-reviewer",
-        "release-manager",
-        "operator",
-        "agent-supervisor"
-      ],
       "risk_level": "low",
-      "access_class": "human-session/project-release-lifecycle-read"
+      "route_id": "api.release.lifecycle.status",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.lifecycle.install.plan",
+      "access_class": "human-session/project-release-lifecycle-plan",
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/lifecycle/install/plan",
       "operation": "release.lifecycle.install.plan",
+      "path": "/api/v1/release/lifecycle/install/plan",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "risk_level": "medium",
+      "route_id": "api.release.lifecycle.install.plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-lifecycle-execute",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
-      "risk_level": "medium",
-      "access_class": "human-session/project-release-lifecycle-plan"
-    },
-    {
-      "route_id": "api.release.lifecycle.install.execute",
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/lifecycle/install/execute",
       "operation": "release.lifecycle.install.execute",
+      "path": "/api/v1/release/lifecycle/install/execute",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "risk_level": "high",
+      "route_id": "api.release.lifecycle.install.execute",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-lifecycle-plan",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
-      "risk_level": "high",
-      "access_class": "human-session/project-release-lifecycle-execute"
-    },
-    {
-      "route_id": "api.release.lifecycle.upgrade.plan",
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/lifecycle/upgrade/plan",
       "operation": "release.lifecycle.upgrade.plan",
+      "path": "/api/v1/release/lifecycle/upgrade/plan",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "risk_level": "medium",
+      "route_id": "api.release.lifecycle.upgrade.plan",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-lifecycle-execute",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
-      "risk_level": "medium",
-      "access_class": "human-session/project-release-lifecycle-plan"
-    },
-    {
-      "route_id": "api.release.lifecycle.upgrade.execute",
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/lifecycle/upgrade/execute",
       "operation": "release.lifecycle.upgrade.execute",
+      "path": "/api/v1/release/lifecycle/upgrade/execute",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "risk_level": "high",
+      "route_id": "api.release.lifecycle.upgrade.execute",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-lifecycle-plan",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
-      "risk_level": "high",
-      "access_class": "human-session/project-release-lifecycle-execute"
-    },
-    {
-      "route_id": "api.release.lifecycle.rollback.plan",
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/lifecycle/rollback/plan",
       "operation": "release.lifecycle.rollback.plan",
+      "path": "/api/v1/release/lifecycle/rollback/plan",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
-      "allowed_roles": [
-        "owner",
-        "release-manager"
-      ],
       "risk_level": "medium",
-      "access_class": "human-session/project-release-lifecycle-plan"
+      "route_id": "api.release.lifecycle.rollback.plan",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.lifecycle.rollback.execute",
-      "method": "POST",
-      "path": "/api/v1/release/lifecycle/rollback/execute",
-      "operation": "release.lifecycle.rollback.execute",
-      "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "access_class": "human-session/project-release-lifecycle-execute",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "release.lifecycle.rollback.execute",
+      "path": "/api/v1/release/lifecycle/rollback/execute",
+      "public": false,
       "risk_level": "high",
-      "access_class": "human-session/project-release-lifecycle-execute"
+      "route_id": "api.release.lifecycle.rollback.execute",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.metadata.status",
-      "method": "GET",
-      "path": "/api/v1/release/metadata",
-      "operation": "release.metadata.status",
-      "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "access_class": "human-session/project-release-metadata-read",
       "allowed_roles": [
         "owner",
         "product-owner",
@@ -4608,76 +4603,125 @@
         "operator",
         "agent-supervisor"
       ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "release.metadata.status",
+      "path": "/api/v1/release/metadata",
+      "public": false,
       "risk_level": "low",
-      "access_class": "human-session/project-release-metadata-read"
+      "route_id": "api.release.metadata.status",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.metadata.prepare",
+      "access_class": "human-session/project-release-metadata-governed",
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/metadata/prepare",
       "operation": "release.metadata.prepare",
+      "path": "/api/v1/release/metadata/prepare",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "risk_level": "medium",
+      "route_id": "api.release.metadata.prepare",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-metadata-governed",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
-      "risk_level": "medium",
-      "access_class": "human-session/project-release-metadata-governed"
-    },
-    {
-      "route_id": "api.release.metadata.tag-plan",
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/metadata/tag-plan",
       "operation": "release.metadata.tag-plan",
+      "path": "/api/v1/release/metadata/tag-plan",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
-      "allowed_roles": [
-        "owner",
-        "release-manager"
-      ],
       "risk_level": "medium",
-      "access_class": "human-session/project-release-metadata-governed"
+      "route_id": "api.release.metadata.tag-plan",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.metadata.approve",
+      "access_class": "human-session/project-release-metadata-governed",
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
       "method": "POST",
-      "path": "/api/v1/release/metadata/approve",
       "operation": "release.metadata.approve",
+      "path": "/api/v1/release/metadata/approve",
       "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
-      "allowed_roles": [
-        "owner",
-        "release-manager"
-      ],
       "risk_level": "high",
-      "access_class": "human-session/project-release-metadata-governed"
+      "route_id": "api.release.metadata.approve",
+      "workspace_scope_required": true
     },
     {
-      "route_id": "api.release.metadata.tag.execute",
-      "method": "POST",
-      "path": "/api/v1/release/metadata/tag/execute",
-      "operation": "release.metadata.tag.execute",
-      "public": false,
-      "human_session_required": true,
-      "workspace_scope_required": true,
-      "legacy_token_allowed": false,
-      "deny_by_default": true,
+      "access_class": "human-session/project-release-metadata-governed",
       "allowed_roles": [
         "owner",
         "release-manager"
       ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "release.metadata.tag.execute",
+      "path": "/api/v1/release/metadata/tag/execute",
+      "public": false,
       "risk_level": "high",
-      "access_class": "human-session/project-release-metadata-governed"
+      "route_id": "api.release.metadata.tag.execute",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-closure-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "release.closure.status",
+      "path": "/api/v1/release/closure",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.release.closure.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-release-closure-finalize",
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "release.closure.finalize",
+      "path": "/api/v1/release/closure/finalize",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.release.closure.finalize",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -4977,42 +5021,45 @@
     "gsdlc_10_a_story_test_plan_policies_total": 3,
     "gsdlc_10_b_legacy_token_allowed_total": 0,
     "gsdlc_10_b_story_validation_job_policies_total": 3,
-    "human_session_required_total": 134,
-    "legacy_token_allowed_total": 69,
-    "route_policies_total": 210,
-    "sensitive_action_policies_total": 19,
-    "unmapped_routes_total": 0,
-    "unmapped_sensitive_actions_total": 0,
-    "gsdlc_10_c_story_quality_policies_total": 9,
     "gsdlc_10_c_legacy_token_allowed_total": 0,
+    "gsdlc_10_c_story_quality_policies_total": 9,
     "gsdlc_10_c_waiver_decision_owner_only": true,
-    "gsdlc_10_d_story_git_policies_total": 8,
     "gsdlc_10_d_legacy_token_allowed_total": 0,
     "gsdlc_10_d_owner_only_mutation_policies_total": 4,
+    "gsdlc_10_d_story_git_policies_total": 8,
     "gsdlc_11_a_release_readiness_policies_total": 1,
-    "gsdlc_11_b_release_package_policies_total": 3,
+    "gsdlc_11_b_legacy_token_allowed_total": 0,
     "gsdlc_11_b_release_package_mutation_roles": [
       "owner",
       "release-manager"
     ],
-    "gsdlc_11_b_legacy_token_allowed_total": 0,
-    "gsdlc_11_c_release_lifecycle_policies_total": 7,
+    "gsdlc_11_b_release_package_policies_total": 3,
+    "gsdlc_11_c_legacy_token_allowed_total": 0,
     "gsdlc_11_c_mutation_roles": [
       "owner",
       "release-manager"
     ],
-    "gsdlc_11_c_legacy_token_allowed_total": 0
+    "gsdlc_11_c_release_lifecycle_policies_total": 7,
+    "gsdlc_11_e_legacy_token_allowed_total": 0,
+    "gsdlc_11_e_mutation_roles": [
+      "owner",
+      "release-manager"
+    ],
+    "gsdlc_11_e_release_closure_policies_total": 2,
+    "human_session_required_total": 134,
+    "legacy_token_allowed_total": 69,
+    "route_policies_total": 224,
+    "sensitive_action_policies_total": 19,
+    "unmapped_routes_total": 0,
+    "unmapped_sensitive_actions_total": 0
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-11",
+  "updated": "2026-09-12",
   "updated_by": "DEVPL-GSDLC-11-C",
   "version": "1.1.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
     "default_local_workspace_id": "devpilot-local",
     "scope_required_for_workspace_routes": true
-  },
-  "gsdlc_10_d_story_git_routes_registered": true,
-  "gsdlc_11_a_release_readiness_route_registered": true,
-  "gsdlc_11_c_release_lifecycle_routes_registered": true
+  }
 }

@@ -11,7 +11,7 @@ def test_11c_api_ui_rbac_contracts_are_registered():
     ui=json.loads((ROOT/'.devpilot/interfaces/ui_route_contract_registry.json').read_text()); route=next(r for r in ui['routes'] if r['route_id']=='ui.release-lifecycle');assert set(route['allowed_api_routes'])==expected;assert route['mutation_controls']['source_write_enabled'] is False
 
 def test_11c_closed_fact_survives_successor_and_full_budget_zero():
-    s=json.loads((ROOT/'.devpilot/project_state.json').read_text()); assert s['gsdlc_11_c_status']=='CLOSED/PASS/WINDOWS-VALIDATED'; assert s['gsdlc_11_c_successor_repo'].startswith('repo_DevPilot_Local_423_'); assert s['current_micro_sprint'] in {'DEVPL-GSDLC-11-C','DEVPL-GSDLC-11-D'}; assert s['gsdlc_11_full_regression_budget_consumed']==0; assert s['gsdlc_11_c_full_regression_runs']==0
+    s=json.loads((ROOT/'.devpilot/project_state.json').read_text()); assert s['gsdlc_11_c_status']=='CLOSED/PASS/WINDOWS-VALIDATED'; assert s['gsdlc_11_c_successor_repo'].startswith('repo_DevPilot_Local_423_'); assert s['current_micro_sprint'].startswith('DEVPL-GSDLC-11-'); assert s['gsdlc_11_full_regression_budget_consumed']==0; assert s['gsdlc_11_c_full_regression_runs']==0
 
 def test_11c_ui_and_docs_current_active_markers():
     main=(ROOT/'ui/web/src/main.ts').read_text();page=(ROOT/'ui/web/src/pages/ReleaseLifecycleView.ts').read_text();assert "'/release/lifecycle'" in main;assert 'backup-before-upgrade' in page;assert 'sandbox-only' in page

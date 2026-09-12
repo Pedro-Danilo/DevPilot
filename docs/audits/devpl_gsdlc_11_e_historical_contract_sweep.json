@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "micro_sprint": "DEVPL-GSDLC-11-E",
+  "status": "PASS",
+  "generated_at_utc": "2026-09-12T13:30:00Z",
+  "classifications": [
+    {
+      "subject": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py::test_11c_closed_fact_survives_successor_and_full_budget_zero",
+      "classification": "successor-needed",
+      "current_active_aspect": "current_micro_sprint",
+      "historical_freeze_aspect": "GSDLC-11-C CLOSED/PASS/WINDOWS-VALIDATED, repo423 successor and Full=0",
+      "action": "Preserve historical facts; replace closed enumeration {11-C,11-D} with successor-safe GSDLC-11 prefix check.",
+      "reason": "The prior assertion mixed a historical 11-C fact with mutable current authority and would falsely fail the legitimate 11-E successor."
+    },
+    {
+      "subject": "GSDLC-11-D Windows closure evidence",
+      "classification": "historical-freeze",
+      "action": "Preserve repo424/tag v0.1.0/browser evidence unchanged; consume as predecessor proof."
+    },
+    {
+      "subject": ".devpilot/project_state.json + source_registry current micro-sprint aliases",
+      "classification": "current-active",
+      "action": "Reconcile stale 11-C/11-D aliases to 11-E/12 before Full."
+    }
+  ],
+  "historical_facts_rewritten": false,
+  "tests_modified_only_to_force_pass": false,
+  "network_used": false,
+  "external_api_used": false
+}

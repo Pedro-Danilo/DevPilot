@@ -641,6 +641,14 @@ export class DevPilotApiClient {
     return this.post('/release/metadata/tag/execute', { plan_id: planId, plan_hash: planHash, approval_id: approvalId }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ tag_verification: Record<string, unknown>; reused: boolean }>>;
   }
 
+  async releaseClosureStatus(): Promise<DevPilotApplicationResponse<import('./types').ReleaseClosureStatus>> {
+    return this.get('/release/closure', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<import('./types').ReleaseClosureStatus>>;
+  }
+
+  async releaseClosureFinalize(graphHash: string): Promise<DevPilotApplicationResponse<import('./types').ReleaseClosureStatus>> {
+    return this.post('/release/closure/finalize', { graph_hash: graphHash }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<import('./types').ReleaseClosureStatus>>;
+  }
+
   async qualityOperations(): Promise<DevPilotApplicationResponse> {
     return this.get('/quality/operations', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }
