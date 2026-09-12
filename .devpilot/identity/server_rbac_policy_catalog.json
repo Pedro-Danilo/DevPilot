@@ -19,7 +19,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "GSDLC-10-D",
+  "micro_sprint": "DEVPL-GSDLC-11-D",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -4586,6 +4586,98 @@
       ],
       "risk_level": "high",
       "access_class": "human-session/project-release-lifecycle-execute"
+    },
+    {
+      "route_id": "api.release.metadata.status",
+      "method": "GET",
+      "path": "/api/v1/release/metadata",
+      "operation": "release.metadata.status",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "risk_level": "low",
+      "access_class": "human-session/project-release-metadata-read"
+    },
+    {
+      "route_id": "api.release.metadata.prepare",
+      "method": "POST",
+      "path": "/api/v1/release/metadata/prepare",
+      "operation": "release.metadata.prepare",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "medium",
+      "access_class": "human-session/project-release-metadata-governed"
+    },
+    {
+      "route_id": "api.release.metadata.tag-plan",
+      "method": "POST",
+      "path": "/api/v1/release/metadata/tag-plan",
+      "operation": "release.metadata.tag-plan",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "medium",
+      "access_class": "human-session/project-release-metadata-governed"
+    },
+    {
+      "route_id": "api.release.metadata.approve",
+      "method": "POST",
+      "path": "/api/v1/release/metadata/approve",
+      "operation": "release.metadata.approve",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "high",
+      "access_class": "human-session/project-release-metadata-governed"
+    },
+    {
+      "route_id": "api.release.metadata.tag.execute",
+      "method": "POST",
+      "path": "/api/v1/release/metadata/tag/execute",
+      "operation": "release.metadata.tag.execute",
+      "public": false,
+      "human_session_required": true,
+      "workspace_scope_required": true,
+      "legacy_token_allowed": false,
+      "deny_by_default": true,
+      "allowed_roles": [
+        "owner",
+        "release-manager"
+      ],
+      "risk_level": "high",
+      "access_class": "human-session/project-release-metadata-governed"
     }
   ],
   "runtime_enforced": true,

@@ -16,7 +16,7 @@
   "connector_write_enabled": false,
   "control_plane_enabled": false,
   "credentials_required": false,
-  "current_micro_sprint": "DEVPL-GSDLC-11-C",
+  "current_micro_sprint": "DEVPL-GSDLC-11-D",
   "current_phase": "DEVPL-GSDLC-11",
   "current_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
   "devpl_gsdlc_08_authorized": true,
@@ -4182,5 +4182,11 @@
   "gsdlc_11_c_browser_acceptance": "PASS/REAL-BROWSER",
   "gsdlc_11_c_windows_validation_status": "CLOSED/PASS",
   "gsdlc_11_c_browser_runs": 1,
-  "gsdlc_11_c_successor_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "gsdlc_11_c_successor_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_11_d_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_11_d_source_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_11_d_full_regression_runs": 0,
+  "gsdlc_11_e_authorized": false,
+  "gsdlc_11_full_regression_budget_allowed": 1,
+  "gsdlc_11_full_regression_reserved_for": "DEVPL-GSDLC-11-E"
 }

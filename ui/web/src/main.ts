@@ -9,6 +9,7 @@ import { renderQualityOperationsView } from './pages/QualityOperationsView';
 import { renderReleaseReadinessView } from './pages/ReleaseReadinessView';
 import { renderReleasePackageView } from './pages/ReleasePackageView';
 import { renderReleaseLifecycleView } from './pages/ReleaseLifecycleView';
+import { renderReleaseMetadataView } from './pages/ReleaseMetadataView';
 import { renderAiOperationsView } from './pages/AiOperationsView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
@@ -44,6 +45,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/release/readiness', routeId: 'ui.release-readiness', title: 'Release readiness', scope: 'project' },
   { path: '/release/package', routeId: 'ui.release-package', title: 'Release package', scope: 'project' },
   { path: '/release/lifecycle', routeId: 'ui.release-lifecycle', title: 'Install / rollback', scope: 'project' },
+  { path: '/release/metadata', routeId: 'ui.release-metadata', title: 'Version / tag', scope: 'project' },
   { path: '/ai', routeId: 'ui.ai', title: 'IA / RAG', scope: 'project' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center', scope: 'entry-or-project' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración', scope: 'global' },
@@ -150,6 +152,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     else if (route.path === '/release/readiness') page.append(renderReleaseReadinessView(() => readStoredToken()));
     else if (route.path === '/release/package') page.append(renderReleasePackageView(() => readStoredToken()));
     else if (route.path === '/release/lifecycle') page.append(renderReleaseLifecycleView(() => readStoredToken()));
+    else if (route.path === '/release/metadata') page.append(renderReleaseMetadataView(() => readStoredToken()));
     else if (route.path === '/ai') page.append(renderAiOperationsView(() => readStoredToken()));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView({ tokenProvider: () => readStoredToken(), session, handoffApprovalId: handoffApprovalId || undefined }));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));

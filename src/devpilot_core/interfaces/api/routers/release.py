@@ -27,6 +27,26 @@ class ReleaseLifecycleExecuteBody(BaseModel):
     plan_hash: str = Field(min_length=64, max_length=64)
 
 
+class ReleaseMetadataPrepareBody(BaseModel):
+    mode: str = Field(default="MANUAL", min_length=1, max_length=32)
+    version: str = Field(min_length=1, max_length=80)
+    manual_notes: str = Field(default="", max_length=20000)
+    agent_proposal: str = Field(default="", max_length=20000)
+
+
+class ReleaseMetadataApprovalBody(BaseModel):
+    plan_id: str = Field(min_length=1, max_length=200)
+    plan_hash: str = Field(min_length=64, max_length=64)
+    reason: str = Field(default="Reviewed release metadata and exact TagPlan.", min_length=1, max_length=1000)
+    ttl_minutes: int = Field(default=30, ge=5, le=120)
+
+
+class ReleaseMetadataTagExecuteBody(BaseModel):
+    plan_id: str = Field(min_length=1, max_length=200)
+    plan_hash: str = Field(min_length=64, max_length=64)
+    approval_id: str = Field(min_length=1, max_length=200)
+
+
 def _json(payload: dict[str, Any], status_code: int) -> JSONResponse:
     return JSONResponse(content=payload, status_code=status_code)
 
@@ -144,4 +164,38 @@ def release_lifecycle_rollback_execute(request: Request, body: ReleaseLifecycleE
     identity, error = _identity(request, service, operation="release.lifecycle.rollback.execute")
     if error: return error
     return _json(*dispatch_application_request(service, operation="release.lifecycle.rollback.execute", payload={**_identity_payload(identity), "plan_id": body.plan_id, "plan_hash": body.plan_hash}))
+
+@router.get("/api/v1/release/metadata")
+def release_metadata_status(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.metadata.status")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.metadata.status", payload=_identity_payload(identity)))
+
+
+@router.post("/api/v1/release/metadata/prepare")
+def release_metadata_prepare(request: Request, body: ReleaseMetadataPrepareBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.metadata.prepare")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.metadata.prepare", payload={**_identity_payload(identity), "mode": body.mode, "version": body.version, "manual_notes": body.manual_notes, "agent_proposal": body.agent_proposal}))
+
+
+@router.post("/api/v1/release/metadata/tag-plan")
+def release_metadata_tag_plan(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.metadata.tag-plan")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.metadata.tag-plan", payload=_identity_payload(identity)))
+
+
+@router.post("/api/v1/release/metadata/approve")
+def release_metadata_approve(request: Request, body: ReleaseMetadataApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.metadata.approve")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.metadata.approve", payload={**_identity_payload(identity), "plan_id": body.plan_id, "plan_hash": body.plan_hash, "reason": body.reason, "ttl_minutes": body.ttl_minutes}))
+
+
+@router.post("/api/v1/release/metadata/tag/execute")
+def release_metadata_tag_execute(request: Request, body: ReleaseMetadataTagExecuteBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service, operation="release.metadata.tag.execute")
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="release.metadata.tag.execute", payload={**_identity_payload(identity), "plan_id": body.plan_id, "plan_hash": body.plan_hash, "approval_id": body.approval_id}))
 

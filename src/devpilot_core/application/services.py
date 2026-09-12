@@ -51,6 +51,7 @@ from .workspace_git_operations_service import WorkspaceGitOperationsApplicationS
 from .release_readiness_service import ReleaseReadinessApplicationService
 from .release_package_service import ReleasePackageJobApplicationService
 from .release_lifecycle_service import ReleaseLifecycleApplicationService
+from .release_metadata_service import ReleaseMetadataApplicationService
 from .governed_job_capability_registry import GovernedJobCapabilityRegistry
 from .governed_job_operations import GovernedJobOperationsApplicationService
 from .quality_operations import QualityOperationsApplicationService
@@ -128,6 +129,7 @@ class ApplicationService:
         self._release_readiness: ReleaseReadinessApplicationService | None = None
         self._release_package: ReleasePackageJobApplicationService | None = None
         self._release_lifecycle: ReleaseLifecycleApplicationService | None = None
+        self._release_metadata: ReleaseMetadataApplicationService | None = None
         self.workspace_document_inspection = WorkspaceDocumentInspectionApplicationService(self.workspace_documents, self.root)
         self.workspace_validation = WorkspaceValidationApplicationService(self.root, context_resolver=self.ui_workspace_context, documents=self.workspace_documents)
         self.workspace_edit_planning = WorkspaceEditPlanApplicationService(self.root, documents=self.workspace_documents)
@@ -264,6 +266,13 @@ class ApplicationService:
         if self._release_lifecycle is None:
             self._release_lifecycle = ReleaseLifecycleApplicationService(self.root, context_resolver=self.ui_workspace_context)
         return self._release_lifecycle
+
+    @property
+    def release_metadata(self) -> ReleaseMetadataApplicationService:
+        """Lazily construct the GSDLC-11-D version/notes/approval/tag workbench."""
+        if self._release_metadata is None:
+            self._release_metadata = ReleaseMetadataApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        return self._release_metadata
 
     @property
     def agent_assist(self) -> AgentAssistApplicationService:
@@ -1627,6 +1636,21 @@ class ApplicationService:
     def release_lifecycle_rollback_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str) -> CommandResult:
         return self.release_lifecycle.rollback_execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash)
 
+    def release_metadata_status(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_metadata.status(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_metadata_prepare(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], mode: str, version: str, manual_notes: str = "", agent_proposal: str = "") -> CommandResult:
+        return self.release_metadata.prepare(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, mode=mode, version=version, manual_notes=manual_notes, agent_proposal=agent_proposal)
+
+    def release_metadata_tag_plan(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.release_metadata.tag_plan(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes)
+
+    def release_metadata_approve(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str, reason: str, ttl_minutes: int = 30) -> CommandResult:
+        return self.release_metadata.approve(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash, reason=reason, ttl_minutes=ttl_minutes)
+
+    def release_metadata_tag_execute(self, *, actor: str, actor_roles: list[str], workspace_scopes: list[str], plan_id: str, plan_hash: str, approval_id: str) -> CommandResult:
+        return self.release_metadata.tag_execute(actor=actor, actor_roles=actor_roles, workspace_scopes=workspace_scopes, plan_id=plan_id, plan_hash=plan_hash, approval_id=approval_id)
+
     def _story_commit_ready_quality_context(self, *, story_execution_id: str) -> CommandResult:
         command = "story git context recover"
         candidates = []
@@ -2352,6 +2376,11 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "release.lifecycle.upgrade.execute": lambda payload: service.release_lifecycle_upgrade_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
         "release.lifecycle.rollback.plan": lambda payload: service.release_lifecycle_rollback_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "release.lifecycle.rollback.execute": lambda payload: service.release_lifecycle_rollback_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", ""))),
+        "release.metadata.status": lambda payload: service.release_metadata_status(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.metadata.prepare": lambda payload: service.release_metadata_prepare(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), mode=str(payload.get("mode", "MANUAL")), version=str(payload.get("version", "")), manual_notes=str(payload.get("manual_notes", "")), agent_proposal=str(payload.get("agent_proposal", ""))),
+        "release.metadata.tag-plan": lambda payload: service.release_metadata_tag_plan(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "release.metadata.approve": lambda payload: service.release_metadata_approve(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), reason=str(payload.get("reason", "")), ttl_minutes=int(payload.get("ttl_minutes", 30))),
+        "release.metadata.tag.execute": lambda payload: service.release_metadata_tag_execute(actor=str(payload.get("actor", "")), actor_roles=list(payload.get("actor_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), plan_id=str(payload.get("plan_id", "")), plan_hash=str(payload.get("plan_hash", "")), approval_id=str(payload.get("approval_id", ""))),
         "planning.closure.status": lambda payload: service.planning_closure_status(effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.reconcile.preview": lambda payload: service.guided_sdlc_reconcile_preview(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),
         "guided_sdlc.reconcile.execute": lambda payload: service.guided_sdlc_reconcile_execute(workspace_id=str(payload.get("workspace_id", "")), updated_at_utc=str(payload.get("updated_at_utc", "")), observed_at_utc=str(payload.get("observed_at_utc", ""))),

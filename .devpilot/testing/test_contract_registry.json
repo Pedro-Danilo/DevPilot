@@ -1613,7 +1613,7 @@
       "mutations_allowed": false,
       "network_allowed": false,
       "notes": [
-        "A→D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
+        "A\u2192D cumulative-selective; full regression remains 0 for DEVPL-GSDLC-05.",
         "Normative documentation remains authoritative until owner approves the registry version."
       ],
       "owner": "DEVPL-GSDLC-05-A",
@@ -1672,7 +1672,7 @@
       "mutations_allowed": false,
       "network_allowed": false,
       "notes": [
-        "A→D cumulative-selective; GSDLC-05 full regression remains 0.",
+        "A\u2192D cumulative-selective; GSDLC-05 full regression remains 0.",
         "Production v1.0.0 allows no mandatory gate waiver because no normative source/ADR authorizes one."
       ],
       "owner": "DEVPL-GSDLC-05-B",
@@ -2597,7 +2597,7 @@
         "tests/test_devpl_gsdlc_08_c_backlog_workbench.py"
       ],
       "validates": [
-        "required requirement→story coverage 100% or explicit blocker",
+        "required requirement\u2192story coverage 100% or explicit blocker",
         "duplicate story and dependency-gap detection",
         "story acceptance criteria required",
         "priority level/value/risk with rationale and provenance",
@@ -2678,8 +2678,8 @@
       ],
       "validates": [
         "planning browser end-to-end",
-        "PRE_CODE_READY→PLANNING→IMPLEMENTING_READY",
-        "requirement→milestone→epic→story→sprint trace graph",
+        "PRE_CODE_READY\u2192PLANNING\u2192IMPLEMENTING_READY",
+        "requirement\u2192milestone\u2192epic\u2192story\u2192sprint trace graph",
         "backlog/sprint API successor bindings",
         "server RBAC approval/freeze",
         "browser acceptance before one full",
@@ -2977,7 +2977,7 @@
         "waivers are owner-only, reasoned, expiring and cannot waive sensitive/P0 required tests",
         "agent/model authority cannot approve or waive StoryTestPlan",
         "Full Regression signal is informational only and GSDLC-10-A full runs remain zero",
-        "Story Code Workbench exposes Story → Validate → StoryTestPlan review without a parallel Quality UI",
+        "Story Code Workbench exposes Story \u2192 Validate \u2192 StoryTestPlan review without a parallel Quality UI",
         "activation/rebind is folded into 10-A on repo414 while repo413 remains canonical functional predecessor"
       ],
       "watched_paths": [
@@ -3098,7 +3098,7 @@
         "remediation is manual or proposal-only agent ToolIntent and source mutation remains governed by GSDLC-09",
         "remediation changes invalidate stale quality reports and impacted retest requires a successor APPROVED StoryTestPlan",
         "retest plans only typed jobs derived from successor Test Impact; rerun-everything=false and Full Regression=false",
-        "finding→remediation→retest provenance remains explicit and Quality UI exposes blockers/actions",
+        "finding\u2192remediation\u2192retest provenance remains explicit and Quality UI exposes blockers/actions",
         "GSDLC-10-C consumes zero Full Regression runs and exposes no new source-write authority"
       ],
       "watched_paths": [
@@ -3156,9 +3156,9 @@
         "stage uses exact paths only; git add dot/add-all and arbitrary shell remain unavailable",
         "stage and commit require independent authenticated owner approvals and revalidation immediately before execution",
         "GitCommitRecord binds real commit hash, author/session/message/exact paths, tests/quality/evidence and requirement traceability",
-        "committed tree equals approved delta, fixture worktree is clean and StoryExecution advances COMMIT_READY→DONE",
+        "committed tree equals approved delta, fixture worktree is clean and StoryExecution advances COMMIT_READY\u2192DONE",
         "push/force-push/rebase/reset-hard remain unavailable and Full Regression stays zero in GSDLC-10-D",
-        "Story Code Workbench reuses WorkspaceGitOperationsPanel and exposes plan→approve→stage→approve→commit UX"
+        "Story Code Workbench reuses WorkspaceGitOperationsPanel and exposes plan\u2192approve\u2192stage\u2192approve\u2192commit UX"
       ],
       "watched_paths": [
         ".devpilot/docs_governance/source_registry.json",
@@ -3648,7 +3648,7 @@
         "tests/test_devpl_gsdlc_10_e_browser_fixture.py"
       ],
       "validates": [
-        "UI-native StoryExecution lifecycle IN_PROGRESS→CHANGES_READY→VALIDATING→COMMIT_READY→DONE without operator substitution",
+        "UI-native StoryExecution lifecycle IN_PROGRESS\u2192CHANGES_READY\u2192VALIDATING\u2192COMMIT_READY\u2192DONE without operator substitution",
         "controlled browser fixture produces typed test FAIL, Quality BLOCK, agent proposal-only remediation, successor impacted retest PASS and fresh Quality PASS",
         "Quality remediation handoff is UX-only and server-revalidated after navigation",
         "agent ToolIntent/ToolExecutionDecision never grants source/Quality/Git authority",
@@ -14009,9 +14009,60 @@
         "ui/web/src/pages/ReleaseLifecycleView.ts",
         "tests/test_devpl_gsdlc_11_b_release_package_contracts.py"
       ]
+    },
+    {
+      "contract_id": "gsdlc11d-release-metadata-tag-approval",
+      "critical": true,
+      "global_state_source": null,
+      "mutable_global_state_allowed": false,
+      "owner": "DEVPL-GSDLC-11-D",
+      "phase": "DEVPL-GSDLC-11-D",
+      "scope": "integration",
+      "test_files": [
+        "tests/test_devpl_gsdlc_11_d_release_metadata.py",
+        "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+      ],
+      "validates": [
+        "SemVer/version/package alignment",
+        "release notes provenance and proposal-only model authority",
+        "exact commit-bound dry-run TagPlan",
+        "server-side role-bound hash-bound approval",
+        "local annotated tag exact commit",
+        "existing tag conflict fail-closed",
+        "no push/publication and Full Regression remains 0"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/release_metadata_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/release.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/interfaces/ui_capability_registry.json",
+        ".devpilot/identity/server_rbac_policy_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "ui/web/src/pages/ReleaseMetadataView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "04_PROMPT_DEVPL_GSDLC_11_D_v1_0_1_REBOUND_REPO423.md",
+        "DEVPL-GSDLC-11_release_and_lifecycle_workbench_v1_3_3_APPROVED_REBOUND_REPO423.md",
+        "docs/audits/DEVPL_GSDLC_11_D_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_11_D_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_11_D_TEST_IMPACT.json",
+        "docs/audits/devpl_gsdlc_11_d_contract_reconciliation_sweep.json",
+        "docs/audits/devpl_gsdlc_11_d_historical_contract_sweep.json",
+        "tests/test_devpl_gsdlc_11_d_release_metadata.py",
+        "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py"
+      ]
     }
   ],
-  "contracts_total": 333,
+  "contracts_total": 334,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [

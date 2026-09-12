@@ -1464,3 +1464,55 @@ export interface ReleaseLifecycleStatus {
   state: 'NOT_STARTED' | 'INSTALLED' | 'ROLLBACK_REQUIRED' | 'ROLLBACK_VERIFIED' | string;
   lifecycle: Record<string, unknown>;
 }
+
+export interface ReleaseVersionDecision {
+  schema_version: string;
+  status: string;
+  decision: string;
+  version: string;
+  tag_name: string;
+  pyproject_version: string;
+  package_version: string;
+  decision_hash: string;
+  source_authority: { commit: string; tree: string; branch: string; dirty_tracked: boolean };
+  provenance: Record<string, unknown>;
+}
+
+export interface ReleaseTagPlan {
+  plan_id: string;
+  plan_hash: string;
+  version: string;
+  tag_name: string;
+  message: string;
+  source_authority: { commit: string; tree: string; branch: string; dirty_tracked: boolean };
+  release_notes_path: string;
+  release_notes_sha256: string;
+  approval_required: boolean;
+  approval_roles: string[];
+  annotated: boolean;
+  dry_run: boolean;
+}
+
+export interface ReleaseApproval {
+  status: string;
+  approval_id: string;
+  plan_id: string;
+  plan_hash: string;
+  tag_name: string;
+  target_commit: string;
+  actor: string;
+  actor_roles: string[];
+  expires_at_utc: string;
+  model_or_agent_authority: boolean;
+}
+
+export interface ReleaseMetadataStatus {
+  state: string;
+  version_decision?: ReleaseVersionDecision | null;
+  tag_plan?: ReleaseTagPlan | null;
+  release_approval?: ReleaseApproval | null;
+  tag_verification?: Record<string, unknown> | null;
+  release_notes_path?: string | null;
+  authority: Record<string, unknown>;
+  safety: Record<string, unknown>;
+}

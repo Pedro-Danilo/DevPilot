@@ -3,7 +3,7 @@
   "version": "0.33.0-gsdlc-11-c",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-11-A Release Readiness aggregation and explainable project-scoped readiness.",
+  "description": "DevPilot Local Web UI \u2014 GSDLC-11-A Release Readiness aggregation and explainable project-scoped readiness.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -41,7 +41,8 @@
     "test:story-code-workbench": "node scripts/gsdlc09b-code-workbench-smoke.mjs",
     "test:gsdlc09c": "node scripts/gsdlc09c-source-change-smoke.mjs",
     "test:gsdlc10a": "node scripts/gsdlc10a-story-test-plan-smoke.mjs",
-    "test:gsdlc11b": "node scripts/gsdlc11b-release-package-smoke.mjs"
+    "test:gsdlc11b": "node scripts/gsdlc11b-release-package-smoke.mjs",
+    "test:release-metadata": "node scripts/gsdlc11d-release-metadata-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

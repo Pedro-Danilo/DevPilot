@@ -621,6 +621,26 @@ export class DevPilotApiClient {
     return this.post('/release/lifecycle/rollback/execute', { plan_id: planId, plan_hash: planHash }, { timeoutMs: 300000 }) as Promise<DevPilotApplicationResponse<{ rollback: Record<string, unknown>; reused: boolean }>>;
   }
 
+  async releaseMetadataStatus(): Promise<DevPilotApplicationResponse<import('./types').ReleaseMetadataStatus>> {
+    return this.get('/release/metadata', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<import('./types').ReleaseMetadataStatus>>;
+  }
+
+  async releaseMetadataPrepare(payload: { mode: 'MANUAL'|'AGENT_ASSISTED'; version: string; manual_notes?: string; agent_proposal?: string }): Promise<DevPilotApplicationResponse<{ version_decision: import('./types').ReleaseVersionDecision; release_notes_path: string; release_notes_sha256: string }>> {
+    return this.post('/release/metadata/prepare', payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ version_decision: import('./types').ReleaseVersionDecision; release_notes_path: string; release_notes_sha256: string }>>;
+  }
+
+  async releaseMetadataTagPlan(): Promise<DevPilotApplicationResponse<{ tag_plan: import('./types').ReleaseTagPlan }>> {
+    return this.post('/release/metadata/tag-plan', {}, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ tag_plan: import('./types').ReleaseTagPlan }>>;
+  }
+
+  async releaseMetadataApprove(planId: string, planHash: string, reason: string): Promise<DevPilotApplicationResponse<{ release_approval: import('./types').ReleaseApproval }>> {
+    return this.post('/release/metadata/approve', { plan_id: planId, plan_hash: planHash, reason, ttl_minutes: 30 }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ release_approval: import('./types').ReleaseApproval }>>;
+  }
+
+  async releaseMetadataTagExecute(planId: string, planHash: string, approvalId: string): Promise<DevPilotApplicationResponse<{ tag_verification: Record<string, unknown>; reused: boolean }>> {
+    return this.post('/release/metadata/tag/execute', { plan_id: planId, plan_hash: planHash, approval_id: approvalId }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS }) as Promise<DevPilotApplicationResponse<{ tag_verification: Record<string, unknown>; reused: boolean }>>;
+  }
+
   async qualityOperations(): Promise<DevPilotApplicationResponse> {
     return this.get('/quality/operations', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true });
   }

@@ -39750,7 +39750,7 @@
   "gsdlc_10_e_s0_open": 0,
   "gsdlc_10_e_s1_open": 0,
   "gsdlc_11_authorized": true,
-  "gsdlc_11_status": "ACTIVE/GSDLC-11/11-C-CLOSED/11-D-AUTHORIZED",
+  "gsdlc_11_status": "ACTIVE/GSDLC-11/11-C-CLOSED/11-D-IMPLEMENTED-LOCAL-QUALIFIED",
   "gsdlc_11_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_11_a_execution_source_repo": "repo_DevPilot_Local_420_DEVPL_GSDLC_10_E_STORY_CYCLE_BROWSER_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_11_a_execution_source_commit": "8d37c29214a67b28d1dfd70a204a8c9596c53ae8",
@@ -39791,5 +39791,12 @@
   "gsdlc_11_c_browser_acceptance": "PASS/REAL-BROWSER",
   "gsdlc_11_c_windows_validation_status": "CLOSED/PASS",
   "gsdlc_11_c_browser_runs": 1,
-  "gsdlc_11_c_successor_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "gsdlc_11_c_successor_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_11_d_execution_source_repo": "repo_DevPilot_Local_423_DEVPL_GSDLC_11_C_INSTALL_UPGRADE_ROLLBACK_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_11_d_execution_source_commit": "3161ff7c9e216b039ac657fa52a9667a249d879d",
+  "gsdlc_11_d_execution_source_sha256": "836c9bb2e24f547fc3bd6a61235b938557139a8730010ea5208acaf695f23099",
+  "gsdlc_11_d_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_11_d_full_regression_runs": 0,
+  "gsdlc_11_d_browser_required": true,
+  "gsdlc_11_e_authorized": false
 }

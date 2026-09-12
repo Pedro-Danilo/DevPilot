@@ -1430,6 +1430,68 @@
         "PENDING"
       ],
       "title": "Artifact Workbench — governed authoring, reconciliation and browser closure"
+    },
+    {
+      "allowed_api_routes": [
+        "api.release.metadata.status",
+        "api.release.metadata.prepare",
+        "api.release.metadata.tag-plan",
+        "api.release.metadata.approve",
+        "api.release.metadata.tag.execute"
+      ],
+      "connector_write_allowed": false,
+      "critical": true,
+      "dry_run_badge_required": true,
+      "external_api_allowed": false,
+      "local_first_badge_required": true,
+      "local_only": true,
+      "mutation_controls": {
+        "approval_required": true,
+        "destructive_action_allowed": false,
+        "justification": "Annotated local tag execute requires exact TagPlan plus server-authenticated owner/release-manager approval; models/agents remain proposal-only.",
+        "local_state_mutation_only": true,
+        "plan_only": false,
+        "typed_plan_required": true,
+        "source_write_enabled": false,
+        "publish_enabled": false
+      },
+      "no_remote_badge_required": true,
+      "notes": [
+        "GSDLC-11-D exposes version alignment, traceable release notes, exact TagPlan, approval and local annotated tag verification.",
+        "No push, publish or deploy is exposed."
+      ],
+      "owner": "ui.web",
+      "page_component": "ReleaseMetadataView",
+      "path": "/release/metadata",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.release-metadata",
+      "shows_mutation_controls": true,
+      "source_files": [
+        "ui/web/src/pages/ReleaseMetadataView.ts",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/api/types.ts"
+      ],
+      "state_contract": {
+        "block_visible": true,
+        "empty": true,
+        "error": true,
+        "loading": true,
+        "pass": true,
+        "planned": true,
+        "approval_pending": true,
+        "approved": true,
+        "tag_verified": true,
+        "unauthorized": true,
+        "forbidden": true
+      },
+      "status_visibility": [
+        "PASS",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "title": "Version / tag"
     }
   ],
   "safety": {

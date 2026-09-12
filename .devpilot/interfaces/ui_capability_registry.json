@@ -12826,6 +12826,40 @@
       },
       "status": "implemented/gsdlc-04-e-external-reconciliation-browser-closure",
       "title": "Artifact Workbench — governed authoring, reconciliation and browser closure"
+    },
+    {
+      "allowed_api_route_ids": [
+        "api.release.metadata.status",
+        "api.release.metadata.prepare",
+        "api.release.metadata.tag-plan",
+        "api.release.metadata.approve",
+        "api.release.metadata.tag.execute"
+      ],
+      "connector_write_allowed": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "mapped_cli_capability_ids": [
+        "cli.git.tags",
+        "cli.git.log"
+      ],
+      "page_component": "ReleaseMetadataView",
+      "path": "/release/metadata",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.release-metadata",
+      "shows_mutation_controls": true,
+      "state_contract": {
+        "block_visible": true,
+        "empty": true,
+        "error": true,
+        "loading": true,
+        "pass": true,
+        "planned": true,
+        "approval_pending": true,
+        "approved": true,
+        "tag_verified": true
+      },
+      "title": "Version / tag"
     }
   ],
   "updated": "2026-09-11",

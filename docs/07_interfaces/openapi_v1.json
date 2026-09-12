@@ -8635,6 +8635,101 @@
           }
         }
       }
+    },
+    "/api/v1/release/metadata": {
+      "get": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Metadata Status",
+        "operationId": "release_metadata_status_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/metadata/prepare": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Metadata Prepare",
+        "operationId": "release_metadata_prepare_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/metadata/tag-plan": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Metadata Tag Plan",
+        "operationId": "release_metadata_tag_plan_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/metadata/approve": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Metadata Approve",
+        "operationId": "release_metadata_approve_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/release/metadata/tag/execute": {
+      "post": {
+        "tags": [
+          "release"
+        ],
+        "summary": "Release Metadata Tag Execute",
+        "operationId": "release_metadata_tag_execute_api",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
