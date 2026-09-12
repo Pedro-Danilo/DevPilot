@@ -12,7 +12,8 @@
     "historical_pointer_reused_by_new_wave": false,
     "runtime_ephemeral_store_copied": false,
     "sealed_evidence_rewritten": false,
-    "successor_without_registry_history_update": false
+    "successor_without_registry_history_update": false,
+    "api_route_missing_policy_binding": false
   },
   "sensitive_action": "annotated local Git tag",
   "binding": [
@@ -25,5 +26,12 @@
   "network_used": false,
   "external_api_used": false,
   "secrets_exposed": false,
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "windows_corrective": {
+    "version": "1.0.4",
+    "finding": "missing API_ROUTE_POLICIES binding for /api/v1/release/metadata* discovered by real-browser acceptance",
+    "resolution": "five LocalAPI PolicyEngine bindings added; dedicated transport parity test added",
+    "security_relaxed": false,
+    "full_regression_runs": 0
+  }
 }

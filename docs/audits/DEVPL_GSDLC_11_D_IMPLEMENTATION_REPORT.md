@@ -2,9 +2,9 @@
 doc_id: "DEVPL-GSDLC-11-D-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-11-D — Version, release notes, tag and approval implementation report"
 status: "implemented-local-qualified"
-version: "1.0.0"
+version: "1.0.1"
 owner: "Ordóñez"
-updated: "2026-09-11"
+updated: "2026-09-12"
 approval: "pending_windows_validation"
 ---
 
@@ -25,6 +25,12 @@ Estado local: **IMPLEMENTED / LOCAL-QUALIFIED / WINDOWS-VALIDATION-PENDING** sob
 # Política FRX-v2.4
 
 11-D usa focal + bounded cumulative + HCA/Contract Reconciliation. **Full Regression = 0**. La única logical Full de DEVPL-GSDLC-11 permanece 0/1 y reservada para 11-E. Drift documental current-active se corrige aquí sin reescribir evidencia histórica sellada.
+
+# Corrective Windows de transporte — v1.0.4
+
+La aceptación browser Windows detectó un gap funcional antes del cierre: las cinco rutas `/api/v1/release/metadata*` estaban presentes en router/OpenAPI/API registry y server RBAC, pero faltaban en `API_ROUTE_POLICIES` del middleware LocalAPI. El middleware fail-closed respondió correctamente `API_POLICY_BINDING_MISSING_BLOCK` (HTTP 403) antes de invocar `ReleaseMetadataApplicationService`.
+
+El corrective v1.0.4 agrega los cinco bindings de PolicyEngine en `src/devpilot_core/interfaces/api/security.py` y una prueba dedicada de paridad transporte/API registry/server RBAC. No se relaja seguridad, no se habilita legacy token y no se consume Full Regression. Test Impact corregido: `34/203/316/0`.
 
 # Riesgos / limitaciones
 

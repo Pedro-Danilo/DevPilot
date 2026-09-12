@@ -8,14 +8,14 @@
       "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
       "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
       "rules_path": ".devpilot/testing/test_impact_rules.json",
-      "changed_paths_total": 32,
+      "changed_paths_total": 34,
       "contracts_total": 335,
-      "matched_contracts_total": 200,
-      "p0_selected_total": 121,
+      "matched_contracts_total": 203,
+      "p0_selected_total": 124,
       "p1_selected_total": 70,
       "heuristic_recommendations_total": 9,
-      "recommended_tests_total": 312,
-      "recommended_commands_total": 372,
+      "recommended_tests_total": 316,
+      "recommended_commands_total": 375,
       "recommended_profiles": [
         "impact",
         "release-candidate-local",
@@ -55,9 +55,11 @@
       "src/devpilot_core/application/release_metadata_service.py",
       "src/devpilot_core/application/services.py",
       "src/devpilot_core/interfaces/api/routers/release.py",
+      "src/devpilot_core/interfaces/api/security.py",
       "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
       "tests/test_devpl_gsdlc_11_d_release_metadata.py",
       "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+      "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
       "ui/web/package.json",
       "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
       "ui/web/src/api/client.ts",
@@ -138,6 +140,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -191,14 +194,16 @@
           ".devpilot/project_state.json",
           ".devpilot/testing/test_contract_registry.json",
           ".devpilot/testing/test_contract_registry_v2.json",
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
           "direct:watched_paths:.devpilot/project_state.json",
           "direct:watched_paths:.devpilot/testing/test_contract_registry.json",
           "direct:watched_paths:.devpilot/testing/test_contract_registry_v2.json",
-          "direct:watched_paths:src/devpilot_core/interfaces/api"
+          "direct:watched_paths:src/devpilot_core/interfaces/api",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_devpl_gsdlc_02_b_api_auth.py tests/test_devpl_gsdlc_02_b_contracts.py tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py -q",
@@ -224,7 +229,8 @@
         "matched_paths": [
           ".devpilot/identity/server_rbac_policy_catalog.json",
           ".devpilot/interfaces/api_route_contract_registry.json",
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:validates:.devpilot/identity/server_rbac_policy_catalog.json",
@@ -253,6 +259,7 @@
           ".devpilot/identity/server_rbac_policy_catalog.json",
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts"
         ],
         "match_reasons": [
@@ -284,6 +291,7 @@
           ".devpilot/interfaces/api_route_contract_registry.json",
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/main.ts",
@@ -323,6 +331,7 @@
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/main.ts",
@@ -336,6 +345,7 @@
           "direct:watched_paths:.devpilot/interfaces",
           "direct:validates:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/interfaces/api",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
           "direct:validates:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src"
         ],
@@ -376,6 +386,7 @@
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -433,14 +444,16 @@
           ".devpilot/identity/server_rbac_policy_catalog.json",
           ".devpilot/interfaces/api_route_contract_registry.json",
           ".devpilot/project_state.json",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
           "direct:watched_paths:.devpilot/identity/server_rbac_policy_catalog.json",
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:.devpilot/project_state.json",
-          "direct:watched_paths:src/devpilot_core/application/services.py"
+          "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
@@ -507,6 +520,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -525,6 +539,7 @@
           "rule-registry:gsdlc11a-release-readiness",
           "rule-registry:ui-api-local-hardening",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle"
         ],
         "recommended_commands": [
@@ -559,6 +574,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts"
         ],
         "match_reasons": [
@@ -568,6 +584,7 @@
           "direct:watched_paths:.devpilot/interfaces/ui_route_contract_registry.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api/client.ts"
         ],
         "recommended_commands": [
@@ -748,6 +765,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -789,6 +807,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -829,6 +848,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -866,6 +886,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -906,6 +927,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -949,6 +971,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -990,6 +1013,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -1003,6 +1027,7 @@
           "rule-registry:gsdlc11b-release-package-reproducibility",
           "direct:validates:README.md",
           "rule-registry:gsdlc11a-release-readiness",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "rule-registry:release-packaging-rc"
         ],
@@ -1059,6 +1084,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -1119,7 +1145,8 @@
         "risk_level": "critical",
         "test_type": "security",
         "matched_paths": [
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:src/devpilot_core/interfaces/api/"
@@ -1161,6 +1188,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1185,6 +1213,8 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "direct:validates:src/devpilot_core/application/services.py",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:validates:ui/web/src/api/client.ts",
           "direct:validates:ui/web/src/api/types.ts",
@@ -1227,6 +1257,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1250,6 +1281,8 @@
           "direct:validates:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/application/services.py",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:validates:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/",
@@ -1287,6 +1320,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1339,6 +1373,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1357,6 +1392,7 @@
           "rule-registry:gsdlc11b-release-package-reproducibility",
           "rule-registry:gsdlc11a-release-readiness",
           "rule-registry:ui-api-local-hardening",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:watched_paths:ui/web/src/api/"
         ],
@@ -1393,6 +1429,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1447,6 +1484,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1500,6 +1538,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -1824,6 +1863,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/main.ts"
@@ -1840,6 +1880,8 @@
           "rule-registry:cli-application-boundary",
           "direct:validates:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:validates:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:validates:ui/web/src/api/types.ts",
@@ -1905,7 +1947,8 @@
           ".devpilot/interfaces/api_route_contract_registry.json",
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/services.py",
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/identity/server_rbac_policy_catalog.json",
@@ -1939,6 +1982,7 @@
           ".devpilot/interfaces/ui_capability_registry.json",
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/main.ts",
@@ -2019,6 +2063,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/styles.css"
@@ -2032,6 +2077,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api",
           "direct:watched_paths:ui/web/src/styles.css"
         ],
@@ -2068,6 +2114,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/styles.css"
@@ -2081,6 +2128,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api",
           "direct:watched_paths:ui/web/src/styles.css"
         ],
@@ -2117,7 +2165,8 @@
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
@@ -2127,7 +2176,8 @@
           "direct:watched_paths:.devpilot/testing",
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
-          "direct:watched_paths:src/devpilot_core/application/services.py"
+          "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q"
@@ -2261,6 +2311,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
@@ -2278,6 +2329,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/package.json",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/types.ts",
@@ -2325,6 +2377,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
           "ui/web/src/main.ts",
@@ -2343,6 +2396,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/types.ts",
           "direct:watched_paths:ui/web/src/main.ts",
@@ -2439,6 +2493,66 @@
         "priority_score": 43
       },
       {
+        "contract_id": "devpl-gsdlc-07-c-agent-assist-workflows",
+        "domain": "agentic.runtime",
+        "criticality": "P0",
+        "risk_level": "high",
+        "test_type": "contract",
+        "matched_paths": [
+          "src/devpilot_core/interfaces/api/security.py"
+        ],
+        "match_reasons": [
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
+        ],
+        "recommended_commands": [
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py"
+        ],
+        "test_files": [
+          "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+        ],
+        "priority_score": 43
+      },
+      {
+        "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+        "domain": "agentic.runtime",
+        "criticality": "P0",
+        "risk_level": "high",
+        "test_type": "contract",
+        "matched_paths": [
+          "src/devpilot_core/interfaces/api/security.py"
+        ],
+        "match_reasons": [
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
+        ],
+        "recommended_commands": [
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py"
+        ],
+        "test_files": [
+          "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+        ],
+        "priority_score": 43
+      },
+      {
+        "contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
+        "domain": "agentic.runtime",
+        "criticality": "P0",
+        "risk_level": "high",
+        "test_type": "contract",
+        "matched_paths": [
+          "src/devpilot_core/interfaces/api/security.py"
+        ],
+        "match_reasons": [
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
+        ],
+        "recommended_commands": [
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+        ],
+        "test_files": [
+          "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+        ],
+        "priority_score": 43
+      },
+      {
         "contract_id": "devpl-gsdlc-08-e-planning-browser-one-full-closure",
         "domain": "application.service",
         "criticality": "P0",
@@ -2452,14 +2566,16 @@
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/identity/server_rbac_policy_catalog.json",
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:.devpilot/interfaces/ui_route_contract_registry.json",
           "direct:watched_paths:.devpilot/project_state.json",
-          "rule-registry:cli-application-boundary"
+          "rule-registry:cli-application-boundary",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
@@ -2545,6 +2661,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts"
         ],
         "match_reasons": [
@@ -2555,6 +2672,7 @@
           "direct:watched_paths:.devpilot/testing/test_contract_registry_v2.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api/client.ts"
         ],
         "recommended_commands": [
@@ -2614,6 +2732,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
           "ui/web/src/styles.css"
@@ -2630,6 +2749,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/package.json",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/styles.css"
@@ -2663,6 +2783,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts"
         ],
@@ -2680,6 +2801,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/types.ts"
         ],
@@ -2758,6 +2880,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts"
         ],
@@ -2774,6 +2897,7 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
           "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/types.ts"
         ],
@@ -2906,6 +3030,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -2954,6 +3079,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -3007,6 +3133,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -3025,6 +3152,7 @@
           "rule-registry:gsdlc11a-release-readiness",
           "direct:watched_paths:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/interfaces/api/routers/release.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:test_files:tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "rule-registry:release-packaging-rc",
           "direct:watched_paths:ui/web/src/api/client.ts",
@@ -3072,9 +3200,11 @@
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "tests/test_devpl_gsdlc_11_d_release_metadata.py",
           "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+          "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
@@ -3102,11 +3232,14 @@
           "direct:watched_paths:src/devpilot_core/application/release_metadata_service.py",
           "direct:watched_paths:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/interfaces/api/routers/release.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "direct:test_files:tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "direct:test_files:tests/test_devpl_gsdlc_11_d_release_metadata.py",
           "direct:watched_paths:tests/test_devpl_gsdlc_11_d_release_metadata.py",
           "direct:test_files:tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
           "direct:watched_paths:tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+          "direct:test_files:tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
+          "direct:watched_paths:tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
           "rule-registry:release-packaging-rc",
           "direct:watched_paths:ui/web/src/api/client.ts",
           "direct:watched_paths:ui/web/src/api/types.ts",
@@ -3115,12 +3248,13 @@
           "direct:watched_paths:ui/web/src/styles.css"
         ],
         "recommended_commands": [
-          "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+          "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
         ],
         "test_files": [
           "tests/test_devpl_gsdlc_11_d_release_metadata.py",
           "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
-          "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py"
+          "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+          "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
         ],
         "priority_score": 43
       },
@@ -3135,7 +3269,8 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "heuristic:cli-api-boundary",
@@ -3240,6 +3375,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -3281,6 +3417,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -3317,6 +3454,7 @@
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
           "ui/web/src/api/client.ts",
@@ -3365,6 +3503,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -3385,6 +3524,8 @@
           "direct:validates:docs/07_interfaces/openapi_v1.json",
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle"
         ],
         "recommended_commands": [
@@ -3413,6 +3554,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -3429,6 +3571,8 @@
           "direct:validates:README.md",
           "rule-registry:gsdlc11a-release-readiness",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle"
         ],
         "recommended_commands": [
@@ -3813,6 +3957,7 @@
           "README.md",
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
@@ -3911,6 +4056,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4025,6 +4171,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4087,6 +4234,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4118,6 +4266,8 @@
           "direct:validates:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/application/services.py",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:validates:ui/web/package.json",
           "direct:watched_paths:ui/web/package.json",
@@ -4166,6 +4316,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4195,6 +4346,8 @@
           "direct:validates:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/application/services.py",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:validates:ui/web/package.json",
           "direct:watched_paths:ui/web/package.json",
@@ -4269,6 +4422,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4293,6 +4447,8 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "direct:validates:src/devpilot_core/application/services.py",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:validates:ui/web/src/api/client.ts",
           "direct:validates:ui/web/src/api/types.ts",
@@ -4334,6 +4490,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4358,6 +4515,8 @@
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "direct:validates:src/devpilot_core/application/services.py",
           "rule-registry:ui-api-local-hardening",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:gsdlc11c-release-lifecycle",
           "direct:validates:ui/web/src/api/client.ts",
           "direct:validates:ui/web/src/api/types.ts",
@@ -4418,6 +4577,7 @@
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/package.json"
         ],
         "match_reasons": [
@@ -4769,6 +4929,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4817,6 +4978,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4865,6 +5027,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -4914,6 +5077,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -6238,6 +6402,7 @@
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
@@ -6272,6 +6437,7 @@
         "matched_paths": [
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
           "ui/web/src/api/client.ts",
           "ui/web/src/api/types.ts",
@@ -6282,6 +6448,7 @@
         "match_reasons": [
           "direct:watched_paths:docs/07_interfaces/",
           "direct:watched_paths:src/devpilot_core/interfaces/api/",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
           "rule-registry:ui-api-local-hardening"
         ],
         "recommended_commands": [
@@ -6306,6 +6473,7 @@
           ".devpilot/interfaces/ui_capability_registry.json",
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
           "ui/web/src/api/client.ts",
@@ -6319,6 +6487,7 @@
           "direct:watched_paths:.devpilot/interfaces/",
           "direct:validates:.devpilot/interfaces/ui_route_contract_registry.json",
           "direct:watched_paths:src/devpilot_core/interfaces/api/",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py",
           "direct:watched_paths:ui/web/"
         ],
         "recommended_commands": [
@@ -6347,6 +6516,7 @@
           ".devpilot/interfaces/ui_capability_registry.json",
           ".devpilot/interfaces/ui_route_contract_registry.json",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
           "ui/web/src/api/client.ts",
@@ -6395,6 +6565,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -6438,12 +6609,14 @@
         "test_type": "security",
         "matched_paths": [
           ".devpilot/interfaces/api_route_contract_registry.json",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:validates:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
-          "direct:validates:src/devpilot_core/application/services.py"
+          "direct:validates:src/devpilot_core/application/services.py",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
@@ -6830,6 +7003,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -6871,7 +7045,8 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:validates:.devpilot/interfaces/api_route_contract_registry.json",
@@ -6879,7 +7054,8 @@
           "rule-registry:cli-application-boundary",
           "direct:validates:src/devpilot_core/application/services.py",
           "direct:watched_paths:src/devpilot_core/application/services.py",
-          "direct:watched_paths:src/devpilot_core/interfaces/api/"
+          "direct:watched_paths:src/devpilot_core/interfaces/api/",
+          "direct:validates:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_014_api_route_contracts.py tests/test_application_operation_catalog_schema.py -q",
@@ -6910,6 +7086,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -6953,6 +7130,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -6997,13 +7175,15 @@
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
-          "direct:watched_paths:src/devpilot_core/application/services.py"
+          "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
@@ -7024,13 +7204,15 @@
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
-          "direct:watched_paths:src/devpilot_core/application/services.py"
+          "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
@@ -7051,13 +7233,15 @@
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
-          "direct:watched_paths:src/devpilot_core/application/services.py"
+          "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
@@ -7078,13 +7262,15 @@
           "docs/07_interfaces/openapi_v1.json",
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
-          "src/devpilot_core/application/services.py"
+          "src/devpilot_core/application/services.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
           "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
           "rule-registry:cli-application-boundary",
-          "direct:watched_paths:src/devpilot_core/application/services.py"
+          "direct:watched_paths:src/devpilot_core/application/services.py",
+          "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
         ],
         "recommended_commands": [
           "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
@@ -7185,7 +7371,8 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/release_metadata_service.py",
           "src/devpilot_core/application/services.py",
-          "src/devpilot_core/interfaces/api/routers/release.py"
+          "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py"
         ],
         "match_reasons": [
           "heuristic:cli-api-boundary"
@@ -7260,6 +7447,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -7299,6 +7487,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -7360,6 +7549,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -7397,6 +7587,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -7434,6 +7625,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/src/api/client.ts",
@@ -7472,6 +7664,7 @@
           "src/devpilot_core/application/__init__.py",
           "src/devpilot_core/application/services.py",
           "src/devpilot_core/interfaces/api/routers/release.py",
+          "src/devpilot_core/interfaces/api/security.py",
           "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
           "ui/web/package.json",
           "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -7884,6 +8077,7 @@
       "tests/test_devpl_gsdlc_11_d_release_metadata.py",
       "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
       "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+      "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
       "tests/test_devpl_gsdlc_02_c_api_rbac.py",
       "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
       "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
@@ -8052,6 +8246,9 @@
       "tests/test_post_h_032_multiagent_handoff_hardening.py",
       "tests/test_post_h_032_tool_calling_contract.py",
       "tests/test_rbac_exposure.py",
+      "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+      "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+      "tests/test_devpl_gsdlc_07_e_agentic_precode.py",
       "tests/test_audit_pack_manifest_v2_schema.py",
       "tests/test_release_manifest.py",
       "tests/test_release_sbom.py",
@@ -8158,7 +8355,7 @@
       "python -m pytest -q tests/test_workspace_edit_execution_service.py tests/test_api_workspace_edit_execution.py tests/test_web_ui_workspace_edit_execution.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_005_contracts.py",
       "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q",
       "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q",
-      "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
+      "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
       "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
       "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
       "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
@@ -8408,6 +8605,9 @@
       "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q",
       "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
       "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
+      "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py",
+      "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py",
+      "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
       "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
       "python -m devpilot_core audit-pack build-v2 --dry-run --json",
       "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
@@ -8542,7 +8742,7 @@
         "python -m pytest -q tests/test_workspace_edit_execution_service.py tests/test_api_workspace_edit_execution.py tests/test_web_ui_workspace_edit_execution.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_005_contracts.py",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q",
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
         "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
         "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
@@ -8792,6 +8992,9 @@
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
         "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
         "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
         "python -m devpilot_core audit-pack build-v2 --dry-run --json",
         "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
@@ -8823,17 +9026,17 @@
       "report_id": "devpilot-test-impact-recommendation-report",
       "created_by": "POST-H-029-C",
       "status": "review-required",
-      "generated_at_utc": "2026-09-12T02:12:25Z",
+      "generated_at_utc": "2026-09-12T03:54:56Z",
       "summary": {
         "created_by": "POST-H-029-C",
         "status": "implemented-initial",
         "decision": "REVIEW_REQUIRED",
-        "changed_paths_total": 32,
-        "matched_contracts_total": 200,
+        "changed_paths_total": 34,
+        "matched_contracts_total": 203,
         "matched_rules_total": 7,
         "recommended_profiles_total": 5,
-        "recommended_tests_total": 312,
-        "recommended_commands_total": 372,
+        "recommended_tests_total": 316,
+        "recommended_commands_total": 375,
         "unmatched_paths_total": 0,
         "manual_review_required": true,
         "full_regression_required": true,
@@ -8873,9 +9076,11 @@
         "src/devpilot_core/application/release_metadata_service.py",
         "src/devpilot_core/application/services.py",
         "src/devpilot_core/interfaces/api/routers/release.py",
+        "src/devpilot_core/interfaces/api/security.py",
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
         "ui/web/package.json",
         "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
         "ui/web/src/api/client.ts",
@@ -8956,6 +9161,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9009,14 +9215,16 @@
             ".devpilot/project_state.json",
             ".devpilot/testing/test_contract_registry.json",
             ".devpilot/testing/test_contract_registry_v2.json",
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
             "direct:watched_paths:.devpilot/project_state.json",
             "direct:watched_paths:.devpilot/testing/test_contract_registry.json",
             "direct:watched_paths:.devpilot/testing/test_contract_registry_v2.json",
-            "direct:watched_paths:src/devpilot_core/interfaces/api"
+            "direct:watched_paths:src/devpilot_core/interfaces/api",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest tests/test_devpl_gsdlc_02_b_auth_sessions.py tests/test_devpl_gsdlc_02_b_api_auth.py tests/test_devpl_gsdlc_02_b_contracts.py tests/test_devpl_gsdlc_02_a_auth_threat_boundary.py -q",
@@ -9042,7 +9250,8 @@
           "matched_paths": [
             ".devpilot/identity/server_rbac_policy_catalog.json",
             ".devpilot/interfaces/api_route_contract_registry.json",
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:validates:.devpilot/identity/server_rbac_policy_catalog.json",
@@ -9071,6 +9280,7 @@
             ".devpilot/identity/server_rbac_policy_catalog.json",
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts"
           ],
           "match_reasons": [
@@ -9102,6 +9312,7 @@
             ".devpilot/interfaces/api_route_contract_registry.json",
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/main.ts",
@@ -9141,6 +9352,7 @@
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/main.ts",
@@ -9154,6 +9366,7 @@
             "direct:watched_paths:.devpilot/interfaces",
             "direct:validates:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/interfaces/api",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
             "direct:validates:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src"
           ],
@@ -9194,6 +9407,7 @@
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -9251,14 +9465,16 @@
             ".devpilot/identity/server_rbac_policy_catalog.json",
             ".devpilot/interfaces/api_route_contract_registry.json",
             ".devpilot/project_state.json",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
             "direct:watched_paths:.devpilot/identity/server_rbac_policy_catalog.json",
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:.devpilot/project_state.json",
-            "direct:watched_paths:src/devpilot_core/application/services.py"
+            "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_06_c_external_provider_enablement.py",
@@ -9325,6 +9541,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -9343,6 +9560,7 @@
             "rule-registry:gsdlc11a-release-readiness",
             "rule-registry:ui-api-local-hardening",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle"
           ],
           "recommended_commands": [
@@ -9377,6 +9595,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts"
           ],
           "match_reasons": [
@@ -9386,6 +9605,7 @@
             "direct:watched_paths:.devpilot/interfaces/ui_route_contract_registry.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api/client.ts"
           ],
           "recommended_commands": [
@@ -9566,6 +9786,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9607,6 +9828,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9647,6 +9869,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9684,6 +9907,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9724,6 +9948,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9767,6 +9992,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9808,6 +10034,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9821,6 +10048,7 @@
             "rule-registry:gsdlc11b-release-package-reproducibility",
             "direct:validates:README.md",
             "rule-registry:gsdlc11a-release-readiness",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "rule-registry:release-packaging-rc"
           ],
@@ -9877,6 +10105,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -9937,7 +10166,8 @@
           "risk_level": "critical",
           "test_type": "security",
           "matched_paths": [
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:src/devpilot_core/interfaces/api/"
@@ -9979,6 +10209,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10003,6 +10234,8 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "direct:validates:src/devpilot_core/application/services.py",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:validates:ui/web/src/api/client.ts",
             "direct:validates:ui/web/src/api/types.ts",
@@ -10045,6 +10278,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10068,6 +10302,8 @@
             "direct:validates:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/application/services.py",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:validates:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/",
@@ -10105,6 +10341,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10157,6 +10394,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10175,6 +10413,7 @@
             "rule-registry:gsdlc11b-release-package-reproducibility",
             "rule-registry:gsdlc11a-release-readiness",
             "rule-registry:ui-api-local-hardening",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:watched_paths:ui/web/src/api/"
           ],
@@ -10211,6 +10450,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10265,6 +10505,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10318,6 +10559,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -10642,6 +10884,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/main.ts"
@@ -10658,6 +10901,8 @@
             "rule-registry:cli-application-boundary",
             "direct:validates:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:validates:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:validates:ui/web/src/api/types.ts",
@@ -10723,7 +10968,8 @@
             ".devpilot/interfaces/api_route_contract_registry.json",
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/services.py",
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/identity/server_rbac_policy_catalog.json",
@@ -10757,6 +11003,7 @@
             ".devpilot/interfaces/ui_capability_registry.json",
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/main.ts",
@@ -10837,6 +11084,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/styles.css"
@@ -10850,6 +11098,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api",
             "direct:watched_paths:ui/web/src/styles.css"
           ],
@@ -10886,6 +11135,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/styles.css"
@@ -10899,6 +11149,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api",
             "direct:watched_paths:ui/web/src/styles.css"
           ],
@@ -10935,7 +11186,8 @@
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/docs_governance/source_registry.json",
@@ -10945,7 +11197,8 @@
             "direct:watched_paths:.devpilot/testing",
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
-            "direct:watched_paths:src/devpilot_core/application/services.py"
+            "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_04_d_artifact_review_apply_freeze.py tests/test_devpl_gsdlc_04_c_artifact_import.py tests/test_devpl_gsdlc_04_b_manual_editor_draft_history.py tests/test_devpl_gsdlc_04_a_artifact_lifecycle.py tests/test_post_h_eval_002_uoc_004_contracts.py tests/test_post_h_eval_002_uoc_005_contracts.py -q"
@@ -11079,6 +11332,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
@@ -11096,6 +11350,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/package.json",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/types.ts",
@@ -11143,6 +11398,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
             "ui/web/src/main.ts",
@@ -11161,6 +11417,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/types.ts",
             "direct:watched_paths:ui/web/src/main.ts",
@@ -11257,6 +11514,66 @@
           "priority_score": 43
         },
         {
+          "contract_id": "devpl-gsdlc-07-c-agent-assist-workflows",
+          "domain": "agentic.runtime",
+          "criticality": "P0",
+          "risk_level": "high",
+          "test_type": "contract",
+          "matched_paths": [
+            "src/devpilot_core/interfaces/api/security.py"
+          ],
+          "match_reasons": [
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
+          ],
+          "recommended_commands": [
+            "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py"
+          ],
+          "test_files": [
+            "tests/test_devpl_gsdlc_07_c_agent_assist.py"
+          ],
+          "priority_score": 43
+        },
+        {
+          "contract_id": "devpl-gsdlc-07-d-agent-execution-policy",
+          "domain": "agentic.runtime",
+          "criticality": "P0",
+          "risk_level": "high",
+          "test_type": "contract",
+          "matched_paths": [
+            "src/devpilot_core/interfaces/api/security.py"
+          ],
+          "match_reasons": [
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
+          ],
+          "recommended_commands": [
+            "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py"
+          ],
+          "test_files": [
+            "tests/test_devpl_gsdlc_07_d_agent_execution.py"
+          ],
+          "priority_score": 43
+        },
+        {
+          "contract_id": "devpl-gsdlc-07-e-agentic-precode-acceptance",
+          "domain": "agentic.runtime",
+          "criticality": "P0",
+          "risk_level": "high",
+          "test_type": "contract",
+          "matched_paths": [
+            "src/devpilot_core/interfaces/api/security.py"
+          ],
+          "match_reasons": [
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
+          ],
+          "recommended_commands": [
+            "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+          ],
+          "test_files": [
+            "tests/test_devpl_gsdlc_07_e_agentic_precode.py"
+          ],
+          "priority_score": 43
+        },
+        {
           "contract_id": "devpl-gsdlc-08-e-planning-browser-one-full-closure",
           "domain": "application.service",
           "criticality": "P0",
@@ -11270,14 +11587,16 @@
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/identity/server_rbac_policy_catalog.json",
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:.devpilot/interfaces/ui_route_contract_registry.json",
             "direct:watched_paths:.devpilot/project_state.json",
-            "rule-registry:cli-application-boundary"
+            "rule-registry:cli-application-boundary",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_08_d_sprint_planner.py",
@@ -11363,6 +11682,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts"
           ],
           "match_reasons": [
@@ -11373,6 +11693,7 @@
             "direct:watched_paths:.devpilot/testing/test_contract_registry_v2.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api/client.ts"
           ],
           "recommended_commands": [
@@ -11432,6 +11753,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
             "ui/web/src/styles.css"
@@ -11448,6 +11770,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/package.json",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/styles.css"
@@ -11481,6 +11804,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts"
           ],
@@ -11498,6 +11822,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/types.ts"
           ],
@@ -11576,6 +11901,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts"
           ],
@@ -11592,6 +11918,7 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
             "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/types.ts"
           ],
@@ -11724,6 +12051,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -11772,6 +12100,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -11825,6 +12154,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -11843,6 +12173,7 @@
             "rule-registry:gsdlc11a-release-readiness",
             "direct:watched_paths:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/interfaces/api/routers/release.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:test_files:tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "rule-registry:release-packaging-rc",
             "direct:watched_paths:ui/web/src/api/client.ts",
@@ -11890,9 +12221,11 @@
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "tests/test_devpl_gsdlc_11_d_release_metadata.py",
             "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+            "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
@@ -11920,11 +12253,14 @@
             "direct:watched_paths:src/devpilot_core/application/release_metadata_service.py",
             "direct:watched_paths:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/interfaces/api/routers/release.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "direct:test_files:tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "direct:test_files:tests/test_devpl_gsdlc_11_d_release_metadata.py",
             "direct:watched_paths:tests/test_devpl_gsdlc_11_d_release_metadata.py",
             "direct:test_files:tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
             "direct:watched_paths:tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
+            "direct:test_files:tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
+            "direct:watched_paths:tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
             "rule-registry:release-packaging-rc",
             "direct:watched_paths:ui/web/src/api/client.ts",
             "direct:watched_paths:ui/web/src/api/types.ts",
@@ -11933,12 +12269,13 @@
             "direct:watched_paths:ui/web/src/styles.css"
           ],
           "recommended_commands": [
-            "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
           ],
           "test_files": [
             "tests/test_devpl_gsdlc_11_d_release_metadata.py",
             "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
-            "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py"
+            "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+            "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
           ],
           "priority_score": 43
         },
@@ -11953,7 +12290,8 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "heuristic:cli-api-boundary",
@@ -12058,6 +12396,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -12099,6 +12438,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -12135,6 +12475,7 @@
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
             "ui/web/src/api/client.ts",
@@ -12183,6 +12524,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -12203,6 +12545,8 @@
             "direct:validates:docs/07_interfaces/openapi_v1.json",
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle"
           ],
           "recommended_commands": [
@@ -12231,6 +12575,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -12247,6 +12592,8 @@
             "direct:validates:README.md",
             "rule-registry:gsdlc11a-release-readiness",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle"
           ],
           "recommended_commands": [
@@ -12631,6 +12978,7 @@
             "README.md",
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
@@ -12729,6 +13077,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -12843,6 +13192,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -12905,6 +13255,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -12936,6 +13287,8 @@
             "direct:validates:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/application/services.py",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:validates:ui/web/package.json",
             "direct:watched_paths:ui/web/package.json",
@@ -12984,6 +13337,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -13013,6 +13367,8 @@
             "direct:validates:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/application/services.py",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:validates:ui/web/package.json",
             "direct:watched_paths:ui/web/package.json",
@@ -13087,6 +13443,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -13111,6 +13468,8 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "direct:validates:src/devpilot_core/application/services.py",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:validates:ui/web/src/api/client.ts",
             "direct:validates:ui/web/src/api/types.ts",
@@ -13152,6 +13511,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -13176,6 +13536,8 @@
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "direct:validates:src/devpilot_core/application/services.py",
             "rule-registry:ui-api-local-hardening",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:gsdlc11c-release-lifecycle",
             "direct:validates:ui/web/src/api/client.ts",
             "direct:validates:ui/web/src/api/types.ts",
@@ -13236,6 +13598,7 @@
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/package.json"
           ],
           "match_reasons": [
@@ -13587,6 +13950,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -13635,6 +13999,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -13683,6 +14048,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -13732,6 +14098,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -15056,6 +15423,7 @@
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
@@ -15090,6 +15458,7 @@
           "matched_paths": [
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
             "ui/web/src/api/client.ts",
             "ui/web/src/api/types.ts",
@@ -15100,6 +15469,7 @@
           "match_reasons": [
             "direct:watched_paths:docs/07_interfaces/",
             "direct:watched_paths:src/devpilot_core/interfaces/api/",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
             "rule-registry:ui-api-local-hardening"
           ],
           "recommended_commands": [
@@ -15124,6 +15494,7 @@
             ".devpilot/interfaces/ui_capability_registry.json",
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
             "ui/web/src/api/client.ts",
@@ -15137,6 +15508,7 @@
             "direct:watched_paths:.devpilot/interfaces/",
             "direct:validates:.devpilot/interfaces/ui_route_contract_registry.json",
             "direct:watched_paths:src/devpilot_core/interfaces/api/",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py",
             "direct:watched_paths:ui/web/"
           ],
           "recommended_commands": [
@@ -15165,6 +15537,7 @@
             ".devpilot/interfaces/ui_capability_registry.json",
             ".devpilot/interfaces/ui_route_contract_registry.json",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
             "ui/web/src/api/client.ts",
@@ -15213,6 +15586,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -15256,12 +15630,14 @@
           "test_type": "security",
           "matched_paths": [
             ".devpilot/interfaces/api_route_contract_registry.json",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:validates:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
-            "direct:validates:src/devpilot_core/application/services.py"
+            "direct:validates:src/devpilot_core/application/services.py",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
@@ -15648,6 +16024,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -15689,7 +16066,8 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:validates:.devpilot/interfaces/api_route_contract_registry.json",
@@ -15697,7 +16075,8 @@
             "rule-registry:cli-application-boundary",
             "direct:validates:src/devpilot_core/application/services.py",
             "direct:watched_paths:src/devpilot_core/application/services.py",
-            "direct:watched_paths:src/devpilot_core/interfaces/api/"
+            "direct:watched_paths:src/devpilot_core/interfaces/api/",
+            "direct:validates:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_014_api_route_contracts.py tests/test_application_operation_catalog_schema.py -q",
@@ -15728,6 +16107,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -15771,6 +16151,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -15815,13 +16196,15 @@
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
-            "direct:watched_paths:src/devpilot_core/application/services.py"
+            "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_claims_no_go_dashboard.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
@@ -15842,13 +16225,15 @@
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
-            "direct:watched_paths:src/devpilot_core/application/services.py"
+            "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_gap_to_action_mapping.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
@@ -15869,13 +16254,15 @@
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
-            "direct:watched_paths:src/devpilot_core/application/services.py"
+            "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py tests/test_post_h_015_operator_dashboard_application_api.py -q"
@@ -15896,13 +16283,15 @@
             "docs/07_interfaces/openapi_v1.json",
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
-            "src/devpilot_core/application/services.py"
+            "src/devpilot_core/application/services.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "direct:watched_paths:.devpilot/interfaces/api_route_contract_registry.json",
             "direct:watched_paths:docs/07_interfaces/openapi_v1.json",
             "rule-registry:cli-application-boundary",
-            "direct:watched_paths:src/devpilot_core/application/services.py"
+            "direct:watched_paths:src/devpilot_core/application/services.py",
+            "direct:watched_paths:src/devpilot_core/interfaces/api/security.py"
           ],
           "recommended_commands": [
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_redacted_evidence_export_ux.py -q"
@@ -16003,7 +16392,8 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/release_metadata_service.py",
             "src/devpilot_core/application/services.py",
-            "src/devpilot_core/interfaces/api/routers/release.py"
+            "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py"
           ],
           "match_reasons": [
             "heuristic:cli-api-boundary"
@@ -16078,6 +16468,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -16117,6 +16508,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -16178,6 +16570,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -16215,6 +16608,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -16252,6 +16646,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/src/api/client.ts",
@@ -16290,6 +16685,7 @@
             "src/devpilot_core/application/__init__.py",
             "src/devpilot_core/application/services.py",
             "src/devpilot_core/interfaces/api/routers/release.py",
+            "src/devpilot_core/interfaces/api/security.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "ui/web/package.json",
             "ui/web/scripts/gsdlc11d-release-metadata-smoke.mjs",
@@ -16654,6 +17050,7 @@
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
         "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
         "tests/test_devpl_gsdlc_02_c_api_rbac.py",
         "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
         "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
@@ -16822,6 +17219,9 @@
         "tests/test_post_h_032_multiagent_handoff_hardening.py",
         "tests/test_post_h_032_tool_calling_contract.py",
         "tests/test_rbac_exposure.py",
+        "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "tests/test_devpl_gsdlc_07_e_agentic_precode.py",
         "tests/test_audit_pack_manifest_v2_schema.py",
         "tests/test_release_manifest.py",
         "tests/test_release_sbom.py",
@@ -16928,7 +17328,7 @@
         "python -m pytest -q tests/test_workspace_edit_execution_service.py tests/test_api_workspace_edit_execution.py tests/test_web_ui_workspace_edit_execution.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_005_contracts.py",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q",
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
         "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
         "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
@@ -17178,6 +17578,9 @@
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q",
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
         "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py",
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
         "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
         "python -m devpilot_core audit-pack build-v2 --dry-run --json",
         "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
@@ -17350,6 +17753,7 @@
             "tests/test_devpl_gsdlc_11_d_release_metadata.py",
             "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
             "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+            "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py",
             "tests/test_devpl_gsdlc_02_c_api_rbac.py",
             "tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py",
             "tests/test_devpl_gsdlc_02_d_approval_center_contract.py",
@@ -17518,6 +17922,9 @@
             "tests/test_post_h_032_multiagent_handoff_hardening.py",
             "tests/test_post_h_032_tool_calling_contract.py",
             "tests/test_rbac_exposure.py",
+            "tests/test_devpl_gsdlc_07_c_agent_assist.py",
+            "tests/test_devpl_gsdlc_07_d_agent_execution.py",
+            "tests/test_devpl_gsdlc_07_e_agentic_precode.py",
             "tests/test_audit_pack_manifest_v2_schema.py",
             "tests/test_release_manifest.py",
             "tests/test_release_sbom.py",
@@ -17624,7 +18031,7 @@
             "python -m pytest -q tests/test_workspace_edit_execution_service.py tests/test_api_workspace_edit_execution.py tests/test_web_ui_workspace_edit_execution.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_005_contracts.py",
             "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q",
             "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q",
-            "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
             "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
             "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
             "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
@@ -17874,6 +18281,9 @@
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q",
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
             "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
+            "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py",
+            "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py",
+            "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
             "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
             "python -m devpilot_core audit-pack build-v2 --dry-run --json",
             "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
@@ -17920,7 +18330,7 @@
         "manual_review_required": true,
         "waiver_required_if_full_regression_skipped": true,
         "reasons": [
-          "121 P0 contracts selected",
+          "124 P0 contracts selected",
           "70 P1 contracts selected",
           "full regression required before closure/release decision"
         ]
@@ -18039,7 +18449,7 @@
           "python -m pytest -q tests/test_workspace_edit_execution_service.py tests/test_api_workspace_edit_execution.py tests/test_web_ui_workspace_edit_execution.py tests/test_web_ui_workspace_edit_planning.py tests/test_post_h_eval_002_uoc_005_contracts.py",
           "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_10_e_story_cycle_lifecycle.py tests/test_devpl_gsdlc_10_e_browser_fixture.py -q",
           "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_a_release_readiness.py tests/test_devpl_gsdlc_11_a_release_readiness_contracts.py -q",
-          "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
+          "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q",
           "python -m pytest tests/test_devpl_gsdlc_02_c_server_rbac.py tests/test_devpl_gsdlc_02_c_api_rbac.py -q",
           "python -m pytest tests/test_devpl_gsdlc_02_d_authenticated_approval_binding.py tests/test_devpl_gsdlc_02_d_approval_center_contract.py tests/test_approval_binding.py tests/test_approval_policy_binding.py tests/test_policy_engine_approval_rbac_enforcement.py tests/test_api_approvals_actions.py -q",
           "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_03_b_environment_discovery_planning.py tests/test_devpl_gsdlc_03_a_project_intake_contracts.py -q",
@@ -18289,6 +18699,9 @@
           "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_032_tool_calling_contract.py -q",
           "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_034_multiuser_auth_adr.py -q",
           "python -m devpilot_core schema validate --schema-id MultiuserAuthDecision --instance .devpilot/sensitive_capabilities/multiuser_auth_checklist.json --json",
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_c_agent_assist.py",
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_d_agent_execution.py",
+          "python -m pytest -p no:ddtrace --assert=plain -q tests/test_devpl_gsdlc_07_e_agentic_precode.py",
           "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
           "python -m devpilot_core audit-pack build-v2 --dry-run --json",
           "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
@@ -18611,6 +19024,36 @@
           "message": "Applied POST-H-029-B declarative impact rule registry.",
           "severity": "info",
           "metadata": {
+            "rule_id": "ui-api-local-hardening",
+            "changed_path": "src/devpilot_core/interfaces/api/security.py",
+            "contracts_selected": 30
+          }
+        },
+        {
+          "id": "TEST_IMPACT_V2_RULE_REGISTRY_APPLIED",
+          "message": "Applied POST-H-029-B declarative impact rule registry.",
+          "severity": "info",
+          "metadata": {
+            "rule_id": "gsdlc11a-release-readiness",
+            "changed_path": "src/devpilot_core/interfaces/api/security.py",
+            "contracts_selected": 46
+          }
+        },
+        {
+          "id": "TEST_IMPACT_V2_HEURISTIC_APPLIED",
+          "message": "Applied Test Impact Analyzer v2 heuristic: CLI/API/Application boundary change.",
+          "severity": "info",
+          "metadata": {
+            "rule_id": "cli-api-boundary",
+            "changed_path": "src/devpilot_core/interfaces/api/security.py",
+            "contracts_selected": 3
+          }
+        },
+        {
+          "id": "TEST_IMPACT_V2_RULE_REGISTRY_APPLIED",
+          "message": "Applied POST-H-029-B declarative impact rule registry.",
+          "severity": "info",
+          "metadata": {
             "rule_id": "gsdlc11c-release-lifecycle",
             "changed_path": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
             "contracts_selected": 46
@@ -18751,8 +19194,8 @@
           "message": "Test Impact Analyzer v2 produced a local non-executing test plan.",
           "severity": "info",
           "metadata": {
-            "changed_paths_total": 32,
-            "matched_contracts_total": 200,
+            "changed_paths_total": 34,
+            "matched_contracts_total": 203,
             "heuristic_recommendations_total": 9,
             "tests_executed": false
           }
@@ -19037,6 +19480,36 @@
       "message": "Applied POST-H-029-B declarative impact rule registry.",
       "severity": "info",
       "metadata": {
+        "rule_id": "ui-api-local-hardening",
+        "changed_path": "src/devpilot_core/interfaces/api/security.py",
+        "contracts_selected": 30
+      }
+    },
+    {
+      "id": "TEST_IMPACT_V2_RULE_REGISTRY_APPLIED",
+      "message": "Applied POST-H-029-B declarative impact rule registry.",
+      "severity": "info",
+      "metadata": {
+        "rule_id": "gsdlc11a-release-readiness",
+        "changed_path": "src/devpilot_core/interfaces/api/security.py",
+        "contracts_selected": 46
+      }
+    },
+    {
+      "id": "TEST_IMPACT_V2_HEURISTIC_APPLIED",
+      "message": "Applied Test Impact Analyzer v2 heuristic: CLI/API/Application boundary change.",
+      "severity": "info",
+      "metadata": {
+        "rule_id": "cli-api-boundary",
+        "changed_path": "src/devpilot_core/interfaces/api/security.py",
+        "contracts_selected": 3
+      }
+    },
+    {
+      "id": "TEST_IMPACT_V2_RULE_REGISTRY_APPLIED",
+      "message": "Applied POST-H-029-B declarative impact rule registry.",
+      "severity": "info",
+      "metadata": {
         "rule_id": "gsdlc11c-release-lifecycle",
         "changed_path": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
         "contracts_selected": 46
@@ -19177,8 +19650,8 @@
       "message": "Test Impact Analyzer v2 produced a local non-executing test plan.",
       "severity": "info",
       "metadata": {
-        "changed_paths_total": 32,
-        "matched_contracts_total": 200,
+        "changed_paths_total": 34,
+        "matched_contracts_total": 203,
         "heuristic_recommendations_total": 9,
         "tests_executed": false
       }

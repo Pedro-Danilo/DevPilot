@@ -1628,7 +1628,7 @@
       "requires_human_approval": true,
       "risk_level": "critical",
       "safety_exception": {
-        "approved_by": "Ord\u00f3\u00f1ez",
+        "approved_by": "Ordóñez",
         "expires_at_utc": "2027-08-18T23:59:59Z",
         "justification": "Tests intentionally mutate isolated temporary workspace fixtures to prove approval-bound execution and rollback; platform source and real pilot remain read-only.",
         "rollback_or_cleanup": "pytest temporary directories are deleted; fault-injection tests assert rollback residue=0 and writes outside workspace=0.",
@@ -1753,7 +1753,7 @@
       "requires_human_approval": true,
       "risk_level": "critical",
       "safety_exception": {
-        "approved_by": "Ord\u00f3\u00f1ez",
+        "approved_by": "Ordóñez",
         "expires_at_utc": "2027-08-18T23:59:59Z",
         "justification": "Browser acceptance intentionally materializes/opens/imports isolated fixtures under DevPilot_E2E_Evaluation through the normal API journey; platform source and pilot remain protected.",
         "rollback_or_cleanup": "Harness records fixture roots and final manifests; rollback scenario must leave its target absent and no writes outside fixture root.",
@@ -1853,7 +1853,7 @@
       "mutations_allowed": false,
       "network_allowed": false,
       "notes": [
-        "A\u2192D use cumulative/selective validation; full regression remains reserved for 04-E.",
+        "A→D use cumulative/selective validation; full regression remains reserved for 04-E.",
         "Runtime-ephemeral DBs remain excluded from fixture/source state."
       ],
       "owner": "DEVPL-GSDLC-04-A",
@@ -1946,7 +1946,7 @@
       "mutations_allowed": false,
       "network_allowed": false,
       "notes": [
-        "A\u2192D use focal/cumulative validation. 04-E owns the single backlog full regression.",
+        "A→D use focal/cumulative validation. 04-E owns the single backlog full regression.",
         "Runtime draft outputs and DB stores are excluded from source packages."
       ],
       "owner": "DEVPL-GSDLC-04-B",
@@ -2048,7 +2048,7 @@
       "mutations_allowed": false,
       "network_allowed": false,
       "notes": [
-        "A\u2192D use focal/cumulative/impact validation. 04-E owns the single backlog full regression.",
+        "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression.",
         "Runtime import outputs and DB stores are excluded from source packages."
       ],
       "owner": "DEVPL-GSDLC-04-C",
@@ -2151,7 +2151,7 @@
       "mutations_allowed": true,
       "network_allowed": false,
       "notes": [
-        "A\u2192D use focal/cumulative/impact validation. 04-E owns the single backlog full regression."
+        "A→D use focal/cumulative/impact validation. 04-E owns the single backlog full regression."
       ],
       "owner": "DEVPL-GSDLC-04-D",
       "owner_domain": "artifacts.review-apply-freeze",
@@ -2163,7 +2163,7 @@
       "requires_human_approval": true,
       "risk_level": "high",
       "safety_exception": {
-        "approved_by": "Ord\u00f3\u00f1ez / DEVPL-GSDLC-04 owner-approved scope",
+        "approved_by": "Ordóñez / DEVPL-GSDLC-04 owner-approved scope",
         "expires_at_utc": "2027-08-22T23:59:59Z",
         "justification": "GSDLC-04-D intentionally mutates exactly one declared artifact only after deterministic validation, immutable plan/diff, authenticated owner RBAC, exact human approval, fresh preimage revalidation and UOC-005 atomic apply; tests use isolated temporary/browser fixtures and never mutate the real pilot.",
         "rollback_or_cleanup": "UOC-005 compensating rollback restores the exact preimage for modify or removes only the newly created target for create; pytest/browser fixtures are isolated and disposable.",
@@ -2273,7 +2273,7 @@
       "requires_human_approval": true,
       "risk_level": "high",
       "safety_exception": {
-        "approved_by": "Ord\u00f3\u00f1ez / DEVPL-GSDLC-04 owner-approved scope",
+        "approved_by": "Ordóñez / DEVPL-GSDLC-04 owner-approved scope",
         "expires_at_utc": "2027-08-22T23:59:59Z",
         "justification": "Tests/browser intentionally edit isolated fixture artifacts to prove detection/invalidation; no pilot or DevPilot source is used as the external-edit target.",
         "rollback_or_cleanup": "Fixtures are disposable; browser guide uses bounded named files and preserves evidence. Reconciliation never auto-reverts source.",
@@ -2792,7 +2792,7 @@
       "requires_human_approval": true,
       "risk_level": "high",
       "safety_exception": {
-        "approved_by": "Ord\u00f3\u00f1ez / DEVPL-GSDLC-05 owner-approved backlog scope",
+        "approved_by": "Ordóñez / DEVPL-GSDLC-05 owner-approved backlog scope",
         "expires_at_utc": "2026-12-31T23:59:59Z",
         "justification": "Owner-approved GSDLC-05-E closure requires human-driven approval-bound writes only inside the dedicated local browser acceptance fixture workspace.",
         "rollback_or_cleanup": "Delete the dedicated fixture workspace after evidence packaging; candidate source archive excludes runtime/fixture state.",
@@ -4630,7 +4630,7 @@
         "waivers are owner-only, reasoned, expiring and cannot waive sensitive/P0 required tests",
         "agent/model authority cannot approve or waive StoryTestPlan",
         "Full Regression signal is informational only and GSDLC-10-A full runs remain zero",
-        "Story Code Workbench exposes Story \u2192 Validate \u2192 StoryTestPlan review without a parallel Quality UI",
+        "Story Code Workbench exposes Story → Validate → StoryTestPlan review without a parallel Quality UI",
         "activation/rebind is folded into 10-A on repo414 while repo413 remains canonical functional predecessor"
       ],
       "watched_paths": [
@@ -4827,7 +4827,7 @@
         "remediation is manual or proposal-only agent ToolIntent and source mutation remains governed by GSDLC-09",
         "remediation changes invalidate stale quality reports and impacted retest requires a successor APPROVED StoryTestPlan",
         "retest plans only typed jobs derived from successor Test Impact; rerun-everything=false and Full Regression=false",
-        "finding\u2192remediation\u2192retest provenance remains explicit and Quality UI exposes blockers/actions",
+        "finding→remediation→retest provenance remains explicit and Quality UI exposes blockers/actions",
         "GSDLC-10-C consumes zero Full Regression runs and exposes no new source-write authority"
       ],
       "watched_paths": [
@@ -4932,9 +4932,9 @@
         "stage uses exact paths only; git add dot/add-all and arbitrary shell remain unavailable",
         "stage and commit require independent authenticated owner approvals and revalidation immediately before execution",
         "GitCommitRecord binds real commit hash, author/session/message/exact paths, tests/quality/evidence and requirement traceability",
-        "committed tree equals approved delta, fixture worktree is clean and StoryExecution advances COMMIT_READY\u2192DONE",
+        "committed tree equals approved delta, fixture worktree is clean and StoryExecution advances COMMIT_READY→DONE",
         "push/force-push/rebase/reset-hard remain unavailable and Full Regression stays zero in GSDLC-10-D",
-        "Story Code Workbench reuses WorkspaceGitOperationsPanel and exposes plan\u2192approve\u2192stage\u2192approve\u2192commit UX"
+        "Story Code Workbench reuses WorkspaceGitOperationsPanel and exposes plan→approve→stage→approve→commit UX"
       ],
       "watched_paths": [
         ".devpilot/docs_governance/source_registry.json",
@@ -23817,7 +23817,7 @@
         "one-full"
       ],
       "validates": [
-        "UI-native StoryExecution lifecycle IN_PROGRESS\u2192CHANGES_READY\u2192VALIDATING\u2192COMMIT_READY\u2192DONE without operator substitution",
+        "UI-native StoryExecution lifecycle IN_PROGRESS→CHANGES_READY→VALIDATING→COMMIT_READY→DONE without operator substitution",
         "controlled browser fixture produces typed test FAIL, Quality BLOCK, agent proposal-only remediation, successor impacted retest PASS and fresh Quality PASS",
         "Quality remediation handoff is UX-only and server-revalidated after navigation",
         "agent ToolIntent/ToolExecutionDecision never grants source/Quality/Git authority",
@@ -24097,7 +24097,7 @@
       "subgate_id": "gsdlc-11-c-release-lifecycle",
       "safety_exception": {
         "justification": "Owner-approved GSDLC-11-C tests mutate only a disposable controlled local sandbox to verify backup and rollback.",
-        "approved_by": "Ord\u00f3\u00f1ez",
+        "approved_by": "Ordóñez",
         "expires_at_utc": "2026-12-31T23:59:59Z",
         "scope": "outputs/release/gsdlc11c controlled sandbox only; no source/Git/production mutation"
       }
@@ -24116,7 +24116,8 @@
       "test_files": [
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
-        "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py"
+        "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py",
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
       ],
       "watched_paths": [
         "src/devpilot_core/application/release_metadata_service.py",
@@ -24143,7 +24144,9 @@
         "tests/test_devpl_gsdlc_11_d_release_metadata.py",
         "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py",
         ".devpilot/testing/test_contract_registry.json",
-        ".devpilot/testing/test_contract_registry_v2.json"
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "src/devpilot_core/interfaces/api/security.py",
+        "tests/test_devpl_gsdlc_11_d_release_metadata_transport.py"
       ],
       "validates": [
         "semantic/version policy positive and negative",
@@ -24154,7 +24157,8 @@
         "existing tag conflict",
         "no push/publication",
         "browser metadata/tag approval UI",
-        "Full Regression remains 0 in GSDLC-11-D; backlog budget remains 0/1"
+        "Full Regression remains 0 in GSDLC-11-D; backlog budget remains 0/1",
+        "LocalAPI PolicyEngine binding parity for every /api/v1/release/metadata* route"
       ],
       "required_for_release": true,
       "required_for_security_gate": true,
@@ -24185,20 +24189,21 @@
         "annotated-tag"
       ],
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_devpl_gsdlc_11_d_release_metadata.py tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py tests/test_devpl_gsdlc_11_d_release_metadata_transport.py tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py -q"
       ],
       "classification_status": "explicit",
       "classification_notes": [
         "Current-active GSDLC-11-D prepares local release metadata and exact annotated tag; no remote publication stack is introduced.",
         "Git mutation is restricted to one annotated local tag after exact human approval; push/publish/deploy remain false.",
         "Agent/model routes are proposal-only and cannot approve or tag.",
-        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-D."
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 11-D.",
+        "Windows browser corrective v1.0.4 closes the missing LocalAPI API_ROUTE_POLICIES binding discovered by real-browser acceptance; fail-closed middleware remains unchanged."
       ],
       "source_contract_id": "gsdlc11d-release-metadata-tag-approval",
       "subgate_id": "gsdlc-11-d-release-metadata",
       "safety_exception": {
         "justification": "Owner-approved GSDLC-11-D acceptance creates exactly one local annotated Git tag after RBAC/approval binding; no source file mutation or remote operation is performed by tag execution.",
-        "approved_by": "Ord\u00f3\u00f1ez",
+        "approved_by": "Ordóñez",
         "expires_at_utc": "2026-12-31T23:59:59Z",
         "scope": "single local annotated tag on exact approved commit; no push/publication/deploy"
       }
