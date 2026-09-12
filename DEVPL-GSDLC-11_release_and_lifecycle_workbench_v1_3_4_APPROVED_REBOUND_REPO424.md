@@ -505,3 +505,8 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 ## 0.0.5 Windows closure GSDLC-11-D
 
 11-D = `CLOSED/PASS/WINDOWS-VALIDATED`; annotated tag local exact-commit + approval human role-bound acreditados, no push/publication, browser=1, S0/S1=0, Full=0. Successor repo424 y 11-E autorizado.
+
+
+## Windows composite closure — 2026-09-12
+
+`GSDLC-11-E = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` and `DEVPL-GSDLC-11 = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. The single logical Full `DEVPL-GSDLC-11-E-FULL-01-R1` remains immutable at **3077 PASS / 65 FAIL / 0 ERROR / 5 approved SKIP / 3147 accounted (100%)**. No second Full was executed. Closure authority is the composite recovery: **65/65 exact failed-nodeid retest PASS + bounded impacted retest PASS + Historical Regression Guard PASS + deterministic post-gates PASS**. Browser release acceptance remains one hash-bound real-browser run, S0/S1=0, and no push/publish/deploy occurred. Successor: `repo_DevPilot_Local_425_DEVPL_GSDLC_11_E_CLEAN_INSTALL_BROWSER_RELEASE_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-12 is authorized.

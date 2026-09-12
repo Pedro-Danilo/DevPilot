@@ -6758,3 +6758,8 @@ GSDLC-11-D queda `CLOSED/PASS/WINDOWS-VALIDATED`. La UI normal acreditó Version
 ## DEVPL-GSDLC-11-E — local candidate
 
 GSDLC-11-D is `CLOSED/PASS/WINDOWS-VALIDATED` on repo424. GSDLC-11-E is implemented locally on that exact successor and adds the final local release closure surface (`/release/closure`). The release version advances to `0.1.1` so historical annotated tag `v0.1.0` is never moved or reused. The only GSDLC-11 Full Regression remains `0/1` and is reserved for the Windows closure operator after real-browser acceptance and all pre-Full reconciliation gates.
+
+
+## Windows composite closure — 2026-09-12
+
+`GSDLC-11-E = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` and `DEVPL-GSDLC-11 = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. The single logical Full `DEVPL-GSDLC-11-E-FULL-01-R1` remains immutable at **3077 PASS / 65 FAIL / 0 ERROR / 5 approved SKIP / 3147 accounted (100%)**. No second Full was executed. Closure authority is the composite recovery: **65/65 exact failed-nodeid retest PASS + bounded impacted retest PASS + Historical Regression Guard PASS + deterministic post-gates PASS**. Browser release acceptance remains one hash-bound real-browser run, S0/S1=0, and no push/publish/deploy occurred. Successor: `repo_DevPilot_Local_425_DEVPL_GSDLC_11_E_CLEAN_INSTALL_BROWSER_RELEASE_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-12 is authorized.

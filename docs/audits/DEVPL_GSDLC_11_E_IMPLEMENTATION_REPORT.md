@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-11-E-IMPLEMENTATION-REPORT"
 title: "GSDLC-11-E — Clean-install browser release closure implementation report"
-status: "implemented-local-qualified"
-version: "1.0.0"
+status: "closed/PASS/windows-validated/composite-recovery"
+version: "1.0.2"
 owner: "Ordóñez"
 updated: "2026-09-12"
-approval: "pending_windows_validation"
+approval: "approved_by_windows_composite_recovery"
 ---
 
 # Scope
@@ -62,3 +62,8 @@ The 65 failures were traced to bounded current-active/documentation-contract dri
 Authorized recovery is **composite only**: apply the post-Full corrective, execute the exact 65 original failed nodeids without fail-fast, then a bounded impacted retest, Historical Regression Guard and deterministic post-gates. Closure is permitted only if all selective recovery stages PASS, original Full evidence remains immutable, logical Full total stays 1, second Full stays 0, and S0/S1 remain 0.
 
 Final cumulative Test Impact after the post-Full corrective is **55 changed paths / 205 matched contracts / 321 recommended tests / 0 unmatched**. The post-Full corrective itself is **28 paths / 181 matched contracts / 298 recommended tests / 0 unmatched**. No additional Full is authorized.
+
+
+## Windows composite closure — 2026-09-12
+
+`GSDLC-11-E = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY` and `DEVPL-GSDLC-11 = CLOSED/PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY`. The single logical Full `DEVPL-GSDLC-11-E-FULL-01-R1` remains immutable at **3077 PASS / 65 FAIL / 0 ERROR / 5 approved SKIP / 3147 accounted (100%)**. No second Full was executed. Closure authority is the composite recovery: **65/65 exact failed-nodeid retest PASS + bounded impacted retest PASS + Historical Regression Guard PASS + deterministic post-gates PASS**. Browser release acceptance remains one hash-bound real-browser run, S0/S1=0, and no push/publish/deploy occurred. Successor: `repo_DevPilot_Local_425_DEVPL_GSDLC_11_E_CLEAN_INSTALL_BROWSER_RELEASE_CLOSURE_WINDOWS_VALIDATED_CANDIDATE.zip`; GSDLC-12 is authorized.
