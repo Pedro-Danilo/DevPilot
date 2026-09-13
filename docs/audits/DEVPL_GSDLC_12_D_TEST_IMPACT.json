@@ -1,0 +1,21 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-TEST-IMPACT-V1",
+  "status": "PASS",
+  "updated": "2026-09-13",
+  "changed_paths_total": 24,
+  "matched_contracts_total": 189,
+  "recommended_tests_total": 308,
+  "unmatched_paths_total": 0,
+  "p0_selected_total": 118,
+  "p1_selected_total": 62,
+  "tests_executed": true,
+  "cumulative_selected": "132/132 PASS",
+  "historical_freeze_excluded": [
+    "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py"
+  ],
+  "out_of_impact_git_context_excluded": [
+    "tests/test_devpl_gsdlc_11_c_release_lifecycle.py"
+  ],
+  "full_regression_runs": 0,
+  "full_regression_policy": "12-D focal/cumulative only; budget 0/1 reserved for 12-E"
+}

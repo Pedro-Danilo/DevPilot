@@ -1,0 +1,59 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-INDUSTRIAL-HARDENING-POLICY-V1",
+  "schema_version": "1.0",
+  "status": "current-active",
+  "owner": "Ord\u00f3\u00f1ez",
+  "updated": "2026-09-13",
+  "local_only": true,
+  "network_allowed": false,
+  "external_api_allowed": false,
+  "real_mcp_write_allowed": false,
+  "autonomous_recovery_allowed": false,
+  "model_may_grant_tool_permission": false,
+  "forbidden_tools": [
+    "filesystem.delete",
+    "connector.write",
+    "plugin.code.execute",
+    "remote.runner.execute",
+    "rollback.execute",
+    "shell.raw_execute"
+  ],
+  "performance_budgets": {
+    "project_state_parse_p95_ms": 25.0,
+    "source_registry_parse_p95_ms": 80.0,
+    "app_create_ms": 1000.0,
+    "api_health_p95_ms": 120.0,
+    "api_settings_workspace_p95_ms": 750.0,
+    "api_project_status_p95_ms": 500.0,
+    "major_workbench_source_inventory_ms": 350.0,
+    "repo_inventory_ms": 500.0,
+    "docs_inventory_ms": 350.0,
+    "ui_source_inventory_ms": 250.0,
+    "large_fixture_inventory_ms": 750.0,
+    "benchmark_peak_kib": 65536,
+    "hard_ceiling_multiplier": 2.0
+  },
+  "resource_ceiling": {
+    "max_concurrent_per_story": 3,
+    "max_log_bytes_per_job": 524288,
+    "max_job_list_limit": 500,
+    "max_agent_steps": 12,
+    "max_agent_wall_time_seconds": 300,
+    "max_agent_input_tokens": 12000,
+    "max_agent_output_tokens": 4000,
+    "max_local_agent_cost_usd": 0.0,
+    "max_test_targets": 200,
+    "autonomous_loop_max_iterations": 0
+  },
+  "supply_chain": {
+    "dependency_install_requires_plan": true,
+    "dependency_install_requires_allowlist": true,
+    "dependency_install_requires_approval": true,
+    "network_install_default": false
+  },
+  "notes": [
+    "Current-active budgets are conservative first-version industrial ceilings and do not rewrite historical performance snapshots.",
+    "12-D uses deterministic local/mocked red-team scenarios only; no harmful package, provider, network or real MCP write is executed.",
+    "The sole GSDLC-12 Full Regression remains reserved for 12-E."
+  ]
+}

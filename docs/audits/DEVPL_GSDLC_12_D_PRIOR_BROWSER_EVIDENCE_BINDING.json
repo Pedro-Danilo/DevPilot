@@ -1,0 +1,22 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-PRIOR-BROWSER-EVIDENCE-BINDING-V1",
+  "status": "PASS/HASH-BOUND-REUSE",
+  "updated": "2026-09-13",
+  "ux_surface_changed": false,
+  "browser_rerun_required": false,
+  "prior_browser": {
+    "micro_sprint": "DEVPL-GSDLC-12-C",
+    "evidence_zip_sha256": "3859abdba303480c4902c06abcffe58f49ccdfc3b2242e0fe9bb4015ad679211",
+    "real_browser_runs": 1,
+    "screenshots": {
+      "01_guided_recovery.png": "b6985ff276a6259445cf8f63cf53202f205ae4c2314a6d6c601b8b7df543cf1f",
+      "02_expert_recovery.png": "5beaadf94116d36900a57e7d8af82cdd65bbcc0e2844300694fcc84a11a4cd7b",
+      "03_keyboard_help_focus.png": "5ee8def58fb72c75902287fc85db8e7b25ac3c9ad89415f03124a68687c17d41",
+      "04_recovery_error_focus.png": "f6ccdea39f603c6176caabe7a0141f12179ce99f90dc48ba5e5ec88fd42726d3",
+      "05_responsive_guided.png": "b117b327b94369d9296e27d9b66700f84ba2f88ff3c220ec8dbc0d775620ef1f"
+    },
+    "authority_parity": true
+  },
+  "reuse_reason": "12-D changes security/performance policy and deterministic verification only; no UX/control surface changed.",
+  "full_regression_runs": 0
+}

@@ -1,0 +1,41 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "updated": "2026-09-13",
+  "classifications": [
+    {
+      "artifact": "GSDLC-12-C real-browser evidence + CLOSED/PASS state",
+      "classification": "historical-freeze",
+      "action": "preserved hash-bound; 12-D changes no UX/control surface"
+    },
+    {
+      "artifact": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py local pre-Windows assertions",
+      "classification": "historical-freeze",
+      "action": "not rewritten; assertions intentionally describe 12-C pre-closure state and are excluded from current-active 12-D cumulative selection"
+    },
+    {
+      "artifact": "tests/test_devpl_gsdlc_11_c_release_lifecycle.py Git-context integration cases",
+      "classification": "historical-freeze/out-of-impact",
+      "action": "not selected in archive-only local qualification; archive traversal is independently covered by 12-D focal red-team and Windows worktree validation"
+    },
+    {
+      "artifact": ".devpilot/security/industrial_hardening_policy.json + 12-D state/reports",
+      "classification": "current-active",
+      "action": "new current hardening authority and derived reports"
+    },
+    {
+      "artifact": "gsdlc12d-industrial-hardening test contract",
+      "classification": "successor-needed",
+      "action": "added without rewriting predecessor contracts"
+    },
+    {
+      "artifact": "auth.db*/devpilot.db*/outputs/.pytest_cache/__pycache__/node_modules",
+      "classification": "runtime-ephemeral",
+      "action": "excluded from fixtures and final packages"
+    }
+  ],
+  "historical_assertions_rewritten_for_pytest": false,
+  "findings_s0": 0,
+  "findings_s1": 0,
+  "full_regression_runs": 0
+}

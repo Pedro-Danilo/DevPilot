@@ -173,6 +173,8 @@ class AgentExecutionPolicy:
             return self._block_intent(intent, 'AGENT_EXECUTION_SESSION_NOT_FOUND', 'Execution session was not found.', actor_id, store=None)
         if session.get('status') in TERMINAL_SESSION_STATES or session.get('cancel_requested') or session.get('kill_switch'):
             return self._block_intent(intent, 'AGENT_EXECUTION_SESSION_TERMINAL', 'Execution session is cancelled/killed/terminal.', actor_id, store=store, session=session)
+        if str(session.get('actor_id') or '') != str(actor_id or ''):
+            return self._block_intent(intent, 'AGENT_EXECUTION_SESSION_ACTOR_MISMATCH', 'Execution session is bound to a different actor; consumer-session piggyback is forbidden.', actor_id, store=store, session=session)
         if session.get('role_id') != intent.agent_role_id or session.get('step_id') != intent.step_id:
             return self._block_intent(intent, 'AGENT_EXECUTION_SESSION_SCOPE_MISMATCH', 'Intent role/step does not match current session transfer state.', actor_id, store=store, session=session)
 
@@ -253,6 +255,8 @@ class AgentExecutionPolicy:
         store = self._load_store(); session = store['sessions'].get(session_id)
         if not isinstance(session, dict):
             return CommandResult('agent execution kill' if kill else 'agent execution cancel', False, ExitCode.BLOCK, 'Session not found.', {}, [Finding('AGENT_EXECUTION_SESSION_NOT_FOUND', 'Execution session was not found.', Severity.BLOCK)])
+        if str(session.get('actor_id') or '') != str(actor_id or ''):
+            return CommandResult('agent execution kill' if kill else 'agent execution cancel', False, ExitCode.BLOCK, 'Execution session is bound to a different actor.', {'summary': {'session_id': session_id, 'cancelled': False, 'actor_match': False, 'source_mutations_performed': False}}, [Finding('AGENT_EXECUTION_SESSION_ACTOR_MISMATCH', 'Consumer-session piggyback cancellation is forbidden.', Severity.BLOCK)])
         session['kill_switch'] = bool(kill)
         session['cancel_requested'] = not kill
         session['status'] = 'killed' if kill else 'cancelled'

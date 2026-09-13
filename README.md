@@ -6789,3 +6789,8 @@ Execution source: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT
 ## GSDLC-12-C — cierre Windows
 
 `CLOSED/PASS/WINDOWS-VALIDATED`. Una sesión real-browser sobre el mismo actor/proyecto demostró Guided y Expert con presentación distinta y autoridad idéntica, navegación keyboard-only sin trap, ayuda contextual, error/recovery con foco correcto y responsive layout. S0/S1=0; Full Regression=0; budget GSDLC-12 permanece `0/1` reservado para 12-E. Successor: `repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-D queda autorizado.
+
+
+## GSDLC-12-D — local industrial hardening qualification
+
+12-C está cerrado Windows y repo428 es la autoridad. 12-D está implementado y calificado localmente con performance budgets, security red-team y resource/cost ceilings; Full Regression permanece 0/1 reservada para 12-E. 12-E no se autoriza hasta PASS Windows de 12-D.

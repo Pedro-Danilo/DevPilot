@@ -1,0 +1,19 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS/LOCAL-PRE-WINDOWS",
+  "updated": "2026-09-13",
+  "checks": {
+    "strict_metadata_coherent": true,
+    "derived_counters_pending_final_test_impact_refresh": false,
+    "sensitive_action_binding_preserved": true,
+    "ui_route_mapping_unchanged": true,
+    "source_registry_project_state_readme_roadmap_coherent": true,
+    "historical_snapshot_reuse_safe": true,
+    "runtime_ephemeral_excluded": true,
+    "sealed_evidence_rewritten": false,
+    "successor_registry_recognized": true,
+    "derived_counters_test_impact_reconciled": "PASS/24/189/308/0",
+    "agent_session_actor_binding": "PASS/GSDLC-12-D"
+  },
+  "full_regression_runs": 0
+}

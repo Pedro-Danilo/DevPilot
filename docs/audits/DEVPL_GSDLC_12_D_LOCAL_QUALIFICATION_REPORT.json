@@ -1,0 +1,28 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-LOCAL-QUALIFICATION-V1",
+  "status": "IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "updated": "2026-09-13",
+  "execution_source": {
+    "repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "de3f3008dcc0fcbc6071462bffb70a18e2ab6109",
+    "sha256": "4aba885046eacaf2a6c2f3e6b33bec3c40aba845d65522ae440a9c6c94a52c1e"
+  },
+  "industrial_hardening_evaluator": "PASS",
+  "performance_budget": "PASS",
+  "red_team": "PASS/S0=0/S1=0",
+  "resource_cost": "PASS",
+  "focal_pytest": "8/8 PASS",
+  "cumulative_selected": "132/132 PASS",
+  "test_impact": "24/189/308/0",
+  "project_state": "PASS",
+  "docs_governance": "PASS",
+  "tcr_v2": "PASS",
+  "browser_acceptance": "REUSED-HASH-BOUND-FROM-12-C",
+  "browser_runs": 0,
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "gsdlc_12_budget": "0/1 reserved for 12-E",
+  "successor_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "consumer_session_piggyback": "FIXED+RETEST-PASS"
+}

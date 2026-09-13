@@ -537,3 +537,14 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 ## GSDLC-12-C — cierre Windows
 
 `CLOSED/PASS/WINDOWS-VALIDATED`. Una sesión real-browser sobre el mismo actor/proyecto demostró Guided y Expert con presentación distinta y autoridad idéntica, navegación keyboard-only sin trap, ayuda contextual, error/recovery con foco correcto y responsive layout. S0/S1=0; Full Regression=0; budget GSDLC-12 permanece `0/1` reservado para 12-E. Successor: `repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-D queda autorizado.
+
+
+## 0.0.6 GSDLC-12-D execution rebind and local implementation qualification — repo428
+
+- `GSDLC-12-C = CLOSED/PASS/WINDOWS-VALIDATED`, browser real 1, S0/S1=0 y Full Regression=0.
+- Fuente de ejecución efectiva: `repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `de3f3008dcc0fcbc6071462bffb70a18e2ab6109`, SHA-256 `4aba885046eacaf2a6c2f3e6b33bec3c40aba845d65522ae440a9c6c94a52c1e`.
+- 12-D introduce política current-active de performance/resource ceilings y un evaluador local determinístico de hardening/red-team; no habilita red, proveedor externo, MCP real ni acciones destructivas.
+- 12-D no cambia UX/control surfaces; reutiliza evidencia browser 12-C hash-bound y valida policy por pruebas determinísticas.
+- Estado local: `IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`.
+- FRX v2.4: Full Regression 12-D=`0`; budget GSDLC-12=`0/1` reservado para 12-E.
+- GSDLC-12-E permanece **NO AUTORIZADO** hasta PASS Windows de 12-D.

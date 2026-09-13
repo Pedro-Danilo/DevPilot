@@ -1,0 +1,26 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-D-PERFORMANCE-BUDGET-V1",
+  "status": "current-active",
+  "updated": "2026-09-13",
+  "source_policy": ".devpilot/security/industrial_hardening_policy.json",
+  "budgets": {
+    "project_state_parse_p95_ms": 25.0,
+    "source_registry_parse_p95_ms": 80.0,
+    "app_create_ms": 1000.0,
+    "api_health_p95_ms": 120.0,
+    "api_settings_workspace_p95_ms": 750.0,
+    "api_project_status_p95_ms": 500.0,
+    "major_workbench_source_inventory_ms": 350.0,
+    "repo_inventory_ms": 500.0,
+    "docs_inventory_ms": 350.0,
+    "ui_source_inventory_ms": 250.0,
+    "large_fixture_inventory_ms": 750.0,
+    "benchmark_peak_kib": 65536,
+    "hard_ceiling_multiplier": 2.0
+  },
+  "hard_ceiling_policy": "budget * hard_ceiling_multiplier; BLOCK if hard ceiling exceeded; soft budget miss requires explicit justification",
+  "measurement_policy": "API latency measured in-process without tracemalloc distortion; memory/file inventory measured separately; no listening socket/network",
+  "historical_policy": "prior performance snapshots remain immutable",
+  "first_version": true,
+  "full_regression_runs": 0
+}
