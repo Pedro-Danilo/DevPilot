@@ -1,0 +1,26 @@
+{
+  "checks": {
+    "derived_counters_reconciled": true,
+    "historical_snapshots_not_repointed": true,
+    "project_state_source_registry_readme_roadmap_coherent_local_state": true,
+    "runtime_ephemeral_excluded": true,
+    "sealed_evidence_rewritten": false,
+    "sensitive_actions_bound": true,
+    "strict_schema_metadata_coherent": true,
+    "successor_contract_registered": true,
+    "ui_routes_mapped": true,
+    "api_route_registry_and_openapi_current_active_coherent": true
+  },
+  "corrected_drifts": [
+    "source_registry last micro-sprint pointer",
+    "recovery stale-lock duplicate sensitive action policy",
+    "ui_capability_registry live route collection/counters",
+    "canonical FastAPI router inventory and static OpenAPI recognition of GSDLC-12-A recovery plus GSDLC-12-B reconciliation routes"
+  ],
+  "findings_s0": 0,
+  "findings_s1": 0,
+  "full_regression_runs": 0,
+  "schema_id": "DEVPL-GSDLC-12-B-CONTRACT-RECONCILIATION-SWEEP-V1",
+  "status": "PASS",
+  "updated": "2026-09-12"
+}

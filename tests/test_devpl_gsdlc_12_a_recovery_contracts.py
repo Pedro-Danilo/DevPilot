@@ -74,7 +74,9 @@ def test_12_a_current_active_contract_registries_include_recovery_without_full_r
     }
     project = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
     assert project["current_phase"] == "DEVPL-GSDLC-12"
-    assert project["current_micro_sprint"] == "DEVPL-GSDLC-12-A"
+    # Successor-safe historical contract: 12-A remains CLOSED/PASS while the current pointer may advance within GSDLC-12.
+    assert project["gsdlc_12_a_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
+    assert project["current_micro_sprint"] in {"DEVPL-GSDLC-12-A", "DEVPL-GSDLC-12-B", "DEVPL-GSDLC-12-C", "DEVPL-GSDLC-12-D", "DEVPL-GSDLC-12-E"}
     assert project["gsdlc_12_a_full_regression_runs"] == 0
     assert project["gsdlc_12_full_regression_budget_consumed"] == 0
     assert project["gsdlc_12_full_regression_budget_total"] == 1

@@ -1,0 +1,75 @@
+{
+  "browser_acceptance": {
+    "required_cases": [
+      "REVALIDATE",
+      "MANUAL_RECONCILIATION_REQUIRED"
+    ],
+    "screenshots_required": 4,
+    "status": "PENDING-WINDOWS"
+  },
+  "cases": [
+    {
+      "case": "clean-baseline",
+      "expected": "NO_CONFLICT",
+      "local_test": "PASS"
+    },
+    {
+      "browser_required": true,
+      "case": "external-modify",
+      "expected": "REVALIDATE",
+      "local_test": "PASS"
+    },
+    {
+      "case": "fast-forward",
+      "expected": "REVALIDATE",
+      "local_test": "PASS"
+    },
+    {
+      "case": "rewind",
+      "expected": "REPLAN_REQUIRED",
+      "local_test": "PASS"
+    },
+    {
+      "case": "divergence",
+      "expected": "MANUAL_RECONCILIATION_REQUIRED",
+      "local_test": "PASS"
+    },
+    {
+      "browser_required": true,
+      "case": "rename-delete",
+      "expected": "MANUAL_RECONCILIATION_REQUIRED",
+      "local_test": "PASS"
+    },
+    {
+      "case": "detached-head",
+      "expected": "READ_ONLY_BLOCK",
+      "local_test": "PASS"
+    },
+    {
+      "case": "dirty-adoption",
+      "expected": "BLOCK",
+      "local_test": "PASS"
+    },
+    {
+      "case": "multi-session-lock",
+      "expected": "BLOCK",
+      "local_test": "PASS"
+    },
+    {
+      "case": "draft-preservation",
+      "expected": "PRESERVED",
+      "local_test": "PASS"
+    }
+  ],
+  "full_regression_runs": 0,
+  "safety": {
+    "external_api_used": false,
+    "git_destructive_operations_performed": false,
+    "network_used": false,
+    "secrets_exposed": false,
+    "source_mutations_performed": false
+  },
+  "schema_id": "DEVPL-GSDLC-12-B-CONFLICT-MATRIX-V1",
+  "status": "LOCAL-QUALIFIED/WINDOWS-BROWSER-PENDING",
+  "updated": "2026-09-12"
+}

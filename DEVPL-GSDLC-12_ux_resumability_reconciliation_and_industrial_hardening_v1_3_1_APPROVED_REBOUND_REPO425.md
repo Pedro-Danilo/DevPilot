@@ -500,3 +500,16 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 - S0/S1 = 0; Full Regression in 12-A = 0; GSDLC-12 budget remains 0/1 reserved for 12-E.
 - Successor: `repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip`.
 - `GSDLC-12-B` is authorized after this Windows PASS.
+
+## 0.0.4 GSDLC-12-B execution rebind and local implementation qualification — repo426
+
+- Execution source efectivo: `repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip`.
+- Source commit: `f79f5d32c928247039feeecb9c773b75343b6a2e`.
+- Source SHA-256: `b366fd4587bc057e8330fa419c7972fcdec6a8daaf66acd00b587da88f89bf66`.
+- `GSDLC-12-A = CLOSED/PASS/WINDOWS-VALIDATED`; no se reabre ni se retrocede a repo425.
+- `GSDLC-12-B = IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`.
+- Se implementó observación read-only de branch/HEAD/filesystem, baseline metadata-only explícito, invalidación de approval/preimage/plan stale, preservación de drafts, `ConflictResolutionView` y proyección de conflicto en Project Status.
+- Estados current-active: `NO_CONFLICT`, `REVALIDATE`, `REPLAN_REQUIRED`, `MANUAL_RECONCILIATION_REQUIRED`, `READ_ONLY_BLOCK`.
+- Git destructivo automático, overwrite silencioso y adopción dirty quedan prohibidos.
+- FRX v2.4: Full Regression en 12-B = `0`; budget de GSDLC-12 continúa `0/1`, reservado para 12-E.
+- GSDLC-12-C permanece **NO AUTORIZADO** hasta el PASS Windows/browser de 12-B.

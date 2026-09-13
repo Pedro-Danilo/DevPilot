@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.35.0-gsdlc-12-a",
+  "version": "0.36.0-gsdlc-12-b",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-12-A persistent resumability, recovery and workspace locks.",
+  "description": "DevPilot Local Web UI — GSDLC-12-B branch/external-edit reconciliation and conflict UX.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -44,7 +44,8 @@
     "test:gsdlc11b": "node scripts/gsdlc11b-release-package-smoke.mjs",
     "test:release-metadata": "node scripts/gsdlc11d-release-metadata-smoke.mjs",
     "test:release-closure": "node scripts/gsdlc11e-release-closure-smoke.mjs",
-    "test:recovery": "node scripts/gsdlc12a-recovery-smoke.mjs"
+    "test:recovery": "node scripts/gsdlc12a-recovery-smoke.mjs",
+    "test:reconciliation": "node scripts/gsdlc12b-reconciliation-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

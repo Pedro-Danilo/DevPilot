@@ -1,0 +1,34 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-B-LOCAL-QUALIFICATION-V1",
+  "status": "PASS/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "source_repo": "repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "f79f5d32c928247039feeecb9c773b75343b6a2e",
+  "source_sha256": "b366fd4587bc057e8330fa419c7972fcdec6a8daaf66acd00b587da88f89bf66",
+  "tests": {
+    "focal_12b": "19/19 PASS",
+    "cumulative_impacted": "122/122 PASS",
+    "api_contract_corrective": "19/19 PASS",
+    "ui_smoke": "11/11 PASS"
+  },
+  "gates": {
+    "project_state": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "api_route_registry": "PASS",
+    "api_contract_drift": "PASS",
+    "test_impact": "PASS/43/217/339/0"
+  },
+  "browser_acceptance": "PENDING/WINDOWS/REAL-BROWSER",
+  "full_regression_runs": 0,
+  "gsdlc_12_budget": "0/1 reserved for 12-E",
+  "s0_open": 0,
+  "s1_open": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "source_mutations_performed_by_runtime_validation": false,
+  "windows_closure_authorized": false,
+  "gsdlc_12_c_authorized": false,
+  "updated": "2026-09-12"
+}

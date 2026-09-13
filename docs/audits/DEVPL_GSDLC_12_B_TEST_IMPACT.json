@@ -1,0 +1,40 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-B-TEST-IMPACT-V1",
+  "status": "PASS",
+  "updated": "2026-09-12",
+  "policy": "FRX-v2.4 A-D focal+cumulative+TestImpact; Full=0",
+  "changed_paths_total": 43,
+  "matched_contracts_total": 217,
+  "recommended_tests_total": 339,
+  "unmatched_paths": [],
+  "tests_executed": false,
+  "full_regression_runs": 0,
+  "summary": {
+    "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
+    "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "rules_path": ".devpilot/testing/test_impact_rules.json",
+    "changed_paths_total": 43,
+    "contracts_total": 338,
+    "matched_contracts_total": 217,
+    "p0_selected_total": 138,
+    "p1_selected_total": 70,
+    "heuristic_recommendations_total": 10,
+    "recommended_tests_total": 339,
+    "recommended_commands_total": 391,
+    "recommended_profiles": [
+      "impact",
+      "release-candidate-local",
+      "p0-critical",
+      "docs-historical",
+      "release"
+    ],
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  }
+}

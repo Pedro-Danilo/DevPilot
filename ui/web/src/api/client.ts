@@ -655,6 +655,18 @@ export class DevPilotApiClient {
     return this.get('/recovery', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<import('./types').RecoveryStatusData>>;
   }
 
+  async reconciliationStatus(): Promise<DevPilotApplicationResponse<import('./types').ReconciliationStatusData>> {
+    return this.get('/reconciliation', { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS, retryNetworkErrors: true }) as Promise<DevPilotApplicationResponse<import('./types').ReconciliationStatusData>>;
+  }
+
+  async reconciliationBaseline(execute=false, confirmation=''): Promise<DevPilotApplicationResponse> {
+    return this.post('/reconciliation/baseline', { execute, confirmation }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
+  async reconciliationAdopt(execute=false, confirmation=''): Promise<DevPilotApplicationResponse> {
+    return this.post('/reconciliation/adopt', { execute, confirmation }, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
+  }
+
   async recoveryCheckpoint(payload: { draft_refs:string[]; pending_work:import('./types').RecoveryPendingWork[]; evidence_refs:string[]; recovery_reason:string }): Promise<DevPilotApplicationResponse> {
     return this.post('/recovery/checkpoint', payload, { timeoutMs: REPORTS_REQUEST_TIMEOUT_MS });
   }

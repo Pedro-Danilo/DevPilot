@@ -728,3 +728,7 @@ DEVPL-GSDLC-12 is current-active on Windows-validated repo425 (`b341370633e66355
 
 GSDLC-12-A closes `CLOSED/PASS/WINDOWS-VALIDATED` after one real-browser restart/recovery acceptance. Durable metadata-only checkpoints survive API/UI restart; browser storage remains UX-only; sensitive pending work requires revalidation; exact actor/session lock ownership and stale-lock recovery remain fail-closed; Project Status no longer presents post-release non-authoritative gaps as a contradictory lifecycle BLOCKED. S0/S1=0, Full Regression=0, and the GSDLC-12 budget remains 0/1 reserved for 12-E. Successor: `repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-B is authorized.
 
+
+## DEVPL-GSDLC-12-B — branch/external edit reconciliation local qualification
+
+Execution source: repo426 (`f79f5d32c928247039feeecb9c773b75343b6a2e`, SHA-256 `b366fd4587bc057e8330fa419c7972fcdec6a8daaf66acd00b587da88f89bf66`). Se materializa reconciliación read-only de branch switch, detached HEAD, fast-forward, rewind, divergence y cambios externos modify/add/delete/rename/untracked; baseline metadata-only explícito; invalidación de authority stale; drafts preservados; conflict UX en `/reconciliation` y Project Status. Local qualification PASS; Windows real-browser pendiente. Full Regression=0; GSDLC-12 budget=0/1 reservado para 12-E. 12-C permanece no autorizado hasta cierre Windows de 12-B.

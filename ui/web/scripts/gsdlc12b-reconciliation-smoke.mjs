@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const root=path.resolve(path.dirname(new URL(import.meta.url).pathname),'..');
+const read=(p)=>fs.readFileSync(path.join(root,p),'utf8');
+const checks=[]; const check=(name,ok)=>checks.push({name,ok:Boolean(ok)});
+const main=read('src/main.ts'); const view=read('src/pages/ConflictResolutionView.ts'); const status=read('src/pages/ProjectStatusView.ts'); const client=read('src/api/client.ts');
+check('route registered',main.includes("routeId: 'ui.reconciliation'")&&main.includes("path: '/reconciliation'"));
+check('view rendered',main.includes('renderConflictResolutionView'));
+check('five states visible',['NO_CONFLICT','REVALIDATE','REPLAN_REQUIRED','MANUAL_RECONCILIATION_REQUIRED','READ_ONLY_BLOCK'].every(x=>view.includes(x)||status.includes(x)));
+check('diff summary',view.includes('Cambios observados')&&view.includes('HEAD relation'));
+check('authority invalidation',view.includes('Invalidaciones')&&view.includes('Drafts preservados'));
+check('safe recovery plan',view.includes('Plan seguro'));
+check('dry-run default',view.includes('Dry-run baseline')&&view.includes('Dry-run adopción'));
+check('typed confirmations',client.includes('/reconciliation/baseline')&&client.includes('/reconciliation/adopt')&&view.includes('CAPTURE_RECONCILIATION_BASELINE')&&view.includes('ADOPT_RECONCILIATION_BASELINE'));
+check('project status projection',status.includes('renderReconciliationSummary')&&status.includes('reconciliationStatus'));
+check('no browser authority',!view.includes('localStorage')&&!view.includes('sessionStorage'));
+check('no destructive controls',!view.includes('force push')&&!view.includes('hard reset')&&!view.includes('auto rebase'));
+const failed=checks.filter(x=>!x.ok); for(const row of checks) console.log(`${row.ok?'PASS':'FAIL'} ${row.name}`); console.log(`DEVPL GSDLC-12-B UI SMOKE: ${checks.length-failed.length}/${checks.length} PASS`); if(failed.length) process.exit(1);

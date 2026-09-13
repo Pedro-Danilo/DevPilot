@@ -1,0 +1,86 @@
+{
+  "$id": "SCHEMA-DEVPL-GSDLC-12-B-WORKSPACE-DRIFT-SNAPSHOT-V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "authority_linked_change_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "baseline_present": {
+      "type": "boolean"
+    },
+    "branch_switched": {
+      "type": "boolean"
+    },
+    "change_counts": {
+      "type": "object"
+    },
+    "changes": {
+      "items": {
+        "required": [
+          "kind",
+          "path",
+          "linked_to_engineering_authority"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "current": {
+      "required": [
+        "head",
+        "tree",
+        "branch",
+        "detached"
+      ],
+      "type": "object"
+    },
+    "engineering_state_changed": {
+      "type": "boolean"
+    },
+    "head_relation": {
+      "enum": [
+        "BASELINE_MISSING",
+        "SAME",
+        "FAST_FORWARD",
+        "REWIND",
+        "DIVERGED",
+        "UNRELATED_OR_BASELINE_MISSING",
+        "BASELINE_HEAD_INVALID"
+      ],
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-12-B-WORKSPACE-DRIFT-SNAPSHOT-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "workspace_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "worktree_dirty": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "workspace_id",
+    "baseline_present",
+    "current",
+    "head_relation",
+    "worktree_dirty",
+    "changes",
+    "change_counts",
+    "snapshot_sha256"
+  ],
+  "title": "GSDLC-12-B WorkspaceDriftSnapshot",
+  "type": "object"
+}

@@ -1,6 +1,7 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData, MiasiApplicabilityStatus } from '../api/types';
 import { renderStepActionAdvisor, renderStepActionAdvisorError } from '../components/StepActionAdvisor';
+import { renderReconciliationSummary } from './ConflictResolutionView';
 
 const ROUTE_ID = 'ui.project-status';
 const PLANNING_ROADMAP_ROUTE_ID = 'ui.planning-roadmap';
@@ -35,7 +36,7 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
   root.dataset.uiState = 'loading';
   try {
     const api = new DevPilotApiClient({ token: tokenProvider() });
-    const [response, planning] = await Promise.all([api.projectStatus(), api.planningClosure()]);
+    const [response, planning, reconciliation] = await Promise.all([api.projectStatus(), api.planningClosure(), api.reconciliationStatus()]);
     const data = response.data;
     const statePanel = renderState(data);
     const planningClosure = { ...(((planning.data as any).planning_closure ?? {}) as Record<string, any>) };
@@ -63,7 +64,8 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     wizardLink.className = 'button-link';
     wizardLink.textContent = 'Abrir pre-code guiado';
     wizardCta.append(wizardTitle, wizardText, wizardLink);
-    content.replaceChildren(statePanel, planningPanel, wizardCta, advisorMount);
+    const reconciliationPanel = renderReconciliationSummary(reconciliation.data.reconciliation);
+    content.replaceChildren(statePanel, reconciliationPanel, planningPanel, wizardCta, advisorMount);
     root.dataset.uiState = normalizeUiState(data.ui_state);
     void loadStepActions(advisorMount, tokenProvider);
   } catch (error) {

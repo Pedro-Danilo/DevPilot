@@ -19,10 +19,12 @@
   "gsdlc_10_d_story_git_routes_registered": true,
   "gsdlc_11_a_release_readiness_route_registered": true,
   "gsdlc_11_c_release_lifecycle_routes_registered": true,
+  "gsdlc_12_a_recovery_routes_registered": true,
+  "gsdlc_12_b_reconciliation_routes_registered": true,
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "DEVPL-GSDLC-12-A",
+  "micro_sprint": "DEVPL-GSDLC-12-B",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -4836,6 +4838,78 @@
       "risk_level": "high",
       "route_id": "api.recovery.lock.recover",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-reconciliation-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "reconciliation.status",
+      "path": "/api/v1/reconciliation",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.reconciliation.status",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-reconciliation-authority",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "reconciliation.baseline",
+      "path": "/api/v1/reconciliation/baseline",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.reconciliation.baseline",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session-project-reconciliation-authority",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "reconciliation.adopt",
+      "path": "/api/v1/reconciliation/adopt",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.reconciliation.adopt",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -5096,21 +5170,6 @@
       "original_status": "implemented-initial",
       "risk_level": "high",
       "workspace_scope_required": true
-    },
-    {
-      "action_id": "recovery.lock.recover_stale",
-      "allowed_roles": [
-        "owner",
-        "release-manager",
-        "operator"
-      ],
-      "deny_by_default": true,
-      "legacy_role_resolution": null,
-      "legacy_token_allowed": false,
-      "original_executable": true,
-      "original_status": "implemented-initial",
-      "risk_level": "high",
-      "workspace_scope_required": true
     }
   ],
   "source_repo": "repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -5175,27 +5234,29 @@
       "release-manager"
     ],
     "gsdlc_11_e_release_closure_policies_total": 2,
-    "human_session_required_total": 153,
-    "legacy_token_allowed_total": 69,
-    "route_policies_total": 229,
-    "sensitive_action_policies_total": 20,
-    "unmapped_routes_total": 0,
-    "unmapped_sensitive_actions_total": 0,
     "gsdlc_12_a_recovery_policies_total": 5,
     "gsdlc_12_a_stale_lock_recovery_roles": [
       "owner",
       "release-manager",
       "operator"
-    ]
+    ],
+    "gsdlc_12_b_legacy_token_allowed_total": 0,
+    "gsdlc_12_b_reconciliation_policies_total": 3,
+    "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
+    "human_session_required_total": 156,
+    "legacy_token_allowed_total": 69,
+    "route_policies_total": 232,
+    "sensitive_action_policies_total": 19,
+    "unmapped_routes_total": 0,
+    "unmapped_sensitive_actions_total": 0
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-12",
-  "updated_by": "DEVPL-GSDLC-12-A",
+  "updated_by": "DEVPL-GSDLC-12-B",
   "version": "1.1.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
     "default_local_workspace_id": "devpilot-local",
     "scope_required_for_workspace_routes": true
-  },
-  "gsdlc_12_a_recovery_routes_registered": true
+  }
 }

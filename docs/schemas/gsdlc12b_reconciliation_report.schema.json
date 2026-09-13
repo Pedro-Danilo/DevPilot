@@ -1,0 +1,83 @@
+{
+  "$id": "SCHEMA-DEVPL-GSDLC-12-B-RECONCILIATION-REPORT-V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "authority_invalidations": {
+      "type": "array"
+    },
+    "classification": {
+      "enum": [
+        "NO_CONFLICT",
+        "REVALIDATE",
+        "REPLAN_REQUIRED",
+        "MANUAL_RECONCILIATION_REQUIRED",
+        "READ_ONLY_BLOCK"
+      ]
+    },
+    "draft_recovery": {
+      "type": "object"
+    },
+    "forbidden_automatic_git_operations": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "reason_codes": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "recommended_next_action": {
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "risk": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "safe_recovery_plan": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "safety": {
+      "type": "object"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-12-B-RECONCILIATION-REPORT-V1"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "snapshot": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_id",
+    "schema_version",
+    "classification",
+    "reason_codes",
+    "risk",
+    "recommended_next_action",
+    "snapshot",
+    "authority_invalidations",
+    "draft_recovery",
+    "safe_recovery_plan",
+    "forbidden_automatic_git_operations",
+    "safety",
+    "report_sha256"
+  ],
+  "title": "GSDLC-12-B ReconciliationReport",
+  "type": "object"
+}

@@ -1,0 +1,35 @@
+{
+  "classifications": [
+    {
+      "action": "preserved",
+      "artifact": "historical UOC route snapshots",
+      "classification": "historical-freeze"
+    },
+    {
+      "action": "reconciled",
+      "artifact": ".devpilot/interfaces/* current registries",
+      "classification": "current-active/derived"
+    },
+    {
+      "action": "preserved; no rewrite",
+      "artifact": "GSDLC-12-A recovery evidence",
+      "classification": "historical-freeze"
+    },
+    {
+      "action": "added without rewriting 12-A contract",
+      "artifact": "GSDLC-12-B schemas/TCR",
+      "classification": "successor-needed"
+    },
+    {
+      "action": "excluded",
+      "artifact": "outputs/auth.db*/devpilot.db*",
+      "classification": "runtime-ephemeral"
+    }
+  ],
+  "findings_s0": 0,
+  "findings_s1": 0,
+  "full_regression_runs": 0,
+  "schema_id": "DEVPL-GSDLC-12-B-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "updated": "2026-09-12"
+}
