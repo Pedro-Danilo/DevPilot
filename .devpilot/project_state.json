@@ -2022,7 +2022,7 @@
   "gsdlc_12_full_regression_budget_total": 1,
   "gsdlc_12_full_regression_reserved_for": "DEVPL-GSDLC-12-E",
   "gsdlc_12_second_full_regression_allowed": false,
-  "gsdlc_12_status": "ACTIVE/GSDLC-12-D-LOCAL/12-E-NOT-AUTHORIZED",
+  "gsdlc_12_status": "ACTIVE/GSDLC-12-D-CLOSED/12-E-AUTHORIZED",
   "gsdlc_auth_runtime_enabled": false,
   "gsdlc_backlog": "DEVPL-GSDLC-00",
   "gsdlc_backlog_00_path": "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
@@ -4288,7 +4288,7 @@
   "gsdlc_12_c_windows_validation_status": "CLOSED/PASS",
   "gsdlc_12_c_browser_acceptance": "PASS/REAL-BROWSER/GUIDED+EXPERT+KEYBOARD+ERROR-FOCUS",
   "gsdlc_12_c_successor_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_d_status": "IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "gsdlc_12_d_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_12_d_execution_source_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
   "gsdlc_12_d_execution_source_commit": "de3f3008dcc0fcbc6071462bffb70a18e2ab6109",
   "gsdlc_12_d_execution_source_sha256": "4aba885046eacaf2a6c2f3e6b33bec3c40aba845d65522ae440a9c6c94a52c1e",
@@ -4299,7 +4299,9 @@
   "gsdlc_12_d_full_regression_runs_allowed": 0,
   "gsdlc_12_d_s0_open": 0,
   "gsdlc_12_d_s1_open": 0,
-  "gsdlc_12_e_authorized": false,
+  "gsdlc_12_e_authorized": true,
   "gsdlc_12_d_source_delta_paths": 25,
-  "gsdlc_12_d_test_impact": "25/194/315/0"
+  "gsdlc_12_d_test_impact": "25/194/315/0",
+  "gsdlc_12_d_windows_validation_status": "CLOSED/PASS",
+  "gsdlc_12_d_successor_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

@@ -6798,3 +6798,8 @@ Execution source: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT
 ### GSDLC-12-D — Windows corrective v1.0.1
 
 La primera validación Windows bloqueó antes de cierre por un file-handle SQLite no cerrado en `LocalAuthStore` y por mezcla de cold route initialization con steady-state p95. El correctivo es acumulativo sobre el implementation commit ya creado, no repite `apply`, no relaja budgets/hard ceilings y actualiza Test Impact a `25/194/315/0`. Full Regression permanece `0/1` reservada para 12-E.
+
+
+## GSDLC-12-D — cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`. Performance/security/resource hardening valida S0/S1=0, actor-bound agent sessions, scoped Windows auth-store handles, ModelRouteDecision separado de ToolExecutionDecision, fake-local MCP/write blocked, provider/fallback freshness, bounded jobs/tokens/cost and supply-chain controls. No UX/control surface changed; 12-C browser evidence remains hash-bound. Test Impact `25/194/315/0`; Full Regression=0; GSDLC-12 budget remains `0/1` reserved for 12-E. Successor: `repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-E queda autorizado.

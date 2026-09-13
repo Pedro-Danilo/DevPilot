@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-12-D-INDUSTRIAL-HARDENING-REPORT"
 title: "DEVPL-GSDLC-12-D — Performance, security red-team and resource/cost hardening report"
-status: "implemented-local-qualified"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-13"
-approval: "local-qualification/windows-validation-pending"
+approval: "windows-validated/12-e-authorized"
 ---
 
 # Objetivo
@@ -68,3 +68,7 @@ La baseline incluye assembly/startup de FastAPI, latencia p95 in-process de heal
 La primera validación Windows bloqueó de forma legítima antes de cierre. El red-team descubrió que `sqlite3.Connection` usado como context manager cerraba la transacción pero no el file handle; en Windows esto impedía eliminar el `auth.db` temporal (`WinError 32`). `LocalAuthStore._connect()` pasa a ser un context manager propio que siempre ejecuta `close()`. El mismo leak podía amplificar latencias sucesivas del harness.
 
 La medición API también mezclaba la primera inicialización específica de cada route con el p95 steady-state. 12-D conserva exactamente los mismos budgets y hard ceilings, registra una cold probe por route y mide después ocho muestras steady-state. No se relaja ningún límite. El Test Impact current-active pasa a `25/194/315/0`; Full Regression permanece `0`, reservada para 12-E.
+
+# Cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`. La validación Windows conserva `S0=0`, `S1=0`, performance dentro de hard ceilings, handles SQLite runtime cerrados, Full Regression=`0`, no external network/API y browser 12-C reutilizado hash-bound. Test Impact `25/194/315/0`. Successor: `repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-E queda autorizado y conserva la única Full `0/1` para su cierre.

@@ -1,6 +1,6 @@
 {
   "schema_id": "DEVPL-GSDLC-12-D-LOCAL-QUALIFICATION-V1",
-  "status": "IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "updated": "2026-09-13",
   "execution_source": {
     "repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -12,7 +12,6 @@
   "red_team": "PASS/S0=0/S1=0/23-findings",
   "resource_cost": "PASS",
   "focal_pytest": "8/8 PASS",
-  "cumulative_selected": "132/132 PASS",
   "test_impact": "25/194/315/0",
   "project_state": "PASS",
   "docs_governance": "PASS",
@@ -37,5 +36,15 @@
     ],
     "budgets_relaxed": false,
     "hard_ceilings_relaxed": false
+  },
+  "windows_validation": "PASS/PLATFORM-SKIP-ADJUDICATED",
+  "gsdlc_12_e_authorized": true,
+  "cumulative_selected_local": "132/132 PASS",
+  "cumulative_selected_windows": "131 passed / 1 platform-conditioned skip / 0 failed / 0 errors; exact symlink privilege skip adjudicated PASS",
+  "windows_platform_skip": {
+    "nodeid": "tests/test_devpl_gsdlc_02_b_auth_sessions.py::test_store_symlink_traversal_is_blocked_when_platform_can_create_symlink",
+    "reason": "Windows symlink creation privilege unavailable; path-escape protection is tested separately.",
+    "adjudication": "PASS only when this exact node is the sole skip and 12-D SYMLINK-REPARSE-ESCAPE finding is PASS",
+    "coverage_replacement": "12-D industrial hardening evaluator / SYMLINK-REPARSE-ESCAPE fail-closed evidence"
   }
 }

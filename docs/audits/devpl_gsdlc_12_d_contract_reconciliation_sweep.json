@@ -1,6 +1,6 @@
 {
   "schema_id": "DEVPL-GSDLC-12-D-CONTRACT-RECONCILIATION-SWEEP-V1",
-  "status": "PASS/LOCAL-PRE-WINDOWS",
+  "status": "PASS/WINDOWS-CLOSURE",
   "updated": "2026-09-13",
   "checks": {
     "strict_metadata_coherent": true,
@@ -17,5 +17,7 @@
     "auth_runtime_store_handle_lifecycle": "PASS/scoped sqlite handles/current-active",
     "performance_probe_semantics": "PASS/cold recorded separately/steady-state p95/budgets unchanged"
   },
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "windows_validation_required": false,
+  "gsdlc_12_e_authorized": true
 }
