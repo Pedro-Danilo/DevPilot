@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-12-B-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-12-B — Branch/external edit reconciliation and conflict UX implementation report"
-status: "implemented-local-qualified/windows-validation-pending"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-12"
-approval: "pending-windows-validation"
+approval: "windows-validation-pass/owner-browser-adjudicated"
 ---
 
 # Objetivo
@@ -72,3 +72,7 @@ API: `GET /api/v1/reconciliation`, `POST /api/v1/reconciliation/baseline`, `POST
 `python -m devpilot_core test-contracts validate-v2 --json`
 
 `python -m devpilot_core api contract-drift --json`
+
+# Cierre Windows
+
+La promoción de este documento solo se aplica después de `browser-review=PASS` del operador Windows. El cierre exige las dos clasificaciones browser (`REVALIDATE` y `MANUAL_RECONCILIATION_REQUIRED`), Project Status explícito, S0/S1=0, Full Regression=0 y package tracked-only repo427. La evidencia y hashes concretos permanecen fuera del source repo en el paquete autoritativo de evidencia Windows.

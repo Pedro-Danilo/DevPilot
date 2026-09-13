@@ -513,3 +513,8 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 - Git destructivo automático, overwrite silencioso y adopción dirty quedan prohibidos.
 - FRX v2.4: Full Regression en 12-B = `0`; budget de GSDLC-12 continúa `0/1`, reservado para 12-E.
 - GSDLC-12-C permanece **NO AUTORIZADO** hasta el PASS Windows/browser de 12-B.
+
+
+## GSDLC-12-B — cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`. Browser real demostró conflicto recuperable `REVALIDATE` y conflicto `MANUAL_RECONCILIATION_REQUIRED`, ambos explícitos y sin Git destructivo automático. S0/S1=0; Full Regression=0; budget GSDLC-12 permanece `0/1` reservado para 12-E. Successor: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-C queda autorizado.

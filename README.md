@@ -6774,3 +6774,8 @@ GSDLC-12-A closes `CLOSED/PASS/WINDOWS-VALIDATED` after one real-browser restart
 ## DEVPL-GSDLC-12-B — branch/external edit reconciliation local qualification
 
 GSDLC-12-B parte exclusivamente de repo426, successor Windows-validado de 12-A. Añade `AdvancedWorkspaceReconciliationService`, baseline metadata-only protegido por locks de 12-A, clasificación explícita de branch/HEAD/filesystem drift, invalidación conservadora de approval/preimage/plan cuando cambia la autoridad, preservación de draft refs y `ConflictResolutionView` en `/reconciliation`. Project Status consume la misma reconciliación y muestra conflicto + next action determinística. Toda adopción es dry-run por defecto y no modifica source ni Git. Estado: `IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; Full Regression=0; budget DEVPL-GSDLC-12=0/1 reservado para 12-E; 12-C no autorizado hasta PASS Windows/browser de 12-B.
+
+
+## GSDLC-12-B — cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`. Browser real demostró conflicto recuperable `REVALIDATE` y conflicto `MANUAL_RECONCILIATION_REQUIRED`, ambos explícitos y sin Git destructivo automático. S0/S1=0; Full Regression=0; budget GSDLC-12 permanece `0/1` reservado para 12-E. Successor: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-C queda autorizado.
