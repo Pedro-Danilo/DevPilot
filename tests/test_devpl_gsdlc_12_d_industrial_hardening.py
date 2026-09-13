@@ -46,7 +46,7 @@ def test_12_d_red_team_closes_all_s0_s1_and_uses_only_safe_local_fakes() -> None
     assert report['harmful_package_used'] is False
     by_id = {item['id']: item for item in report['findings']}
     required = {
-        'CSRF-MISMATCH', 'SESSION-FIXATION-ROTATION', 'ROLE-DOWNGRADE-STALE-SESSION',
+        'CSRF-MISMATCH', 'SESSION-FIXATION-ROTATION', 'ROLE-DOWNGRADE-STALE-SESSION', 'AUTH-RUNTIME-STORE-HANDLE-CLEANUP',
         'CROSS-WORKSPACE-SCOPE', 'PATH-ESCAPE', 'DESTRUCTIVE-FILESYSTEM', 'SYMLINK-REPARSE-ESCAPE',
         'ARCHIVE-PATH-TRAVERSAL', 'MODEL-ROUTE-TOOL-ESCALATION', 'PROMPT-INJECTION-FORBIDDEN-TOOL',
         'CONSUMER-SESSION-PIGGYBACK', 'CROSS-ACTOR-CANCEL', 'OVERSIZED-AGENT-INPUT',

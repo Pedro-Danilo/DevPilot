@@ -752,3 +752,7 @@ Execution source: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT
 ## GSDLC-12-D — repo428 local qualification
 
 12-C está cerrado Windows y repo428 es la autoridad. 12-D está implementado y calificado localmente con performance budgets, security red-team y resource/cost ceilings; Full Regression permanece 0/1 reservada para 12-E. 12-E no se autoriza hasta PASS Windows de 12-D.
+
+### GSDLC-12-D — Windows corrective v1.0.1
+
+Correctivo acotado sobre el implementation commit Windows existente: cierre determinístico de handles SQLite runtime y separación cold/steady-state en performance probe. Budgets e hard ceilings permanecen invariantes; Test Impact `25/194/315/0`; Full Regression `0`.

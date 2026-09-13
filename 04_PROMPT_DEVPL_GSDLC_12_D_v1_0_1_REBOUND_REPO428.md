@@ -84,3 +84,7 @@ Autoriza GSDLC-12-E solo después de PASS Windows. Si una Full hard-trigger fue 
 - API/UI solo cuando corresponda, siempre foreground; para browser usar tres consolas separadas: operador, API `8787`, UI `5173`.
 - Cada cierre registra explícitamente `network_used`, `external_api_used`, `secrets_exposed`, `mutations_performed`, identidad Git pre/post, S0/S1 y hashes de artefactos.
 - A→D: no Full por rutina. E: única logical Full del backlog salvo hard trigger previo owner-approved que ya haya consumido el budget. FAIL funcional = preservar y NO RERUN; recovery composite selectivo obligatorio.
+
+## Windows corrective v1.0.1
+
+La primera ejecución Windows alcanzó `apply=PASS` y creó el implementation commit `2f3873bef135c58f905b504ee178b90549126aa9`, pero `validate` bloqueó en focal por dos causas: (1) conexiones SQLite del runtime auth cerraban transacción pero no file handle al usar el context manager nativo, causando `WinError 32` al limpiar `auth.db`; (2) el benchmark p95 mezclaba la cold initialization específica de cada route con steady-state. El correctivo cierra handles explícitamente y separa cold probe de ocho muestras steady-state, sin relajar budgets/hard ceilings. El Test Impact current-active pasa a `25/194/315/0`; Full Regression sigue en `0`.

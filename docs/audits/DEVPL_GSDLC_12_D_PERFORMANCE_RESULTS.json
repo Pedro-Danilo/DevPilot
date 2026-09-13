@@ -3,18 +3,23 @@
   "status": "PASS",
   "updated": "2026-09-13",
   "measures": {
-    "project_state_parse_p95_ms": 1.516,
-    "source_registry_parse_p95_ms": 8.703,
-    "app_create_ms": 91.716,
-    "api_health_p95_ms": 11.529,
-    "api_settings_workspace_p95_ms": 685.015,
-    "api_project_status_p95_ms": 320.889,
-    "major_workbench_source_inventory_ms": 4.87,
-    "repo_inventory_ms": 140.131,
-    "docs_inventory_ms": 68.454,
-    "ui_source_inventory_ms": 2.836,
-    "large_fixture_inventory_ms": 33.859,
-    "benchmark_peak_kib": 87.2
+    "project_state_parse_p95_ms": 1.611,
+    "source_registry_parse_p95_ms": 9.234,
+    "app_create_ms": 98.429,
+    "api_health_p95_ms": 1.692,
+    "api_settings_workspace_p95_ms": 98.339,
+    "api_project_status_p95_ms": 402.788,
+    "major_workbench_source_inventory_ms": 4.161,
+    "repo_inventory_ms": 125.136,
+    "docs_inventory_ms": 61.918,
+    "ui_source_inventory_ms": 2.588,
+    "large_fixture_inventory_ms": 36.486,
+    "benchmark_peak_kib": 86.97
+  },
+  "api_cold_ms": {
+    "api_health_cold_ms": 3.285,
+    "api_settings_workspace_cold_ms": 958.621,
+    "api_project_status_cold_ms": 222.356
   },
   "budgets": {
     "project_state_parse_p95_ms": 25.0,
@@ -60,10 +65,10 @@
     "benchmark_peak_kib": true
   },
   "inventory": {
-    "repo_files": 4002,
-    "repo_bytes": 84164133,
+    "repo_files": 4005,
+    "repo_bytes": 85204397,
     "docs_files": 2091,
-    "docs_bytes": 21784991,
+    "docs_bytes": 21790496,
     "ui_source_files": 71,
     "ui_source_bytes": 888679,
     "major_workbench_files": 131,
@@ -71,10 +76,11 @@
     "large_fixture_files": 1200,
     "large_fixture_bytes": 324090
   },
-  "api_probe_mode": "FastAPI TestClient/in-process/loopback-free",
+  "api_probe_mode": "FastAPI TestClient/in-process/loopback-free; one cold probe recorded per route before 8 steady-state samples",
   "network_used": false,
   "external_api_used": false,
   "runtime_stores_copied": false,
   "browser_responsiveness": "prior 12-C real-browser evidence reused; 12-D does not modify UX/control surface",
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "corrective_note": "v1.0.1 records route cold probes separately and measures steady-state p95 after explicit warm-up; budgets and hard ceilings are unchanged."
 }

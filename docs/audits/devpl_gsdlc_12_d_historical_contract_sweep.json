@@ -32,6 +32,11 @@
       "artifact": "auth.db*/devpilot.db*/outputs/.pytest_cache/__pycache__/node_modules",
       "classification": "runtime-ephemeral",
       "action": "excluded from fixtures and final packages"
+    },
+    {
+      "artifact": "src/devpilot_core/identity/auth_store.py scoped SQLite lifecycle + 12-D steady-state performance probe",
+      "classification": "current-active",
+      "action": "correct Windows runtime resource leak and benchmark portability without rewriting historical performance snapshots or relaxing budgets"
     }
   ],
   "historical_assertions_rewritten_for_pytest": false,

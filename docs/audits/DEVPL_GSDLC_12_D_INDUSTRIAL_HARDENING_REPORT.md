@@ -62,3 +62,9 @@ El red-team detectó `CONSUMER-SESSION-PIGGYBACK`: `AgentExecutionPolicy` permit
 # Verificación ampliada
 
 La baseline incluye assembly/startup de FastAPI, latencia p95 in-process de health, workspace settings y Project Status, inventario de repo/docs/UI/workbenches, large fixture y peak-memory separado para no distorsionar latencia. El red-team incluye session fixation/revoke, cross-workspace, CSRF, path/symlink/archive traversal, stale preimage/approval binding, duplicate execute idempotency, prompt→forbidden-tool, model-route→tool separation, autonomous recovery, consumer-session piggyback, fake-local MCP write, provider freshness/fallback, oversized model input, token/cost ceilings, supply-chain y mode parity.
+
+## Windows corrective v1.0.1 — runtime-store lifecycle and performance probe portability
+
+La primera validación Windows bloqueó de forma legítima antes de cierre. El red-team descubrió que `sqlite3.Connection` usado como context manager cerraba la transacción pero no el file handle; en Windows esto impedía eliminar el `auth.db` temporal (`WinError 32`). `LocalAuthStore._connect()` pasa a ser un context manager propio que siempre ejecuta `close()`. El mismo leak podía amplificar latencias sucesivas del harness.
+
+La medición API también mezclaba la primera inicialización específica de cada route con el p95 steady-state. 12-D conserva exactamente los mismos budgets y hard ceilings, registra una cold probe por route y mide después ocho muestras steady-state. No se relaja ningún límite. El Test Impact current-active pasa a `25/194/315/0`; Full Regression permanece `0`, reservada para 12-E.

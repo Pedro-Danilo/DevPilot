@@ -548,3 +548,7 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 - Estado local: `IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`.
 - FRX v2.4: Full Regression 12-D=`0`; budget GSDLC-12=`0/1` reservado para 12-E.
 - GSDLC-12-E permanece **NO AUTORIZADO** hasta PASS Windows de 12-D.
+
+## 0.0.7 GSDLC-12-D Windows corrective v1.0.1
+
+La primera ejecución Windows bloqueó legítimamente durante validación focal, después del implementation commit y antes de cualquier cierre/promoción. Se corrigen dos superficies current-active: lifecycle de handles SQLite del auth runtime (`WinError 32` en Windows) y semántica del benchmark API para registrar cold probe separada del p95 steady-state. No se relaja ningún budget ni hard ceiling, no se repite browser, no se ejecuta Full Regression y el Test Impact queda `25/194/315/0`.

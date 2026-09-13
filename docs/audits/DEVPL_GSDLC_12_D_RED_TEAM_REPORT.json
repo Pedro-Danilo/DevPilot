@@ -52,6 +52,19 @@
       "retest": "PASS"
     },
     {
+      "id": "AUTH-RUNTIME-STORE-HANDLE-CLEANUP",
+      "severity": "S1",
+      "status": "PASS",
+      "exploitability": "blocked",
+      "evidence": {
+        "runtime_store": ".devpilot/auth/auth.db",
+        "temporary_root_removed": true,
+        "platform_requirement": "Windows file handles must be closed before cleanup"
+      },
+      "fix": "GSDLC-12-D scoped sqlite connection lifecycle",
+      "retest": "PASS"
+    },
+    {
       "id": "PATH-ESCAPE",
       "severity": "S0",
       "status": "PASS",

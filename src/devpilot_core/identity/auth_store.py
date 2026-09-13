@@ -222,8 +222,16 @@ class LocalAuthStore:
     def _open_initialized_connection(self) -> sqlite3.Connection:
         self.initialize(); return self._connect_raw()
 
-    def _connect(self) -> sqlite3.Connection:
-        return self._connect_raw()
+    @contextmanager
+    def _connect(self) -> Iterator[sqlite3.Connection]:
+        # sqlite3.Connection.__enter__/__exit__ manage transactions only; they do
+        # not close the underlying handle.  Keep short-lived read/write helpers
+        # explicitly scoped so Windows can delete runtime auth stores reliably.
+        con = self._connect_raw()
+        try:
+            yield con
+        finally:
+            con.close()
 
     def _connect_raw(self) -> sqlite3.Connection:
         try:

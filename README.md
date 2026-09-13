@@ -6794,3 +6794,7 @@ Execution source: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT
 ## GSDLC-12-D — local industrial hardening qualification
 
 12-C está cerrado Windows y repo428 es la autoridad. 12-D está implementado y calificado localmente con performance budgets, security red-team y resource/cost ceilings; Full Regression permanece 0/1 reservada para 12-E. 12-E no se autoriza hasta PASS Windows de 12-D.
+
+### GSDLC-12-D — Windows corrective v1.0.1
+
+La primera validación Windows bloqueó antes de cierre por un file-handle SQLite no cerrado en `LocalAuthStore` y por mezcla de cold route initialization con steady-state p95. El correctivo es acumulativo sobre el implementation commit ya creado, no repite `apply`, no relaja budgets/hard ceilings y actualiza Test Impact a `25/194/315/0`. Full Regression permanece `0/1` reservada para 12-E.

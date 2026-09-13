@@ -79,19 +79,28 @@ class IndustrialHardeningEvaluator:
             token = 'gsdlc12d-performance-local-token'
             auth = LocalAuthService(Path(auth_tmp))
             start = time.perf_counter(); app = create_app(self.root, api_token=token, auth_service=auth); app_create_ms = _ms(start)
-            client = TestClient(app)
             headers = {'X-DevPilot-Token': token, 'Origin': 'http://127.0.0.1:5173'}
             api_specs = {
                 'api_health_p95_ms': '/api/v1/health',
                 'api_settings_workspace_p95_ms': '/api/v1/settings/workspace',
                 'api_project_status_p95_ms': '/api/v1/guided-sdlc/status',
             }
-            for metric, route in api_specs.items():
-                for _ in range(8):
-                    start = time.perf_counter(); response = client.get(route, headers=headers); elapsed = _ms(start)
+            api_cold_ms: dict[str, float] = {}
+            # App construction above is the cold-start metric.  Each route gets one
+            # explicit cold probe before steady-state samples so Windows filesystem,
+            # SQLite and import caches cannot turn one-time initialization into a
+            # false p95 hard-ceiling failure.  The cold probe is still recorded.
+            with TestClient(app) as client:
+                for metric, route in api_specs.items():
+                    start = time.perf_counter(); response = client.get(route, headers=headers); cold_elapsed = _ms(start)
                     if response.status_code != 200 or response.json().get('ok') is not True:
-                        raise RuntimeError(f'12-D performance probe failed for {route}: HTTP {response.status_code}')
-                    api_times[metric].append(elapsed)
+                        raise RuntimeError(f'12-D performance cold probe failed for {route}: HTTP {response.status_code}')
+                    api_cold_ms[metric.replace('_p95_ms', '_cold_ms')] = cold_elapsed
+                    for _ in range(8):
+                        start = time.perf_counter(); response = client.get(route, headers=headers); elapsed = _ms(start)
+                        if response.status_code != 200 or response.json().get('ok') is not True:
+                            raise RuntimeError(f'12-D performance probe failed for {route}: HTTP {response.status_code}')
+                        api_times[metric].append(elapsed)
 
         # Memory/scan ceiling is measured separately so tracemalloc instrumentation does not
         # distort API latency. This keeps latency and peak-memory evidence independently meaningful.
@@ -141,7 +150,8 @@ class IndustrialHardeningEvaluator:
             'budget_checks': checks,
             'hard_ceiling_checks': hard_ceiling_checks,
             'inventory': {'repo_files': repo_files, 'repo_bytes': repo_bytes, 'docs_files': docs_files, 'docs_bytes': docs_bytes, 'ui_source_files': ui_files, 'ui_source_bytes': ui_bytes, 'major_workbench_files': major_workbench_files, 'major_workbench_bytes': major_workbench_bytes, 'large_fixture_files': large_files, 'large_fixture_bytes': large_bytes},
-            'api_probe_mode': 'FastAPI TestClient/in-process/loopback-free',
+            'api_probe_mode': 'FastAPI TestClient/in-process/loopback-free; one cold probe recorded per route before 8 steady-state samples',
+            'api_cold_ms': api_cold_ms,
             'network_used': False,
             'external_api_used': False,
             'runtime_stores_copied': False,
@@ -153,7 +163,9 @@ class IndustrialHardeningEvaluator:
         def case(case_id: str, ok: bool, severity: str, evidence: dict[str, Any], fix: str = 'existing-control') -> None:
             findings.append({'id': case_id, 'severity': severity, 'status': 'PASS' if ok else 'OPEN', 'exploitability': 'blocked' if ok else 'requires-fix', 'evidence': evidence, 'fix': fix, 'retest': 'PASS' if ok else 'PENDING'})
 
+        auth_tmp_root: str | None = None
         with tempfile.TemporaryDirectory(prefix='devpilot-12d-auth-') as tmp:
+            auth_tmp_root = tmp
             auth = LocalAuthService(Path(tmp), idle_timeout_seconds=60, absolute_timeout_seconds=300)
             issue = auth.bootstrap_owner(username='owner.local', display_name='Owner', password='correct horse battery staple')
             csrf_blocked = False
@@ -178,6 +190,9 @@ class IndustrialHardeningEvaluator:
             case('ROLE-DOWNGRADE-STALE-SESSION', downgraded_blocked, 'S0', {'stale_session_revoked': downgraded_blocked})
             cross_workspace_blocked = 'other-workspace' not in rotated.context.principal.workspace_scopes
             case('CROSS-WORKSPACE-SCOPE', cross_workspace_blocked, 'S0', {'workspace_scopes': list(rotated.context.principal.workspace_scopes), 'requested': 'other-workspace'})
+
+        auth_runtime_cleanup_ok = bool(auth_tmp_root) and not Path(str(auth_tmp_root)).exists()
+        case('AUTH-RUNTIME-STORE-HANDLE-CLEANUP', auth_runtime_cleanup_ok, 'S1', {'runtime_store': '.devpilot/auth/auth.db', 'temporary_root_removed': auth_runtime_cleanup_ok, 'platform_requirement': 'Windows file handles must be closed before cleanup'}, fix='GSDLC-12-D scoped sqlite connection lifecycle')
 
         guard = PathGuard(self.root)
         outside = guard.evaluate(self.root.parent / 'outside-secret.txt', action='read')

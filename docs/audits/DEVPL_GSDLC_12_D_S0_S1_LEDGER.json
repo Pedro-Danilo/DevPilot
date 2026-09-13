@@ -9,6 +9,7 @@
     "SESSION-FIXATION-ROTATION",
     "ROLE-DOWNGRADE-STALE-SESSION",
     "CROSS-WORKSPACE-SCOPE",
+    "AUTH-RUNTIME-STORE-HANDLE-CLEANUP",
     "PATH-ESCAPE",
     "DESTRUCTIVE-FILESYSTEM",
     "SYMLINK-REPARSE-ESCAPE",
@@ -28,6 +29,9 @@
     "SUPPLY-CHAIN-BYPASS",
     "GUIDED-EXPERT-AUTHORITY-PARITY"
   ],
-  "finding_total": 22,
-  "full_regression_runs": 0
+  "finding_total": 23,
+  "full_regression_runs": 0,
+  "windows_corrective_findings": [
+    "AUTH-RUNTIME-STORE-HANDLE-CLEANUP"
+  ]
 }

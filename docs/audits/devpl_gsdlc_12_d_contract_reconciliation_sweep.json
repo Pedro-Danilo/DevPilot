@@ -12,8 +12,10 @@
     "runtime_ephemeral_excluded": true,
     "sealed_evidence_rewritten": false,
     "successor_registry_recognized": true,
-    "derived_counters_test_impact_reconciled": "PASS/24/189/308/0",
-    "agent_session_actor_binding": "PASS/GSDLC-12-D"
+    "derived_counters_test_impact_reconciled": "PASS/25/194/315/0",
+    "agent_session_actor_binding": "PASS/GSDLC-12-D",
+    "auth_runtime_store_handle_lifecycle": "PASS/scoped sqlite handles/current-active",
+    "performance_probe_semantics": "PASS/cold recorded separately/steady-state p95/budgets unchanged"
   },
   "full_regression_runs": 0
 }

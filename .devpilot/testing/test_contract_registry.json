@@ -14376,11 +14376,13 @@
         "Guided/Expert/AI Control authority parity",
         "12-C browser evidence reused hash-bound because no 12-D UX change",
         "FRX-v2.4 cadence with Full Regression 0 in 12-D",
-        "actor-bound agent execution sessions block consumer-session piggyback and cross-actor cancellation"
+        "actor-bound agent execution sessions block consumer-session piggyback and cross-actor cancellation",
+        "Windows auth runtime SQLite handles are closed deterministically after scoped access"
       ],
       "watched_paths": [
         ".devpilot/security/industrial_hardening_policy.json",
         "src/devpilot_core/security/industrial_hardening.py",
+        "src/devpilot_core/identity/auth_store.py",
         "src/devpilot_core/agents/execution_policy.py",
         "tests/test_devpl_gsdlc_12_d_industrial_hardening.py",
         ".devpilot/testing/test_contract_registry.json",
