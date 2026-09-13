@@ -1587,10 +1587,7 @@
       "route_id": "ui.recovery",
       "shows_mutation_controls": true,
       "source_files": [
-        "ui/web/src/pages/RecoveryView.ts",
-        "ui/web/src/api/client.ts",
-        "ui/web/src/api/types.ts",
-        "ui/web/src/main.ts"
+        "ui/web/src/pages/RecoveryView.ts"
       ],
       "state_contract": {
         "block_visible": true,
@@ -1647,11 +1644,7 @@
       "route_id": "ui.reconciliation",
       "shows_mutation_controls": true,
       "source_files": [
-        "ui/web/src/pages/ConflictResolutionView.ts",
-        "ui/web/src/pages/ProjectStatusView.ts",
-        "ui/web/src/api/client.ts",
-        "ui/web/src/api/types.ts",
-        "ui/web/src/main.ts"
+        "ui/web/src/pages/ConflictResolutionView.ts"
       ],
       "state_contract": {
         "block_visible": true,
@@ -1673,6 +1666,46 @@
         "PENDING"
       ],
       "title": "Conflict Resolution"
+    },
+    {
+      "allowed_api_routes": [
+        "api.auth.session"
+      ],
+      "connector_write_allowed": false,
+      "critical": true,
+      "dry_run_badge_required": true,
+      "external_api_allowed": false,
+      "local_first_badge_required": true,
+      "local_only": true,
+      "no_remote_badge_required": true,
+      "notes": [
+        "GSDLC-12-C contextual HelpSystem is global, read-only and contains no server authority.",
+        "Guided/Expert preference changes presentation only; blockers and server policy remain authoritative."
+      ],
+      "owner": "ui.web",
+      "page_component": "HelpSystemView",
+      "path": "/help",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.help",
+      "shows_mutation_controls": false,
+      "source_files": [
+        "ui/web/src/pages/HelpSystemView.ts"
+      ],
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true
+      },
+      "status_visibility": [
+        "PASS",
+        "BLOCK",
+        "ERROR",
+        "PENDING"
+      ],
+      "title": "Ayuda y glosario"
     }
   ],
   "safety": {
@@ -1690,11 +1723,11 @@
   "status": "implemented-initial",
   "summary": {
     "allowed_api_routes_unique_total": 201,
-    "critical_routes_total": 21,
-    "current_routes_total": 21,
+    "critical_routes_total": 22,
+    "current_routes_total": 22,
     "dashboard_max_concurrency": 2,
     "document_inspection_api_routes_total": 4,
-    "dry_run_badged_routes_total": 21,
+    "dry_run_badged_routes_total": 22,
     "full_text_index_persistence": "memory-only",
     "governed_approval_request": true,
     "gsdlc_01_e_project_status_route_registered": true,
@@ -1759,17 +1792,17 @@
     "gsdlc_12_b_conflict_resolution_view": true,
     "gsdlc_12_b_reconciliation_api_routes_total": 3,
     "historical_uoc011_snapshot": ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
-    "last_updated_by": "DEVPL-GSDLC-12-B",
-    "local_only_routes_total": 21,
+    "last_updated_by": "DEVPL-GSDLC-12-C",
+    "local_only_routes_total": 22,
     "mutation_control_routes_total": 16,
-    "no_remote_badged_routes_total": 21,
+    "no_remote_badged_routes_total": 22,
     "opaque_document_identifiers": true,
     "post_h_015_d_operator_dashboard_ui_registered": true,
     "post_h_eval_002_01_d_ui_corrective": true,
     "read_only_document_routes_total": 1,
     "recursive_report_discovery": true,
     "reports_traces_route_specific": true,
-    "routes_total": 21,
+    "routes_total": 22,
     "runtime_evidence_only": true,
     "scoped_observability": true,
     "source_write_enabled": true,
@@ -1799,7 +1832,10 @@
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
-    "workspace_validation_api_routes_total": 4
+    "workspace_validation_api_routes_total": 4,
+    "gsdlc_12_c_guided_expert_modes": true,
+    "gsdlc_12_c_help_system": true,
+    "gsdlc_12_c_a11y_first_version": true
   },
-  "updated": "2026-09-12"
+  "updated": "2026-09-13"
 }

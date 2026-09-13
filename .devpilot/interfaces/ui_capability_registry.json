@@ -11778,7 +11778,7 @@
     "gsdlc_12_b_conflict_resolution_view": true,
     "gsdlc_12_b_project_status_conflict_projection": true,
     "gsdlc_12_b_reconciliation_api_routes_total": 3,
-    "last_updated_by": "DEVPL-GSDLC-12-B",
+    "last_updated_by": "DEVPL-GSDLC-12-C",
     "mutating_without_policy_total": 0,
     "parity_status_counts": {
       "CLI-BRIDGE-REGISTERED": 178,
@@ -11802,8 +11802,8 @@
       "sensitive": 68
     },
     "sensitive_ui_native_without_approval_total": 0,
-    "ui_routes_mapped_total": 21,
-    "ui_routes_total": 21,
+    "ui_routes_mapped_total": 22,
+    "ui_routes_total": 22,
     "uoc_001_read_only_document_surface_total": 1,
     "uoc_002_document_inspection_routes_total": 4,
     "uoc_002_document_links": true,
@@ -11857,7 +11857,11 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-12-B"
+    "updated_by": "DEVPL-GSDLC-12-B",
+    "gsdlc_12_c_guided_expert_modes": true,
+    "gsdlc_12_c_mode_policy_parity": true,
+    "gsdlc_12_c_help_system": true,
+    "gsdlc_12_c_keyboard_a11y": true
   },
   "ui_routes": [
     {
@@ -12956,8 +12960,31 @@
         "unauthorized": true
       },
       "title": "Conflict Resolution"
+    },
+    {
+      "allowed_api_route_ids": [
+        "api.auth.session"
+      ],
+      "connector_write_allowed": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "mapped_cli_capability_ids": [],
+      "page_component": "HelpSystemView",
+      "path": "/help",
+      "plugin_execution_allowed": false,
+      "remote_execution_allowed": false,
+      "route_id": "ui.help",
+      "shows_mutation_controls": false,
+      "state_contract": {
+        "loading": true,
+        "empty": true,
+        "error": true,
+        "block_visible": true,
+        "ready": true
+      },
+      "title": "Ayuda y glosario"
     }
   ],
-  "updated": "2026-09-12",
+  "updated": "2026-09-13",
   "version": "1.4.0"
 }

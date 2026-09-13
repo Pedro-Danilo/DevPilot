@@ -1,0 +1,14 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-C-TEST-IMPACT-V1",
+  "status": "PASS",
+  "updated": "2026-09-13",
+  "changed_paths_total": 31,
+  "matched_contracts_total": 184,
+  "recommended_tests_total": 300,
+  "unmatched_paths_total": 0,
+  "p0_selected_total": 114,
+  "p1_selected_total": 61,
+  "tests_executed": false,
+  "full_regression_runs": 0,
+  "full_regression_policy": "12-C A-D focal/cumulative only; budget 0/1 reserved for 12-E"
+}

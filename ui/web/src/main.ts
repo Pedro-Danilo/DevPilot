@@ -26,6 +26,9 @@ import { renderLoginView } from './pages/LoginView';
 import { renderFirstRunOwnerView } from './pages/FirstRunOwnerView';
 import { renderAccountRoleView } from './pages/AccountRoleView';
 import { renderSessionBanner } from './components/SessionBanner';
+import { renderExperienceModeControl } from './components/ExperienceModeControl';
+import { renderHelpSystemView } from './pages/HelpSystemView';
+import { initializeExperienceMode, readExperienceMode } from './ux/experienceMode';
 import './styles.css';
 import './planning.css';
 
@@ -56,8 +59,10 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center', scope: 'entry-or-project' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración', scope: 'global' },
   { path: '/account', routeId: 'ui.account-role', title: 'Cuenta / Roles', scope: 'global' },
+  { path: '/help', routeId: 'ui.help', title: 'Ayuda', scope: 'global' },
 ];
 
+initializeExperienceMode();
 void bootstrapAuthenticatedUi(root);
 
 async function bootstrapAuthenticatedUi(target: HTMLElement): Promise<void> {
@@ -137,14 +142,14 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     return redirect(`/?guard=${guard}&attempted=${attempted}`);
   }
   target.replaceChildren();
-  const shell = document.createElement('div'); shell.className = 'app-shell';
+  const shell = document.createElement('div'); shell.className = 'app-shell'; shell.dataset.experienceMode = readExperienceMode();
   const skipLink = document.createElement('a'); skipLink.className = 'skip-link'; skipLink.href = '#route-main'; skipLink.textContent = 'Saltar al contenido principal';
-  shell.append(skipLink, renderSessionBanner(session,()=>{ clearProjectJourneyContext(); clearProjectRecoveryIntent(); redirect('/login?reason=logout'); }), renderPrimaryNavigation(currentPath, journey, Boolean(handoffApprovalId)));
+  shell.append(skipLink, renderSessionBanner(session,()=>{ clearProjectJourneyContext(); clearProjectRecoveryIntent(); redirect('/login?reason=logout'); }), renderExperienceModeControl(), renderPrimaryNavigation(currentPath, journey, Boolean(handoffApprovalId)));
   const page = document.createElement('div'); page.className = 'route-page'; page.id = 'route-main'; page.setAttribute('role', 'main'); page.setAttribute('tabindex', '-1'); page.dataset.routePath = currentPath;
   if (!route) page.append(renderNotFound(currentPath));
   else if (route.path === '/') renderDashboard(page, session, new URLSearchParams(globalThis.location.search).get('guard'));
   else {
-    page.append(renderRouteHeader(route,session));
+    page.append(renderRouteHeader(route,session), renderExperienceModeContext(route, session));
     if (route.path === '/project/status') page.append(renderProjectStatusView(() => readStoredToken()));
     else if (route.path === '/pre-code') page.append(renderPreCodeWizardView(() => readStoredToken(), session));
     else if (route.path === '/planning/roadmap') page.append(renderRoadmapWorkbenchView(() => readStoredToken(), session));
@@ -166,8 +171,63 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     else if (route.path === '/approvals') page.append(renderApprovalCenterView({ tokenProvider: () => readStoredToken(), session, handoffApprovalId: handoffApprovalId || undefined }));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));
     else if (route.path === '/account') page.append(renderAccountRoleView(session));
+    else if (route.path === '/help') page.append(renderHelpSystemView());
   }
-  shell.append(page); target.append(shell);
+  shell.append(page); target.append(shell); queueMicrotask(() => page.focus());
+}
+
+
+function renderExperienceModeContext(route: UiRoute, session: AuthSessionContext): HTMLElement {
+  const wrap = document.createElement('section');
+  wrap.className = 'experience-mode-context';
+  wrap.setAttribute('aria-label', 'Contexto del modo de experiencia');
+  const guided = document.createElement('div');
+  guided.className = 'guided-only guided-focus';
+  const guidedTitle = document.createElement('strong');
+  guidedTitle.textContent = 'Guided · Qué hacer ahora';
+  const guidedCopy = document.createElement('span');
+  guidedCopy.textContent = guidedNextAction(route.path);
+  const guidedSafety = document.createElement('span');
+  guidedSafety.className = 'guided-focus__safety';
+  guidedSafety.textContent = 'Los blockers críticos siempre permanecen visibles.';
+  guided.append(guidedTitle, guidedCopy, guidedSafety);
+
+  const expert = document.createElement('details');
+  expert.className = 'expert-only expert-diagnostics';
+  expert.open = true;
+  const summary = document.createElement('summary');
+  summary.textContent = 'Expert diagnostics · autoridad sin cambios';
+  const dl = document.createElement('dl');
+  for (const [label, value] of [
+    ['Route ID', route.routeId],
+    ['Scope', route.scope],
+    ['Roles', session.principal.roles.join(', ') || 'none'],
+    ['Authority', 'server-side'],
+    ['RBAC / approvals / tools / models', 'identical-to-guided'],
+    ['Mode storage', 'browser UX preference only'],
+  ]) {
+    const row = document.createElement('div'); const dt = document.createElement('dt'); const dd = document.createElement('dd'); dt.textContent = label; dd.textContent = value; row.append(dt, dd); dl.append(row);
+  }
+  expert.append(summary, dl);
+  wrap.append(guided, expert);
+  return wrap;
+}
+
+function guidedNextAction(path: string): string {
+  const actions: Record<string, string> = {
+    '/': 'Elige Crear, Abrir o Importar y revisa el plan antes de ejecutar.',
+    '/project/status': 'Lee el estado actual y usa la siguiente acción determinística; resuelve cualquier blocker antes de avanzar.',
+    '/pre-code': 'Completa la etapa de ingeniería mostrada y conserva approvals/preimages vigentes.',
+    '/planning/roadmap': 'Revisa roadmap, backlog y sprint activo antes de pasar a implementación.',
+    '/story/code': 'Trabaja una historia por vez: plan, dry-run, approval cuando aplique, tests y evidencia.',
+    '/quality': 'Revisa resultados y blockers; no fuerces un gate fallido.',
+    '/release/readiness': 'Comprueba readiness antes de empaquetar o cambiar lifecycle.',
+    '/recovery': 'Revisa el contexto recuperable y revalida cualquier trabajo sensible antes de continuar.',
+    '/reconciliation': 'Revisa branch, HEAD y cambios externos; adopta autoridad solo después de review explícita.',
+    '/approvals': 'Aprueba únicamente operaciones cuyo actor, preimage y evidencia sigan vigentes.',
+    '/help': 'Consulta el glosario y las instrucciones de recovery sin cambiar autoridad.',
+  };
+  return actions[path] ?? 'Completa esta superficie y revisa su resultado antes de continuar. Los detalles avanzados están disponibles en Expert.';
 }
 
 function renderPrimaryNavigation(currentPath: string, journey: ProjectJourneyContext | null, auxiliaryApprovalHandoff = false): HTMLElement {
@@ -175,13 +235,18 @@ function renderPrimaryNavigation(currentPath: string, journey: ProjectJourneyCon
   nav.dataset.journeyPhase = journey?.phase ?? 'home';
   const brand = document.createElement(auxiliaryApprovalHandoff ? 'span' : 'a'); if(!auxiliaryApprovalHandoff)(brand as HTMLAnchorElement).href='/'; brand.className = 'primary-nav__brand'; brand.textContent = 'DevPilot Local';
   const links = document.createElement('div'); links.className = 'primary-nav__links';
+  const advanced = document.createElement('details'); advanced.className = 'primary-nav__advanced'; advanced.open = readExperienceMode() === 'expert';
+  const advancedSummary = document.createElement('summary'); advancedSummary.textContent = 'Más herramientas';
+  const advancedLinks = document.createElement('div'); advancedLinks.className = 'primary-nav__advanced-links';
+  advanced.append(advancedSummary, advancedLinks);
+  const guidedCorePaths = new Set(['/', '/project/status', '/pre-code', '/planning/roadmap', '/story/code', '/quality', '/release/readiness', '/recovery', '/reconciliation', '/approvals', '/help', '/account']);
   const visibleRoutes = UI_ROUTES.filter((item) => routeVisible(item, journey) && (!auxiliaryApprovalHandoff || item.path === '/approvals' || item.path === '/account'));
   for (const route of visibleRoutes) {
     const link=document.createElement('a'); link.href=route.path; link.textContent=route.title; link.dataset.routeId=route.routeId;
     if(route.path===currentPath||(route.path==='/jobs'&&currentPath.startsWith('/jobs/'))){link.classList.add('is-active');link.setAttribute('aria-current','page');}
-    links.append(link);
+    (guidedCorePaths.has(route.path) ? links : advancedLinks).append(link);
   }
-  nav.append(brand, links); return nav;
+  nav.append(brand, links); if (advancedLinks.childElementCount > 0 && !auxiliaryApprovalHandoff) nav.append(advanced); return nav;
 }
 
 function routeAllowed(route: UiRoute, journey: ProjectJourneyContext | null): boolean {

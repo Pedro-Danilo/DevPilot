@@ -1,0 +1,32 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-C-A11Y-REPORT-V1",
+  "status": "PASS/LOCAL-AUTOMATED",
+  "updated": "2026-09-13",
+  "first_version_wcag_oriented": true,
+  "browser_manual_status": "PENDING-WINDOWS",
+  "automated_checks": {
+    "keyboard_focus_contract": "PASS",
+    "skip_link": "PASS",
+    "visible_focus": "PASS",
+    "reduced_motion": "PASS",
+    "aria_live_error": "PASS",
+    "accessible_names": "PASS",
+    "responsive_breakpoints": "PASS",
+    "secret_literal_negative": "PASS"
+  },
+  "manual_windows_required": [
+    "keyboard-only traversal using Tab/Shift+Tab/Enter",
+    "visible focus order in Guided and Expert",
+    "focus restoration after route change and recovery error",
+    "responsive inspection at desktop and narrow viewport",
+    "same actor/project mode switch without authority change"
+  ],
+  "limitations": [
+    "This is a WCAG-oriented first version, not a formal WCAG conformance certification.",
+    "Multi-screen-reader/device/contrast-instrument coverage is deferred to later industrial accessibility hardening.",
+    "Real-browser evidence is mandatory before 12-C can close."
+  ],
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0
+}

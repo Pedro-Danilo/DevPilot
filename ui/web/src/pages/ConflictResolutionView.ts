@@ -1,5 +1,6 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { ReconciliationReport, ReconciliationStatusData } from '../api/types';
+import { renderAccessibleError, renderContextualHelp } from '../components/ContextualHelp';
 
 const ROUTE_ID = 'ui.reconciliation';
 
@@ -24,11 +25,14 @@ function fact(label: string, value: unknown): HTMLElement {
 }
 
 function renderError(error: unknown): HTMLElement {
-  const el = panel('Reconciliación bloqueada');
-  const p = document.createElement('p');
-  p.textContent = error instanceof DevPilotApiError ? error.message : error instanceof Error ? error.message : String(error);
-  el.append(p);
-  return el;
+  const status=error instanceof DevPilotApiError?error.status:undefined;
+  return renderAccessibleError({
+    title:'Reconciliación bloqueada',
+    plain:'DevPilot no pudo confirmar el drift actual. No se adoptó ninguna autoridad y no se ejecutó Git destructivo.',
+    status,
+    nextAction:'Actualice la vista una vez. Si el bloqueo continúa, preserve la evidencia y revise Recovery / Resume antes de mutar el workspace.',
+    evidenceRef:'ui.reconciliation.error',
+  });
 }
 
 export function renderReconciliationSummary(report: ReconciliationReport): HTMLElement {
@@ -62,6 +66,7 @@ export function renderReconciliationSummary(report: ReconciliationReport): HTMLE
   link.className = 'button-link';
   link.textContent = 'Abrir Conflict Resolution';
   wrap.append(link);
+  const expert=document.createElement('details');expert.className='expert-only expert-authority-trace';const summary=document.createElement('summary');summary.textContent='Snapshot / authority trace';const trace=document.createElement('p');trace.textContent=`snapshot=${String(report.snapshot?.snapshot_sha256??'n/a')} · report=${String(report.report_sha256??'n/a')} · authority-invalidations=${String(report.authority_invalidations?.length??0)}`;expert.append(summary,trace);wrap.append(expert);
   return wrap;
 }
 
@@ -116,7 +121,6 @@ export function renderConflictResolutionView(tokenProvider: () => string | null)
   const root = document.createElement('section');
   root.className = 'reconciliation-view';
   root.dataset.uiRouteId = ROUTE_ID;
-  root.setAttribute('aria-live', 'polite');
   const title = document.createElement('h2');
   title.textContent = 'Conflict Resolution';
   const intro = document.createElement('p');
@@ -124,29 +128,37 @@ export function renderConflictResolutionView(tokenProvider: () => string | null)
   const legend = document.createElement('p');
   legend.className = 'project-status-muted';
   legend.textContent = 'Estados: NO_CONFLICT · REVALIDATE · REPLAN_REQUIRED · MANUAL_RECONCILIATION_REQUIRED · READ_ONLY_BLOCK.';
+  const help=renderContextualHelp({
+    title:'Ayuda para conflictos externos',
+    plain:'Esta vista explica qué cambió fuera de DevPilot y si puede revalidarse o necesita reconciliación manual.',
+    technical:'La observación Git/filesystem es read-only. Guided/Expert comparten el mismo servicio, locks y policy; Expert solo expone hashes/IDs adicionales.',
+    nextAction:'Revise causa, riesgo y archivos observados. Use primero dry-run y nunca resuelva un conflicto ocultándolo.',
+    evidenceRef:'ui.reconciliation',
+  });
   const controls = document.createElement('div');
   controls.className = 'recovery-controls';
-  const refresh = document.createElement('button');
-  refresh.textContent = 'Actualizar drift';
-  const baselineDry = document.createElement('button');
-  baselineDry.textContent = 'Dry-run baseline';
-  const baselineApply = document.createElement('button');
-  baselineApply.textContent = 'Capturar baseline revisado';
-  const adoptDry = document.createElement('button');
-  adoptDry.textContent = 'Dry-run adopción';
-  const adoptApply = document.createElement('button');
-  adoptApply.textContent = 'Adoptar autoridad revisada';
+  controls.setAttribute('aria-label','Controles de reconciliación');
+  const refresh = document.createElement('button'); refresh.type='button'; refresh.textContent = 'Actualizar drift';
+  const baselineDry = document.createElement('button'); baselineDry.type='button'; baselineDry.textContent = 'Dry-run baseline';
+  const baselineApply = document.createElement('button'); baselineApply.type='button'; baselineApply.textContent = 'Capturar baseline revisado';
+  const adoptDry = document.createElement('button'); adoptDry.type='button'; adoptDry.textContent = 'Dry-run adopción';
+  const adoptApply = document.createElement('button'); adoptApply.type='button'; adoptApply.textContent = 'Adoptar autoridad revisada';
   controls.append(refresh, baselineDry, baselineApply, adoptDry, adoptApply);
   const content = document.createElement('div');
-  root.append(title, intro, legend, controls, content);
+  content.className='reconciliation-content';
+  content.setAttribute('role','status');
+  content.setAttribute('aria-live','polite');
+  content.setAttribute('aria-atomic','false');
+  root.append(title, intro, legend, help, controls, content);
   const api = () => new DevPilotApiClient({ token: tokenProvider() });
   const load = async () => {
+    content.setAttribute('aria-busy','true');
     try {
       const response = await api().reconciliationStatus();
       content.replaceChildren(renderReport(response.data));
     } catch (error) {
       content.replaceChildren(renderError(error));
-    }
+    } finally { content.setAttribute('aria-busy','false'); }
   };
   const mutation = async (kind: 'baseline'|'adopt', execute: boolean) => {
     try {

@@ -18,6 +18,7 @@ export function renderAIControlCenterShell(options: AIControlCenterShellOptions)
         <span class="badge pass">AI CONTROL CENTER</span>
         <h3>Centro de control de IA</h3>
         <p>Administra Model Gateway sin mezclar la autoridad de Agent Runtime ni Skills/Tools.</p>
+        <p class="mode-policy-parity-note" data-mode-policy-parity="server-authority-identical"><strong>Guided/Expert parity:</strong> el modo de experiencia cambia presentación y diagnósticos; nunca concede provider, model, tool, approval ni mutability adicionales.</p>
         <div class="grid three-cols authority-boundaries">
           <div class="list-item"><strong>Model Gateway</strong><br/><small>provider/model/access-route, costo, budget y fallback.</small></div>
           <div class="list-item"><strong>Agent Runtime</strong><br/><small>${escapeHtml(options.agentRuntimeStatus ?? 'Autoridad separada; no gestionada desde esta sub-vista.')}</small></div>

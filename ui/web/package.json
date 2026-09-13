@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.36.0-gsdlc-12-b",
+  "version": "0.37.0-gsdlc-12-c",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI — GSDLC-12-B branch/external-edit reconciliation and conflict UX.",
@@ -45,7 +45,8 @@
     "test:release-metadata": "node scripts/gsdlc11d-release-metadata-smoke.mjs",
     "test:release-closure": "node scripts/gsdlc11e-release-closure-smoke.mjs",
     "test:recovery": "node scripts/gsdlc12a-recovery-smoke.mjs",
-    "test:reconciliation": "node scripts/gsdlc12b-reconciliation-smoke.mjs"
+    "test:reconciliation": "node scripts/gsdlc12b-reconciliation-smoke.mjs",
+    "smoke:gsdlc12c": "node scripts/gsdlc12c-accessibility-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

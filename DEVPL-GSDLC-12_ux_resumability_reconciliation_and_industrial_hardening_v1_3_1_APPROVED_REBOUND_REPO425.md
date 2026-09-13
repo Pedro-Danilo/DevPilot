@@ -39,6 +39,10 @@ validation_policy: "A-D cumulative-selective+TestImpact; no routine Full; E exac
 documentation_contract_policy: "DEVPL_DOCUMENTATION_CONTRACT_RECONCILIATION_POLICY_v1_0_0_APPROVED"
 documentation_drift_policy: "bounded non-critical drift repaired in active/next micro-sprint; no standalone sprint/operator/repo"
 runtime_ephemeral_fixture_policy: "exclude auth.db*, devpilot.db* and equivalent runtime stores"
+current_execution_source_repo: "repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip"
+current_execution_source_commit: "d65db36f3f430f2e96357a931a7da14a8ee8a9e5"
+current_execution_source_sha256: "764fbf23439091a869519c1ccd3963c5e733499ee91523b8b60f47862671d370"
+current_execution_micro_sprint: "DEVPL-GSDLC-12-C"
 ---
 
 # 0.0 Owner APPROVE, predecessor closure adjudication y execution rebind — 2026-09-12
@@ -518,3 +522,13 @@ Un `PASS-WITH-GAPS` solo puede autorizar el siguiente backlog cuando los gaps es
 ## GSDLC-12-B — cierre Windows
 
 `CLOSED/PASS/WINDOWS-VALIDATED`. Browser real demostró conflicto recuperable `REVALIDATE` y conflicto `MANUAL_RECONCILIATION_REQUIRED`, ambos explícitos y sin Git destructivo automático. S0/S1=0; Full Regression=0; budget GSDLC-12 permanece `0/1` reservado para 12-E. Successor: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-C queda autorizado.
+
+## 0.0.5 GSDLC-12-C execution rebind and local implementation qualification — repo427
+
+- `GSDLC-12-B = CLOSED/PASS/WINDOWS-VALIDATED` con browser real, S0/S1=0 y Full Regression=0.
+- Fuente de ejecución efectiva: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip`, commit `d65db36f3f430f2e96357a931a7da14a8ee8a9e5`, SHA-256 `764fbf23439091a869519c1ccd3963c5e733499ee91523b8b60f47862671d370`.
+- Guided/Expert se implementan como preferencia de presentación UX; la autoridad server-side permanece idéntica.
+- HelpSystem/contextual help, foco, teclado, ARIA/live regions y responsive constituyen la primera versión WCAG-oriented de 12-C.
+- Estado local: `IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`.
+- FRX v2.4: Full Regression 12-C=`0`; budget GSDLC-12=`0/1` reservado para 12-E.
+- GSDLC-12-D permanece **NO AUTORIZADO** hasta PASS Windows/browser de 12-C.

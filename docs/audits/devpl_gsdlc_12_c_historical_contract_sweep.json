@@ -1,0 +1,15 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-C-HISTORICAL-CONTRACT-SWEEP-V1",
+  "status": "PASS",
+  "updated": "2026-09-13",
+  "classifications": [
+    {"artifact":"historical UOC/early GSDLC UI snapshots","classification":"historical-freeze","action":"preserved; route counts at historical close are not rewritten"},
+    {"artifact":".devpilot/interfaces/ui_route_contract_registry.json + ui_capability_registry.json","classification":"current-active/derived","action":"reconciled for ui.help and Guided/Expert current presentation contract"},
+    {"artifact":"GSDLC-12-A/12-B Windows evidence and CLOSED/PASS state","classification":"historical-freeze","action":"preserved; no evidence rewrite"},
+    {"artifact":"GSDLC-12-C mode/help/a11y contract and evidence","classification":"successor-needed","action":"added as successor without rewriting predecessor facts"},
+    {"artifact":"auth.db*/devpilot.db*/.pytest_cache/__pycache__/node_modules","classification":"runtime-ephemeral","action":"excluded from fixtures and final packages"}
+  ],
+  "findings_s0": 0,
+  "findings_s1": 0,
+  "full_regression_runs": 0
+}

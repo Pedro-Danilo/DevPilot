@@ -1,0 +1,29 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-C-MODE-POLICY-PARITY-V1",
+  "status": "PASS/LOCAL-CONTRACT",
+  "updated": "2026-09-13",
+  "authority_equivalent": true,
+  "guided": {
+    "server_authority": "UNCHANGED",
+    "rbac": "UNCHANGED",
+    "approvals": "UNCHANGED",
+    "tool_permissions": "UNCHANGED",
+    "model_permissions": "UNCHANGED",
+    "mutability": "UNCHANGED",
+    "presentation": "progressive-disclosure/next-action-focus"
+  },
+  "expert": {
+    "server_authority": "UNCHANGED",
+    "rbac": "UNCHANGED",
+    "approvals": "UNCHANGED",
+    "tool_permissions": "UNCHANGED",
+    "model_permissions": "UNCHANGED",
+    "mutability": "UNCHANGED",
+    "presentation": "diagnostics/ids/hashes/authority-traces"
+  },
+  "ai_control_center_parity": true,
+  "recovery_parity": true,
+  "reconciliation_parity": true,
+  "browser_storage_authority": false,
+  "full_regression_runs": 0
+}
