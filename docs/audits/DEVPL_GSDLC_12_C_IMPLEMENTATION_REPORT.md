@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-12-C-IMPLEMENTATION-REPORT"
 title: "DEVPL-GSDLC-12-C — Guided vs Expert modes, accessibility and help implementation report"
-status: "local-functional-qualified/windows-validation-pending"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-13"
-approval: "local-qualification-pass/windows-browser-pending"
+approval: "windows-validation-pass/owner-browser-adjudicated"
 ---
 
 # Objetivo
@@ -55,3 +55,7 @@ Se incorpora `HelpSystemView`, ayuda contextual y glosario, errores plain+techni
 # Evolución posterior
 
 12-C entrega una primera versión WCAG-oriented. Una auditoría formal de conformidad y una matriz ampliada de tecnologías asistivas deben tratarse como hardening industrial posterior, sin reinterpretar este cierre como certificación WCAG completa.
+
+# Cierre Windows
+
+Browser real Guided+Expert+keyboard+error-focus = PASS, S0/S1=0, Full Regression=0. Successor `repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip`. 12-D autorizado. Los hashes concretos de screenshots y evidence ZIP permanecen fuera del source repo en evidencia Windows sellada.

@@ -1,9 +1,9 @@
 {
   "schema_id": "DEVPL-GSDLC-12-C-A11Y-REPORT-V1",
-  "status": "PASS/LOCAL-AUTOMATED",
+  "status": "PASS/WINDOWS-REAL-BROWSER",
   "updated": "2026-09-13",
   "first_version_wcag_oriented": true,
-  "browser_manual_status": "PENDING-WINDOWS",
+  "browser_manual_status": "PASS/REAL-BROWSER",
   "automated_checks": {
     "keyboard_focus_contract": "PASS",
     "skip_link": "PASS",
@@ -28,5 +28,6 @@
   ],
   "s0_open": 0,
   "s1_open": 0,
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "real_browser_runs": 1
 }

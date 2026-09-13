@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-GSDLC-12-C-USABILITY-SESSION-REPORT"
 title: "DEVPL-GSDLC-12-C — Guided/Expert usability session report"
-status: "local-qualified/windows-browser-pending"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-13"
-approval: "local-automated-pass/browser-owner-adjudication-pending"
+approval: "windows-real-browser-pass/owner-adjudicated"
 ---
 
 # Objetivo
@@ -53,3 +53,7 @@ Demostrar que un usuario no experto puede completar un journey Guided mediante s
 # Riesgo residual
 
 Primera versión WCAG-oriented. Una auditoría formal multi-screen-reader/dispositivo/contraste queda como hardening industrial posterior; no se declara conformidad WCAG completa en 12-C.
+
+# Resultado Windows
+
+`PASS/REAL-BROWSER`: Guided, Expert, keyboard-only, error/recovery focus y responsive manual checklist completados con el mismo actor/proyecto. S0/S1=0.

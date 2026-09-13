@@ -1,6 +1,6 @@
 {
   "schema_id": "DEVPL-GSDLC-12-C-MODE-POLICY-PARITY-V1",
-  "status": "PASS/LOCAL-CONTRACT",
+  "status": "PASS/WINDOWS-REAL-BROWSER",
   "updated": "2026-09-13",
   "authority_equivalent": true,
   "guided": {
@@ -25,5 +25,7 @@
   "recovery_parity": true,
   "reconciliation_parity": true,
   "browser_storage_authority": false,
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "real_browser_runs": 1,
+  "browser_parity_confirmed": true
 }

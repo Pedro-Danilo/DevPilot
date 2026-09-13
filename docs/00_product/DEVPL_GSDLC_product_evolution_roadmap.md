@@ -742,3 +742,8 @@ Execution source: repo426 (`f79f5d32c928247039feeecb9c773b75343b6a2e`, SHA-256 `
 ## DEVPL-GSDLC-12-C — Guided/Expert, accessibility and help local qualification
 
 Execution source: `repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip` (`d65db36f3f430f2e96357a931a7da14a8ee8a9e5`, SHA-256 `764fbf23439091a869519c1ccd3963c5e733499ee91523b8b60f47862671d370`). Guided mode prioriza next action y progressive disclosure sin ocultar blockers; Expert añade diagnósticos/IDs/hashes sin ampliar autoridad. Se incorporan HelpSystem contextual, glosario, errores plain+technical seguros, keyboard/focus/ARIA/live-region y responsive hardening. Estado: `IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; Full Regression=0; GSDLC-12 budget=0/1 reservado para 12-E; 12-D permanece no autorizado hasta PASS Windows/browser de 12-C.
+
+
+## GSDLC-12-C — cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`. Una sesión real-browser sobre el mismo actor/proyecto demostró Guided y Expert con presentación distinta y autoridad idéntica, navegación keyboard-only sin trap, ayuda contextual, error/recovery con foco correcto y responsive layout. S0/S1=0; Full Regression=0; budget GSDLC-12 permanece `0/1` reservado para 12-E. Successor: `repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-D queda autorizado.
