@@ -13,11 +13,15 @@
   "s1_open": 0,
   "notes": [
     "No product runtime change in 12-E local implementation; closure orchestration/evidence only.",
-    "Exactly-one Full remains reserved for Windows after browser and pre-Full gates."
+    "Exactly-one Full remains reserved for Windows after browser and pre-Full gates.",
+    "Corrective v1.0.2 reconciles current-active release-candidate criteria and Project State/Source Registry aliases before browser/Full; historical snapshots remain unchanged."
   ],
-  "test_impact": "18/170/288/0",
+  "test_impact": "19/170/288/0",
   "tcr_v1": "PASS",
   "tcr_v2": "PASS",
   "full_regression_profile": "frx-v2.4-current",
-  "full_regression_profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
+  "full_regression_profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
+  "release_candidate_evidence_freshness": "PASS",
+  "release_candidate_final_aggregator": "PASS",
+  "current_authority_reconciliation": "PASS/repo429+GSDLC-12-E"
 }

@@ -1,14 +1,15 @@
 {
   "schema_id": "DEVPL-GSDLC-12-E-SOURCE-DELTA-MANIFEST-V1",
-  "status": "PASS/LOCAL-MANIFEST",
+  "status": "PASS/LOCAL-MANIFEST/CORRECTIVE-v1.0.2",
   "updated": "2026-09-13",
   "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
   "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
-  "changed_paths_total": 18,
+  "changed_paths_total": 19,
   "changed_paths": [
     ".devpilot/docs_governance/source_registry.json",
     ".devpilot/project_state.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
     ".devpilot/testing/test_contract_registry.json",
     ".devpilot/testing/test_contract_registry_v2.json",
     "05_PROMPT_DEVPL_GSDLC_12_E_v1_0_1_REBOUND_REPO429.md",
@@ -27,5 +28,6 @@
     "docs/audits/DEVPL_GSDLC_12_E_TEST_IMPACT.json"
   ],
   "runtime_ephemeral_paths": [],
-  "full_regression_runs": 0
+  "full_regression_runs": 0,
+  "corrective_note": "Current-active release freshness criteria and global current pointers reconciled before browser/Full; no historical snapshot rewritten."
 }

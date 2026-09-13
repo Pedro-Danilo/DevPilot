@@ -25,3 +25,6 @@ La Full puede terminar con FAIL funcional. Ese resultado se preserva; no se rela
 
 # Verificación
 La guía Windows única y el operador state-aware materializan el orden irreversible y la recuperación de interrupciones infra dentro de la misma sesión.
+
+# Corrective v1.0.2 — current-active release freshness reconciliation
+El focal Windows v1.0.1 detectó correctamente un drift heredado: `.devpilot/release/local_release_candidate_criteria.json` seguía esperando GSDLC-11-E/repo424 mientras Project State ya estaba en GSDLC-12-E. Se clasifica como `current-active/derived`, no como hecho histórico. El corrective sincroniza criteria + `current_repo` + aliases GSDLC de Project State/Source Registry con repo429/12-E, mantiene los snapshots históricos intactos y eleva el source delta a `19/170/288/0`. EvidenceFreshnessScanner y LocalReleaseCandidateReporter deben quedar PASS antes de crear fixture o consumir la Full.

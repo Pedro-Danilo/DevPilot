@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -37302,7 +37302,7 @@
   "gsdlc_current_micro_sprint": "DEVPL-GSDLC-12-E",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-12-E",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
-  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-12-C",
+  "gsdlc_next_micro_sprint": "DEVPL-GSDLC-13",
   "gsdlc_program_status": "active/GSDLC-12;12-A-CLOSED;12-B-AUTHORIZED",
   "gsdlc_r01_last_registered_micro_sprint": "DEVPL-GSDLC-R01-E",
   "gsdlc_r01_program_status": "closed/PASS",
