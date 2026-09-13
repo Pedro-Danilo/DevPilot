@@ -1,0 +1,12 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-E-TEST-IMPACT-V1",
+  "status": "PASS",
+  "updated": "2026-09-13",
+  "changed_paths_total": 18,
+  "matched_contracts_total": 170,
+  "recommended_tests_total": 288,
+  "unmatched_paths_total": 0,
+  "tests_executed": false,
+  "full_regression_runs": 0,
+  "full_regression_policy": "Exactly-one Full reserved for Windows after browser/pre-Full gates; local Full=0"
+}

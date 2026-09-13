@@ -1,0 +1,23 @@
+{
+  "updated": "2026-09-13",
+  "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
+  "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
+  "schema_id": "DEVPL-GSDLC-12-E-LOCAL-QUALIFICATION-V1",
+  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "browser_matrix": "PENDING/WINDOWS",
+  "clean_install": "PENDING/WINDOWS",
+  "full_regression_runs": 0,
+  "budget": "0/1",
+  "s0_open": 0,
+  "s1_open": 0,
+  "notes": [
+    "No product runtime change in 12-E local implementation; closure orchestration/evidence only.",
+    "Exactly-one Full remains reserved for Windows after browser and pre-Full gates."
+  ],
+  "test_impact": "18/170/288/0",
+  "tcr_v1": "PASS",
+  "tcr_v2": "PASS",
+  "full_regression_profile": "frx-v2.4-current",
+  "full_regression_profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
+}

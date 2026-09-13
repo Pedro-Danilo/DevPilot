@@ -1,0 +1,21 @@
+{
+  "updated": "2026-09-13",
+  "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
+  "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
+  "schema_id": "DEVPL-GSDLC-12-E-CONTRACT-RECONCILIATION-V1",
+  "status": "PASS/LOCAL-PREFULL",
+  "checks": [
+    "schemas/current-active",
+    "derived counters/registries",
+    "RBAC/approval/MIASI/tool bindings",
+    "UI route/capability mappings",
+    "Project State/Source Registry/README/roadmap",
+    "historical snapshots",
+    "runtime-ephemeral exclusion",
+    "sealed evidence immutability",
+    "successor recognition"
+  ],
+  "blocking_findings": [],
+  "full_regression_runs": 0
+}

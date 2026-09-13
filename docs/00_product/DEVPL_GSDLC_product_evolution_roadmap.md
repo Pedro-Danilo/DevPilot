@@ -761,3 +761,7 @@ Correctivo acotado sobre el implementation commit Windows existente: cierre dete
 ## GSDLC-12-D — cierre Windows
 
 `CLOSED/PASS/WINDOWS-VALIDATED`. Performance/security/resource hardening valida S0/S1=0, actor-bound agent sessions, scoped Windows auth-store handles, ModelRouteDecision separado de ToolExecutionDecision, fake-local MCP/write blocked, provider/fallback freshness, bounded jobs/tokens/cost and supply-chain controls. No UX/control surface changed; 12-C browser evidence remains hash-bound. Test Impact `25/194/315/0`; Full Regression=0; GSDLC-12 budget remains `0/1` reserved for 12-E. Successor: `repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip`. GSDLC-12-E queda autorizado.
+
+## GSDLC-12-E — local closure qualification
+
+12-D está `CLOSED/PASS/WINDOWS-VALIDATED` y repo429 es la única autoridad de ejecución. 12-E queda implementado localmente como cierre de DEVPL-GSDLC-12: browser matrix real obligatorio, clean-install preliminar, current-authority/HCA/Contract Reconciliation, FRX-v2.4 profile/preflight y exactamente una logical Full `DEVPL-GSDLC-12-E-FULL-01`. La Full aún no se consume localmente (`0/1`) y solo Windows puede adjudicar PASS/composite y generar el RC autoritativo. No se permite una segunda Full.

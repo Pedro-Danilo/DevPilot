@@ -24763,9 +24763,92 @@
         "docs/audits/DEVPL_GSDLC_12_D_TEST_IMPACT.json",
         "docs/audits/DEVPL_GSDLC_12_D_LOCAL_QUALIFICATION_REPORT.json"
       ]
+    },
+    {
+      "capability": "GSDLC12ELocalRCClosure",
+      "classification_notes": [
+        "12-E is closure/orchestration only; no new product authority.",
+        "Exactly one logical Full uses current FRX-v2.4 execution profile after browser and pre-Full gates.",
+        "Functional Full failure is immutable and recovered only by selective composite evidence; second Full forbidden."
+      ],
+      "classification_status": "explicit",
+      "contract_id": "gsdlc12e-local-rc-closure",
+      "cost_class": "high",
+      "criticality": "P0",
+      "domain": "governance.testing",
+      "execution_profile": "release",
+      "expected_duration_seconds": 14400,
+      "external_api_allowed": false,
+      "impact_scope": [
+        "full-regression",
+        "browser-matrix",
+        "release-candidate",
+        "docs-governance",
+        "historical-contracts",
+        "clean-install"
+      ],
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-GSDLC-12-E",
+      "owner_domain": "testing.regression",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_release_candidate_report.py tests/test_project_global_state.py"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": true,
+      "risk_level": "critical",
+      "schema_ids": [],
+      "schema_version": "2.0",
+      "service_boundary": "testing",
+      "source_contract_id": "gsdlc12e-local-rc-closure",
+      "source_mutations_allowed": false,
+      "subgate_id": "gsdlc-12-e-local-rc-closure",
+      "test_files": [
+        "tests/test_frx_v2_4_b_execution_profile_lock.py",
+        "tests/test_post_h_026_release_candidate_profile.py",
+        "tests/test_post_h_026_release_candidate_report.py",
+        "tests/test_project_global_state.py"
+      ],
+      "test_type": "integration",
+      "trigger_hints": [
+        "gsdlc-12-e",
+        "full-regression",
+        "release-candidate",
+        "browser-matrix",
+        "frx-v2.4"
+      ],
+      "validates": [
+        "pre-Full irreversible ordering",
+        "current profile hash lock",
+        "exactly-one logical Full and no second Full",
+        "composite recovery after functional failure",
+        "RC tracked-only exact commit and clean-install smoke",
+        "GSDLC-12 closure authority"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "05_PROMPT_DEVPL_GSDLC_12_E_v1_0_1_REBOUND_REPO429.md",
+        "DEVPL-GSDLC-12_ux_resumability_reconciliation_and_industrial_hardening_v1_3_1_APPROVED_REBOUND_REPO425.md",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_GSDLC_12_E_BROWSER_MATRIX_PLAN.json",
+        "docs/audits/DEVPL_GSDLC_12_E_CLEAN_INSTALL_PLAN.json",
+        "docs/audits/DEVPL_GSDLC_12_E_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_12_E_FULL_REGRESSION_EXECUTION_PLAN.json",
+        "docs/audits/DEVPL_GSDLC_12_E_HISTORICAL_CONTRACT_SWEEP.json",
+        "docs/audits/DEVPL_GSDLC_12_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_GSDLC_12_E_LOCAL_QUALIFICATION_REPORT.json",
+        "docs/audits/DEVPL_GSDLC_12_E_RC_MANIFEST_TEMPLATE.json",
+        "docs/audits/DEVPL_GSDLC_12_E_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_GSDLC_12_E_TEST_IMPACT.json"
+      ]
     }
   ],
-  "contracts_total": 340,
+  "contracts_total": 341,
   "created_by": "POST-H-003-E",
   "description": "Deterministic dry-run migration output from Test Contract Registry v1 to v2. POST-H-029-B adds TestImpactRuleRegistry as declarative impact rule source and enriches P0/P1 contracts with owner_domain/service_boundary/subgate/schema metadata where applicable. POST-H-034-CLOSURE follow-up adds explicit Git read-only timeout hardening coverage. UOC-000 adds an explicit P0 contract for operational console capability and resource schemas. UOC-001 adds an explicit P0 read-only document boundary contract. UOC-003 adds explicit P0 validation/traceability coverage. DEVPL-GSDLC-00-A adds explicit P0 program activation/pilot-pause classification. DEVPL-GSDLC-00-C adds explicit P0 architecture-target classification without runtime changes.",
   "generated_from": ".devpilot/testing/test_contract_registry.json",

@@ -1,0 +1,16 @@
+{
+  "updated": "2026-09-13",
+  "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
+  "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
+  "schema_id": "DEVPL-GSDLC-12-E-FULL-PLAN-V1",
+  "status": "READY/NOT-CONSUMED",
+  "session_id": "DEVPL-GSDLC-12-E-FULL-01",
+  "profile_id": "frx-v2.4-current",
+  "profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
+  "budget_before": "0/1",
+  "logical_full_allowed": 1,
+  "second_full_allowed": false,
+  "functional_fail_policy": "PRESERVE/NO-RERUN/COMPOSITE-RECOVERY",
+  "infra_interrupt_policy": "RESUME-SAME-SESSION-UNEXECUTED-ONLY"
+}
