@@ -32,7 +32,7 @@ def _git(root: Path, *args: str, check: bool = True) -> str:
     return completed.stdout.strip()
 
 
-def _workspace(tmp_path: Path) -> tuple[Path, Path, _Resolver, AdvancedWorkspaceReconciliationService]:
+def _workspace(tmp_path: Path, *, autocrlf: bool = False) -> tuple[Path, Path, _Resolver, AdvancedWorkspaceReconciliationService]:
     platform = tmp_path / "platform"
     workspace = tmp_path / "workspace" / "devpilot-local"
     platform.mkdir(parents=True)
@@ -40,6 +40,8 @@ def _workspace(tmp_path: Path) -> tuple[Path, Path, _Resolver, AdvancedWorkspace
     subprocess.run(["git", "init", "-q", str(workspace)], check=True)
     _git(workspace, "config", "user.email", "gsdlc12b@example.invalid")
     _git(workspace, "config", "user.name", "GSDLC 12-B")
+    if autocrlf:
+        _git(workspace, "config", "core.autocrlf", "true")
     (workspace / "tracked.txt").write_text("v1\n", encoding="utf-8")
     _git(workspace, "add", "tracked.txt")
     _git(workspace, "commit", "-q", "-m", "initial")
@@ -188,3 +190,36 @@ def test_12_b_multi_session_lock_blocks_duplicate_baseline_authority_write(tmp_p
     locks.acquire(action_id=service.LOCK_ACTION, actor="other", session_created_at="2026-09-12T20:00:00Z", rotation_counter=0, sensitive=True, ttl_seconds=300)
     with pytest.raises(ReconciliationStateError):
         service.baseline(actor="owner", session_created_at="2026-09-12T20:01:00Z", rotation_counter=0, execute=True, confirmation="CAPTURE_RECONCILIATION_BASELINE")
+
+def test_12_b_crlf_physical_representation_does_not_create_false_reconciliation_drift(tmp_path: Path) -> None:
+    _, workspace, _, service = _workspace(tmp_path)
+    (workspace / ".gitattributes").write_text("*.txt text eol=crlf\n", encoding="utf-8")
+    _git(workspace, "add", ".gitattributes")
+    _git(workspace, "commit", "-q", "-m", "declare CRLF worktree policy")
+    # A CRLF physical worktree can appear in porcelain as an unstaged MODIFY
+    # while Git's normalized diff is empty. Physical EOL representation alone
+    # is not engineering drift and must not block baseline capture.
+    (workspace / "tracked.txt").write_bytes(b"v1\r\n")
+    status = subprocess.run(["git", "-C", str(workspace), "status", "--porcelain=v1"], capture_output=True, text=True, check=True).stdout
+    diff = subprocess.run(["git", "-C", str(workspace), "diff", "--quiet", "--no-ext-diff", "--", "tracked.txt"], check=False)
+    assert "tracked.txt" in status
+    assert diff.returncode == 0
+    result = _baseline(service)
+    assert result["status"] == "PASS"
+    report = _inspect(service)
+    assert report["classification"] == "NO_CONFLICT"
+    assert report["snapshot"]["changes"] == []
+
+
+def test_12_b_crlf_filter_does_not_hide_real_external_edit(tmp_path: Path) -> None:
+    _, workspace, _, service = _workspace(tmp_path)
+    (workspace / ".gitattributes").write_text("*.txt text eol=crlf\n", encoding="utf-8")
+    _git(workspace, "add", ".gitattributes")
+    _git(workspace, "commit", "-q", "-m", "declare CRLF worktree policy")
+    (workspace / "tracked.txt").write_bytes(b"v1\r\n")
+    _baseline(service)
+    (workspace / "tracked.txt").write_bytes(b"external\r\n")
+    report = _inspect(service)
+    assert report["classification"] == "REVALIDATE"
+    assert [row["path"] for row in report["snapshot"]["changes"]] == ["tracked.txt"]
+

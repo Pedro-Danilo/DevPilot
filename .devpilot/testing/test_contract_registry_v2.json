@@ -24451,7 +24451,8 @@
         "Current-active GSDLC-12-B observes Git/filesystem drift read-only and records only platform-local reconciliation metadata.",
         "Unsafe drift is explicit and cannot be silently adopted; approvals/preimages/plans are stale when authority changes.",
         "GSDLC-12-A locks protect baseline authority writes across sessions.",
-        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 12-B."
+        "A-D FRX-v2.4 cadence: focal + cumulative + Test Impact only; Full Regression = 0 in 12-B.",
+        "Current-active reconciliation filters porcelain worktree-only MODIFY entries when Git normalized diff is clean, preventing LF/CRLF representation from becoming drift authority."
       ],
       "classification_status": "explicit",
       "contract_id": "gsdlc12b-branch-external-edit-reconciliation",
@@ -24522,7 +24523,8 @@
         "no automatic destructive Git or silent overwrite",
         "Project Status + ConflictResolutionView explicit reconciliation UX",
         "API/RBAC/OpenAPI/UI registry parity",
-        "FRX-v2.4 A-D cadence with Full Regression 0 in 12-B"
+        "FRX-v2.4 A-D cadence with Full Regression 0 in 12-B",
+        "Git-normalized semantic content, not physical LF/CRLF representation, determines worktree MODIFY drift"
       ],
       "watched_paths": [
         "src/devpilot_core/reconciliation/service.py",

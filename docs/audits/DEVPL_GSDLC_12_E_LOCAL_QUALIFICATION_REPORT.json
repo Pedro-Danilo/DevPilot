@@ -12,11 +12,11 @@
   "s0_open": 0,
   "s1_open": 0,
   "notes": [
-    "No product runtime change in 12-E local implementation; closure orchestration/evidence only.",
     "Exactly-one Full remains reserved for Windows after browser and pre-Full gates.",
-    "Corrective v1.0.2 reconciles current-active release-candidate criteria and Project State/Source Registry aliases before browser/Full; historical snapshots remain unchanged."
+    "Corrective v1.0.2 reconciles current-active release-candidate criteria and Project State/Source Registry aliases before browser/Full; historical snapshots remain unchanged.",
+    "Corrective v1.0.5 applies one bounded current-active product hardening inherited from reconciliation: semantic-clean worktree MODIFY caused by physical EOL representation is ignored only when Git normalized diff is clean; real drift remains fail-closed."
   ],
-  "test_impact": "19/170/288/0",
+  "test_impact": "21/170/288/0",
   "tcr_v1": "PASS",
   "tcr_v2": "PASS",
   "full_regression_profile": "frx-v2.4-current",

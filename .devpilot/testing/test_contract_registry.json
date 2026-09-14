@@ -14249,7 +14249,8 @@
         "no automatic destructive Git or silent overwrite",
         "Project Status + ConflictResolutionView explicit reconciliation UX",
         "API/RBAC/OpenAPI/UI registry parity",
-        "FRX-v2.4 A-D cadence with Full Regression 0 in 12-B"
+        "FRX-v2.4 A-D cadence with Full Regression 0 in 12-B",
+        "Git-normalized semantic content, not physical LF/CRLF representation, determines worktree MODIFY drift"
       ],
       "watched_paths": [
         "src/devpilot_core/reconciliation/service.py",
@@ -14414,10 +14415,10 @@
       "mutable_global_state_allowed": false,
       "owner": "DEVPL-GSDLC-12-E",
       "phase": "DEVPL-GSDLC-12-E",
-      "scope": "integration",
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain -q tests/test_frx_v2_4_b_execution_profile_lock.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_release_candidate_report.py tests/test_project_global_state.py"
       ],
+      "scope": "integration",
       "test_files": [
         "tests/test_frx_v2_4_b_execution_profile_lock.py",
         "tests/test_post_h_026_release_candidate_profile.py",

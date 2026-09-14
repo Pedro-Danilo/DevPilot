@@ -422,6 +422,14 @@ class AdvancedWorkspaceReconciliationService:
                 kind = "ADD"
             if self._ignored(path):
                 continue
+            # A porcelain worktree-only MODIFY can be a physical line-ending/stat
+            # artifact (for example core.autocrlf on Windows) even when Git's
+            # normalized content is unchanged. Git's diff machinery is the
+            # authority for semantic worktree changes; never promote LF/CRLF
+            # representation alone into reconciliation drift. Staged/mixed
+            # changes remain authoritative and are never suppressed here.
+            if xy == " M" and self._worktree_modify_is_semantically_clean(workspace_root, path):
+                continue
             linked = path in authority_paths or bool(old_path and old_path in authority_paths)
             baseline_hash = self._blob_at(workspace_root, baseline_head, old_path or path) if baseline_head else None
             current_hash = self._file_hash(workspace_root / path) if kind != "DELETE" else None
@@ -435,6 +443,28 @@ class AdvancedWorkspaceReconciliationService:
                 "linked_to_engineering_authority": linked,
             })
         return sorted(rows, key=lambda row: (str(row.get("path")), str(row.get("old_path") or "")))
+
+    @staticmethod
+    def _worktree_modify_is_semantically_clean(workspace_root: Path, path: str) -> bool:
+        """Return True only when Git normalizes an unstaged MODIFY to no diff.
+
+        This deliberately delegates EOL/filter semantics to Git. A porcelain
+        `` M`` caused only by CRLF/LF working-tree representation must not
+        become reconciliation authority, while a real content/mode change
+        remains visible.
+        """
+        proc = subprocess.run(
+            ["git", "-C", str(workspace_root), "diff", "--quiet", "--no-ext-diff", "--", path],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            timeout=10,
+            check=False,
+        )
+        if proc.returncode == 0:
+            return True
+        if proc.returncode == 1:
+            return False
+        raise ReconciliationStateError(proc.stderr.decode("utf-8", "replace")[:500])
 
     @staticmethod
     def _ignored(path: str) -> bool:
