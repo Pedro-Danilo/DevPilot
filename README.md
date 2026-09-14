@@ -6807,3 +6807,7 @@ La primera validación Windows bloqueó antes de cierre por un file-handle SQLit
 ## GSDLC-12-E — local closure qualification
 
 12-D está `CLOSED/PASS/WINDOWS-VALIDATED` y repo429 es la única autoridad de ejecución. 12-E queda implementado localmente como cierre de DEVPL-GSDLC-12: browser matrix real obligatorio, clean-install preliminar, current-authority/HCA/Contract Reconciliation, FRX-v2.4 profile/preflight y exactamente una logical Full. La sesión `DEVPL-GSDLC-12-E-FULL-01` queda preservada como `PREFLIGHT-ONLY/NO-EXECUTION/NO-BUDGET` después del BLOCK de cobertura del Test Isolation Registry; la única sesión ejecutable es `DEVPL-GSDLC-12-E-FULL-01-R1`. La Full permanece `0/1`; R1 solo puede consumirla después de recollectar los mismos 3196 nodeids con SHA `f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df` y obtener preflight FRX-v2.4 PASS. No se permite una segunda Full.
+
+## GSDLC-12-E — cierre Windows
+
+`CLOSED/PASS/WINDOWS-VALIDATED`. Browser matrix real=1; Full logical=1 (`DEVPL-GSDLC-12-E-FULL-01-R1`); adjudicación `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`; segunda Full=0; S0/S1=0. RC exact-commit queda sujeto a packaging + clean-install final PASS antes de promoción. DEVPL-GSDLC-12 queda `CLOSED/PASS`; GSDLC-13 autorizado únicamente desde RC autoritativo.

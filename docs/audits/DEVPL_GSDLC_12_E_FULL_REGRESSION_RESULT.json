@@ -1,0 +1,32 @@
+{
+  "schema_id": "DEVPL-GSDLC-12-E-FULL-RESULT-V1",
+  "status": "PASS",
+  "session_id": "DEVPL-GSDLC-12-E-FULL-01-R1",
+  "adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
+  "terminal_accounting": {
+    "session_id": "DEVPL-GSDLC-12-E-FULL-01-R1",
+    "collection_total": 3196,
+    "accounted_total": 3196,
+    "pass_total": 3179,
+    "fail_total": 12,
+    "error_total": 0,
+    "skip_approved_total": 5,
+    "infra_abort_nodeids_total": 0,
+    "unexecuted_total": 0,
+    "coverage_percent": 100.0,
+    "receipts_total": 16,
+    "infra_abort_receipts_total": 0,
+    "shards_total": 16,
+    "shard_plan_sha256": "d81495b679b819879e23447f7f3d860cbc3e17d608960001222247b31bf4cb19",
+    "collection_sha256": "f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df",
+    "logical_attempts": 1,
+    "parallel_workers": 1,
+    "completion_first": true,
+    "planner": "deterministic-lpt-sequential",
+    "scheduler_enabled_for_session": false
+  },
+  "logical_full_runs": 1,
+  "second_full_runs": 0,
+  "profile_id": "frx-v2.4-current",
+  "profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
+}
