@@ -1,13 +1,13 @@
 {
   "schema_id": "DEVPL-GSDLC-12-E-TEST-IMPACT-V1",
-  "status": "PASS/CORRECTIVE-v1.0.6",
+  "status": "PASS/CORRECTIVE-v1.0.7",
   "updated": "2026-09-14",
-  "changed_paths_total": 21,
-  "matched_contracts_total": 170,
-  "recommended_tests_total": 288,
+  "changed_paths_total": 22,
+  "matched_contracts_total": 172,
+  "recommended_tests_total": 289,
   "unmatched_paths_total": 0,
   "tests_executed": false,
   "full_regression_runs": 0,
   "full_regression_policy": "Exactly-one Full reserved for Windows after browser/pre-Full gates; local Full=0",
-  "corrective_note": "Cumulative Test Impact remains 21/170/288/0. v1.0.6 is a test-harness portability successor over the unchanged Git-semantic service fix; Windows validation reuses the 20 preserved PASS tests and reruns only the corrected nodeid plus the real-edit sentinel."
+  "corrective_note": "Cumulative Test Impact is 22/172/289/0. v1.0.7 adds the current-active Test Isolation Registry reconciliation required by FRX-v2.4 after the Windows pre-Full BLOCK; no tests or product runtime semantics are added. Browser evidence remains hash-bound; Full remains 0/1."
 }

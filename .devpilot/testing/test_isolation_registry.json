@@ -1,5 +1,5 @@
 {
-  "collection_sha256": "625588e775112435b770b3299168bb840c80c715dd759fe72dc1f41ec8f53fc1",
+  "collection_sha256": "f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df",
   "entries": [
     {
       "explicit_review_required": true,
@@ -112757,6 +112757,1651 @@
           "resource_class": "process-global-env-cwd"
         }
       ]
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_c_release_lifecycle_contracts.py::test_11c_closed_fact_survives_successor_without_reading_mutable_current_budget",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_d_release_metadata_contracts.py::test_11d_historical_authority_is_repo423_without_reading_mutable_backlog_budget",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_11_e_release_closure_contracts.py::test_11e_full_regression_closure_fact_is_frozen_after_successor_activation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py::test_12_a_recovery_ui_is_project_scoped_and_server_authoritative",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py::test_12_a_project_status_released_reconciliation_preserves_gaps_without_contradictory_blocked",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py::test_12_a_recovery_durable_store_excludes_runtime_db_and_managed_source_writes",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py::test_12_a_current_active_contract_registries_include_recovery_without_full_regression",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py::test_12_a_activation_sources_are_bound_to_repo425",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_contracts.py::test_12_a_new_human_session_restores_project_route_from_durable_recovery_before_guarding_home",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_transport.py::test_12_a_recovery_routes_cross_fail_closed_policy_engine",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_recovery_transport.py::test_12_a_recovery_transport_registry_rbac_and_router_are_coherent",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_resumability.py::test_12_a_checkpoint_survives_session_restart_without_browser_authority_or_source_mutation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_resumability.py::test_12_a_source_drift_and_expired_approval_abort_incomplete_work",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_resumability.py::test_12_a_secret_like_material_is_rejected_from_durable_checkpoint",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_a_resumability.py::test_12_a_lock_ownership_duplicate_negative_and_explicit_stale_recovery",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "sqlite-db-files",
+          "confidence": "suggested",
+          "evidence": [
+            ".db"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        },
+        {
+          "resource_class": "clock-time-sensitive-state",
+          "confidence": "suggested",
+          "evidence": [
+            "datetime.now"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_missing_baseline_is_explicit_read_only_block",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_clean_baseline_is_no_conflict_and_metadata_only",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_external_modify_requires_revalidation_and_invalidates_authority",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_rename_and_delete_require_manual_reconciliation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_external_fast_forward_requires_revalidation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_rewind_requires_replan",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_divergence_requires_manual_reconciliation",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_detached_head_blocks_read_only",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_dirty_worktree_cannot_be_silently_adopted",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_drafts_are_preserved_across_conflict",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_multi_session_lock_blocks_duplicate_baseline_authority_write",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_crlf_physical_representation_does_not_create_false_reconciliation_drift",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation.py::test_12_b_crlf_filter_does_not_hide_real_external_edit",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "fixed-filesystem-shared-outputs",
+          "confidence": "suggested",
+          "evidence": [
+            "outputs/"
+          ]
+        },
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            ".git",
+            "worktree"
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "run([",
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py::test_12_b_ui_route_is_project_scoped_and_project_status_exposes_conflict",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py::test_12_b_registries_include_reconciliation_and_live_ui_route_counts_match",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py::test_12_b_schema_contracts_require_explicit_state_and_integrity_hashes",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py::test_12_b_product_service_contains_no_destructive_git_execution_path",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py::test_12_b_full_regression_budget_remains_unconsumed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "git-worktree-repo-mutation",
+          "confidence": "suggested",
+          "evidence": [
+            "git "
+          ]
+        },
+        {
+          "resource_class": "subprocess-process-trees",
+          "confidence": "suggested",
+          "evidence": [
+            "subprocess."
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_transport.py::test_12_b_reconciliation_routes_cross_fail_closed_policy_engine",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_transport.py::test_12_b_transport_registry_rbac_router_and_openapi_are_coherent",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_b_reconciliation_transport.py::test_12_b_current_rbac_has_no_stale_duplicate_recovery_action_policy",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_mode_is_ux_only_and_authority_parity_is_explicit",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_guided_progressive_disclosure_keeps_recovery_and_conflict_visible",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_expert_diagnostics_add_information_not_actions",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_accessibility_contract_has_keyboard_focus_live_and_responsive_support",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_help_is_global_read_only_registered_and_safe",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_recovery_and_reconciliation_are_available_in_both_modes",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_state_is_bound_to_repo427_and_full_budget_unconsumed",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py::test_12_c_evidence_contracts_describe_first_version_limits_and_browser_pending",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_policy_is_current_active_local_first_and_full_remains_reserved",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_performance_baseline_respects_hard_ceilings",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_red_team_closes_all_s0_s1_and_uses_only_safe_local_fakes",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_resource_and_cost_ceilings_are_server_side_and_bounded",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_model_route_decision_is_not_tool_execution_authority",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_no_ux_change_reuses_hash_bound_12_c_browser_acceptance",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_12_d_reports_and_policy_documents_are_present",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
+    },
+    {
+      "nodeid": "tests/test_devpl_gsdlc_12_d_industrial_hardening.py::test_consumer_session_piggyback_and_cross_actor_cancel_are_blocked",
+      "state": "UNCLASSIFIED",
+      "parallel_safe": false,
+      "explicit_review_required": true,
+      "resource_classes": [],
+      "suggested_hints": [
+        {
+          "resource_class": "network-external-service",
+          "confidence": "suggested",
+          "evidence": [
+            "external_api",
+            "network"
+          ]
+        }
+      ],
+      "isolation_domains": [],
+      "resource_lock_keys": [],
+      "runtime_estimate": {
+        "known": false,
+        "seconds": null,
+        "confidence": "unknown",
+        "source_environment": null,
+        "last_seen": null
+      },
+      "review": null
     }
   ],
   "policy": {
@@ -112782,9 +114427,9 @@
     "windows-named-resources-locks"
   ],
   "schema_id": "devpilot.testing.test_isolation_registry.v1",
-  "source_commit": "5e57bfd5670525981da77ac16ec3bf924cd187a4+GSDLC-11-E-pre-full-isolation-coverage",
+  "source_commit": "cfe5936865c27e6ee92543adad8754d420cb16e3+GSDLC-12-E-pre-full-isolation-coverage-v1.0.7",
   "status": "implemented-initial",
-  "updated": "2026-09-12T16:00:00Z",
+  "updated": "2026-09-14T15:00:00Z",
   "version": "1.0.0",
-  "registry_sha256": "1245a8b481c7d2f6643fb0da5ddb6c68a33d0a72129f7606b46b1b0948b9cf9e"
+  "registry_sha256": "0d1825dab5d2752efc8c2c60f3197ed64e407533b50e972ea35b1230b3daa5df"
 }

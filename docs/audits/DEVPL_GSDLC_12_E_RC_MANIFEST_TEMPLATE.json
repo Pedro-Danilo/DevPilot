@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
   "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
@@ -8,11 +8,13 @@
   "successor": "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
   "closure_commit": null,
   "successor_sha256": null,
-  "full_session_id": "DEVPL-GSDLC-12-E-FULL-01",
+  "full_session_id": "DEVPL-GSDLC-12-E-FULL-01-R1",
   "full_accounting": null,
   "browser_matrix": "PENDING",
   "clean_install": "PENDING",
   "s0_open": 0,
   "s1_open": 0,
-  "local_only": true
+  "local_only": true,
+  "prior_prefull_session_id": "DEVPL-GSDLC-12-E-FULL-01",
+  "prior_prefull_session_status": "PREFLIGHT-ONLY/NO-EXECUTION/NO-BUDGET"
 }

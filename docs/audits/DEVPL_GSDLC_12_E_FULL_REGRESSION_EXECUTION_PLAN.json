@@ -1,16 +1,30 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
   "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
   "schema_id": "DEVPL-GSDLC-12-E-FULL-PLAN-V1",
-  "status": "READY/NOT-CONSUMED",
-  "session_id": "DEVPL-GSDLC-12-E-FULL-01",
+  "status": "READY/RECOVERY-PREFULL-AUTHORITY-v1.0.7/NOT-CONSUMED",
+  "session_id": "DEVPL-GSDLC-12-E-FULL-01-R1",
   "profile_id": "frx-v2.4-current",
   "profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
   "budget_before": "0/1",
   "logical_full_allowed": 1,
   "second_full_allowed": false,
   "functional_fail_policy": "PRESERVE/NO-RERUN/COMPOSITE-RECOVERY",
-  "infra_interrupt_policy": "RESUME-SAME-SESSION-UNEXECUTED-ONLY"
+  "infra_interrupt_policy": "RESUME-SAME-SESSION-UNEXECUTED-ONLY",
+  "prior_prefull_session_id": "DEVPL-GSDLC-12-E-FULL-01",
+  "prior_prefull_session_status": "PREFLIGHT-ONLY/NO-EXECUTION/NO-BUDGET",
+  "prior_prefull_blocking_findings": [
+    "FRX24B_ISOLATION_COVERAGE_BLOCK",
+    "FRX24B_CONFLICT_ISOLATION_COVERAGE_BLOCK"
+  ],
+  "prior_prefull_tests_executed": 0,
+  "prior_prefull_budget_consumed": 0,
+  "expected_collection_total": 3196,
+  "expected_collection_sha256": "f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df",
+  "isolation_registry_entries_total": 3205,
+  "isolation_current_collection_covered_total": 3196,
+  "isolation_current_collection_missing_total": 0,
+  "r1_policy": "Recollect same 3196 nodeids under new corrective source commit; require same collection SHA before budget reservation; R1 is the only session allowed to execute tests."
 }

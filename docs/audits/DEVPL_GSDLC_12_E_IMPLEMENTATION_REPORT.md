@@ -35,3 +35,15 @@ La recuperación Windows v1.0.4 demostró que `AdvancedWorkspaceReconciliationSe
 # Corrective v1.0.6 — regression harness portable para Git-semantic EOL
 
 La validación Windows v1.0.5 preservó 20 PASS y un único FAIL en la nueva regresión de EOL. El FAIL no ejercitó el producto: la prueba asumía que escribir CRLF sobre un checkout gobernado por `eol=crlf` produciría siempre una entrada ` M` en `git status`; en Windows ese supuesto es falso porque el checkout ya puede estar físicamente en CRLF y el status queda clean. v1.0.6 no modifica `AdvancedWorkspaceReconciliationService`; sustituye únicamente el estímulo no determinístico por una inyección controlada del contrato exacto observado en la evidencia real (`porcelain = " M tracked.txt"` + `git diff --quiet = 0`). Se preserva el test real que demuestra que un external edit continúa visible como `REVALIDATE`. La evidencia Windows 20 PASS/1 FAIL queda histórica e inmutable; v1.0.6 reejecuta solo el nodeid corregido y el sentinel de edit real antes de retomar la reparación del fixture. Full sigue 0/1.
+
+## Corrective v1.0.7 — pre-Full isolation authority recovery
+
+Windows v1.0.6 reached the irreversible pre-Full gate with the browser matrix already PASS and the Full budget still `0/1`. `DEVPL-GSDLC-12-E-FULL-01` sealed exactly 3196 nodeids (`f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df`) and executed zero tests, but FRX-v2.4 blocked the plan because the current-active Test Isolation Registry covered only 3144 of those 3196 nodeids. The two findings were `FRX24B_ISOLATION_COVERAGE_BLOCK` and the derived `FRX24B_CONFLICT_ISOLATION_COVERAGE_BLOCK`.
+
+The corrective appends exactly 52 missing nodeids as `UNCLASSIFIED`, `parallel_safe=false`, `explicit_review_required=true`; it does not modify the 3153 existing entries, does not delete the 9 historical stale entries, and does not grant parallel authority. The resulting registry contains 3205 entries and covers the complete current collection `3196/3196` with `0` missing. Cumulative Test Impact becomes `22/172/289/0`.
+
+`DEVPL-GSDLC-12-E-FULL-01` is immutable evidence with status `PREFLIGHT-ONLY / NO-EXECUTION / NO-BUDGET`. Because the source commit changes after this corrective, it is not reused or rewritten. The only executable Full session is `DEVPL-GSDLC-12-E-FULL-01-R1`. R1 must recollect exactly 3196 nodeids with the same collection SHA before the operator may reserve/consume the single Full budget. Functional FAIL/ERROR remains preserve-and-no-rerun with composite selective recovery.
+
+### v1.0.7 current-status freshness reconciliation
+
+El estado canónico `gsdlc_12_e_status` permanece `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING` durante la recuperación pre-Full. Los detalles de recovery se registran en campos específicos `gsdlc_12_e_prefull_*`, `gsdlc_12_e_isolation_*` y en los artefactos de qualification; no se reutiliza el campo de status current-active para codificar una subfase transitoria. Esto mantiene coherente `local_release_candidate_criteria.json` y evita un falso BLOCK de evidence freshness antes de la Full.
