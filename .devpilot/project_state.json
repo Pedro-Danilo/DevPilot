@@ -4318,7 +4318,7 @@
   "gsdlc_12_e_s1_open": 0,
   "gsdlc_12_e_source_delta_paths": 22,
   "gsdlc_12_e_test_impact": "22/172/289/0",
-  "gsdlc_12_e_local_qualification": "PASS/WINDOWS-BROWSER-PRESERVED+PREFULL-AUTHORITY-CORRECTIVE-v1.0.7/FULL-NOT-CONSUMED",
+  "gsdlc_12_e_local_qualification": "PASS/WINDOWS-VALIDATED/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
   "gsdlc_12_e_browser_matrix_status": "PASS/REAL-BROWSER/HASH-BOUND-v1.0.6",
   "gsdlc_12_e_prefull_prior_session_id": "DEVPL-GSDLC-12-E-FULL-01",
   "gsdlc_12_e_prefull_prior_session_status": "PREFLIGHT-ONLY/NO-EXECUTION/NO-BUDGET",
