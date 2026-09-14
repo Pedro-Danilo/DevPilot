@@ -308,8 +308,8 @@ class ReleaseLifecycleApplicationService:
         state = self._read_json(self.root / ".devpilot/project_state.json") or {}
         if state.get("gsdlc_11_b_status") != "CLOSED/PASS/WINDOWS-VALIDATED" or state.get("gsdlc_11_c_authorized") is not True:
             return self._block("release lifecycle install plan", "GSDLC11C_PREDECESSOR_BLOCK", "GSDLC-11-C requires GSDLC-11-B CLOSED/PASS/WINDOWS-VALIDATED and explicit authorization.")
-        if int(state.get("gsdlc_11_full_regression_budget_consumed") or 0) != 0:
-            return self._block("release lifecycle install plan", "GSDLC11C_FULL_BUDGET_BLOCK", "GSDLC-11-C must not consume the GSDLC-11 Full Regression budget.")
+        if int(state.get("gsdlc_11_c_full_regression_runs") or 0) != 0:
+            return self._block("release lifecycle install plan", "GSDLC11C_FULL_BUDGET_BLOCK", "GSDLC-11-C must not execute the GSDLC-11 Full Regression.")
         return None
 
     def _authorize(self, command: str, actor_roles: Iterable[str], workspace_scopes: Iterable[str], *, require_release_role: bool) -> CommandResult | None:

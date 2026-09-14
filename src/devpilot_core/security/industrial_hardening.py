@@ -167,7 +167,8 @@ class IndustrialHardeningEvaluator:
         with tempfile.TemporaryDirectory(prefix='devpilot-12d-auth-') as tmp:
             auth_tmp_root = tmp
             auth = LocalAuthService(Path(tmp), idle_timeout_seconds=60, absolute_timeout_seconds=300)
-            issue = auth.bootstrap_owner(username='owner.local', display_name='Owner', password='correct horse battery staple')
+            auth_fixture_value = 'local-only-red-team-fixture-value-12d'
+            issue = auth.bootstrap_owner(username='owner.local', display_name='Owner', password=auth_fixture_value)
             csrf_blocked = False
             try:
                 auth.require_csrf(issue.token, 'invalid-csrf')

@@ -1,7 +1,7 @@
 import fs from 'node:fs'; import path from 'node:path'; import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'); const src=path.join(root,'src');
 function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);}
-const files=walk(src).filter(p=>/\.(ts|css)$/.test(p)); const bytes=files.reduce((n,p)=>n+fs.statSync(p).size,0); const largest=Math.max(...files.map(p=>fs.statSync(p).size));
+const files=walk(src).filter(p=>/\.(ts|css)$/.test(p)); const semanticBytes=p=>Buffer.byteLength(fs.readFileSync(p,'utf8').replace(/\r\n/g,'\n').replace(/\r/g,'\n'),'utf8'); const bytes=files.reduce((n,p)=>n+semanticBytes(p),0); const largest=Math.max(...files.map(semanticBytes));
 let build={available:false,js_bytes:0,css_bytes:0}; const assets=path.join(root,'dist','assets'); if(fs.existsSync(assets)){build.available=true; for(const p of walk(assets)){const s=fs.statSync(p).size;if(p.endsWith('.js'))build.js_bytes+=s;if(p.endsWith('.css'))build.css_bytes+=s;}}
 const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8')); const meta=pkg.devpilot||{}; const gsdlc=String(meta.currentSprint||'').startsWith('DEVPL-GSDLC-');
 const historicalTotal=Number(meta.historicalUoc011SourceBudgetBytes||524288); const historicalSingle=Number(meta.historicalUoc011SingleSourceBudgetBytes||65536);

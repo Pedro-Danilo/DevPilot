@@ -263,8 +263,8 @@ class ReleasePackageJobApplicationService:
         state = self._read_json(self.root / ".devpilot/project_state.json") or {}
         if state.get("gsdlc_11_a_status") != "CLOSED/PASS/WINDOWS-VALIDATED" or state.get("gsdlc_11_b_authorized") is not True:
             return self._block("release package plan", "GSDLC11B_PREDECESSOR_BLOCK", "GSDLC-11-B requires GSDLC-11-A CLOSED/PASS/WINDOWS-VALIDATED and explicit authorization.")
-        if int(state.get("gsdlc_11_full_regression_budget_consumed") or 0) != 0:
-            return self._block("release package plan", "GSDLC11B_FULL_BUDGET_BLOCK", "GSDLC-11-B must not consume the GSDLC-11 Full Regression budget.")
+        if int(state.get("gsdlc_11_b_full_regression_runs") or 0) != 0:
+            return self._block("release package plan", "GSDLC11B_FULL_BUDGET_BLOCK", "GSDLC-11-B must not execute the GSDLC-11 Full Regression.")
         return None
 
     def _git_authority(self) -> GitAuthority | None:

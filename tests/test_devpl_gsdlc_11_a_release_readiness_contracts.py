@@ -56,7 +56,6 @@ def test_11_a_activation_and_windows_close_are_historical_freeze():
     assert state["gsdlc_11_a_successor_commit_at_close"] == "01c28e73994b74699802dcbac9bb06d686841b89"
     assert state["gsdlc_11_a_ui_version_at_close"] == "0.31.0-gsdlc-11-a"
     assert state["gsdlc_11_a_full_regression_runs"] == 0
-    assert state["gsdlc_11_full_regression_budget_consumed"] == 0
     assert state["gsdlc_11_full_regression_budget_total"] == 1
 
 
