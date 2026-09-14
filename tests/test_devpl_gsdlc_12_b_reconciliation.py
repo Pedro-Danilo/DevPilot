@@ -191,24 +191,30 @@ def test_12_b_multi_session_lock_blocks_duplicate_baseline_authority_write(tmp_p
     with pytest.raises(ReconciliationStateError):
         service.baseline(actor="owner", session_created_at="2026-09-12T20:01:00Z", rotation_counter=0, execute=True, confirmation="CAPTURE_RECONCILIATION_BASELINE")
 
-def test_12_b_crlf_physical_representation_does_not_create_false_reconciliation_drift(tmp_path: Path) -> None:
+def test_12_b_crlf_physical_representation_does_not_create_false_reconciliation_drift(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     _, workspace, _, service = _workspace(tmp_path)
-    (workspace / ".gitattributes").write_text("*.txt text eol=crlf\n", encoding="utf-8")
-    _git(workspace, "add", ".gitattributes")
-    _git(workspace, "commit", "-q", "-m", "declare CRLF worktree policy")
-    # A CRLF physical worktree can appear in porcelain as an unstaged MODIFY
-    # while Git's normalized diff is empty. Physical EOL representation alone
-    # is not engineering drift and must not block baseline capture.
-    (workspace / "tracked.txt").write_bytes(b"v1\r\n")
-    status = subprocess.run(["git", "-C", str(workspace), "status", "--porcelain=v1"], capture_output=True, text=True, check=True).stdout
-    diff = subprocess.run(["git", "-C", str(workspace), "diff", "--quiet", "--no-ext-diff", "--", "tracked.txt"], check=False)
-    assert "tracked.txt" in status
-    assert diff.returncode == 0
-    result = _baseline(service)
-    assert result["status"] == "PASS"
-    report = _inspect(service)
-    assert report["classification"] == "NO_CONFLICT"
-    assert report["snapshot"]["changes"] == []
+    baseline_head = _git(workspace, "rev-parse", "HEAD")
+    original_run = subprocess.run
+    status_command = ["git", "-C", str(workspace), "status", "--porcelain=v1", "-z", "--untracked-files=all"]
+    diff_command = ["git", "-C", str(workspace), "diff", "--quiet", "--no-ext-diff", "--", "tracked.txt"]
+    calls = {"semantic_diff": 0}
+
+    def controlled_run(command, *args, **kwargs):
+        normalized = [str(part) for part in command]
+        if normalized == status_command:
+            return subprocess.CompletedProcess(command, 0, stdout=b" M tracked.txt\0", stderr=b"")
+        if normalized == diff_command:
+            calls["semantic_diff"] += 1
+            return subprocess.CompletedProcess(command, 0, stdout=b"", stderr=b"")
+        return original_run(command, *args, **kwargs)
+
+    # Inject the exact regression condition deterministically instead of relying
+    # on platform-specific checkout/EOL behavior: porcelain reports a worktree-
+    # only MODIFY while Git's normalized diff reports semantic equality.
+    monkeypatch.setattr(subprocess, "run", controlled_run)
+    changes = service._worktree_changes(workspace, baseline_head=baseline_head, authority_paths=set())
+    assert calls["semantic_diff"] == 1
+    assert changes == []
 
 
 def test_12_b_crlf_filter_does_not_hide_real_external_edit(tmp_path: Path) -> None:

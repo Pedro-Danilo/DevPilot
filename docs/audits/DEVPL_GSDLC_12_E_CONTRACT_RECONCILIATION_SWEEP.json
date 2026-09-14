@@ -1,10 +1,10 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
   "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
   "schema_id": "DEVPL-GSDLC-12-E-CONTRACT-RECONCILIATION-V1",
-  "status": "PASS/LOCAL-PREFULL/CORRECTIVE-v1.0.5",
+  "status": "PASS/LOCAL-PREFULL/CORRECTIVE-v1.0.6",
   "checks": [
     "schemas/current-active",
     "derived counters/registries",
@@ -22,12 +22,14 @@
     "local_release_candidate_criteria project-state-current-repo still expected GSDLC-11-E/repo424 and old GSDLC-11 active status",
     "Project State current_repo and gsdlc current/next aliases lagged repo429/GSDLC-12-E",
     "Source Registry current_repo/next alias lagged repo429/GSDLC-12-E successor authority",
-    "AdvancedWorkspaceReconciliationService used porcelain worktree-only MODIFY as drift even when Git normalized diff was clean; current-active service now suppresses only semantic-clean unstaged MODIFY entries and preserves real edits/mode changes"
+    "AdvancedWorkspaceReconciliationService used porcelain worktree-only MODIFY as drift even when Git normalized diff was clean; current-active service now suppresses only semantic-clean unstaged MODIFY entries and preserves real edits/mode changes",
+    "v1.0.5 EOL regression test depended on platform checkout representation; v1.0.6 injects the exact porcelain-M/diff-clean contract deterministically instead of depending on Windows/Linux CRLF side effects"
   ],
   "checks_detail": {
     "release_candidate_freshness": "PASS required after current-active rebind",
     "project_state_source_registry_aliases": "repo429 / current 12-E / next 13",
     "historical_snapshot_preservation": "no at-close evidence rewritten",
-    "lf_crlf_reconciliation_authority": "PASS/Git-normalized diff authority; physical representation alone is non-authoritative"
+    "lf_crlf_reconciliation_authority": "PASS/Git-normalized diff authority; physical representation alone is non-authoritative",
+    "reconciliation_test_portability": "PASS/deterministic synthetic porcelain condition + real external-edit sentinel retained"
   }
 }

@@ -1,10 +1,10 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
   "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
   "schema_id": "DEVPL-GSDLC-12-E-HCA-SWEEP-V1",
-  "status": "PASS/LOCAL-PREFULL/CORRECTIVE-v1.0.5",
+  "status": "PASS/LOCAL-PREFULL/CORRECTIVE-v1.0.6",
   "classifications": [
     "historical-freeze",
     "current-active",
@@ -20,7 +20,8 @@
     "project_state_global_current_repo": "current-active; advanced to repo429 execution authority",
     "project_state_gsdlc_aliases": "current-active; current/last=12-E and next=13",
     "source_registry_aliases": "derived/current-active; current_repo/current/last/next reconciled with Project State",
-    "reconciliation_worktree_semantics": "current-active successor behavior; porcelain worktree-only MODIFY is ignored only when Git normalized diff is clean, so physical LF/CRLF representation cannot become reconciliation drift authority"
+    "reconciliation_worktree_semantics": "current-active successor behavior; porcelain worktree-only MODIFY is ignored only when Git normalized diff is clean, so physical LF/CRLF representation cannot become reconciliation drift authority",
+    "reconciliation_regression_harness": "current-active test successor; platform-specific CRLF checkout side effect removed from the test precondition, while the historical Windows v1.0.5 20 PASS/1 FAIL evidence remains immutable"
   },
   "historical_facts_rewritten": false
 }

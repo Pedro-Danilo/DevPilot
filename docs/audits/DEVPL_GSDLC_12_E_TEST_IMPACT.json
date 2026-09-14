@@ -1,7 +1,7 @@
 {
   "schema_id": "DEVPL-GSDLC-12-E-TEST-IMPACT-V1",
-  "status": "PASS/CORRECTIVE-v1.0.5",
-  "updated": "2026-09-13",
+  "status": "PASS/CORRECTIVE-v1.0.6",
+  "updated": "2026-09-14",
   "changed_paths_total": 21,
   "matched_contracts_total": 170,
   "recommended_tests_total": 288,
@@ -9,5 +9,5 @@
   "tests_executed": false,
   "full_regression_runs": 0,
   "full_regression_policy": "Exactly-one Full reserved for Windows after browser/pre-Full gates; local Full=0",
-  "corrective_note": "Includes reconciliation service + regression test for Git-normalized semantic-clean worktree MODIFY (LF/CRLF representation non-authoritative)."
+  "corrective_note": "Cumulative Test Impact remains 21/170/288/0. v1.0.6 is a test-harness portability successor over the unchanged Git-semantic service fix; Windows validation reuses the 20 preserved PASS tests and reruns only the corrected nodeid plus the real-edit sentinel."
 }

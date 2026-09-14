@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-13",
+  "updated": "2026-09-14",
   "execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
   "execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
   "execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
@@ -14,7 +14,8 @@
   "notes": [
     "Exactly-one Full remains reserved for Windows after browser and pre-Full gates.",
     "Corrective v1.0.2 reconciles current-active release-candidate criteria and Project State/Source Registry aliases before browser/Full; historical snapshots remain unchanged.",
-    "Corrective v1.0.5 applies one bounded current-active product hardening inherited from reconciliation: semantic-clean worktree MODIFY caused by physical EOL representation is ignored only when Git normalized diff is clean; real drift remains fail-closed."
+    "Corrective v1.0.5 applies one bounded current-active product hardening inherited from reconciliation: semantic-clean worktree MODIFY caused by physical EOL representation is ignored only when Git normalized diff is clean; real drift remains fail-closed.",
+    "Corrective v1.0.6 repairs only the non-portable regression stimulus: the Git-semantic product fix from v1.0.5 is unchanged; the exact false-dirty condition is injected deterministically and the real-edit sentinel remains required."
   ],
   "test_impact": "21/170/288/0",
   "tcr_v1": "PASS",
@@ -23,5 +24,7 @@
   "full_regression_profile_sha256": "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219",
   "release_candidate_evidence_freshness": "PASS",
   "release_candidate_final_aggregator": "PASS",
-  "current_authority_reconciliation": "PASS/repo429+GSDLC-12-E"
+  "current_authority_reconciliation": "PASS/repo429+GSDLC-12-E",
+  "windows_v105_preserved": "20 PASS / 1 test-harness FAIL / 0 ERROR / 0 SKIP; product service failure=0",
+  "v106_selective_validation": "corrected nodeid + real-edit sentinel; no replay of the 20 already-PASS tests"
 }
