@@ -1,0 +1,37 @@
+{
+  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-BROWSER-PENDING",
+  "micro_sprint": "DEVPL-UX-P0-B",
+  "generated_at_utc": "2026-09-15T17:05:00Z",
+  "source_repo": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
+  "source_sha256": "be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097",
+  "qa": {
+    "ux_p0_b_shell_smoke": "PASS",
+    "focused_pytest": "37/37 PASS",
+    "gsdlc12c_accessibility_smoke": "16/16 PASS",
+    "route_enforcement": "PASS",
+    "uoc011_accessibility": "PASS",
+    "uoc011_state_matrix": "PASS",
+    "visual_smoke": "9/9 PASS",
+    "gsdlc03e_browser_closure_smoke": "36 checks PASS",
+    "gsdlc12a_recovery_smoke": "11/11 PASS",
+    "gsdlc12b_reconciliation_smoke": "11/11 PASS",
+    "project_state": "PASS",
+    "docs_governance": "PASS/1578 docs/0 warnings/0 blockers",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS/2 pre-existing needs-review warnings",
+    "typescript_global": "BASELINE-EQUIVALENT/8 pre-existing errors/0 new"
+  },
+  "browser_manual_validation": "PENDING-WINDOWS",
+  "full_regression_runs": 0,
+  "full_regression_policy": "PROHIBITED-IN-B/EXACTLY-ONE-RESERVED-FOR-UX-P0-E",
+  "network_used": false,
+  "external_api_used": false,
+  "limitations": [
+    "Production Vite build requires Windows provisioned node_modules bridge.",
+    "Targeted real-browser acceptance is required because UX-P0-B changes shell/navigation presentation.",
+    "UX-P0-B is preliminary productization; UX-P0-C/D continue critical-path and cross-surface work."
+  ],
+  "test_impact": "31/194/312/0",
+  "evidence_freshness": "PASS/0 critical stale"
+}

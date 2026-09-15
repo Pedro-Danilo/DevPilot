@@ -19,9 +19,10 @@ export function renderExperienceModeControl(): HTMLElement {
   const copy = document.createElement('div');
   copy.className = 'experience-mode-control__copy';
   const title = document.createElement('strong');
-  title.textContent = 'Modo de experiencia';
+  title.textContent = 'Experiencia';
   const note = document.createElement('span');
-  note.textContent = 'Cambia la presentación, no permisos, approvals ni autoridad server-side.';
+  note.className = 'expert-only';
+  note.textContent = 'Presentación solamente; permisos, approvals y autoridad server-side no cambian.';
   copy.append(title, note);
 
   const group = document.createElement('div');
@@ -46,7 +47,7 @@ export function renderExperienceModeControl(): HTMLElement {
     status.textContent = mode === 'guided'
       ? 'Guided activo: foco en la siguiente acción y detalles progresivos.'
       : 'Expert activo: diagnósticos y trazas visibles; la autoridad no cambia.';
-    document.querySelectorAll<HTMLDetailsElement>('details.primary-nav__advanced').forEach((details) => { details.open = mode === 'expert'; });
+    document.querySelectorAll<HTMLDetailsElement>('details.primary-nav__group').forEach((details) => { details.open = mode === 'expert' || details.dataset.activeGroup === 'true'; });
   };
 
   const activate = (mode: ExperienceMode, button: HTMLButtonElement) => {

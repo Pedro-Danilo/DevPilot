@@ -9,6 +9,7 @@ const checks = [];
 const check = (id, ok, detail) => checks.push({ id, status: ok ? 'PASS' : 'BLOCK', detail });
 
 const main = src('src/main.ts');
+const navigationPresentation = src('src/ux/navigationPresentation.ts');
 const styles = src('src/styles.css');
 const mode = src('src/ux/experienceMode.ts');
 const control = src('src/components/ExperienceModeControl.ts');
@@ -21,7 +22,7 @@ const ai = src('src/components/AIControlCenterView.ts');
 check('mode-authority-parity', [/rbac:\s*'unchanged'/i, /approvals:\s*'unchanged'/i, /tool_permissions:\s*'unchanged'/i, /model_permissions:\s*'unchanged'/i, /mutability:\s*'unchanged'/i].every((r) => r.test(mode)), 'UX mode contract does not alter server authority');
 check('guided-expert-control', control.includes('aria-pressed') && control.includes('Guided') && control.includes('Expert'), 'mode selector exposes accessible pressed state');
 check('help-route', main.includes("path: '/help'") && main.includes("routeId: 'ui.help'") && main.includes('HelpSystemView'), 'global help route registered');
-check('progressive-disclosure', main.includes('primary-nav__advanced') && main.includes('Más herramientas'), 'secondary navigation is progressively disclosed');
+check('progressive-disclosure', (main.includes('primary-nav__advanced') && main.includes('Más herramientas')) || (main.includes('primary-nav__group') && navigationPresentation.includes('Understand & Plan') && navigationPresentation.includes('Diagnostics')), 'historical advanced disclosure or successor grouped disclosure is present');
 check('blockers-remain-core', ['/recovery', '/reconciliation'].every((p) => main.includes(p)), 'recovery/conflict surfaces remain directly reachable');
 check('route-focus', main.includes('queueMicrotask') && main.includes('.focus('), 'route change restores programmatic focus');
 check('skip-link', main.includes('skip-link') || styles.includes('.skip-link'), 'skip link remains present');

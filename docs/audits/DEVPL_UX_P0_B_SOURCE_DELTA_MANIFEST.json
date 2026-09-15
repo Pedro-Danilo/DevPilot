@@ -1,0 +1,230 @@
+{
+  "status": "PASS",
+  "micro_sprint": "DEVPL-UX-P0-B",
+  "source_repo": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
+  "source_sha256": "be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097",
+  "changed_paths_total": 31,
+  "semantic_eol_authority": true,
+  "self_referential_hash_omitted": "docs/audits/DEVPL_UX_P0_B_SOURCE_DELTA_MANIFEST.json",
+  "paths": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "916f12a19bc2d20ccc5f930b87dfa5b7ce2f81fbfa0c9e9602949ecbe6ecc1dd",
+      "post_semantic_sha256": "67f1eddb9633352f090c7305aa6894c4826830d370e7898bd39afeeee3b3c19a"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "bf2da5c9af8048bd3137986c12fd0004c35024d8e34b17cbdb86dbcf1208f5ab",
+      "post_semantic_sha256": "ac943236dfe437fe9750d832d432de28056ad391a8df869de7087429eb9eef38"
+    },
+    {
+      "path": ".devpilot/release/local_release_candidate_criteria.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "25f21b92a79f7e6a040de55cd8bffe0190578cd194c6207c4fe832a2bb4974c0",
+      "post_semantic_sha256": "111a01b123a76708c51640ab66e74c1ac3024c244f3734066b12c898b5cdcc89"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "b4618c38109d293705a06922f88cee15939a0749fb2b7ac41a5eb86b4363f77b",
+      "post_semantic_sha256": "81100be7f008ff1be78f5a65247d2db4a5c80d2c0a1ea8b99dda9e214050dbad"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "6ed62f59a06b7f346a44d08d6e18acc1a79e6a64812d9f243beb6b9f1d1577fb",
+      "post_semantic_sha256": "0dd620c828d1186c97b795ae7e5b4d2494e2c27dea773554d8a55a32662eb878"
+    },
+    {
+      "path": "02_PROMPT_DEVPL_UX_P0_B_v1_0_0_APPROVED.md",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "6c38d6e4d9df5c473e1bef38be36be1ecb113cf2b9f19db457e435dd42f0cc39"
+    },
+    {
+      "path": "README.md",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "c8f68e47320eff6fc6f5d50d4f3d0798fa5ce1ab48c374c07dee9cb844db7f7c",
+      "post_semantic_sha256": "39ea5b879dc40e7a13d4077b3e733b4bf3036cf43916857e0083f3d2593eae8e"
+    },
+    {
+      "path": "SPRINT_DEVPL_UX_P0_B_v1_0_0_APPROVED.md",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "1b025396349889487489c4fea648c6595df7e93b6ae52029a07ccae82d70ef61"
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "122fe233a92bc0ba2925bacf8cdc907feb3e262c8e2da3699e82749b8a837bb8",
+      "post_semantic_sha256": "b198b3348f7043b35546d9e6d861a1e1e7665a61f451f361b3c507ad0661c6af"
+    },
+    {
+      "path": "docs/00_product/DEVPL_UX_P0_TARGET_INFORMATION_ARCHITECTURE_v1_0_0_CURRENT.md",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "b37fcb0b441c9e3b9f27ff5ddcba255e4a78858d814d342e5c3e5d61ddb8da24",
+      "post_semantic_sha256": "5c932f8ecd474e9913326f8f6bc376f1a3e621fafe8f8f1edc826b718191b332"
+    },
+    {
+      "path": "docs/02_architecture/DEVPL_UX_P0_APP_SHELL_PRESENTATION_CONTRACT_v1_1_0.md",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "19dc04e847a48b2148202adf1f6a54d1d9ed494c582117bdedc7a931d081054b"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_A_WINDOWS_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "df20668dff7d2ce7e8427567701eb2890c8c05df84950e6427992d7ebcb428f9"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_BROWSER_ACCEPTANCE_PLAN_v1_0_0.md",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "a97fe68033921cfc8add6b6267cfbd49a62b9b15ef7b4361ee35d695172bc1ec"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_CONTRACT_RECONCILIATION_SWEEP.json",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "c049eb2c4dce2ef53c0bf92b9f5d213e444f7f2a6dc4cbd9716d9dd63370b2dd"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_IMPLEMENTATION_REPORT.md",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "2c1dba1fca1ad8a970dc2af4811077b572ce0c4b852342a2ff5c4bcd81724c79"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_LOCAL_QUALIFICATION_REPORT.json",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "093375a61c7752b9a0d40466831c64c82b9610ac942c7624815cf93e01329962"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_SOURCE_DELTA_MANIFEST.json",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": null,
+      "post_hash_note": "SELF-REFERENTIAL-HASH-OMITTED"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_TEST_IMPACT.json",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "37e46578f22d0d723da27d1c772498a3cc26a44e66d894778b816d4af21d5a04"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_UX_FINDINGS_LEDGER.json",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "a06d29e06e150fe5c4b6c652f00efecb0c7d20a0a6c45c6e8eba90ec2b8a0397"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "dc80cc05fd81562df600ba425642cd8a31b767470229ddc623cf23347d1a47d1",
+      "post_semantic_sha256": "6d7b8685f385764f6c45206a83527ba0f7c8592f2a52b73f4cd4426d7756a3ed"
+    },
+    {
+      "path": "tests/test_devpl_ux_p0_b_shell_contracts.py",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "593f8beb44b819e4335dd1cd0542ce0a22f3b834707b42627778123a83e5eafa"
+    },
+    {
+      "path": "ui/web/package-lock.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "91c897bf249413c356c392ff864ba3e0836daa3848594339d0d53c084105f02c",
+      "post_semantic_sha256": "eaea6354cdc741ed0e7a4aa6780e0946416141740db278dde8d99654f6ab4c92"
+    },
+    {
+      "path": "ui/web/package.json",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "939c8b6bcace8f223a2b142d5424cc94a657ff5fe3902af45ef86586c9d93fce",
+      "post_semantic_sha256": "ec807ea687f1b79e350b29a948105772524341fbaa847790241c1b4412409e03"
+    },
+    {
+      "path": "ui/web/scripts/gsdlc12c-accessibility-smoke.mjs",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "1919c2f478bc17660ac120b0ac4fc4d15da2597a5ea4a940ab502e5fc73a26d8",
+      "post_semantic_sha256": "d3503f163759a30a1061b187431be605b60d7786ec4674c4408a24bb2de1cff4"
+    },
+    {
+      "path": "ui/web/scripts/uxp0b-app-shell-smoke.mjs",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "f90333b886808e01927ef968b1bb2dacf927dfa406ae384624bce88595b35dec"
+    },
+    {
+      "path": "ui/web/src/components/ExperienceModeControl.ts",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "f153aa30a46cc80067a946f076378564cb34f8e10a9bc01a4338db4a2a36ef37",
+      "post_semantic_sha256": "b1a4709f7c3f200ec94acffa5aa7b463ff1262b71d0738ccdc8eec659c29ff5b"
+    },
+    {
+      "path": "ui/web/src/components/SessionBanner.ts",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "3f3ce0586411ad3af971223065e89fdbdb2cdbf88c7733f8778ca7bb1e5bbd5b",
+      "post_semantic_sha256": "1d936bb77ab7e956161eda8da63dfa3a85220eed9f7d0496be5489be41e04adc"
+    },
+    {
+      "path": "ui/web/src/components/ShellProjectContext.ts",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "50b12b31a532996e2b35fb186e3c7679be310b121fa28717fb1a9b623263f3c7"
+    },
+    {
+      "path": "ui/web/src/main.ts",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "430b5c82346a0134a8d5a36eee632e9f33e1bcc2ab8a4fc1c80c02d2178ff1d4",
+      "post_semantic_sha256": "65776774b3a8b4d3a9e0b2431a1ed21643d34393cb68aed29ea6a3310eb593ef"
+    },
+    {
+      "path": "ui/web/src/styles.css",
+      "pre_exists": true,
+      "post_exists": true,
+      "pre_semantic_sha256": "361e9b60a576dac3c3720c738fdf25fdc3ee6d3173190d77f1d870dc1a5b95ba",
+      "post_semantic_sha256": "37ac05fd60a1252ab1df413c24c7a83e21402dd8c4d389772c7470961c56c061"
+    },
+    {
+      "path": "ui/web/src/ux/navigationPresentation.ts",
+      "pre_exists": false,
+      "post_exists": true,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "17549091907ee725baa187d6f4226e66dc30f2b9efa47b212de31ebcf62d7341"
+    }
+  ]
+}

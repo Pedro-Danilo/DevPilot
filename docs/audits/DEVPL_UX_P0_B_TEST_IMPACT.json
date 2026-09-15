@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "micro_sprint": "DEVPL-UX-P0-B",
+  "analyzer": "test-impact analyze-v2",
+  "summary": {
+    "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
+    "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "rules_path": ".devpilot/testing/test_impact_rules.json",
+    "changed_paths_total": 31,
+    "contracts_total": 343,
+    "matched_contracts_total": 194,
+    "p0_selected_total": 119,
+    "p1_selected_total": 66,
+    "heuristic_recommendations_total": 6,
+    "recommended_tests_total": 312,
+    "recommended_commands_total": 359,
+    "recommended_profiles": [
+      "p0-critical",
+      "docs-historical",
+      "impact",
+      "release-candidate-local",
+      "release"
+    ],
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "unmatched_paths": [],
+  "generic_full_regression_recommended": true,
+  "full_regression_execution": "DEFERRED-BY-OWNER-APPROVED-BACKLOG-POLICY-TO-UX-P0-E",
+  "full_regression_runs": 0,
+  "policy_basis": "A-D selective/TestImpact only; E exactly one logical Full"
+}

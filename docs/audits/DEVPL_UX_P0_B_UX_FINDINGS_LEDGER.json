@@ -1,0 +1,13 @@
+{
+  "schema_id": "devpilot.ux_p0_b.ux_findings_ledger.v1",
+  "status": "LOCAL-IMPLEMENTED/WINDOWS-BROWSER-PENDING",
+  "ux_s0_open": 0,
+  "ux_s1_open": 0,
+  "ux_s2_open": [],
+  "ux_s3_open": [
+    "Page-level content hierarchy remains intentionally deferred to UX-P0-C.",
+    "Cross-surface operational primitives remain intentionally deferred to UX-P0-D."
+  ],
+  "browser_validation_required": true,
+  "full_regression_runs": 0
+}

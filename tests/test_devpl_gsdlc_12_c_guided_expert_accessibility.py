@@ -32,8 +32,8 @@ def test_12_c_mode_is_ux_only_and_authority_parity_is_explicit() -> None:
 
 def test_12_c_guided_progressive_disclosure_keeps_recovery_and_conflict_visible() -> None:
     main = read("ui/web/src/main.ts")
-    assert "primary-nav__advanced" in main
-    assert "Más herramientas" in main
+    navigation = read("ui/web/src/ux/navigationPresentation.ts") if (ROOT / "ui/web/src/ux/navigationPresentation.ts").exists() else ""
+    assert ("primary-nav__advanced" in main and "Más herramientas" in main) or ("primary-nav__group" in main and "Understand & Plan" in navigation and "Diagnostics" in navigation)
     assert "guidedNextAction" in main
     for critical in ["/project/status", "/recovery", "/reconciliation", "/help"]:
         assert critical in main

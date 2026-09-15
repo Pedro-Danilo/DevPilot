@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.38.0-ux-p0-a",
+  "version": "0.39.0-ux-p0-b",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI — GSDLC-12-B branch/external-edit reconciliation and conflict UX.",
+  "description": "DevPilot Local Web UI — UX-P0-B product App Shell, grouped navigation and persistent server-authoritative project context.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -47,7 +47,8 @@
     "test:recovery": "node scripts/gsdlc12a-recovery-smoke.mjs",
     "test:reconciliation": "node scripts/gsdlc12b-reconciliation-smoke.mjs",
     "smoke:gsdlc12c": "node scripts/gsdlc12c-accessibility-smoke.mjs",
-    "test:ux-p0-a": "node scripts/uxp0a-design-system-smoke.mjs"
+    "test:ux-p0-a": "node scripts/uxp0a-design-system-smoke.mjs",
+    "test:ux-p0-b": "node scripts/uxp0b-app-shell-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -212,7 +213,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-UX-P0-A",
+    "currentSprint": "DEVPL-UX-P0-B",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -445,13 +446,17 @@
     "gsdlc12aRecovery": true,
     "gsdlc12aFullRegressionAllowed": false,
     "uxP0": true,
-    "uxP0Status": "active/UX-P0-A",
+    "uxP0Status": "active/UX-P0-B",
     "uxP0Foundation": "authority-rebind+frontend-identity+semantic-design-tokens+IA-contract",
-    "uxP0SourceRepo": "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
-    "uxP0SourceCommit": "a415504bbf021566243ef4000b1a27d4c8846fee",
+    "uxP0SourceRepo": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "uxP0SourceCommit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
     "uxP0FullRegressionRuns": 0,
     "uxP0RoutePathsChanged": false,
-    "uxP0ServerAuthorityChanged": false
+    "uxP0ServerAuthorityChanged": false,
+    "uxP0SourceSha256": "be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097",
+    "uxP0AStatus": "closed/PASS/WINDOWS-VALIDATED",
+    "uxP0BStatus": "implemented/local-qualified/windows-validation-pending",
+    "uxP0Shell": "grouped-navigation+breadcrumbs+persistent-server-project-context+authoritative-next-action+responsive-guided-expert"
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

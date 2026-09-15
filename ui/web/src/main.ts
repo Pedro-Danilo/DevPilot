@@ -28,6 +28,8 @@ import { renderAccountRoleView } from './pages/AccountRoleView';
 import { renderSessionBanner } from './components/SessionBanner';
 import { renderExperienceModeControl } from './components/ExperienceModeControl';
 import { renderHelpSystemView } from './pages/HelpSystemView';
+import { renderShellProjectContext } from './components/ShellProjectContext';
+import { breadcrumbItems, groupVisibleRoutes, navigationGroupForPath } from './ux/navigationPresentation';
 import { initializeExperienceMode, readExperienceMode } from './ux/experienceMode';
 import './styles.css';
 import './planning.css';
@@ -144,7 +146,12 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
   target.replaceChildren();
   const shell = document.createElement('div'); shell.className = 'app-shell'; shell.dataset.experienceMode = readExperienceMode();
   const skipLink = document.createElement('a'); skipLink.className = 'skip-link'; skipLink.href = '#route-main'; skipLink.textContent = 'Saltar al contenido principal';
-  shell.append(skipLink, renderSessionBanner(session,()=>{ clearProjectJourneyContext(); clearProjectRecoveryIntent(); redirect('/login?reason=logout'); }), renderExperienceModeControl(), renderPrimaryNavigation(currentPath, journey, Boolean(handoffApprovalId)));
+  const utility = document.createElement('div'); utility.className = 'app-shell__utility';
+  utility.append(renderSessionBanner(session,()=>{ clearProjectJourneyContext(); clearProjectRecoveryIntent(); redirect('/login?reason=logout'); }), renderExperienceModeControl());
+  shell.append(skipLink, utility, renderPrimaryNavigation(currentPath, journey, Boolean(handoffApprovalId)));
+  if (route) shell.append(renderBreadcrumbs(route, Boolean(handoffApprovalId)));
+  const showProjectContext = Boolean(route && journey?.phase === 'project' && !handoffApprovalId && (route.scope === 'project' || route.scope === 'entry-or-project'));
+  if (showProjectContext) shell.append(renderShellProjectContext(() => readStoredToken()));
   const page = document.createElement('div'); page.className = 'route-page'; page.id = 'route-main'; page.setAttribute('role', 'main'); page.setAttribute('tabindex', '-1'); page.dataset.routePath = currentPath;
   if (!route) page.append(renderNotFound(currentPath));
   else if (route.path === '/') renderDashboard(page, session, new URLSearchParams(globalThis.location.search).get('guard'));
@@ -181,36 +188,26 @@ function renderExperienceModeContext(route: UiRoute, session: AuthSessionContext
   const wrap = document.createElement('section');
   wrap.className = 'experience-mode-context';
   wrap.setAttribute('aria-label', 'Contexto del modo de experiencia');
-  const guided = document.createElement('div');
-  guided.className = 'guided-only guided-focus';
-  const guidedTitle = document.createElement('strong');
-  guidedTitle.textContent = 'Guided · Qué hacer ahora';
-  const guidedCopy = document.createElement('span');
-  guidedCopy.textContent = guidedNextAction(route.path);
-  const guidedSafety = document.createElement('span');
-  guidedSafety.className = 'guided-focus__safety';
-  guidedSafety.textContent = 'Los blockers críticos siempre permanecen visibles.';
-  guided.append(guidedTitle, guidedCopy, guidedSafety);
-
+  if (route.scope !== 'project') {
+    const guided = document.createElement('div');
+    guided.className = 'guided-only guided-focus';
+    const guidedTitle = document.createElement('strong'); guidedTitle.textContent = 'Guided · Orientación';
+    const guidedCopy = document.createElement('span'); guidedCopy.textContent = guidedNextAction(route.path);
+    guided.append(guidedTitle, guidedCopy); wrap.append(guided);
+  }
   const expert = document.createElement('details');
   expert.className = 'expert-only expert-diagnostics';
   expert.open = true;
-  const summary = document.createElement('summary');
-  summary.textContent = 'Expert diagnostics · autoridad sin cambios';
+  const summary = document.createElement('summary'); summary.textContent = 'Expert diagnostics · autoridad sin cambios';
   const dl = document.createElement('dl');
   for (const [label, value] of [
-    ['Route ID', route.routeId],
-    ['Scope', route.scope],
-    ['Roles', session.principal.roles.join(', ') || 'none'],
-    ['Authority', 'server-side'],
-    ['RBAC / approvals / tools / models', 'identical-to-guided'],
-    ['Mode storage', 'browser UX preference only'],
+    ['Route ID', route.routeId], ['Path', route.path], ['Scope', route.scope],
+    ['Roles', session.principal.roles.join(', ') || 'none'], ['Authority', 'server-side'],
+    ['RBAC / approvals / tools / models', 'identical-to-guided'], ['Mode storage', 'browser UX preference only'],
   ]) {
     const row = document.createElement('div'); const dt = document.createElement('dt'); const dd = document.createElement('dd'); dt.textContent = label; dd.textContent = value; row.append(dt, dd); dl.append(row);
   }
-  expert.append(summary, dl);
-  wrap.append(guided, expert);
-  return wrap;
+  expert.append(summary, dl); wrap.append(expert); return wrap;
 }
 
 function guidedNextAction(path: string): string {
@@ -231,22 +228,47 @@ function guidedNextAction(path: string): string {
 }
 
 function renderPrimaryNavigation(currentPath: string, journey: ProjectJourneyContext | null, auxiliaryApprovalHandoff = false): HTMLElement {
-  const nav = document.createElement('nav'); nav.className = 'primary-nav'; nav.setAttribute('aria-label', 'Navegación principal DevPilot');
-  nav.dataset.journeyPhase = journey?.phase ?? 'home';
-  const brand = document.createElement(auxiliaryApprovalHandoff ? 'span' : 'a'); if(!auxiliaryApprovalHandoff)(brand as HTMLAnchorElement).href='/'; brand.className = 'primary-nav__brand'; brand.textContent = 'DevPilot Local';
-  const links = document.createElement('div'); links.className = 'primary-nav__links';
-  const advanced = document.createElement('details'); advanced.className = 'primary-nav__advanced'; advanced.open = readExperienceMode() === 'expert';
-  const advancedSummary = document.createElement('summary'); advancedSummary.textContent = 'Más herramientas';
-  const advancedLinks = document.createElement('div'); advancedLinks.className = 'primary-nav__advanced-links';
-  advanced.append(advancedSummary, advancedLinks);
-  const guidedCorePaths = new Set(['/', '/project/status', '/pre-code', '/planning/roadmap', '/story/code', '/quality', '/release/readiness', '/recovery', '/reconciliation', '/approvals', '/help', '/account']);
+  const nav = document.createElement('nav'); nav.className = 'primary-nav primary-nav--grouped'; nav.setAttribute('aria-label', 'Navegación principal DevPilot');
+  nav.dataset.journeyPhase = journey?.phase ?? 'home'; nav.dataset.approvalHandoff = String(auxiliaryApprovalHandoff);
+  const brandRow = document.createElement('div'); brandRow.className = 'primary-nav__brand-row';
+  const brand = document.createElement(auxiliaryApprovalHandoff ? 'span' : 'a'); if (!auxiliaryApprovalHandoff) (brand as HTMLAnchorElement).href = '/'; brand.className = 'primary-nav__brand'; brand.textContent = 'DevPilot Local';
+  const navHint = document.createElement('span'); navHint.className = 'primary-nav__hint guided-only'; navHint.textContent = auxiliaryApprovalHandoff ? 'Decisión exacta en curso' : 'Navegación por flujo de trabajo';
+  brandRow.append(brand, navHint); nav.append(brandRow);
   const visibleRoutes = UI_ROUTES.filter((item) => routeVisible(item, journey) && (!auxiliaryApprovalHandoff || item.path === '/approvals' || item.path === '/account'));
-  for (const route of visibleRoutes) {
-    const link=document.createElement('a'); link.href=route.path; link.textContent=route.title; link.dataset.routeId=route.routeId;
-    if(route.path===currentPath||(route.path==='/jobs'&&currentPath.startsWith('/jobs/'))){link.classList.add('is-active');link.setAttribute('aria-current','page');}
-    (guidedCorePaths.has(route.path) ? links : advancedLinks).append(link);
+  const activePath = currentPath.startsWith('/jobs/') ? '/jobs' : currentPath;
+  if (auxiliaryApprovalHandoff) {
+    const links = document.createElement('div'); links.className = 'primary-nav__handoff-links';
+    for (const route of visibleRoutes) {
+      const link=document.createElement('a'); link.href=route.path; link.textContent=route.title; link.dataset.routeId=route.routeId;
+      if(route.path===activePath){link.classList.add('is-active');link.setAttribute('aria-current','page');}
+      links.append(link);
+    }
+    nav.append(links); return nav;
   }
-  nav.append(brand, links); if (advancedLinks.childElementCount > 0 && !auxiliaryApprovalHandoff) nav.append(advanced); return nav;
+  const groupsHost=document.createElement('div'); groupsHost.className='primary-nav__groups';
+  for (const entry of groupVisibleRoutes(visibleRoutes, currentPath)) {
+    const details=document.createElement('details'); details.className='primary-nav__group'; details.dataset.groupId=entry.group.id; details.dataset.activeGroup=String(entry.active); details.open=readExperienceMode()==='expert'||entry.active||(entry.group.id==='start'&&currentPath==='/');
+    const summary=document.createElement('summary'); summary.className='primary-nav__group-summary'; summary.textContent=readExperienceMode()==='expert'?entry.group.label:entry.group.guidedLabel;
+    const links=document.createElement('div'); links.className='primary-nav__group-links';
+    for (const route of entry.routes) {
+      const link=document.createElement('a'); link.href=route.path; link.textContent=route.title; link.dataset.routeId=route.routeId;
+      if(route.path===activePath){link.classList.add('is-active');link.setAttribute('aria-current','page');}
+      links.append(link);
+    }
+    details.append(summary,links); groupsHost.append(details);
+  }
+  nav.append(groupsHost); return nav;
+}
+
+function renderBreadcrumbs(route: UiRoute, auxiliaryApprovalHandoff = false): HTMLElement {
+  const nav=document.createElement('nav'); nav.className='app-breadcrumbs'; nav.setAttribute('aria-label','Ubicación actual');
+  const list=document.createElement('ol');
+  for(const item of breadcrumbItems(route,auxiliaryApprovalHandoff)){
+    const li=document.createElement('li');
+    if(item.href){const a=document.createElement('a');a.href=item.href;a.textContent=item.label;li.append(a);}else{const span=document.createElement('span');span.textContent=item.label;if(item.current)span.setAttribute('aria-current','page');li.append(span);}
+    list.append(li);
+  }
+  nav.append(list); return nav;
 }
 
 function routeAllowed(route: UiRoute, journey: ProjectJourneyContext | null): boolean {
@@ -297,7 +319,13 @@ async function recoverSessionBoundProjectRouteContext(
 }
 
 function renderRouteHeader(route: UiRoute, session: AuthSessionContext): HTMLElement {
-  const header=document.createElement('header'); header.className='route-header'; const heading=document.createElement('div'); const title=document.createElement('h1'); title.textContent=route.title; const meta=document.createElement('p'); meta.textContent=`${route.routeId} · ${route.path} · human-session · ${session.principal.roles.join(', ')} · local-first · no-remote · TTL máximo de 8h`; heading.append(title,meta); header.append(heading); return header;
+  const header=document.createElement('header'); header.className='route-header';
+  const heading=document.createElement('div');
+  const group=navigationGroupForPath(route.path);
+  const eyebrow=document.createElement('p'); eyebrow.className='route-header__eyebrow'; eyebrow.textContent=group?.guidedLabel ?? 'DevPilot';
+  const title=document.createElement('h1'); title.textContent=route.title;
+  const expert=document.createElement('p'); expert.className='route-header__diagnostics expert-only'; expert.textContent=`${route.routeId} · ${route.path} · human-session · ${session.principal.roles.join(', ')} · local-first · no-remote · TTL máximo de 8h`;
+  heading.append(eyebrow,title,expert); header.append(heading); return header;
 }
 function renderNotFound(path:string):HTMLElement{const section=document.createElement('section');section.className='panel route-not-found';const title=document.createElement('h1');title.textContent='Ruta UI no registrada';const description=document.createElement('p');description.textContent=`La ruta ${path} no pertenece al contrato local. Usa la navegación principal.`;section.append(title,description);return section;}
 

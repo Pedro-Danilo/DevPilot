@@ -774,3 +774,10 @@ Correctivo acotado sobre el implementation commit Windows existente: cierre dete
 ## Post-GSDLC pre-pilot transition — DEVPL-UX-P0
 
 DEVPL-GSDLC-12 is `CLOSED/PASS/WINDOWS-VALIDATED` on immutable repo430 (`a415504bbf021566243ef4000b1a27d4c8846fee`, SHA-256 `969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a`). Remote synchronization D3 is closed PASS. Before greenfield acceptance, the approved transition inserts `DEVPL-UX-P0` as a bounded productization wave. UX-P0-A is the current micro-sprint; A-D use selective/TestImpact validation only and UX-P0-E reserves exactly one logical Full. GSDLC-13 authorization is preserved but execution is deferred until UX-P0-E closes.
+
+
+## DEVPL-UX-P0-B — Product App Shell (current)
+
+Baseline: `repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip` / `013cc84f0df9eff1fb750b542644bfd0c7dc8717` / `be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097`.
+
+Implements the shell/navigation/context layer before greenfield acceptance: grouped workflow navigation, breadcrumbs, persistent server-authoritative project/stage/state/blocker/recovery context, authoritative Next Action, compact Session + Guided/Expert chrome and responsive navigation. Route IDs/paths/guards remain unchanged. UX-P0-C remains the next authorized micro-sprint after Windows/browser closure.

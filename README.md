@@ -6816,3 +6816,8 @@ La primera validación Windows bloqueó antes de cierre por un file-handle SQLit
 ## DEVPL-UX-P0-A — authority rebind and design-system foundation — 2026-09-15
 
 GSDLC-12 remains closed on immutable repo430 (`a415504bbf021566243ef4000b1a27d4c8846fee`, SHA-256 `969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a`). POST-GSDLC Git remote synchronization is PASS and the annotated milestone tag is remote. DEVPL-UX-P0 is now the current pre-pilot productization program; UX-P0-A activates the first successor, reconciles current-active documentation drift, materializes owner-approved transition/UX strategy, introduces semantics-preserving design tokens and freezes the current route/IA baseline. Route IDs, paths, API contracts, RBAC, approvals, model/tool authority and Guided/Expert permissions are unchanged. Full Regression = 0; the UX-P0 budget remains 0/1 reserved for UX-P0-E. GSDLC-13 remains authorized historically but execution-deferred until UX-P0-E closes.
+
+
+## DEVPL-UX-P0-B — Product App Shell — 2026-09-15
+
+UX-P0-A is CLOSED/PASS/WINDOWS-VALIDATED on `repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip` (`013cc84f0df9eff1fb750b542644bfd0c7dc8717`, SHA-256 `be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097`). UX-P0-B is the current pre-pilot productization micro-sprint and implements grouped workflow navigation, breadcrumbs, persistent server-derived Project Context, authoritative Next Action and responsive Guided/Expert shell presentation without changing route IDs, guards, RBAC, approvals, model/tool authority or server policy. Full Regression remains 0 and is reserved exactly once for UX-P0-E.

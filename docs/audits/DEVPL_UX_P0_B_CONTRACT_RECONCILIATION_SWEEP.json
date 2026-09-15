@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "micro_sprint": "DEVPL-UX-P0-B",
+  "generated_at_utc": "2026-09-15T17:05:00Z",
+  "current_contract": "devpl-ux-p0-b-product-app-shell",
+  "historical_contracts_preserved": true,
+  "current_successor_fields": {
+    "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+    "ux_p0_b_status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+    "ux_p0_current_micro_sprint": "DEVPL-UX-P0-B",
+    "ux_p0_next_micro_sprint": "DEVPL-UX-P0-C"
+  },
+  "route_paths_changed": false,
+  "server_authority_changed": false,
+  "guided_expert_permission_parity_preserved": true,
+  "full_regression_runs": 0,
+  "full_reserved_for": "DEVPL-UX-P0-E",
+  "pre_existing_typecheck_findings": 8,
+  "new_typecheck_findings": 0,
+  "blocking_drift": 0,
+  "local_release_candidate_criteria_current_authority_reconciled": true,
+  "evidence_freshness": "PASS/critical_stale=0"
+}

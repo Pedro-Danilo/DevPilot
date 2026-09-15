@@ -14533,9 +14533,79 @@
         "docs/audits/DEVPL_UX_P0_A_LOCAL_QUALIFICATION_REPORT.json",
         "docs/audits/DEVPL_UX_P0_A_CONTRACT_RECONCILIATION_SWEEP.json"
       ]
+    },
+    {
+      "contract_id": "devpl-ux-p0-b-product-app-shell",
+      "critical": true,
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-UX-P0-B",
+      "phase": "DEVPL-UX-P0",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_ux_p0_b_shell_contracts.py tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py tests/test_devpl_gsdlc_03_e_project_home_browser_closure.py tests/test_devpl_gsdlc_11_d_project_context_recovery.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_ux_p0_b_shell_contracts.py",
+        "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py",
+        "tests/test_devpl_gsdlc_03_e_project_home_browser_closure.py",
+        "tests/test_devpl_gsdlc_11_d_project_context_recovery.py"
+      ],
+      "validates": [
+        "UX-P0-A Windows closure is reconciled without rewriting repo431",
+        "workflow-grouped navigation preserves all current route IDs/paths and guards",
+        "persistent Project Context and Next Action are server-derived and fail closed",
+        "Guided/Expert differ only in presentation density",
+        "approval handoff remains exact-ID with restricted navigation",
+        "responsive shell preserves >=44px targets and keyboard semantics",
+        "UX-P0-B Full Regression remains 0; one logical Full is reserved for UX-P0-E",
+        "current LocalReleaseCandidateCriteria follows UX-P0-B current authority without rewriting historical closure facts"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "DEVPL_UX_P0_PRE_PILOT_PRODUCTIZATION_BACKLOG_v1_0_0_APPROVED.md",
+        "SPRINT_DEVPL_UX_P0_B_v1_0_0_APPROVED.md",
+        "02_PROMPT_DEVPL_UX_P0_B_v1_0_0_APPROVED.md",
+        "docs/00_product/DEVPL_UX_P0_TARGET_INFORMATION_ARCHITECTURE_v1_0_0_CURRENT.md",
+        "docs/02_architecture/DEVPL_UX_P0_APP_SHELL_PRESENTATION_CONTRACT_v1_1_0.md",
+        "docs/audits/DEVPL_UX_P0_B_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_UX_P0_B_UX_FINDINGS_LEDGER.json",
+        "ui/web/package.json",
+        "ui/web/package-lock.json",
+        "ui/web/src/main.ts",
+        "ui/web/src/styles.css",
+        "ui/web/src/ux/navigationPresentation.ts",
+        "ui/web/src/components/ShellProjectContext.ts",
+        "ui/web/src/components/ExperienceModeControl.ts",
+        "ui/web/src/components/SessionBanner.ts",
+        "ui/web/scripts/uxp0b-app-shell-smoke.mjs",
+        "ui/web/scripts/gsdlc12c-accessibility-smoke.mjs",
+        "tests/test_devpl_ux_p0_b_shell_contracts.py",
+        "tests/test_devpl_gsdlc_12_c_guided_expert_accessibility.py",
+        "README.md",
+        "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+        "docs/audits/DEVPL_UX_P0_A_WINDOWS_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "docs/audits/DEVPL_UX_P0_B_BROWSER_ACCEPTANCE_PLAN_v1_0_0.md",
+        "docs/audits/DEVPL_UX_P0_B_SOURCE_DELTA_MANIFEST.json",
+        "docs/audits/DEVPL_UX_P0_B_TEST_IMPACT.json",
+        "docs/audits/DEVPL_UX_P0_B_LOCAL_QUALIFICATION_REPORT.json",
+        "docs/audits/DEVPL_UX_P0_B_CONTRACT_RECONCILIATION_SWEEP.json",
+        ".devpilot/release/local_release_candidate_criteria.json"
+      ]
     }
   ],
-  "contracts_total": 342,
+  "contracts_total": 343,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [
@@ -14610,7 +14680,8 @@
     "FRX-v2.2-A adds incremental cross-authority documentation consistency before expensive testing; full/browser runs remain zero.",
     "DEVPL-GSDLC-10-B registers typed StoryValidationJob lifecycle, worker/log/cancel/retry/orphan contracts with Full Regression=0.",
     "DEVPL-GSDLC-11-C adds controlled install/backup/upgrade/rollback current-active coverage; Full Regression remains 0.",
-    "DEVPL-GSDLC-12-A adds durable restart/resume, workspace lock and lifecycle-coherence contracts; Full Regression remains 0 by backlog policy."
+    "DEVPL-GSDLC-12-A adds durable restart/resume, workspace lock and lifecycle-coherence contracts; Full Regression remains 0 by backlog policy.",
+    "DEVPL-UX-P0-B registers product App Shell/grouped-navigation/server-context browser acceptance while preserving route/server authority and Full Regression=0."
   ],
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "schema_version": "1.0",

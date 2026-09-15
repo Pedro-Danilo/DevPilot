@@ -6,7 +6,9 @@ version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-15"
 approval: "derived_from_approved_DEVPL-UX-P0-A"
-source_repo: "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
+source_repo: "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip"
+source_git_commit: "013cc84f0df9eff1fb750b542644bfd0c7dc8717"
+source_repo_sha256: "be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097"
 route_policy: "preserve-current-paths-and-route-ids"
 ---
 
@@ -72,7 +74,8 @@ La autoridad es idéntica.
 
 ## Risks and limitations
 
-- This document defines target presentation grouping only; UX-P0-A does not implement the grouped navigation.
+- UX-P0-B implements this grouping in the authenticated App Shell while preserving the current route IDs/paths and guards.
+- UX-P0-C/D may refine labels and content hierarchy without changing authority.
 - Changing labels/groupings must never change route IDs, guards, RBAC or server authority.
 
 ## PASS/BLOCK
