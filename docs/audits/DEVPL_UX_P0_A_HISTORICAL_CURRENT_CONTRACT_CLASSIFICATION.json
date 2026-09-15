@@ -1,0 +1,36 @@
+{
+  "schema_id": "devpilot.ux_p0_a.historical_current_contract_classification.v1",
+  "status": "PASS",
+  "updated": "2026-09-15",
+  "historical_freeze": [
+    ".devpilot/interfaces/ui_route_contract_registry_uoc011_at_close.json",
+    "GSDLC/FRX *_at_close fields",
+    "repo430 closure evidence and SHA"
+  ],
+  "current_active": [
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "README.md",
+    "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+    "ui/web/package.json",
+    "ui/web/package-lock.json"
+  ],
+  "successor_needed": [
+    "DEVPL-UX-P0 current artifacts and repo431 successor authority"
+  ],
+  "derived": [
+    "frontend navigation audit",
+    "frontend baseline",
+    "target IA",
+    "design token inventory"
+  ],
+  "runtime_ephemeral": [
+    "auth.db*",
+    "devpilot.db*",
+    ".venv",
+    "node_modules",
+    "outputs"
+  ],
+  "historical_current_leakage_total": 0,
+  "full_regression_runs": 0
+}

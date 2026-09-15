@@ -1,0 +1,19 @@
+{
+  "schema_id": "devpilot.ux_p0_a.current.v1",
+  "status": "IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "updated": "2026-09-15",
+  "program": "DEVPL-UX-P0",
+  "micro_sprint": "DEVPL-UX-P0-A",
+  "source_repo": "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "a415504bbf021566243ef4000b1a27d4c8846fee",
+  "source_sha256": "969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a",
+  "successor_expected": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "full_regression_runs": 0,
+  "full_regression_budget": "0/1-RESERVED-FOR-UX-P0-E",
+  "route_paths_changed": false,
+  "route_ids_changed": false,
+  "server_authority_changed": false,
+  "new_runtime_dependencies": 0,
+  "gsdlc_13_authorized": true,
+  "gsdlc_13_execution_deferred": true
+}

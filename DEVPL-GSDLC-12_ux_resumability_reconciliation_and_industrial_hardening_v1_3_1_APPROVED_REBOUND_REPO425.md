@@ -31,7 +31,7 @@ r01_research_authority_repo: "repo_DevPilot_Local_348_DEVPL_GSDLC_R01_E_RESEARCH
 r01_research_authority_commit: "3d7fda44d7ab5feefadd2eb4a7b9d20680eb1b5d"
 r01_research_authority_sha256: "68487b2d210a0fd8fb6f2c46f2f70f205f925aeda7d556e13af205de4583515d"
 r01_binding_scope: "architecture-and-security-input; historical design origin remains immutable"
-backlog_status: "APPROVED/READY-FOR-GSDLC-12-A"
+backlog_status: "CLOSED/PASS/WINDOWS-VALIDATED"
 micro_sprints_total: 5
 frx_execution_profile_id: "frx-v2.4-current"
 frx_execution_profile_sha256: "2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219"
@@ -39,10 +39,10 @@ validation_policy: "A-D cumulative-selective+TestImpact; no routine Full; E exac
 documentation_contract_policy: "DEVPL_DOCUMENTATION_CONTRACT_RECONCILIATION_POLICY_v1_0_0_APPROVED"
 documentation_drift_policy: "bounded non-critical drift repaired in active/next micro-sprint; no standalone sprint/operator/repo"
 runtime_ephemeral_fixture_policy: "exclude auth.db*, devpilot.db* and equivalent runtime stores"
-current_execution_source_repo: "repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip"
-current_execution_source_commit: "d65db36f3f430f2e96357a931a7da14a8ee8a9e5"
-current_execution_source_sha256: "764fbf23439091a869519c1ccd3963c5e733499ee91523b8b60f47862671d370"
-current_execution_micro_sprint: "DEVPL-GSDLC-12-C"
+current_execution_source_repo: "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
+current_execution_source_commit: "a415504bbf021566243ef4000b1a27d4c8846fee"
+current_execution_source_sha256: "969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a"
+current_execution_micro_sprint: "DEVPL-GSDLC-12-E/CLOSED"
 ---
 
 # 0.0 Owner APPROVE, predecessor closure adjudication y execution rebind — 2026-09-12

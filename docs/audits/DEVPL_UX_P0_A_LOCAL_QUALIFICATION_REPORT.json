@@ -1,0 +1,45 @@
+{
+  "schema_id": "devpilot.ux_p0_a.local_qualification.v1",
+  "status": "PASS/LOCAL-AUTOMATED/WINDOWS-VALIDATION-PENDING",
+  "generated_at": "2026-09-15",
+  "micro_sprint": "DEVPL-UX-P0-A",
+  "baseline": {
+    "repo": "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "a415504bbf021566243ef4000b1a27d4c8846fee",
+    "sha256": "969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a"
+  },
+  "expected_successor": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gates": {
+    "ux_p0_design_system_smoke": "PASS",
+    "route_enforcement_smoke": "PASS",
+    "accessibility_smoke": "PASS",
+    "state_matrix_smoke": "PASS",
+    "performance_smoke": "PASS",
+    "visual_static_smoke": "PASS",
+    "focal_impacted_pytest": "PASS/83",
+    "project_state": "PASS/6-of-6",
+    "docs_governance": "PASS/1578-documents/0-blockers",
+    "tcr_v1": "PASS/342-contracts",
+    "tcr_v2": "PASS/342-contracts/2-preexisting-needs-review-warnings",
+    "test_impact": "PASS/41-changed/209-contracts/332-tests/0-unmatched/generic-full=true/deferred-to-UX-P0-E",
+    "vite_build_local": "NOT-EXECUTED/node_modules-excluded-from-clean-repo",
+    "vite_build_windows": "MANDATORY-PENDING"
+  },
+  "ux_findings": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "s2_deferred_to_later_p0": 2,
+    "s3_deferred": 1
+  },
+  "full_regression_runs": 0,
+  "browser_run_performed": false,
+  "browser_rationale": "UX-P0-A preserves route/render composition and introduces foundation tokens; browser acceptance becomes mandatory when UX-P0-B/C changes visible shell/critical-path composition.",
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "mutations_performed": "local candidate implementation only",
+  "limitations": [
+    "Windows validation must execute Vite build against the provisioned official node_modules and package exact commit before UX-P0-A can close."
+  ],
+  "full_regression_policy": "PROHIBITED-IN-UX-P0-A/GENERIC-ANALYZER-FULL-DEFERRED-TO-UX-P0-E"
+}

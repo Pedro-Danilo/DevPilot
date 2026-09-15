@@ -6811,3 +6811,8 @@ La primera validación Windows bloqueó antes de cierre por un file-handle SQLit
 ## GSDLC-12-E — cierre Windows
 
 `CLOSED/PASS/WINDOWS-VALIDATED`. Browser matrix real=1; Full logical=1 (`DEVPL-GSDLC-12-E-FULL-01-R1`); adjudicación `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`; segunda Full=0; S0/S1=0. RC exact-commit queda sujeto a packaging + clean-install final PASS antes de promoción. DEVPL-GSDLC-12 queda `CLOSED/PASS`; GSDLC-13 autorizado únicamente desde RC autoritativo.
+
+
+## DEVPL-UX-P0-A — authority rebind and design-system foundation — 2026-09-15
+
+GSDLC-12 remains closed on immutable repo430 (`a415504bbf021566243ef4000b1a27d4c8846fee`, SHA-256 `969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a`). POST-GSDLC Git remote synchronization is PASS and the annotated milestone tag is remote. DEVPL-UX-P0 is now the current pre-pilot productization program; UX-P0-A activates the first successor, reconciles current-active documentation drift, materializes owner-approved transition/UX strategy, introduces semantics-preserving design tokens and freezes the current route/IA baseline. Route IDs, paths, API contracts, RBAC, approvals, model/tool authority and Guided/Expert permissions are unchanged. Full Regression = 0; the UX-P0 budget remains 0/1 reserved for UX-P0-E. GSDLC-13 remains authorized historically but execution-deferred until UX-P0-E closes.

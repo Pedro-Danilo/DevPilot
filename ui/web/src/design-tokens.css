@@ -1,0 +1,65 @@
+/* DEVPL-UX-P0-A — semantic design-system foundation.
+   Values intentionally preserve repo430 visual semantics; UX-P0-B+ changes composition. */
+:root {
+  /* Typography */
+  --dp-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --dp-font-size-xs: 0.72rem;
+  --dp-font-size-sm: 0.82rem;
+  --dp-font-size-md: 0.90rem;
+  --dp-font-size-lg: 1.10rem;
+  --dp-font-size-xl: 1.45rem;
+  --dp-font-size-2xl: 2rem;
+
+  /* Surfaces and text */
+  --dp-color-canvas: #f6f8fc;
+  --dp-color-surface: #ffffff;
+  --dp-color-surface-subtle: #f3f6fb;
+  --dp-color-surface-soft: #fbfcff;
+  --dp-color-text: #182033;
+  --dp-color-text-muted: #53627a;
+  --dp-color-border: #d9e2f2;
+  --dp-color-control-border: #c7d3e6;
+
+  /* Brand / action / focus */
+  --dp-color-action-primary: #1f5eff;
+  --dp-color-action-primary-text: #ffffff;
+  --dp-color-navigation: #102a56;
+  --dp-color-focus: #005fcc;
+
+  /* Operational states */
+  --dp-state-pass-bg: #dff8ea;
+  --dp-state-pass-fg: #0d6532;
+  --dp-state-warn-bg: #fff3cd;
+  --dp-state-warn-fg: #725100;
+  --dp-state-fail-bg: #ffe9cf;
+  --dp-state-fail-fg: #7a3d00;
+  --dp-state-block-bg: #ffe2e1;
+  --dp-state-block-fg: #92211b;
+  --dp-state-error-bg: #2d0c0c;
+  --dp-state-error-fg: #ffffff;
+  --dp-state-pending-bg: #e8edf7;
+  --dp-state-pending-fg: #44506a;
+  --dp-state-recovery-bg: #eef4ff;
+  --dp-state-recovery-fg: #18335f;
+
+  /* Spacing */
+  --dp-space-1: 0.25rem;
+  --dp-space-2: 0.5rem;
+  --dp-space-3: 0.75rem;
+  --dp-space-4: 1rem;
+  --dp-space-5: 1.5rem;
+  --dp-space-6: 2rem;
+
+  /* Radius / elevation */
+  --dp-radius-sm: 9px;
+  --dp-radius-md: 12px;
+  --dp-radius-lg: 16px;
+  --dp-radius-xl: 18px;
+  --dp-radius-pill: 999px;
+  --dp-shadow-panel: 0 8px 22px rgba(18, 37, 66, 0.06);
+
+  /* Interaction */
+  --dp-focus-width: 3px;
+  --dp-focus-offset: 3px;
+  --dp-control-min-target: 44px;
+}

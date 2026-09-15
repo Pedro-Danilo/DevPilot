@@ -769,3 +769,8 @@ Correctivo acotado sobre el implementation commit Windows existente: cierre dete
 ## GSDLC-12-E — cierre Windows
 
 `CLOSED/PASS/WINDOWS-VALIDATED`. Browser matrix real=1; Full logical=1 (`DEVPL-GSDLC-12-E-FULL-01-R1`); adjudicación `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`; segunda Full=0; S0/S1=0. RC exact-commit queda sujeto a packaging + clean-install final PASS antes de promoción. DEVPL-GSDLC-12 queda `CLOSED/PASS`; GSDLC-13 autorizado únicamente desde RC autoritativo.
+
+
+## Post-GSDLC pre-pilot transition — DEVPL-UX-P0
+
+DEVPL-GSDLC-12 is `CLOSED/PASS/WINDOWS-VALIDATED` on immutable repo430 (`a415504bbf021566243ef4000b1a27d4c8846fee`, SHA-256 `969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a`). Remote synchronization D3 is closed PASS. Before greenfield acceptance, the approved transition inserts `DEVPL-UX-P0` as a bounded productization wave. UX-P0-A is the current micro-sprint; A-D use selective/TestImpact validation only and UX-P0-E reserves exactly one logical Full. GSDLC-13 authorization is preserved but execution is deferred until UX-P0-E closes.

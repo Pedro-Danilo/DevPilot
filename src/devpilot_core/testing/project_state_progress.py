@@ -70,4 +70,14 @@ def post_h_progress_rank(value: str) -> int:
         step = ord(frx.group("step").upper()) - ord("A") + 1
         return 40_000 + (major * 10_000) + (minor * 100) + step
 
+    # Post-GSDLC UX productization is a successor program that runs before the
+    # already-authorized greenfield acceptance. Keep historical GSDLC/FRX ranks
+    # immutable and give DEVPL-UX-P<n>-<step> its own monotonic namespace.
+    ux_p = re.fullmatch(r"DEVPL-UX-P(?P<program>\d+)(?:-(?P<step>[A-Z]))?", value, flags=re.IGNORECASE)
+    if ux_p is not None:
+        program = int(ux_p.group("program"))
+        step_raw = ux_p.group("step")
+        step = 0 if step_raw is None else ord(step_raw.upper()) - ord("A") + 1
+        return 90_000 + (program * 100) + step
+
     raise AssertionError(f"Unsupported project-state progress identifier: {value!r}")

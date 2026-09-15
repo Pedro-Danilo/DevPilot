@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.37.0-gsdlc-12-c",
+  "version": "0.38.0-ux-p0-a",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI — GSDLC-12-B branch/external-edit reconciliation and conflict UX.",
@@ -46,7 +46,8 @@
     "test:release-closure": "node scripts/gsdlc11e-release-closure-smoke.mjs",
     "test:recovery": "node scripts/gsdlc12a-recovery-smoke.mjs",
     "test:reconciliation": "node scripts/gsdlc12b-reconciliation-smoke.mjs",
-    "smoke:gsdlc12c": "node scripts/gsdlc12c-accessibility-smoke.mjs"
+    "smoke:gsdlc12c": "node scripts/gsdlc12c-accessibility-smoke.mjs",
+    "test:ux-p0-a": "node scripts/uxp0a-design-system-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -211,7 +212,7 @@
     "workspaceDocumentsSymlinkFollowing": false,
     "uoc001PreliminaryReadOnly": true,
     "uoc001TopLevelUiRoutesAdded": 1,
-    "currentSprint": "DEVPL-GSDLC-12-E",
+    "currentSprint": "DEVPL-UX-P0-A",
     "uoc001Status": "closed/PASS",
     "workspaceDocumentInspection": true,
     "workspaceDocumentFullTextSearch": true,
@@ -442,7 +443,15 @@
     "gsdlc11bReleasePackage": true,
     "gsdlc11bFullRegressionRuns": 0,
     "gsdlc12aRecovery": true,
-    "gsdlc12aFullRegressionAllowed": false
+    "gsdlc12aFullRegressionAllowed": false,
+    "uxP0": true,
+    "uxP0Status": "active/UX-P0-A",
+    "uxP0Foundation": "authority-rebind+frontend-identity+semantic-design-tokens+IA-contract",
+    "uxP0SourceRepo": "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "uxP0SourceCommit": "a415504bbf021566243ef4000b1a27d4c8846fee",
+    "uxP0FullRegressionRuns": 0,
+    "uxP0RoutePathsChanged": false,
+    "uxP0ServerAuthorityChanged": false
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

@@ -62,7 +62,7 @@ for (const route of uiRegistry.routes) {
 }
 
 const visualMarkers = [
-  ['dashboard', 'src/pages/Dashboard.ts', ['DevPilot Local Dashboard', 'ui.dashboard', 'renderOperatorDashboard']],
+  ['dashboard', 'src/pages/Dashboard.ts', ['Dashboard operacional avanzado', 'ui.dashboard', 'renderOperatorDashboard']],
   ['report viewer', 'src/pages/ReportsView.ts', ['Reportes', 'ui.reports', 'No hay reportes locales']],
   ['trace viewer', 'src/pages/TracesView.ts', ['Trazas', 'ui.traces', 'No hay trazas disponibles']],
   ['approval center', 'src/pages/ApprovalCenterView.ts', ['Approval Center', 'ui.approvals', 'Action Launcher', 'Sin approvals']],

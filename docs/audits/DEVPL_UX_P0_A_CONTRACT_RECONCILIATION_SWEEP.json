@@ -1,0 +1,35 @@
+{
+  "schema_id": "devpilot.ux_p0_a.contract_reconciliation_sweep.v1",
+  "status": "PASS",
+  "generated_at": "2026-09-15",
+  "micro_sprint": "DEVPL-UX-P0-A",
+  "blocking_findings_total": 0,
+  "classification": {
+    "historical-freeze": [
+      "repo430/GSDLC-12 closure commit and SHA remain immutable",
+      "GSDLC-12 micro-sprint close facts remain unchanged",
+      "gsdlc_13_authorized=true remains preserved as closure fact",
+      "UOC-011 historical source budgets remain 524288/65536 and are not rewritten"
+    ],
+    "current-active": [
+      ".devpilot/project_state.json -> DEVPL-UX-P0-A/repo431 successor",
+      ".devpilot/docs_governance/source_registry.json -> UX-P0 current authority",
+      "ui/web package identity -> 0.38.0-ux-p0-a",
+      "LocalReleaseCandidateCriteria -> current/next UX-P0 micro-sprints"
+    ],
+    "successor-needed": [
+      "project_state_progress recognizes DEVPL-UX-P program IDs",
+      "LocalReleaseCandidateCriteria schema accepts DEVPL-UX-P identifiers",
+      "UOC-011 current-active accessibility/performance checks accept semantic token/current successor budgets",
+      "Test Contract Registry v1/v2 adds DEVPL-UX-P0-A foundation contract"
+    ],
+    "deprecated-after-proof": []
+  },
+  "historical_snapshot_rewritten": false,
+  "route_snapshot_rewritten": false,
+  "policy_authority_changed": false,
+  "full_regression_runs": 0,
+  "notes": [
+    "Two pre-existing TCR-v2 needs-review warnings remain non-blocking and are not caused by UX-P0-A."
+  ]
+}

@@ -1,0 +1,392 @@
+{
+  "status": "AUDIT-BASELINE",
+  "source_repo": "repo_DevPilot_Local_430_DEVPL_GSDLC_12_E_LOCAL_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "source_commit": "a415504bbf021566243ef4000b1a27d4c8846fee",
+  "source_sha256": "969f7d6b8cbdd8eb3bc32491718e94ee41295647e82234779aee180cea2a388a",
+  "router": {
+    "main_routes_total": 23,
+    "routes": [
+      {
+        "path": "/",
+        "route_id": "ui.dashboard",
+        "title": "Project Home",
+        "scope": "home"
+      },
+      {
+        "path": "/project/status",
+        "route_id": "ui.project-status",
+        "title": "Estado del proyecto",
+        "scope": "project"
+      },
+      {
+        "path": "/pre-code",
+        "route_id": "ui.pre-code-wizard",
+        "title": "Pre-code guiado",
+        "scope": "project"
+      },
+      {
+        "path": "/planning/roadmap",
+        "route_id": "ui.planning-roadmap",
+        "title": "Planning · Roadmap",
+        "scope": "project"
+      },
+      {
+        "path": "/project/entry",
+        "route_id": "ui.project-entry-dry-run",
+        "title": "Crear / Abrir / Importar",
+        "scope": "entry"
+      },
+      {
+        "path": "/workspace/documents",
+        "route_id": "ui.workspace-documents",
+        "title": "Documentos",
+        "scope": "project"
+      },
+      {
+        "path": "/story/code",
+        "route_id": "ui.story-code-workbench",
+        "title": "Story Code Workbench",
+        "scope": "project"
+      },
+      {
+        "path": "/reports",
+        "route_id": "ui.reports",
+        "title": "Reportes",
+        "scope": "project"
+      },
+      {
+        "path": "/traces",
+        "route_id": "ui.traces",
+        "title": "Trazas",
+        "scope": "project"
+      },
+      {
+        "path": "/jobs",
+        "route_id": "ui.jobs",
+        "title": "Jobs",
+        "scope": "project"
+      },
+      {
+        "path": "/quality",
+        "route_id": "ui.quality",
+        "title": "Calidad / Tests",
+        "scope": "project"
+      },
+      {
+        "path": "/release/readiness",
+        "route_id": "ui.release-readiness",
+        "title": "Release readiness",
+        "scope": "project"
+      },
+      {
+        "path": "/release/package",
+        "route_id": "ui.release-package",
+        "title": "Release package",
+        "scope": "project"
+      },
+      {
+        "path": "/release/lifecycle",
+        "route_id": "ui.release-lifecycle",
+        "title": "Install / rollback",
+        "scope": "project"
+      },
+      {
+        "path": "/release/metadata",
+        "route_id": "ui.release-metadata",
+        "title": "Version / tag",
+        "scope": "project"
+      },
+      {
+        "path": "/release/closure",
+        "route_id": "ui.release-closure",
+        "title": "Release closure",
+        "scope": "project"
+      },
+      {
+        "path": "/recovery",
+        "route_id": "ui.recovery",
+        "title": "Recovery / Resume",
+        "scope": "project"
+      },
+      {
+        "path": "/reconciliation",
+        "route_id": "ui.reconciliation",
+        "title": "Conflict Resolution",
+        "scope": "project"
+      },
+      {
+        "path": "/ai",
+        "route_id": "ui.ai",
+        "title": "IA / RAG",
+        "scope": "project"
+      },
+      {
+        "path": "/approvals",
+        "route_id": "ui.approvals",
+        "title": "Approval Center",
+        "scope": "entry-or-project"
+      },
+      {
+        "path": "/settings",
+        "route_id": "ui.settings",
+        "title": "Configuración",
+        "scope": "global"
+      },
+      {
+        "path": "/account",
+        "route_id": "ui.account-role",
+        "title": "Cuenta / Roles",
+        "scope": "global"
+      },
+      {
+        "path": "/help",
+        "route_id": "ui.help",
+        "title": "Ayuda",
+        "scope": "global"
+      }
+    ],
+    "auth_routes_total": 3,
+    "unique_ui_route_ids_including_auth": 25,
+    "operational_registry_routes_total": 22,
+    "guided_core_paths_total": 12,
+    "guided_core_paths": [
+      "/",
+      "/project/status",
+      "/pre-code",
+      "/planning/roadmap",
+      "/story/code",
+      "/quality",
+      "/release/readiness",
+      "/recovery",
+      "/reconciliation",
+      "/approvals",
+      "/help",
+      "/account"
+    ],
+    "guided_next_action_explicit_paths_total": 11,
+    "guided_next_action_explicit_paths": [
+      "/",
+      "/project/status",
+      "/pre-code",
+      "/planning/roadmap",
+      "/story/code",
+      "/quality",
+      "/release/readiness",
+      "/recovery",
+      "/reconciliation",
+      "/approvals",
+      "/help"
+    ]
+  },
+  "frontend": {
+    "implementation": "TypeScript DOM rendering + Vite, no runtime framework dependencies",
+    "package_version": "0.37.0-gsdlc-12-c",
+    "package_description": "DevPilot Local Web UI — GSDLC-12-B branch/external-edit reconciliation and conflict UX.",
+    "package_devpilot_sprint": "FUNC-SPRINT-73",
+    "package_devpilot_status": "phase-f-closed-visual-mvp",
+    "package_current_sprint": "DEVPL-GSDLC-12-E",
+    "styles_css_lines": 1359,
+    "planning_css_lines": 3,
+    "hardcoded_hex_occurrences": 411,
+    "unique_hardcoded_hex_values": 187,
+    "top_page_loc": [
+      [
+        "ApprovalCenterView.ts",
+        481
+      ],
+      [
+        "WorkspaceDocumentsView.ts",
+        478
+      ],
+      [
+        "SettingsView.ts",
+        452
+      ],
+      [
+        "ProjectStatusView.ts",
+        406
+      ],
+      [
+        "Dashboard.ts",
+        296
+      ],
+      [
+        "ReportsView.ts",
+        266
+      ],
+      [
+        "StoryCodeWorkbenchView.ts",
+        212
+      ],
+      [
+        "PreCodeWizardView.ts",
+        200
+      ],
+      [
+        "ProjectEntryDryRunView.ts",
+        185
+      ],
+      [
+        "ConflictResolutionView.ts",
+        179
+      ]
+    ],
+    "top_component_loc": [
+      [
+        "DocumentValidationPanel.ts",
+        573
+      ],
+      [
+        "WorkspaceGitOperationsPanel.ts",
+        461
+      ],
+      [
+        "DocumentEditPlanner.ts",
+        398
+      ],
+      [
+        "DocumentViewer.ts",
+        270
+      ],
+      [
+        "DocumentInspectionPanel.ts",
+        267
+      ],
+      [
+        "ArtifactManualEditor.ts",
+        259
+      ],
+      [
+        "ArtifactImportWorkbench.ts",
+        181
+      ],
+      [
+        "StepActionAdvisor.ts",
+        178
+      ],
+      [
+        "ArtifactAIPanel.ts",
+        175
+      ],
+      [
+        "DryRunActionForm.ts",
+        170
+      ]
+    ]
+  },
+  "current_shell_order": [
+    "SessionBanner",
+    "ExperienceModeControl",
+    "PrimaryNavigation",
+    "RoutePage"
+  ],
+  "proposed_information_architecture": {
+    "Start": [
+      "/",
+      "/project/entry"
+    ],
+    "Understand & Plan": [
+      "/project/status",
+      "/pre-code",
+      "/workspace/documents",
+      "/planning/roadmap"
+    ],
+    "Build & Validate": [
+      "/story/code",
+      "/approvals",
+      "/jobs",
+      "/quality"
+    ],
+    "Release": [
+      "/release/readiness",
+      "/release/package",
+      "/release/lifecycle",
+      "/release/metadata",
+      "/release/closure"
+    ],
+    "Recover": [
+      "/recovery",
+      "/reconciliation"
+    ],
+    "AI": [
+      "/ai"
+    ],
+    "Diagnostics": [
+      "/reports",
+      "/traces"
+    ],
+    "Global": [
+      "/settings",
+      "/account",
+      "/help"
+    ]
+  },
+  "findings": [
+    {
+      "id": "UXP0-F01",
+      "severity": "high",
+      "title": "Navigation is route-flat rather than workflow/domain grouped",
+      "evidence": "23 main routes are divided only between guidedCorePaths and Más herramientas; release has five separate top-level routes."
+    },
+    {
+      "id": "UXP0-F02",
+      "severity": "high",
+      "title": "Project context is not a first-class persistent shell region",
+      "evidence": "shell order has session/mode/nav, while WorkspaceContextPanel is route-owned rather than guaranteed globally."
+    },
+    {
+      "id": "UXP0-F03",
+      "severity": "high",
+      "title": "Guided next action is mostly static copy, not shell-level project-state projection",
+      "evidence": "11 explicit paths of 23 main routes; remaining routes use generic fallback."
+    },
+    {
+      "id": "UXP0-F04",
+      "severity": "medium",
+      "title": "Technical metadata is exposed in normal route headers",
+      "evidence": "route header renders routeId, raw path, roles, local-first/no-remote and TTL for every non-home route."
+    },
+    {
+      "id": "UXP0-F05",
+      "severity": "high",
+      "title": "CSS lacks a real semantic token system",
+      "evidence": "1359 lines and 187 unique hard-coded hex colors in styles.css."
+    },
+    {
+      "id": "UXP0-F06",
+      "severity": "medium",
+      "title": "Several pages/components are monolithic and mix orchestration with presentation",
+      "evidence": "largest pages [('ApprovalCenterView.ts', 481), ('WorkspaceDocumentsView.ts', 478), ('SettingsView.ts', 452), ('ProjectStatusView.ts', 406)]; largest components [('DocumentValidationPanel.ts', 573), ('WorkspaceGitOperationsPanel.ts', 461), ('DocumentEditPlanner.ts', 398)]."
+    },
+    {
+      "id": "UXP0-F07",
+      "severity": "medium",
+      "title": "Frontend identity metadata is stale/mixed-era",
+      "evidence": "package 0.37.0-gsdlc-12-c / DevPilot Local Web UI — GSDLC-12-B branch/external-edit reconciliation and conflict UX. / sprint=FUNC-SPRINT-73 / status=phase-f-closed-visual-mvp while currentSprint=DEVPL-GSDLC-12-E."
+    },
+    {
+      "id": "UXP0-F08",
+      "severity": "medium",
+      "title": "Product language mixes Spanish, English and internal engineering terminology",
+      "evidence": "Titles include Story Code Workbench, Jobs, Release readiness, Install / rollback, Conflict Resolution, Approval Center alongside Spanish routes."
+    },
+    {
+      "id": "UXP0-F09",
+      "severity": "medium",
+      "title": "Evidence/diagnostics dominate visual hierarchy on several long screens",
+      "evidence": "Browser matrix screenshots show dense, vertically long surfaces with technical facts and diagnostics competing with primary tasks."
+    },
+    {
+      "id": "UXP0-S01",
+      "severity": "strength",
+      "title": "Security/governance UX foundations are strong",
+      "evidence": "route guards, server authority, RBAC/approvals, local-first restrictions and route registries already exist."
+    },
+    {
+      "id": "UXP0-S02",
+      "severity": "strength",
+      "title": "Accessibility and recovery foundations exist",
+      "evidence": "skip link, programmatic focus, Guided/Expert parity, recovery/reconciliation routes and state matrices already exist."
+    }
+  ]
+}
