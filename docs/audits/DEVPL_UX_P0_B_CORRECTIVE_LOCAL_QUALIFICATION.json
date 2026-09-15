@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "micro_sprint": "DEVPL-UX-P0-B-CORRECTIVE",
+  "baseline_commit": "0136c3cac5d10ef8c647f96e38423f4940cadb6c",
+  "focal_pytest": "25 passed, 0 failed, 0 errors, 0 skipped",
+  "canonical_workspace_id_test": "PASS",
+  "recovery_scope_test": "PASS",
+  "reconciliation_scope_test": "PASS",
+  "project_status_auxiliary_resilience": "PASS",
+  "full_regression_runs": 0,
+  "windows_browser_validation": "PENDING",
+  "successor_expected": "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip"
+}

@@ -7,6 +7,7 @@ from typing import Any
 
 from devpilot_core.cli_models import Finding, Severity
 from devpilot_core.policy import PathGuard, PolicyEffect, configured_external_workspace_roots
+from devpilot_core.workspace.manager import parse_project_yaml_metadata
 from devpilot_core.workspace.registry_v2 import MultiworkspaceRegistryV2, WorkspaceRegistryV2Options
 
 UI_WORKSPACE_REGISTRY_ENV = "DEVPILOT_UI_WORKSPACE_REGISTRY_PATH"
@@ -155,15 +156,34 @@ class UiWorkspaceContextResolver:
 
     def _from_active_root(self, active_root: Path) -> UiWorkspaceContext:
         root = self._absolute(active_root)
+        findings: list[Finding] = []
+        project_file = root / ".devpilot" / "project.yaml"
+        metadata = parse_project_yaml_metadata(project_file) if project_file.is_file() else {}
+        project_id = str(metadata.get("project_id") or "").strip()
+        active_workspace_id = project_id or root.name
+        if project_id and project_id != root.name:
+            findings.append(
+                Finding(
+                    "UI_ACTIVE_WORKSPACE_ID_CANONICALIZED",
+                    "Active workspace logical identity was resolved from project metadata instead of the filesystem folder name.",
+                    Severity.INFO,
+                    path=_display(project_file),
+                    metadata={
+                        "filesystem_root_name": root.name,
+                        "active_workspace_id": active_workspace_id,
+                        "authority": ".devpilot/project.yaml project.id",
+                    },
+                )
+            )
         return self._build_context(
             mode="configured-root",
             registry_path=None,
-            active_workspace_id=root.name,
+            active_workspace_id=active_workspace_id,
             active_workspace_root=root,
             reports_path="outputs/reports",
             traces_path="outputs/traces",
             project_path=".devpilot/project.yaml",
-            findings=[],
+            findings=findings,
         )
 
     def _build_context(

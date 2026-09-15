@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "micro_sprint": "DEVPL-UX-P0-B-CORRECTIVE",
+  "baseline_repo": "repo_DevPilot_Local_432_DEVPL_UX_P0_B_PRODUCT_APP_SHELL_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "0136c3cac5d10ef8c647f96e38423f4940cadb6c",
+  "changed_paths": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "docs/audits/DEVPL_UX_P0_B_BROWSER_V105_ADJUDICATION_v1_0_0.md",
+    "docs/audits/DEVPL_UX_P0_B_CORRECTIVE_LOCAL_QUALIFICATION.json",
+    "docs/audits/DEVPL_UX_P0_B_CORRECTIVE_TEST_IMPACT.json",
+    "docs/audits/DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_REPORT_v1_0_0.md",
+    "src/devpilot_core/application/ui_workspace_context.py",
+    "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+    "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py",
+    "tests/test_devpl_ux_p0_b_corrective_workspace_scope.py",
+    "tests/test_devpl_ux_p0_b_shell_contracts.py",
+    "ui/web/src/pages/ProjectStatusView.ts"
+  ],
+  "changed_paths_total": 12,
+  "unmatched_paths": [],
+  "unmatched_total": 0,
+  "recommended_tests": [
+    "tests/test_devpl_ux_p0_b_corrective_workspace_scope.py",
+    "tests/test_devpl_ux_p0_b_shell_contracts.py",
+    "tests/test_devpl_gsdlc_12_a_recovery_contracts.py",
+    "tests/test_devpl_gsdlc_12_b_reconciliation_contracts.py",
+    "tests/test_devpl_gsdlc_12_a_recovery_transport.py",
+    "tests/test_devpl_gsdlc_12_b_reconciliation_transport.py"
+  ],
+  "full_regression_generic_recommendation": true,
+  "full_regression_execution": "DEFERRED-BY-APPROVED-UX-P0-POLICY-TO-UX-P0-E",
+  "full_regression_runs": 0
+}

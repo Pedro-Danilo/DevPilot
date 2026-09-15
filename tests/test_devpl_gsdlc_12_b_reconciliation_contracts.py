@@ -55,7 +55,8 @@ def test_12_b_product_service_contains_no_destructive_git_execution_path() -> No
     assert '"git_mutations_performed": False' in source
 
 
-def test_12_b_full_regression_budget_remains_unconsumed() -> None:
+def test_12_b_historical_full_regression_budget_reflects_closed_gsdlc_12() -> None:
     project = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
-    assert project["gsdlc_12_full_regression_budget_consumed"] == 0
+    assert project["gsdlc_12_full_regression_budget_consumed"] == 1
     assert project["gsdlc_12_full_regression_budget_total"] == 1
+    assert project["gsdlc_12_b_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"

@@ -36,10 +36,17 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
   root.dataset.uiState = 'loading';
   try {
     const api = new DevPilotApiClient({ token: tokenProvider() });
-    const [response, planning, reconciliation] = await Promise.all([api.projectStatus(), api.planningClosure(), api.reconciliationStatus()]);
+    const response = await api.projectStatus();
+    const [planningResult, reconciliationResult] = await Promise.allSettled([
+      api.planningClosure(),
+      api.reconciliationStatus(),
+    ]);
     const data = response.data;
     const statePanel = renderState(data);
-    const planningClosure = { ...(((planning.data as any).planning_closure ?? {}) as Record<string, any>) };
+    const planningClosure =
+      planningResult.status === 'fulfilled'
+        ? { ...(((planningResult.value.data as any).planning_closure ?? {}) as Record<string, any>) }
+        : {};
     const projectStatusPlanning = ((data.project_status?.planning ?? {}) as Record<string, any>);
     const currentStory = (projectStatusPlanning.current_story ?? null) as Record<string, any> | null;
     const currentStoryCycle = ((projectStatusPlanning.story_cycle ?? {}) as Record<string, any>);
@@ -64,8 +71,21 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     wizardLink.className = 'button-link';
     wizardLink.textContent = 'Abrir pre-code guiado';
     wizardCta.append(wizardTitle, wizardText, wizardLink);
-    const reconciliationPanel = renderReconciliationSummary(reconciliation.data.reconciliation);
-    content.replaceChildren(statePanel, reconciliationPanel, planningPanel, wizardCta, advisorMount);
+    const reconciliationPanel =
+      reconciliationResult.status === 'fulfilled'
+        ? renderReconciliationSummary(reconciliationResult.value.data.reconciliation)
+        : renderAuxiliaryProjectionUnavailable(
+            'Reconciliación no disponible temporalmente',
+            'El estado principal del proyecto sigue siendo autoritativo. Esta proyección auxiliar no convierte la vista completa en un falso bloqueo.',
+          );
+    const planningSurface =
+      planningResult.status === 'fulfilled'
+        ? planningPanel
+        : renderAuxiliaryProjectionUnavailable(
+            'Planning no disponible temporalmente',
+            'El estado principal del proyecto sigue disponible. Reintenta la proyección de planning sin perder el contexto actual.',
+          );
+    content.replaceChildren(statePanel, reconciliationPanel, planningSurface, wizardCta, advisorMount);
     root.dataset.uiState = normalizeUiState(data.ui_state);
     void loadStepActions(advisorMount, tokenProvider);
   } catch (error) {
@@ -82,6 +102,18 @@ async function loadStepActions(mount: HTMLElement, tokenProvider: () => string):
   } catch (error) {
     mount.replaceChildren(renderStepActionAdvisorError(error));
   }
+}
+
+function renderAuxiliaryProjectionUnavailable(titleText: string, bodyText: string): HTMLElement {
+  const panel = document.createElement('section');
+  panel.className = 'panel project-status-card project-status-card--auxiliary-unavailable';
+  panel.dataset.auxiliaryState = 'unavailable-nonblocking';
+  const title = document.createElement('h3');
+  title.textContent = titleText;
+  const body = document.createElement('p');
+  body.textContent = bodyText;
+  panel.append(title, body);
+  return panel;
 }
 
 function renderLoading(): HTMLElement {
