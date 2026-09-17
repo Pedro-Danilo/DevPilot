@@ -8,13 +8,20 @@ def read(rel:str)->str: return (ROOT/rel).read_text(encoding='utf-8')
 def test_ux_p0_b_current_authority_is_preserved_across_successors():
     state=json.loads(read('.devpilot/project_state.json'))
     assert state['ux_p0_a_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
-    assert state['ux_p0_status'] in {'ACTIVE/UX-P0-B', 'ACTIVE/UX-P0-B-CORRECTIVE', 'ACTIVE/UX-P0-C'}
+    assert state['ux_p0_status'] in {'ACTIVE/UX-P0-B', 'ACTIVE/UX-P0-B-CORRECTIVE', 'ACTIVE/UX-P0-C', 'ACTIVE/UX-P0-D'}
     assert state['ux_p0_b_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
-    assert state['ux_p0_current_micro_sprint'] in {'DEVPL-UX-P0-B', 'DEVPL-UX-P0-B-CORRECTIVE', 'DEVPL-UX-P0-C'}
-    if state['ux_p0_current_micro_sprint']=='DEVPL-UX-P0-C':
-        assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-D'
-        assert state['ux_p0_source_repo'].startswith('repo_DevPilot_Local_433_')
-        assert state['ux_p0_source_commit']=='dc63672f2d617968998f3c68374a03581b348578'
+    assert state['ux_p0_current_micro_sprint'] in {'DEVPL-UX-P0-B', 'DEVPL-UX-P0-B-CORRECTIVE', 'DEVPL-UX-P0-C', 'DEVPL-UX-P0-D'}
+    if state['ux_p0_current_micro_sprint'] in {'DEVPL-UX-P0-C', 'DEVPL-UX-P0-D'}:
+        if state['ux_p0_current_micro_sprint']=='DEVPL-UX-P0-C':
+            assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-D'
+        else:
+            assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-E'
+        if state['ux_p0_current_micro_sprint']=='DEVPL-UX-P0-C':
+            assert state['ux_p0_source_repo'].startswith('repo_DevPilot_Local_433_')
+            assert state['ux_p0_source_commit']=='dc63672f2d617968998f3c68374a03581b348578'
+        else:
+            assert state['ux_p0_source_repo'].startswith('repo_DevPilot_Local_434_')
+            assert state['ux_p0_source_commit']=='75dbead73c6c6aaf1f792e02f3659ee2b6c0b927'
         assert state['ux_p0_b_successor_repo'].startswith('repo_DevPilot_Local_433_')
     else:
         assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-C'

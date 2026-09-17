@@ -1,5 +1,6 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { ReleasePackagePlan, ReleasePackageResult } from '../api/types';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 function short(value: string | undefined, n = 12): string { return value ? value.slice(0, n) : '—'; }
 function bytes(value: number | undefined): string { if (!value && value !== 0) return '—'; return `${(value / 1024 / 1024).toFixed(2)} MiB`; }
@@ -52,7 +53,7 @@ export function renderReleasePackageView(tokenProvider: () => string | null): HT
   const planButton=document.createElement('button'); planButton.type='button'; planButton.textContent='1. Preparar plan (dry-run)';
   const executeButton=document.createElement('button'); executeButton.type='button'; executeButton.textContent='2. Ejecutar paquete local'; executeButton.disabled=true;
   actions.append(refresh,planButton,executeButton); toolbar.append(intro,actions);
-  const content=document.createElement('div'); content.className='release-package-content'; section.append(toolbar,content);
+  const content=document.createElement('div'); content.className='release-package-content'; section.append(toolbar,renderOperationalSurfaceSummary({eyebrow:'Operación · Release package',title:'Paquete reproducible y verificable',state:'ready',stateDetail:'Plan dry-run ligado a commit/tree exactos antes de materializar artefactos.',primaryAction:{label:'Preparar plan reproducible',hierarchy:'primary',detail:'Package execute solo desde un plan vigente.'},gate:{label:'Package integrity',state:'PENDING',detail:'Checksum/SBOM/source package deben concordar.'},diff:{risk:'bounded',detail:'La autoridad es el source commit/tree exactos, no el working tree accidental.'},evidenceSummary:'Checksum / SBOM / provenance',evidenceBody:'plan hash · source commit/tree · package SHA-256 · SBOM · network/external API flags.'}),content);
   let currentPlan: ReleasePackagePlan | null=null;
   const client=()=>new DevPilotApiClient({token:tokenProvider()});
   const showError=(error:unknown)=>{const card=document.createElement('article'); card.className='panel release-package-error'; const t=document.createElement('h3');t.textContent='Operación bloqueada'; const m=document.createElement('p');m.textContent=error instanceof DevPilotApiError?error.message:error instanceof Error?error.message:String(error); const hint=document.createElement('p');hint.className='release-package-muted';hint.textContent='DevPilot falla cerrado: revisa el finding y no intentes publicar o modificar artefactos manualmente.';card.append(t,m,hint);content.replaceChildren(card);};

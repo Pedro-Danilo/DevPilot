@@ -1,5 +1,6 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { ReleaseLifecyclePlan } from '../api/types';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 function fact(label:string,value:unknown):HTMLElement{const r=document.createElement('div');r.className='release-lifecycle-fact';const k=document.createElement('strong');k.textContent=label;const v=document.createElement('span');v.textContent=String(value??'—');r.append(k,v);return r;}
 function card(title:string,body:string):HTMLElement{const a=document.createElement('article');a.className='panel';const h=document.createElement('h3');h.textContent=title;const p=document.createElement('p');p.textContent=body;a.append(h,p);return a;}
@@ -17,7 +18,7 @@ export function renderReleaseLifecycleView(tokenProvider:()=>string|null):HTMLEl
   const upgradeExec=document.createElement('button');upgradeExec.textContent='4. Ejecutar upgrade controlado';upgradeExec.disabled=true;
   const rollbackPlan=document.createElement('button');rollbackPlan.textContent='5. Plan rollback';rollbackPlan.disabled=true;
   const rollbackExec=document.createElement('button');rollbackExec.textContent='6. Ejecutar rollback';rollbackExec.disabled=true;
-  actions.append(refresh,installPlan,installExec,upgradePlan,upgradeExec,rollbackPlan,rollbackExec);section.append(intro,actions);
+  actions.append(refresh,installPlan,installExec,upgradePlan,upgradeExec,rollbackPlan,rollbackExec);section.append(intro,renderOperationalSurfaceSummary({eyebrow:'Operación · Lifecycle',title:'Install / upgrade / rollback gobernados',state:'ready',stateDetail:'Plan primero, ejecución después; rollback permanece explícito y verificable.',primaryAction:{label:'Planificar operación',hierarchy:'primary',detail:'La ejecución reutiliza únicamente un plan vigente.'},gate:{label:'Lifecycle gate',state:'PENDING',detail:'Preconditions y verification receipts determinan PASS/BLOCK.'},approval:{required:false,status:'según policy',effect:'Ninguna operación sensible amplía permisos desde la UI.'},recovery:'Rollback es una operación explícita; no se dispara automáticamente.',evidenceSummary:'Lifecycle receipts',evidenceBody:'operation plan · target version · preconditions · execution result · rollback/verification receipts.'}),actions);
   const content=document.createElement('div');content.className='release-lifecycle-content';section.append(content);
   const api=()=>new DevPilotApiClient({token:tokenProvider()});let pInstall:ReleaseLifecyclePlan|null=null,pUpgrade:ReleaseLifecyclePlan|null=null,pRollback:ReleaseLifecyclePlan|null=null;
   const err=(e:unknown)=>{const a=card('Operación bloqueada',e instanceof DevPilotApiError?e.message:e instanceof Error?e.message:String(e));a.append(card('Siguiente acción','No fuerce el estado. Corrija la precondición indicada y vuelva a ejecutar solo la fase pendiente.'));content.replaceChildren(a);};

@@ -6,6 +6,7 @@ import type { DryRunUiOutcome } from '../components/DryRunActionForm';
 import { renderFindingTable } from '../components/FindingTable';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 interface ApprovalCenterViewOptions {
   tokenProvider: () => string;
@@ -164,7 +165,7 @@ export function renderApprovalCenterView(options: ApprovalCenterViewOptions): HT
     subtitle.textContent = 'Handoff dirigido: esta pestaña trabaja únicamente con el Approval ID creado por el journey original.';
     titleBlock.append(title, subtitle, renderContractBadges('ui.approvals', { warning: 'El handoff solo selecciona contexto UX. La sesión humana, RBAC y el servidor siguen siendo autoridad.' }));
     header.append(titleBlock);
-    section.append(header);
+    section.append(header); section.append(renderOperationalSurfaceSummary({eyebrow:'Operación · Approvals',title:'Decisión humana trazable',state:state.pendingAction?'running':'ready',stateDetail:state.pendingAction?`Procesando ${state.pendingAction}.`:'Las solicitudes se revisan sin transferir autoridad a la UI.',primaryAction:{label:'Revisar approval objetivo',hierarchy:'primary',detail:'Approve/Deny se aplican al Approval ID exacto.'},gate:{label:'Authority gate',state:state.errors.selected?'BLOCK':'PENDING',detail:'Sesión humana + RBAC + policy permanecen obligatorios.'},approval:{required:true,status:'human decision',role:'owner/release role según contrato',effect:'La decisión no amplía scope ni reutiliza approvals stale.'},evidenceSummary:'Ver provenance del approval',evidenceBody:'Approval ID · subject · reason · scope · actor · timestamps · linked plan/preimage. La evidencia permanece accesible sin dominar Guided.'}));
 
     section.append(renderApprovalAuthorityPanel(session));
     const notice = document.createElement('section');

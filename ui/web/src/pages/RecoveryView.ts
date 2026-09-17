@@ -1,6 +1,7 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { RecoveryStatusData } from '../api/types';
 import { renderAccessibleError, renderContextualHelp } from '../components/ContextualHelp';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 function panel(title:string):HTMLElement{const el=document.createElement('article');el.className='panel recovery-card';const h=document.createElement('h3');h.textContent=title;el.append(h);return el;}
 function fact(label:string,value:unknown):HTMLElement{const row=document.createElement('div');row.className='recovery-fact';const k=document.createElement('strong');k.textContent=label;const v=document.createElement('span');v.textContent=String(value??'—');row.append(k,v);return row;}
@@ -64,7 +65,7 @@ export function renderRecoveryView(tokenProvider:()=>string|null):HTMLElement{
   controls.append(labeledInput('Referencia de draft',draft),labeledInput('Action ID',action),checkpoint,lock,release,refresh);
   const note=document.createElement('p');note.className='recovery-note';note.textContent='Para la validación de restart: guarda checkpoint + lock, reinicia API/UI y vuelve a esta vista. La sesión recuperada o rotada debe conservar el contexto durable y exigir revalidación para el trabajo sensible.';
   const content=document.createElement('div');content.className='recovery-content';content.setAttribute('role','status');content.setAttribute('aria-live','polite');content.setAttribute('aria-atomic','false');
-  section.append(h,p,legend,help,controls,note,content);
+  section.append(h,p,legend,help,renderOperationalSurfaceSummary({eyebrow:'Operación · Recovery',title:'Retomar solo contexto seguro',state:'recovery',stateDetail:'Checkpoints guardan metadatos/referencias; acciones sensibles exigen revalidación.',primaryAction:{label:'Actualizar recovery',hierarchy:'primary',detail:'Comprueba server-side state antes de continuar.'},gate:{label:'Resume safety',state:'PENDING',detail:'SAFE_TO_RESUME no equivale a permiso para reejecutar mutaciones.'},recovery:'REVALIDATION_REQUIRED y ABORTED_REQUIRES_REPLAN se muestran como estados distintos, nunca como PASS.',evidenceSummary:'Recovery diagnostics',evidenceBody:'checkpoint sequence · draft refs · pending safe work · locks · Git coherence · authority trace.'}),controls,note,content);
   const api=()=>new DevPilotApiClient({token:tokenProvider()});
   const load=async()=>{content.setAttribute('aria-busy','true');try{const r=await api().recoveryStatus();content.replaceChildren(renderStatus(r.data));}catch(e){content.replaceChildren(errorPanel(e));}finally{content.setAttribute('aria-busy','false');}};
   checkpoint.onclick=()=>void(async()=>{try{const ref=draft.value.trim()||'draft:browser-gsdlc12a';const workId=action.value.trim()||'workspace.sensitive.demo';await api().recoveryCheckpoint({draft_refs:[ref],pending_work:[{work_id:'draft.metadata.resume',kind:'draft-ref',status:'PENDING',sensitive:false,safe_to_resume:true},{work_id:workId,kind:'sensitive-action',status:'PLANNED',sensitive:true,safe_to_resume:false}],evidence_refs:['browser:gsdlc12a'],recovery_reason:'browser-restart-acceptance'});await load();}catch(e){content.replaceChildren(errorPanel(e));}})();

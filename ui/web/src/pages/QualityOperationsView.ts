@@ -4,6 +4,7 @@ import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { DevPilotApplicationResponse, GovernedJobSnapshot, QualityOperationItem } from '../api/types';
 import { renderContractBadges } from '../components/ContractBadges';
 import { renderUiStateNotice } from '../components/ContractBadges';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 const FULL_CONFIRMATION = 'RUN FULL REGRESSION';
 
@@ -34,7 +35,7 @@ export function renderQualityOperationsView(tokenProvider: () => string): HTMLEl
   function plannedJob(): GovernedJobSnapshot | undefined { return ((state.plan?.data as {job?:GovernedJobSnapshot}|undefined)?.job) ?? ((state.job?.data as {job?:GovernedJobSnapshot}|undefined)?.job); }
 
   function draw(): void {
-    section.replaceChildren(); const header=document.createElement('div'); header.className='viewer-panel__header'; const intro=document.createElement('div'); intro.innerHTML='<h2>Quality, tests y release</h2><p>Operaciones determinísticas con Test Impact, budgets, approvals, heartbeat y evidencia reproducible.</p>'; intro.append(renderContractBadges('ui.quality',{warning:'Local-first · selección por registry ID · no shell · full regression nunca automática.'})); header.append(intro); section.append(header);
+    section.replaceChildren(); const header=document.createElement('div'); header.className='viewer-panel__header'; const intro=document.createElement('div'); intro.innerHTML='<h2>Quality, tests y release</h2><p>Operaciones determinísticas con Test Impact, budgets, approvals, heartbeat y evidencia reproducible.</p>'; intro.append(renderContractBadges('ui.quality',{warning:'Local-first · selección por registry ID · no shell · full regression nunca automática.'})); header.append(intro); section.append(header); section.append(renderOperationalSurfaceSummary({eyebrow:'Operación · Quality',title:'Quality gate y remediación',state:state.loading?'running':Object.keys(state.errors).length?'error':'ready',stateDetail:'Test Impact, budgets y quality gate comparten semántica PASS/WARN/BLOCK.',primaryAction:{label:'Evaluar Test Impact / planificar job',hierarchy:'primary',detail:'Full Regression nunca se dispara automáticamente.'},gate:{label:'Quality gate',state:Object.keys(state.errors).length?'BLOCK':'PENDING',detail:'Los resultados reales de tests determinan el cierre.'},approval:{required:false,status:'depende del capability',effect:'Cuando un job exige approval, el backend lo valida antes de ejecutar.'},longRunning:{state:plannedJob()?.status==='running'?'running':plannedJob()?.status==='queued'?'queued':plannedJob()?.status==='pass'?'pass':'idle',label:'Validation job'},evidenceSummary:'Evidencia de calidad',evidenceBody:'Test Impact · required/recommended tests · budgets · counts · job receipts · evidence package.'}));
     if(state.loading) section.append(renderUiStateNotice('loading','Procesando operación gobernada local.')); for(const [k,v] of Object.entries(state.errors)) section.append(renderUiStateNotice('error',`${k}: ${v}`));
     if(!state.catalog){ section.append(renderUiStateNotice('empty','Aplica el token local para cargar el catálogo de Quality/Tests/Release.')); return; }
     section.append(renderStoryQualityGatePanel(tokenProvider));

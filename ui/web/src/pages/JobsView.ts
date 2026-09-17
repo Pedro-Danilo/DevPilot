@@ -2,6 +2,7 @@ import { renderUoc011BrowserStateFixture } from '../testing/Uoc011BrowserStateFi
 import { DevPilotApiClient } from '../api/client';
 import type { DevPilotApplicationResponse, GovernedJobSnapshot, JobLogEntry } from '../api/types';
 import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 interface JobsState {
   loading: boolean;
@@ -107,7 +108,7 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
     controls.append(input('Workspace', state.workspace, (v) => state.workspace = v), input('Capability', state.capability, (v) => state.capability = v), statusSelect());
     const refreshButton = document.createElement('button'); refreshButton.textContent = state.loading ? 'Consultando…' : 'Actualizar'; refreshButton.disabled = state.loading; refreshButton.addEventListener('click', () => void refresh());
     const polling = document.createElement('button'); polling.className = state.polling ? '' : 'button-secondary'; polling.textContent = state.polling ? 'Polling activo 3s' : 'Activar polling'; polling.addEventListener('click', togglePolling);
-    controls.append(refreshButton, polling); header.append(title, controls); section.append(header);
+    controls.append(refreshButton, polling); header.append(title, controls); section.append(header); section.append(renderOperationalSurfaceSummary({eyebrow:'Operación · Jobs',title:'Ejecución larga gobernada',state:state.loading?'running':state.errors.detail?'error':'ready',stateDetail:state.loading?'Consultando heartbeat y estado del job.':'Jobs tipados con lifecycle, cancelación y logs observables.',primaryAction:{label:'Inspeccionar job seleccionado',hierarchy:'primary',detail:'La consola observa; no crea shell commands arbitrarios.'},gate:{label:'Job contract',state:state.errors.detail?'BLOCK':'PENDING',detail:'Timeout, capability y policy son server-side.'},longRunning:{state:state.selected?.status==='running'?'running':state.selected?.status==='queued'?'queued':state.selected?.status==='pass'?'pass':state.selected?.status==='block'?'block':'idle',label:'Job',detail:state.selected?`job_id=${state.selected.job_id}`:'Selecciona un job para ver estado y heartbeat.'},evidenceSummary:'Logs y receipts',evidenceBody:'Heartbeat · timestamps · status transitions · stdout/stderr gobernados · result summary. Logs completos quedan en progressive disclosure.'}));
 
     if (state.loading) section.append(renderUiStateNotice('loading', 'Consultando jobs locales y estado de heartbeat.'));
     for (const [key, value] of Object.entries(state.errors)) section.append(renderUiStateNotice('error', `${key}: ${value}`));

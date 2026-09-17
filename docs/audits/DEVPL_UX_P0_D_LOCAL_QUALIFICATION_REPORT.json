@@ -1,0 +1,28 @@
+{
+  "schema_id": "devpilot.ux_p0_d.local_qualification.v1",
+  "status": "PASS_WITH_ENVIRONMENTAL_LIMITATIONS",
+  "micro_sprint": "DEVPL-UX-P0-D",
+  "executed": {
+    "pytest_successor_contracts": "16/16 PASS",
+    "uxp0d_static_smoke": "42/42 PASS",
+    "route_enforcement": "PASS",
+    "accessibility": "PASS",
+    "state_matrix": "PASS",
+    "story_code_static_smoke": "PASS",
+    "project_state_validate": "PASS",
+    "docs_governance": "PASS",
+    "tcr_v1": "PASS",
+    "tcr_v2": "PASS",
+    "ui_impacted_scripts": "15/15 PASS"
+  },
+  "not_claimed_as_pass": {
+    "vite_build": "NOT EXECUTED: clean ZIP has no node_modules/vite; Windows operator uses official dependency runtime",
+    "git_dependent_tests": "NOT AUTHORITATIVE in extracted ZIP without .git",
+    "runtime_story_tests": "NOT AUTHORITATIVE without official StoryExecution/runtime outputs"
+  },
+  "full_regression_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": "source implementation only",
+  "excluded_inherited_smoke": "test:operator-flows remains BLOCK on baseline repo434 because historical marker Unauthorized/Forbidden 401/403 is already absent; not used as D gate to avoid false historical BLOCK"
+}

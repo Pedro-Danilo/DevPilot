@@ -1,5 +1,6 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { ReleaseReadinessBlocker, ReleaseReadinessProjection } from '../api/types';
+import { renderOperationalSurfaceSummary } from '../components/OperationalPatterns';
 
 function text(value: unknown, fallback = 'No disponible'): string {
   return value === null || value === undefined || String(value).trim() === '' ? fallback : String(value);
@@ -78,7 +79,7 @@ export function renderReleaseReadinessView(tokenProvider: () => string | null): 
   const refresh=document.createElement('button'); refresh.type='button'; refresh.textContent='Actualizar readiness';
   toolbar.append(intro,refresh);
   const content=document.createElement('div'); content.className='release-readiness-content';
-  section.append(toolbar,content);
+  section.append(toolbar,renderOperationalSurfaceSummary({eyebrow:'Operación · Release',title:'Readiness antes de preparar release',state:'ready',stateDetail:'Read-only projection: blockers y evidencia determinan RELEASE_READY.',primaryAction:{label:'Actualizar readiness',hierarchy:'primary',detail:'Actualizar no aprueba ni publica una release.'},gate:{label:'Release readiness',state:'PENDING',detail:'READY/BLOCKED/UNKNOWN provienen del backend.'},approval:{required:false,status:'readiness != approval',effect:'La aprobación de release permanece separada.'},evidenceSummary:'Evidencia de readiness',evidenceBody:'Blockers · owners · policy source · evidence refs · release authority. Guided muestra decisión; Expert conserva detalles.'}),content);
 
   const load=async()=>{
     refresh.disabled=true; content.replaceChildren();

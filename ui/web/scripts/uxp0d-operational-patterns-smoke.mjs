@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const read=(rel)=>fs.readFileSync(path.join(root,rel),'utf8');
+const checks=[]; const check=(name,ok)=>checks.push([name,Boolean(ok)]);
+const component=read('src/components/OperationalPatterns.ts');
+for(const token of ['renderOperationState','renderPrimaryAction','renderGateSummary','renderApprovalSummary','renderDiffSummary','renderLongRunningOperation','renderProgressiveEvidence','renderOperationalSurfaceSummary']) check(`primitive ${token}`,component.includes(`function ${token}`));
+for(const state of ['loading','empty','ready','pending','running','success','pass','warn','block','error','recovery','stale','revalidation']) check(`state ${state}`,component.includes(`${state}:`) || component.includes(`'${state}'`));
+for(const rel of ['src/pages/StoryCodeWorkbenchView.ts','src/pages/ApprovalCenterView.ts','src/pages/JobsView.ts','src/pages/QualityOperationsView.ts','src/pages/ReleaseReadinessView.ts','src/pages/ReleasePackageView.ts','src/pages/ReleaseLifecycleView.ts','src/pages/ReleaseClosureView.ts','src/pages/RecoveryView.ts','src/pages/AiOperationsView.ts','src/components/ArtifactReconciliationUX.ts']) check(`adoption ${rel}`,read(rel).includes('renderOperationalSurfaceSummary'));
+const css=read('src/styles.css');
+for(const token of ['.operational-patterns','.operation-state','.primary-action','.gate-summary','.approval-summary','.diff-summary','.long-running-operation','.progressive-evidence']) check(`css ${token}`,css.includes(token));
+check('reports remain diagnostic-heavy',!read('src/pages/ReportsView.ts').includes('renderOperationalSurfaceSummary')); check('traces remain diagnostic-heavy',!read('src/pages/TracesView.ts').includes('renderOperationalSurfaceSummary'));
+const failures=checks.filter(([,ok])=>!ok); for(const [name,ok] of checks) console.log(`${ok?'PASS':'FAIL'} - ${name}`); console.log(`SUMMARY ${checks.length-failures.length}/${checks.length} PASS`); process.exit(failures.length?1:0);

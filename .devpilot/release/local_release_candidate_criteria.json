@@ -7,12 +7,12 @@
       "critical": true,
       "evidence_id": "project-state-current-repo",
       "expected_fields": {
-        "current_micro_sprint": "DEVPL-UX-P0-C",
-        "current_repo": "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip",
+        "current_micro_sprint": "DEVPL-UX-P0-D",
+        "current_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
         "last_completed_sprint": "POST-H-034",
         "last_registered_sprint": "DEVPL-GSDLC-08-E",
         "next_backlog_planned": true,
-        "next_micro_sprint": "DEVPL-UX-P0-D",
+        "next_micro_sprint": "DEVPL-UX-P0-E",
         "next_sprint": "POST-H-EVAL-002",
         "post_h_026_status": "closed/local-release-candidate-pass",
         "post_h_027_status": "closed/packaging-local-ready",
@@ -699,10 +699,10 @@
       "title": "UOC-003 implementation report"
     }
   ],
-  "expected_current_micro_sprint": "DEVPL-UX-P0-C",
-  "expected_current_repo": "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "expected_current_micro_sprint": "DEVPL-UX-P0-D",
+  "expected_current_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "expected_last_completed_sprint": "POST-H-034",
-  "expected_next_micro_sprint": "DEVPL-UX-P0-D",
+  "expected_next_micro_sprint": "DEVPL-UX-P0-E",
   "expected_source_repo": "repo_DevPilot_Local_318_POST_H_EVAL_002_PILOT_READY.zip",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
@@ -731,6 +731,6 @@
   "uoc_004_source_write_enabled": false,
   "uoc_004_status": "closed/PASS",
   "uoc_005_authorized": true,
-  "updated": "2026-09-15",
-  "updated_by": "DEVPL-UX-P0-C/current-authority-reconciliation"
+  "updated": "2026-09-17",
+  "updated_by": "DEVPL-UX-P0-D"
 }

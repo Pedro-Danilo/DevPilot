@@ -65,10 +65,18 @@ def test_guided_copy_keeps_technical_detail_available_progressively():
 def test_current_project_state_points_to_ux_p0_c_successor():
     state = json.loads(read(".devpilot/project_state.json"))
     assert state["ux_p0_b_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
-    assert state["ux_p0_current_micro_sprint"] == "DEVPL-UX-P0-C"
-    assert state["ux_p0_next_micro_sprint"] == "DEVPL-UX-P0-D"
-    assert state["ux_p0_source_repo"] == "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip"
-    assert state["ux_p0_source_commit"] == "dc63672f2d617968998f3c68374a03581b348578"
-    assert state["ux_p0_source_sha256"] == "f4415775bd3bf5a01b6368197d0754374de93b659fa5f6bbff8b7a2b8ead4246"
-    assert state["ux_p0_successor_repo"] == "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip"
+    assert state["ux_p0_current_micro_sprint"] in {"DEVPL-UX-P0-C", "DEVPL-UX-P0-D"}
+    if state["ux_p0_current_micro_sprint"] == "DEVPL-UX-P0-D":
+        assert state["ux_p0_c_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
+        assert state["ux_p0_next_micro_sprint"] == "DEVPL-UX-P0-E"
+        assert state["ux_p0_source_repo"] == "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip"
+        assert state["ux_p0_source_commit"] == "75dbead73c6c6aaf1f792e02f3659ee2b6c0b927"
+        assert state["ux_p0_source_sha256"] == "e1117ba5e9c3bace2de482940d6b447b0150acb2e26ba1647f9677939f5faf39"
+        assert state["ux_p0_successor_repo"] == "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip"
+    else:
+        assert state["ux_p0_next_micro_sprint"] == "DEVPL-UX-P0-D"
+        assert state["ux_p0_source_repo"] == "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip"
+        assert state["ux_p0_source_commit"] == "dc63672f2d617968998f3c68374a03581b348578"
+        assert state["ux_p0_source_sha256"] == "f4415775bd3bf5a01b6368197d0754374de93b659fa5f6bbff8b7a2b8ead4246"
+        assert state["ux_p0_successor_repo"] == "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip"
     assert state["ux_p0_c_full_regression_runs"] == 0

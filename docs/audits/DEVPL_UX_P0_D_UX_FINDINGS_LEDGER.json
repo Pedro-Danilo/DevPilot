@@ -1,0 +1,17 @@
+{
+  "schema_id": "devpilot.ux_p0_d.ux_findings.v1",
+  "status": "implemented-initial",
+  "micro_sprint": "DEVPL-UX-P0-D",
+  "ux_s0_open": 0,
+  "ux_s1_open": 0,
+  "ux_s2_open": 1,
+  "findings": [
+    {
+      "severity": "UX-S2",
+      "id": "UXP0D-DENSITY",
+      "summary": "Some legacy post-planning surfaces remain dense; D normalizes semantics without exhaustive redesign.",
+      "closure": "defer bounded polish to UX-P0-E/P1 unless browser validation escalates severity."
+    }
+  ],
+  "full_regression_runs": 0
+}
