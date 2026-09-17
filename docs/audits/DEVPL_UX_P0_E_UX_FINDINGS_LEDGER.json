@@ -1,11 +1,28 @@
 {
   "schema_id": "devpilot.ux_p0_e.ux_findings_ledger.v1",
-  "status": "OPEN/PENDING-WINDOWS",
+  "status": "PASS/WINDOWS-BROWSER-REVIEWED/PRE-FULL",
   "updated": "2026-09-17",
   "ux_s0_open": 0,
   "ux_s1_open": 0,
   "ux_s2_open": 0,
-  "ux_s3_open": 0,
-  "findings": [],
+  "ux_s3_open": 1,
+  "findings": [
+    {
+      "id": "UX-P0-E-S3-001",
+      "severity": "UX-S3",
+      "status": "OPEN/DEFER-UX-P1",
+      "surface": "Project Status / responsive project context",
+      "evidence": [
+        "04_project_status_next_action.png",
+        "18_keyboard_focus.png",
+        "19_tablet_768x1024.png",
+        "20_mobile_390x844.png"
+      ],
+      "observation": "The surface can simultaneously show engineering state READY while the authoritative next action is RESOLVE_BLOCKER because a gate is UNKNOWN. The blocker is visible and the next action is explicit, so the journey remains usable, but the distinction between engineering-state readiness and gate readiness can be clearer.",
+      "blocking": false,
+      "rationale": "No UX-S0/S1, no terminal escape, no hidden blocker, no navigation failure; recorded confused_moments=0 and browser gate PASS. Treat as clarity/polish debt, not closure blocker.",
+      "next_phase": "UX-P1"
+    }
+  ],
   "closure_policy": "S0/S1 must be 0; S2 requires owner+UX-P1 plan and must not invalidate pilot"
 }

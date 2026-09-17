@@ -29,3 +29,17 @@ Esta fase demuestra readiness pre-pilot, no constituye una auditoría WCAG forma
 La validación Windows v1.0.0 confirmó que `npm run test:performance` (contrato UOC-011 v1) ya estaba `BLOCK` en repo435: `source_ui_bytes=939755` y `largest_source_bytes=94240`. UX-P0-E no modifica `ui/web/src`; el bloqueo era deuda heredada, no regresión E.
 
 El corrective v1.0.1 no elimina el test ni amplía `currentUiSourceBudget*`. Evoluciona `uoc011-performance-smoke.mjs` a `v2-successor-aware`: conserva los presupuestos históricos/current, registra el repo435 exacto como baseline grandfathered y bloquea cualquier crecimiento por encima de `939755/94240`. Además, el operador E exige paridad semántica exacta con repo435 y mantiene los hard ceilings de `dist`. La Full continúa sin consumir (`0/1`).
+
+# Windows corrective v1.0.3 — FRX preflight reconciliation
+
+`seal-preflight` v1.0.1 bloqueó antes de ejecutar cualquier Full. La colección fue sellada con 3225 nodeids, pero el preflight standalone recibió `collection.json` sin `collection_sha256` embebido y el Test Isolation Registry cubría 3195/3225 nodeids. El presupuesto permaneció 0/1 y no existieron plan ni receipts de ejecución.
+
+El corrective v1.0.3 reconcilia el registry contra la colección actual exacta: añade 30 nodeids nuevos como `UNCLASSIFIED` (por tanto seriales bajo el perfil vigente), elimina 10 entradas stale que ya no pertenecen a la colección y deja 3225/3225 de cobertura sin inferir `PROVEN_PARALLEL_SAFE`. Además elimina el preflight standalone sobre el JSON crudo: el operador usa `tests full-session plan --profile-id current --full-budget-state 0`, cuya implementación inyecta el hash de la colección sellada antes de ejecutar el preflight FRX-v2.4.
+
+Como el intento v1.0.1 no ejecutó tests Full ni reservó presupuesto, el session runtime pre-plan puede reseedearse de forma gobernada: primero se archivan `session.json` y `collection.json` en evidencia, luego se elimina solo ese runtime pre-ejecución y se recollecta el mismo logical session id desde el commit correctivo. Las 20 capturas browser v101 permanecen válidas porque el corrective no modifica `ui/web/src`, rutas, API, RBAC ni presentación.
+
+# Windows browser evidence review v1.0.3
+
+Las 20 capturas `browser_v101` fueron revisadas visualmente después del `browser-record` PASS. No se observan UX-S0/S1, secretos, bypass de autorización, overflow crítico ni dependencia de terminal para el journey normal. La evidencia de keyboard focus muestra el skip-link/focus-visible y las vistas 768x1024/390x844 mantienen acciones esenciales utilizables.
+
+Se registra un hallazgo no bloqueante `UX-P0-E-S3-001`: Project Status puede mostrar `READY` como estado de ingeniería mientras la acción autoritativa es `RESOLVE_BLOCKER` por un gate `UNKNOWN`. El blocker y la next action son visibles, por lo que no invalida P0; se difiere mejora de copy/semántica visual a UX-P1.

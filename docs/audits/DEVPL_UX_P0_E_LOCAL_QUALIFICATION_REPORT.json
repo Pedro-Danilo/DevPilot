@@ -6,14 +6,14 @@
   "baseline_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "baseline_commit": "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8",
   "baseline_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
-  "source_delta_paths": 27,
+  "source_delta_paths": 28,
   "pytest_focal": "22/22 PASS",
   "ux_p0_e_smoke": "20/20 PASS",
   "project_state": "PASS",
   "docs_governance": "PASS",
   "tcr_v1": "PASS",
   "tcr_v2": "PASS",
-  "test_impact": "27/185/303/0",
+  "test_impact": "28/187/304/0",
   "full_regression_required": true,
   "full_regression_runs": 0,
   "second_full_runs": 0,
@@ -32,5 +32,17 @@
     "corrective": "upgrade historical performance smoke to successor-aware no-regression semantics; keep exact repo435 source parity and E Vite dist hard ceilings; do not widen historical/current budget values",
     "full_consumed_before_corrective": false,
     "corrected_smoke_schema": "devpilot.uoc011.performance_smoke.v2-successor-aware"
+  },
+  "windows_corrective_v1_0_3": {
+    "trigger": "seal-preflight v1.0.1 blocked before Full",
+    "classification": "PRE-FULL-CONTRACT-DRIFT/OPERATOR-PREFLIGHT-ADAPTER-DEFECT",
+    "collection_total": 3225,
+    "collection_sha256": "9a77ad63fbf5fb96088e5777a2da8afb53e30fa44c016b01f93363d1b090d0ab",
+    "isolation_missing_before": 30,
+    "isolation_stale_before": 10,
+    "isolation_entries_after": 3225,
+    "new_entries_authority": "UNCLASSIFIED/SERIAL-BY-POLICY",
+    "full_consumed_before_corrective": false,
+    "browser_evidence_reuse": "ALLOWED; corrective changes testing/docs only and does not change UI/API runtime semantics"
   }
 }

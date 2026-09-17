@@ -2,14 +2,14 @@
   "schema_id": "devpilot.ux_p0_e.test_impact.v1",
   "status": "PASS/LOCAL-ANALYZED",
   "updated": "2026-09-17",
-  "changed_paths_total": 27,
+  "changed_paths_total": 28,
   "contracts_total": 346,
-  "matched_contracts_total": 185,
-  "p0_selected_total": 115,
+  "matched_contracts_total": 187,
+  "p0_selected_total": 117,
   "p1_selected_total": 61,
   "heuristic_recommendations_total": 5,
-  "recommended_tests_total": 303,
-  "recommended_commands_total": 348,
+  "recommended_tests_total": 304,
+  "recommended_commands_total": 350,
   "unmatched_paths_total": 0,
   "recommended_profiles": [
     "p0-critical",
@@ -28,5 +28,6 @@
   "network_used": false,
   "external_api_used": false,
   "policy_adjudication": "EXPECTED-FULL/UX-P0-E-CLOSURE; exactly one logical Full is mandatory after cheap/browser/usability/a11y/perf gates",
-  "note": "Windows corrective v1.0.1 adds uoc011-performance-smoke.mjs to the exact semantic delta; analyzer result remains 27/185/303/0 and Full remains required. Windows operator recomputes before Full."
+  "note": "Windows corrective v1.0.3 adds exact Test Isolation Registry reconciliation; analyzer result 28/187/304/0, Full remains required, and no Full has been consumed.",
+  "corrective_v1_0_3": "FRX pre-full collection/isolation coverage reconciliation; no Full consumed"
 }

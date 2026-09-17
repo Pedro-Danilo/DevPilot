@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.ux_p0_e.contract_reconciliation.v1",
-  "status": "READY/PRE-WINDOWS",
+  "status": "PASS/PRE-FULL-RECONCILED",
   "updated": "2026-09-17",
   "source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "source_commit": "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8",
@@ -15,7 +15,8 @@
     "runtime evidence excluded",
     "FRX current profile",
     "successor repo436 recognition",
-    "UOC-011 historical performance smoke baseline-parity adjudication: repo435 already BLOCK; E ui/web/src semantic metrics must remain exactly unchanged; E-specific Vite dist budget remains blocking"
+    "UOC-011 historical performance smoke baseline-parity adjudication: repo435 already BLOCK; E ui/web/src semantic metrics must remain exactly unchanged; E-specific Vite dist budget remains blocking",
+    "FRX current collection/isolation registry exact coverage: 3225/3225; 30 newly collected nodeids added as UNCLASSIFIED/serial-by-policy; 10 stale nodeids pruned; no parallel-safe authority inferred"
   ],
   "blocking_findings": [],
   "lf_crlf_authority": "Git-semantic/EOL-normalized content only",
@@ -29,5 +30,21 @@
     "e_ui_source_mutation_allowed": false,
     "corrective": "uoc011-performance-smoke v2 successor-aware no-regression baseline binding",
     "repo435_test_performance_after_corrective": "PASS/INHERITED-DEBT-NO-GROWTH"
+  },
+  "frx_preflight_reconciliation": {
+    "trigger": "Windows seal-preflight v1.0.1 BLOCK before Full execution",
+    "classification": "PRE-FULL-CONTRACT-DRIFT/NO-FULL-CONSUMED",
+    "collection_total": 3225,
+    "collection_sha256": "9a77ad63fbf5fb96088e5777a2da8afb53e30fa44c016b01f93363d1b090d0ab",
+    "isolation_registry_entries_total": 3225,
+    "missing_before": 30,
+    "stale_before": 10,
+    "missing_after": 0,
+    "stale_after": 0,
+    "new_entries_state": "UNCLASSIFIED",
+    "parallel_safe_inferred": false,
+    "profile_unknown_policy": "serial",
+    "raw_collection_preflight_bug": "v1.0.1 called profile preflight on collection.json without injected collection_sha256; v1.0.3 uses governed full-session plan, which performs the profile preflight with the sealed session hash",
+    "full_runs_before_corrective": 0
   }
 }

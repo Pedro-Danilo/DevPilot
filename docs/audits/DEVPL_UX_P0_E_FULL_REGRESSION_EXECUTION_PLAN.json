@@ -13,5 +13,14 @@
   "second_full_allowed": false,
   "functional_fail_policy": "PRESERVE/NO-RERUN/COMPOSITE-RECOVERY",
   "infra_interrupt_policy": "RESUME-SAME-SESSION-UNEXECUTED-ONLY",
-  "execution_order": "cheap gates -> browser/usability/a11y/perf -> closure source commit -> collect/plan preflight -> one run -> status/adjudication"
+  "execution_order": "cheap gates -> browser/usability/a11y/perf -> closure source commit -> collect/plan preflight -> one run -> status/adjudication",
+  "preflight_reconciliation_v1_0_3": {
+    "collection_total": 3225,
+    "collection_sha256": "9a77ad63fbf5fb96088e5777a2da8afb53e30fa44c016b01f93363d1b090d0ab",
+    "isolation_registry_exact_coverage": true,
+    "governed_preflight_entrypoint": "tests full-session plan --profile-id current --full-budget-state 0",
+    "standalone_raw_collection_preflight": "PROHIBITED-FOR-SESSION-COLLECTION",
+    "full_runs_before_corrective": 0,
+    "session_reseed_policy": "Allowed only before plan/receipts/budget consumption; archive pre-reconciliation session artifacts to evidence, then recollect same logical session id from corrective commit."
+  }
 }

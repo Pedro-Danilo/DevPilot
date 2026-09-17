@@ -38,6 +38,21 @@ def test_current_frx_profile_is_locked():
     assert fr['status']=='current-active'
     assert fr['current_profile_id']=='frx-v2.4-current'
     assert fr['current_profile_sha256']=='2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219'
+    isolation=j('.devpilot/testing/test_isolation_registry.json')
+    assert isolation['collection_sha256']=='9a77ad63fbf5fb96088e5777a2da8afb53e30fa44c016b01f93363d1b090d0ab'
+    assert len(isolation['entries'])==3225
+    by_nodeid={entry['nodeid']:entry for entry in isolation['entries']}
+    for nodeid in [
+      'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_e_rebind_is_repo435_to_repo436',
+      'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_e_full_budget_is_unconsumed_and_single_use',
+      'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_e_authority_metadata_is_aligned',
+      'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_current_frx_profile_is_locked',
+      'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_e_required_closure_artifacts_exist',
+      'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_e_performance_closure_uses_repo435_parity_not_stale_uoc011_threshold_widening',
+    ]:
+      assert nodeid in by_nodeid
+      if by_nodeid[nodeid]['state']=='UNCLASSIFIED':
+        assert by_nodeid[nodeid]['parallel_safe'] is False
 
 def test_e_required_closure_artifacts_exist():
     for rel in [
