@@ -1,6 +1,7 @@
 // DevPilot UI route contract: ui.dashboard
 import type { AuthSessionContext } from '../api/types';
 import { beginProjectEntryJourney, readProjectEntryResumeState, readProjectJourneyContext } from '../api/client';
+import { renderCriticalPathGuidance, renderTechnicalDisclosure } from './CriticalPathGuidance';
 
 interface EntryCard {
   mode: 'CREATE_NEW' | 'OPEN_EXISTING' | 'IMPORT_GIT';
@@ -48,19 +49,34 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
   intro.textContent = 'El journey normal ocurre íntegramente en el navegador: elige una opción, revisa el plan, solicita approval cuando corresponda y continúa al Estado del proyecto.';
   header.append(eyebrow, title, intro);
 
-  const security = document.createElement('div');
-  security.className = 'project-home__security';
-  security.setAttribute('role', 'note');
+  const journeyGuide = renderCriticalPathGuidance({
+    eyebrow: 'Greenfield · empieza aquí',
+    title: 'De una idea a un proyecto gobernado',
+    summary: 'Elige una ruta de entrada. DevPilot te mostrará qué se va a crear o adoptar antes de pedir una aprobación.',
+    steps: [
+      { label: 'Elegir entrada', state: 'current' },
+      { label: 'Revisar dry-run', state: 'upcoming' },
+      { label: 'Aprobar efecto', state: 'upcoming' },
+      { label: 'Verificar proyecto', state: 'upcoming' },
+    ],
+    nextAction: 'Crear un proyecto nuevo es la ruta principal para el piloto greenfield.',
+    approvalEffect: 'Solo después del approval puede materializarse el workspace o registrarse un proyecto existente.',
+  });
+
   const isOwner = session.principal.roles.includes('owner');
-  security.textContent = isOwner
-    ? 'Sesión owner: dry-run, approval y ejecución gobernada disponibles. Local-first · sin shell · remote/network disabled-by-default.'
-    : `Sesión ${session.principal.roles.join(', ') || 'sin rol'}: puedes revisar el journey permitido, pero la ejecución bootstrap requiere owner y permanece bloqueada server-side.`;
+  const security = renderTechnicalDisclosure(
+    'Ver límites y seguridad de esta sesión',
+    isOwner
+      ? 'Sesión owner: dry-run, approval y ejecución gobernada disponibles. Local-first, sin shell externo y remote/network disabled-by-default.'
+      : `Sesión ${session.principal.roles.join(', ') || 'sin rol'}: puedes revisar el journey permitido, pero bootstrap mutante requiere owner y permanece bloqueado server-side.`,
+  );
+  security.classList.add('project-home__security');
 
   const cards = document.createElement('div');
   cards.className = 'project-home__cards';
   for (const item of ENTRY_CARDS) {
     const link = document.createElement('a');
-    link.className = 'project-home-card';
+    link.className = `project-home-card ${item.mode === 'CREATE_NEW' ? 'project-home-card--primary' : 'project-home-card--secondary'}`;
     link.href = `/project/entry?mode=${encodeURIComponent(item.mode)}`;
     link.dataset.entryMode = item.mode;
     link.setAttribute('aria-label', `${item.title}. ${item.description}`);
@@ -77,7 +93,7 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
     outcome.className = 'project-home-card__outcome';
     outcome.textContent = item.outcome;
     const cta = document.createElement('strong');
-    cta.textContent = 'Revisar opciones →';
+    cta.textContent = item.mode === 'CREATE_NEW' ? 'Empezar proyecto →' : 'Revisar esta opción →';
     link.append(mode, heading, description, outcome, cta);
     cards.append(link);
   }
@@ -98,6 +114,19 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
   } else {
     disclosure.textContent = 'Primero crea, abre o importa un proyecto. Estado del proyecto, Documentos, Reportes, Trazas, Jobs, Calidad/Tests e IA/RAG se habilitan después de completar el journey de entrada.';
   }
+
+  const activeProjectResume = document.createElement('aside');
+  activeProjectResume.className = 'project-home__active-resume panel';
+  activeProjectResume.dataset.activeProjectResume = 'true';
+  const activeResumeTitle = document.createElement('strong');
+  activeResumeTitle.textContent = '¿Ya estabas trabajando en un proyecto?';
+  const activeResumeText = document.createElement('span');
+  activeResumeText.textContent = 'Recupera el contexto desde la autoridad local sin crear, importar ni reabrir el proyecto.';
+  const activeResumeLink = document.createElement('a');
+  activeResumeLink.className = 'button-secondary';
+  activeResumeLink.href = '/project/status?recover_project_context=server-active';
+  activeResumeLink.textContent = 'Retomar proyecto activo →';
+  activeProjectResume.append(activeResumeTitle, activeResumeText, activeResumeLink);
 
   const resume = document.createElement('div');
   resume.className = 'project-home__resume';
@@ -124,7 +153,7 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
     steps.append(li);
   }
 
-  section.append(header, security, disclosure);
+  section.append(header, journeyGuide, disclosure, activeProjectResume, security);
   if (resumeState) section.append(resume);
   section.append(cards, steps);
   return section;

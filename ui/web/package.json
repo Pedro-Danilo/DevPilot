@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.39.0-ux-p0-b",
+  "version": "0.40.0-ux-p0-c",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI — UX-P0-B product App Shell, grouped navigation and persistent server-authoritative project context.",
@@ -48,7 +48,8 @@
     "test:reconciliation": "node scripts/gsdlc12b-reconciliation-smoke.mjs",
     "smoke:gsdlc12c": "node scripts/gsdlc12c-accessibility-smoke.mjs",
     "test:ux-p0-a": "node scripts/uxp0a-design-system-smoke.mjs",
-    "test:ux-p0-b": "node scripts/uxp0b-app-shell-smoke.mjs"
+    "test:ux-p0-b": "node scripts/uxp0b-app-shell-smoke.mjs",
+    "test:ux-p0-c": "node scripts/uxp0c-critical-path-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

@@ -1,0 +1,40 @@
+{
+  "schema_id": "devpilot.ux_p0_c.ux_findings.v1",
+  "status": "OPEN-FOR-WINDOWS-BROWSER-ADJUDICATION",
+  "micro_sprint": "DEVPL-UX-P0-C",
+  "baseline_repo": "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "findings": [
+    {
+      "id": "UX-P0-C-F001",
+      "severity": "UX-S2",
+      "source": "UX-P0-B closure",
+      "surface": "Project Home",
+      "finding": "Active server project recovery was not obvious after login.",
+      "disposition": "IMPLEMENTED-IN-C",
+      "evidence": "ProjectHomeEntryPanel adds explicit Retomar proyecto activo CTA using server-active recovery."
+    },
+    {
+      "id": "UX-P0-C-F002",
+      "severity": "UX-S2",
+      "source": "UX-P0-B closure",
+      "surface": "Project Status",
+      "finding": "Guided projection remained dense and exposed technical UNKNOWN gate wording prominently.",
+      "disposition": "IMPLEMENTED-IN-C/PENDING-BROWSER-VALIDATION",
+      "evidence": "CriticalPathGuidance + technical disclosure."
+    },
+    {
+      "id": "UX-P0-C-F003",
+      "severity": "UX-S3",
+      "source": "local review",
+      "surface": "Guided surfaces",
+      "finding": "Final visual polish and cross-surface operation semantics remain intentionally incomplete.",
+      "disposition": "DEFERRED-TO-UX-P0-D/E"
+    }
+  ],
+  "s0_open": 0,
+  "s1_open": 0,
+  "full_regression_runs": 0,
+  "local_qualification": "PASS",
+  "evidence_freshness": "PASS/0-critical-stale",
+  "test_impact": "34/188/304/0"
+}

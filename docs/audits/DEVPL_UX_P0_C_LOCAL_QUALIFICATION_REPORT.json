@@ -1,0 +1,29 @@
+{
+  "schema_id": "devpilot.ux_p0_c.local_qualification.v1",
+  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-BROWSER-PENDING",
+  "micro_sprint": "DEVPL-UX-P0-C",
+  "baseline_repo": "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "focal_pytest": "PASS/37",
+  "ui_static_gates": {
+    "ux_p0_c": "PASS/15",
+    "route_enforcement": "PASS",
+    "accessibility": "PASS",
+    "state_matrix": "PASS",
+    "visual": "PASS/9",
+    "project_entry": "PASS",
+    "roadmap": "PASS",
+    "recovery": "PASS/11",
+    "reconciliation": "PASS/11"
+  },
+  "project_state": "PASS/6-of-6",
+  "docs_governance": "PASS/1578-documents/0-blockers",
+  "tcr_v1": "PASS/344-contracts",
+  "tcr_v2": "PASS/344-contracts/2-historical-needs-review",
+  "evidence_freshness": "PASS/49-total/48-fresh/0-critical-stale/0-critical-missing/0-critical-invalid",
+  "test_impact": "34/188/304/0",
+  "full_regression_runs": 0,
+  "full_regression_policy": "PROHIBITED-IN-C/EXACTLY-ONE-RESERVED-FOR-UX-P0-E",
+  "browser_manual_validation_required": true,
+  "network_used": false,
+  "external_api_used": false
+}

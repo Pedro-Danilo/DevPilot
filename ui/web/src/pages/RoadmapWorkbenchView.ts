@@ -1,6 +1,7 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { AuthSessionContext, RoadmapProposalRequest, RoadmapWorkbenchProjection } from '../api/types';
 import { renderStepActionAdvisor } from '../components/StepActionAdvisor';
+import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 const ROUTE_ID = 'ui.planning-roadmap';
 
@@ -10,8 +11,22 @@ const DEFAULT_SPRINT = { schema_id:'SCHEMA-DEVPL-PLANNING-SPRINT-PLAN-V1',schema
 
 export function renderRoadmapWorkbenchView(tokenProvider:()=>string|null, session:AuthSessionContext):HTMLElement{
   const host=document.createElement('section'); host.className='roadmap-workbench'; host.dataset.routeId=ROUTE_ID; host.dataset.gsdlc08e='planning-workbench'; host.setAttribute('aria-labelledby','planning-workbench-title');
+  const guide=renderCriticalPathGuidance({
+    eyebrow:'Planning',
+    title:'Ordena el trabajo antes de implementar',
+    summary:'Roadmap define resultados, Backlog los convierte en trabajo trazable y Sprint selecciona únicamente historias READY.',
+    steps:[
+      {label:'Roadmap',state:'current'},
+      {label:'Backlog',state:'upcoming'},
+      {label:'Sprint',state:'upcoming'},
+    ],
+    nextAction:'Empieza por el Roadmap; revisa y congela cada nivel antes de avanzar.',
+    blocker:'Si un nivel no está FROZEN o la cobertura requerida falla, el siguiente no se considera ejecutable.',
+    approvalEffect:'Approve confirma la revisión humana; Freeze inmoviliza esa versión para que el siguiente nivel pueda depender de ella.',
+    recoveryHref:'/recovery',
+  });
   const intro=panel('Planning Workbench','Roadmap → backlog → sprint → trazabilidad. DevPilot mantiene una única experiencia gobernada desde PRE_CODE_READY hasta IMPLEMENTING_READY.');
-  intro.querySelector('h3')!.id='planning-workbench-title'; const safe=document.createElement('p'); safe.className='muted'; safe.textContent='Local-first · runtime planning only · sin ejecución de código · approval/freeze humano · agent suggestions nunca auto-aprueban.'; intro.append(safe); host.append(intro);
+  intro.querySelector('h3')!.id='planning-workbench-title'; const safe=renderTechnicalDisclosure('Ver límites técnicos','Local-first · runtime planning only · sin ejecución de código · approval/freeze humano · agent suggestions nunca auto-aprueban.'); intro.append(safe); host.append(guide,intro);
   const status=document.createElement('div'); status.className='notice'; status.setAttribute('role','status'); status.setAttribute('aria-live','polite'); host.append(status);
   const advisorMount=document.createElement('div'); advisorMount.dataset.planningAdvisor='true'; host.append(advisorMount);
   const journey=document.createElement('div'); host.append(journey);
@@ -50,8 +65,32 @@ function renderJourney(c:any,b:any,s:any):HTMLElement{
   const graph=c?.trace_graph??{}; const table=document.createElement('table'); table.setAttribute('aria-label','Trace graph planning'); const head=document.createElement('tr'); for(const x of ['Origen','Relación','Destino']){const th=document.createElement('th');th.textContent=x;head.append(th);} table.append(head); for(const e of graph.edges??[]){const tr=document.createElement('tr');for(const v of [e.from,e.kind,e.to]){const td=document.createElement('td');td.textContent=String(v??'');tr.append(td);}table.append(tr);} p.append(table);
   const review=document.createElement('p');review.className='muted';review.textContent=`Backlog lifecycle: ${String(b?.backlog?.lifecycle??'MISSING')} · Sprint lifecycle: ${String(s?.sprint_plan?.lifecycle??'MISSING')}`;p.append(review); return p;
 }
-function section(title:string,description:string,select:HTMLSelectElement|null,area:HTMLTextAreaElement):HTMLElement{const p=panel(title,description);if(select)p.append(select);p.append(area);return p;}
-function actions(root:HTMLElement,defs:Array<[string,()=>Promise<any>,boolean?]>,session:AuthSessionContext,refresh:(m?:string)=>Promise<void>):void{const box=document.createElement('div');box.className='roadmap-workbench__actions';for(const [label,fn,approval] of defs){const b=document.createElement('button');b.type='button';b.textContent=label;if(approval&&!canApprove(session)){b.disabled=true;b.title='Solo owner/product-owner. El servidor también deniega la operación.';}b.addEventListener('click',()=>void (async()=>{try{await fn();await refresh(`${label}: PASS`);}catch(e){const notice=root.closest('.roadmap-workbench')?.querySelector('.notice');if(notice){notice.className='notice notice--block';notice.textContent=errorText(e);}}})());box.append(b);}root.append(box);}
+function section(title:string,description:string,select:HTMLSelectElement|null,area:HTMLTextAreaElement):HTMLElement{
+  const p=panel(title,description);
+  p.dataset.planningStage=title.split('·')[0]?.trim() ?? title;
+  if(select)p.append(select);
+  const details=document.createElement('details');
+  details.className='planning-json-disclosure';
+  const summary=document.createElement('summary');
+  summary.textContent='Editar contenido técnico JSON';
+  const help=document.createElement('p');
+  help.className='muted';
+  help.textContent='Este JSON es el contenido gobernado de la propuesta. En Guided se mantiene en disclosure para priorizar estado y siguiente acción.';
+  details.append(summary,help,area);
+  p.append(details);
+  return p;
+}
+function actions(root:HTMLElement,defs:Array<[string,()=>Promise<any>,boolean?]>,session:AuthSessionContext,refresh:(m?:string)=>Promise<void>):void{
+  const box=document.createElement('div');box.className='roadmap-workbench__actions';
+  defs.forEach(([label,fn,approval],index)=>{
+    const b=document.createElement('button');b.type='button';b.textContent=label;
+    b.className=index===0?'planning-action planning-action--primary':'planning-action planning-action--secondary';
+    if(approval&&!canApprove(session)){b.disabled=true;b.title='Solo owner/product-owner. El servidor también deniega la operación.';}
+    b.addEventListener('click',()=>void (async()=>{try{await fn();await refresh(`${label}: PASS`);}catch(e){const notice=root.closest('.roadmap-workbench')?.querySelector('.notice');if(notice){notice.className='notice notice--block';notice.textContent=errorText(e);}}})());
+    box.append(b);
+  });
+  root.append(box);
+}
 function panel(title:string,description:string):HTMLElement{const p=document.createElement('section');p.className='panel';const h=document.createElement('h3');h.textContent=title;const d=document.createElement('p');d.textContent=description;p.append(h,d);return p;}
 function jsonArea(label:string,value:any,rows:number):HTMLTextAreaElement{const a=document.createElement('textarea');a.rows=rows;a.value=JSON.stringify(value,null,2);a.setAttribute('aria-label',label);a.spellcheck=false;return a;}
 function selectField(label:string,options:Array<[string,string]>,value:string):HTMLSelectElement{const s=document.createElement('select');s.setAttribute('aria-label',label);for(const [v,t] of options){const o=document.createElement('option');o.value=v;o.textContent=t;o.selected=v===value;s.append(o);}return s;}

@@ -1,5 +1,6 @@
 import { activateProjectJourney, armApprovalCenterEntryHandoff, clearApprovalCenterEntryHandoff, clearProjectEntryResumeState, DevPilotApiClient, DevPilotApiError, readProjectEntryResumeState, saveProjectEntryResumeState } from '../api/client';
 import type { AuthSessionContext } from '../api/types';
+import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 const PROJECT_ENTRY_ROUTE_ID='ui.project-entry-dry-run';
 
@@ -23,6 +24,23 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   const acceptanceEnabled = Boolean(import.meta.env.DEV) && String(import.meta.env.VITE_GSDLC03E_BROWSER_ACCEPTANCE ?? '') === '1';
 
   const root=document.createElement('section');root.dataset.routeId=PROJECT_ENTRY_ROUTE_ID; root.className='project-entry-workbench'; root.dataset.gsdlc03c='dry-run-workbench'; root.dataset.gsdlc03d='approval-bound-bootstrap'; root.dataset.gsdlc03e='guided-browser-journey';
+  root.dataset.uxP0C='project-entry';
+  const journeyGuide=renderCriticalPathGuidance({
+    eyebrow:'Entrada gobernada',
+    title:'Revisa primero; muta después',
+    summary:'DevPilot separa la revisión del efecto y la ejecución. Nada se materializa hasta que el plan siga vigente y exista approval cuando corresponde.',
+    steps:[
+      {label:'Parámetros',state:'current'},
+      {label:'Dry-run',state:'upcoming'},
+      {label:'Revalidar',state:'upcoming'},
+      {label:'Approval',state:'upcoming'},
+      {label:'Ejecutar',state:'upcoming'},
+      {label:'Verificar',state:'upcoming'},
+    ],
+    nextAction:'Completa los parámetros y genera un dry-run.',
+    approvalEffect:'El approval autoriza exclusivamente el plan y preimage mostrados; cualquier cambio obliga a revalidar.',
+    recoveryHref:'/',
+  });
   const intro=document.createElement('div'); intro.className='project-entry-hero';
   const eyebrow=document.createElement('p'); eyebrow.className='project-entry-eyebrow'; eyebrow.textContent='GSDLC-03-E · browser-complete project entry';
   const h=document.createElement('h2'); h.textContent='Crear / Abrir / Importar con plan, approval y recuperación';
@@ -39,10 +57,12 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   const grid=document.createElement('div'); grid.className='project-entry-form-grid'; grid.append(mode.wrapper,projectId.wrapper,projectName.wrapper,target.wrapper,sourceKind.wrapper,source.wrapper);
   const modeHint=document.createElement('p'); modeHint.className='project-entry-mode-hint'; modeHint.setAttribute('role','note');
   const hint=document.createElement('p'); hint.className='project-entry-hint'; hint.textContent='Remote Git y dependency network permanecen disabled-by-default. El backend revalida PathGuard, RBAC, approval, plan y preimage inmediatamente antes de escribir.';
+  const effects=renderTechnicalDisclosure('Qué puede cambiar esta operación','CREATE_NEW puede crear workspace/Git/.venv/metadata dentro de una raíz autorizada; OPEN_EXISTING conserva el source y registra metadata; IMPORT_GIT crea una copia local gobernada. Remote Git permanece disabled-by-default.');
+  effects.classList.add('project-entry-effects');
   const buttons=document.createElement('div'); buttons.className='project-entry-actions';
   const dry=document.createElement('button'); dry.type='submit'; dry.textContent='Generar dry-run';
   const revalidate=document.createElement('button'); revalidate.type='button'; revalidate.textContent='Revalidar preimage'; revalidate.disabled=true;
-  buttons.append(dry,revalidate); form.append(grid,modeHint,hint,buttons);
+  buttons.append(dry,revalidate); form.append(grid,modeHint,hint,effects,buttons);
 
   const status=document.createElement('div'); status.className='project-entry-status'; status.setAttribute('role','status'); status.setAttribute('aria-live','polite');
   const result=document.createElement('div'); result.className='project-entry-result'; result.dataset.state='empty';
@@ -172,7 +192,7 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   }
 
   const noExecute=document.createElement('div');noExecute.className='project-entry-no-execute';noExecute.textContent='Fail-closed: execute requiere plan vigente, revalidación exacta, human-session/RBAC owner, approval y policy PASS. Cambiar cualquier parámetro invalida el plan/approval.';
-  root.append(intro,form,status,noExecute,result,execution);return root;
+  root.append(journeyGuide,intro,form,status,noExecute,result,execution);return root;
 }
 
 function buildIntake(mode:EntryMode,id:string,name:string,target:string,sourceKind:string,source:string):Record<string,unknown>{const intake:Record<string,unknown>={schema_id:'SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1',schema_version:'1.0',project_id:id.trim(),project_name:name.trim(),project_type:'agent-assisted-sdlc',entry_mode:mode,target_root:target.trim(),stack:{frontend:'react-typescript',backend:'fastapi-python',database:'sqlite'},standards:['MIPSoftware','MIASI'],provider:{mode:'none',provider_id:null},restrictions:{arbitrary_shell_allowed:false,silent_network_allowed:false,remote_git_execute_allowed:false}};if(mode==='IMPORT_GIT')intake.git_source={kind:sourceKind,location:source.trim()};return intake;}

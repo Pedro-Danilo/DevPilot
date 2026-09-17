@@ -2,6 +2,7 @@ import { DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData, MiasiApplicabilityStatus } from '../api/types';
 import { renderStepActionAdvisor, renderStepActionAdvisorError } from '../components/StepActionAdvisor';
 import { renderReconciliationSummary } from './ConflictResolutionView';
+import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 const ROUTE_ID = 'ui.project-status';
 const PLANNING_ROADMAP_ROUTE_ID = 'ui.planning-roadmap';
@@ -131,6 +132,30 @@ function renderState(data: GuidedSdlcProjectStatusResponseData): HTMLElement {
 
   const wrapper = document.createElement('div');
   wrapper.className = 'project-status-grid';
+  const blockerCount = Array.isArray(status.blockers) ? status.blockers.length : 0;
+  const currentStep = safe(status.current_step, 'project');
+  const inPlanning = currentStep.toLowerCase().includes('planning') || safe(status.phase).toLowerCase().includes('planning');
+  const inPreCode = !inPlanning && !['implementing','release','released'].includes(safe(status.phase).toLowerCase());
+  const nextExplanation = safe(next.explanation, 'Revisa el estado antes de continuar.');
+  const blockerExplanation = blockerCount > 0
+    ? `${blockerCount} blocker(s) materializados. Revisa el detalle antes de continuar.`
+    : safe(next.kind).includes('BLOCKER')
+      ? nextExplanation
+      : 'No hay blockers materializados en el estado actual.';
+  wrapper.append(renderCriticalPathGuidance({
+    eyebrow: 'Centro operacional',
+    title: 'Tu recorrido hasta Planning',
+    summary: `Proyecto ${safe(status.project_id, safe(status.workspace_id))} · etapa ${currentStep}.`,
+    steps: [
+      { label: 'Proyecto', state: 'done' },
+      { label: 'Pre-code', state: inPreCode ? 'current' : 'done' },
+      { label: 'Planning', state: inPlanning ? 'current' : inPreCode ? 'upcoming' : 'done' },
+      { label: 'Construir', state: ['implementing','release','released'].includes(safe(status.phase).toLowerCase()) ? 'current' : 'upcoming' },
+    ],
+    nextAction: nextExplanation,
+    blocker: blockerExplanation,
+    recoveryHref: '/recovery',
+  }));
   wrapper.append(renderOverview(status, state));
   wrapper.append(renderNextAction(next));
   wrapper.append(renderSignals(status));
@@ -186,9 +211,8 @@ function renderNextAction(action: GuidedSdlcNextAction): HTMLElement {
   kind.textContent = safe(action.kind, 'INSPECT_STATE');
   const explanation = document.createElement('p');
   explanation.textContent = safe(action.explanation, 'No existe una acción determinística disponible todavía.');
-  const reason = document.createElement('p');
-  reason.className = 'project-status-muted';
-  reason.textContent = `Razón: ${safe(action.reason_code)}`;
+  const reason = renderTechnicalDisclosure('Ver razón técnica', `Reason code: ${safe(action.reason_code)} · destino: ${safe(action.navigation_target, 'project-status')}`);
+  reason.classList.add('project-status-muted');
 
   const button = document.createElement('button');
   button.type = 'button';

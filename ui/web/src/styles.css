@@ -1474,3 +1474,236 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
   .app-breadcrumbs ol { display: grid; gap: .2rem; }
   .app-breadcrumbs li + li::before { content: ''; margin: 0; }
 }
+
+
+/* DEVPL-UX-P0-C — greenfield critical-path surface productization.
+   Presentation-only: authority, routes, approvals and API contracts remain server-side. */
+.critical-path-guidance {
+  display: grid;
+  gap: var(--dp-space-4);
+  border: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-lg);
+  background: linear-gradient(180deg, var(--dp-color-surface), var(--dp-color-surface-soft));
+  box-shadow: var(--dp-shadow-panel);
+}
+
+.critical-path-guidance__header {
+  display: grid;
+  gap: var(--dp-space-2);
+}
+
+.critical-path-guidance__eyebrow {
+  margin: 0;
+  color: var(--dp-color-action-primary);
+  font-size: var(--dp-font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.critical-path-guidance__header h2,
+.critical-path-guidance__summary {
+  margin: 0;
+}
+
+.critical-path-guidance__steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--dp-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.critical-path-guidance__step {
+  display: flex;
+  align-items: center;
+  gap: var(--dp-space-2);
+  min-height: var(--dp-control-min-target);
+  padding: var(--dp-space-2) var(--dp-space-3);
+  border: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-surface-subtle);
+  color: var(--dp-color-text-muted);
+}
+
+.critical-path-guidance__step--current {
+  border-color: var(--dp-color-action-primary);
+  background: var(--dp-state-recovery-bg);
+  color: var(--dp-color-text);
+  font-weight: 800;
+}
+
+.critical-path-guidance__step--done {
+  background: var(--dp-state-pass-bg);
+  color: var(--dp-state-pass-fg);
+}
+
+.critical-path-guidance__step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  flex: 0 0 auto;
+  border-radius: var(--dp-radius-pill);
+  background: var(--dp-color-surface);
+  border: 1px solid currentColor;
+  font-weight: 800;
+}
+
+.critical-path-guidance__decisions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--dp-space-3);
+}
+
+.critical-path-guidance__fact {
+  display: grid;
+  gap: var(--dp-space-1);
+  padding: var(--dp-space-3);
+  border-radius: var(--dp-radius-md);
+  background: var(--dp-color-surface-subtle);
+}
+
+.critical-path-guidance__fact--blocker {
+  background: var(--dp-state-warn-bg);
+  color: var(--dp-state-warn-fg);
+}
+
+.critical-path-guidance__fact-label {
+  font-size: var(--dp-font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.critical-path-guidance__recovery {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--dp-control-min-target);
+}
+
+.critical-path-technical-disclosure {
+  margin-top: var(--dp-space-2);
+  color: var(--dp-color-text-muted);
+}
+
+.critical-path-technical-disclosure > summary {
+  min-height: var(--dp-control-min-target);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--dp-color-text);
+}
+
+.project-home__active-resume {
+  display: grid;
+  gap: var(--dp-space-2);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.project-home__active-resume > strong,
+.project-home__active-resume > span {
+  grid-column: 1;
+}
+
+.project-home__active-resume > a {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.project-home-card--primary {
+  border-width: 2px;
+  border-color: var(--dp-color-action-primary);
+  box-shadow: var(--dp-shadow-panel);
+}
+
+.project-home-card--secondary {
+  background: var(--dp-color-surface-soft);
+}
+
+.project-entry-effects {
+  margin-block: var(--dp-space-2) var(--dp-space-3);
+}
+
+.workspace-documents-intro {
+  display: grid;
+  gap: var(--dp-space-3);
+}
+
+.workspace-documents-intro__technical {
+  background: var(--dp-color-surface-soft);
+}
+
+.planning-json-disclosure {
+  margin-top: var(--dp-space-3);
+  border: 1px solid var(--dp-color-border);
+  border-radius: var(--dp-radius-md);
+  padding: var(--dp-space-2) var(--dp-space-3);
+  background: var(--dp-color-surface-soft);
+}
+
+.planning-json-disclosure > summary {
+  min-height: var(--dp-control-min-target);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.planning-json-disclosure textarea {
+  width: 100%;
+  margin-top: var(--dp-space-3);
+}
+
+.roadmap-workbench__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dp-space-2);
+  margin-top: var(--dp-space-3);
+}
+
+.planning-action--secondary {
+  background: var(--dp-color-surface);
+  color: var(--dp-color-action-primary);
+  border: 1px solid var(--dp-color-action-primary);
+}
+
+.project-status-grid > .critical-path-guidance {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  .critical-path-guidance__steps,
+  .critical-path-guidance__decisions {
+    grid-template-columns: 1fr;
+  }
+
+  .critical-path-guidance__step {
+    min-width: 0;
+  }
+
+  .project-home__active-resume {
+    grid-template-columns: 1fr;
+  }
+
+  .project-home__active-resume > strong,
+  .project-home__active-resume > span,
+  .project-home__active-resume > a {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .roadmap-workbench__actions {
+    flex-direction: column;
+  }
+
+  .roadmap-workbench__actions button,
+  .critical-path-guidance__recovery {
+    width: 100%;
+  }
+}

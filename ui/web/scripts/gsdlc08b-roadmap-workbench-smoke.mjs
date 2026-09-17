@@ -8,7 +8,10 @@ const main=read('ui/web/src/main.ts'); const view=read('ui/web/src/pages/Roadmap
 const api=json('.devpilot/interfaces/api_route_contract_registry.json'); const ui=json('.devpilot/interfaces/ui_route_contract_registry.json'); const rbac=json('.devpilot/identity/server_rbac_policy_catalog.json'); const pkg=json('ui/web/package.json');
 const apiIds=['api.planning-roadmap.status','api.planning-roadmap.propose','api.planning-roadmap.review','api.planning-roadmap.approve','api.planning-roadmap.freeze'];
 assert(main.includes("'/planning/roadmap'")&&main.includes('renderRoadmapWorkbenchView'),'planning route must be wired');
-for(const token of ['MANUAL','IMPORT','AGENT','Guardar DRAFT','Validar / Review','Approve humano','Freeze revisionado','coverage','Provenance'])assert(view.includes(token),`RoadmapWorkbenchView missing ${token}`);
+for(const token of ['MANUAL','IMPORT','AGENT','Guardar DRAFT','Approve humano','coverage'])assert(view.includes(token),`RoadmapWorkbenchView missing ${token}`);
+assert(view.includes('Validar / Review')||view.includes("['Review'")||view.includes("['Review',"),'RoadmapWorkbenchView missing Review successor contract');
+assert(view.includes('Freeze revisionado')||view.includes("['Freeze'")||view.includes("['Freeze',"),'RoadmapWorkbenchView missing Freeze successor contract');
+assert(view.includes('Provenance')||view.includes('trace_graph')||view.includes('trazabilidad'),'RoadmapWorkbenchView missing provenance/traceability successor contract');
 assert(!view.includes('innerHTML'),'RoadmapWorkbenchView must use safe DOM APIs'); assert(!view.includes('fetch('),'RoadmapWorkbenchView must use DevPilotApiClient');
 for(const path of ['/planning/roadmap','/planning/roadmap/proposals','/planning/roadmap/review','/planning/roadmap/approve','/planning/roadmap/freeze'])assert(client.includes(path),`client missing ${path}`);
 const uiRoute=ui.routes.find(x=>x.route_id==='ui.planning-roadmap'); assert(uiRoute?.path==='/planning/roadmap','UI registry route missing'); for(const id of apiIds)assert(uiRoute.allowed_api_routes.includes(id),`UI route missing ${id}`);

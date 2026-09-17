@@ -75,10 +75,10 @@ def env(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv("DEVPILOT_UOC005_CONTROL_ROOT", str(tmp_path / "control"))
     monkeypatch.delenv("DEVPILOT_UI_WORKSPACE_REGISTRY_PATH", raising=False)
 
-    miasi_dir = platform / "outputs/workspaces/workspace"
+    miasi_dir = platform / "outputs/workspaces/gsdlc05e-fixture"
     miasi_dir.mkdir(parents=True, exist_ok=True)
     (miasi_dir / "miasi_applicability_context.json").write_text(json.dumps({
-        "schema_id":"SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1", "schema_version":"1.0", "workspace_id":"workspace",
+        "schema_id":"SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1", "schema_version":"1.0", "workspace_id":"gsdlc05e-fixture",
         "project":{"declared_ai_usage":False,"capabilities":[],"risk_level":"low","evidence_refs":["fixture:explicit-non-ai"]},
         "features":[], "risk_review_status":"NOT_REQUIRED", "evidence_refs":["fixture:gsdlc-05-e"]
     }, indent=2), encoding="utf-8")
@@ -203,7 +203,7 @@ def test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes(
 
 def test_missing_miasi_context_fails_readiness_closed(env):
     platform, workspace, auth, issue, service = env
-    (platform / "outputs/workspaces/workspace/miasi_applicability_context.json").unlink()
+    (platform / "outputs/workspaces/gsdlc05e-fixture/miasi_applicability_context.json").unlink()
     status = service.guided_pre_code_status(effective_roles=["owner"], workspace_scopes=[])
     assert status.ok, status.to_dict()
     projection = status.data["pre_code"]
@@ -267,7 +267,7 @@ def test_05_d_owner_adjudication_and_05_e_rebound_are_materialized():
 
 def test_pre_code_http_rbac_uses_server_active_workspace_context(env):
     platform, workspace, auth, _, _ = env
-    active_workspace_id = workspace.name
+    active_workspace_id = "gsdlc05e-fixture"  # canonical .devpilot/project.yaml project_id (UX-P0-B corrective)
     auth.store.update_identity_authority(
         "local-owner",
         roles=("owner",),
@@ -298,7 +298,7 @@ def test_workspace_document_routes_use_single_authenticated_workspace_scope(env)
     auth.store.update_identity_authority(
         "local-owner",
         roles=("owner",),
-        workspace_scopes=(workspace.name,),
+        workspace_scopes=("gsdlc05e-fixture",),
         changed_at=utc_now_iso(),
     )
     client = TestClient(create_app(platform, api_token="gsdlc05e-local-token", auth_service=auth))
@@ -423,7 +423,7 @@ def test_block03_project_status_recovers_external_server_context_via_runtime_gui
     auth.store.update_identity_authority(
         issue.context.principal.actor_id,
         roles=("owner",),
-        workspace_scopes=(workspace.name,),
+        workspace_scopes=("gsdlc05e-fixture",),
         changed_at=utc_now_iso(),
     )
     client = TestClient(create_app(platform, api_token="gsdlc05e-local-token", auth_service=auth))

@@ -781,3 +781,12 @@ DEVPL-GSDLC-12 is `CLOSED/PASS/WINDOWS-VALIDATED` on immutable repo430 (`a415504
 Baseline: `repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip` / `013cc84f0df9eff1fb750b542644bfd0c7dc8717` / `be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097`.
 
 Implements the shell/navigation/context layer before greenfield acceptance: grouped workflow navigation, breadcrumbs, persistent server-authoritative project/stage/state/blocker/recovery context, authoritative Next Action, compact Session + Guided/Expert chrome and responsive navigation. Route IDs/paths/guards remain unchanged. UX-P0-C remains the next authorized micro-sprint after Windows/browser closure.
+
+
+## DEVPL-UX-P0-B — final closure / repo433
+
+UX-P0-B queda `CLOSED/PASS/WINDOWS-VALIDATED` después del corrective de project-context/auth-scope. La identidad canónica del workspace proviene de `.devpilot/project.yaml` (`project.id`); Project Status, Recovery y Reconciliation fueron demostrados en browser real sin 401/403. Successor: `repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip` (`dc63672f2d617968998f3c68374a03581b348578`, SHA-256 `f4415775bd3bf5a01b6368197d0754374de93b659fa5f6bbff8b7a2b8ead4246`). Full B = 0.
+
+## DEVPL-UX-P0-C — current / critical-path productization
+
+Repo433 es la única autoridad de ejecución. C productiza las superficies que el piloto greenfield usará primero: Project Home, Project Entry, Project Status, Pre-code, Documents entry y Planning. El objetivo es que un usuario no experto pueda responder visualmente proyecto, etapa, pendiente, blocker, next action, efecto de approval y recovery sin terminal externo ni JSON como requisito de comprensión. El source/API/RBAC/approval authority no cambia; raw technical detail permanece disponible mediante progressive disclosure. La numeración de successor se rebindea por el correctivo B: C→repo434, D→repo435, E→repo436. Full C = 0; la única Full de UX-P0 sigue reservada para E.

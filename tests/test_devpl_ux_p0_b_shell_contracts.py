@@ -5,17 +5,24 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def read(rel:str)->str: return (ROOT/rel).read_text(encoding='utf-8')
 
-def test_ux_p0_b_current_authority_rebinds_to_repo431():
+def test_ux_p0_b_current_authority_is_preserved_across_successors():
     state=json.loads(read('.devpilot/project_state.json'))
     assert state['ux_p0_a_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
-    assert state['ux_p0_status'] in {'ACTIVE/UX-P0-B', 'ACTIVE/UX-P0-B-CORRECTIVE'}
-    assert state['ux_p0_current_micro_sprint'] in {'DEVPL-UX-P0-B', 'DEVPL-UX-P0-B-CORRECTIVE'}
-    assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-C'
-    assert state['ux_p0_source_repo'].startswith(('repo_DevPilot_Local_431_', 'repo_DevPilot_Local_432_'))
-    assert state['ux_p0_source_commit'] in {
-        '013cc84f0df9eff1fb750b542644bfd0c7dc8717',
-        '0136c3cac5d10ef8c647f96e38423f4940cadb6c',
-    }
+    assert state['ux_p0_status'] in {'ACTIVE/UX-P0-B', 'ACTIVE/UX-P0-B-CORRECTIVE', 'ACTIVE/UX-P0-C'}
+    assert state['ux_p0_b_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
+    assert state['ux_p0_current_micro_sprint'] in {'DEVPL-UX-P0-B', 'DEVPL-UX-P0-B-CORRECTIVE', 'DEVPL-UX-P0-C'}
+    if state['ux_p0_current_micro_sprint']=='DEVPL-UX-P0-C':
+        assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-D'
+        assert state['ux_p0_source_repo'].startswith('repo_DevPilot_Local_433_')
+        assert state['ux_p0_source_commit']=='dc63672f2d617968998f3c68374a03581b348578'
+        assert state['ux_p0_b_successor_repo'].startswith('repo_DevPilot_Local_433_')
+    else:
+        assert state['ux_p0_next_micro_sprint']=='DEVPL-UX-P0-C'
+        assert state['ux_p0_source_repo'].startswith(('repo_DevPilot_Local_431_', 'repo_DevPilot_Local_432_'))
+        assert state['ux_p0_source_commit'] in {
+            '013cc84f0df9eff1fb750b542644bfd0c7dc8717',
+            '0136c3cac5d10ef8c647f96e38423f4940cadb6c',
+        }
     assert state['ux_p0_b_full_regression_runs']==0
     assert state['ux_p0_full_regression_budget']=='0/1-RESERVED-FOR-UX-P0-E'
 

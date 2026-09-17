@@ -1,6 +1,7 @@
 import { armApprovalCenterArtifactReviewHandoff, DevPilotApiClient, DevPilotApiError } from '../api/client';
 import type { AuthSessionContext, DevPilotApplicationResponse, PreCodeWizardProjection, PreCodeWizardStage, StepActionCard } from '../api/types';
 import { renderStepActionAdvisor } from '../components/StepActionAdvisor';
+import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 const ROUTE_CONTRACT_ID = 'ui.pre-code-wizard';
 
@@ -63,14 +64,33 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
   function render(preCode: PreCodeWizardProjection, message?: string): void {
     body.replaceChildren();
     const summary=document.createElement('section'); summary.className='panel pre-code-wizard__summary'; summary.dataset.status=preCode.status;
-    const sh=document.createElement('h3'); sh.textContent=`Estado: ${preCode.status}`;
-    const sp=document.createElement('p'); sp.textContent=`Readiness estricta del vertical slice: ${preCode.readiness.status} · ${preCode.readiness.mandatory_stages_frozen}/${preCode.readiness.mandatory_stages_total} etapas FROZEN.`;
-    const note=document.createElement('p'); note.className='muted'; note.textContent='Este perfil strict corresponde al milestone guiado de 7 etapas y no reescribe el readiness histórico global.';
-    const miasi=document.createElement('p'); miasi.className='muted'; miasi.dataset.miasiGate=preCode.miasi.gate_status; miasi.textContent=`MIASI: ${preCode.miasi.status} · gate ${preCode.miasi.gate_status} · riesgo ${preCode.miasi.risk_level}.`;
-    summary.append(sh,sp,note,miasi);
+    const currentStage=preCode.stages.find((row)=>row.stage_id===preCode.current_stage_id);
+    const sh=document.createElement('h3'); sh.textContent='Preparación antes de programar';
+    const sp=document.createElement('p'); sp.textContent=`${preCode.readiness.mandatory_stages_frozen}/${preCode.readiness.mandatory_stages_total} etapas listas. ${currentStage ? `Ahora: ${currentStage.label}.` : 'Revisa el estado antes de continuar.'}`;
+    const technical=renderTechnicalDisclosure('Ver readiness y controles técnicos',`Estado: ${preCode.status} · Readiness estricta: ${preCode.readiness.status} · MIASI: ${preCode.miasi.status} · gate ${preCode.miasi.gate_status} · riesgo ${preCode.miasi.risk_level}.`);
+    technical.classList.add('pre-code-wizard__technical');
+    summary.append(sh,sp,technical);
     if(message){ const m=document.createElement('p'); m.className='notice notice--pass'; m.textContent=message; summary.append(m); }
+    const currentStatus=currentStage?.status ?? 'UNKNOWN';
+    const nextAction=currentStatus==='APPROVAL_REQUIRED'
+      ? 'Revisa el diff y solicita/verifica el approval antes de aplicar.'
+      : currentStatus==='APPLIED'
+        ? 'Congela la etapa aplicada para habilitar la siguiente.'
+        : currentStatus==='FROZEN'
+          ? 'Continúa con la siguiente etapa disponible.'
+          : 'Completa el contenido de la etapa actual y valida antes de pedir approval.';
+    const guide=renderCriticalPathGuidance({
+      eyebrow:'Pre-code · 7 etapas',
+      title:currentStage ? `Etapa ${currentStage.order}: ${currentStage.label}` : 'Pre-code listo',
+      summary:'Cada etapa conserva la misma secuencia gobernada: draft → validar/diff → approval → apply → freeze.',
+      steps:preCode.stages.map((row)=>({label:row.label,state:row.status==='FROZEN'?'done':row.stage_id===preCode.current_stage_id?'current':'upcoming'})),
+      nextAction,
+      blocker:preCode.readiness.status==='PASS' ? 'Sin blocker de readiness para este milestone.' : 'La etapa actual debe completar sus gates antes de avanzar.',
+      approvalEffect:'El approval autoriza únicamente el plan/diff actual; no salta validación ni freeze.',
+      recoveryHref:'/recovery',
+    });
     const skipFeedback=document.createElement('div'); skipFeedback.className='pre-code-stepper__feedback'; skipFeedback.setAttribute('aria-live','assertive');
-    body.append(summary,stageStepper(preCode.stages,preCode.current_stage_id,(attempted)=>{
+    body.append(summary,guide,stageStepper(preCode.stages,preCode.current_stage_id,(attempted)=>{
       skipFeedback.replaceChildren(statusBox('block',`BLOCK: ${attempted.label} todavía no está habilitada. Completa y congela la etapa actual antes de avanzar; no se ejecutó ninguna mutación.`));
       skipFeedback.tabIndex=-1; skipFeedback.focus();
     }),skipFeedback);

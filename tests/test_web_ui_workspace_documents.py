@@ -59,7 +59,8 @@ def test_workspace_documents_ui_has_required_states_and_responsive_contract() ->
     assert "workspace-documents-layout" in styles
     assert "outline: 3px solid #1f63d4" in styles
     assert "grid-template-columns: repeat(2, minmax(0, 1fr))" in styles
-    assert "min-height: 44px" in styles
+    tokens = (ROOT / "ui/web/src/design-tokens.css").read_text(encoding="utf-8")
+    assert ("min-height: 44px" in styles) or ("min-height: var(--dp-control-min-target)" in styles and "--dp-control-min-target: 44px" in tokens)
     assert package["devpilot"]["workspaceDocuments"] is True
     if package["devpilot"].get("uoc005ApprovalBinding"):
         assert package["devpilot"]["workspaceDocumentsReadOnly"] is False

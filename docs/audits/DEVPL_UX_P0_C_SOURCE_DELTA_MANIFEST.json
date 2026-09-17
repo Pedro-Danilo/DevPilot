@@ -1,0 +1,218 @@
+{
+  "schema_id": "devpilot.ux_p0_c.source_delta.v1",
+  "status": "PASS/FINAL-LOCAL-DELTA",
+  "micro_sprint": "DEVPL-UX-P0-C",
+  "baseline_repo": "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "dc63672f2d617968998f3c68374a03581b348578",
+  "baseline_sha256": "f4415775bd3bf5a01b6368197d0754374de93b659fa5f6bbff8b7a2b8ead4246",
+  "successor_expected": "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "changed_paths_total": 34,
+  "semantic_eol_authority": true,
+  "rows": [
+    {
+      "path": ".devpilot/docs_governance/source_registry.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "536bb86fe3d1bfb3fd46663ca4e14fb1e0fee3047d1f4619669de3edd314b2df",
+      "post_semantic_sha256": "0e445632a988d1b1a553886f4bbe331dfb1b0f8a4af619ae7e7250ef1c4ec92f"
+    },
+    {
+      "path": ".devpilot/project_state.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "e67761875c87444c5535712f540e95bdb31137e3c9a348f884e0a70907addde8",
+      "post_semantic_sha256": "97ba7d58f9625b331310f5b0a9187702ddf2e98881bcca511a87960536c9f6e3"
+    },
+    {
+      "path": ".devpilot/release/local_release_candidate_criteria.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "111a01b123a76708c51640ab66e74c1ac3024c244f3734066b12c898b5cdcc89",
+      "post_semantic_sha256": "da69cb5e5197aa57ed94718c3396775106c4a43ce02e9b8c5a49984cb058558f"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "81100be7f008ff1be78f5a65247d2db4a5c80d2c0a1ea8b99dda9e214050dbad",
+      "post_semantic_sha256": "5b325a113c5fabd8efb2eb9745bdd6588a4a2dc09c3cc10491da973fee2a80b2"
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "0dd620c828d1186c97b795ae7e5b4d2494e2c27dea773554d8a55a32662eb878",
+      "post_semantic_sha256": "006eed02472be452687f4a3e801a5385d63d6e7765c76f8e4d334378a8afeaa9"
+    },
+    {
+      "path": "README.md",
+      "pre_exists": true,
+      "pre_semantic_sha256": "39ea5b879dc40e7a13d4077b3e733b4bf3036cf43916857e0083f3d2593eae8e",
+      "post_semantic_sha256": "6c5069a69d75e2865f305b00b90e11bd1c35afbab8c538ad69f43d7ffa953f6a"
+    },
+    {
+      "path": "docs/00_product/DEVPL_GSDLC_product_evolution_roadmap.md",
+      "pre_exists": true,
+      "pre_semantic_sha256": "b198b3348f7043b35546d9e6d861a1e1e7665a61f451f361b3c507ad0661c6af",
+      "post_semantic_sha256": "00cab4f0eba3059d5c34e61c18d5e527177f6781955f2ef553b3f16c129b0ee6"
+    },
+    {
+      "path": "tests/test_devpl_gsdlc_05_e_pre_code_wizard.py",
+      "pre_exists": true,
+      "pre_semantic_sha256": "0c18263a2712d22213d3a503c8ac1b628f20d125247a8bd3dd93a2bd4624d7bd",
+      "post_semantic_sha256": "6d29f7d5609575fe956903c7f90febe93eb4dbc5eb2939c7d373272efd790dcb"
+    },
+    {
+      "path": "tests/test_devpl_ux_p0_b_shell_contracts.py",
+      "pre_exists": true,
+      "pre_semantic_sha256": "1cbc8cda2cb41869f81a0b27ff772c9d75cdc0a593768584445bc53a4ccb1f9e",
+      "post_semantic_sha256": "1b34d619505fc00b51e9d064e151d1668cf0c5256c2dc20a041e077159edab0e"
+    },
+    {
+      "path": "tests/test_web_ui_workspace_documents.py",
+      "pre_exists": true,
+      "pre_semantic_sha256": "c97e52d4c2fbd0ca9b09c8dee68b154d6ee9ba3d444ae35e96c9840cb466832e",
+      "post_semantic_sha256": "311850312e17c590efdef832199bfe6c883a7385aeeed577d7959cc76f00895e"
+    },
+    {
+      "path": "ui/web/package-lock.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "eaea6354cdc741ed0e7a4aa6780e0946416141740db278dde8d99654f6ab4c92",
+      "post_semantic_sha256": "3cf4764b5eeb9a6aaa5ab812073d8767849373671cedef960e176457a3c95152"
+    },
+    {
+      "path": "ui/web/package.json",
+      "pre_exists": true,
+      "pre_semantic_sha256": "ec807ea687f1b79e350b29a948105772524341fbaa847790241c1b4412409e03",
+      "post_semantic_sha256": "ee5a7ba4a739b67e4101a6be2503be0a06ffe64cdcbb45ecccb2a6886795983b"
+    },
+    {
+      "path": "ui/web/scripts/gsdlc03c-project-entry-dry-run-smoke.mjs",
+      "pre_exists": true,
+      "pre_semantic_sha256": "471dfe38ef1c8c32b6cd7ac0788d66ca6c9584f470309741fd99848966f5d593",
+      "post_semantic_sha256": "6eb63076aee574e00d0aec91299293dd48c607df3e3bd4dd8b3c33ebee944eff"
+    },
+    {
+      "path": "ui/web/scripts/gsdlc08b-roadmap-workbench-smoke.mjs",
+      "pre_exists": true,
+      "pre_semantic_sha256": "2e89f35b757b4c2b028d33a4f22ad3bcbc75c956689e14182b6108ae98114d0f",
+      "post_semantic_sha256": "c932d0e9c99eeaf7cc637494f52fccd9ad596d024c1f3d431a8d39e0cda7b7ff"
+    },
+    {
+      "path": "ui/web/src/components/ProjectHomeEntryPanel.ts",
+      "pre_exists": true,
+      "pre_semantic_sha256": "83cdbbb2665d2f0a3519dcbf006bf3df31d6a2fa0f464eb91adb74be2362a9c8",
+      "post_semantic_sha256": "816acd6f9480b08973969adfc0265861d7f60cd0cc67652aad1264f57b012070"
+    },
+    {
+      "path": "ui/web/src/pages/PreCodeWizardView.ts",
+      "pre_exists": true,
+      "pre_semantic_sha256": "6e3abd1d73ef3be1694824e481e890e0a07e9a61f18ab974bf6ebd62c1693ec1",
+      "post_semantic_sha256": "c15e41f47076c92795ccf8fd6bcc55febd44a455ae297792f04c61d10d1eacbb"
+    },
+    {
+      "path": "ui/web/src/pages/ProjectEntryDryRunView.ts",
+      "pre_exists": true,
+      "pre_semantic_sha256": "474f1a4b9e3b2bfb9e1340d2855d0a1bf8fb134a05885fc4fc8e2fd17abfce42",
+      "post_semantic_sha256": "30b6098c18139461601785d40ffa93d409e2f96376239d8419a2f1ebe74b0eb9"
+    },
+    {
+      "path": "ui/web/src/pages/ProjectStatusView.ts",
+      "pre_exists": true,
+      "pre_semantic_sha256": "bde995cee11de68cd31c75a7ad1438090ff73d950cae9c74ef99c3ef6cffc8ae",
+      "post_semantic_sha256": "790b69404951ccd23470fb2cd33df1ff45652db4d4eae9dbcb1839ce8b7fc799"
+    },
+    {
+      "path": "ui/web/src/pages/RoadmapWorkbenchView.ts",
+      "pre_exists": true,
+      "pre_semantic_sha256": "fb70f640beec67a755e6a2aa03d15c0977c6b59123b17fe4a25933c040918404",
+      "post_semantic_sha256": "edd18c955d3003196d46f3e5dc05a3515b06909d566628be755c0d5e717503e0"
+    },
+    {
+      "path": "ui/web/src/pages/WorkspaceDocumentsView.ts",
+      "pre_exists": true,
+      "pre_semantic_sha256": "84e4a1eaa59a06b33dd3803586cea7a492cc690fe329aa0b09cfc1688864a164",
+      "post_semantic_sha256": "d0f9d2bf6f5bdb44293b38a448db776d66fc317f3697d0d2f6478ca3f81b0071"
+    },
+    {
+      "path": "ui/web/src/styles.css",
+      "pre_exists": true,
+      "pre_semantic_sha256": "37ac05fd60a1252ab1df413c24c7a83e21402dd8c4d389772c7470961c56c061",
+      "post_semantic_sha256": "bf80e27870b3a4b30930b226ed8d30e3d18ef951b0796015981570919b2c0a88"
+    },
+    {
+      "path": "03_PROMPT_DEVPL_UX_P0_C_v1_0_1_APPROVED_REBOUND_REPO433.md",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "c384a7b803615a4bb19a6ea7931f5430a7bc6b50f1541ddca133be2b678effb0"
+    },
+    {
+      "path": "DEVPL_UX_P0_PRE_PILOT_PRODUCTIZATION_BACKLOG_v1_0_1_APPROVED_REBOUND_REPO433.md",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "3d516eeeadc443a5632f73c65da6310638370a47a19e82f4c3aaa2cdcfa8571f"
+    },
+    {
+      "path": "SPRINT_DEVPL_UX_P0_C_v1_0_0_APPROVED_REBOUND_REPO433.md",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "e39d80d22b8b5ed198450a535f61272b9818304c63933e4780f86984c9d2e430"
+    },
+    {
+      "path": "tests/test_devpl_ux_p0_c_critical_path_contracts.py",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "d78de2994897725ba673443eaab4b51d447885a1fbe4624517445477117dfc95"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_C_IMPLEMENTATION_REPORT.md",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "ea58706b6b495efcddcf98a913c08b152d2e2b085f631a78c3932cfc6bb4f4f2"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_C_UX_FINDINGS_LEDGER.json",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "cc04e720e7db841de6a313c3b3ad78e1e3a19640cba62872b21e49bc332aac54"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_C_TEST_IMPACT.json",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "c0e5d1a2a097bafa33d88d8349fa5ece66d7f4a5053f410701c8ad55cb92c635"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_C_LOCAL_QUALIFICATION_REPORT.json",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "c927fd9499abefa9e786199c38cf900af7113c4e4049d64f62c7f310f6eb5ee9"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_C_SOURCE_DELTA_MANIFEST.json",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "925a0e6041bd3beb8047b3beb8755e2f8b8f7e9f37477c5057241f8e434a6862"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_C_BROWSER_ACCEPTANCE_PLAN_v1_0_0.md",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "67376a079397ac4c1871c05d35b6502b582bd4cf306dca3da0e55ca4fe193b35"
+    },
+    {
+      "path": "docs/audits/DEVPL_UX_P0_B_FINAL_CLOSURE_ADJUDICATION_v1_0_0.md",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "0dfdf3c252361dcac9cb425b762b6d9266893ddb82679a45de358e7d6a9cbe1e"
+    },
+    {
+      "path": "ui/web/scripts/uxp0c-critical-path-smoke.mjs",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "28a270c0d3dc2e8379a5d64cabc0e01d9a76c340f3b6db815b845016362f9dab"
+    },
+    {
+      "path": "ui/web/src/components/CriticalPathGuidance.ts",
+      "pre_exists": false,
+      "pre_semantic_sha256": null,
+      "post_semantic_sha256": "190fe363827384d5e6722eab6e607c825e31993891df3fb60099d45ff0595f3f"
+    }
+  ],
+  "full_regression_runs": 0
+}

@@ -23,6 +23,7 @@ import { createArtifactImportWorkbench } from '../components/ArtifactImportWorkb
 import { createArtifactReviewFlow } from '../components/ArtifactReviewFlow';
 import { renderDocumentViewer } from '../components/DocumentViewer';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
+import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 interface WorkspaceDocumentsState {
   loading: boolean;
@@ -378,15 +379,33 @@ function renderGuarded(factory: () => HTMLElement, surface: string): HTMLElement
 }
 
 function renderIntroduction(): HTMLElement {
-  const section = document.createElement('section');
-  section.className = 'panel workspace-documents-intro';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'workspace-documents-intro';
+  wrapper.dataset.uxP0C = 'documents-entry';
+  wrapper.append(renderCriticalPathGuidance({
+    eyebrow: 'Documentos del proyecto',
+    title: 'Encuentra el artefacto y trabaja sobre un draft',
+    summary: 'Busca o navega primero. Editar, importar o usar AI Assist produce una propuesta/draft; el source aprobado solo cambia mediante plan, approval y apply.',
+    steps: [
+      { label: 'Encontrar', state: 'current' },
+      { label: 'Revisar', state: 'upcoming' },
+      { label: 'Editar draft', state: 'upcoming' },
+      { label: 'Validar', state: 'upcoming' },
+      { label: 'Aplicar', state: 'upcoming' },
+    ],
+    nextAction: 'Busca por nombre/ruta o selecciona un documento del árbol.',
+    approvalEffect: 'Un approval permite aplicar una revisión concreta; AI Assist nunca auto-aprueba ni escribe source por sí sola.',
+    recoveryHref: '/recovery',
+  }));
+  const technical = document.createElement('section');
+  technical.className = 'panel workspace-documents-intro__technical';
   const title = document.createElement('h2');
   title.textContent = 'Artifact Workbench · Explorador de documentos';
   const description = document.createElement('p');
-  description.textContent = 'Navega documentos del workspace activo y, para Markdown/JSON, crea drafts MANUAL gobernados con autosave, historial y optimistic concurrency. El source aprobado no cambia hasta el flujo de plan/approval/apply.';
-  description.textContent += ' Los documentos se navegan mediante identificadores opacos. GSDLC-07-C añade AI Assist gobernado: plan visible antes del run, proposal/diff no confiable y decisión humana antes de persistir una revisión DRAFT.';
-  section.append(title, description, renderContractBadges('ui.workspace-documents', { dryRunLabel: 'DRAFT runtime', warning: 'GSDLC-04-B habilita autoría manual solo como draft runtime. Apply de source sigue gobernado por UOC-005; Git por UOC-006; no remote/connector/plugin write.' }));
-  return section;
+  description.textContent = 'Navega documentos del workspace activo y, para Markdown/JSON, crea drafts MANUAL gobernados con autosave, historial y optimistic concurrency. El source aprobado no cambia hasta el flujo de plan/approval/apply. Los documentos se navegan mediante identificadores opacos. GSDLC-07-C añade AI Assist gobernado: plan visible antes del run, proposal/diff no confiable y decisión humana antes de persistir una revisión DRAFT.';
+  technical.append(title, renderTechnicalDisclosure('Ver contrato técnico del Artifact Workbench', description.textContent), renderContractBadges('ui.workspace-documents', { dryRunLabel: 'DRAFT runtime', warning: 'GSDLC-04-B habilita autoría manual solo como draft runtime. Apply de source sigue gobernado por UOC-005; Git por UOC-006; no remote/connector/plugin write.' }));
+  wrapper.append(technical);
+  return wrapper;
 }
 
 function renderFilters(state: WorkspaceDocumentsState, submit: () => void): HTMLElement {
