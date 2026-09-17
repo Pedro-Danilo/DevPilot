@@ -1,0 +1,23 @@
+{
+  "schema_id": "devpilot.ux_p0_e.clean_install_plan.v1",
+  "status": "READY",
+  "updated": "2026-09-17",
+  "successor": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "candidate_mode": "git-archive exact closure commit -> fresh extraction -> static/package smoke",
+  "network_allowed": false,
+  "forbidden_entries": [
+    ".git",
+    ".venv",
+    "outputs",
+    ".pytest_cache",
+    "__pycache__",
+    "node_modules",
+    ".devpilot/auth/auth.db",
+    ".devpilot/devpilot.db"
+  ],
+  "smoke": [
+    "parse Project State/Source Registry/package metadata",
+    "run UX-P0-E static closure smoke from clean archive",
+    "confirm forbidden paths absent"
+  ]
+}

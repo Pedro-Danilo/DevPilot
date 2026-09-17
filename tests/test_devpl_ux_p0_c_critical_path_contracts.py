@@ -65,8 +65,14 @@ def test_guided_copy_keeps_technical_detail_available_progressively():
 def test_current_project_state_points_to_ux_p0_c_successor():
     state = json.loads(read(".devpilot/project_state.json"))
     assert state["ux_p0_b_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
-    assert state["ux_p0_current_micro_sprint"] in {"DEVPL-UX-P0-C", "DEVPL-UX-P0-D"}
-    if state["ux_p0_current_micro_sprint"] == "DEVPL-UX-P0-D":
+    assert state["ux_p0_current_micro_sprint"] in {"DEVPL-UX-P0-C", "DEVPL-UX-P0-D", "DEVPL-UX-P0-E"}
+    if state["ux_p0_current_micro_sprint"] == "DEVPL-UX-P0-E":
+        assert state["ux_p0_c_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
+        assert state["ux_p0_d_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
+        assert state["ux_p0_next_micro_sprint"] == "DEVPL-GSDLC-13"
+        assert state["ux_p0_source_repo"].startswith("repo_DevPilot_Local_435_")
+        assert state["ux_p0_source_commit"] == "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8"
+    elif state["ux_p0_current_micro_sprint"] == "DEVPL-UX-P0-D":
         assert state["ux_p0_c_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
         assert state["ux_p0_next_micro_sprint"] == "DEVPL-UX-P0-E"
         assert state["ux_p0_source_repo"] == "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip"

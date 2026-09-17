@@ -39,6 +39,6 @@ def test_current_authority_rebound_to_d():
     import json
     state=json.loads(text(".devpilot/project_state.json"))
     assert state["ux_p0_c_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
-    assert state["current_micro_sprint"] == "DEVPL-UX-P0-D"
-    assert state["next_micro_sprint"] == "DEVPL-UX-P0-E"
+    assert state["current_micro_sprint"] in {"DEVPL-UX-P0-D", "DEVPL-UX-P0-E"}
+    assert state["next_micro_sprint"] == ("DEVPL-GSDLC-13" if state["current_micro_sprint"] == "DEVPL-UX-P0-E" else "DEVPL-UX-P0-E")
     assert state["ux_p0_d_full_regression_runs"] == 0

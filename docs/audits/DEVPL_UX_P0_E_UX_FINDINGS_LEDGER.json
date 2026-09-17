@@ -1,0 +1,11 @@
+{
+  "schema_id": "devpilot.ux_p0_e.ux_findings_ledger.v1",
+  "status": "OPEN/PENDING-WINDOWS",
+  "updated": "2026-09-17",
+  "ux_s0_open": 0,
+  "ux_s1_open": 0,
+  "ux_s2_open": 0,
+  "ux_s3_open": 0,
+  "findings": [],
+  "closure_policy": "S0/S1 must be 0; S2 requires owner+UX-P1 plan and must not invalidate pilot"
+}

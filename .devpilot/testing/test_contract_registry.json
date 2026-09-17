@@ -14745,9 +14745,68 @@
         "docs/audits/DEVPL_UX_P0_D_TEST_IMPACT.json",
         "docs/audits/DEVPL_UX_P0_D_SOURCE_DELTA_MANIFEST.json"
       ]
+    },
+    {
+      "contract_id": "devpl-ux-p0-e-prepilot-closure",
+      "critical": true,
+      "external_api_allowed": false,
+      "global_state_source": ".devpilot/project_state.json",
+      "mutable_global_state_allowed": true,
+      "mutations_allowed": false,
+      "network_allowed": false,
+      "owner": "DEVPL-UX-P0-E",
+      "phase": "DEVPL-UX-P0",
+      "recommended_commands": [
+        "python -m pytest tests/test_devpl_ux_p0_e_prepilot_closure.py tests/test_devpl_ux_p0_d_operational_patterns.py tests/test_devpl_ux_p0_c_critical_path_contracts.py tests/test_devpl_ux_p0_b_shell_contracts.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "scope": "integration",
+      "source_mutations_allowed": true,
+      "test_files": [
+        "tests/test_devpl_ux_p0_e_prepilot_closure.py",
+        "tests/test_devpl_ux_p0_d_operational_patterns.py",
+        "tests/test_devpl_ux_p0_c_critical_path_contracts.py",
+        "tests/test_devpl_ux_p0_b_shell_contracts.py"
+      ],
+      "validates": [
+        "D closure authority bound to Windows-validated repo435",
+        "E current-active metadata and repo436 successor rebound",
+        "browser/usability/a11y/performance precede the single Full",
+        "FRX-v2.4 current profile and one-Full budget remain explicit",
+        "functional Full failures are preserved/no-rerun and require composite selective recovery",
+        "clean RC is exact-commit tracked-only"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "DEVPL_UX_P0_D_FINAL_CLOSURE_ADJUDICATION_v1_0_0.md",
+        "DEVPL_UX_P0_PRE_PILOT_PRODUCTIZATION_BACKLOG_v1_0_3_APPROVED_REBOUND_REPO435.md",
+        "SPRINT_DEVPL_UX_P0_E_v1_0_0_APPROVED_REBOUND_REPO435.md",
+        "05_PROMPT_DEVPL_UX_P0_E_v1_0_1_APPROVED_REBOUND_REPO435.md",
+        "README.md",
+        "ui/web/package.json",
+        "ui/web/scripts/uxp0e-prepilot-closure-smoke.mjs",
+        "tests/test_devpl_ux_p0_e_prepilot_closure.py",
+        "docs/audits/DEVPL_UX_P0_E_IMPLEMENTATION_REPORT.md",
+        "docs/audits/DEVPL_UX_P0_E_BROWSER_USABILITY_PLAN_v1_0_0.md",
+        "docs/audits/DEVPL_UX_P0_E_PERFORMANCE_BUDGET.json",
+        "docs/audits/DEVPL_UX_P0_E_CONTRACT_RECONCILIATION_SWEEP.json",
+        "docs/audits/DEVPL_UX_P0_E_FULL_REGRESSION_EXECUTION_PLAN.json",
+        "docs/audits/DEVPL_UX_P0_E_CLEAN_INSTALL_PLAN.json",
+        "docs/audits/DEVPL_UX_P0_E_UX_FINDINGS_LEDGER.json",
+        "docs/audits/DEVPL_UX_P0_E_TEST_IMPACT.json",
+        "docs/audits/DEVPL_UX_P0_E_LOCAL_QUALIFICATION_REPORT.json",
+        "docs/audits/DEVPL_UX_P0_E_SOURCE_DELTA_MANIFEST.json"
+      ]
     }
   ],
-  "contracts_total": 345,
+  "contracts_total": 346,
   "created_by": "POST-H-001",
   "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation. POST-H-034-CLOSURE follow-up registers bounded read-only Git timeout hardening. UOC-000 adds the UI Operational Console capability registry, schemas and ADR contracts. UOC-001 adds a P0 contract for read-only Workspace Documents. UOC-003 adds the P0 deterministic validation and explicit traceability contract. DEVPL-GSDLC-00-A adds explicit program activation/pilot-pause governance coverage. DEVPL-GSDLC-00-C adds architecture successor boundaries, target C4 and state/auth design without runtime enablement.",
   "notes": [

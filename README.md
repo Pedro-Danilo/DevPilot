@@ -6835,3 +6835,11 @@ Baseline: `repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORR
 ## DEVPL-UX-P0-D — Cross-surface operational patterns — 2026-09-17
 
 UX-P0-C está `CLOSED/PASS/WINDOWS-VALIDATED` sobre `repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip` (`75dbead73c6c6aaf1f792e02f3659ee2b6c0b927`, SHA-256 `e1117ba5e9c3bace2de482940d6b447b0150acb2e26ba1647f9677939f5faf39`). UX-P0-D es current-active y añade primitives compartidas de estado/acción/gate/approval/diff/long-running/evidence sobre las superficies operativas prioritarias sin cambiar route/API/RBAC/approval/server authority. Estado: `IMPLEMENTED/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING`; Full Regression=0 y permanece reservada para UX-P0-E. Successor esperado: `repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## DEVPL-UX-P0-D — cierre final Windows — 2026-09-17
+
+`CLOSED/PASS/WINDOWS-VALIDATED` sobre `repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip` (`f1e4c5b8dc1882f7dc724ba87755cdd894f274c8`, SHA-256 `3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805`). Browser 8/8 y 14/14 observaciones PASS; Test Impact 35/190/310/0; Full=0; fast-forward local; no remote push.
+
+## DEVPL-UX-P0-E — Pre-pilot browser/usability/regression closure — 2026-09-17
+
+UX-P0-E es current-active sobre repo435. Su delta es de cierre/gobernanza y no cambia route/API/RBAC/approval/server authority. Gates baratos, browser/usability/a11y/performance y HCA/TCR deben cerrar antes de sellar la fuente y consumir exactamente una logical Full con perfil `frx-v2.4-current`. Functional FAIL se preserva, no se repite la Full y requiere composite selective recovery. Successor esperado: `repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip`.

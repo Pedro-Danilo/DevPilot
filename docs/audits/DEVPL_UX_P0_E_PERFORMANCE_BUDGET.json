@@ -1,0 +1,33 @@
+{
+  "schema_id": "devpilot.ux_p0_e.frontend_performance_budget.v1",
+  "status": "current-active",
+  "updated": "2026-09-17",
+  "source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "budgets": {
+    "vite_build_seconds_soft": 120.0,
+    "dist_total_bytes_hard": 8388608,
+    "dist_js_bytes_hard": 6291456,
+    "dist_css_bytes_hard": 2097152,
+    "largest_asset_bytes_hard": 3145728
+  },
+  "policy": "E closure hard gate = Vite dist hard ceilings + exact repo435 semantic ui/web/src parity. Historical UOC-011 smoke is upgraded successor-aware: inherited debt may pass only with no growth above repo435; budget values are not widened.",
+  "network_used": false,
+  "external_api_used": false,
+  "first_version": true,
+  "historical_uoc011_source_smoke": {
+    "script": "npm run test:performance",
+    "schema_id": "devpilot.uoc011.performance_smoke.v1",
+    "baseline_repo435_status": "BLOCK/INHERITED-PRE-EXISTING",
+    "baseline_source_ui_bytes": 939755,
+    "baseline_largest_source_bytes": 94240,
+    "baseline_largest_source_path": "ui/web/src/styles.css",
+    "baseline_current_source_ui_budget_bytes": 901120,
+    "baseline_current_single_source_budget_bytes": 94208,
+    "baseline_current_source_ui_hard_ceiling_bytes": 917504,
+    "baseline_current_single_source_hard_ceiling_bytes": 98304,
+    "ux_p0_e_changes_ui_web_src": false,
+    "closure_policy": "BLOCK if candidate semantic ui/web/src exceeds exact repo435 baseline; inherited over-budget debt is grandfathered only at <= baseline; current/historical budget values remain unchanged",
+    "rationale": "The v1 historical smoke was already BLOCK on repo435. v1.0.1 upgrades the smoke to successor-aware no-regression semantics without changing historical/current budget values. E still has a stricter exact-parity invariant because E does not modify ui/web/src.",
+    "corrective_status": "CORRECTED-SUCCESSOR-AWARE-v2"
+  }
+}

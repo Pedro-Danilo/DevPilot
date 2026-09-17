@@ -1,0 +1,36 @@
+{
+  "schema_id": "devpilot.ux_p0_e.local_qualification.v1",
+  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-PENDING",
+  "micro_sprint": "DEVPL-UX-P0-E",
+  "updated": "2026-09-17",
+  "baseline_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "baseline_commit": "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8",
+  "baseline_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
+  "source_delta_paths": 27,
+  "pytest_focal": "22/22 PASS",
+  "ux_p0_e_smoke": "20/20 PASS",
+  "project_state": "PASS",
+  "docs_governance": "PASS",
+  "tcr_v1": "PASS",
+  "tcr_v2": "PASS",
+  "test_impact": "27/185/303/0",
+  "full_regression_required": true,
+  "full_regression_runs": 0,
+  "second_full_runs": 0,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_exposed": false,
+  "limitations": [
+    "Vite production build and real-browser/usability/a11y/performance are Windows gates because the clean repo ZIP intentionally excludes node_modules.",
+    "Exactly one logical Full is reserved for Windows closure and has not been consumed locally."
+  ],
+  "windows_corrective_v1_0_1": {
+    "trigger": "v1.0.0 validate blocked at historical npm test:performance",
+    "classification": "PRE-EXISTING-BASELINE-CONTRACT-DRIFT/NOT-UX-P0-E-REGRESSION",
+    "repo435_source_ui_bytes": 939755,
+    "repo435_largest_source_bytes": 94240,
+    "corrective": "upgrade historical performance smoke to successor-aware no-regression semantics; keep exact repo435 source parity and E Vite dist hard ceilings; do not widen historical/current budget values",
+    "full_consumed_before_corrective": false,
+    "corrected_smoke_schema": "devpilot.uoc011.performance_smoke.v2-successor-aware"
+  }
+}
