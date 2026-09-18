@@ -1,0 +1,28 @@
+{
+  "schema_id": "devpilot.ux_p0_e.full_regression_result.v1",
+  "status": "PASS/COMPOSITE-RECOVERY",
+  "session_id": "DEVPL-UX-P0-E-FULL-01",
+  "logical_full_runs": 1,
+  "second_full_runs": 0,
+  "original_full": {
+    "decision": "FAIL",
+    "immutable": true,
+    "collection_total": 3225,
+    "accounted_total": 3225,
+    "pass_total": 3170,
+    "fail_total": 50,
+    "error_total": 0,
+    "skip_approved_total": 5,
+    "adjudication_sha256": "423093ffdabaa1cf2fd83c54fc09dd8d34923e397a9184d3aa32bd8a3b616ec2"
+  },
+  "selective_recovery": {
+    "exact_failed_nodeids": "50/50 PASS",
+    "bounded_impacted": "78/78 PASS/DETERMINISTIC-SENTINELS",
+    "historical_regression_guard": "PASS",
+    "deterministic_gates": "PASS"
+  },
+  "final_adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
+  "profile_id": "frx-v2.4-current",
+  "network_used": false,
+  "external_api_used": false
+}

@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.ux_p0_e.local_qualification.v1",
-  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-PENDING",
+  "status": "PASS/WINDOWS-VALIDATED/COMPOSITE-RECOVERY",
   "micro_sprint": "DEVPL-UX-P0-E",
   "updated": "2026-09-17",
   "baseline_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -15,7 +15,7 @@
   "tcr_v2": "PASS",
   "test_impact": "28/187/304/0",
   "full_regression_required": true,
-  "full_regression_runs": 0,
+  "full_regression_runs": 1,
   "second_full_runs": 0,
   "network_used": false,
   "external_api_used": false,
@@ -44,5 +44,10 @@
     "new_entries_authority": "UNCLASSIFIED/SERIAL-BY-POLICY",
     "full_consumed_before_corrective": false,
     "browser_evidence_reuse": "ALLOWED; corrective changes testing/docs only and does not change UI/API runtime semantics"
-  }
+  },
+  "full_session_id": "DEVPL-UX-P0-E-FULL-01",
+  "original_full_result": "FAIL-PRESERVED",
+  "exact_failed_retest": "50/50 PASS",
+  "bounded_impacted_retest": "PASS",
+  "historical_regression_guard": "PASS"
 }

@@ -1,11 +1,11 @@
 ---
 doc_id: "SPRINT-DEVPL-UX-P0-E"
 title: "DEVPL-UX-P0-E — Pre-pilot browser, usability and regression closure"
-status: "approved"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-17"
-approval: "approved_by_owner"
+approval: "owner-adjudicated-composite-recovery"
 precondition: "UX-P0-D CLOSED/PASS/WINDOWS-VALIDATED on repo435"
 source_repo: "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip"
 source_commit: "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8"
@@ -49,3 +49,7 @@ Un único bundle reentrante/state-aware con una sola guía `.md`, pasos consecut
 ## Comandos de verificación base
 
 Los comandos exactos se resuelven contra `ui/web/package.json`, CLI registry, FRX current profile y Test Impact de repo435; no se copian contratos históricos por nombre.
+
+## Windows composite recovery closure
+
+UX-P0-E closes `CLOSED/PASS/WINDOWS-VALIDATED` by composite recovery. The original Full `DEVPL-UX-P0-E-FULL-01` remains immutable at 3170 PASS / 50 FAIL / 0 ERROR / 5 SKIP / 3225 accounted. Recovery proves the exact original 50/50 failed nodeids PASS, bounded impacted PASS, Historical Regression Guard PASS and deterministic post-gates PASS. Full runs remain 1/1 and second Full remains 0.

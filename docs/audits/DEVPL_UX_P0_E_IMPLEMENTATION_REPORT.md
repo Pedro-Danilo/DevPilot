@@ -1,11 +1,11 @@
 ---
 doc_id: "DEVPL-UX-P0-E-IMPLEMENTATION-REPORT"
 title: "DEVPL-UX-P0-E — Implementation report"
-status: "implemented-initial"
+status: "closed-pass-windows-validated"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-09-17"
-approval: "pending_windows_validation"
+approval: "owner-adjudicated-composite-recovery"
 ---
 
 # Objetivo
@@ -43,3 +43,7 @@ Como el intento v1.0.1 no ejecutó tests Full ni reservó presupuesto, el sessio
 Las 20 capturas `browser_v101` fueron revisadas visualmente después del `browser-record` PASS. No se observan UX-S0/S1, secretos, bypass de autorización, overflow crítico ni dependencia de terminal para el journey normal. La evidencia de keyboard focus muestra el skip-link/focus-visible y las vistas 768x1024/390x844 mantienen acciones esenciales utilizables.
 
 Se registra un hallazgo no bloqueante `UX-P0-E-S3-001`: Project Status puede mostrar `READY` como estado de ingeniería mientras la acción autoritativa es `RESOLVE_BLOCKER` por un gate `UNKNOWN`. El blocker y la next action son visibles, por lo que no invalida P0; se difiere mejora de copy/semántica visual a UX-P1.
+
+# Windows composite recovery result
+
+The original Full `DEVPL-UX-P0-E-FULL-01` is immutable FAIL-once evidence: 3170 PASS / 50 FAIL / 0 ERROR / 5 approved SKIP / 3225 accounted. It was not rerun. Post-Full corrective changes only governance/test/metadata contracts, then validates the exact original 50 failed nodeids, bounded impacted tests, Historical Regression Guard and deterministic gates. Final adjudication is `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY`; Full 1/1, second Full 0.

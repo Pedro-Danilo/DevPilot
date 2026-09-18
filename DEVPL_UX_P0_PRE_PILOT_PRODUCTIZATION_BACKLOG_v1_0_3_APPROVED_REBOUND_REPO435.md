@@ -255,3 +255,7 @@ El greenfield pilot solo inicia desde el successor Windows-validado de UX-P0-E. 
 - UX-P0-D: current-active, successor esperado `repo435`.
 - UX-P0-E: siguiente micro-sprint, successor esperado `repo436`.
 - Full Regression: `0/1`, reservada exclusivamente para UX-P0-E.
+
+# UX-P0 final closure — composite recovery
+
+UX-P0-E and UX-P0 are `CLOSED/PASS/WINDOWS-VALIDATED`. The unique Full is preserved as FAIL-once evidence and closure is adjudicated `PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY` after exact 50/50 recovery, bounded impact and Historical Regression Guard PASS. Successor authority is repo436. No second Full was executed.

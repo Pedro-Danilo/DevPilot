@@ -6843,3 +6843,7 @@ UX-P0-C está `CLOSED/PASS/WINDOWS-VALIDATED` sobre `repo_DevPilot_Local_434_DEV
 ## DEVPL-UX-P0-E — Pre-pilot browser/usability/regression closure — 2026-09-17
 
 UX-P0-E es current-active sobre repo435. Su delta es de cierre/gobernanza y no cambia route/API/RBAC/approval/server authority. Gates baratos, browser/usability/a11y/performance y HCA/TCR deben cerrar antes de sellar la fuente y consumir exactamente una logical Full con perfil `frx-v2.4-current`. Functional FAIL se preserva, no se repite la Full y requiere composite selective recovery. Successor esperado: `repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip`.
+
+## UX-P0 final pre-pilot closure — composite recovery
+
+DEVPL-UX-P0-E is `CLOSED/PASS/WINDOWS-VALIDATED` through composite recovery. Original Full: 1/1 preserved with 50 functional FAIL and complete 3225/3225 accounting; selective recovery: exact 50/50 PASS + bounded impacted PASS + Historical Regression Guard PASS; second Full: 0. Repo436 is the authoritative successor for the next controlled evolution.
