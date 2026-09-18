@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from devpilot_core.testing.project_state_progress import post_h_progress_rank
@@ -19,17 +20,18 @@ def test_ux_p0_a_rebind_preserves_gsdlc_closure_and_defers_gsdlc13() -> None:
     assert state["gsdlc_13_authorized"] is True
     assert state["gsdlc_13_execution_deferred_by"] == "DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION"
     assert state["current_phase"] == "DEVPL-UX-P0"
-    assert state["current_micro_sprint"] == "DEVPL-UX-P0-A"
+    assert state["current_micro_sprint"] in {"DEVPL-UX-P0-A","DEVPL-UX-P0-B","DEVPL-UX-P0-C","DEVPL-UX-P0-D","DEVPL-UX-P0-E"}
     assert state["ux_p0_a_full_regression_runs"] == 0
-    assert state["ux_p0_full_regression_budget"] == "0/1-RESERVED-FOR-UX-P0-E"
+    assert state["ux_p0_full_regression_budget"] in {"0/1-RESERVED-FOR-UX-P0-E", "1/1-CONSUMED-BY-UX-P0-E"}
     assert post_h_progress_rank("DEVPL-UX-P0-A") > post_h_progress_rank("FRX-v2.4-B")
     assert post_h_progress_rank("DEVPL-UX-P0-B") > post_h_progress_rank("DEVPL-UX-P0-A")
 
 
 def test_frontend_identity_and_design_tokens_are_current_without_route_authority_change() -> None:
     package = load_json("ui/web/package.json")
-    assert package["version"] == "0.38.0-ux-p0-a"
-    assert package["devpilot"]["currentSprint"] == "DEVPL-UX-P0-A"
+    assert re.fullmatch(r"0\.\d+\.0-ux-p0-[a-e](?:-rc)?", package["version"])
+    state = load_json(".devpilot/project_state.json")
+    assert package["devpilot"]["currentSprint"] == state["current_micro_sprint"]
     assert package["devpilot"]["uxP0RoutePathsChanged"] is False
     assert package["devpilot"]["uxP0ServerAuthorityChanged"] is False
     tokens = (ROOT / "ui/web/src/design-tokens.css").read_text(encoding="utf-8")
@@ -51,9 +53,13 @@ def test_owner_approved_transition_and_strategy_are_materialized() -> None:
 
 
 def test_ux_p0_a_current_contract_and_rc_schema_are_successor_aware() -> None:
+    state = load_json(".devpilot/project_state.json")
     criteria = load_json(".devpilot/release/local_release_candidate_criteria.json")
-    assert criteria["expected_current_micro_sprint"] == "DEVPL-UX-P0-A"
-    assert criteria["expected_next_micro_sprint"] == "DEVPL-UX-P0-B"
+    assert criteria["expected_current_micro_sprint"] == state["current_micro_sprint"]
+    if state["current_micro_sprint"] == "DEVPL-UX-P0-A":
+        assert criteria["expected_next_micro_sprint"] == "DEVPL-UX-P0-B"
+    else:
+        assert criteria["expected_next_micro_sprint"] in {"DEVPL-UX-P0-C","DEVPL-UX-P0-D","DEVPL-UX-P0-E","DEVPL-GSDLC-13"}
     for registry in (
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",

@@ -185,10 +185,11 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     package_version = str(package_json.get("version", ""))
     post_h_version = re.match(r"^0\.\d+\.\d+-post-h-", package_version) is not None
     gsdlc_successor_version = re.match(r"^0\.\d+\.\d+-gsdlc-\d{2}-[a-z]$", package_version) is not None
+    ux_p0_successor_version = re.match(r"^0\.\d+\.\d+-ux-p0-[a-z](?:-rc)?$", package_version) is not None
     package_declares_sprint_73_lineage = (
         package_version == "0.5.0-sprint-73"
         or post_h_version
-        or (gsdlc_successor_version and devpilot.get("postHEvolution") is True)
+        or ((gsdlc_successor_version or ux_p0_successor_version) and devpilot.get("postHEvolution") is True)
     ) and devpilot.get("sprint") == "FUNC-SPRINT-73"
     checks.append(_check(
         package_declares_sprint_73_lineage,
@@ -200,6 +201,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
             "sprint": devpilot.get("sprint"),
             "post_h_evolution": devpilot.get("postHEvolution") is True,
             "gsdlc_successor_version": gsdlc_successor_version,
+            "ux_p0_successor_version": ux_p0_successor_version,
         },
     ))
     checks.append(_check(not flag_mismatches, "UI_SAFETY_FLAGS", "Web UI safety flags are set for API-only local MVP.", "Web UI safety flags are missing or unsafe.", {"mismatches": flag_mismatches}))

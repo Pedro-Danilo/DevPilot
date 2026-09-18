@@ -31,8 +31,8 @@ def workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     monkeypatch.setenv("DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT", str(root))
     monkeypatch.setenv("DEVPILOT_GSDLC09C_CONTROL_ROOT", str(tmp_path / "control-09c"))
     monkeypatch.delenv("DEVPILOT_UI_WORKSPACE_REGISTRY_PATH", raising=False)
-    StoryExecutionStore(root, workspace_id=root.name).save_state(StoryExecutionState(
-        execution_id="story-exec-09c1234567890abcdef1234", workspace_id=root.name, project_id="source-change-fixture",
+    StoryExecutionStore(root, workspace_id="source-change-fixture").save_state(StoryExecutionState(
+        execution_id="story-exec-09c1234567890abcdef1234", workspace_id="source-change-fixture", project_id="source-change-fixture",
         story_id="story-09c", story_version="1.0.0", status=StoryExecutionStatus.IN_PROGRESS, sequence=1,
         dor_report_sha256="a"*64, context_pack_id="story-context-09c1234567890abcdef12", context_pack_sha256="b"*64,
         created_at_utc="2026-09-07T10:00:00+00:00", updated_at_utc="2026-09-07T10:01:00+00:00"))
@@ -171,7 +171,7 @@ def test_10_multifile_manual_rollback_restores_source_hash_parity(workspace: Pat
 
 
 def test_11_plan_tampering_is_detected(workspace: Path, runtime) -> None:
-    app,client=runtime;plan=_plan(app,[_edit_draft(app,"src/app.py","def answer():\n    return 12\n")]);path=workspace/"outputs"/"code_workbench"/"gsdlc_09_c"/workspace.name/"plans"/f"{plan['plan_id']}.json"
+    app,client=runtime;plan=_plan(app,[_edit_draft(app,"src/app.py","def answer():\n    return 12\n")]);path=workspace/"outputs"/"code_workbench"/"gsdlc_09_c"/"source-change-fixture"/"plans"/f"{plan['plan_id']}.json"
     payload=json.loads(path.read_text());payload["exact_path_allowlist"].append("src/unapproved.py");path.write_text(json.dumps(payload),encoding="utf-8")
     r=app.story_source_change_plan_get(plan_id=plan["plan_id"]);assert not r.ok and any(f.id=="GSDLC09C_PLAN_TAMPER_BLOCK" for f in r.findings)
 

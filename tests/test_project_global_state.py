@@ -22,7 +22,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     post_h_roadmap = read("docs/backlogs/post_h_prioritized_roadmap.md")
     changelog = read("docs/release/CHANGELOG.md")
 
-    assert state["current_phase"].startswith("DEVPL-GSDLC-")
+    assert state["current_phase"].startswith(("DEVPL-GSDLC-", "DEVPL-UX-P0"))
     assert state["last_completed_sprint"] == "POST-H-034"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
     assert state["next_sprint"] == "POST-H-EVAL-002"

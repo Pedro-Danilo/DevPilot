@@ -34,10 +34,10 @@ def workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     monkeypatch.setenv("DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT", str(root))
     monkeypatch.setenv("DEVPILOT_GSDLC09C_CONTROL_ROOT", str(tmp_path / "control-10a"))
     monkeypatch.delenv("DEVPILOT_UI_WORKSPACE_REGISTRY_PATH", raising=False)
-    StoryExecutionStore(root, workspace_id=root.name).save_state(
+    StoryExecutionStore(root, workspace_id="story-test-plan-fixture").save_state(
         StoryExecutionState(
             execution_id="story-exec-10a1234567890abcdef1234",
-            workspace_id=root.name,
+            workspace_id="story-test-plan-fixture",
             project_id="story-test-plan-fixture",
             story_id="STORY-10A",
             story_version="1.0.0",
@@ -140,7 +140,7 @@ def test_02_stale_change_plan_hash_blocks(workspace: Path, runtime) -> None:
 def test_03_story_must_be_changes_ready(workspace: Path, runtime) -> None:
     app, _ = runtime
     source_plan = plan(app, KNOWN_PATH)
-    store = StoryExecutionStore(workspace, workspace_id=workspace.name)
+    store = StoryExecutionStore(workspace, workspace_id="story-test-plan-fixture")
     current = store.load_state()
     assert current is not None
     store.save_state(StoryExecutionState(
@@ -222,7 +222,7 @@ def test_07_owner_waiver_is_bounded_reasoned_and_expiry_blocks_later_approval(wo
     assert waived.ok, waived.to_dict()
     projected = waived.data["story_test_plan"]
     assert waivable not in projected["effective_required_tests"]
-    record_path = workspace / "outputs/story_execution/gsdlc_10_a" / workspace.name / "test_plans" / f"{test_plan['test_plan_id']}.json"
+    record_path = workspace / "outputs/story_execution/gsdlc_10_a" / "story-test-plan-fixture" / "test_plans" / f"{test_plan['test_plan_id']}.json"
     record = json.loads(record_path.read_text(encoding="utf-8"))
     record["waivers"][0]["expires_at_utc"] = (datetime.now(timezone.utc) - timedelta(minutes=1)).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     record_path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8")

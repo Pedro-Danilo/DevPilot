@@ -21,7 +21,7 @@ def test_00_e_current_repo_is_successor_and_repo341_remains_parent():
     assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_00_PROGRAM_ACTIVATION_REBASELINE\.zip",name)
     # Historical 00-E baseline is frozen in the closure contract; global current_repo
     # is intentionally allowed to advance to later GSDLC validated candidates.
-    assert re.fullmatch(r"repo_DevPilot_Local_\d+_(?:DEVPL_GSDLC|FRX)_.*\.zip", s["current_repo"])
+    assert re.fullmatch(r"repo_DevPilot_Local_\d+_(?:DEVPL_GSDLC|FRX|DEVPL_UX_P0)_.*\.zip", s["current_repo"])
     # GSDLC canonical repo is intentionally frozen at the paused 07-E line;
     # global current_repo may advance through the separate FRX lifecycle.
     assert re.fullmatch(r"repo_DevPilot_Local_\d+_DEVPL_GSDLC_.*\.zip", s["gsdlc_current_canonical_repo"])

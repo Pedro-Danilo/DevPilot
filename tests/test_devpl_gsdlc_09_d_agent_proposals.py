@@ -29,11 +29,11 @@ def workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     monkeypatch.setenv("DEVPILOT_ALLOWED_WORKSPACE_ROOTS", str(root))
     monkeypatch.setenv("DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT", str(root))
     monkeypatch.delenv("DEVPILOT_UI_WORKSPACE_REGISTRY_PATH", raising=False)
-    store = StoryExecutionStore(root, workspace_id=root.name)
+    store = StoryExecutionStore(root, workspace_id="agent-story-fixture")
     store.save_state(
         StoryExecutionState(
             execution_id="story-exec-09d1234567890abcdef1234",
-            workspace_id=root.name,
+            workspace_id="agent-story-fixture",
             project_id="agent-story-fixture",
             story_id="story-09d",
             story_version="1.0.0",

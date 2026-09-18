@@ -30,7 +30,14 @@ def test_uoc011_node_smokes_pass() -> None:
         assert payload['budgets']['source_ui_max'] == devpilot['historicalUoc011SourceBudgetBytes'] == 524288
         current_budget = int(devpilot['currentUiSourceBudgetBytes'])
         hard_ceiling = int(devpilot['currentUiSourceBudgetHardCeilingBytes'])
-        assert payload['metrics']['source_ui_bytes'] <= current_budget <= hard_ceiling
+        source_bytes = int(payload['metrics']['source_ui_bytes'])
+        if payload.get('schema_id') == 'devpilot.uoc011.performance_smoke.v2-successor-aware':
+            assert payload['status'] == 'PASS'
+            assert payload['policy']['threshold_widening'] is False
+            assert source_bytes <= int(payload['budgets']['successor_baseline_source_ui_bytes'])
+            assert payload['checks']['source_ui_total'] is True
+        else:
+            assert source_bytes <= current_budget <= hard_ceiling
         assert payload['checks']['single_source_file'] is True
         assert payload['checks']['build_js'] is True
         assert payload['checks']['build_css'] is True

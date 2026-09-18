@@ -39,12 +39,12 @@ def workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     monkeypatch.setenv("DEVPILOT_UI_ACTIVE_WORKSPACE_ROOT", str(root))
     monkeypatch.delenv("DEVPILOT_UI_WORKSPACE_REGISTRY_PATH", raising=False)
     state = StoryExecutionState(
-        execution_id="story-exec-1234567890abcdef12345678", workspace_id=root.name, project_id="code-fixture",
+        execution_id="story-exec-1234567890abcdef12345678", workspace_id="code-fixture", project_id="code-fixture",
         story_id="story-first", story_version="1.0.0", status=StoryExecutionStatus.IN_PROGRESS, sequence=1,
         dor_report_sha256="a"*64, context_pack_id="story-context-1234567890abcdef12345678", context_pack_sha256="b"*64,
         created_at_utc="2026-09-07T10:00:00+00:00", updated_at_utc="2026-09-07T10:01:00+00:00",
     )
-    StoryExecutionStore(root, workspace_id=root.name).save_state(state)
+    StoryExecutionStore(root, workspace_id="code-fixture").save_state(state)
     return root
 
 

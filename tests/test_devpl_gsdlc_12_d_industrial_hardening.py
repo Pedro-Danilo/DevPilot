@@ -21,8 +21,12 @@ def test_12_d_policy_is_current_active_local_first_and_full_remains_reserved() -
     assert policy['real_mcp_write_allowed'] is False
     assert policy['model_may_grant_tool_permission'] is False
     state = json.loads((ROOT / '.devpilot/project_state.json').read_text(encoding='utf-8'))
-    assert state['gsdlc_12_full_regression_budget_consumed'] == 0
     assert state['gsdlc_12_full_regression_budget_total'] == 1
+    if str(state.get('gsdlc_12_e_status', '')).startswith('CLOSED/PASS'):
+        assert state['gsdlc_12_full_regression_budget_consumed'] == 1
+        assert state.get('gsdlc_12_e_full_regression_runs') == 1
+    else:
+        assert state['gsdlc_12_full_regression_budget_consumed'] == 0
     assert state['gsdlc_12_full_regression_reserved_for'] == 'DEVPL-GSDLC-12-E'
 
 

@@ -193,7 +193,7 @@ def test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes(
     readiness = service.guided_pre_code_readiness(effective_roles=["owner"], workspace_scopes=[])
     assert readiness.ok, readiness.to_dict()
 
-    trace_path = platform / "outputs/pre_code_wizard/gsdlc_05_e/workspace/transition_trace.jsonl"
+    trace_path = platform / "outputs/pre_code_wizard/gsdlc_05_e/gsdlc05e-fixture/transition_trace.jsonl"
     assert trace_path.is_file()
     trace_events = [json.loads(line) for line in trace_path.read_text(encoding="utf-8").splitlines() if line.strip()]
     assert [row["stage_id"] for row in trace_events] == [x[0] for x in STAGES]

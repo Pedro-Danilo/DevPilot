@@ -14,10 +14,10 @@ KNOWN_PATH = "src/devpilot_core/application/quality_operations.py"
 
 
 def _state(workspace: Path, status: StoryExecutionStatus, sequence: int) -> StoryExecutionStore:
-    store = StoryExecutionStore(workspace, workspace_id=workspace.name)
+    store = StoryExecutionStore(workspace, workspace_id="story-cycle-e2e-fixture")
     store.save_state(StoryExecutionState(
         execution_id="story-exec-10e1234567890abcdef1234",
-        workspace_id=workspace.name,
+        workspace_id="story-cycle-e2e-fixture",
         project_id="story-cycle-e2e-fixture",
         story_id="STORY-10E",
         story_version="1.0.0",
@@ -143,7 +143,7 @@ def test_10e_project_status_projects_story_done_as_next_story_or_sprint_ready(ru
     app, workspace = runtime
     _state(workspace, StoryExecutionStatus.DONE, 5)
     result = app.guided_sdlc_project_status_primary(
-        workspace_id=workspace.name,
+        workspace_id="story-cycle-e2e-fixture",
         observed_at_utc="2026-09-10T20:30:00+00:00",
     )
     assert result.ok, result.to_dict()
