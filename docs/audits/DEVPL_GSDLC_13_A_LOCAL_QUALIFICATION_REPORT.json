@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.gsdlc13a.local_qualification.v1",
-  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "status": "PASS/WINDOWS-VALIDATED",
   "micro_sprint": "DEVPL-GSDLC-13-A",
   "generated_at": "2026-09-21",
   "baseline": {
@@ -57,5 +57,7 @@
   "ui_product_source_changed": false,
   "network_used_for_local_validation": false,
   "external_api_used": false,
-  "secrets_exposed": false
+  "secrets_exposed": false,
+  "windows_validation": "PASS",
+  "implementation_commit": "71ef998746b29d64750192e98220a435aae0ae9e"
 }
