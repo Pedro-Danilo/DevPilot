@@ -6847,3 +6847,10 @@ UX-P0-E es current-active sobre repo435. Su delta es de cierre/gobernanza y no c
 ## UX-P0 final pre-pilot closure — composite recovery
 
 DEVPL-UX-P0-E is `CLOSED/PASS/WINDOWS-VALIDATED` through composite recovery. Original Full: 1/1 preserved with 50 functional FAIL and complete 3225/3225 accounting; selective recovery: exact 50/50 PASS + bounded impacted PASS + Historical Regression Guard PASS; second Full: 0. Repo436 is the authoritative successor for the next controlled evolution.
+
+
+## DEVPL-GSDLC-13-A — Greenfield acceptance activation rebaseline
+
+Current DevPilot authority is `DEVPL-GSDLC-13-A` on the repo437 successor of immutable repo436. 13-A materializes the approved GSDLC-13 v1.1.0 authority pack, records acceptance/evidence roots, and performs current-authority hygiene only. It **does not create** `inventory-sales-local-greenfield`.
+
+After Windows PASS and fast-forward promotion, execution switches to `Owner-driven / DevPilot-executed / ChatGPT-adjudicated` Acceptance Mode beginning with checkpoint `13-B-01`. Normal PASS checkpoints do not produce implementation bundles; a bundle reappears only for a bounded DevPilot corrective. Full Regression runs in 13-A: `0`.

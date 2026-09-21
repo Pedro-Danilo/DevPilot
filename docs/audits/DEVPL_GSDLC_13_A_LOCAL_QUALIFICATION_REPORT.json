@@ -1,0 +1,61 @@
+{
+  "schema_id": "devpilot.gsdlc13a.local_qualification.v1",
+  "status": "PASS/LOCAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+  "micro_sprint": "DEVPL-GSDLC-13-A",
+  "generated_at": "2026-09-21",
+  "baseline": {
+    "repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "423e99fa38df3114328b555aff8f859740a49a01",
+    "sha256": "d8e1b2ded46648dab7d463ab3d4f6973ba0122c8ad22bf6f6cf474791deb68cb",
+    "immutable": true
+  },
+  "expected_successor": "repo_DevPilot_Local_437_DEVPL_GSDLC_13_A_TRANSITION_REBIND_AUTHORITY_HYGIENE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "focal_pytest": "20/20 PASS",
+  "project_state": "PASS",
+  "docs_governance": {
+    "status": "PASS",
+    "blocking_findings_total": 0,
+    "drift_findings_total": 0,
+    "historical_contract_authority_passed": true
+  },
+  "tcr_v1": "PASS",
+  "tcr_v2": "PASS",
+  "test_impact": {
+    "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
+    "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "rules_path": ".devpilot/testing/test_impact_rules.json",
+    "changed_paths_total": 50,
+    "contracts_total": 347,
+    "matched_contracts_total": 186,
+    "p0_selected_total": 116,
+    "p1_selected_total": 61,
+    "heuristic_recommendations_total": 4,
+    "recommended_tests_total": 304,
+    "recommended_commands_total": 346,
+    "recommended_profiles": [
+      "p0-critical",
+      "docs-historical",
+      "impact",
+      "release-candidate-local",
+      "release"
+    ],
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "full_regression_runs": 0,
+  "full_regression_policy": "PROHIBITED-IN-13-A",
+  "browser_runs": 0,
+  "greenfield_project_materialized": false,
+  "greenfield_project_writes": 0,
+  "runtime_product_source_changed": false,
+  "ui_product_source_changed": false,
+  "network_used_for_local_validation": false,
+  "external_api_used": false,
+  "secrets_exposed": false
+}

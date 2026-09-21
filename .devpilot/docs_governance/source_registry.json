@@ -1,6 +1,8 @@
 {
   "created_by": "POST-H-009-A",
-  "current_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "current_micro_sprint": "DEVPL-GSDLC-13-A",
+  "current_phase": "DEVPL-GSDLC-13",
+  "current_repo": "repo_DevPilot_Local_437_DEVPL_GSDLC_13_A_TRANSITION_REBIND_AUTHORITY_HYGIENE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -36965,6 +36967,206 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-EXECUTION-PACKAGE-INDEX",
+      "domain": "governance.program",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/00_DEVPL_GSDLC_13_EXECUTION_PACKAGE_INDEX_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-OWNER-DEVPL-CHATGPT-OPERATING-MODEL",
+      "domain": "governance.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/DEVPL_GSDLC_13_OWNER_DEVPL_CHATGPT_OPERATING_MODEL_v1_0_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK",
+      "domain": "operations.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_0_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL",
+      "domain": "validation.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_0_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GREENFIELD-E2E-PRODUCT-ACCEPTANCE-CHARTER",
+      "domain": "validation.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/validation/DEVPL_GREENFIELD_E2E_PRODUCT_ACCEPTANCE_CHARTER_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-REBASELINE",
+      "domain": "governance.program",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/backlogs/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_REBASELINE_v2_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved/active",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-GREENFIELD-ROADMAP",
+      "domain": "planning.roadmap",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/DEVPL_GSDLC_13_GREENFIELD_REAL_PRODUCT_ACCEPTANCE_ROADMAP_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-BACKLOG",
+      "domain": "planning.backlog",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/backlogs/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_BACKLOG_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-UX-P1-PILOT-DRIVEN-PRODUCTIZATION",
+      "domain": "product.ui",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/DEVPL_UX_P1_PILOT_DRIVEN_PRODUCTIZATION_PLAN_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-ROOTS",
+      "domain": "validation.instrumentation",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": ".devpilot/gsdlc/gsdlc13_acceptance_roots.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "APPROVED/NOT-MATERIALIZED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -37286,6 +37488,7 @@
   "gsdlc_12_a_windows_validation_status": "CLOSED/PASS",
   "gsdlc_12_authorized": true,
   "gsdlc_12_b_authorized": true,
+  "gsdlc_12_b_browser_acceptance": "PASS/REAL-BROWSER/REVALIDATE+MANUAL-RECONCILIATION",
   "gsdlc_12_b_browser_runs": 1,
   "gsdlc_12_b_execution_source_commit": "f79f5d32c928247039feeecb9c773b75343b6a2e",
   "gsdlc_12_b_execution_source_repo": "repo_DevPilot_Local_426_DEVPL_GSDLC_12_A_PERSISTENT_RESUMABILITY_RECOVERY_LOCKS_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -37293,13 +37496,82 @@
   "gsdlc_12_b_full_regression_runs": 0,
   "gsdlc_12_b_s0_open": 0,
   "gsdlc_12_b_s1_open": 0,
+  "gsdlc_12_b_source_delta_paths": 43,
   "gsdlc_12_b_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_12_b_successor_repo": "repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_12_b_test_impact": "43/217/339/0",
+  "gsdlc_12_b_windows_validation_status": "CLOSED/PASS",
   "gsdlc_12_c_authorized": true,
+  "gsdlc_12_c_browser_acceptance": "PASS/REAL-BROWSER/GUIDED+EXPERT+KEYBOARD+ERROR-FOCUS",
+  "gsdlc_12_c_browser_runs": 1,
+  "gsdlc_12_c_execution_source_commit": "d65db36f3f430f2e96357a931a7da14a8ee8a9e5",
+  "gsdlc_12_c_execution_source_repo": "repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_12_c_execution_source_sha256": "764fbf23439091a869519c1ccd3963c5e733499ee91523b8b60f47862671d370",
+  "gsdlc_12_c_full_regression_runs": 0,
+  "gsdlc_12_c_s0_open": 0,
+  "gsdlc_12_c_s1_open": 0,
+  "gsdlc_12_c_source_delta_paths": 31,
+  "gsdlc_12_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_12_c_successor_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_12_c_test_impact": "31/184/300/0",
+  "gsdlc_12_c_windows_validation_status": "CLOSED/PASS",
+  "gsdlc_12_d_authorized": true,
+  "gsdlc_12_d_browser_required": false,
+  "gsdlc_12_d_browser_runs": 0,
+  "gsdlc_12_d_execution_source_commit": "de3f3008dcc0fcbc6071462bffb70a18e2ab6109",
+  "gsdlc_12_d_execution_source_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_12_d_execution_source_sha256": "4aba885046eacaf2a6c2f3e6b33bec3c40aba845d65522ae440a9c6c94a52c1e",
+  "gsdlc_12_d_full_regression_runs": 0,
+  "gsdlc_12_d_prior_browser_evidence_reused": true,
+  "gsdlc_12_d_s0_open": 0,
+  "gsdlc_12_d_s1_open": 0,
+  "gsdlc_12_d_source_delta_paths": 25,
+  "gsdlc_12_d_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_12_d_successor_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_12_d_test_impact": "25/194/315/0",
+  "gsdlc_12_d_windows_validation_status": "CLOSED/PASS",
+  "gsdlc_12_e_authorized": true,
+  "gsdlc_12_e_browser_matrix_status": "PASS/REAL-BROWSER/HASH-BOUND-v1.0.6",
+  "gsdlc_12_e_browser_required": true,
+  "gsdlc_12_e_browser_runs": 1,
+  "gsdlc_12_e_execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
+  "gsdlc_12_e_execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_12_e_execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
+  "gsdlc_12_e_full_regression_result": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
+  "gsdlc_12_e_full_regression_runs": 1,
+  "gsdlc_12_e_full_regression_runs_allowed": 1,
+  "gsdlc_12_e_full_regression_session_id": "DEVPL-GSDLC-12-E-FULL-01-R1",
+  "gsdlc_12_e_isolation_current_collection_covered": 3196,
+  "gsdlc_12_e_isolation_current_collection_missing": 0,
+  "gsdlc_12_e_isolation_registry_entries": 3205,
+  "gsdlc_12_e_local_qualification": "PASS/WINDOWS-VALIDATED/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
+  "gsdlc_12_e_prefull_prior_blocking_findings": [
+    "FRX24B_ISOLATION_COVERAGE_BLOCK",
+    "FRX24B_CONFLICT_ISOLATION_COVERAGE_BLOCK"
+  ],
+  "gsdlc_12_e_prefull_prior_budget_consumed": 0,
+  "gsdlc_12_e_prefull_prior_missing_isolation_nodeids": 52,
+  "gsdlc_12_e_prefull_prior_session_collection_sha256": "f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df",
+  "gsdlc_12_e_prefull_prior_session_collection_total": 3196,
+  "gsdlc_12_e_prefull_prior_session_id": "DEVPL-GSDLC-12-E-FULL-01",
+  "gsdlc_12_e_prefull_prior_session_status": "PREFLIGHT-ONLY/NO-EXECUTION/NO-BUDGET",
+  "gsdlc_12_e_prefull_prior_tests_executed": 0,
+  "gsdlc_12_e_s0_open": 0,
+  "gsdlc_12_e_s1_open": 0,
+  "gsdlc_12_e_second_full_regression_allowed": false,
+  "gsdlc_12_e_second_full_regression_executed": false,
+  "gsdlc_12_e_source_delta_paths": 22,
+  "gsdlc_12_e_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_12_e_test_impact": "22/172/289/0",
   "gsdlc_12_full_regression_budget": "1/1",
+  "gsdlc_12_full_regression_budget_consumed": 1,
   "gsdlc_12_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "gsdlc_13_authorized": true,
+  "gsdlc_13_execution_deferred_by": "DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION",
+  "gsdlc_13_execution_deferred_until": "DEVPL-UX-P0-E/CLOSED-PASS-WINDOWS-VALIDATED",
   "gsdlc_active_program": "DEVPL-GSDLC",
-  "gsdlc_current_backlog": "DEVPL-GSDLC-12",
-  "gsdlc_current_micro_sprint": "DEVPL-GSDLC-12-E",
+  "gsdlc_current_backlog": "DEVPL-GSDLC-13",
+  "gsdlc_current_micro_sprint": "DEVPL-GSDLC-13-A",
   "gsdlc_last_registered_micro_sprint": "DEVPL-GSDLC-12-E",
   "gsdlc_last_registered_micro_sprint_at_04_a_pre_windows_close": "DEVPL-GSDLC-04-A",
   "gsdlc_next_micro_sprint": "DEVPL-GSDLC-13",
@@ -37309,7 +37581,8 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-UX-P0-E/COMPOSITE-RECOVERY-CLOSURE",
+  "last_updated_by": "DEVPL-GSDLC-13-A/LOCAL-IMPLEMENTATION",
+  "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -37525,6 +37798,11 @@
     "gsdlc_11_full_regression_budget_consumed": 0,
     "gsdlc_11_full_regression_budget_total": 1,
     "gsdlc_11_status": "ACTIVE/GSDLC-11-A",
+    "gsdlc_12_d_authorized": true,
+    "gsdlc_12_d_status": "IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
+    "gsdlc_12_e_authorized": false,
+    "gsdlc_12_full_regression_budget": "0/1",
+    "gsdlc_12_status": "ACTIVE/GSDLC-12-D-LOCAL/12-E-NOT-AUTHORIZED",
     "gsdlc_auth_runtime_enabled": false,
     "gsdlc_backlog": "DEVPL-GSDLC-00",
     "gsdlc_backlog_00_path": "docs/backlogs/DEVPL-GSDLC-00_program_activation_rebaseline_and_pilot_pause.md",
@@ -39741,12 +40019,7 @@
     "uoc_011_s1": 0,
     "uoc_011_source_commit": "5560e03f7a7c013c85f0fc9cf6075d2a651eb3a2",
     "uoc_011_status": "closed/PASS",
-    "updated_at": "2026-08-09T09:18:00-05:00",
-    "gsdlc_12_status": "ACTIVE/GSDLC-12-D-LOCAL/12-E-NOT-AUTHORIZED",
-    "gsdlc_12_d_authorized": true,
-    "gsdlc_12_d_status": "IMPLEMENTED/LOCAL-FUNCTIONAL-QUALIFIED/WINDOWS-VALIDATION-PENDING",
-    "gsdlc_12_e_authorized": false,
-    "gsdlc_12_full_regression_budget": "0/1"
+    "updated_at": "2026-08-09T09:18:00-05:00"
   },
   "registry_id": "devpilot-documentation-source-registry",
   "rules": {
@@ -39845,149 +40118,77 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1482,
+    "critical_sources_total": 1492,
     "deprecated_total": 0,
     "derived_total": 178,
-    "documents_total": 1578,
-    "documents_with_required_tests_total": 1578,
+    "documents_total": 1588,
+    "documents_with_required_tests_total": 1588,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 19,
     "last_updated_by": "DEVPL-UX-P0-A",
-    "machine_readable_source_total": 814,
+    "machine_readable_source_total": 815,
     "markdown_json_pairs_total": 72,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 567
+    "source_of_truth_total": 576
   },
-  "updated": "2026-09-15",
-  "updated_at": "2026-09-11",
-  "updated_by": "DEVPL-GSDLC-12-B/WINDOWS-CLOSURE",
-  "gsdlc_12_b_source_delta_paths": 43,
-  "gsdlc_12_b_test_impact": "43/217/339/0",
-  "gsdlc_12_b_windows_validation_status": "CLOSED/PASS",
-  "gsdlc_12_b_browser_acceptance": "PASS/REAL-BROWSER/REVALIDATE+MANUAL-RECONCILIATION",
-  "gsdlc_12_b_successor_repo": "repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "gsdlc_12_c_execution_source_repo": "repo_DevPilot_Local_427_DEVPL_GSDLC_12_B_BRANCH_EXTERNAL_EDIT_RECONCILIATION_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_c_execution_source_commit": "d65db36f3f430f2e96357a931a7da14a8ee8a9e5",
-  "gsdlc_12_c_execution_source_sha256": "764fbf23439091a869519c1ccd3963c5e733499ee91523b8b60f47862671d370",
-  "gsdlc_12_c_browser_runs": 1,
-  "gsdlc_12_c_full_regression_runs": 0,
-  "gsdlc_12_c_s0_open": 0,
-  "gsdlc_12_c_s1_open": 0,
-  "gsdlc_12_d_authorized": true,
-  "gsdlc_12_c_source_delta_paths": 31,
-  "gsdlc_12_c_test_impact": "31/184/300/0",
-  "gsdlc_12_c_windows_validation_status": "CLOSED/PASS",
-  "gsdlc_12_c_browser_acceptance": "PASS/REAL-BROWSER/GUIDED+EXPERT+KEYBOARD+ERROR-FOCUS",
-  "gsdlc_12_c_successor_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_d_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "gsdlc_12_d_execution_source_repo": "repo_DevPilot_Local_428_DEVPL_GSDLC_12_C_GUIDED_EXPERT_ACCESSIBILITY_HELP_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_d_execution_source_commit": "de3f3008dcc0fcbc6071462bffb70a18e2ab6109",
-  "gsdlc_12_d_execution_source_sha256": "4aba885046eacaf2a6c2f3e6b33bec3c40aba845d65522ae440a9c6c94a52c1e",
-  "gsdlc_12_d_browser_required": false,
-  "gsdlc_12_d_browser_runs": 0,
-  "gsdlc_12_d_prior_browser_evidence_reused": true,
-  "gsdlc_12_d_full_regression_runs": 0,
-  "gsdlc_12_d_s0_open": 0,
-  "gsdlc_12_d_s1_open": 0,
-  "gsdlc_12_e_authorized": true,
-  "gsdlc_12_d_source_delta_paths": 25,
-  "gsdlc_12_d_test_impact": "25/194/315/0",
-  "gsdlc_12_d_windows_validation_status": "CLOSED/PASS",
-  "gsdlc_12_d_successor_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_e_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "gsdlc_12_e_execution_source_repo": "repo_DevPilot_Local_429_DEVPL_GSDLC_12_D_PERFORMANCE_SECURITY_RESOURCE_HARDENING_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_12_e_execution_source_commit": "b0fa8fe1c0a31ccd902c4b47368c15d83f5dc19a",
-  "gsdlc_12_e_execution_source_sha256": "b2758b64d6156c0e8f3c1f821dadf5d26571c9e34134992eba63b7bfb7079dd8",
-  "gsdlc_12_e_browser_required": true,
-  "gsdlc_12_e_browser_runs": 1,
-  "gsdlc_12_e_full_regression_runs": 1,
-  "gsdlc_12_e_full_regression_runs_allowed": 1,
-  "gsdlc_12_e_full_regression_session_id": "DEVPL-GSDLC-12-E-FULL-01-R1",
-  "gsdlc_12_e_second_full_regression_allowed": false,
-  "gsdlc_12_e_s0_open": 0,
-  "gsdlc_12_e_s1_open": 0,
-  "gsdlc_12_e_source_delta_paths": 22,
-  "gsdlc_12_e_test_impact": "22/172/289/0",
-  "gsdlc_12_e_local_qualification": "PASS/WINDOWS-VALIDATED/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
-  "gsdlc_12_e_browser_matrix_status": "PASS/REAL-BROWSER/HASH-BOUND-v1.0.6",
-  "gsdlc_12_e_prefull_prior_session_id": "DEVPL-GSDLC-12-E-FULL-01",
-  "gsdlc_12_e_prefull_prior_session_status": "PREFLIGHT-ONLY/NO-EXECUTION/NO-BUDGET",
-  "gsdlc_12_e_prefull_prior_session_collection_sha256": "f619efabc93e69a8b13a36f90f961ae0a07ea31051af55edd35c168161f584df",
-  "gsdlc_12_e_prefull_prior_session_collection_total": 3196,
-  "gsdlc_12_e_prefull_prior_blocking_findings": [
-    "FRX24B_ISOLATION_COVERAGE_BLOCK",
-    "FRX24B_CONFLICT_ISOLATION_COVERAGE_BLOCK"
-  ],
-  "gsdlc_12_e_prefull_prior_missing_isolation_nodeids": 52,
-  "gsdlc_12_e_prefull_prior_tests_executed": 0,
-  "gsdlc_12_e_prefull_prior_budget_consumed": 0,
-  "gsdlc_12_e_isolation_registry_entries": 3205,
-  "gsdlc_12_e_isolation_current_collection_covered": 3196,
-  "gsdlc_12_e_isolation_current_collection_missing": 0,
-  "gsdlc_12_e_full_regression_result": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
-  "gsdlc_12_e_second_full_regression_executed": false,
-  "gsdlc_12_full_regression_budget_consumed": 1,
-  "gsdlc_13_authorized": true,
-  "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_current_micro_sprint": "DEVPL-UX-P0-E",
-  "ux_p0_next_micro_sprint": "DEVPL-GSDLC-13",
-  "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "ux_p0_source_commit": "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8",
-  "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
-  "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "updated": "2026-09-21",
+  "updated_at": "2026-09-21",
+  "updated_by": "DEVPL-GSDLC-13-A",
   "ux_p0_a_full_regression_runs": 0,
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_13_execution_deferred_by": "DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION",
-  "gsdlc_13_execution_deferred_until": "DEVPL-UX-P0-E/CLOSED-PASS-WINDOWS-VALIDATED",
-  "ux_p0_a_successor_repo": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
+  "ux_p0_a_successor_repo": "repo_DevPilot_Local_431_DEVPL_UX_P0_A_AUTHORITY_DESIGN_SYSTEM_FOUNDATION_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_a_successor_sha256": "be80b6490cbbbfc7b5827fa896cbe5528a2b2d3676fb6c2ceef672820ee2f097",
-  "ux_p0_b_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_b_full_regression_runs": 0,
+  "ux_p0_b_browser_v105_adjudication": "BLOCK/VISUAL-EVIDENCE-CONTRADICTS-MANUAL-PASS",
+  "ux_p0_b_browser_validation": "PASS/CORRECTIVE-v1.0.6",
   "ux_p0_b_browser_validation_required": true,
+  "ux_p0_b_corrective_reason": "canonical workspace identity mismatch caused recovery/reconciliation 403 and unknown project context",
+  "ux_p0_b_full_regression_runs": 0,
+  "ux_p0_b_prior_candidate_commit": "0136c3cac5d10ef8c647f96e38423f4940cadb6c",
+  "ux_p0_b_prior_candidate_repo": "repo_DevPilot_Local_432_DEVPL_UX_P0_B_PRODUCT_APP_SHELL_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "ux_p0_b_prior_candidate_sha256": "527fdf14b91af19638c45dc2b578c834cab8a137c686c582bcd5ffdb84330a76",
   "ux_p0_b_route_paths_changed": false,
   "ux_p0_b_server_authority_changed": false,
-  "current_micro_sprint": "DEVPL-UX-P0-E",
-  "next_micro_sprint": "DEVPL-GSDLC-13",
-  "ux_p0_b_prior_candidate_repo": "repo_DevPilot_Local_432_DEVPL_UX_P0_B_PRODUCT_APP_SHELL_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "ux_p0_b_prior_candidate_commit": "0136c3cac5d10ef8c647f96e38423f4940cadb6c",
-  "ux_p0_b_prior_candidate_sha256": "527fdf14b91af19638c45dc2b578c834cab8a137c686c582bcd5ffdb84330a76",
-  "ux_p0_b_browser_v105_adjudication": "BLOCK/VISUAL-EVIDENCE-CONTRADICTS-MANUAL-PASS",
-  "ux_p0_b_corrective_reason": "canonical workspace identity mismatch caused recovery/reconciliation 403 and unknown project context",
-  "ux_p0_b_browser_validation": "PASS/CORRECTIVE-v1.0.6",
-  "ux_p0_b_successor_repo": "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "ux_p0_b_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_b_successor_commit": "dc63672f2d617968998f3c68374a03581b348578",
+  "ux_p0_b_successor_repo": "repo_DevPilot_Local_433_DEVPL_UX_P0_B_PROJECT_CONTEXT_AUTH_SCOPE_CORRECTIVE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_b_successor_sha256": "f4415775bd3bf5a01b6368197d0754374de93b659fa5f6bbff8b7a2b8ead4246",
-  "ux_p0_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_c_full_regression_runs": 0,
-  "ux_p0_c_browser_validation_required": true,
-  "ux_p0_c_successor_repo": "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "ux_p0_c_successor_commit": "75dbead73c6c6aaf1f792e02f3659ee2b6c0b927",
-  "ux_p0_c_successor_sha256": "e1117ba5e9c3bace2de482940d6b447b0150acb2e26ba1647f9677939f5faf39",
   "ux_p0_c_browser_validation": "PASS/8-SCREENSHOTS",
-  "ux_p0_d_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_d_full_regression_runs": 0,
+  "ux_p0_c_browser_validation_required": true,
+  "ux_p0_c_full_regression_runs": 0,
+  "ux_p0_c_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "ux_p0_c_successor_commit": "75dbead73c6c6aaf1f792e02f3659ee2b6c0b927",
+  "ux_p0_c_successor_repo": "repo_DevPilot_Local_434_DEVPL_UX_P0_C_GREENFIELD_CRITICAL_PATH_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "ux_p0_c_successor_sha256": "e1117ba5e9c3bace2de482940d6b447b0150acb2e26ba1647f9677939f5faf39",
+  "ux_p0_current_micro_sprint": "DEVPL-UX-P0-E",
   "ux_p0_d_browser_validation_required": true,
-  "ux_p0_d_successor_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "ux_p0_d_full_regression_runs": 0,
+  "ux_p0_d_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_d_successor_commit": "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8",
+  "ux_p0_d_successor_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_d_successor_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
-  "ux_p0_e_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_e_full_regression_runs": 1,
-  "ux_p0_e_second_full_regression_runs": 0,
-  "ux_p0_full_regression_budget": "1/1-CONSUMED-BY-UX-P0-E",
-  "ux_p0_e_full_session_id": "DEVPL-UX-P0-E-FULL-01",
-  "ux_p0_e_full_regression_result": "FAIL-ONCE/PRESERVED/COMPOSITE-RECOVERED",
-  "ux_p0_e_original_full_result": "FAIL/3170-PASS/50-FAIL/0-ERROR/5-SKIP/3225-ACCOUNTED/PRESERVED",
-  "ux_p0_e_closure_mode": "COMPOSITE-RECOVERY",
-  "ux_p0_e_full_regression_adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
-  "ux_p0_e_exact_failed_retest": "PASS/50-OF-50",
   "ux_p0_e_bounded_impacted_retest": "PASS",
+  "ux_p0_e_closure_mode": "COMPOSITE-RECOVERY",
+  "ux_p0_e_exact_failed_retest": "PASS/50-OF-50",
+  "ux_p0_e_full_regression_adjudication": "PASS/COMPOSITE-FULL-PLUS-SELECTIVE-RECOVERY",
+  "ux_p0_e_full_regression_result": "FAIL-ONCE/PRESERVED/COMPOSITE-RECOVERED",
+  "ux_p0_e_full_regression_runs": 1,
+  "ux_p0_e_full_session_id": "DEVPL-UX-P0-E-FULL-01",
   "ux_p0_e_historical_regression_guard": "PASS",
+  "ux_p0_e_original_full_result": "FAIL/3170-PASS/50-FAIL/0-ERROR/5-SKIP/3225-ACCOUNTED/PRESERVED",
+  "ux_p0_e_second_full_regression_runs": 0,
+  "ux_p0_e_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_e_terminal_escapes_normal_path": 0,
   "ux_p0_e_ux_s0": 0,
   "ux_p0_e_ux_s1": 0,
-  "ux_p0_e_ux_s3_open_nonblocking": 1
+  "ux_p0_e_ux_s3_open_nonblocking": 1,
+  "ux_p0_full_regression_budget": "1/1-CONSUMED-BY-UX-P0-E",
+  "ux_p0_next_micro_sprint": "DEVPL-GSDLC-13",
+  "ux_p0_source_commit": "f1e4c5b8dc1882f7dc724ba87755cdd894f274c8",
+  "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
+  "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

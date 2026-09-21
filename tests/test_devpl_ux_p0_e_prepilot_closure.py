@@ -7,8 +7,8 @@ def j(rel: str): return json.loads((ROOT/rel).read_text(encoding="utf-8"))
 
 def test_e_rebind_is_repo435_to_repo436():
     ps=j('.devpilot/project_state.json')
-    assert ps['current_micro_sprint']=='DEVPL-UX-P0-E'
-    assert ps['current_repo'] in {'repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip','repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip'}
+    assert ps['current_micro_sprint'] in {'DEVPL-UX-P0-E','DEVPL-GSDLC-13-A'}
+    assert ps['current_repo'] in {'repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip','repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip','repo_DevPilot_Local_437_DEVPL_GSDLC_13_A_TRANSITION_REBIND_AUTHORITY_HYGIENE_WINDOWS_VALIDATED_CANDIDATE.zip'}
     assert ps['ux_p0_successor_repo']=='repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip'
     assert ps['ux_p0_d_status']=='CLOSED/PASS/WINDOWS-VALIDATED'
 
@@ -30,7 +30,7 @@ def test_e_authority_metadata_is_aligned():
     ps=j('.devpilot/project_state.json'); sr=j('.devpilot/docs_governance/source_registry.json'); pkg=j('ui/web/package.json')
     assert sr['current_repo']==ps['current_repo']
     assert sr['current_micro_sprint']==ps['current_micro_sprint']
-    assert pkg['devpilot']['currentSprint']=='DEVPL-UX-P0-E'
+    assert pkg['devpilot']['currentSprint'] in {'DEVPL-UX-P0-E','DEVPL-GSDLC-13-A'}
     assert pkg['devpilot']['uxP0DStatus']=='closed/PASS/WINDOWS-VALIDATED'
 
 def test_current_frx_profile_is_locked():

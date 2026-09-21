@@ -18,9 +18,9 @@ def test_ux_p0_a_rebind_preserves_gsdlc_closure_and_defers_gsdlc13() -> None:
     assert state["gsdlc_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
     assert state["gsdlc_12_status"] == "CLOSED/PASS/WINDOWS-VALIDATED"
     assert state["gsdlc_13_authorized"] is True
-    assert state["gsdlc_13_execution_deferred_by"] == "DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION"
-    assert state["current_phase"] == "DEVPL-UX-P0"
-    assert state["current_micro_sprint"] in {"DEVPL-UX-P0-A","DEVPL-UX-P0-B","DEVPL-UX-P0-C","DEVPL-UX-P0-D","DEVPL-UX-P0-E"}
+    assert state["gsdlc_13_execution_deferred_by"] in {"DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION", "NONE/UX-P0-CLOSED"}
+    assert state["current_phase"] in {"DEVPL-UX-P0", "DEVPL-GSDLC-13"}
+    assert state["current_micro_sprint"] in {"DEVPL-UX-P0-A","DEVPL-UX-P0-B","DEVPL-UX-P0-C","DEVPL-UX-P0-D","DEVPL-UX-P0-E","DEVPL-GSDLC-13-A"}
     assert state["ux_p0_a_full_regression_runs"] == 0
     assert state["ux_p0_full_regression_budget"] in {"0/1-RESERVED-FOR-UX-P0-E", "1/1-CONSUMED-BY-UX-P0-E"}
     assert post_h_progress_rank("DEVPL-UX-P0-A") > post_h_progress_rank("FRX-v2.4-B")
@@ -29,7 +29,7 @@ def test_ux_p0_a_rebind_preserves_gsdlc_closure_and_defers_gsdlc13() -> None:
 
 def test_frontend_identity_and_design_tokens_are_current_without_route_authority_change() -> None:
     package = load_json("ui/web/package.json")
-    assert re.fullmatch(r"0\.\d+\.0-ux-p0-[a-e](?:-rc)?", package["version"])
+    assert re.fullmatch(r"0\.\d+\.0-(?:ux-p0-[a-e](?:-rc)?|gsdlc-13-a)", package["version"])
     state = load_json(".devpilot/project_state.json")
     assert package["devpilot"]["currentSprint"] == state["current_micro_sprint"]
     assert package["devpilot"]["uxP0RoutePathsChanged"] is False
@@ -59,7 +59,7 @@ def test_ux_p0_a_current_contract_and_rc_schema_are_successor_aware() -> None:
     if state["current_micro_sprint"] == "DEVPL-UX-P0-A":
         assert criteria["expected_next_micro_sprint"] == "DEVPL-UX-P0-B"
     else:
-        assert criteria["expected_next_micro_sprint"] in {"DEVPL-UX-P0-C","DEVPL-UX-P0-D","DEVPL-UX-P0-E","DEVPL-GSDLC-13"}
+        assert criteria["expected_next_micro_sprint"] in {"DEVPL-UX-P0-C","DEVPL-UX-P0-D","DEVPL-UX-P0-E","DEVPL-GSDLC-13","DEVPL-GSDLC-13-B"}
     for registry in (
         ".devpilot/testing/test_contract_registry.json",
         ".devpilot/testing/test_contract_registry_v2.json",

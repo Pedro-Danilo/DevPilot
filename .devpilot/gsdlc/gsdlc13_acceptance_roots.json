@@ -1,0 +1,20 @@
+{
+  "schema_id": "devpilot.gsdlc13.acceptance_roots.v1",
+  "status": "APPROVED/NOT-MATERIALIZED",
+  "owner": "DEVPL-GSDLC-13-A",
+  "source_baseline": {
+    "repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "423e99fa38df3114328b555aff8f859740a49a01",
+    "sha256": "d8e1b2ded46648dab7d463ab3d4f6973ba0122c8ad22bf6f6cf474791deb68cb",
+    "immutable": true
+  },
+  "devpilot_evidence_root": "D:\\Projects\\DevPilot_E2E_Evaluation\\evidence\\DEVPL-GSDLC-13",
+  "greenfield_workspace_root": "D:\\Projects\\DevPilot_Workspaces\\inventory-sales-local-greenfield",
+  "greenfield_project_materialized": false,
+  "greenfield_project_writes": 0,
+  "acceptance_mode_after_13_a": "owner-driven/devpilot-executed/chatgpt-adjudicated",
+  "run_packet_policy": "incremental-only",
+  "legacy_workspace_preserved": "D:\\Projects\\DevPilot_Workspaces\\inventory-sales-local",
+  "network_required": false,
+  "external_api_required": false
+}

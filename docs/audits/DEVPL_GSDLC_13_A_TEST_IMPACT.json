@@ -1,0 +1,44 @@
+{
+  "schema_id": "devpilot.gsdlc13a.test_impact.v1",
+  "status": "PASS/SELECTIVE-VALIDATION-BOUND",
+  "micro_sprint": "DEVPL-GSDLC-13-A",
+  "policy_authority": "SPRINT_DEVPL_GSDLC_13_A_v1_1_0_APPROVED.md",
+  "policy": "Full Regression prohibited in 13-A; focal/governance validation only",
+  "analysis": {
+    "registry_path": ".devpilot/testing/test_contract_registry_v2.json",
+    "schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "rules_path": ".devpilot/testing/test_impact_rules.json",
+    "changed_paths_total": 50,
+    "contracts_total": 347,
+    "matched_contracts_total": 186,
+    "p0_selected_total": 116,
+    "p1_selected_total": 61,
+    "heuristic_recommendations_total": 4,
+    "recommended_tests_total": 304,
+    "recommended_commands_total": 346,
+    "recommended_profiles": [
+      "p0-critical",
+      "docs-historical",
+      "impact",
+      "release-candidate-local",
+      "release"
+    ],
+    "unmatched_paths_total": 0,
+    "tests_executed": false,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "unmatched_paths": [],
+  "adjudication": {
+    "full_regression_runs": 0,
+    "full_regression_execution": "PROHIBITED-IN-13-A",
+    "selective_validation_required": true,
+    "unmatched_paths_must_equal": 0
+  },
+  "network_used": false,
+  "external_api_used": false
+}
