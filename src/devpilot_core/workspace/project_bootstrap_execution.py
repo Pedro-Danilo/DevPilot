@@ -135,7 +135,7 @@ def _safe_tree(root: Path) -> list[dict[str, Any]]:
 
 
 def _render_project_yaml(intake: ProjectIntake) -> str:
-    return (
+    base = (
         "schema_version: '1.0'\n"
         f"project_id: {intake.project_id}\n"
         f"project_name: {json.dumps(intake.project_name, ensure_ascii=False)}\n"
@@ -145,16 +145,42 @@ def _render_project_yaml(intake: ProjectIntake) -> str:
         "  - MIPSoftware\n"
         "  - MIASI\n"
     )
+    if intake.business_need:
+        base += (
+            f"business_need: {json.dumps(intake.business_need.strip(), ensure_ascii=False)}\n"
+            f"technology_decision_status: {intake.technology_decision_status}\n"
+            "stack:\n"
+            f"  frontend: {intake.frontend}\n"
+            f"  backend: {intake.backend}\n"
+            f"  database: {intake.database}\n"
+            "model_policy:\n"
+            f"  baseline: {json.dumps(str((intake.model_policy or {}).get('baseline', '')), ensure_ascii=False)}\n"
+            f"  local_model: {json.dumps(str((intake.model_policy or {}).get('local_model', '')), ensure_ascii=False)}\n"
+            f"  external_api: {json.dumps(str((intake.model_policy or {}).get('external_api', '')), ensure_ascii=False)}\n"
+            "project_constraints:\n"
+            f"  local_first: {str(bool((intake.project_constraints or {}).get('local_first'))).lower()}\n"
+            f"  cloud_required: {str(bool((intake.project_constraints or {}).get('cloud_required'))).lower()}\n"
+            f"  operator_project_writes_allowed: {str(bool((intake.project_constraints or {}).get('operator_project_writes_allowed'))).lower()}\n"
+        )
+    return base
 
 
 def _render_readme(intake: ProjectIntake) -> str:
-    return (
+    text = (
         f"# {intake.project_name}\n\n"
-        "Workspace materializado por DevPilot mediante GSDLC-03-D.\n\n"
+        "Workspace materializado por DevPilot mediante bootstrap gobernado.\n\n"
         f"- project_id: `{intake.project_id}`\n"
         f"- entry_mode: `{intake.entry_mode.value}`\n"
         "- bootstrap: approval-bound / local-first\n"
     )
+    if intake.business_need:
+        text += (
+            f"- technology_decision: `{intake.technology_decision_status}`\n"
+            "- model_baseline: `mock-no-api`\n\n"
+            "## Necesidad inicial\n\n"
+            f"{intake.business_need.strip()}\n"
+        )
+    return text
 
 
 @dataclass(frozen=True)

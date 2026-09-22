@@ -1,0 +1,83 @@
+{
+  "schema_id": "SCHEMA-DEVPL-GSDLC-13-B-TECHNOLOGY-CATALOG-V2",
+  "catalog_id": "DEVPL-GSDLC-13-B-TECHNOLOGY-CATALOG",
+  "status": "active-corrective/pre-windows",
+  "version": "2.0.0",
+  "owner": "Ordóñez",
+  "micro_sprint": "DEVPL-GSDLC-13-B-CORRECTIVE",
+  "profiles": [
+    {
+      "profile_id": "greenfield-neutral-shell",
+      "frontend": "undecided",
+      "backend": "undecided",
+      "database": "undecided",
+      "project_type": "agent-assisted-sdlc",
+      "templates": [
+        "common.readme",
+        "standards.mipsoftware",
+        "standards.miasi",
+        "devpilot.project-metadata"
+      ],
+      "supported_entry_modes": [
+        "CREATE_NEW"
+      ],
+      "tool_requirements": [
+        {
+          "tool_id": "git",
+          "minimum_version": "2.40",
+          "discovery_mode": "typed-read-only",
+          "required_for": [
+            "CREATE_NEW"
+          ]
+        }
+      ]
+    }
+  ],
+  "typed_operations": [
+    {
+      "operation_id": "workspace.target.prepare",
+      "category": "workspace",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "active-13-b-corrective"
+    },
+    {
+      "operation_id": "workspace.structure.materialize",
+      "category": "workspace",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "active-13-b-corrective"
+    },
+    {
+      "operation_id": "git.init",
+      "category": "git",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "active-13-b-corrective"
+    },
+    {
+      "operation_id": "workspace.register",
+      "category": "workspace",
+      "writes": true,
+      "network_required": false,
+      "approval_required": true,
+      "rollback_required": true,
+      "implementation_status": "active-13-b-corrective"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "deny_by_default": true,
+    "arbitrary_shell_allowed": false,
+    "silent_network_allowed": false,
+    "remote_git_execute_allowed": false,
+    "credential_material_allowed": false,
+    "pilot_workspace_access_allowed": false
+  }
+}

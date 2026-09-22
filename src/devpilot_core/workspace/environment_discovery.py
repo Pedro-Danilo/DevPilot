@@ -18,6 +18,7 @@ from .project_entry_contracts import (
     ProjectEntryContractService,
     ProjectEntryMode,
     ProjectIntake,
+    PROJECT_INTAKE_GSDLC13_SCHEMA_ID,
     stable_sha256,
 )
 
@@ -26,6 +27,7 @@ BOOTSTRAP_PLAN_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLAN-V1"
 BOOTSTRAP_PLANNING_CATALOG_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLANNING-CATALOG-V1"
 
 DEFAULT_BOOTSTRAP_PLANNING_CATALOG = ".devpilot/workspaces/bootstrap_planning_catalog.json"
+DEFAULT_GSDLC13_BOOTSTRAP_PLANNING_CATALOG = ".devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json"
 DEFAULT_TIMEOUT_SECONDS = 8.0
 
 _VERSION_PATTERN = re.compile(r"(?P<version>\d+(?:\.\d+){1,3})")
@@ -97,8 +99,12 @@ class EnvironmentDiscoveryService:
         planning_path = Path(planning_catalog_path)
         self.planning_catalog_path = planning_path if planning_path.is_absolute() else self.platform_root / planning_path
 
-    def load_planning_catalog(self) -> dict[str, Any]:
-        return json.loads(self.planning_catalog_path.read_text(encoding="utf-8"))
+    def load_planning_catalog(self, *, schema_id: str | None = None) -> dict[str, Any]:
+        if schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID:
+            path = self.platform_root / DEFAULT_GSDLC13_BOOTSTRAP_PLANNING_CATALOG
+        else:
+            path = self.planning_catalog_path
+        return json.loads(path.read_text(encoding="utf-8"))
 
     def discover(self, payload: Mapping[str, Any]) -> CommandResult:
         intake_payload = _unwrap_intake(payload)
@@ -120,8 +126,9 @@ class EnvironmentDiscoveryService:
             )
 
         intake = ProjectIntake.from_mapping(intake_payload)
-        technology_catalog = self.contracts.load_catalog()
-        requirements = self._requirements_for(technology_catalog, intake.entry_mode)
+        technology_catalog = self.contracts.load_catalog(schema_id=intake.schema_id)
+        profile_id = str(validated.data.get("technology_profile_id") or "")
+        requirements = self._requirements_for(technology_catalog, intake.entry_mode, profile_id=profile_id)
         tools: list[dict[str, Any]] = []
         findings: list[Finding] = []
         selected: dict[str, dict[str, Any]] = {}
@@ -131,7 +138,7 @@ class EnvironmentDiscoveryService:
             tool_id = str(requirement["tool_id"])
             if tool_id == "npm":
                 continue
-            spec = self._tool_spec(tool_id, str(requirement["minimum_version"]), entry_mode=intake.entry_mode)
+            spec = self._tool_spec(tool_id, str(requirement["minimum_version"]), entry_mode=intake.entry_mode, schema_id=intake.schema_id)
             probe = self._probe_tool(spec)
             tools.append(probe)
             selected[tool_id] = probe
@@ -243,7 +250,7 @@ class EnvironmentDiscoveryService:
         intake = ProjectIntake.from_mapping(intake_payload)
         creation_plan = creation.data["plan"]
         discovery_report = discovery.data["report"]
-        planning_catalog = self.load_planning_catalog()
+        planning_catalog = self.load_planning_catalog(schema_id=intake.schema_id)
         profile = _profile_binding(planning_catalog, str(creation_plan["stack"]["profile_id"]))
         if profile is None:
             finding = Finding(
@@ -293,11 +300,11 @@ class EnvironmentDiscoveryService:
             "venv": {
                 "operation_id": "python.venv.create",
                 "path": str(Path(target) / ".venv"),
-                "required": create_mode,
-                "writes": create_mode,
+                "required": create_mode and bool(profile.get("venv_required", True)),
+                "writes": create_mode and bool(profile.get("venv_required", True)),
                 "network_required": False,
-                "approval_required": create_mode,
-                "execution_status": "planned-only" if create_mode else "not-applicable-until-source-inspection",
+                "approval_required": create_mode and bool(profile.get("venv_required", True)),
+                "execution_status": "planned-only" if create_mode and bool(profile.get("venv_required", True)) else "not-applicable",
             },
             "dependency_jobs": dependency_jobs,
             "workspace_registration": registration,
@@ -349,14 +356,17 @@ class EnvironmentDiscoveryService:
             ],
         )
 
-    def _requirements_for(self, catalog: Mapping[str, Any], mode: ProjectEntryMode) -> list[dict[str, Any]]:
+    def _requirements_for(self, catalog: Mapping[str, Any], mode: ProjectEntryMode, *, profile_id: str = "") -> list[dict[str, Any]]:
+        profile = next((item for item in catalog.get("profiles", []) if str(item.get("profile_id")) == profile_id), None)
+        if isinstance(profile, Mapping) and isinstance(profile.get("tool_requirements"), list):
+            return [dict(item) for item in profile.get("tool_requirements", []) if mode.value in item.get("required_for", [])]
         return [
             dict(item)
             for item in catalog.get("tool_requirements", [])
             if mode.value in item.get("required_for", [])
         ]
 
-    def _tool_spec(self, tool_id: str, minimum_version: str, *, entry_mode: ProjectEntryMode) -> ToolProbeSpec:
+    def _tool_spec(self, tool_id: str, minimum_version: str, *, entry_mode: ProjectEntryMode, schema_id: str | None = None) -> ToolProbeSpec:
         executable_names = {
             "python": ("python.exe", "python") if os.name == "nt" else ("python3", "python"),
             "node": ("node.exe", "node") if os.name == "nt" else ("node",),
@@ -367,7 +377,7 @@ class EnvironmentDiscoveryService:
         policy = "strict-version"
         capabilities: tuple[str, ...] = ()
         authority_source = "technology-catalog"
-        planning_catalog = self.load_planning_catalog()
+        planning_catalog = self.load_planning_catalog(schema_id=schema_id)
         for rule in planning_catalog.get("tool_compatibility", []):
             if (
                 str(rule.get("tool_id")) == tool_id

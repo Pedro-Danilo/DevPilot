@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2",
+  "title": "DevPilot GSDLC-13-B Greenfield ProjectIntake v2",
+  "description": "Greenfield CREATE_NEW intake that captures business need and project/model constraints while deferring technology decisions to Architecture.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "project_id",
+    "project_name",
+    "project_type",
+    "entry_mode",
+    "target_root",
+    "business_need",
+    "technology_decision_status",
+    "stack",
+    "standards",
+    "provider",
+    "model_policy",
+    "project_constraints",
+    "restrictions"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2"
+    },
+    "schema_version": {
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$"
+    },
+    "project_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "project_type": {
+      "const": "agent-assisted-sdlc"
+    },
+    "entry_mode": {
+      "const": "CREATE_NEW"
+    },
+    "target_root": {
+      "type": "string",
+      "minLength": 3
+    },
+    "business_need": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 4000
+    },
+    "technology_decision_status": {
+      "const": "deferred-to-architecture"
+    },
+    "stack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frontend",
+        "backend",
+        "database"
+      ],
+      "properties": {
+        "frontend": {
+          "const": "undecided"
+        },
+        "backend": {
+          "const": "undecided"
+        },
+        "database": {
+          "const": "undecided"
+        }
+      }
+    },
+    "standards": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "MIPSoftware",
+          "MIASI"
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "const": "MIPSoftware"
+          }
+        },
+        {
+          "contains": {
+            "const": "MIASI"
+          }
+        }
+      ]
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "provider_id"
+      ],
+      "properties": {
+        "mode": {
+          "const": "mock"
+        },
+        "provider_id": {
+          "const": "mock"
+        }
+      }
+    },
+    "model_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline",
+        "local_model",
+        "external_api"
+      ],
+      "properties": {
+        "baseline": {
+          "const": "mock-no-api"
+        },
+        "local_model": {
+          "const": "optional-opt-in"
+        },
+        "external_api": {
+          "const": "approval-provenance-only"
+        }
+      }
+    },
+    "project_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "cloud_required",
+        "operator_project_writes_allowed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "cloud_required": {
+          "const": false
+        },
+        "operator_project_writes_allowed": {
+          "const": false
+        }
+      }
+    },
+    "restrictions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "arbitrary_shell_allowed",
+        "silent_network_allowed",
+        "remote_git_execute_allowed"
+      ],
+      "properties": {
+        "arbitrary_shell_allowed": {
+          "const": false
+        },
+        "silent_network_allowed": {
+          "const": false
+        },
+        "remote_git_execute_allowed": {
+          "const": false
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2",
+  "x-devpilot-sprint": "DEVPL-GSDLC-13-B-CORRECTIVE",
+  "x-devpilot-status": "active-corrective/pre-windows"
+}

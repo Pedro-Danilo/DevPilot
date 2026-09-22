@@ -2,12 +2,12 @@
 title: "Architecture Document — DevPilot Local"
 doc_id: "DEVPL-ARCH-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "DEVPL-GSDLC-00-C"
-updated: "2026-08-14"
+updated: "2026-09-22"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved + SPRINT-PRECODE-02 requirements baseline approved"
 change_reason: "Guided SDLC successor architecture contract; no runtime enablement."
@@ -383,3 +383,10 @@ LLM/agents colaboran con drafting, revisión, planificación y coding, pero PASS
 ### 18.7 No-go
 
 Permanecen bloqueados arbitrary shell, remote execution, public/non-local API, enterprise IAM/tenancy/SSO, agent self-approval, force-push/reset-hard automáticos y loops/costo ilimitados.
+
+
+## 20. GSDLC-13 — Project Shell neutral antes de Architecture
+
+Para greenfield `CREATE_NEW`, la entrada de proyecto separa el bootstrap de autoridad (workspace/Git/metadata/contexto) del scaffold tecnológico. El stack permanece `undecided` hasta que Requirements + Architecture produzcan una decisión gobernada. Véase `docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md`.
+
+La necesidad de negocio capturada en Project Entry es input de dominio autoritativo para el Guided SDLC; no concede tool authority ni equivale a un prompt libre. La materialización posterior de stack/manifests/dependencias exige plan, dry-run, aprobación y evidencia propios.

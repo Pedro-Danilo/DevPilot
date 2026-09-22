@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "DEVPL-GSDLC-13-A",
+  "current_micro_sprint": "DEVPL-GSDLC-13-B-CORRECTIVE",
   "current_phase": "DEVPL-GSDLC-13",
   "current_repo": "repo_DevPilot_Local_437_DEVPL_GSDLC_13_A_TRANSITION_REBIND_AUTHORITY_HYGIENE_WINDOWS_VALIDATED_CANDIDATE.zip",
   "documents": [
@@ -37167,6 +37167,41 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [
+        "docs/02_architecture/architecture_document.md"
+      ],
+      "doc_id": "ADR-DEVPL-GSDLC-13-B-02-NEUTRAL-PROJECT-SHELL",
+      "domain": "guided_sdlc.project_entry",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [
+        "docs/schemas/project_intake_gsdlc13_v2.schema.json",
+        ".devpilot/workspaces/technology_catalog_gsdlc13_v2.json",
+        ".devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json"
+      ],
+      "notes": [
+        "Successor decision for 13-B-02 corrective; Windows proof pending."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_b_02_greenfield_intake_corrective.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -37581,7 +37616,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-13-A/WINDOWS-CLOSURE",
+  "last_updated_by": "DEVPL-GSDLC-13-B-02-ACTIVE-CORRECTIVE",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -40133,8 +40168,8 @@
     "network_used": false,
     "source_of_truth_total": 576
   },
-  "updated": "2026-09-21",
-  "updated_at": "2026-09-21",
+  "updated": "2026-09-22",
+  "updated_at": "2026-09-22",
   "updated_by": "DEVPL-GSDLC-13-A/WINDOWS-CLOSURE",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
@@ -40190,5 +40225,6 @@
   "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
   "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_13_b_02_corrective_status": "implementation-candidate/pending-windows-validation"
 }

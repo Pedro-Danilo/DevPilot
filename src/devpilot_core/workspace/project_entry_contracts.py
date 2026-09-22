@@ -13,9 +13,12 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity,
 from devpilot_core.policy import PathGuard, PolicyEffect, configured_external_workspace_roots
 
 PROJECT_INTAKE_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-INTAKE-V1"
+PROJECT_INTAKE_GSDLC13_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2"
 TECHNOLOGY_CATALOG_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1"
+TECHNOLOGY_CATALOG_GSDLC13_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-13-B-TECHNOLOGY-CATALOG-V2"
 PROJECT_CREATION_PLAN_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-A-PROJECT-CREATION-PLAN-V1"
 DEFAULT_TECHNOLOGY_CATALOG = ".devpilot/workspaces/technology_catalog.json"
+DEFAULT_GSDLC13_TECHNOLOGY_CATALOG = ".devpilot/workspaces/technology_catalog_gsdlc13_v2.json"
 
 _SAFE_PROJECT_ID = re.compile(r"^[a-z0-9][a-z0-9_-]{2,63}$")
 _FORBIDDEN_SECRET_KEYS = {
@@ -54,11 +57,17 @@ class ProjectIntake:
     frontend: str
     backend: str
     database: str
+    schema_id: str = PROJECT_INTAKE_SCHEMA_ID
+    schema_version: str = "1.0"
     project_type: str = "agent-assisted-sdlc"
     standards: tuple[str, ...] = ("MIPSoftware", "MIASI")
     provider_mode: str = "none"
     provider_id: str | None = None
     restrictions: Mapping[str, bool] | None = None
+    business_need: str = ""
+    technology_decision_status: str = "legacy-preselected"
+    model_policy: Mapping[str, str] | None = None
+    project_constraints: Mapping[str, bool] | None = None
     git_source_kind: GitSourceKind | None = None
     git_source_location: str | None = None
 
@@ -68,6 +77,9 @@ class ProjectIntake:
         provider = payload.get("provider") if isinstance(payload.get("provider"), Mapping) else {}
         source = payload.get("git_source") if isinstance(payload.get("git_source"), Mapping) else None
         restrictions = payload.get("restrictions") if isinstance(payload.get("restrictions"), Mapping) else {}
+        model_policy = payload.get("model_policy") if isinstance(payload.get("model_policy"), Mapping) else {}
+        project_constraints = payload.get("project_constraints") if isinstance(payload.get("project_constraints"), Mapping) else {}
+        schema_id = str(payload.get("schema_id") or PROJECT_INTAKE_SCHEMA_ID)
         return cls(
             project_id=str(payload.get("project_id") or ""),
             project_name=str(payload.get("project_name") or ""),
@@ -76,19 +88,25 @@ class ProjectIntake:
             frontend=str(stack.get("frontend") or ""),
             backend=str(stack.get("backend") or ""),
             database=str(stack.get("database") or ""),
+            schema_id=schema_id,
+            schema_version=str(payload.get("schema_version") or ("2.0" if schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID else "1.0")),
             project_type=str(payload.get("project_type") or "agent-assisted-sdlc"),
             standards=tuple(str(item) for item in payload.get("standards", ())),
             provider_mode=str(provider.get("mode") or "none"),
             provider_id=str(provider.get("provider_id")) if provider.get("provider_id") is not None else None,
             restrictions={str(k): bool(v) for k, v in restrictions.items()},
+            business_need=str(payload.get("business_need") or ""),
+            technology_decision_status=str(payload.get("technology_decision_status") or "legacy-preselected"),
+            model_policy={str(k): str(v) for k, v in model_policy.items()},
+            project_constraints={str(k): bool(v) for k, v in project_constraints.items()},
             git_source_kind=GitSourceKind(str(source.get("kind"))) if source else None,
             git_source_location=str(source.get("location")) if source else None,
         )
 
     def to_mapping(self) -> dict[str, Any]:
         data: dict[str, Any] = {
-            "schema_id": PROJECT_INTAKE_SCHEMA_ID,
-            "schema_version": "1.0",
+            "schema_id": self.schema_id,
+            "schema_version": self.schema_version,
             "project_id": self.project_id,
             "project_name": self.project_name,
             "project_type": self.project_type,
@@ -103,6 +121,13 @@ class ProjectIntake:
             "provider": {"mode": self.provider_mode, "provider_id": self.provider_id},
             "restrictions": dict(self.restrictions or {}),
         }
+        if self.schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID:
+            data.update({
+                "business_need": self.business_need,
+                "technology_decision_status": self.technology_decision_status,
+                "model_policy": dict(self.model_policy or {}),
+                "project_constraints": dict(self.project_constraints or {}),
+            })
         if self.git_source_kind is not None:
             data["git_source"] = {
                 "kind": self.git_source_kind.value,
@@ -133,8 +158,12 @@ class ProjectEntryContractService:
         candidate = Path(catalog_path)
         self.catalog_path = candidate if candidate.is_absolute() else self.platform_root / candidate
 
-    def load_catalog(self) -> dict[str, Any]:
-        return json.loads(self.catalog_path.read_text(encoding="utf-8"))
+    def load_catalog(self, *, schema_id: str | None = None) -> dict[str, Any]:
+        if schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID:
+            path = self.platform_root / DEFAULT_GSDLC13_TECHNOLOGY_CATALOG
+        else:
+            path = self.catalog_path
+        return json.loads(path.read_text(encoding="utf-8"))
 
     def validate_intake(self, payload: Mapping[str, Any]) -> CommandResult:
         findings: list[Finding] = []
@@ -164,7 +193,7 @@ class ProjectEntryContractService:
             findings.extend(self._validate_target(intake, target))
         findings.extend(self._validate_git_source(intake, target))
 
-        catalog = self.load_catalog()
+        catalog = self.load_catalog(schema_id=intake.schema_id)
         profile = _resolve_profile(catalog, intake.frontend, intake.backend, intake.database)
         if profile is None:
             findings.append(
@@ -209,7 +238,7 @@ class ProjectEntryContractService:
             )
 
         intake = ProjectIntake.from_mapping(payload)
-        catalog = self.load_catalog()
+        catalog = self.load_catalog(schema_id=intake.schema_id)
         profile = _resolve_profile(catalog, intake.frontend, intake.backend, intake.database)
         assert profile is not None
         target = Path(intake.target_root).expanduser().resolve(strict=False)
@@ -232,6 +261,12 @@ class ProjectEntryContractService:
                 "standards": list(intake.standards),
                 "provider_mode": intake.provider_mode,
                 "provider_id": intake.provider_id,
+                **({
+                    "business_need": intake.business_need,
+                    "technology_decision_status": intake.technology_decision_status,
+                    "model_policy": dict(intake.model_policy or {}),
+                    "project_constraints": dict(intake.project_constraints or {}),
+                } if intake.schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID else {}),
             },
             "target": {
                 "root": str(target),
@@ -302,6 +337,34 @@ class ProjectEntryContractService:
             findings.append(Finding("PROJECT_INTAKE_STANDARDS_BLOCKED", "MIPSoftware and MIASI are both mandatory for the current Guided SDLC project contract.", Severity.BLOCK))
         if intake.provider_mode not in {"none", "mock", "local", "external-api"}:
             findings.append(Finding("PROJECT_INTAKE_PROVIDER_MODE_BLOCKED", "Unsupported provider mode.", Severity.BLOCK))
+        if intake.schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID:
+            need = intake.business_need.strip()
+            if intake.entry_mode is not ProjectEntryMode.CREATE_NEW:
+                findings.append(Finding("PROJECT_INTAKE_V2_CREATE_ONLY_BLOCKED", "GSDLC-13 ProjectIntake v2 is bounded to CREATE_NEW; OPEN/IMPORT keep the historical v1 contract.", Severity.BLOCK))
+            if not (20 <= len(need) <= 4000):
+                findings.append(Finding("PROJECT_INTAKE_BUSINESS_NEED_BLOCKED", "business_need must contain 20..4000 characters describing the problem/need, not a pre-built solution.", Severity.BLOCK))
+            if (intake.frontend, intake.backend, intake.database) != ("undecided", "undecided", "undecided"):
+                findings.append(Finding("PROJECT_INTAKE_PREMATURE_STACK_BLOCKED", "Technology must remain undecided until Architecture produces a governed decision.", Severity.BLOCK))
+            if intake.technology_decision_status != "deferred-to-architecture":
+                findings.append(Finding("PROJECT_INTAKE_TECH_DECISION_STATUS_BLOCKED", "technology_decision_status must be deferred-to-architecture during greenfield bootstrap.", Severity.BLOCK))
+            if intake.provider_mode != "mock" or intake.provider_id != "mock":
+                findings.append(Finding("PROJECT_INTAKE_MODEL_BASELINE_BLOCKED", "Greenfield bootstrap baseline must be mock/no-external-API.", Severity.BLOCK))
+            model_policy = dict(intake.model_policy or {})
+            expected_model_policy = {
+                "baseline": "mock-no-api",
+                "local_model": "optional-opt-in",
+                "external_api": "approval-provenance-only",
+            }
+            if model_policy != expected_model_policy:
+                findings.append(Finding("PROJECT_INTAKE_MODEL_POLICY_BLOCKED", "model_policy must preserve mock/no-API baseline, optional local model and approval/provenance-only external APIs.", Severity.BLOCK))
+            project_constraints = dict(intake.project_constraints or {})
+            expected_constraints = {
+                "local_first": True,
+                "cloud_required": False,
+                "operator_project_writes_allowed": False,
+            }
+            if project_constraints != expected_constraints:
+                findings.append(Finding("PROJECT_INTAKE_PROJECT_CONSTRAINTS_BLOCKED", "Greenfield bootstrap constraints must be explicitly confirmed and remain local-first/non-cloud/operator-writes-zero.", Severity.BLOCK))
         restrictions = dict(intake.restrictions or {})
         for key in ("arbitrary_shell_allowed", "silent_network_allowed", "remote_git_execute_allowed"):
             if restrictions.get(key) is not False:
@@ -372,16 +435,22 @@ class ProjectEntryContractService:
 
     def _operations_for(self, intake: ProjectIntake, catalog: Mapping[str, Any]) -> list[dict[str, Any]]:
         allowed = {item["operation_id"]: item for item in catalog.get("typed_operations", []) if isinstance(item, Mapping)}
+        create_operations = [
+            "workspace.target.prepare",
+            "workspace.structure.materialize",
+            "git.init",
+            "workspace.register",
+        ] if intake.schema_id == PROJECT_INTAKE_GSDLC13_SCHEMA_ID else [
+            "workspace.target.prepare",
+            "workspace.structure.materialize",
+            "git.init",
+            "python.venv.create",
+            "dependency.python.install",
+            "dependency.node.install",
+            "workspace.register",
+        ]
         by_mode = {
-            ProjectEntryMode.CREATE_NEW: [
-                "workspace.target.prepare",
-                "workspace.structure.materialize",
-                "git.init",
-                "python.venv.create",
-                "dependency.python.install",
-                "dependency.node.install",
-                "workspace.register",
-            ],
+            ProjectEntryMode.CREATE_NEW: create_operations,
             ProjectEntryMode.OPEN_EXISTING: ["workspace.inspect", "workspace.register"],
             ProjectEntryMode.IMPORT_GIT: [
                 "git.import.local" if intake.git_source_kind is GitSourceKind.LOCAL_PATH else "git.clone.remote",

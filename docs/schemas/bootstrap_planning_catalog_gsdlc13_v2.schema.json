@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-GSDLC-13-B-BOOTSTRAP-PLANNING-CATALOG-V2",
+  "title": "DevPilot GSDLC-13-B BootstrapPlanningCatalog v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "catalog_id",
+    "status",
+    "version",
+    "owner",
+    "micro_sprint",
+    "profiles",
+    "safety",
+    "tool_compatibility"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-GSDLC-13-B-BOOTSTRAP-PLANNING-CATALOG-V2"
+    },
+    "catalog_id": {
+      "const": "DEVPL-GSDLC-13-B-BOOTSTRAP-PLANNING-CATALOG"
+    },
+    "status": {
+      "type": "string"
+    },
+    "version": {
+      "const": "2.0.0"
+    },
+    "owner": {
+      "const": "Ordóñez"
+    },
+    "micro_sprint": {
+      "const": "DEVPL-GSDLC-13-B-CORRECTIVE"
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "venv_required",
+          "directories",
+          "files",
+          "dependency_jobs"
+        ],
+        "properties": {
+          "profile_id": {
+            "const": "greenfield-neutral-shell"
+          },
+          "venv_required": {
+            "const": false
+          },
+          "directories": {
+            "type": "array"
+          },
+          "files": {
+            "type": "array"
+          },
+          "dependency_jobs": {
+            "const": []
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object"
+    },
+    "tool_compatibility": {
+      "type": "array"
+    }
+  }
+}

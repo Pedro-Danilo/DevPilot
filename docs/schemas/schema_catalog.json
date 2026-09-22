@@ -4051,6 +4051,48 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-12-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2",
+      "title": "DevPilot GSDLC-13-B Greenfield ProjectIntake v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/project_intake_gsdlc13_v2.schema.json",
+      "description": "Greenfield CREATE_NEW intake with business need, model/constraint policy and technology deferred to Architecture.",
+      "status": "registered",
+      "contract": "ProjectIntake",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-13-B-CORRECTIVE",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-13-B-CORRECTIVE"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-13-B-TECHNOLOGY-CATALOG-V2",
+      "title": "DevPilot GSDLC-13-B TechnologyCatalog v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/technology_catalog_gsdlc13_v2.schema.json",
+      "description": "Successor catalog for architecture-deferred greenfield neutral Project Shell.",
+      "status": "registered",
+      "contract": "TechnologyCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-13-B-CORRECTIVE",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-13-B-CORRECTIVE"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-13-B-BOOTSTRAP-PLANNING-CATALOG-V2",
+      "title": "DevPilot GSDLC-13-B BootstrapPlanningCatalog v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/bootstrap_planning_catalog_gsdlc13_v2.schema.json",
+      "description": "Successor bootstrap catalog that materializes only a neutral Project Shell before Architecture.",
+      "status": "registered",
+      "contract": "BootstrapPlanningCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-13-B-CORRECTIVE",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-13-B-CORRECTIVE"
     }
   ],
   "schemas_total": 283
