@@ -99,10 +99,57 @@ class GuidedSDLCService:
         miasi_policy = self.repository.platform_root / ".devpilot/miasi/applicability_policy.json"
         if not miasi_policy.is_file():
             return projection
-        miasi = MIASIApplicabilityEvaluator(self.repository.platform_root).evaluate_workspace(workspace_id, state.to_payload())
+        evaluator = MIASIApplicabilityEvaluator(self.repository.platform_root)
+        context_path = evaluator.context_path(workspace_id)
+        if not context_path.is_file():
+            # MIASI applicability is intentionally decided during the governed
+            # pre-code readiness segment, after product/technical context exists.
+            # A newly bootstrapped project must remain resumable through Project
+            # Status before that checkpoint. The dedicated pre-code service stays
+            # fail-closed and will require a real applicability context when MIASI
+            # becomes authoritative.
+            try:
+                context_source = context_path.relative_to(self.repository.platform_root).as_posix()
+            except ValueError:
+                context_source = str(context_path)
+            deferred = {
+                "status": "NOT_EVALUATED",
+                "gate_status": "DEFERRED",
+                "reason_codes": ["MIASI_APPLICABILITY_DEFERRED_UNTIL_PRE_CODE"],
+                "risk_level": "unknown",
+                "project_decision": {},
+                "feature_decisions": [],
+                "required_controls": [],
+                "missing_controls": [],
+                "policy_binding": {},
+                "blockers": [],
+                "evidence_refs": [],
+                "context_source": context_source,
+                "reevaluation_required": True,
+                "agent_execution_allowed": False,
+                "rag_execution_allowed": False,
+                "execution_reason_code": "MIASI_EVALUATION_DEFERRED",
+                "network_used": False,
+                "external_api_used": False,
+                "model_execution_used": False,
+                "agents_executed": False,
+                "rag_executed": False,
+                "source_mutations_performed": False,
+                "project_status_authoritative": False,
+                "blocking_scope": "pre-code-readiness",
+            }
+            status = replace(projection.status, miasi=deferred)
+            return replace(projection, status=status)
+
+        miasi = evaluator.evaluate_workspace(workspace_id, state.to_payload())
+        miasi_payload = miasi.to_payload()
+        miasi_payload.update({
+            "project_status_authoritative": True,
+            "blocking_scope": "project-status",
+        })
         status = replace(
             projection.status,
-            miasi=miasi.to_payload(),
+            miasi=miasi_payload,
             blockers=tuple(projection.status.blockers) + miasi.project_status_blockers(),
             source_refs=tuple(dict.fromkeys(tuple(projection.status.source_refs) + tuple(miasi.evidence_refs))),
         )

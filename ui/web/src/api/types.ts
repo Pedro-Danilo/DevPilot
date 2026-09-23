@@ -804,6 +804,8 @@ export interface MiasiApplicabilityStatus {
   rag_execution_allowed?: boolean;
   execution_reason_code?: string;
   reevaluation_required?: boolean;
+  project_status_authoritative?: boolean;
+  blocking_scope?: string;
 }
 
 export interface GuidedSdlcProjectStatus {

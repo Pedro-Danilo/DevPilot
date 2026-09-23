@@ -2,9 +2,9 @@
 doc_id: "ADR-DEVPL-GSDLC-13-B-03-PERSISTENT-ACTIVE-PROJECT-RUNTIME-CONTEXT"
 title: "Persist active project runtime context and bootstrap WorkspaceEngineeringState"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-09-22"
+updated: "2026-09-23"
 approval: "owner-driven-acceptance/13-B-03-active-corrective"
 ---
 
@@ -35,6 +35,9 @@ El repositorio ya contenía el precedente GSDLC-05-E BLOCK-03: Project Status ex
 - El launcher estándar solo auto-enlaza contexto persistido validable. Si el contexto está corrupto/stale, `api serve` bloquea fail-closed.
 - Variables explícitas del operador conservan precedencia; el auto-binding solo completa valores ausentes.
 - No se relaja PathGuard, RBAC ni aprobación.
+- La ausencia de `miasi_applicability_context.json` antes del checkpoint de Pre-code/MIASI **no** es un blocker de Project Status: se proyecta como `NOT_EVALUATED / DEFERRED`, con `project_status_authoritative=false`.
+- Cuando el contexto MIASI ya existe, su evaluación vuelve a ser autoritativa para Project Status; contexto inválido, aplicabilidad ambigua o controles obligatorios incompletos continúan fail-closed.
+- El servicio de Pre-code readiness conserva su regla estricta: MIASI debe evaluarse y pasar cuando ese checkpoint se vuelve obligatorio. El diferimiento aplica solo a la proyección temprana de Project Status, no desactiva MIASI.
 
 ## Consecuencias
 
@@ -42,6 +45,7 @@ El repositorio ya contenía el precedente GSDLC-05-E BLOCK-03: Project Status ex
 - El restart deja de depender de variables project-specific o de `sessionStorage` como única authority.
 - El bootstrap GSDLC-13 incorpora dos writes control-plane adicionales bajo `outputs/`; esos writes deben aparecer en dry-run/plan/approval.
 - El estado inicial no contiene contenido funcional generado: solo identidad, Git facts y `current_step=idea-intake`.
+- Project Status deja de convertir una ausencia esperada de contexto MIASI en un falso blocker antes de 13-C-03; el Owner puede continuar hacia la etapa donde esa clasificación se decide con información suficiente.
 
 ## Alternativas
 

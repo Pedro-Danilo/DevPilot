@@ -275,16 +275,17 @@ function renderSignals(status: GuidedSdlcProjectStatus): HTMLElement {
 function renderMiasi(miasi: MiasiApplicabilityStatus): HTMLElement {
   const panel = document.createElement('article');
   panel.className = 'panel project-status-card project-status-card--miasi';
-  panel.dataset.miasiStatus = safe(miasi.status, 'REVIEW_REQUIRED');
-  panel.dataset.miasiGate = safe(miasi.gate_status, 'BLOCK');
+  panel.dataset.miasiStatus = safe(miasi.status, 'NOT_EVALUATED');
+  panel.dataset.miasiGate = safe(miasi.gate_status, 'DEFERRED');
   const heading = document.createElement('div');
   heading.className = 'project-status-card__heading';
   const title = document.createElement('h3');
   title.textContent = 'MIASI · Aplicabilidad y controles';
   const badge = document.createElement('span');
-  const gate = safe(miasi.gate_status, 'BLOCK').toLowerCase();
-  badge.className = `project-status-state project-status-state--${gate === 'pass' ? 'ready' : 'blocked'}`;
-  badge.textContent = `${safe(miasi.status, 'REVIEW_REQUIRED')} · ${safe(miasi.gate_status, 'BLOCK')}`;
+  const gate = safe(miasi.gate_status, 'DEFERRED').toLowerCase();
+  const gateClass = gate === 'pass' ? 'ready' : gate === 'block' ? 'blocked' : 'unknown';
+  badge.className = `project-status-state project-status-state--${gateClass}`;
+  badge.textContent = `${safe(miasi.status, 'NOT_EVALUATED')} · ${safe(miasi.gate_status, 'DEFERRED')}`;
   heading.append(title, badge);
 
   const rationale = document.createElement('p');
@@ -306,7 +307,11 @@ function renderMiasi(miasi: MiasiApplicabilityStatus): HTMLElement {
   const rows = Array.isArray(miasi.required_controls) ? miasi.required_controls : [];
   if (!rows.length) {
     const row = document.createElement('li');
-    row.textContent = safe(miasi.status) === 'NOT_APPLICABLE' ? 'No aplican controles MIASI para la declaración actual.' : 'No hay controles materializados todavía.';
+    row.textContent = safe(miasi.status) === 'NOT_APPLICABLE'
+      ? 'No aplican controles MIASI para la declaración actual.'
+      : safe(miasi.gate_status) === 'DEFERRED'
+        ? 'La aplicabilidad MIASI se evaluará en Pre-code readiness; todavía no corresponde materializar controles.'
+        : 'No hay controles materializados todavía.';
     controls.append(row);
   } else {
     for (const control of rows) {
@@ -329,7 +334,9 @@ function renderMiasi(miasi: MiasiApplicabilityStatus): HTMLElement {
 
   const execution = document.createElement('p');
   execution.className = 'project-status-muted';
-  execution.textContent = `AGENT/RAG permanecen no ejecutables en GSDLC-05: ${safe(miasi.execution_reason_code, 'GSDLC_06_07_NOT_IMPLEMENTED')}.`;
+  execution.textContent = safe(miasi.gate_status) === 'DEFERRED'
+    ? 'Pendiente gobernado: MIASI se evaluará en Pre-code readiness y no bloquea este Project Status.'
+    : `AGENT/RAG permanecen no ejecutables mientras la política MIASI lo indique: ${safe(miasi.execution_reason_code, 'GSDLC_06_07_NOT_IMPLEMENTED')}.`;
   panel.append(heading, rationale, facts, controlsTitle, controls, warning, execution);
   return panel;
 }

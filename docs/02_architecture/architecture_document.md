@@ -398,3 +398,9 @@ El Project Shell greenfield separa source del proyecto y estado operacional de D
 `api serve` carga ese contexto automáticamente cuando existe, de modo que launch/login/Home/Project Status no requieren comandos distintos según la fase. En `CREATE_NEW` futuros, los writes a `outputs/runtime/active_workspace_registry.json` y `outputs/workspaces/<workspace_id>/engineering_state.json` forman parte de los efectos declarados del BootstrapPlan y del approval binding; no son side effects ocultos. La autorización de una raíz externa continúa siendo una decisión de plataforma: el browser no puede auto-concederse filesystem scope. La experiencia de producción debe persistir roots aprobados desde setup/Global Settings para que el launcher sea estable desde el primer proyecto.
 
 Véase `docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md`.
+
+## GSDLC-13-B-03 — MIASI staged authority in Project Status
+
+Project Status and MIASI fail-closed semantics have different activation boundaries. A newly bootstrapped project has a valid `WorkspaceEngineeringState` before MIASI applicability is classified. While `miasi_applicability_context.json` is absent, Project Status exposes MIASI as `NOT_EVALUATED / DEFERRED` and does not materialize an authoritative blocker. This preserves the approved journey order: Project Status in 13-B, then Vision/Scope/Requirements, technical design, and only then MIASI/Pre-code readiness in 13-C-03.
+
+Once a MIASI applicability context exists, its result is authoritative in Project Status. Invalid/ambiguous context and missing required controls remain fail-closed. `PreCodeWizardApplicationService` remains strict and requires MIASI PASS before pre-code readiness can PASS. This is sequencing of authority, not weakening of MIASI policy.
