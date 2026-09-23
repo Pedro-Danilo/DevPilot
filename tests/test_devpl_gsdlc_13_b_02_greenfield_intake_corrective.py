@@ -61,6 +61,12 @@ def test_v2_plan_discovers_git_only_and_has_no_venv_dependencies_or_network(tmp_
     assert plan['venv']['required'] is False
     assert plan['dependency_jobs']==[]
     assert plan['network']['required_by_plan'] is False
+    runtime_effects=[row for row in plan['expected_side_effects'] if row.get('kind')=='platform-runtime-state-write']
+    assert {row['operation_id'] for row in runtime_effects}=={'project.runtime-context.register','project.engineering-state.initialize'}
+    assert {row['subject'] for row in runtime_effects}=={
+        'outputs/runtime/active_workspace_registry.json',
+        'outputs/workspaces/inventory-sales-local-greenfield/engineering_state.json',
+    }
     assert not any(str(row.get('relative_path','')).startswith(('frontend/','backend/')) for row in plan['files'])
 
 def test_v2_executor_materializes_neutral_clean_project_shell(tmp_path: Path) -> None:
@@ -69,7 +75,8 @@ def test_v2_executor_materializes_neutral_clean_project_shell(tmp_path: Path) ->
     allowed=tmp_path/'workspaces'; allowed.mkdir(); target=allowed/'pilot'; payload=intake(target)
     service=EnvironmentDiscoveryService(ROOT,allowed_roots=(allowed,)); planned=service.build_bootstrap_plan(payload); assert planned.ok
     plan=planned.data['bootstrap_plan']
-    result=ProjectBootstrapExecutor(ROOT,allowed_roots=(allowed,)).execute(BootstrapExecutionInput(intake=payload,bootstrap_plan=plan,plan_hash=plan['plan_hash'],preimage_hash='test-preimage',approval_id='test-approval',actor_id='local-owner',role_at_decision='owner'))
+    platform=tmp_path/'platform'; platform.mkdir()
+    result=ProjectBootstrapExecutor(platform,allowed_roots=(allowed,)).execute(BootstrapExecutionInput(intake=payload,bootstrap_plan=plan,plan_hash=plan['plan_hash'],preimage_hash='test-preimage',approval_id='test-approval',actor_id='local-owner',role_at_decision='owner'))
     assert result.ok, result.to_dict()
     verify=result.data['execution']['verification']; assert verify['git_clean'] is True and verify['venv_required'] is False and verify['network_used'] is False
     assert not (target/'.venv').exists()
@@ -77,6 +84,12 @@ def test_v2_executor_materializes_neutral_clean_project_shell(tmp_path: Path) ->
     project=(target/'.devpilot/project.yaml').read_text(encoding='utf-8')
     assert 'business_need:' in project and 'technology_decision_status: deferred-to-architecture' in project
     assert 'baseline: "mock-no-api"' in project
+    runtime=result.data['execution']['project_context_runtime']; assert runtime['status']=='PASS'
+    assert Path(runtime['runtime_registry_path']).is_file()
+    assert Path(runtime['engineering_state_path']).is_file()
+    assert result.data['execution']['platform_runtime_state_writes']==2
+    assert result.data['execution']['controlled_platform_state_writes']==2
+    assert result.data['execution']['project_writes_outside_workspace']==0
 
 def test_project_entry_ui_exposes_need_constraints_model_policy_and_deferred_technology() -> None:
     source=(ROOT/'ui/web/src/pages/ProjectEntryDryRunView.ts').read_text(encoding='utf-8')

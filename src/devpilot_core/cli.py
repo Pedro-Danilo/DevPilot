@@ -5147,6 +5147,20 @@ def api_serve_command(
 
     root = project_root()
     from .interfaces.api import validate_api_bind_host
+    from .workspace.runtime_project_context import bind_persisted_project_runtime
+
+    try:
+        runtime_project_binding = bind_persisted_project_runtime(root)
+    except Exception as exc:
+        result = CommandResult(
+            command="api serve",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Persisted active-project runtime context is invalid; API start is blocked fail-closed.",
+            findings=[Finding(id="API_ACTIVE_PROJECT_CONTEXT_BLOCK", message=str(exc), severity=Severity.BLOCK)],
+        )
+        print_result(result, json_output=json_output)
+        return int(result.exit_code)
 
     bind_guard = validate_api_bind_host(host=host, port=port)
     if not bind_guard.ok:
@@ -5174,6 +5188,8 @@ def api_serve_command(
                 "external_api_used": False,
                 "network_used": False,
                 "preliminary": True,
+                "runtime_project_context_bound": bool(runtime_project_binding.applied),
+                "runtime_project_context_env": sorted(runtime_project_binding.applied),
                 "host_bind_validation": bind_guard.data.get("summary", {}),
                 **security_summary,
             },
@@ -5231,10 +5247,15 @@ def api_serve_command(
                     findings=[Finding(id="API_UVICORN_MISSING", message=str(exc), severity=Severity.ERROR)],
                 )
                 print_result(error, json_output=json_output)
+                runtime_project_binding.restore()
                 return int(error.exit_code)
-            uvicorn.run(app, host=host, port=port)
+            try:
+                uvicorn.run(app, host=host, port=port)
+            finally:
+                runtime_project_binding.restore()
             return int(ExitCode.PASS)
 
+    runtime_project_binding.restore()
     result = _write_optional_command_report(
         root,
         result,

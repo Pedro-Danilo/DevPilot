@@ -141,6 +141,9 @@ class ProjectEntryDryRunService:
         registration = plan.get("workspace_registration") or {}
         if registration.get("operation_id"):
             operation_ids.append(str(registration["operation_id"]))
+        for effect in plan.get("expected_side_effects", []):
+            if isinstance(effect, Mapping) and effect.get("operation_id"):
+                operation_ids.append(str(effect["operation_id"]))
         return {
             "schema_id": APPROVAL_PREVIEW_SCHEMA_ID,
             "preview_only": True,
@@ -172,6 +175,11 @@ class ProjectEntryDryRunService:
             "files_total": len(plan.get("files", [])),
             "git_operations": [row.get("operation_id") for row in plan.get("git_operations", [])],
             "dependency_jobs": [row.get("job_id") for row in plan.get("dependency_jobs", [])],
+            "platform_runtime_state_effects": [
+                {"operation_id": row.get("operation_id"), "subject": row.get("subject")}
+                for row in plan.get("expected_side_effects", [])
+                if isinstance(row, Mapping) and row.get("kind") == "platform-runtime-state-write"
+            ],
             "network_required_by_plan": bool(plan.get("network", {}).get("required_by_plan")),
             "runtime_network_used": False,
             "writes_performed": False,

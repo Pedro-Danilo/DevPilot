@@ -15,6 +15,7 @@ from typing import Any, Mapping
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PathGuard, PolicyEffect, configured_external_workspace_roots
 from devpilot_core.workspace.project_entry_contracts import GitSourceKind, ProjectEntryMode, ProjectIntake, stable_sha256
+from devpilot_core.workspace.runtime_project_context import activate_project_runtime_context
 
 BOOTSTRAP_EXECUTION_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-EXECUTION-V1"
 BOOTSTRAP_ROLLBACK_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-D-BOOTSTRAP-ROLLBACK-V1"
@@ -385,6 +386,23 @@ class ProjectBootstrapExecutor:
             stage_finish(row, verification=verify)
             maybe_fault("verify")
 
+            project_context_runtime = None
+            if intake.business_need and intake.technology_decision_status == "deferred-to-architecture":
+                declared_runtime_ops = {
+                    str(row.get("operation_id") or "")
+                    for row in plan.get("expected_side_effects", [])
+                    if isinstance(row, Mapping) and row.get("kind") == "platform-runtime-state-write"
+                }
+                required_runtime_ops = {"project.runtime-context.register", "project.engineering-state.initialize"}
+                if intake.schema_id == "SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2" and not required_runtime_ops.issubset(declared_runtime_ops):
+                    raise RuntimeError("runtime-context-effects-not-declared-in-approved-plan")
+                project_context_runtime = activate_project_runtime_context(
+                    self.platform_root,
+                    target,
+                    allowed_roots=self.allowed_roots,
+                    initialize_engineering_state=True,
+                )
+
         except Exception as exc:
             rollback = self._rollback(
                 target,
@@ -450,6 +468,10 @@ class ProjectBootstrapExecutor:
             "dependency_mode": data.dependency_mode,
             "duration_ms": duration_ms,
             "completed_at": _utcnow(),
+            "project_context_runtime": project_context_runtime,
+            "platform_runtime_state_writes": 2 if project_context_runtime else 0,
+            "controlled_platform_state_writes": 2 if project_context_runtime else 0,
+            "project_writes_outside_workspace": 0,
         }
         execution["execution_hash"] = stable_sha256(execution)
         manifest = target / ".devpilot" / "bootstrap-execution.json"

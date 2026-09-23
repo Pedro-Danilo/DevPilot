@@ -281,6 +281,30 @@ class EnvironmentDiscoveryService:
             "approval_required": True,
             "execution_status": "planned-only",
         }
+        runtime_context_effects: list[dict[str, Any]] = []
+        if (
+            create_mode
+            and intake.schema_id == "SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2"
+            and intake.technology_decision_status == "deferred-to-architecture"
+        ):
+            runtime_context_effects = [
+                {
+                    "kind": "platform-runtime-state-write",
+                    "operation_id": "project.runtime-context.register",
+                    "subject": "outputs/runtime/active_workspace_registry.json",
+                    "scope": "devpilot-platform-runtime-state",
+                    "declared": True,
+                    "network_required": False,
+                },
+                {
+                    "kind": "platform-runtime-state-write",
+                    "operation_id": "project.engineering-state.initialize",
+                    "subject": f"outputs/workspaces/{intake.project_id}/engineering_state.json",
+                    "scope": "devpilot-platform-runtime-state",
+                    "declared": True,
+                    "network_required": False,
+                },
+            ]
 
         plan_without_hash: dict[str, Any] = {
             "schema_id": BOOTSTRAP_PLAN_SCHEMA_ID,
@@ -320,7 +344,9 @@ class EnvironmentDiscoveryService:
                 "bound_to_plan_hash": True,
                 "human_session_required": True,
             },
-            "expected_side_effects": _expected_side_effects(directories, files, git_operations, dependency_jobs, registration),
+            "expected_side_effects": _expected_side_effects(
+                directories, files, git_operations, dependency_jobs, registration, runtime_context_effects
+            ),
             "rollback_steps": _rollback_steps(intake.entry_mode),
             "missing_tool_alternatives": discovery_report.get("alternatives", []),
             "safety": {
@@ -860,6 +886,7 @@ def _expected_side_effects(
     git_operations: Sequence[Mapping[str, Any]],
     dependency_jobs: Sequence[Mapping[str, Any]],
     registration: Mapping[str, Any],
+    runtime_context_effects: Sequence[Mapping[str, Any]] = (),
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     rows.extend({"kind": "directory-create", "subject": item["relative_path"], "declared": True} for item in directories)
@@ -867,6 +894,7 @@ def _expected_side_effects(
     rows.extend({"kind": "git-operation", "subject": item["operation_id"], "declared": True} for item in git_operations)
     rows.extend({"kind": "dependency-job", "subject": item["job_id"], "declared": True} for item in dependency_jobs)
     rows.append({"kind": "workspace-registration", "subject": registration["workspace_id"], "declared": True})
+    rows.extend(dict(item) for item in runtime_context_effects)
     return rows
 
 

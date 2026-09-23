@@ -390,3 +390,11 @@ Permanecen bloqueados arbitrary shell, remote execution, public/non-local API, e
 Para greenfield `CREATE_NEW`, la entrada de proyecto separa el bootstrap de autoridad (workspace/Git/metadata/contexto) del scaffold tecnológico. El stack permanece `undecided` hasta que Requirements + Architecture produzcan una decisión gobernada. Véase `docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md`.
 
 La necesidad de negocio capturada en Project Entry es input de dominio autoritativo para el Guided SDLC; no concede tool authority ni equivale a un prompt libre. La materialización posterior de stack/manifests/dependencias exige plan, dry-run, aprobación y evidencia propios.
+
+## 21. GSDLC-13 — Contexto runtime persistente y launcher estable
+
+El Project Shell greenfield separa source del proyecto y estado operacional de DevPilot. Después de un bootstrap `CREATE_NEW` aprobado, DevPilot persiste el workspace activo bajo `outputs/runtime/` y materializa el `WorkspaceEngineeringState` inicial bajo `outputs/workspaces/<workspace_id>/`. Ambos son runtime state gitignored y no forman parte del repositorio administrado.
+
+`api serve` carga ese contexto automáticamente cuando existe, de modo que launch/login/Home/Project Status no requieren comandos distintos según la fase. En `CREATE_NEW` futuros, los writes a `outputs/runtime/active_workspace_registry.json` y `outputs/workspaces/<workspace_id>/engineering_state.json` forman parte de los efectos declarados del BootstrapPlan y del approval binding; no son side effects ocultos. La autorización de una raíz externa continúa siendo una decisión de plataforma: el browser no puede auto-concederse filesystem scope. La experiencia de producción debe persistir roots aprobados desde setup/Global Settings para que el launcher sea estable desde el primer proyecto.
+
+Véase `docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md`.

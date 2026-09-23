@@ -37202,6 +37202,63 @@
         "test_must_pass",
         "frontmatter_status"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [
+        "docs/02_architecture/architecture_document.md"
+      ],
+      "doc_id": "ADR-DEVPL-GSDLC-13-B-03-PERSISTENT-ACTIVE-PROJECT-RUNTIME-CONTEXT",
+      "domain": "guided_sdlc.project_status.runtime_context",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "notes": [
+        "13-B-03 corrective: persistent active-project runtime registry, initial engineering state and standard api serve auto-binding."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_b_03_runtime_project_context_corrective.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-B-03-BLOCK-ADJUDICATION",
+      "domain": "acceptance.corrective",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "notes": [
+        "First-attempt B-03 BLOCK preserved; no restart performed after EMPTY/UNKNOWN."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_B_03_BLOCK_ADJUDICATION_v1_0_0.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_b_03_runtime_project_context_corrective.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-B"
+      ],
+      "status_required": "active-corrective",
+      "sync_rules": [
+        "frontmatter_status"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -37602,6 +37659,7 @@
   "gsdlc_12_full_regression_budget_consumed": 1,
   "gsdlc_12_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_13_authorized": true,
+  "gsdlc_13_b_02_corrective_status": "implementation-candidate/pending-windows-validation",
   "gsdlc_13_execution_deferred_by": "DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION",
   "gsdlc_13_execution_deferred_until": "DEVPL-UX-P0-E/CLOSED-PASS-WINDOWS-VALIDATED",
   "gsdlc_active_program": "DEVPL-GSDLC",
@@ -40153,20 +40211,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1492,
+    "critical_sources_total": 1495,
     "deprecated_total": 0,
-    "derived_total": 178,
-    "documents_total": 1588,
-    "documents_with_required_tests_total": 1588,
+    "derived_total": 179,
+    "documents_total": 1591,
+    "documents_with_required_tests_total": 1591,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 19,
-    "last_updated_by": "DEVPL-UX-P0-A",
+    "last_updated_by": "DEVPL-GSDLC-13-B-03-CORRECTIVE",
     "machine_readable_source_total": 815,
-    "markdown_json_pairs_total": 72,
+    "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 576
+    "source_of_truth_total": 578
   },
   "updated": "2026-09-22",
   "updated_at": "2026-09-22",
@@ -40225,6 +40283,5 @@
   "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
   "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_13_b_02_corrective_status": "implementation-candidate/pending-windows-validation"
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
 }
