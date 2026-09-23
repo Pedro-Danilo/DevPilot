@@ -16,6 +16,7 @@ from devpilot_core.miasi.applicability import MIASIApplicabilityEvaluator
 from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
 from devpilot_core.validators.artifact import extract_headings, normalize_heading
 from devpilot_core.validators.frontmatter import parse_frontmatter_text, validate_frontmatter_document
+from devpilot_core.workspace.runtime_project_context import parse_project_yaml_metadata
 
 from .artifact_lifecycle_service import ArtifactLifecycleService, ArtifactState
 from .artifact_review_service import ArtifactReviewApplicationService
@@ -37,7 +38,11 @@ def _sha_bytes(data: bytes) -> str:
 
 
 class PreCodeWizardApplicationService:
-    """Server-authoritative GSDLC-05-E manual/import pre-code vertical slice.
+    """Server-authoritative governed pre-code vertical slice.
+
+    GSDLC-13-C extends the historical MANUAL/IMPORT surface with a deterministic
+    local/no-API proposal mode for Vision/Scope/Requirements. Human review, diff,
+    approval, apply and freeze remain unchanged and server-authoritative.
 
     Runtime drafts/state live under platform outputs and never write managed source
     until the inherited UOC-005 approval-bound apply executes. The service composes
@@ -79,16 +84,22 @@ class PreCodeWizardApplicationService:
         normalized_mode=str(mode or '').upper()
         if normalized_mode not in stage['allowed_modes']:
             return self._block(command,'GSDLC05E_MODE_POLICY_BLOCK','Selected authoring mode is not allowed for the current stage.',metadata={'stage_id':stage_id,'mode':normalized_mode})
-        if normalized_mode not in {'MANUAL','IMPORT'}:
-            return self._block(command,'GSDLC05E_MODE_BLOCK','Only MANUAL/IMPORT are available in GSDLC-05-E.')
-        content=str(content or '')
-        if not content.strip():return self._block(command,'GSDLC05E_EMPTY_DRAFT_BLOCK','Draft content is required.')
+        if normalized_mode not in {'MANUAL','IMPORT','DEVPL_MOCK'}:
+            return self._block(command,'GSDLC05E_MODE_BLOCK','Only governed MANUAL/IMPORT/DEVPL_MOCK modes are available.')
         state=self._load_state(workspace_id)
         current=self._current_stage(state)
         if current is None:
             return self._block(command,'GSDLC05E_ALREADY_READY_BLOCK','Pre-code wizard is already complete.')
         if current['stage_id'] != stage_id:
             return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Mandatory pre-code stages cannot be skipped.',metadata={'requested_stage':stage_id,'current_stage':current['stage_id']})
+        derivation=None
+        content=str(content or '')
+        if normalized_mode=='DEVPL_MOCK':
+            generated=self._derive_local_proposal(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state)
+            if isinstance(generated,CommandResult): return generated
+            content,derivation=generated
+        elif not content.strip():
+            return self._block(command,'GSDLC05E_EMPTY_DRAFT_BLOCK','Draft content is required for MANUAL/IMPORT.')
         target=(workspace_root/str(stage['relative_path'])).resolve()
         try: target.relative_to(workspace_root.resolve())
         except ValueError:return self._block(command,'GSDLC05E_TARGET_SCOPE_BLOCK','Pre-code artifact escaped the active workspace.')
@@ -96,15 +107,16 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC05E_TARGET_PARENT_BLOCK','The project bootstrap must provide the governed document parent directory before authoring.',metadata={'relative_path':stage['relative_path']})
         base_sha=_sha_bytes(target.read_bytes()) if target.is_file() else ZERO_SHA256
         artifact_id='precode_'+hashlib.sha256(f"{workspace_id}|{stage_id}|{_sha_bytes(content.encode())}".encode()).hexdigest()[:24]
+        lifecycle_source='AGENT_ASSISTED' if normalized_mode=='DEVPL_MOCK' else normalized_mode
         draft=self.lifecycle.create_draft(
-            artifact_id=artifact_id,relative_path=str(stage['relative_path']),content=content,source_type=normalized_mode,
+            artifact_id=artifact_id,relative_path=str(stage['relative_path']),content=content,source_type=lifecycle_source,
             base_commit=self._base_commit(workspace_root),actor=actor,actor_role=actor_role,session_principal=session_principal,
-            reviewer=actor,reviewer_role=actor_role,source_label=f'GSDLC-05-E {normalized_mode} browser DRAFT',
+            reviewer=actor,reviewer_role=actor_role,source_label='DevPilot deterministic local proposal' if normalized_mode=='DEVPL_MOCK' else f'GSDLC-05-E {normalized_mode} browser DRAFT',
             source_reference=f'pre-code:{workspace_id}:{stage_id}:{normalized_mode.lower()}',
         )
         if not draft.ok:return draft
         row=self._stage_state(state,stage_id)
-        row.update({'status':'DRAFT','mode':normalized_mode,'content':content,'content_sha256':_sha_bytes(content.encode()),'base_sha256':base_sha,'artifact':draft.data['artifact'],'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'updated_at':_now()})
+        row.update({'status':'DRAFT','mode':normalized_mode,'content':content,'content_sha256':_sha_bytes(content.encode()),'base_sha256':base_sha,'artifact':draft.data['artifact'],'derivation':derivation,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'updated_at':_now()})
         state['status']='IN_PROGRESS'; state['updated_at']=_now(); self._write_state(workspace_id,state)
         return self._pass(command,'GSDLC05E_DRAFT_SAVED_PASS','Server-authoritative DRAFT persisted outside managed source; source mutation remains false.',{'stage':self._public_stage(row,stage),'source_mutations_performed':False})
 
@@ -227,13 +239,15 @@ class PreCodeWizardApplicationService:
             ctx=AdvisorContext(workspace_id=workspace_id,current_step=str(current['advisor_step']),effective_roles=tuple(effective_roles),workspace_scopes=tuple(workspace_scopes),artifact_readiness='READY' if artifact_status in {'DRAFT','APPROVAL_REQUIRED','FROZEN'} else 'UNKNOWN',miasi_gate_status=str(miasi.get('gate_status') or 'BLOCK'),provider_status='NOT_AVAILABLE',budget_status='NOT_APPLICABLE',active_project_context=True)
             advisor_payload=self.advisor.advise(ctx).to_payload()
         readiness=self._readiness_payload(state,workspace_id,workspace_root,miasi=miasi)
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':False,'agent_execution_used':False,'rag_execution_used':False}
+        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':False,'agent_execution_used':False,'rag_execution_used':False,'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _readiness_payload(self,state:dict[str,Any],workspace_id:str,workspace_root:Path,*,miasi:dict[str,Any]|None=None)->dict[str,Any]:
         blockers=[]; artifacts=[]
         miasi=miasi or self._miasi_payload(workspace_id)
-        if str(miasi.get('gate_status') or 'BLOCK').upper()!='PASS':
-            blockers.append({'stage_id':'miasi-applicability','status':str(miasi.get('status') or 'REVIEW_REQUIRED'),'reason':'MIASI gate must PASS before Guided Pre-code readiness can PASS','reason_codes':list(miasi.get('reason_codes') or [])})
+        miasi_gate=str(miasi.get('gate_status') or 'BLOCK').upper()
+        miasi_required_now=self._current_stage(state) is None
+        if miasi_gate!='PASS' and (miasi_gate!='DEFERRED' or miasi_required_now):
+            blockers.append({'stage_id':'miasi-applicability','status':str(miasi.get('status') or 'REVIEW_REQUIRED'),'reason':'MIASI gate must PASS at strict pre-code readiness; before that checkpoint missing context is DEFERRED','reason_codes':list(miasi.get('reason_codes') or [])})
         for stage in self._stages:
             row=self._stage_state(state,stage['stage_id']); target=(workspace_root/stage['relative_path']).resolve(); status=str(row.get('status') or 'MISSING'); actual_sha=_sha_bytes(target.read_bytes()) if target.is_file() else None
             expected=str(row.get('approved_sha256') or '') or None
@@ -248,10 +262,28 @@ class PreCodeWizardApplicationService:
         return {'schema_id':'devpilot.gsdlc05e.pre_code_readiness.v1','profile_id':self.catalog['profile_id'],'strict':True,'scope':'guided-pre-code-manual-v1/vertical-slice','status':'PASS' if not blockers else 'BLOCK','pre_code_ready':not blockers,'mandatory_stages_total':len(self._stages),'mandatory_stages_frozen':sum(1 for x in artifacts if x['lifecycle_state']=='FROZEN'),'artifacts':artifacts,'miasi':miasi,'blockers':blockers,'historical_global_readiness_replaced':False,'network_used':False,'external_api_used':False}
 
     def _miasi_payload(self,workspace_id:str)->dict[str,Any]:
+        context_path=self.miasi.context_path(workspace_id)
+        if not context_path.is_file():
+            try: context_source=context_path.relative_to(self.root).as_posix()
+            except ValueError: context_source=str(context_path)
+            return {
+                'status':'NOT_EVALUATED','gate_status':'DEFERRED',
+                'reason_codes':['MIASI_APPLICABILITY_DEFERRED_UNTIL_PRE_CODE'],
+                'risk_level':'unknown','project_decision':{},'feature_decisions':[],
+                'required_controls':[],'missing_controls':[],'policy_binding':{},'blockers':[],
+                'evidence_refs':[],'context_source':context_source,'reevaluation_required':True,
+                'agent_execution_allowed':False,'rag_execution_allowed':False,
+                'execution_reason_code':'MIASI_EVALUATION_DEFERRED',
+                'network_used':False,'external_api_used':False,'model_execution_used':False,
+                'agents_executed':False,'rag_executed':False,'source_mutations_performed':False,
+                'pre_code_authoritative':False,'blocking_scope':'pre-code-readiness',
+            }
         try:
-            return self.miasi.evaluate_workspace(workspace_id, {'artifacts': []}).to_payload()
+            payload=self.miasi.evaluate_workspace(workspace_id, {'artifacts': []}).to_payload()
+            payload.update({'pre_code_authoritative':True,'blocking_scope':'pre-code-readiness'})
+            return payload
         except Exception:
-            # Fail closed without surfacing parser/filesystem internals to the browser.
+            # Once context exists MIASI is authoritative and evaluator failures remain fail-closed.
             return {
                 'status':'REVIEW_REQUIRED','gate_status':'BLOCK',
                 'reason_codes':['MIASI_APPLICABILITY_EVALUATION_ERROR'],
@@ -262,6 +294,7 @@ class PreCodeWizardApplicationService:
                 'agent_execution_allowed':False,'rag_execution_allowed':False,
                 'network_used':False,'external_api_used':False,'model_execution_used':False,
                 'agents_executed':False,'rag_executed':False,'source_mutations_performed':False,
+                'pre_code_authoritative':True,'blocking_scope':'pre-code-readiness',
             }
 
     def _load_catalog(self)->dict[str,Any]:
@@ -279,7 +312,7 @@ class PreCodeWizardApplicationService:
         return str(context.active_workspace_id),context.active_workspace_root.resolve()
 
     def _initial_state(self,workspace_id:str)->dict[str,Any]:
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_state.v1','workspace_id':workspace_id,'profile_id':self.catalog['profile_id'],'status':'NOT_STARTED','stages':{x['stage_id']:{'stage_id':x['stage_id'],'status':'MISSING','mode':None,'content_sha256':None,'base_sha256':None,'artifact':None,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'findings':[],'validation':{},'updated_at':None} for x in self._stages},'created_at':_now(),'updated_at':_now(),'completed_at':None}
+        return {'schema_id':'devpilot.gsdlc05e.pre_code_state.v1','workspace_id':workspace_id,'profile_id':self.catalog['profile_id'],'status':'NOT_STARTED','stages':{x['stage_id']:{'stage_id':x['stage_id'],'status':'MISSING','mode':None,'content_sha256':None,'base_sha256':None,'artifact':None,'derivation':None,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'findings':[],'validation':{},'updated_at':None} for x in self._stages},'created_at':_now(),'updated_at':_now(),'completed_at':None}
 
     def _state_path(self,workspace_id:str)->Path:
         safe=re.sub(r'[^A-Za-z0-9_.-]','_',workspace_id); return self.root/STORE_ROOT/safe/'state.json'
@@ -307,7 +340,111 @@ class PreCodeWizardApplicationService:
     def _stage_state(state:dict[str,Any],stage_id:str)->dict[str,Any]: return state['stages'][stage_id]
     @staticmethod
     def _public_stage(row:dict[str,Any],stage:dict[str,Any])->dict[str,Any]:
-        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
+        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
+    def _derive_local_proposal(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any]) -> tuple[str, dict[str, Any]] | CommandResult:
+        command='guided pre-code deterministic local proposal'
+        if stage_id not in {'product-vision','scope','requirements'}:
+            return self._block(command,'GSDLC13C01_DERIVATION_SCOPE_BLOCK','DEVPL_MOCK derivation is limited to Vision/Scope/Requirements in 13-C-01.')
+        project_file=workspace_root/'.devpilot/project.yaml'
+        if not project_file.is_file():
+            return self._block(command,'GSDLC13C01_PROJECT_CONTEXT_BLOCK','Project context is missing; deterministic proposal cannot be grounded.')
+        metadata=parse_project_yaml_metadata(project_file)
+        need=str(metadata.get('business_need') or '').strip()
+        name=str(metadata.get('project_name') or metadata.get('project_id') or workspace_id).strip()
+        if len(need)<20:
+            return self._block(command,'GSDLC13C01_BUSINESS_NEED_BLOCK','Persisted business need is missing or too short for governed derivation.')
+        refs=[{'path':'.devpilot/project.yaml','sha256':_sha_bytes(project_file.read_bytes()),'kind':'business-need'}]
+        sources={'business_need':need,'project_name':name}
+        if stage_id in {'scope','requirements'}:
+            previous_id='product-vision' if stage_id=='scope' else 'scope'
+            previous_stage=self._stage_by_id[previous_id]
+            previous_row=self._stage_state(state,previous_id)
+            if previous_row.get('status')!='FROZEN':
+                return self._block(command,'GSDLC13C01_PREVIOUS_STAGE_REQUIRED_BLOCK','The previous governed stage must be FROZEN before derivation.',metadata={'required_stage':previous_id})
+            previous_path=workspace_root/str(previous_stage['relative_path'])
+            if not previous_path.is_file():
+                return self._block(command,'GSDLC13C01_PREVIOUS_SOURCE_MISSING_BLOCK','Frozen previous-stage source is missing.',metadata={'required_stage':previous_id})
+            previous_text=previous_path.read_text(encoding='utf-8')
+            refs.append({'path':str(previous_stage['relative_path']),'sha256':_sha_bytes(previous_path.read_bytes()),'kind':'frozen-input'})
+            sources[previous_id]=previous_text
+        content=self._proposal_markdown(stage_id=stage_id,workspace_id=workspace_id,project_name=name,business_need=need)
+        derivation={
+            'schema_id':'devpilot.gsdlc13c01.deterministic_derivation.v1',
+            'mode':'DEVPL_MOCK','provider':'devpilot-local','model':'deterministic-context-template-v1',
+            'network_used':False,'external_api_used':False,'cost_usd':0.0,
+            'source_refs':refs,'source_context_sha256':_sha_bytes(json.dumps(sources,sort_keys=True,ensure_ascii=False).encode('utf-8')),
+            'generated_content_sha256':_sha_bytes(content.encode('utf-8')),
+            'owner_review_required':True,'approval_required_before_source_write':True,
+        }
+        return content,derivation
+
+    @staticmethod
+    def _business_clauses(text: str) -> list[str]:
+        normalized=' '.join(str(text or '').split())
+        parts=[x.strip(' .') for x in re.split(r'[;.]|,\s+(?=(?:y\s+)?[A-Za-zÁÉÍÓÚáéíóúÑñ])', normalized) if x.strip(' .')]
+        return parts[:10] or [normalized]
+
+    def _proposal_markdown(self, *, stage_id: str, workspace_id: str, project_name: str, business_need: str) -> str:
+        date=_now()[:10]
+        clauses=self._business_clauses(business_need)
+        doc_id=f"{workspace_id.upper().replace('-','_')}_{stage_id.upper().replace('-','_')}"
+        title={'product-vision':'Product Vision','scope':'MVP Scope','requirements':'Requirements Specification'}[stage_id]
+        front=[
+            '---',f'doc_id: "{doc_id}"',f'title: "{title} — {project_name}"','status: "draft"','version: "0.1.0"',
+            'owner: "Owner / DevPilot"',f'updated: "{date}"','---','',f'# {title}',''
+        ]
+        if stage_id=='product-vision':
+            body=[
+                '## Resumen ejecutivo','',f'Propuesta inicial derivada por DevPilot del contexto persistido de **{project_name}**. Está sujeta a revisión y aprobación humana.','',
+                '## Problema','',business_need,'',
+                '## Visión','',f'Permitir que {project_name} resuelva de forma local, gobernada y trazable la necesidad descrita, sin fijar todavía decisiones de arquitectura o stack tecnológico.','',
+                '## MVP','',*sum(([f'- {c}.',''] for c in clauses),[]),
+                '## Indicadores','',
+                '- Las capacidades explícitas del problema pueden recorrerse de extremo a extremo en el MVP.','',
+                '- Las operaciones críticas producen resultados verificables y trazables por el Owner.','',
+                '- La solución conserva el principio local-first y no requiere una API externa para su baseline.','',
+                '## Local-first','',
+                'El baseline debe funcionar localmente; cualquier servicio externo futuro requiere decisión explícita, provenance y aprobación.','',
+                '## Post-MVP','',
+                'No se incorporan automáticamente capacidades Post-MVP en esta propuesta. Se priorizarán solo después de validar el alcance del MVP.','',
+            ]
+        elif stage_id=='scope':
+            body=[
+                '## MVP','',*sum(([f'- Incluir la capacidad necesaria para: {c}.',''] for c in clauses),[]),
+                '## MVP+','',
+                '- No se materializan ítems MVP+ por defecto; cualquier ampliación requiere decisión explícita del Owner.','',
+                '## Out of scope','',
+                '- Selección de frontend, backend, base de datos o framework antes de Architecture.','',
+                '- Cloud obligatorio o dependencia obligatoria de API externa.','',
+                '- Capacidades no justificadas por la necesidad de negocio o por una decisión gobernada posterior.','',
+                '## Criterios','',
+                '- El MVP cubre cada capacidad explícita del business need.','',
+                '- El alcance mantiene tecnología diferida hasta Architecture.','',
+                '- El baseline conserva local-first y mock/no-API como ruta sin costo.','',
+                '## Restricciones','',
+                '- No se permiten project writes externos al flujo gobernado de DevPilot.','',
+                '- Las ampliaciones deben conservar trazabilidad hacia Vision y necesidad de negocio.','',
+            ]
+        else:
+            rf=[]
+            for i,c in enumerate(clauses,1):
+                rf.extend([f'- **RF-{i:03d}** — El sistema debe soportar de forma verificable la necesidad: {c}.',''])
+            body=[
+                '## Propósito','',f'Definir requisitos iniciales verificables para el MVP de {project_name}, derivados de Vision, Scope y del business need persistido.','',
+                '## Alcance','',business_need,'',
+                '## Requerimientos funcionales del MVP','',*rf,
+                '## Requerimientos no funcionales','',
+                '- **RNF-001 — Local-first:** el baseline debe poder operar localmente sin cloud obligatorio.','',
+                '- **RNF-002 — Proveedor:** el baseline de modelos es mock/sin API externa; proveedores externos requieren aprobación y provenance.','',
+                '- **RNF-003 — Trazabilidad:** cambios gobernados deben conservar plan/diff, approval y evidencia verificable.','',
+                '- **RNF-004 — Decisión tecnológica diferida:** frontend, backend y base de datos se determinan en Architecture.','',
+                '## Criterios de bloqueo','',
+                '- BLOCK si una capacidad funcional del business need queda fuera del MVP sin decisión explícita.','',
+                '- BLOCK si se fija arquitectura o stack antes del checkpoint correspondiente.','',
+                '- BLOCK si una dependencia externa obligatoria aparece sin aprobación/provenance.','',
+            ]
+        return '\n'.join(front+body).rstrip()+'\n'
+
     @staticmethod
     def _identity(actor:str,actor_role:str,principal:str,effective_roles:list[str])->CommandResult|None:
         if not actor.strip() or actor.strip()!=principal.strip():return PreCodeWizardApplicationService._block('guided pre-code','GSDLC05E_SESSION_ACTOR_BINDING_BLOCK','Authenticated actor/session binding is required.')

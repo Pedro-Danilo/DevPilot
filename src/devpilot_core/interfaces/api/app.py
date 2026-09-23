@@ -63,6 +63,7 @@ def _security_json_response(request: Request, payload: dict[str, Any], status_co
     origin = request.headers.get("origin")
     if _origin_is_allowed(origin, config):
         headers["Access-Control-Allow-Origin"] = str(origin)
+        headers["Access-Control-Allow-Credentials"] = "true"
         headers["Vary"] = "Origin"
         headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
     headers["X-DevPilot-Api-Security"] = API_SECURITY_HEADER_VALUE
@@ -101,6 +102,14 @@ def create_app(
         enforce_workspace_paths=True,
         approval_auth_store=app.state.auth_service.store,
     )
+    # GSDLC-13-C: project-scoped RBAC authority follows the trusted persisted
+    # server-active project. This is not browser self-service: the id is resolved
+    # from UiWorkspaceContextResolver after api-serve binds persisted runtime state.
+    # Existing owner roles/scopes are preserved and stale sessions are revoked by
+    # the auth store if an authority update is required.
+    workspace_context = app.state.application_service.ui_workspace_context.resolve()
+    active_workspace_id = str(workspace_context.active_workspace_id or "").strip() if workspace_context.configured and workspace_context.valid else ""
+    app.state.active_workspace_scope_reconciliation = app.state.auth_service.reconcile_active_workspace_scope(active_workspace_id)
     # UOC-008: reconcile stale/orphan governed jobs at API startup. The result is
     # retained for diagnostics; reconciliation never promotes an orphan to PASS.
     app.state.governed_job_reconciliation = app.state.application_service.jobs_reconcile(stale_after_seconds=120).to_dict()
@@ -114,6 +123,7 @@ def create_app(
         origin = request.headers.get("origin")
         if _origin_is_allowed(origin, request.app.state.api_security):
             headers["Access-Control-Allow-Origin"] = str(origin)
+            headers["Access-Control-Allow-Credentials"] = "true"
             headers["Vary"] = "Origin"
             headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
         headers["X-DevPilot-Api-Security"] = API_SECURITY_HEADER_VALUE

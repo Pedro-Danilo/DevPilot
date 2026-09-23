@@ -279,7 +279,7 @@ export class DevPilotApiClient {
     return this.get('/guided-sdlc/pre-code', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
   }
 
-  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT'; content: string }): Promise<DevPilotApplicationResponse> {
+  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK'; content: string }): Promise<DevPilotApplicationResponse> {
     return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/draft`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 

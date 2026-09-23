@@ -16,8 +16,8 @@ router = APIRouter(tags=["guided-sdlc"])
 
 
 class PreCodeDraftBody(BaseModel):
-    mode: str = Field(pattern=r"^(MANUAL|IMPORT)$")
-    content: str = Field(min_length=1, max_length=1048576)
+    mode: str = Field(pattern=r"^(MANUAL|IMPORT|DEVPL_MOCK)$")
+    content: str = Field(default="", max_length=1048576)
 
 
 class PreCodeApprovalBody(BaseModel):

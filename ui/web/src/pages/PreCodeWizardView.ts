@@ -56,7 +56,11 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       if(!response.ok) throw new Error(response.message);
       render(response.data.pre_code,message);
     } catch(error) {
-      const text=error instanceof DevPilotApiError && error.status===0 ? 'API local no disponible. El wizard falla cerrado: ninguna acción mutante queda habilitada.' : error instanceof Error ? error.message : 'No fue posible cargar el wizard.';
+      if(error instanceof DevPilotApiError && error.status===403){
+        body.replaceChildren(statusBox('block','BLOCK: la API local está disponible, pero RBAC/policy denegó el acceso a Pre-code (HTTP 403). DevPilot no mutó el proyecto. Conserve esta evidencia; no reingrese contenido por fuera del producto.'));
+        return;
+      }
+      const text=error instanceof DevPilotApiError && error.status===0 ? 'API/transporte local no disponible. El wizard falla cerrado: ninguna acción mutante queda habilitada.' : error instanceof Error ? error.message : 'No fue posible cargar el wizard.';
       body.replaceChildren(statusBox('block',text));
     }
   }
@@ -127,6 +131,11 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       if(feedback) setFeedback(feedback,'pass',action.kind==='PASTE'?'PASTE listo: pegue el contenido en el editor MANUAL gobernado y después guarde DRAFT.':'MANUAL listo: escriba o pegue contenido en el editor gobernado y después guarde DRAFT.');
       return true;
     }
+    if(action.kind==='AGENT' && allowed.has('DEVPL_MOCK') && mode){
+      mode.value='DEVPL_MOCK'; mode.dispatchEvent(new Event('change'));
+      if(feedback) setFeedback(feedback,'pass','DevPilot Mock local listo: genera una propuesta determinística desde el business need y artefactos FROZEN, sin red ni API externa.');
+      return true;
+    }
     if(action.kind==='UPLOAD_IMPORT'){
       if(!allowed.has('IMPORT') || !mode || !file){
         return false;
@@ -150,16 +159,17 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const form=document.createElement('div'); form.className='pre-code-stage__editor';
       const modeLabel=document.createElement('label'); modeLabel.textContent='Modo de autoría';
       const mode=document.createElement('select'); mode.dataset.preCodeAuthoringMode='true'; mode.setAttribute('aria-label','Modo de autoría');
-      for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
+      for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?'DevPilot · Mock local / sin API':value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
+      if(stage.mode && stage.allowed_modes.includes(stage.mode)) mode.value=stage.mode;
       const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Contenido Markdown';
-      const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=18; textarea.spellcheck=false; textarea.placeholder='Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';
+      const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=18; textarea.spellcheck=false; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; textarea.value=stage.draft_content??'';
       const fileLabel=document.createElement('label'); fileLabel.textContent='Archivo local para IMPORT';
       const file=document.createElement('input'); file.dataset.preCodeAuthoringFile='true'; file.type='file'; file.accept='.md,text/markdown,text/plain'; file.disabled=mode.value!=='IMPORT';
-      mode.addEventListener('change',()=>{file.disabled=mode.value!=='IMPORT';});
+      mode.addEventListener('change',()=>{file.disabled=mode.value!=='IMPORT'; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; save.textContent=mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT';});
       file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
-      const save=button('Guardar DRAFT',async()=>{
-        setFeedback(feedback,'loading','Guardando DRAFT sin escribir source…');
-        if(!await ensureLiveHumanSession(feedback)) return; try{ const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT',content:textarea.value}); if(!r.ok) throw new Error(formatFindings(r)); await load('DRAFT persistido server-side; source todavía no fue mutado.'); }catch(e){await renderGovernedError(feedback,e);}
+      const save=button(mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT',async()=>{
+        setFeedback(feedback,'loading',mode.value==='DEVPL_MOCK'?'Derivando propuesta local desde el contexto gobernado; sin red ni API externa…':'Guardando DRAFT sin escribir source…');
+        if(!await ensureLiveHumanSession(feedback)) return; try{ const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK',content:mode.value==='DEVPL_MOCK'?'':textarea.value}); if(!r.ok) throw new Error(formatFindings(r)); await load(mode.value==='DEVPL_MOCK'?'Propuesta DevPilot generada como DRAFT. Revísala antes de validar; source todavía no fue mutado.':'DRAFT persistido server-side; source todavía no fue mutado.'); }catch(e){await renderGovernedError(feedback,e);}
       });
       const review=button('Validar y preparar diff',async()=>{
         setFeedback(feedback,'loading','Ejecutando validadores y plan inmutable…');
@@ -167,6 +177,11 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       });
       review.disabled=stage.status==='MISSING';
       form.append(modeLabel,mode,fileLabel,file,textLabel,textarea,save,review); section.append(form);
+      if(stage.derivation){
+        const d=stage.derivation; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
+        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-context-template-v1'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · revisión humana obligatoria.`;
+        section.append(provenance);
+      }
       if(stage.findings?.length){ const findings=document.createElement('ul'); findings.className='pre-code-findings'; for(const row of stage.findings){const li=document.createElement('li'); li.textContent=`${String(row['id']??'finding')}: ${String(row['message']??'')}`; findings.append(li);} section.append(findings); }
     }
 

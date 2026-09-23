@@ -404,3 +404,12 @@ Véase `docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-proj
 Project Status and MIASI fail-closed semantics have different activation boundaries. A newly bootstrapped project has a valid `WorkspaceEngineeringState` before MIASI applicability is classified. While `miasi_applicability_context.json` is absent, Project Status exposes MIASI as `NOT_EVALUATED / DEFERRED` and does not materialize an authoritative blocker. This preserves the approved journey order: Project Status in 13-B, then Vision/Scope/Requirements, technical design, and only then MIASI/Pre-code readiness in 13-C-03.
 
 Once a MIASI applicability context exists, its result is authoritative in Project Status. Invalid/ambiguous context and missing required controls remain fail-closed. `PreCodeWizardApplicationService` remains strict and requires MIASI PASS before pre-code readiness can PASS. This is sequencing of authority, not weakening of MIASI policy.
+
+
+## GSDLC-13-C-01 — Project-scoped auth and derived pre-code
+
+El contexto de proyecto persistido no solo selecciona el workspace activo para la UI/API: también debe reconciliar la autoridad RBAC de la identidad local antes del login. Las rutas con `workspace_scope_source=active-server-context` permanecen fail-closed, pero el owner local recibe el scope del proyecto únicamente desde contexto server-valid.
+
+Para el baseline multi-modelo/sin costo, Vision, Scope y Requirements disponen de una ruta `DEVPL_MOCK` determinística y local. La propuesta se construye desde el business need persistido y artefactos previos FROZEN, se expone para revisión humana y atraviesa el mismo lifecycle de validation/diff → approval → apply → freeze. No se habilita autonomía ni bypass de policies.
+
+MIASI conserva autoridad escalonada: ausencia de contexto antes de C-03 equivale a `NOT_EVALUATED / DEFERRED`; un contexto materializado sí es autoritativo y sus errores/bloqueos siguen fail-closed.

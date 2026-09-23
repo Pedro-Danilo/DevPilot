@@ -1190,7 +1190,7 @@ export interface ArtifactReviewRecord {
   approval_valid: boolean;
 }
 
-// DEVPL-GSDLC-05-E — server-authoritative manual/import pre-code wizard.
+// DEVPL-GSDLC-05-E / GSDLC-13-C — server-authoritative pre-code wizard with governed MANUAL/IMPORT and deterministic local DEVPL_MOCK for C-01.
 export interface PreCodeWizardStage {
   stage_id: string;
   order: number;
@@ -1198,9 +1198,11 @@ export interface PreCodeWizardStage {
   relative_path: string;
   profile_id: string;
   advisor_step: string;
-  allowed_modes: Array<'MANUAL' | 'IMPORT'>;
+  allowed_modes: Array<'MANUAL' | 'IMPORT' | 'DEVPL_MOCK'>;
   status: 'MISSING' | 'DRAFT' | 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPLIED' | 'FROZEN' | string;
-  mode?: 'MANUAL' | 'IMPORT' | null;
+  mode?: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | null;
+  draft_content?: string | null;
+  derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; generated_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean } | null;
   content_sha256?: string | null;
   review_id?: string | null;
   plan_id?: string | null;
@@ -1254,6 +1256,7 @@ export interface PreCodeWizardProjection {
   model_execution_used: false;
   agent_execution_used: false;
   rag_execution_used: false;
+  deterministic_local_derivation_available?: boolean;
 }
 
 export interface PreCodeWizardResponseData {

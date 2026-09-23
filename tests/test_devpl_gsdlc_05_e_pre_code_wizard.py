@@ -101,14 +101,16 @@ def _approve(platform: Path, auth: AuthApplicationService, issue, approval_id: s
     assert result.ok, result.to_dict()
 
 
-def test_catalog_is_seven_stage_sequential_and_manual_import_only():
+def test_catalog_is_seven_stage_sequential_and_preserves_manual_import_with_c01_local_derivation():
     payload = json.loads((ROOT / ".devpilot/gsdlc/pre_code_wizard_catalog.json").read_text(encoding="utf-8"))
     assert payload["schema_id"] == "devpilot.gsdlc05e.pre_code_wizard_catalog.v1"
     assert payload["profile_id"] == "guided-pre-code-manual-v1"
     assert [row["stage_id"] for row in payload["stages"]] == [x[0] for x in STAGES]
     assert [row["order"] for row in payload["stages"]] == list(range(1, 8))
-    assert payload["stages"][0]["allowed_modes"] == ["MANUAL"]
-    assert all(set(row["allowed_modes"]).issubset({"MANUAL", "IMPORT"}) for row in payload["stages"])
+    assert payload["stages"][0]["allowed_modes"] == ["DEVPL_MOCK", "MANUAL"]
+    assert all(set(row["allowed_modes"]).issubset({"MANUAL", "IMPORT", "DEVPL_MOCK"}) for row in payload["stages"])
+    assert all("DEVPL_MOCK" in row["allowed_modes"] for row in payload["stages"][:3])
+    assert all("DEVPL_MOCK" not in row["allowed_modes"] for row in payload["stages"][3:])
 
 
 def test_skip_and_wrong_role_are_fail_closed_before_source_write(env):
@@ -201,15 +203,17 @@ def test_full_seven_stage_service_flow_reaches_pre_code_ready_with_exact_hashes(
 
 
 
-def test_missing_miasi_context_fails_readiness_closed(env):
+def test_missing_miasi_context_is_deferred_before_strict_readiness(env):
     platform, workspace, auth, issue, service = env
     (platform / "outputs/workspaces/gsdlc05e-fixture/miasi_applicability_context.json").unlink()
     status = service.guided_pre_code_status(effective_roles=["owner"], workspace_scopes=[])
     assert status.ok, status.to_dict()
     projection = status.data["pre_code"]
-    assert projection["miasi"]["gate_status"] == "BLOCK"
+    assert projection["miasi"]["gate_status"] == "DEFERRED"
+    assert projection["miasi"]["pre_code_authoritative"] is False
+    assert not any(row.get("stage_id") == "miasi-applicability" for row in projection["readiness"]["blockers"])
+    # Readiness is still BLOCK because mandatory stages are missing, not because MIASI was activated early.
     assert projection["readiness"]["status"] == "BLOCK"
-    assert any(row.get("stage_id") == "miasi-applicability" for row in projection["readiness"]["blockers"])
 
 
 def test_pre_code_api_route_and_registry_contracts_are_explicit():
@@ -240,8 +244,10 @@ def test_ui_pre_code_contract_is_project_scoped_and_has_no_authority_fallback():
     assert "{ path: '/pre-code', routeId: 'ui.pre-code-wizard'" in main
     assert "scope: 'project'" in main
     assert "renderPreCodeWizardView(() => readStoredToken(), session)" in main
-    assert "API local no disponible. El wizard falla cerrado" in view
-    assert "StepActionAdvisor" in view and "AGENT" not in view  # cards come from server projection, not UI recomputation
+    assert "API/transporte local no disponible. El wizard falla cerrado" in view
+    assert "RBAC/policy denegó el acceso a Pre-code (HTTP 403)" in view
+    assert "StepActionAdvisor" in view
+    assert "action.kind==='AGENT'" in view  # server-projected AGENT card may select DEVPL_MOCK; UI does not recompute authority
     assert "preCodeDraft" in client and "preCodeReview" in client and "preCodeFreeze" in client
     assert "armApprovalCenterArtifactReviewHandoff" in view
     assert "handoff=artifact-review&approval_id=" in view

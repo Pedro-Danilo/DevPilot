@@ -66,7 +66,7 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     const wizardTitle = document.createElement('h3');
     wizardTitle.textContent = 'Pre-code guiado';
     const wizardText = document.createElement('p');
-    wizardText.textContent = 'Continúa Product Vision → Scope → Requirements → Architecture → Security → Test Strategy → Traceability con autoría MANUAL/IMPORT gobernada.';
+    wizardText.textContent = 'Continúa Product Vision → Scope → Requirements → Architecture → Security → Test Strategy → Traceability con propuesta local DevPilot para C-01 y autoría MANUAL/IMPORT gobernada.';
     const wizardLink = document.createElement('a');
     wizardLink.href = '/pre-code';
     wizardLink.className = 'button-link';
