@@ -2,12 +2,12 @@
 title: "Architecture Document — DevPilot Local"
 doc_id: "DEVPL-ARCH-001"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "DEVPL-GSDLC-00-C"
-updated: "2026-09-22"
+updated: "2026-09-24"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved + SPRINT-PRECODE-02 requirements baseline approved"
 change_reason: "Guided SDLC successor architecture contract; no runtime enablement."
@@ -406,10 +406,16 @@ Project Status and MIASI fail-closed semantics have different activation boundar
 Once a MIASI applicability context exists, its result is authoritative in Project Status. Invalid/ambiguous context and missing required controls remain fail-closed. `PreCodeWizardApplicationService` remains strict and requires MIASI PASS before pre-code readiness can PASS. This is sequencing of authority, not weakening of MIASI policy.
 
 
-## GSDLC-13-C-01 — Project-scoped auth and derived pre-code
+## GSDLC-13-C-01 — Project-scoped auth, governed structure and derived pre-code
 
 El contexto de proyecto persistido no solo selecciona el workspace activo para la UI/API: también debe reconciliar la autoridad RBAC de la identidad local antes del login. Las rutas con `workspace_scope_source=active-server-context` permanecen fail-closed, pero el owner local recibe el scope del proyecto únicamente desde contexto server-valid.
 
-Para el baseline multi-modelo/sin costo, Vision, Scope y Requirements disponen de una ruta `DEVPL_MOCK` determinística y local. La propuesta se construye desde el business need persistido y artefactos previos FROZEN, se expone para revisión humana y atraviesa el mismo lifecycle de validation/diff → approval → apply → freeze. No se habilita autonomía ni bypass de policies.
+El `greenfield-neutral-shell` conserva neutralidad tecnológica y, desde `BootstrapPlanningCatalog v3`, materializa únicamente namespaces documentales gobernados vacíos (`docs/00_product`, `docs/01_requirements`, `docs/02_architecture`, `docs/02_architecture/adrs`, `docs/03_security`, `docs/04_quality`). Esto no equivale a preconstruir artifacts ni a decidir stack. Workspaces anteriores se reconcilian por un servicio bounded e idempotente que usa runtime workspace authority, PathGuard y allowlist; no se autoriza un `mkdir` manual del operador.
+
+Para el baseline multi-modelo/sin costo, Vision, Scope y Requirements disponen de `DEVPL_MOCK` mediante `deterministic-context-template-v2`. La derivación es material: Product Vision consume Project Context; Scope consume la Vision FROZEN exacta; Requirements consume el Scope FROZEN exacto y conserva Vision como contexto trazable. Los inputs se serializan canónicamente y los textos se hashean con normalización lógica LF, evitando que CRLF/LF físico altere el fingerprint. La propuesta se expone para revisión humana y atraviesa el mismo lifecycle de validation/diff → approval → apply → freeze. No se habilita autonomía ni bypass de policies.
+
+`DEVPL_MOCK` permanece baseline reproducible de acceptance, pruebas y fallback. Las futuras rutas Local Agent (Ollama/LM Studio) y External Agent (API opt-in) deberán converger en el mismo DRAFT y en los mismos gates de review, diff, approval, apply y FROZEN; no forman parte del corrective C-01.
 
 MIASI conserva autoridad escalonada: ausencia de contexto antes de C-03 equivale a `NOT_EVALUATED / DEFERRED`; un contexto materializado sí es autoritativo y sus errores/bloqueos siguen fail-closed.
+
+Véase `docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-C-01-project-scoped-auth-and-derived-pre-code.md`.

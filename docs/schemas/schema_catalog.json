@@ -5,7 +5,7 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-12",
+  "updated": "2026-09-24",
   "sprint": "DEVPL-GSDLC-12-A",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
@@ -4093,7 +4093,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-13-B-CORRECTIVE"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-GSDLC-13-C-01-BOOTSTRAP-PLANNING-CATALOG-V3",
+      "title": "DevPilot GSDLC-13-C-01 BootstrapPlanningCatalog v3",
+      "version": "3.0.0",
+      "path": "docs/schemas/bootstrap_planning_catalog_gsdlc13_v3.schema.json",
+      "description": "Current greenfield bootstrap catalog with neutral governed document namespaces required by Pre-code and ADR authoring.",
+      "status": "registered",
+      "contract": "BootstrapPlanningCatalog",
+      "owner": "Ordóñez",
+      "sprint": "DEVPL-GSDLC-13-C-01-PRECODE-STRUCTURE-DERIVATION-CORRECTIVE",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "DEVPL-GSDLC-13-C-01-PRECODE-STRUCTURE-DERIVATION-CORRECTIVE"
     }
   ],
-  "schemas_total": 283
+  "schemas_total": 287
 }

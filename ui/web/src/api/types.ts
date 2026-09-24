@@ -1202,7 +1202,7 @@ export interface PreCodeWizardStage {
   status: 'MISSING' | 'DRAFT' | 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPLIED' | 'FROZEN' | string;
   mode?: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | null;
   draft_content?: string | null;
-  derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; generated_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean } | null;
+  derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean } | null;
   content_sha256?: string | null;
   review_id?: string | null;
   plan_id?: string | null;

@@ -2,9 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schema_id": "devpilot.gsdlc05e.pre_code_wizard_catalog.v1",
   "status": "implemented-initial",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "profile_id": "guided-pre-code-manual-v1",
-  "readiness_semantics": "vertical-slice-strict; C-01 adds governed deterministic DEVPL_MOCK derivation for Vision/Scope/Requirements; does not replace historical global pre-code readiness",
+  "readiness_semantics": "vertical-slice-strict; C-01 uses governed deterministic DEVPL_MOCK v2 derivation for Vision/Scope/Requirements and reconciled neutral document namespaces; does not replace historical global pre-code readiness",
   "stages": [
     {
       "stage_id": "product-vision",
@@ -15,7 +15,8 @@
       "advisor_step": "business-analysis",
       "allowed_modes": [
         "DEVPL_MOCK",
-        "MANUAL"
+        "MANUAL",
+        "IMPORT"
       ]
     },
     {

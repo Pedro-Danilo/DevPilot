@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import re
+import subprocess
 import threading
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -12,6 +13,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.guided_sdlc.step_action_advisor import AdvisorContext, ExecutionModeAdvisor
+from devpilot_core.policy.path_guard import PathGuard
 from devpilot_core.miasi.applicability import MIASIApplicabilityEvaluator
 from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
 from devpilot_core.validators.artifact import extract_headings, normalize_heading
@@ -26,6 +28,17 @@ from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationS
 
 CATALOG = Path('.devpilot/gsdlc/pre_code_wizard_catalog.json')
 STORE_ROOT = Path('outputs/pre_code_wizard/gsdlc_05_e')
+STRUCTURE_RECEIPT_ROOT = Path('outputs/pre_code_wizard/gsdlc_13_c_01')
+REQUIRED_DOCUMENT_PARENTS = (
+    Path('docs/00_product'),
+    Path('docs/01_requirements'),
+    Path('docs/02_architecture'),
+    Path('docs/02_architecture/adrs'),
+    Path('docs/03_security'),
+    Path('docs/04_quality'),
+)
+DERIVATION_MODEL = 'deterministic-context-template-v2'
+DERIVATION_SCHEMA = 'devpilot.gsdlc13c01.deterministic_derivation.v2'
 _SHA = re.compile(r'^[0-9a-f]{64}$')
 
 
@@ -35,6 +48,14 @@ def _now() -> str:
 
 def _sha_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def _canonical_text(text: str) -> str:
+    return str(text or '').replace('\r\n', '\n').replace('\r', '\n')
+
+
+def _sha_text(text: str) -> str:
+    return _sha_bytes(_canonical_text(text).encode('utf-8'))
 
 
 class PreCodeWizardApplicationService:
@@ -72,6 +93,17 @@ class PreCodeWizardApplicationService:
         projection = self._projection(state, workspace_id, workspace_root, effective_roles, workspace_scopes)
         return self._pass('guided pre-code status', 'GSDLC05E_PRE_CODE_STATUS_PASS', 'Pre-code wizard state projected from server-authoritative runtime state.', {'pre_code': projection})
 
+    def reconcile_structure(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        command='guided pre-code reconcile structure'
+        context=self._context()
+        if isinstance(context,CommandResult): return context
+        workspace_id,workspace_root=context
+        if 'owner' not in set(effective_roles):
+            return self._block(command,'GSDLC13C01_STRUCTURE_OWNER_BLOCK','Owner role is required to reconcile governed document namespaces.')
+        if workspace_id not in set(workspace_scopes):
+            return self._block(command,'GSDLC13C01_STRUCTURE_SCOPE_BLOCK','Active workspace scope is required to reconcile governed document namespaces.',metadata={'workspace_id':workspace_id})
+        return self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
+
     def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         command='guided pre-code save draft'
         context=self._context()
@@ -100,6 +132,8 @@ class PreCodeWizardApplicationService:
             content,derivation=generated
         elif not content.strip():
             return self._block(command,'GSDLC05E_EMPTY_DRAFT_BLOCK','Draft content is required for MANUAL/IMPORT.')
+        structure=self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
+        if not structure.ok:return structure
         target=(workspace_root/str(stage['relative_path'])).resolve()
         try: target.relative_to(workspace_root.resolve())
         except ValueError:return self._block(command,'GSDLC05E_TARGET_SCOPE_BLOCK','Pre-code artifact escaped the active workspace.')
@@ -118,7 +152,7 @@ class PreCodeWizardApplicationService:
         row=self._stage_state(state,stage_id)
         row.update({'status':'DRAFT','mode':normalized_mode,'content':content,'content_sha256':_sha_bytes(content.encode()),'base_sha256':base_sha,'artifact':draft.data['artifact'],'derivation':derivation,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'updated_at':_now()})
         state['status']='IN_PROGRESS'; state['updated_at']=_now(); self._write_state(workspace_id,state)
-        return self._pass(command,'GSDLC05E_DRAFT_SAVED_PASS','Server-authoritative DRAFT persisted outside managed source; source mutation remains false.',{'stage':self._public_stage(row,stage),'source_mutations_performed':False})
+        return self._pass(command,'GSDLC05E_DRAFT_SAVED_PASS','Server-authoritative DRAFT persisted outside managed source; source mutation remains false.',{'stage':self._public_stage(row,stage),'source_mutations_performed':False,'structure_reconciliation':structure.data.get('structure_reconciliation')})
 
     def start_review(self, *, stage_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
         command='guided pre-code review'
@@ -348,32 +382,56 @@ class PreCodeWizardApplicationService:
         project_file=workspace_root/'.devpilot/project.yaml'
         if not project_file.is_file():
             return self._block(command,'GSDLC13C01_PROJECT_CONTEXT_BLOCK','Project context is missing; deterministic proposal cannot be grounded.')
+        project_text=_canonical_text(project_file.read_text(encoding='utf-8'))
         metadata=parse_project_yaml_metadata(project_file)
         need=str(metadata.get('business_need') or '').strip()
         name=str(metadata.get('project_name') or metadata.get('project_id') or workspace_id).strip()
+        project_id=str(metadata.get('project_id') or workspace_id).strip()
+        constraints=dict(metadata.get('project_constraints') or {}) if isinstance(metadata.get('project_constraints'),dict) else {}
+        model_policy=dict(metadata.get('model_policy') or {}) if isinstance(metadata.get('model_policy'),dict) else {}
         if len(need)<20:
             return self._block(command,'GSDLC13C01_BUSINESS_NEED_BLOCK','Persisted business need is missing or too short for governed derivation.')
-        refs=[{'path':'.devpilot/project.yaml','sha256':_sha_bytes(project_file.read_bytes()),'kind':'business-need'}]
-        sources={'business_need':need,'project_name':name}
-        if stage_id in {'scope','requirements'}:
-            previous_id='product-vision' if stage_id=='scope' else 'scope'
-            previous_stage=self._stage_by_id[previous_id]
-            previous_row=self._stage_state(state,previous_id)
-            if previous_row.get('status')!='FROZEN':
-                return self._block(command,'GSDLC13C01_PREVIOUS_STAGE_REQUIRED_BLOCK','The previous governed stage must be FROZEN before derivation.',metadata={'required_stage':previous_id})
-            previous_path=workspace_root/str(previous_stage['relative_path'])
-            if not previous_path.is_file():
-                return self._block(command,'GSDLC13C01_PREVIOUS_SOURCE_MISSING_BLOCK','Frozen previous-stage source is missing.',metadata={'required_stage':previous_id})
-            previous_text=previous_path.read_text(encoding='utf-8')
-            refs.append({'path':str(previous_stage['relative_path']),'sha256':_sha_bytes(previous_path.read_bytes()),'kind':'frozen-input'})
-            sources[previous_id]=previous_text
-        content=self._proposal_markdown(stage_id=stage_id,workspace_id=workspace_id,project_name=name,business_need=need)
+        document_date=self._project_document_date(workspace_root)
+        refs=[{'path':'.devpilot/project.yaml','sha256':_sha_text(project_text),'kind':'project-context'}]
+        upstream:dict[str,str]={}
+        required_upstream=() if stage_id=='product-vision' else (('product-vision',) if stage_id=='scope' else ('product-vision','scope'))
+        for source_id in required_upstream:
+            source_stage=self._stage_by_id[source_id]
+            source_row=self._stage_state(state,source_id)
+            if source_row.get('status')!='FROZEN':
+                return self._block(command,'GSDLC13C01_PREVIOUS_STAGE_REQUIRED_BLOCK','Required governed upstream stage must be FROZEN before derivation.',metadata={'required_stage':source_id})
+            source_path=workspace_root/str(source_stage['relative_path'])
+            if not source_path.is_file():
+                return self._block(command,'GSDLC13C01_PREVIOUS_SOURCE_MISSING_BLOCK','Frozen upstream source is missing.',metadata={'required_stage':source_id})
+            source_bytes=source_path.read_bytes()
+            approved_sha=str(source_row.get('approved_sha256') or '')
+            actual_sha=_sha_bytes(source_bytes)
+            if not _SHA.fullmatch(approved_sha) or actual_sha!=approved_sha:
+                return self._block(command,'GSDLC13C01_PREVIOUS_SOURCE_DRIFT_BLOCK','Frozen upstream source no longer matches its approved content hash.',metadata={'required_stage':source_id,'expected_sha256':approved_sha or None,'actual_sha256':actual_sha})
+            text=_canonical_text(source_bytes.decode('utf-8'))
+            upstream[source_id]=text
+            refs.append({'path':str(source_stage['relative_path']),'sha256':_sha_text(text),'approved_sha256':approved_sha,'kind':'frozen-input'})
+        canonical_input={
+            'generator_version':DERIVATION_MODEL,
+            'stage_id':stage_id,
+            'workspace_id':workspace_id,
+            'project':{
+                'project_id':project_id,'project_name':name,'business_need':' '.join(need.split()),
+                'document_date':document_date,'project_constraints':constraints,'model_policy':model_policy,
+            },
+            'upstream':upstream,
+        }
+        canonical_json=json.dumps(canonical_input,sort_keys=True,separators=(',',':'),ensure_ascii=False)
+        content=self._proposal_markdown(
+            stage_id=stage_id,workspace_id=workspace_id,project_name=name,business_need=need,
+            document_date=document_date,constraints=constraints,model_policy=model_policy,upstream=upstream,
+        )
         derivation={
-            'schema_id':'devpilot.gsdlc13c01.deterministic_derivation.v1',
-            'mode':'DEVPL_MOCK','provider':'devpilot-local','model':'deterministic-context-template-v1',
+            'schema_id':DERIVATION_SCHEMA,
+            'mode':'DEVPL_MOCK','provider':'devpilot-local','model':DERIVATION_MODEL,
             'network_used':False,'external_api_used':False,'cost_usd':0.0,
-            'source_refs':refs,'source_context_sha256':_sha_bytes(json.dumps(sources,sort_keys=True,ensure_ascii=False).encode('utf-8')),
-            'generated_content_sha256':_sha_bytes(content.encode('utf-8')),
+            'source_refs':refs,'canonical_input_sha256':_sha_bytes(canonical_json.encode('utf-8')),
+            'generated_content_sha256':_sha_text(content),
             'owner_review_required':True,'approval_required_before_source_write':True,
         }
         return content,derivation
@@ -384,15 +442,69 @@ class PreCodeWizardApplicationService:
         parts=[x.strip(' .') for x in re.split(r'[;.]|,\s+(?=(?:y\s+)?[A-Za-zÁÉÍÓÚáéíóúÑñ])', normalized) if x.strip(' .')]
         return parts[:10] or [normalized]
 
-    def _proposal_markdown(self, *, stage_id: str, workspace_id: str, project_name: str, business_need: str) -> str:
-        date=_now()[:10]
+    @staticmethod
+    def _markdown_section(text: str, heading: str) -> str:
+        target=normalize_heading(heading)
+        lines=_canonical_text(text).split('\n')
+        captured:list[str]=[]; active=False
+        for line in lines:
+            if line.startswith('## '):
+                current=normalize_heading(line[3:].strip())
+                if active: break
+                active=current==target
+                continue
+            if active: captured.append(line)
+        return '\n'.join(captured).strip()
+
+    @classmethod
+    def _semantic_items(cls, text: str, heading: str) -> list[str]:
+        section=cls._markdown_section(text,heading)
+        if not section:return []
+        bullets=[]
+        for raw in section.splitlines():
+            line=raw.strip()
+            if not line:continue
+            line=re.sub(r'^(?:[-*+]\s+|\d+[.)]\s+)', '', line).strip()
+            line=re.sub(r'^\*\*(?:RF-\d+|RNF-\d+)[^*]*\*\*\s*[—:-]*\s*','',line).strip()
+            if line:bullets.append(line.rstrip('.'))
+        if bullets:return bullets[:12]
+        return cls._business_clauses(section)[:12]
+
+    @staticmethod
+    def _clean_scope_capability(value: str) -> str:
+        text=' '.join(str(value or '').split()).strip(' .')
+        for prefix in ('Incluir la capacidad necesaria para:', 'Incluir la capacidad para:', 'Incluir:'):
+            if text.lower().startswith(prefix.lower()):
+                text=text[len(prefix):].strip(' .')
+                break
+        return text
+
+    @staticmethod
+    def _constraint_lines(constraints: dict[str,Any], model_policy: dict[str,Any]) -> list[str]:
+        local_first=bool(constraints.get('local_first',True))
+        cloud_required=bool(constraints.get('cloud_required',False))
+        operator_writes=bool(constraints.get('operator_project_writes_allowed',False))
+        baseline=str(model_policy.get('baseline') or 'mock-no-api')
+        local_model=str(model_policy.get('local_model') or 'optional-opt-in')
+        external_api=str(model_policy.get('external_api') or 'approval-provenance-only')
+        return [
+            f'- Local-first: {"sí" if local_first else "no"}.',
+            f'- Cloud obligatorio: {"sí" if cloud_required else "no"}.',
+            f'- Escrituras de proyecto por operador externo: {"permitidas" if operator_writes else "no permitidas"}.',
+            f'- Baseline de modelos: {baseline}.',
+            f'- Modelo local: {local_model}.',
+            f'- API externa: {external_api}.',
+        ]
+
+    def _proposal_markdown(self, *, stage_id: str, workspace_id: str, project_name: str, business_need: str, document_date: str, constraints: dict[str,Any], model_policy: dict[str,Any], upstream: dict[str,str]) -> str:
         clauses=self._business_clauses(business_need)
         doc_id=f"{workspace_id.upper().replace('-','_')}_{stage_id.upper().replace('-','_')}"
         title={'product-vision':'Product Vision','scope':'MVP Scope','requirements':'Requirements Specification'}[stage_id]
         front=[
             '---',f'doc_id: "{doc_id}"',f'title: "{title} — {project_name}"','status: "draft"','version: "0.1.0"',
-            'owner: "Owner / DevPilot"',f'updated: "{date}"','---','',f'# {title}',''
+            'owner: "Owner / DevPilot"',f'updated: "{document_date}"','---','',f'# {title}',''
         ]
+        constraint_lines=self._constraint_lines(constraints,model_policy)
         if stage_id=='product-vision':
             body=[
                 '## Resumen ejecutivo','',f'Propuesta inicial derivada por DevPilot del contexto persistido de **{project_name}**. Está sujeta a revisión y aprobación humana.','',
@@ -402,48 +514,136 @@ class PreCodeWizardApplicationService:
                 '## Indicadores','',
                 '- Las capacidades explícitas del problema pueden recorrerse de extremo a extremo en el MVP.','',
                 '- Las operaciones críticas producen resultados verificables y trazables por el Owner.','',
-                '- La solución conserva el principio local-first y no requiere una API externa para su baseline.','',
-                '## Local-first','',
-                'El baseline debe funcionar localmente; cualquier servicio externo futuro requiere decisión explícita, provenance y aprobación.','',
+                '- La solución conserva las restricciones y model policy aprobadas en Project Context.','',
+                '## Local-first','',*constraint_lines,'',
                 '## Post-MVP','',
                 'No se incorporan automáticamente capacidades Post-MVP en esta propuesta. Se priorizarán solo después de validar el alcance del MVP.','',
             ]
         elif stage_id=='scope':
+            vision=upstream.get('product-vision','')
+            capabilities=[self._clean_scope_capability(x) for x in self._semantic_items(vision,'MVP')]
+            capabilities=[x for x in capabilities if x] or clauses
+            vision_statement=self._markdown_section(vision,'Visión') or self._markdown_section(vision,'Problema') or business_need
             body=[
-                '## MVP','',*sum(([f'- Incluir la capacidad necesaria para: {c}.',''] for c in clauses),[]),
+                '## MVP','',*sum(([f'- Incluir la capacidad necesaria para: {c}.',''] for c in capabilities),[]),
                 '## MVP+','',
                 '- No se materializan ítems MVP+ por defecto; cualquier ampliación requiere decisión explícita del Owner.','',
                 '## Out of scope','',
                 '- Selección de frontend, backend, base de datos o framework antes de Architecture.','',
-                '- Cloud obligatorio o dependencia obligatoria de API externa.','',
-                '- Capacidades no justificadas por la necesidad de negocio o por una decisión gobernada posterior.','',
+                '- Cloud obligatorio o dependencia obligatoria de API externa cuando Project Context no lo autoriza.','',
+                '- Capacidades no justificadas por Product Vision FROZEN o por una decisión gobernada posterior.','',
                 '## Criterios','',
-                '- El MVP cubre cada capacidad explícita del business need.','',
+                '- El MVP conserva las capacidades aprobadas en Product Vision FROZEN.','',
                 '- El alcance mantiene tecnología diferida hasta Architecture.','',
-                '- El baseline conserva local-first y mock/no-API como ruta sin costo.','',
-                '## Restricciones','',
-                '- No se permiten project writes externos al flujo gobernado de DevPilot.','',
-                '- Las ampliaciones deben conservar trazabilidad hacia Vision y necesidad de negocio.','',
+                '- El baseline conserva las restricciones y model policy del Project Context.','',
+                '## Restricciones','',*constraint_lines,'',
+                '## Contexto de Vision FROZEN','',vision_statement.strip(),'',
             ]
         else:
+            scope=upstream.get('scope',''); vision=upstream.get('product-vision','')
+            capabilities=[self._clean_scope_capability(x) for x in self._semantic_items(scope,'MVP')]
+            capabilities=[x for x in capabilities if x]
+            if not capabilities:
+                capabilities=clauses
             rf=[]
-            for i,c in enumerate(clauses,1):
-                rf.extend([f'- **RF-{i:03d}** — El sistema debe soportar de forma verificable la necesidad: {c}.',''])
+            for i,c in enumerate(capabilities,1):
+                rf.extend([f'- **RF-{i:03d}** — El sistema debe soportar de forma verificable: {c}.',''])
+            vision_statement=self._markdown_section(vision,'Visión') or self._markdown_section(vision,'Problema') or business_need
             body=[
-                '## Propósito','',f'Definir requisitos iniciales verificables para el MVP de {project_name}, derivados de Vision, Scope y del business need persistido.','',
-                '## Alcance','',business_need,'',
+                '## Propósito','',f'Definir requisitos iniciales verificables para el MVP de {project_name}, derivados materialmente de Scope FROZEN y trazables a Product Vision FROZEN.','',
+                '## Alcance','',f'Contexto de Vision: {vision_statement.strip()}','',
+                *[f'- Scope MVP: {c}.' for c in capabilities],'',
                 '## Requerimientos funcionales del MVP','',*rf,
                 '## Requerimientos no funcionales','',
-                '- **RNF-001 — Local-first:** el baseline debe poder operar localmente sin cloud obligatorio.','',
-                '- **RNF-002 — Proveedor:** el baseline de modelos es mock/sin API externa; proveedores externos requieren aprobación y provenance.','',
+                '- **RNF-001 — Local-first:** el baseline debe respetar la restricción local-first declarada en Project Context.','',
+                '- **RNF-002 — Proveedor:** el uso de modelos/proveedores debe respetar la model policy vigente del proyecto.','',
                 '- **RNF-003 — Trazabilidad:** cambios gobernados deben conservar plan/diff, approval y evidencia verificable.','',
                 '- **RNF-004 — Decisión tecnológica diferida:** frontend, backend y base de datos se determinan en Architecture.','',
+                '## Restricciones heredadas','',*constraint_lines,'',
                 '## Criterios de bloqueo','',
-                '- BLOCK si una capacidad funcional del business need queda fuera del MVP sin decisión explícita.','',
+                '- BLOCK si una capacidad del Scope FROZEN queda sin requisito funcional correspondiente sin decisión explícita.','',
                 '- BLOCK si se fija arquitectura o stack antes del checkpoint correspondiente.','',
-                '- BLOCK si una dependencia externa obligatoria aparece sin aprobación/provenance.','',
+                '- BLOCK si una dependencia externa obligatoria aparece contra Project Context o sin approval/provenance.','',
             ]
         return '\n'.join(front+body).rstrip()+'\n'
+
+    @staticmethod
+    def _project_document_date(workspace_root: Path) -> str:
+        manifest=workspace_root/'.devpilot/bootstrap-execution.json'
+        if manifest.is_file():
+            try:
+                payload=json.loads(manifest.read_text(encoding='utf-8'))
+                value=str(payload.get('completed_at') or '').strip()
+                if re.fullmatch(r'\d{4}-\d{2}-\d{2}.*',value):return value[:10]
+            except Exception:
+                pass
+        try:
+            cp=subprocess.run(['git','-C',str(workspace_root),'log','--reverse','-1','--format=%cs'],capture_output=True,text=True,timeout=5,check=False)
+            value=cp.stdout.strip()
+            if re.fullmatch(r'\d{4}-\d{2}-\d{2}',value):return value
+        except Exception:
+            pass
+        return '1970-01-01'
+
+    def _reconcile_governed_parents(self, *, workspace_id: str, workspace_root: Path) -> CommandResult:
+        command='guided pre-code reconcile structure'
+        root=workspace_root.resolve()
+        guard=PathGuard(root)
+        planned:list[tuple[Path,Path]]=[]
+        for rel in REQUIRED_DOCUMENT_PARENTS:
+            candidate=root/rel
+            decision=guard.evaluate(rel,action='create')
+            if not decision.ok:
+                return self._block(command,'GSDLC13C01_STRUCTURE_PATH_BLOCK','PathGuard rejected a governed document namespace.',metadata={'relative_path':rel.as_posix(),'policy':decision.to_dict()})
+            cursor=root
+            for part in rel.parts:
+                cursor=cursor/part
+                if cursor.exists() and cursor.is_symlink():
+                    return self._block(command,'GSDLC13C01_STRUCTURE_SYMLINK_BLOCK','Governed document namespace contains a symlink boundary.',metadata={'relative_path':rel.as_posix(),'symlink':str(cursor)})
+            if candidate.exists() and not candidate.is_dir():
+                return self._block(command,'GSDLC13C01_STRUCTURE_COLLISION_BLOCK','Governed document namespace collides with a non-directory path.',metadata={'relative_path':rel.as_posix()})
+            planned.append((rel,candidate))
+        before=self._git_status(root)
+        if before is None:
+            return self._block(command,'GSDLC13C01_STRUCTURE_GIT_STATUS_BLOCK','Git status could not be verified before structural reconciliation.')
+        created:list[Path]=[]
+        try:
+            for rel,candidate in planned:
+                if not candidate.exists():
+                    candidate.mkdir(parents=True,exist_ok=False)
+                    created.append(candidate)
+            after=self._git_status(root)
+            if after is None or after!=before:
+                for candidate in reversed(created):
+                    try:candidate.rmdir()
+                    except OSError:pass
+                return self._block(command,'GSDLC13C01_STRUCTURE_GIT_DRIFT_BLOCK','Structural reconciliation changed Git-observable project content and was rolled back.',metadata={'git_before_clean':before==b'','git_after_clean':after==b'' if after is not None else None})
+        except Exception as exc:
+            for candidate in reversed(created):
+                try:candidate.rmdir()
+                except OSError:pass
+            return self._block(command,'GSDLC13C01_STRUCTURE_RECONCILIATION_BLOCK','Governed document namespace reconciliation failed closed.',metadata={'error':str(exc)})
+        receipt={
+            'schema_id':'devpilot.gsdlc13c01.structure_reconciliation.v1','workspace_id':workspace_id,
+            'required_directories':[x.as_posix() for x in REQUIRED_DOCUMENT_PARENTS],
+            'directories_created':[x.relative_to(root).as_posix() for x in created],
+            'operator_project_writes':0,'project_content_files_written':0,
+            'git_before_clean':before==b'','git_after_clean':after==b'','git_status_unchanged':True,
+            'network_used':False,'external_api_used':False,'status':'PASS','completed_at':_now(),
+        }
+        receipt_path=self.root/STRUCTURE_RECEIPT_ROOT/re.sub(r'[^A-Za-z0-9_.-]','_',workspace_id)/'structure_reconciliation.json'
+        receipt_path.parent.mkdir(parents=True,exist_ok=True)
+        tmp=receipt_path.with_suffix('.tmp'); tmp.write_text(json.dumps(receipt,indent=2,sort_keys=True,ensure_ascii=False)+'\n',encoding='utf-8'); os.replace(tmp,receipt_path)
+        receipt['receipt_path']=str(receipt_path.relative_to(self.root)).replace('\\','/')
+        return self._pass(command,'GSDLC13C01_STRUCTURE_RECONCILIATION_PASS','Governed document namespaces are available; no project content file or Git-visible mutation was introduced.',{'structure_reconciliation':receipt})
+
+    @staticmethod
+    def _git_status(workspace_root: Path) -> bytes | None:
+        try:
+            cp=subprocess.run(['git','-C',str(workspace_root),'status','--porcelain=v1','-z'],capture_output=True,timeout=5,check=False)
+            return cp.stdout if cp.returncode==0 else None
+        except Exception:
+            return None
 
     @staticmethod
     def _identity(actor:str,actor_role:str,principal:str,effective_roles:list[str])->CommandResult|None:

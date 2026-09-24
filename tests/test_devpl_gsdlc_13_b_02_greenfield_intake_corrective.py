@@ -30,18 +30,22 @@ def test_successor_schemas_and_catalogs_are_registered_and_neutral() -> None:
     schema=json.loads((ROOT/'docs/schemas/project_intake_gsdlc13_v2.schema.json').read_text())
     Draft202012Validator.check_schema(schema)
     tech=json.loads((ROOT/'.devpilot/workspaces/technology_catalog_gsdlc13_v2.json').read_text())
-    planning=json.loads((ROOT/'.devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json').read_text())
+    planning_v2=json.loads((ROOT/'.devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json').read_text())
+    planning=json.loads((ROOT/'.devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v3.json').read_text())
     Draft202012Validator(schema).validate(intake(Path('/tmp/devpilot-greenfield')))
     profile=tech['profiles'][0]
     assert profile['profile_id']=='greenfield-neutral-shell'
     assert (profile['frontend'],profile['backend'],profile['database'])==('undecided','undecided','undecided')
     assert [row['tool_id'] for row in profile['tool_requirements']]==['git']
+    assert planning_v2['version']=='2.0.0'  # frozen B-02 authority remains available
     assert planning['profiles'][0]['venv_required'] is False
     assert planning['profiles'][0]['dependency_jobs']==[]
+    directories={row['relative_path'] for row in planning['profiles'][0]['directories']}
+    assert {'docs/00_product','docs/01_requirements','docs/02_architecture','docs/02_architecture/adrs','docs/03_security','docs/04_quality'} <= directories
     files={row['relative_path'] for row in planning['profiles'][0]['files']}
     assert 'frontend/package.json' not in files and 'backend/requirements.txt' not in files
     ids={row['schema_id'] for row in json.loads((ROOT/'docs/schemas/schema_catalog.json').read_text())['schemas']}
-    assert {'SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2','SCHEMA-DEVPL-GSDLC-13-B-TECHNOLOGY-CATALOG-V2','SCHEMA-DEVPL-GSDLC-13-B-BOOTSTRAP-PLANNING-CATALOG-V2'} <= ids
+    assert {'SCHEMA-DEVPL-GSDLC-13-B-PROJECT-INTAKE-V2','SCHEMA-DEVPL-GSDLC-13-B-TECHNOLOGY-CATALOG-V2','SCHEMA-DEVPL-GSDLC-13-B-BOOTSTRAP-PLANNING-CATALOG-V2','SCHEMA-DEVPL-GSDLC-13-C-01-BOOTSTRAP-PLANNING-CATALOG-V3'} <= ids
 
 def test_v2_requires_business_need_and_blocks_premature_stack(tmp_path: Path) -> None:
     allowed=tmp_path/'workspaces'; allowed.mkdir(); target=allowed/'pilot'
@@ -81,6 +85,8 @@ def test_v2_executor_materializes_neutral_clean_project_shell(tmp_path: Path) ->
     verify=result.data['execution']['verification']; assert verify['git_clean'] is True and verify['venv_required'] is False and verify['network_used'] is False
     assert not (target/'.venv').exists()
     assert not (target/'frontend/package.json').exists() and not (target/'backend/requirements.txt').exists()
+    for rel in ['docs/00_product','docs/01_requirements','docs/02_architecture','docs/02_architecture/adrs','docs/03_security','docs/04_quality']:
+        assert (target/rel).is_dir()
     project=(target/'.devpilot/project.yaml').read_text(encoding='utf-8')
     assert 'business_need:' in project and 'technology_decision_status: deferred-to-architecture' in project
     assert 'baseline: "mock-no-api"' in project

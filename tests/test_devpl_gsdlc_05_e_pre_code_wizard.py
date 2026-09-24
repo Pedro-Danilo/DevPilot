@@ -107,7 +107,7 @@ def test_catalog_is_seven_stage_sequential_and_preserves_manual_import_with_c01_
     assert payload["profile_id"] == "guided-pre-code-manual-v1"
     assert [row["stage_id"] for row in payload["stages"]] == [x[0] for x in STAGES]
     assert [row["order"] for row in payload["stages"]] == list(range(1, 8))
-    assert payload["stages"][0]["allowed_modes"] == ["DEVPL_MOCK", "MANUAL"]
+    assert payload["stages"][0]["allowed_modes"] == ["DEVPL_MOCK", "MANUAL", "IMPORT"]
     assert all(set(row["allowed_modes"]).issubset({"MANUAL", "IMPORT", "DEVPL_MOCK"}) for row in payload["stages"])
     assert all("DEVPL_MOCK" in row["allowed_modes"] for row in payload["stages"][:3])
     assert all("DEVPL_MOCK" not in row["allowed_modes"] for row in payload["stages"][3:])
@@ -246,8 +246,9 @@ def test_ui_pre_code_contract_is_project_scoped_and_has_no_authority_fallback():
     assert "renderPreCodeWizardView(() => readStoredToken(), session)" in main
     assert "API/transporte local no disponible. El wizard falla cerrado" in view
     assert "RBAC/policy denegó el acceso a Pre-code (HTTP 403)" in view
-    assert "StepActionAdvisor" in view
-    assert "action.kind==='AGENT'" in view  # server-projected AGENT card may select DEVPL_MOCK; UI does not recompute authority
+    assert "renderPreCodeActionGuide" in view
+    assert "Cómo crear el DRAFT" in view and "Herramientas auxiliares" in view and "IA avanzada" in view
+    assert "actions.find((row)=>row.kind===kind)" in view  # server-projected Agent/RAG availability remains authoritative
     assert "preCodeDraft" in client and "preCodeReview" in client and "preCodeFreeze" in client
     assert "armApprovalCenterArtifactReviewHandoff" in view
     assert "handoff=artifact-review&approval_id=" in view
@@ -337,10 +338,10 @@ def test_pre_code_import_action_stays_in_wizard_and_approval_403_is_explicit():
     view = (ROOT / "ui/web/src/pages/PreCodeWizardView.ts").read_text(encoding="utf-8")
     advisor = (ROOT / "ui/web/src/components/StepActionAdvisor.ts").read_text(encoding="utf-8")
     approvals = (ROOT / "ui/web/src/pages/ApprovalCenterView.ts").read_text(encoding="utf-8")
-    assert "activateWizardAction" in view
-    assert "action.kind==='UPLOAD_IMPORT'" in view
-    assert "file.click()" in view
-    assert "La selección permanece dentro del wizard" in view
+    assert "selectAuthoringMode" in view
+    assert "row.kind==='UPLOAD_IMPORT'" in view
+    assert "[data-pre-code-authoring-file]')?.click()" in view
+    assert "Carga Markdown local dentro del mismo wizard" in view
     assert "options.onAction?.(action) === true" in advisor
     assert "DENY/BLOCK server-side confirmado (HTTP 403)" in approvals
 

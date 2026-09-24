@@ -891,6 +891,9 @@ class ApplicationService:
     def guided_pre_code_status(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         return self.pre_code_wizard.status(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
 
+    def guided_pre_code_reconcile_structure(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+        return self.pre_code_wizard.reconcile_structure(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
+
     def guided_pre_code_save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         return self.pre_code_wizard.save_draft(stage_id=stage_id, content=content, mode=mode, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles, workspace_scopes=workspace_scopes)
 

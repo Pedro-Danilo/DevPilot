@@ -1,6 +1,5 @@
 import { armApprovalCenterArtifactReviewHandoff, DevPilotApiClient, DevPilotApiError } from '../api/client';
-import type { AuthSessionContext, DevPilotApplicationResponse, PreCodeWizardProjection, PreCodeWizardStage, StepActionCard } from '../api/types';
-import { renderStepActionAdvisor } from '../components/StepActionAdvisor';
+import type { AuthSessionContext, DevPilotApplicationResponse, PreCodeWizardProjection, PreCodeWizardStage } from '../api/types';
 import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 const ROUTE_CONTRACT_ID = 'ui.pre-code-wizard';
@@ -108,44 +107,63 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     if(!stage){ body.append(statusBox('block','BLOCK: no existe current stage determinístico.')); return; }
     const editor=stageEditor(stage,preCode);
     if(preCode.advisor){
-      body.append(renderStepActionAdvisor(
-        {ui_state:preCode.advisor.status==='PASS'?'READY':'BLOCKED',workspace_id:preCode.workspace_id,current_step:stage.advisor_step,advisor:preCode.advisor,read_only:true,actor_neutral:false,server_authoritative:true,network_used:false,external_api_used:false,mutations_performed:false,source_mutations_performed:false},
-        {onAction:(action)=>activateWizardAction(editor,stage,action)},
-      ));
+      body.append(renderPreCodeActionGuide(stage,preCode,editor));
     }
     body.append(editor);
   }
 
-  function activateWizardAction(editor: HTMLElement, stage: PreCodeWizardStage, action: StepActionCard): boolean {
-    const feedback=editor.querySelector<HTMLElement>('[data-pre-code-stage-feedback]');
+  function renderPreCodeActionGuide(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection, editor: HTMLElement): HTMLElement {
+    const section=document.createElement('section'); section.className='panel pre-code-action-guide'; section.dataset.preCodeActionGuide='true';
+    const title=document.createElement('h3'); title.textContent='Rutas para esta etapa';
+    const copy=document.createElement('p'); copy.textContent='Las tarjetas muestran rutas y acciones disponibles; el selector Modo de autoría controla cómo se produce el DRAFT de esta etapa.';
+    section.append(title,copy);
+    const actions=preCode.advisor?.actions ?? [];
+
+    const authoring=actionGroup('Cómo crear el DRAFT');
+    if(stage.allowed_modes.includes('DEVPL_MOCK')){
+      authoring.append(simpleActionCard('DevPilot local','Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
+    }
+    const manual=actions.find((row)=>row.kind==='MANUAL');
+    if(stage.allowed_modes.includes('MANUAL')) authoring.append(simpleActionCard('Manual / Paste','Escribe o pega el contenido dentro del editor gobernado de esta etapa.',manual?.availability ?? 'AVAILABLE',manual?.executable ?? true,()=>selectAuthoringMode(editor,'MANUAL')));
+    const imported=actions.find((row)=>row.kind==='UPLOAD_IMPORT');
+    if(stage.allowed_modes.includes('IMPORT')) authoring.append(simpleActionCard('Importar archivo local','Carga Markdown local dentro del mismo wizard; no escribe source hasta approval/apply.',imported?.availability ?? 'AVAILABLE',imported?.executable ?? true,()=>selectAuthoringMode(editor,'IMPORT')));
+
+    const auxiliary=actionGroup('Herramientas auxiliares');
+    const external=actions.find((row)=>row.kind==='EXTERNAL_EDITOR');
+    auxiliary.append(simpleActionCard('Abrir Documentos / preparar edición externa','DevPilot abre el workbench documental; no lanza ni controla un editor externo. Al regresar, la reconciliación sigue siendo obligatoria.',external?.availability ?? 'UNAVAILABLE',Boolean(external?.executable && external?.navigation_target),()=>{if(external?.navigation_target)globalThis.location.assign(external.navigation_target);}));
+    const validation=actions.find((row)=>row.kind==='TYPED_OPERATION');
+    auxiliary.append(simpleActionCard('Validar artefacto actual','El gate canónico es “Validar y preparar diff” dentro del editor. Se habilita después de materializar un DRAFT.',stage.status==='MISSING'?'DISPONIBLE DESPUÉS DE DRAFT':(validation?.availability ?? 'AVAILABLE'),false));
+
+    const advanced=actionGroup('IA avanzada');
+    for(const kind of ['AGENT','RAG'] as const){
+      const action=actions.find((row)=>row.kind===kind);
+      const label=kind==='AGENT'?'Agent':'RAG';
+      const reasons=action?.disabled_reasons?.map((row)=>row.message).join(' · ') || 'No requerido para el baseline C-01.';
+      advanced.append(simpleActionCard(label,action?.availability==='AVAILABLE'?(action.purpose || 'Ruta agentic gobernada.'):`${action?.purpose || 'Ruta agentic gobernada.'} ${reasons}`,action?.availability ?? 'UNAVAILABLE',false));
+    }
+    section.append(authoring,auxiliary,advanced);
+    return section;
+  }
+
+  function actionGroup(label:string):HTMLElement{
+    const group=document.createElement('section'); group.className='pre-code-action-guide__group';
+    const h=document.createElement('h4'); h.textContent=label; group.append(h); return group;
+  }
+
+  function simpleActionCard(label:string,purpose:string,status:string,enabled:boolean,onClick?:()=>void):HTMLElement{
+    const card=document.createElement('article'); card.className='pre-code-action-guide__card'; card.dataset.status=status;
+    const h=document.createElement('h5'); h.textContent=label; const badge=document.createElement('span'); badge.className='step-action-card__badge'; badge.textContent=status;
+    const p=document.createElement('p'); p.textContent=purpose; card.append(h,badge,p);
+    if(onClick){const b=document.createElement('button'); b.type='button'; b.textContent=label.startsWith('Abrir Documentos')?'Abrir Documentos / preparar edición externa':'Usar esta ruta'; b.disabled=!enabled; b.addEventListener('click',()=>onClick()); card.append(b);}
+    return card;
+  }
+
+  function selectAuthoringMode(editor:HTMLElement,value:'DEVPL_MOCK'|'MANUAL'|'IMPORT'):void{
     const mode=editor.querySelector<HTMLSelectElement>('[data-pre-code-authoring-mode]');
-    const textarea=editor.querySelector<HTMLTextAreaElement>('[data-pre-code-authoring-content]');
-    const file=editor.querySelector<HTMLInputElement>('[data-pre-code-authoring-file]');
-    const allowed=new Set(stage.allowed_modes ?? []);
-    if(action.kind==='MANUAL' || action.kind==='PASTE'){
-      if(!allowed.has('MANUAL') || !mode || !textarea){
-        if(feedback) setFeedback(feedback,'block','BLOCK: la etapa actual no permite autoría MANUAL/PASTE en este vertical slice.');
-        return true;
-      }
-      mode.value='MANUAL'; mode.dispatchEvent(new Event('change')); textarea.focus();
-      if(feedback) setFeedback(feedback,'pass',action.kind==='PASTE'?'PASTE listo: pegue el contenido en el editor MANUAL gobernado y después guarde DRAFT.':'MANUAL listo: escriba o pegue contenido en el editor gobernado y después guarde DRAFT.');
-      return true;
-    }
-    if(action.kind==='AGENT' && allowed.has('DEVPL_MOCK') && mode){
-      mode.value='DEVPL_MOCK'; mode.dispatchEvent(new Event('change'));
-      if(feedback) setFeedback(feedback,'pass','DevPilot Mock local listo: genera una propuesta determinística desde el business need y artefactos FROZEN, sin red ni API externa.');
-      return true;
-    }
-    if(action.kind==='UPLOAD_IMPORT'){
-      if(!allowed.has('IMPORT') || !mode || !file){
-        return false;
-      }
-      mode.value='IMPORT'; mode.dispatchEvent(new Event('change')); file.disabled=false; file.focus();
-      if(feedback) setFeedback(feedback,'pass','IMPORT listo: seleccione el archivo local permitido. La selección permanece dentro del wizard y no navega al Artifact Workbench general.');
-      file.click();
-      return true;
-    }
-    return false;
+    if(!mode || !Array.from(mode.options).some((row)=>row.value===value))return;
+    mode.value=value; mode.dispatchEvent(new Event('change'));
+    if(value==='IMPORT') editor.querySelector<HTMLInputElement>('[data-pre-code-authoring-file]')?.click();
+    else editor.querySelector<HTMLTextAreaElement>('[data-pre-code-authoring-content]')?.focus();
   }
 
   function stageEditor(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection): HTMLElement {
@@ -164,8 +182,8 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Contenido Markdown';
       const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=18; textarea.spellcheck=false; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; textarea.value=stage.draft_content??'';
       const fileLabel=document.createElement('label'); fileLabel.textContent='Archivo local para IMPORT';
-      const file=document.createElement('input'); file.dataset.preCodeAuthoringFile='true'; file.type='file'; file.accept='.md,text/markdown,text/plain'; file.disabled=mode.value!=='IMPORT';
-      mode.addEventListener('change',()=>{file.disabled=mode.value!=='IMPORT'; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; save.textContent=mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT';});
+      const file=document.createElement('input'); file.dataset.preCodeAuthoringFile='true'; file.type='file'; file.accept='.md,text/markdown,text/plain'; file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden;
+      mode.addEventListener('change',()=>{file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; save.textContent=mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT';});
       file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
       const save=button(mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT',async()=>{
         setFeedback(feedback,'loading',mode.value==='DEVPL_MOCK'?'Derivando propuesta local desde el contexto gobernado; sin red ni API externa…':'Guardando DRAFT sin escribir source…');
@@ -179,7 +197,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       form.append(modeLabel,mode,fileLabel,file,textLabel,textarea,save,review); section.append(form);
       if(stage.derivation){
         const d=stage.derivation; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
-        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-context-template-v1'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · revisión humana obligatoria.`;
+        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-context-template-v2'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · revisión humana obligatoria.`;
         section.append(provenance);
       }
       if(stage.findings?.length){ const findings=document.createElement('ul'); findings.className='pre-code-findings'; for(const row of stage.findings){const li=document.createElement('li'); li.textContent=`${String(row['id']??'finding')}: ${String(row['message']??'')}`; findings.append(li);} section.append(findings); }

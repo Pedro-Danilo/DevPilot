@@ -42,6 +42,47 @@ def test_workspace_init_execute_writes_project_yaml(tmp_path):
     assert metadata["standards"] == ["MIPSoftware", "MIASI"]
 
 
+def test_parse_project_yaml_metadata_reads_bootstrap_policy_and_constraints(tmp_path):
+    project_file = tmp_path / ".devpilot" / "project.yaml"
+    project_file.parent.mkdir(parents=True)
+    project_file.write_text(
+        "\n".join(
+            [
+                'schema_version: "2.0"',
+                'project_id: "greenfield-demo"',
+                'project_name: "Greenfield Demo"',
+                'business_need: "Controlar inventario y ventas"',
+                'model_policy:',
+                '  baseline: "DEVPL_MOCK"',
+                '  local_model: "optional"',
+                '  external_api: "opt-in"',
+                'project_constraints:',
+                '  local_first: true',
+                '  cloud_required: false',
+                '  operator_project_writes_allowed: false',
+                'stack:',
+                '  status: "deferred"',
+            ]
+        ) + "\n",
+        encoding="utf-8",
+    )
+
+    metadata = parse_project_yaml_metadata(project_file)
+
+    assert metadata["business_need"] == "Controlar inventario y ventas"
+    assert metadata["model_policy"] == {
+        "baseline": "DEVPL_MOCK",
+        "local_model": "optional",
+        "external_api": "opt-in",
+    }
+    assert metadata["project_constraints"] == {
+        "local_first": True,
+        "cloud_required": False,
+        "operator_project_writes_allowed": False,
+    }
+    assert metadata["stack"] == {"status": "deferred"}
+
+
 
 def test_workspace_init_dry_run_reports_existing_workspace_without_overwrite(tmp_path):
     manager = WorkspaceManager(tmp_path)

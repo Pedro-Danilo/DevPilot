@@ -27,7 +27,7 @@ BOOTSTRAP_PLAN_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLAN-V1"
 BOOTSTRAP_PLANNING_CATALOG_SCHEMA_ID = "SCHEMA-DEVPL-GSDLC-03-B-BOOTSTRAP-PLANNING-CATALOG-V1"
 
 DEFAULT_BOOTSTRAP_PLANNING_CATALOG = ".devpilot/workspaces/bootstrap_planning_catalog.json"
-DEFAULT_GSDLC13_BOOTSTRAP_PLANNING_CATALOG = ".devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json"
+DEFAULT_GSDLC13_BOOTSTRAP_PLANNING_CATALOG = ".devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v3.json"
 DEFAULT_TIMEOUT_SECONDS = 8.0
 
 _VERSION_PATTERN = re.compile(r"(?P<version>\d+(?:\.\d+){1,3})")
