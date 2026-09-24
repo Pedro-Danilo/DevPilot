@@ -2,9 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schema_id": "devpilot.gsdlc05e.pre_code_wizard_catalog.v1",
   "status": "implemented-initial",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "profile_id": "guided-pre-code-manual-v1",
-  "readiness_semantics": "vertical-slice-strict; C-01 uses governed deterministic DEVPL_MOCK v2 derivation for Vision/Scope/Requirements and reconciled neutral document namespaces; does not replace historical global pre-code readiness",
+  "readiness_semantics": "vertical-slice-strict; C-01 uses governed deterministic Semantic Model v1 + deterministic-semantic-model-template-v3 for Vision/Scope/Requirements; Owner resolves semantic ambiguity before DRAFT; neutral document namespaces remain reconciled; does not replace historical global pre-code readiness",
   "stages": [
     {
       "stage_id": "product-vision",

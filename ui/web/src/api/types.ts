@@ -1190,6 +1190,38 @@ export interface ArtifactReviewRecord {
   approval_valid: boolean;
 }
 
+
+export interface PreCodeSemanticItem {
+  id: string;
+  kind: 'ACTOR' | 'OUTCOME' | 'CAPABILITY' | 'CONSTRAINT' | 'CONTEXT' | 'OPEN_QUESTION' | string;
+  statement: string;
+  source_excerpt?: string;
+  source_ref?: string;
+  confidence_class?: 'EXPLICIT' | 'DERIVED_SAFE' | 'AMBIGUOUS' | string;
+  owner_confirmed?: boolean;
+  status: 'CANDIDATE' | 'CONFIRMED' | 'REJECTED' | 'OPEN' | string;
+  related_item_ids?: string[];
+  critical?: boolean;
+  decision?: string;
+}
+
+export interface PreCodeSemanticModel {
+  schema_id: string;
+  generator?: string;
+  workspace_id: string;
+  source_refs?: Array<Record<string, unknown>>;
+  business_context: string;
+  actors: PreCodeSemanticItem[];
+  outcomes: PreCodeSemanticItem[];
+  capabilities: PreCodeSemanticItem[];
+  constraints: PreCodeSemanticItem[];
+  open_questions: PreCodeSemanticItem[];
+  decisions?: Record<string, string>;
+  owner_semantic_reviewed: boolean;
+  quality_state: 'REVIEW_REQUIRED' | 'CONFIRMED' | string;
+  semantic_model_sha256?: string;
+}
+
 // DEVPL-GSDLC-05-E / GSDLC-13-C — server-authoritative pre-code wizard with governed MANUAL/IMPORT and deterministic local DEVPL_MOCK for C-01.
 export interface PreCodeWizardStage {
   stage_id: string;
@@ -1204,6 +1236,7 @@ export interface PreCodeWizardStage {
   draft_content?: string | null;
   derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean } | null;
   content_sha256?: string | null;
+  base_sha256?: string | null;
   review_id?: string | null;
   plan_id?: string | null;
   plan_hash?: string | null;
@@ -1237,6 +1270,7 @@ export interface PreCodeWizardProjection {
   current_stage_id?: string | null;
   current_stage_order?: number | null;
   stages: PreCodeWizardStage[];
+  semantic_model?: PreCodeSemanticModel | null;
   advisor?: StepActionAdvisorDecision | null;
   miasi: {
     status: string;

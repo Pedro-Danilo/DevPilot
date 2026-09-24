@@ -4,6 +4,7 @@ import hashlib
 import json
 import shutil
 import subprocess
+from copy import deepcopy
 from pathlib import Path
 
 from fastapi.testclient import TestClient
@@ -84,6 +85,49 @@ def _intake(target: Path) -> dict:
     }
 
 
+def _resolve_semantic_model(model: dict) -> dict:
+    m=deepcopy(model)
+    if not m.get('actors'):
+        m.setdefault('actors',[]).append({'id':'','kind':'ACTOR','statement':'Persona responsable de operar el producto','status':'CONFIRMED','confidence_class':'AMBIGUOUS'})
+    if not m.get('outcomes'):
+        m.setdefault('outcomes',[]).append({'id':'','kind':'OUTCOME','statement':'Mantener información operativa confiable para ejecutar y supervisar el trabajo del MVP','status':'CONFIRMED','confidence_class':'AMBIGUOUS'})
+    for row in m.get('actors') or []:
+        row['status']='CONFIRMED'; row['owner_confirmed']=True
+    for row in m.get('outcomes') or []:
+        row['status']='CONFIRMED'; row['owner_confirmed']=True
+    for row in m.get('capabilities') or []:
+        low=str(row.get('statement') or '').lower()
+        if low.startswith('administrar productos'):
+            row['statement']='Crear, consultar y actualizar productos disponibles'
+        elif low.startswith('controlar stock'):
+            row['statement']='Consultar existencias actuales por producto'
+        row['status']='CONFIRMED'; row['owner_confirmed']=True
+    for row in m.get('open_questions') or []:
+        row['status']='CONFIRMED'; row['owner_confirmed']=True
+        low=str(row.get('statement') or '').lower()
+        if 'actor o usuario principal' in low:
+            row['decision']='La persona responsable de operar el producto es el actor principal.'
+        elif 'resultado de negocio' in low:
+            row['decision']='Mantener información operativa confiable para ejecutar y supervisar el MVP.'
+        elif 'stock bajo' in low:
+            row['decision']='El criterio de stock bajo será un umbral gobernado por producto.'
+        elif 'información de ventas' in low or 'informacion de ventas' in low:
+            row['decision']='La consulta mostrará la información básica de ventas definida en el alcance aprobado.'
+        else:
+            row['decision']='El Owner confirma el wording observable consignado en la capability relacionada.'
+    return m
+
+
+def _generate_product_vision(service: ApplicationService, ws: Path, actor: str='local-owner'):
+    prepared=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
+    assert prepared.ok,prepared.to_dict()
+    assert prepared.data.get('semantic_model') and not (ws/'docs/00_product/product_vision.md').exists()
+    resolved=_resolve_semantic_model(prepared.data['semantic_model'])
+    generated=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name],semantic_model=resolved)
+    assert generated.ok,generated.to_dict()
+    return generated, resolved
+
+
 def test_api_start_reconciles_local_owner_to_server_active_workspace_and_precode_get_is_not_403(tmp_path,monkeypatch):
     platform=_platform(tmp_path); ws=_workspace(tmp_path)
     _activate(platform,ws,monkeypatch)
@@ -118,9 +162,14 @@ def test_http_devpl_mock_draft_is_project_scoped_csrf_bound_and_source_write_fre
     before=subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])
     r=client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/draft',json={'mode':'DEVPL_MOCK','content':''},headers={'origin':'http://127.0.0.1:5173','X-DevPilot-CSRF':csrf})
     assert r.status_code==200,r.text
-    payload=r.json(); assert payload['ok'] is True
-    stage=payload['data']['stage']; assert stage['mode']=='DEVPL_MOCK' and stage['draft_content']
+    payload=r.json(); assert payload['ok'] is True and payload['data']['semantic_model']
+    assert not (ws/'docs/00_product/product_vision.md').exists()
+    resolved=_resolve_semantic_model(payload['data']['semantic_model'])
+    r2=client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/draft',json={'mode':'DEVPL_MOCK','content':'','semantic_model':resolved},headers={'origin':'http://127.0.0.1:5173','X-DevPilot-CSRF':csrf})
+    assert r2.status_code==200,r2.text
+    stage=r2.json()['data']['stage']; assert stage['mode']=='DEVPL_MOCK' and stage['draft_content']
     assert stage['derivation']['network_used'] is False and stage['derivation']['external_api_used'] is False
+    assert stage['derivation']['model']=='deterministic-semantic-model-template-v3'
     assert not (ws/'docs/00_product/product_vision.md').exists()
     assert subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])==before==b''
 
@@ -139,14 +188,13 @@ def test_devpl_mock_derives_product_vision_without_source_write_network_or_api(t
     platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
     service=ApplicationService(platform)
     before=subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])
-    result=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=['inventory-sales-local-greenfield'])
-    assert result.ok,result.to_dict()
+    result,_=_generate_product_vision(service,ws)
     stage=result.data['stage']
     assert stage['mode']=='DEVPL_MOCK'
     assert stage['draft_content'] and '## Problema' in stage['draft_content'] and '## Visión' in stage['draft_content']
     assert 'Administrar productos' in stage['draft_content']
-    d=stage['derivation']; assert d['provider']=='devpilot-local' and d['model']=='deterministic-context-template-v2'
-    assert d['schema_id']=='devpilot.gsdlc13c01.deterministic_derivation.v2' and d['canonical_input_sha256']
+    d=stage['derivation']; assert d['provider']=='devpilot-local' and d['model']=='deterministic-semantic-model-template-v3'
+    assert d['schema_id']=='devpilot.gsdlc13c01.deterministic_derivation.v3' and d['canonical_input_sha256']
     assert d['network_used'] is False and d['external_api_used'] is False and d['cost_usd']==0.0
     assert result.data['source_mutations_performed'] is False
     assert not (ws/'docs/00_product/product_vision.md').exists()
@@ -159,15 +207,14 @@ def test_c01_local_derivation_is_sequential_and_generated_docs_validate(tmp_path
     # We verify generated proposals for all C-01 stages without bypassing stage order by freezing
     # test-local runtime rows/source inputs exactly as the real prior stage would leave them.
     actor='local-owner'
-    vision=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
-    assert vision.ok
+    vision,_=_generate_product_vision(service,ws,actor)
     content=vision.data['stage']['draft_content']; state_path=_freeze_test_stage(platform,ws,'product-vision','docs/00_product/product_vision.md',content)
     scope=service.guided_pre_code_save_draft(stage_id='scope',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert scope.ok,scope.to_dict(); sc=scope.data['stage']['draft_content']; assert '## Out of scope' in sc
     _freeze_test_stage(platform,ws,'scope','docs/00_product/mvp_scope.md',sc)
     req=service.guided_pre_code_save_draft(stage_id='requirements',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert req.ok,req.to_dict(); rc=req.data['stage']['draft_content']
-    assert '## Requerimientos funcionales del MVP' in rc and '**RF-001**' in rc and '## Criterios de bloqueo' in rc
+    assert '## Requerimientos funcionales del MVP' in rc and '### RF-001' in rc and '**Método de verificación:**' in rc and '## Criterios de bloqueo' in rc
     assert req.data['stage']['derivation']['source_refs'][-1]['path']=='docs/00_product/mvp_scope.md'
 
 
@@ -196,12 +243,12 @@ def test_ui_exposes_local_derived_mode_provenance_and_precise_403_copy():
     assert 'Cómo crear el DRAFT' in view and 'Herramientas auxiliares' in view and 'IA avanzada' in view
     assert 'Abrir Documentos / preparar edición externa' in view
     assert 'Generar propuesta con DevPilot' in view
-    assert 'Propuesta DevPilot local' in view and 'costo USD' in view and 'deterministic-context-template-v2' in view
+    assert 'Propuesta DevPilot local' in view and 'costo USD' in view and 'deterministic-semantic-model-template-v3' in view
     assert 'RBAC/policy denegó el acceso a Pre-code (HTTP 403)' in view
-    assert "'DEVPL_MOCK'" in types and 'draft_content' in types and 'derivation' in types
+    assert "'DEVPL_MOCK'" in types and 'draft_content' in types and 'derivation' in types and 'PreCodeSemanticModel' in types
     assert "mode: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK'" in client
     assert 'propuesta local DevPilot para C-01' in project_status
-    assert 'MANUAL/IMPORT/DEVPL_MOCK' in services
+    assert 'MANUAL/IMPORT/DEVPL_MOCK' in services and 'Semantic Model' in services
 
 
 def test_c01_three_stage_devpl_mock_flow_uses_review_approval_apply_freeze(tmp_path,monkeypatch):
@@ -228,6 +275,13 @@ def test_c01_three_stage_devpl_mock_flow_uses_review_approval_apply_freeze(tmp_p
             session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name],
         )
         assert draft.ok,draft.to_dict()
+        if stage_id=='product-vision' and draft.data.get('semantic_model'):
+            draft=service.guided_pre_code_save_draft(
+                stage_id=stage_id,content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',
+                session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name],
+                semantic_model=_resolve_semantic_model(draft.data['semantic_model']),
+            )
+            assert draft.ok,draft.to_dict()
         assert not (ws/rel).exists(), 'DEVPL_MOCK DRAFT must remain server-side until approval-bound apply'
         review=service.guided_pre_code_review(
             stage_id=stage_id,actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],
@@ -285,7 +339,9 @@ def test_c01_contract_uses_real_bootstrap_and_all_required_namespaces(tmp_path,m
     _activate(platform,ws,monkeypatch)
     service=ApplicationService(platform)
     before=subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])
-    draft=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name])
+    prepared=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name])
+    assert prepared.ok,prepared.to_dict()
+    draft=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name],semantic_model=_resolve_semantic_model(prepared.data['semantic_model']))
     assert draft.ok,draft.to_dict()
     assert draft.data['structure_reconciliation']['directories_created']==[]
     assert not (ws/'docs/00_product/product_vision.md').exists()
@@ -305,10 +361,12 @@ def test_legacy_shell_is_reconciled_idempotently_by_devpilot_not_operator(tmp_pa
     assert subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])==before==b''
 
 
-def test_deterministic_v2_same_input_same_hash_and_upstream_changes_downstream(tmp_path,monkeypatch):
+def test_deterministic_v3_same_semantic_input_same_hash_and_upstream_hashes_change_downstream(tmp_path,monkeypatch):
     platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
     service=ApplicationService(platform); actor='local-owner'
-    v1=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
+    prepared=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
+    model=_resolve_semantic_model(prepared.data['semantic_model'])
+    v1=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name],semantic_model=model)
     v2=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert v1.ok and v2.ok
     assert v1.data['stage']['derivation']['canonical_input_sha256']==v2.data['stage']['derivation']['canonical_input_sha256']
@@ -316,14 +374,14 @@ def test_deterministic_v2_same_input_same_hash_and_upstream_changes_downstream(t
     vision=v1.data['stage']['draft_content']; vp=ws/'docs/00_product/product_vision.md'; state_path=_freeze_test_stage(platform,ws,'product-vision','docs/00_product/product_vision.md',vision)
     s1=service.guided_pre_code_save_draft(stage_id='scope',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert s1.ok,s1.to_dict(); scope1=s1.data['stage']['draft_content']
-    vision_changed=vision.replace('- Administrar productos.','- Administrar productos y proveedores.')
+    vision_changed=vision+'\n<!-- governed-test-upstream-change -->\n'
     _freeze_test_stage(platform,ws,'product-vision','docs/00_product/product_vision.md',vision_changed)
     s2=service.guided_pre_code_save_draft(stage_id='scope',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert s2.ok,s2.to_dict(); assert s2.data['stage']['draft_content']!=scope1
     scope2=s2.data['stage']['draft_content']; sp=ws/'docs/00_product/mvp_scope.md'; _freeze_test_stage(platform,ws,'scope','docs/00_product/mvp_scope.md',scope2)
     r1=service.guided_pre_code_save_draft(stage_id='requirements',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert r1.ok,r1.to_dict(); req1=r1.data['stage']['draft_content']
-    scope_changed=scope2.replace('Administrar productos y proveedores','Administrar productos, proveedores y categorías')
+    scope_changed=scope2+'\n<!-- governed-test-scope-change -->\n'
     _freeze_test_stage(platform,ws,'scope','docs/00_product/mvp_scope.md',scope_changed)
     r2=service.guided_pre_code_save_draft(stage_id='requirements',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
     assert r2.ok,r2.to_dict(); assert r2.data['stage']['draft_content']!=req1
@@ -332,8 +390,7 @@ def test_deterministic_v2_same_input_same_hash_and_upstream_changes_downstream(t
 def test_scope_derivation_blocks_when_vision_is_not_frozen(tmp_path,monkeypatch):
     platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
     service=ApplicationService(platform); actor='local-owner'
-    draft=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
-    assert draft.ok
+    draft,_=_generate_product_vision(service,ws,actor)
     state_path=platform/'outputs/pre_code_wizard/gsdlc_05_e'/ws.name/'state.json'; state=json.loads(state_path.read_text())
     result=service.pre_code_wizard._derive_local_proposal(stage_id='scope',workspace_id=ws.name,workspace_root=ws,state=state)
     assert hasattr(result,'ok') and result.ok is False
@@ -342,8 +399,7 @@ def test_scope_derivation_blocks_when_vision_is_not_frozen(tmp_path,monkeypatch)
 def test_scope_derivation_blocks_when_frozen_vision_source_drifts(tmp_path,monkeypatch):
     platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
     service=ApplicationService(platform); actor='local-owner'
-    draft=service.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor=actor,actor_role='owner',session_principal=actor,effective_roles=['owner'],workspace_scopes=[ws.name])
-    assert draft.ok,draft.to_dict()
+    draft,_=_generate_product_vision(service,ws,actor)
     vision=draft.data['stage']['draft_content']; vp=ws/'docs/00_product/product_vision.md'; vp.write_text(vision,encoding='utf-8')
     state_path=platform/'outputs/pre_code_wizard/gsdlc_05_e'/ws.name/'state.json'; state=json.loads(state_path.read_text())
     approved=__import__('hashlib').sha256(vp.read_bytes()).hexdigest()

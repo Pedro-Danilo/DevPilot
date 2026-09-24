@@ -1,5 +1,5 @@
 import { armApprovalCenterArtifactReviewHandoff, DevPilotApiClient, DevPilotApiError } from '../api/client';
-import type { AuthSessionContext, DevPilotApplicationResponse, PreCodeWizardProjection, PreCodeWizardStage } from '../api/types';
+import type { AuthSessionContext, DevPilotApplicationResponse, PreCodeSemanticModel, PreCodeSemanticItem, PreCodeWizardProjection, PreCodeWizardStage } from '../api/types';
 import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
 const ROUTE_CONTRACT_ID = 'ui.pre-code-wizard';
@@ -166,12 +166,51 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     else editor.querySelector<HTMLTextAreaElement>('[data-pre-code-authoring-content]')?.focus();
   }
 
+  function semanticModelEditor(model: PreCodeSemanticModel): { element: HTMLElement; read: () => PreCodeSemanticModel } {
+    const draft=JSON.parse(JSON.stringify(model)) as PreCodeSemanticModel;
+    const host=document.createElement('section'); host.className='pre-code-semantic-model'; host.dataset.preCodeSemanticModel='true';
+    const h=document.createElement('h4'); h.textContent='Base semántica derivada';
+    const p=document.createElement('p'); p.textContent='DevPilot propone candidatos conservadores. Corrige el significado cuando sea necesario; no se escribirá ningún documento hasta que esta base sea coherente y después apruebes el diff.';
+    host.append(h,p);
+
+    const renderGroups=():void=>{
+      host.querySelectorAll('[data-semantic-dynamic="true"]').forEach((node)=>node.remove());
+      const groups:Array<[keyof Pick<PreCodeSemanticModel,'actors'|'outcomes'|'capabilities'|'constraints'|'open_questions'>,string]>=[['actors','Actores'],['outcomes','Resultados de negocio'],['capabilities','Capacidades MVP'],['constraints','Restricciones'],['open_questions','Preguntas/decisiones abiertas']];
+      for(const [key,label] of groups){
+        const section=document.createElement('div'); section.className='pre-code-semantic-model__group'; section.dataset.semanticDynamic='true';
+        const gh=document.createElement('h5'); gh.textContent=label; section.append(gh);
+        for(const item of draft[key] as PreCodeSemanticItem[]){
+          const row=document.createElement('div'); row.className='pre-code-semantic-model__item'; row.dataset.semanticItemId=item.id;
+          const meta=document.createElement('p'); meta.className='muted'; meta.textContent=`${item.id||'NUEVO'} · ${item.kind} · ${item.confidence_class??'n/a'}${item.critical?' · CRÍTICA':''}`;
+          const statement=document.createElement('input'); statement.type='text'; statement.value=item.statement; statement.setAttribute('aria-label',`Statement ${item.id||'nuevo'}`); statement.addEventListener('input',()=>{item.statement=statement.value;});
+          const kind=document.createElement('select'); kind.setAttribute('aria-label',`Tipo ${item.id||'nuevo'}`); for(const k of ['ACTOR','OUTCOME','CAPABILITY','CONSTRAINT','CONTEXT','OPEN_QUESTION']){const o=document.createElement('option');o.value=k;o.textContent=k;if(k===item.kind)o.selected=true;kind.append(o);} kind.addEventListener('change',()=>{item.kind=kind.value;});
+          const status=document.createElement('select'); status.setAttribute('aria-label',`Estado ${item.id||'nuevo'}`); const allowed=item.kind==='OPEN_QUESTION'?['OPEN','CONFIRMED','REJECTED']:['CANDIDATE','CONFIRMED','REJECTED']; for(const st of allowed){const o=document.createElement('option');o.value=st;o.textContent=st;if(st===item.status)o.selected=true;status.append(o);} status.addEventListener('change',()=>{item.status=status.value;item.owner_confirmed=status.value==='CONFIRMED';});
+          row.append(meta,statement,kind,status);
+          if(item.kind==='OPEN_QUESTION'){
+            const decision=document.createElement('input'); decision.type='text'; decision.placeholder='Respuesta/decisión del Owner'; decision.value=item.decision??''; decision.setAttribute('aria-label',`Decisión ${item.id||'nueva'}`); decision.addEventListener('input',()=>{item.decision=decision.value;if(decision.value.trim()){item.status='CONFIRMED';item.owner_confirmed=true;status.value='CONFIRMED';}}); row.append(decision);
+          }
+          if(item.source_excerpt){const evidence=document.createElement('small'); evidence.textContent=`Fuente: ${item.source_excerpt}`; row.append(evidence);}
+          section.append(row);
+        }
+        if(key==='actors'||key==='outcomes'||key==='capabilities'){
+          const add=document.createElement('button'); add.type='button'; add.className='button-link'; add.textContent=`Añadir ${key==='actors'?'actor':key==='outcomes'?'resultado':'capacidad'}`; add.addEventListener('click',()=>{const kindValue=key==='actors'?'ACTOR':key==='outcomes'?'OUTCOME':'CAPABILITY'; (draft[key] as PreCodeSemanticItem[]).push({id:'',kind:kindValue,statement:'',source_excerpt:'Owner semantic review',source_ref:'owner-semantic-review',confidence_class:'AMBIGUOUS',owner_confirmed:true,status:'CONFIRMED'}); renderGroups();}); section.append(add);
+        }
+        host.append(section);
+      }
+      const note=document.createElement('p'); note.className='muted'; note.dataset.semanticDynamic='true'; note.textContent='Al confirmar, los CANDIDATE no rechazados se consideran confirmados por esta decisión global. Las preguntas críticas requieren respuesta y las capacidades vagas deben reescribirse como acciones observables.'; host.append(note);
+    };
+    renderGroups();
+    return {element:host,read:()=>{for(const key of ['actors','outcomes','capabilities','constraints'] as const){for(const item of draft[key]){if(item.status==='CANDIDATE'){item.status='CONFIRMED';item.owner_confirmed=true;}}}return draft;}};
+  }
+
   function stageEditor(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection): HTMLElement {
     const section=document.createElement('section'); section.className='panel pre-code-stage'; section.dataset.stageId=stage.stage_id; section.dataset.stageStatus=stage.status;
     const heading=document.createElement('h3'); heading.textContent=`${stage.order}. ${stage.label}`;
     const path=document.createElement('p'); path.className='muted'; path.textContent=`Destino gobernado: ${stage.relative_path} · Estado ${stage.status}`;
     section.append(heading,path);
     const feedback=document.createElement('div'); feedback.dataset.preCodeStageFeedback='true'; feedback.setAttribute('role','status'); feedback.setAttribute('aria-live','polite'); section.append(feedback);
+    const semanticReview=stage.stage_id==='product-vision' && preCode.semantic_model && preCode.semantic_model.quality_state!=='CONFIRMED' ? semanticModelEditor(preCode.semantic_model) : null;
+    if(semanticReview) section.append(semanticReview.element);
 
     if(['MISSING','DRAFT','FINDINGS'].includes(stage.status)){
       const form=document.createElement('div'); form.className='pre-code-stage__editor';
@@ -180,14 +219,14 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?'DevPilot · Mock local / sin API':value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
       if(stage.mode && stage.allowed_modes.includes(stage.mode)) mode.value=stage.mode;
       const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Contenido Markdown';
-      const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=18; textarea.spellcheck=false; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; textarea.value=stage.draft_content??'';
+      const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=18; textarea.spellcheck=false; textarea.placeholder=mode.value==='DEVPL_MOCK'?(semanticReview?'Primero confirma/corrige la Base semántica; DevPilot generará el Markdown después.':'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; textarea.value=stage.draft_content??'';
       const fileLabel=document.createElement('label'); fileLabel.textContent='Archivo local para IMPORT';
       const file=document.createElement('input'); file.dataset.preCodeAuthoringFile='true'; file.type='file'; file.accept='.md,text/markdown,text/plain'; file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden;
-      mode.addEventListener('change',()=>{file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden; textarea.placeholder=mode.value==='DEVPL_MOCK'?'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.':'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; save.textContent=mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT';});
+      mode.addEventListener('change',()=>{file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden; textarea.placeholder=mode.value==='DEVPL_MOCK'?(semanticReview?'Primero confirma/corrige la Base semántica; DevPilot generará el Markdown después.':'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; save.textContent=mode.value==='DEVPL_MOCK'?(semanticReview?'Confirmar base semántica y generar DRAFT':'Generar propuesta con DevPilot'):'Guardar DRAFT';});
       file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
-      const save=button(mode.value==='DEVPL_MOCK'?'Generar propuesta con DevPilot':'Guardar DRAFT',async()=>{
+      const save=button(mode.value==='DEVPL_MOCK'?(semanticReview?'Confirmar base semántica y generar DRAFT':'Generar propuesta con DevPilot'):'Guardar DRAFT',async()=>{
         setFeedback(feedback,'loading',mode.value==='DEVPL_MOCK'?'Derivando propuesta local desde el contexto gobernado; sin red ni API externa…':'Guardando DRAFT sin escribir source…');
-        if(!await ensureLiveHumanSession(feedback)) return; try{ const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK',content:mode.value==='DEVPL_MOCK'?'':textarea.value}); if(!r.ok) throw new Error(formatFindings(r)); await load(mode.value==='DEVPL_MOCK'?'Propuesta DevPilot generada como DRAFT. Revísala antes de validar; source todavía no fue mutado.':'DRAFT persistido server-side; source todavía no fue mutado.'); }catch(e){await renderGovernedError(feedback,e);}
+        if(!await ensureLiveHumanSession(feedback)) return; try{ const semanticPayload=mode.value==='DEVPL_MOCK' && semanticReview ? semanticReview.read() : null; const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK',content:mode.value==='DEVPL_MOCK'?'':textarea.value,semantic_model:semanticPayload}); if(!r.ok) throw new Error(formatFindings(r)); const semanticPrepared=mode.value==='DEVPL_MOCK' && stage.stage_id==='product-vision' && !semanticReview; await load(mode.value==='DEVPL_MOCK'?(semanticPrepared?'Base semántica preparada. Confirma/corrige los candidatos antes de generar el DRAFT.':'Propuesta DevPilot generada como DRAFT desde el Semantic Model confirmado. Revísala antes de validar; source todavía no fue mutado.'):'DRAFT persistido server-side; source todavía no fue mutado.'); }catch(e){await renderGovernedError(feedback,e);}
       });
       const review=button('Validar y preparar diff',async()=>{
         setFeedback(feedback,'loading','Ejecutando validadores y plan inmutable…');
@@ -197,7 +236,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       form.append(modeLabel,mode,fileLabel,file,textLabel,textarea,save,review); section.append(form);
       if(stage.derivation){
         const d=stage.derivation; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
-        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-context-template-v2'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · revisión humana obligatoria.`;
+        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · revisión humana obligatoria.`;
         section.append(provenance);
       }
       if(stage.findings?.length){ const findings=document.createElement('ul'); findings.className='pre-code-findings'; for(const row of stage.findings){const li=document.createElement('li'); li.textContent=`${String(row['id']??'finding')}: ${String(row['message']??'')}`; findings.append(li);} section.append(findings); }
@@ -206,12 +245,13 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     if(stage.status==='APPROVAL_REQUIRED'){
       const plan=document.createElement('div'); plan.className='pre-code-plan'; plan.dataset.planId=stage.plan_id??''; plan.dataset.planHash=stage.plan_hash??'';
       const text=document.createElement('p'); text.textContent=`Plan ${stage.plan_id ?? 'n/a'} listo. Approval requerido antes de apply.`; plan.append(text);
+      const comparison=document.createElement('p'); comparison.className='notice notice--info'; const isNew=!stage.base_sha256 || /^0{64}$/.test(stage.base_sha256); comparison.textContent=isNew?'Comparando: baseline vacío → DRAFT propuesto. Archivo nuevo; todo el diff representa contenido a crear.':'Comparando: source actual → DRAFT propuesto. El approval autoriza exactamente este preimage y esta propuesta.'; plan.append(comparison);
       const meta=document.createElement('dl'); meta.className='pre-code-plan__meta';
-      for(const [label,value] of [['Plan hash',stage.plan_hash??'n/a'],['Diff SHA-256',stage.diff?.sha256??'n/a'],['Cambio',`${stage.diff?.additions??0} adiciones · ${stage.diff?.deletions??0} eliminaciones · ${stage.diff?.hunks??0} hunks`]]){
+      for(const [label,value] of [['Plan hash',stage.plan_hash??'n/a'],['Base SHA-256',stage.base_sha256??'n/a'],['Proposed SHA-256',stage.content_sha256??'n/a'],['Diff SHA-256',stage.diff?.sha256??'n/a'],['Cambio',`${stage.diff?.additions??0} adiciones · ${stage.diff?.deletions??0} eliminaciones · ${stage.diff?.hunks??0} hunks`]]){
         const dt=document.createElement('dt'); dt.textContent=label; const dd=document.createElement('dd'); dd.textContent=String(value); meta.append(dt,dd);
       }
       plan.append(meta);
-      if(stage.diff?.content){ const diff=document.createElement('pre'); diff.className='pre-code-plan__diff'; diff.dataset.diffSha256=stage.diff.sha256; diff.textContent=stage.diff.content; plan.append(diff); }
+      if(stage.diff?.content){ const diff=document.createElement('pre'); diff.className='pre-code-plan__diff'; diff.dataset.diffSha256=stage.diff.sha256; diff.textContent=stage.diff.content; plan.append(diff); const warning=document.createElement('p'); warning.className='muted'; warning.textContent='Si cambia el DRAFT o la base semántica, este plan/diff deja de representar el cambio aprobado y debe generarse de nuevo.'; plan.append(warning); }
       if(!stage.approval_id){
         plan.append(button('Solicitar approval',async()=>{ if(!await ensureLiveHumanSession(feedback)) return; try{const r=await client().preCodeApprovalRequest(stage.stage_id); if(!r.ok) throw new Error(formatFindings(r)); const approvalId=String(((r.data as Record<string,unknown>)?.['pre_code'] as Record<string,unknown>|undefined)?.['approval_id']??''); if(!approvalId) throw new Error('La API no devolvió Approval ID.'); armApprovalCenterArtifactReviewHandoff(session,approvalId); await load(`Approval solicitado: ${approvalId}. Abre Approval Center dirigido y decide con un rol autorizado.`);}catch(e){await renderGovernedError(feedback,e);} }));
       } else {

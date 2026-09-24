@@ -25,6 +25,14 @@ from .artifact_review_service import ArtifactReviewApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_edit_plan_service import ZERO_SHA256
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
+from .pre_code_semantic_model import (
+    build_candidate_model,
+    normalize_owner_model,
+    requirement_records,
+    semantic_hash,
+    validate_confirmed_model,
+    validate_rendered_artifact,
+)
 
 CATALOG = Path('.devpilot/gsdlc/pre_code_wizard_catalog.json')
 STORE_ROOT = Path('outputs/pre_code_wizard/gsdlc_05_e')
@@ -37,8 +45,8 @@ REQUIRED_DOCUMENT_PARENTS = (
     Path('docs/03_security'),
     Path('docs/04_quality'),
 )
-DERIVATION_MODEL = 'deterministic-context-template-v2'
-DERIVATION_SCHEMA = 'devpilot.gsdlc13c01.deterministic_derivation.v2'
+DERIVATION_MODEL = 'deterministic-semantic-model-template-v3'
+DERIVATION_SCHEMA = 'devpilot.gsdlc13c01.deterministic_derivation.v3'
 _SHA = re.compile(r'^[0-9a-f]{64}$')
 
 
@@ -104,7 +112,7 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC13C01_STRUCTURE_SCOPE_BLOCK','Active workspace scope is required to reconcile governed document namespaces.',metadata={'workspace_id':workspace_id})
         return self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
 
-    def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
+    def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], semantic_model: dict[str, Any] | None = None) -> CommandResult:
         command='guided pre-code save draft'
         context=self._context()
         if isinstance(context,CommandResult): return context
@@ -127,6 +135,8 @@ class PreCodeWizardApplicationService:
         derivation=None
         content=str(content or '')
         if normalized_mode=='DEVPL_MOCK':
+            semantic_result=self._ensure_semantic_model(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state,submitted=semantic_model)
+            if isinstance(semantic_result,CommandResult): return semantic_result
             generated=self._derive_local_proposal(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state)
             if isinstance(generated,CommandResult): return generated
             content,derivation=generated
@@ -166,6 +176,11 @@ class PreCodeWizardApplicationService:
         row=self._stage_state(state,stage_id)
         if row.get('status') not in {'DRAFT','FINDINGS'} or not isinstance(row.get('artifact'),dict):
             return self._block(command,'GSDLC05E_DRAFT_REQUIRED_BLOCK','Save a current-stage DRAFT before validation/review.')
+        if str(row.get('mode') or '')=='DEVPL_MOCK':
+            model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
+            semantic_findings=validate_confirmed_model(model or {}) + validate_rendered_artifact(stage_id,str(row.get('content') or ''),model or {})
+            if semantic_findings:
+                return self._block(command,'GSDLC13C01_SEMANTIC_QUALITY_BLOCK','Semantic quality gate blocked review before an approval-ready plan could be created.',metadata={'semantic_findings':semantic_findings})
         # A corrected draft always starts a new lifecycle record; persisted row artifact is DRAFT.
         result=self.reviews.start_runtime_draft(source_kind=str(row.get('mode') or 'MANUAL'),source_ref=f'pre-code:{workspace_id}:{stage_id}',artifact=deepcopy(row['artifact']),relative_path=str(self._stage_by_id[stage_id]['relative_path']),content=str(row.get('content') or ''),base_sha=str(row.get('base_sha256') or ZERO_SHA256),actor=actor,actor_role=actor_role,session_principal=session_principal)
         review=(result.data or {}).get('review') if isinstance(result.data,dict) else None
@@ -256,6 +271,60 @@ class PreCodeWizardApplicationService:
         projection=self._projection(state,workspace_id,workspace_root,effective_roles,workspace_scopes)
         return self._pass(command,'GSDLC05E_STAGE_FROZEN_PASS','Stage frozen through approval-bound apply; wizard advanced without skip.',{'pre_code':projection,'review':review})
 
+    def reopen_c01_for_retest(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], reason: str) -> CommandResult:
+        """Governed runtime-only reset of C-01 for an exact selective retest.
+
+        Preserves managed source bytes and archives the prior runtime state/trace.
+        This is intentionally not exposed as a normal-user HTTP route.
+        """
+        command='guided pre-code reopen C-01 retest'
+        context=self._context()
+        if isinstance(context,CommandResult): return context
+        workspace_id,workspace_root=context
+        identity=self._identity(actor,actor_role,session_principal,effective_roles)
+        if identity is not None:return identity
+        if workspace_id not in set(workspace_scopes):
+            return self._block(command,'GSDLC13C01_RETEST_SCOPE_BLOCK','Active workspace scope is required for governed C-01 retest reopen.',metadata={'workspace_id':workspace_id})
+        state=self._load_state(workspace_id)
+        c01=('product-vision','scope','requirements')
+        for stage_id in c01:
+            row=self._stage_state(state,stage_id)
+            if row.get('status')!='FROZEN':
+                return self._block(command,'GSDLC13C01_RETEST_FROZEN_REQUIRED_BLOCK','C-01 retest reopen requires all three prior C-01 stages to be FROZEN.',metadata={'stage_id':stage_id,'status':row.get('status')})
+            stage=self._stage_by_id[stage_id]; target=workspace_root/str(stage['relative_path'])
+            approved=str(row.get('approved_sha256') or '')
+            actual=_sha_bytes(target.read_bytes()) if target.is_file() else ''
+            if not _SHA.fullmatch(approved) or actual!=approved:
+                return self._block(command,'GSDLC13C01_RETEST_SOURCE_DRIFT_BLOCK','C-01 retest reopen refused because a prior FROZEN source no longer matches its approved bytes.',metadata={'stage_id':stage_id,'approved_sha256':approved or None,'actual_sha256':actual or None})
+        current=self._current_stage(state)
+        if current is None or current.get('stage_id')!='architecture':
+            return self._block(command,'GSDLC13C01_RETEST_BOUNDARY_BLOCK','C-01 retest reopen is allowed only at the post-Requirements boundary before Architecture starts.',metadata={'current_stage_id':current.get('stage_id') if current else None})
+        archive_root=self._state_path(workspace_id).parent/'history'
+        archive_root.mkdir(parents=True,exist_ok=True)
+        stamp=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+        state_archive=archive_root/f'c01_before_retest_{stamp}_state.json'
+        state_archive.write_text(json.dumps(state,indent=2,sort_keys=True,ensure_ascii=False)+'\n',encoding='utf-8')
+        trace_path=self._trace_path(workspace_id)
+        trace_archive=None
+        if trace_path.is_file():
+            trace_archive=archive_root/f'c01_before_retest_{stamp}_trace.jsonl'
+            trace_archive.write_bytes(trace_path.read_bytes())
+        for stage_id in c01:
+            prior=deepcopy(self._stage_state(state,stage_id))
+            row=self._stage_state(state,stage_id)
+            row.clear(); row.update({
+                'stage_id':stage_id,'status':'MISSING','mode':None,'content_sha256':None,
+                'base_sha256':prior.get('approved_sha256'),'artifact':None,'derivation':None,
+                'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,
+                'approval_id':None,'approved_sha256':None,'findings':[],'validation':{},'updated_at':_now(),
+                'retest_baseline_approved_sha256':prior.get('approved_sha256'),
+            })
+        state['semantic_model']=None; state['status']='IN_PROGRESS'; state['completed_at']=None; state.pop('readiness',None); state['updated_at']=_now()
+        self._write_state(workspace_id,state)
+        event={'event':'C01_RETEST_REOPENED','actor':actor,'actor_role':actor_role,'reason':str(reason or 'Selective retest after approved corrective'),'state_archive':str(state_archive.relative_to(self.root)).replace('\\','/'),'trace_archive':str(trace_archive.relative_to(self.root)).replace('\\','/') if trace_archive else None,'project_source_mutations':0,'at':_now()}
+        self._append_trace(workspace_id,event)
+        return self._pass(command,'GSDLC13C01_RETEST_REOPEN_PASS','C-01 runtime state reopened for an exact selective retest; prior evidence archived and managed project source bytes preserved.',{'workspace_id':workspace_id,'state_archive':event['state_archive'],'trace_archive':event['trace_archive'],'project_source_mutations':0})
+
     def readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         context=self._context()
         if isinstance(context,CommandResult):return context
@@ -273,7 +342,7 @@ class PreCodeWizardApplicationService:
             ctx=AdvisorContext(workspace_id=workspace_id,current_step=str(current['advisor_step']),effective_roles=tuple(effective_roles),workspace_scopes=tuple(workspace_scopes),artifact_readiness='READY' if artifact_status in {'DRAFT','APPROVAL_REQUIRED','FROZEN'} else 'UNKNOWN',miasi_gate_status=str(miasi.get('gate_status') or 'BLOCK'),provider_status='NOT_AVAILABLE',budget_status='NOT_APPLICABLE',active_project_context=True)
             advisor_payload=self.advisor.advise(ctx).to_payload()
         readiness=self._readiness_payload(state,workspace_id,workspace_root,miasi=miasi)
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':False,'agent_execution_used':False,'rag_execution_used':False,'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':False,'agent_execution_used':False,'rag_execution_used':False,'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _readiness_payload(self,state:dict[str,Any],workspace_id:str,workspace_root:Path,*,miasi:dict[str,Any]|None=None)->dict[str,Any]:
         blockers=[]; artifacts=[]
@@ -346,7 +415,7 @@ class PreCodeWizardApplicationService:
         return str(context.active_workspace_id),context.active_workspace_root.resolve()
 
     def _initial_state(self,workspace_id:str)->dict[str,Any]:
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_state.v1','workspace_id':workspace_id,'profile_id':self.catalog['profile_id'],'status':'NOT_STARTED','stages':{x['stage_id']:{'stage_id':x['stage_id'],'status':'MISSING','mode':None,'content_sha256':None,'base_sha256':None,'artifact':None,'derivation':None,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'findings':[],'validation':{},'updated_at':None} for x in self._stages},'created_at':_now(),'updated_at':_now(),'completed_at':None}
+        return {'schema_id':'devpilot.gsdlc05e.pre_code_state.v1','workspace_id':workspace_id,'profile_id':self.catalog['profile_id'],'status':'NOT_STARTED','semantic_model':None,'stages':{x['stage_id']:{'stage_id':x['stage_id'],'status':'MISSING','mode':None,'content_sha256':None,'base_sha256':None,'artifact':None,'derivation':None,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'findings':[],'validation':{},'updated_at':None} for x in self._stages},'created_at':_now(),'updated_at':_now(),'completed_at':None}
 
     def _state_path(self,workspace_id:str)->Path:
         safe=re.sub(r'[^A-Za-z0-9_.-]','_',workspace_id); return self.root/STORE_ROOT/safe/'state.json'
@@ -374,7 +443,48 @@ class PreCodeWizardApplicationService:
     def _stage_state(state:dict[str,Any],stage_id:str)->dict[str,Any]: return state['stages'][stage_id]
     @staticmethod
     def _public_stage(row:dict[str,Any],stage:dict[str,Any])->dict[str,Any]:
-        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
+        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'base_sha256':row.get('base_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
+    def _ensure_semantic_model(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any], submitted: dict[str, Any] | None) -> dict[str, Any] | CommandResult:
+        command='guided pre-code semantic model'
+        existing=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
+        if stage_id!='product-vision':
+            if not existing or existing.get('quality_state')!='CONFIRMED':
+                return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','A confirmed PreCode Semantic Model from Product Vision is required before deterministic downstream generation.')
+            findings=validate_confirmed_model(existing)
+            if findings:
+                return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INVALID_BLOCK','Confirmed Semantic Model no longer satisfies quality invariants.',metadata={'semantic_findings':findings})
+            return existing
+        project_file=workspace_root/'.devpilot/project.yaml'
+        if not project_file.is_file():
+            return self._block(command,'GSDLC13C01_PROJECT_CONTEXT_BLOCK','Project context is missing; Semantic Model cannot be grounded.')
+        metadata=parse_project_yaml_metadata(project_file)
+        need=str(metadata.get('business_need') or '').strip()
+        constraints=dict(metadata.get('project_constraints') or {}) if isinstance(metadata.get('project_constraints'),dict) else {}
+        model_policy=dict(metadata.get('model_policy') or {}) if isinstance(metadata.get('model_policy'),dict) else {}
+        project_text=_canonical_text(project_file.read_text(encoding='utf-8'))
+        if existing is None:
+            existing=build_candidate_model(workspace_id=workspace_id,business_need=need,source_ref='.devpilot/project.yaml',source_sha256=_sha_text(project_text),constraints=constraints,model_policy=model_policy)
+            state['semantic_model']=existing; state['status']='IN_PROGRESS'; state['updated_at']=_now(); self._write_state(workspace_id,state)
+        if submitted is None:
+            if existing.get('quality_state')=='CONFIRMED':
+                findings=validate_confirmed_model(existing)
+                if findings:
+                    return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INVALID_BLOCK','Confirmed Semantic Model no longer satisfies quality invariants.',metadata={'semantic_findings':findings})
+                return existing
+            return self._pass(command,'GSDLC13C01_SEMANTIC_MODEL_REVIEW_REQUIRED_PASS','Semantic candidates prepared. Owner confirmation/correction is required before Product Vision DRAFT generation.',{'semantic_model':deepcopy(existing),'source_mutations_performed':False})
+        try:
+            confirmed=normalize_owner_model(existing,submitted)
+        except ValueError as exc:
+            return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INPUT_BLOCK',str(exc))
+        findings=validate_confirmed_model(confirmed)
+        if findings:
+            confirmed['quality_state']='REVIEW_REQUIRED'; confirmed['semantic_model_sha256']=semantic_hash(confirmed); state['semantic_model']=confirmed; state['updated_at']=_now(); self._write_state(workspace_id,state)
+            return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_CONFIRMATION_BLOCK','Semantic Model still contains unresolved or non-actionable items.',metadata={'semantic_findings':findings,'semantic_model':deepcopy(confirmed)})
+        confirmed['quality_state']='CONFIRMED'; confirmed['semantic_model_sha256']=semantic_hash(confirmed)
+        state['semantic_model']=confirmed; state['updated_at']=_now(); self._write_state(workspace_id,state)
+        self._append_trace(workspace_id,{'event':'SEMANTIC_MODEL_CONFIRMED','semantic_model_sha256':confirmed['semantic_model_sha256'],'actor':'owner','at':_now()})
+        return confirmed
+
     def _derive_local_proposal(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any]) -> tuple[str, dict[str, Any]] | CommandResult:
         command='guided pre-code deterministic local proposal'
         if stage_id not in {'product-vision','scope','requirements'}:
@@ -411,6 +521,10 @@ class PreCodeWizardApplicationService:
             text=_canonical_text(source_bytes.decode('utf-8'))
             upstream[source_id]=text
             refs.append({'path':str(source_stage['relative_path']),'sha256':_sha_text(text),'approved_sha256':approved_sha,'kind':'frozen-input'})
+        semantic_model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
+        semantic_findings=validate_confirmed_model(semantic_model or {})
+        if semantic_findings:
+            return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','Confirmed Semantic Model is required for deterministic generation.',metadata={'semantic_findings':semantic_findings})
         canonical_input={
             'generator_version':DERIVATION_MODEL,
             'stage_id':stage_id,
@@ -419,12 +533,13 @@ class PreCodeWizardApplicationService:
                 'project_id':project_id,'project_name':name,'business_need':' '.join(need.split()),
                 'document_date':document_date,'project_constraints':constraints,'model_policy':model_policy,
             },
+            'semantic_model':semantic_model,
             'upstream':upstream,
         }
         canonical_json=json.dumps(canonical_input,sort_keys=True,separators=(',',':'),ensure_ascii=False)
         content=self._proposal_markdown(
             stage_id=stage_id,workspace_id=workspace_id,project_name=name,business_need=need,
-            document_date=document_date,constraints=constraints,model_policy=model_policy,upstream=upstream,
+            document_date=document_date,constraints=constraints,model_policy=model_policy,upstream=upstream,semantic_model=semantic_model,
         )
         derivation={
             'schema_id':DERIVATION_SCHEMA,
@@ -432,6 +547,7 @@ class PreCodeWizardApplicationService:
             'network_used':False,'external_api_used':False,'cost_usd':0.0,
             'source_refs':refs,'canonical_input_sha256':_sha_bytes(canonical_json.encode('utf-8')),
             'generated_content_sha256':_sha_text(content),
+            'semantic_model_sha256':semantic_hash(semantic_model),'semantic_model_schema_id':semantic_model.get('schema_id'),'owner_semantic_reviewed':bool(semantic_model.get('owner_semantic_reviewed')),
             'owner_review_required':True,'approval_required_before_source_write':True,
         }
         return content,derivation
@@ -496,74 +612,78 @@ class PreCodeWizardApplicationService:
             f'- API externa: {external_api}.',
         ]
 
-    def _proposal_markdown(self, *, stage_id: str, workspace_id: str, project_name: str, business_need: str, document_date: str, constraints: dict[str,Any], model_policy: dict[str,Any], upstream: dict[str,str]) -> str:
-        clauses=self._business_clauses(business_need)
-        doc_id=f"{workspace_id.upper().replace('-','_')}_{stage_id.upper().replace('-','_')}"
+    def _proposal_markdown(self, *, stage_id: str, workspace_id: str, project_name: str, business_need: str, document_date: str, constraints: dict[str,Any], model_policy: dict[str,Any], upstream: dict[str,str], semantic_model: dict[str,Any]) -> str:
+        doc_id=f"{workspace_id.upper().replace('-', '_')}_{stage_id.upper().replace('-', '_')}"
         title={'product-vision':'Product Vision','scope':'MVP Scope','requirements':'Requirements Specification'}[stage_id]
         front=[
-            '---',f'doc_id: "{doc_id}"',f'title: "{title} — {project_name}"','status: "draft"','version: "0.1.0"',
-            'owner: "Owner / DevPilot"',f'updated: "{document_date}"','---','',f'# {title}',''
+            '---',f'doc_id: "{doc_id}"',f'title: "{title} — {project_name}"','status: "draft"','version: "0.2.0"',
+            'owner: "Owner / DevPilot"',f'updated: "{document_date}"','lifecycle_authority: "DevPilot runtime state"','---','',f'# {title}',''
         ]
+        confirmed=lambda key:[x for x in semantic_model.get(key) or [] if x.get('status')=='CONFIRMED']
+        actors=confirmed('actors'); outcomes=confirmed('outcomes'); capabilities=confirmed('capabilities')
+        open_questions=[x for x in semantic_model.get('open_questions') or [] if x.get('status')!='REJECTED']
         constraint_lines=self._constraint_lines(constraints,model_policy)
         if stage_id=='product-vision':
+            actor_text='; '.join(str(x.get('statement') or '') for x in actors)
+            outcome_text='; '.join(str(x.get('statement') or '') for x in outcomes)
             body=[
-                '## Resumen ejecutivo','',f'Propuesta inicial derivada por DevPilot del contexto persistido de **{project_name}**. Está sujeta a revisión y aprobación humana.','',
+                '## Resumen ejecutivo','',f'**{project_name}** es un producto orientado a {actor_text}. DevPilot deriva este DRAFT desde un Semantic Model confirmado por el Owner; no fija todavía arquitectura ni stack.','',
                 '## Problema','',business_need,'',
-                '## Visión','',f'Permitir que {project_name} resuelva de forma local, gobernada y trazable la necesidad descrita, sin fijar todavía decisiones de arquitectura o stack tecnológico.','',
-                '## MVP','',*sum(([f'- {c}.',''] for c in clauses),[]),
+                '## Usuario/actor','',*sum(([f'- **{x["id"]}** — {x["statement"]}.',''] for x in actors),[]),
+                '## Visión','',f'Permitir que {actor_text} alcance el resultado de negocio confirmado: {outcome_text}.','',
+                '## Propuesta de valor','',*sum(([f'- **{x["id"]}** — {x["statement"]}.',''] for x in outcomes),[]),
+                '## MVP','',*sum(([f'- **{x["id"]}** — {x["statement"]}.',''] for x in capabilities),[]),
                 '## Indicadores','',
-                '- Las capacidades explícitas del problema pueden recorrerse de extremo a extremo en el MVP.','',
-                '- Las operaciones críticas producen resultados verificables y trazables por el Owner.','',
-                '- La solución conserva las restricciones y model policy aprobadas en Project Context.','',
+                '- Las capacidades MVP confirmadas pueden demostrarse de extremo a extremo por el Owner.','',
+                '- Las métricas cuantitativas no se inventan: cualquier umbral no presente en la fuente permanece como decisión gobernada.','',
                 '## Local-first','',*constraint_lines,'',
+                '## Preguntas abiertas','',
+                *([f'- {q["id"]}: {q["statement"]} — decisión: {q.get("decision") or "pendiente no crítica"}.' for q in open_questions] or ['- No quedan preguntas críticas abiertas para este DRAFT.']),'',
                 '## Post-MVP','',
-                'No se incorporan automáticamente capacidades Post-MVP en esta propuesta. Se priorizarán solo después de validar el alcance del MVP.','',
+                'No se incorporan automáticamente capacidades Post-MVP. Cualquier ampliación requiere una decisión gobernada posterior.','',
             ]
         elif stage_id=='scope':
-            vision=upstream.get('product-vision','')
-            capabilities=[self._clean_scope_capability(x) for x in self._semantic_items(vision,'MVP')]
-            capabilities=[x for x in capabilities if x] or clauses
-            vision_statement=self._markdown_section(vision,'Visión') or self._markdown_section(vision,'Problema') or business_need
             body=[
-                '## MVP','',*sum(([f'- Incluir la capacidad necesaria para: {c}.',''] for c in capabilities),[]),
+                '## MVP','',*sum(([f'- **{x["id"]}** — In scope: {x["statement"]}.',''] for x in capabilities),[]),
                 '## MVP+','',
                 '- No se materializan ítems MVP+ por defecto; cualquier ampliación requiere decisión explícita del Owner.','',
                 '## Out of scope','',
+                '- Capacidades no trazadas a Product Vision FROZEN o al Semantic Model confirmado.','',
                 '- Selección de frontend, backend, base de datos o framework antes de Architecture.','',
-                '- Cloud obligatorio o dependencia obligatoria de API externa cuando Project Context no lo autoriza.','',
-                '- Capacidades no justificadas por Product Vision FROZEN o por una decisión gobernada posterior.','',
+                '- Cloud obligatorio o API externa obligatoria cuando Project Context no lo autoriza.','',
                 '## Criterios','',
-                '- El MVP conserva las capacidades aprobadas en Product Vision FROZEN.','',
-                '- El alcance mantiene tecnología diferida hasta Architecture.','',
-                '- El baseline conserva las restricciones y model policy del Project Context.','',
+                '- Cada ítem In Scope conserva un ID estable y traza a una capability confirmada.','',
+                '- El alcance no agrega capacidades no aprobadas y mantiene tecnología diferida hasta Architecture.','',
                 '## Restricciones','',*constraint_lines,'',
-                '## Contexto de Vision FROZEN','',vision_statement.strip(),'',
+                '## Dependencies','',
+                '- Product Vision debe permanecer FROZEN y con hash aprobado coincidente.','',
+                '## Upstream trace','',
+                f'- Product Vision FROZEN content SHA-256: {_sha_text(upstream.get("product-vision", ""))}.','',
+                '## Open decisions','',
+                *([f'- {q["id"]}: {q["statement"]} — decisión: {q.get("decision") or "pendiente"}.' for q in open_questions if q.get('critical')] or ['- No quedan decisiones críticas abiertas para delimitar el MVP.']),'',
+                '## Exit criteria','',
+                '- Todas las capabilities MVP confirmadas están representadas exactamente una vez y no existe scope drift.','',
             ]
         else:
-            scope=upstream.get('scope',''); vision=upstream.get('product-vision','')
-            capabilities=[self._clean_scope_capability(x) for x in self._semantic_items(scope,'MVP')]
-            capabilities=[x for x in capabilities if x]
-            if not capabilities:
-                capabilities=clauses
+            records=requirement_records(semantic_model)
             rf=[]
-            for i,c in enumerate(capabilities,1):
-                rf.extend([f'- **RF-{i:03d}** — El sistema debe soportar de forma verificable: {c}.',''])
-            vision_statement=self._markdown_section(vision,'Visión') or self._markdown_section(vision,'Problema') or business_need
+            for rec in records:
+                rf.extend([f'### {rec["id"]}','',f'- **Tipo:** {rec["type"]}.',f'- **Statement:** {rec["statement"]}',f'- **Fuente:** {", ".join(rec["source_capability_ids"])}.',f'- **Prioridad:** {rec["priority"]}.',f'- **Criterio de aceptación:** {rec["acceptance_criteria"][0]}',f'- **Método de verificación:** {rec["verification_method"]}.',''])
             body=[
-                '## Propósito','',f'Definir requisitos iniciales verificables para el MVP de {project_name}, derivados materialmente de Scope FROZEN y trazables a Product Vision FROZEN.','',
-                '## Alcance','',f'Contexto de Vision: {vision_statement.strip()}','',
-                *[f'- Scope MVP: {c}.' for c in capabilities],'',
+                '## Propósito','',f'Definir requisitos verificables del MVP de {project_name}, derivados del Semantic Model confirmado, Scope FROZEN y Product Vision FROZEN.','',
+                '## Alcance','',*[f'- {x["id"]}: {x["statement"]}.' for x in capabilities],'',
                 '## Requerimientos funcionales del MVP','',*rf,
                 '## Requerimientos no funcionales','',
-                '- **RNF-001 — Local-first:** el baseline debe respetar la restricción local-first declarada en Project Context.','',
-                '- **RNF-002 — Proveedor:** el uso de modelos/proveedores debe respetar la model policy vigente del proyecto.','',
-                '- **RNF-003 — Trazabilidad:** cambios gobernados deben conservar plan/diff, approval y evidencia verificable.','',
-                '- **RNF-004 — Decisión tecnológica diferida:** frontend, backend y base de datos se determinan en Architecture.','',
+                '- No se fabrican NFR cuantitativos. Los atributos de calidad que requieran métricas se decidirán de forma gobernada antes de convertirse en NFR verificables.','',
                 '## Restricciones heredadas','',*constraint_lines,'',
+                '## Trazabilidad','',*[f'- {rec["id"]} ← {", ".join(rec["source_capability_ids"])}.' for rec in records],'',
+                '## Upstream trace','',
+                f'- Product Vision FROZEN content SHA-256: {_sha_text(upstream.get("product-vision", ""))}.',
+                f'- MVP Scope FROZEN content SHA-256: {_sha_text(upstream.get("scope", ""))}.','',
                 '## Criterios de bloqueo','',
-                '- BLOCK si una capacidad del Scope FROZEN queda sin requisito funcional correspondiente sin decisión explícita.','',
-                '- BLOCK si se fija arquitectura o stack antes del checkpoint correspondiente.','',
-                '- BLOCK si una dependencia externa obligatoria aparece contra Project Context o sin approval/provenance.','',
+                '- BLOCK si un RF no describe comportamiento observable.','',
+                '- BLOCK si falta fuente, prioridad, criterio de aceptación o método de verificación.','',
+                '- BLOCK si una decisión crítica permanece abierta o si se introduce arquitectura antes de C-02.','',
             ]
         return '\n'.join(front+body).rstrip()+'\n'
 
