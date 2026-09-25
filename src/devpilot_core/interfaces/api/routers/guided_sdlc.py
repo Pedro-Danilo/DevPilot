@@ -60,6 +60,24 @@ def _pre_code_content_json(result: tuple[dict[str, Any], int]) -> JSONResponse:
     return _json(payload,status)
 
 
+def _pre_code_transition_json(result: tuple[dict[str, Any], int]) -> JSONResponse:
+    """Map governed pre-code state/dependency BLOCKs without false Forbidden.
+
+    Authentication and canonical-role authorization are handled before dispatch
+    by `_pre_code_identity` and retain 401/403. Once dispatch begins, ordinary
+    lifecycle/optimistic-concurrency/dependency conflicts are state conflicts,
+    not permission denials.
+    """
+    payload,status=result
+    if status==403:
+        findings=payload.get("findings") if isinstance(payload,dict) else []
+        ids={str(row.get("id") or "") for row in findings or [] if isinstance(row,dict)}
+        authorization_block=any(fid.startswith("AUTH_") or fid.startswith("RBAC_") or "AUTHOR_ROLE" in fid or "SESSION_ACTOR_BINDING" in fid or "ROLE_BINDING" in fid for fid in ids)
+        if not authorization_block:
+            status=409
+    return _json(payload,status)
+
+
 @router.get("/api/v1/guided-sdlc/status")
 def guided_sdlc_project_status(
     workspace_id: str | None = Query(default=None, max_length=128),
@@ -159,7 +177,7 @@ def guided_pre_code_approval_request(request: Request, stage_id: str, body: PreC
     if error: return error
     assert identity is not None
     principal=identity["principal"]
-    return _json(*dispatch_application_request(service, operation="guided_sdlc.pre_code.approval_request", payload={"stage_id":stage_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"reason":body.reason}))
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.approval_request", payload={"stage_id":stage_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"reason":body.reason}))
 
 
 @router.post("/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply")

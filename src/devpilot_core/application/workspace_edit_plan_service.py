@@ -381,16 +381,30 @@ class WorkspaceEditPlanApplicationService:
             return _result("workspace edit plan recheck", findings)
 
         document = plan["document"]
-        if str(document.get("operation") or "modify") == "create":
+        operation = str(document.get("operation") or "modify")
+        governed_artifact_plan = str(plan.get("schema_id") or "") == "devpilot.gsdlc04d.artifact_apply_plan.v1"
+        if operation == "create" or governed_artifact_plan:
+            # Governed ArtifactReview plans intentionally carry an artifact-scoped
+            # identifier (artifact:<artifact_id>), not a Document Center opaque
+            # doc_* id. Their target path was already resolved server-side by
+            # plan_artifact(), so optimistic concurrency must recheck that same
+            # safe workspace-relative target for BOTH create and modify.
             context = self.documents.context_resolver.resolve()
             relative_path = str(document.get("relative_path") or "")
-            target = (context.effective_workspace_root / relative_path).resolve()
+            workspace_root = context.effective_workspace_root.resolve() if context.valid and context.effective_workspace_root is not None else None
+            if workspace_root is None:
+                return _blocked("workspace edit plan recheck", "GSDLC04D_RECHECK_PROJECT_CONTEXT_BLOCK", "A valid project-scoped workspace context is required during artifact plan recheck.", path=relative_path)
+            target = (workspace_root / relative_path).resolve()
             try:
-                target.relative_to(context.effective_workspace_root.resolve())
+                target.relative_to(workspace_root)
             except ValueError:
                 return _blocked("workspace edit plan recheck", "GSDLC04D_RECHECK_TARGET_ESCAPE_BLOCK", "Artifact target escaped workspace during recheck.", path=relative_path)
+            if target.exists() and (not target.is_file() or target.is_symlink()):
+                return _blocked("workspace edit plan recheck", "GSDLC04D_RECHECK_TARGET_TYPE_BLOCK", "Artifact target is no longer a regular non-symlink file.", path=relative_path)
             current_sha = hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() else ZERO_SHA256
         else:
+            # Historical UOC-004 document plans continue to use the opaque
+            # Document Center id and therefore preserve their original boundary.
             read = self.documents.read_document(str(document["document_id"]))
             if not read.ok:
                 return _from_dependency("workspace edit plan recheck", read, "UOC004_RECHECK_DOCUMENT_READ_BLOCK")
