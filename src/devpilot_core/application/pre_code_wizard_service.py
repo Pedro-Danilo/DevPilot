@@ -28,9 +28,12 @@ from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationS
 from .pre_code_semantic_model import (
     build_candidate_model,
     normalize_owner_model,
+    prepare_draft_first_model,
     requirement_records,
     semantic_hash,
+    unresolved_decisions_for_stage,
     validate_confirmed_model,
+    validate_model_for_stage,
     validate_rendered_artifact,
 )
 
@@ -132,14 +135,34 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC05E_ALREADY_READY_BLOCK','Pre-code wizard is already complete.')
         if current['stage_id'] != stage_id:
             return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Mandatory pre-code stages cannot be skipped.',metadata={'requested_stage':stage_id,'current_stage':current['stage_id']})
+        row=self._stage_state(state,stage_id)
         derivation=None
         content=str(content or '')
+        plan_invalidated=bool(row.get('plan_id') or row.get('approval_id'))
         if normalized_mode=='DEVPL_MOCK':
             semantic_result=self._ensure_semantic_model(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state,submitted=semantic_model)
             if isinstance(semantic_result,CommandResult): return semantic_result
-            generated=self._derive_local_proposal(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state)
-            if isinstance(generated,CommandResult): return generated
-            content,derivation=generated
+            owner_edit=bool(content.strip()) and str(row.get('mode') or '')=='DEVPL_MOCK' and row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} and semantic_model is None
+            if owner_edit:
+                content=_canonical_text(content)
+                derivation=deepcopy(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else {}
+                generated_sha=str(derivation.get('generated_content_sha256') or row.get('content_sha256') or _sha_text(content))
+                derivation.update({
+                    'schema_id':str(derivation.get('schema_id') or DERIVATION_SCHEMA),
+                    'mode':'DEVPL_MOCK','provider':'devpilot-local','model':DERIVATION_MODEL,
+                    'network_used':False,'external_api_used':False,'cost_usd':0.0,
+                    'generated_content_sha256':generated_sha,
+                    'owner_edited':_sha_text(content)!=generated_sha,
+                    'owner_edited_content_sha256':_sha_text(content),
+                    'semantic_model_sha256':semantic_hash(semantic_result),
+                    'semantic_model_schema_id':semantic_result.get('schema_id'),
+                    'owner_semantic_reviewed':bool(semantic_result.get('owner_semantic_reviewed')),
+                    'owner_review_required':True,'approval_required_before_source_write':True,
+                })
+            else:
+                generated=self._derive_local_proposal(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state)
+                if isinstance(generated,CommandResult): return generated
+                content,derivation=generated
         elif not content.strip():
             return self._block(command,'GSDLC05E_EMPTY_DRAFT_BLOCK','Draft content is required for MANUAL/IMPORT.')
         structure=self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
@@ -155,14 +178,15 @@ class PreCodeWizardApplicationService:
         draft=self.lifecycle.create_draft(
             artifact_id=artifact_id,relative_path=str(stage['relative_path']),content=content,source_type=lifecycle_source,
             base_commit=self._base_commit(workspace_root),actor=actor,actor_role=actor_role,session_principal=session_principal,
-            reviewer=actor,reviewer_role=actor_role,source_label='DevPilot deterministic local proposal' if normalized_mode=='DEVPL_MOCK' else f'GSDLC-05-E {normalized_mode} browser DRAFT',
+            reviewer=actor,reviewer_role=actor_role,source_label='DevPilot deterministic local proposal / Owner-reviewed' if normalized_mode=='DEVPL_MOCK' else f'GSDLC-05-E {normalized_mode} browser DRAFT',
             source_reference=f'pre-code:{workspace_id}:{stage_id}:{normalized_mode.lower()}',
         )
         if not draft.ok:return draft
-        row=self._stage_state(state,stage_id)
-        row.update({'status':'DRAFT','mode':normalized_mode,'content':content,'content_sha256':_sha_bytes(content.encode()),'base_sha256':base_sha,'artifact':draft.data['artifact'],'derivation':derivation,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'updated_at':_now()})
+        row.update({'status':'DRAFT','mode':normalized_mode,'content':content,'content_sha256':_sha_bytes(content.encode()),'base_sha256':base_sha,'artifact':draft.data['artifact'],'derivation':derivation,'review_id':None,'plan_id':None,'plan_hash':None,'diff':None,'execution_id':None,'approval_id':None,'approved_sha256':None,'findings':[],'validation':{},'updated_at':_now()})
         state['status']='IN_PROGRESS'; state['updated_at']=_now(); self._write_state(workspace_id,state)
-        return self._pass(command,'GSDLC05E_DRAFT_SAVED_PASS','Server-authoritative DRAFT persisted outside managed source; source mutation remains false.',{'stage':self._public_stage(row,stage),'source_mutations_performed':False,'structure_reconciliation':structure.data.get('structure_reconciliation')})
+        if plan_invalidated:
+            self._append_trace(workspace_id,{'event':'DRAFT_REOPENED_AND_PLAN_INVALIDATED','stage_id':stage_id,'actor':actor,'at':_now()})
+        return self._pass(command,'GSDLC05E_DRAFT_SAVED_PASS','Server-authoritative DRAFT persisted outside managed source; source mutation remains false.',{'stage':self._public_stage(row,stage),'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'source_mutations_performed':False,'plan_invalidated':plan_invalidated,'structure_reconciliation':structure.data.get('structure_reconciliation')})
 
     def start_review(self, *, stage_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
         command='guided pre-code review'
@@ -178,7 +202,7 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC05E_DRAFT_REQUIRED_BLOCK','Save a current-stage DRAFT before validation/review.')
         if str(row.get('mode') or '')=='DEVPL_MOCK':
             model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
-            semantic_findings=validate_confirmed_model(model or {}) + validate_rendered_artifact(stage_id,str(row.get('content') or ''),model or {})
+            semantic_findings=validate_model_for_stage(model or {},stage_id) + validate_rendered_artifact(stage_id,str(row.get('content') or ''),model or {})
             if semantic_findings:
                 return self._block(command,'GSDLC13C01_SEMANTIC_QUALITY_BLOCK','Semantic quality gate blocked review before an approval-ready plan could be created.',metadata={'semantic_findings':semantic_findings})
         # A corrected draft always starts a new lifecycle record; persisted row artifact is DRAFT.
@@ -443,17 +467,22 @@ class PreCodeWizardApplicationService:
     def _stage_state(state:dict[str,Any],stage_id:str)->dict[str,Any]: return state['stages'][stage_id]
     @staticmethod
     def _public_stage(row:dict[str,Any],stage:dict[str,Any])->dict[str,Any]:
-        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'base_sha256':row.get('base_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
+        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'base_sha256':row.get('base_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
     def _ensure_semantic_model(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any], submitted: dict[str, Any] | None) -> dict[str, Any] | CommandResult:
         command='guided pre-code semantic model'
         existing=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
         if stage_id!='product-vision':
-            if not existing or existing.get('quality_state')!='CONFIRMED':
-                return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','A confirmed PreCode Semantic Model from Product Vision is required before deterministic downstream generation.')
-            findings=validate_confirmed_model(existing)
-            if findings:
-                return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INVALID_BLOCK','Confirmed Semantic Model no longer satisfies quality invariants.',metadata={'semantic_findings':findings})
-            return existing
+            if not existing:
+                return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','A PreCode Semantic Model from Product Vision is required before deterministic downstream generation.')
+            if submitted is None:
+                return existing
+            try:
+                updated=normalize_owner_model(existing,submitted)
+            except ValueError as exc:
+                return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INPUT_BLOCK',str(exc))
+            state['semantic_model']=updated; state['updated_at']=_now(); self._write_state(workspace_id,state)
+            self._append_trace(workspace_id,{'event':'SEMANTIC_DECISIONS_UPDATED','stage_id':stage_id,'semantic_model_sha256':updated['semantic_model_sha256'],'actor':'owner','at':_now()})
+            return updated
         project_file=workspace_root/'.devpilot/project.yaml'
         if not project_file.is_file():
             return self._block(command,'GSDLC13C01_PROJECT_CONTEXT_BLOCK','Project context is missing; Semantic Model cannot be grounded.')
@@ -463,27 +492,19 @@ class PreCodeWizardApplicationService:
         model_policy=dict(metadata.get('model_policy') or {}) if isinstance(metadata.get('model_policy'),dict) else {}
         project_text=_canonical_text(project_file.read_text(encoding='utf-8'))
         if existing is None:
-            existing=build_candidate_model(workspace_id=workspace_id,business_need=need,source_ref='.devpilot/project.yaml',source_sha256=_sha_text(project_text),constraints=constraints,model_policy=model_policy)
+            candidate=build_candidate_model(workspace_id=workspace_id,business_need=need,source_ref='.devpilot/project.yaml',source_sha256=_sha_text(project_text),constraints=constraints,model_policy=model_policy)
+            existing=prepare_draft_first_model(candidate)
             state['semantic_model']=existing; state['status']='IN_PROGRESS'; state['updated_at']=_now(); self._write_state(workspace_id,state)
+            self._append_trace(workspace_id,{'event':'SEMANTIC_MODEL_PREPARED_DRAFT_FIRST','semantic_model_sha256':existing['semantic_model_sha256'],'at':_now()})
         if submitted is None:
-            if existing.get('quality_state')=='CONFIRMED':
-                findings=validate_confirmed_model(existing)
-                if findings:
-                    return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INVALID_BLOCK','Confirmed Semantic Model no longer satisfies quality invariants.',metadata={'semantic_findings':findings})
-                return existing
-            return self._pass(command,'GSDLC13C01_SEMANTIC_MODEL_REVIEW_REQUIRED_PASS','Semantic candidates prepared. Owner confirmation/correction is required before Product Vision DRAFT generation.',{'semantic_model':deepcopy(existing),'source_mutations_performed':False})
+            return existing
         try:
-            confirmed=normalize_owner_model(existing,submitted)
+            updated=normalize_owner_model(existing,submitted)
         except ValueError as exc:
             return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_INPUT_BLOCK',str(exc))
-        findings=validate_confirmed_model(confirmed)
-        if findings:
-            confirmed['quality_state']='REVIEW_REQUIRED'; confirmed['semantic_model_sha256']=semantic_hash(confirmed); state['semantic_model']=confirmed; state['updated_at']=_now(); self._write_state(workspace_id,state)
-            return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_CONFIRMATION_BLOCK','Semantic Model still contains unresolved or non-actionable items.',metadata={'semantic_findings':findings,'semantic_model':deepcopy(confirmed)})
-        confirmed['quality_state']='CONFIRMED'; confirmed['semantic_model_sha256']=semantic_hash(confirmed)
-        state['semantic_model']=confirmed; state['updated_at']=_now(); self._write_state(workspace_id,state)
-        self._append_trace(workspace_id,{'event':'SEMANTIC_MODEL_CONFIRMED','semantic_model_sha256':confirmed['semantic_model_sha256'],'actor':'owner','at':_now()})
-        return confirmed
+        state['semantic_model']=updated; state['updated_at']=_now(); self._write_state(workspace_id,state)
+        self._append_trace(workspace_id,{'event':'SEMANTIC_DECISIONS_UPDATED','stage_id':stage_id,'semantic_model_sha256':updated['semantic_model_sha256'],'actor':'owner','at':_now()})
+        return updated
 
     def _derive_local_proposal(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any]) -> tuple[str, dict[str, Any]] | CommandResult:
         command='guided pre-code deterministic local proposal'
@@ -522,9 +543,8 @@ class PreCodeWizardApplicationService:
             upstream[source_id]=text
             refs.append({'path':str(source_stage['relative_path']),'sha256':_sha_text(text),'approved_sha256':approved_sha,'kind':'frozen-input'})
         semantic_model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
-        semantic_findings=validate_confirmed_model(semantic_model or {})
-        if semantic_findings:
-            return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','Confirmed Semantic Model is required for deterministic generation.',metadata={'semantic_findings':semantic_findings})
+        if not semantic_model or semantic_model.get('schema_id')!='devpilot.gsdlc13c01.pre_code_semantic_model.v1':
+            return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','A valid PreCode Semantic Model is required for deterministic generation.')
         canonical_input={
             'generator_version':DERIVATION_MODEL,
             'stage_id':stage_id,
@@ -619,22 +639,22 @@ class PreCodeWizardApplicationService:
             '---',f'doc_id: "{doc_id}"',f'title: "{title} — {project_name}"','status: "draft"','version: "0.2.0"',
             'owner: "Owner / DevPilot"',f'updated: "{document_date}"','lifecycle_authority: "DevPilot runtime state"','---','',f'# {title}',''
         ]
-        confirmed=lambda key:[x for x in semantic_model.get(key) or [] if x.get('status')=='CONFIRMED']
-        actors=confirmed('actors'); outcomes=confirmed('outcomes'); capabilities=confirmed('capabilities')
+        active=lambda key:[x for x in semantic_model.get(key) or [] if x.get('status')!='REJECTED']
+        actors=active('actors'); outcomes=active('outcomes'); capabilities=active('capabilities')
         open_questions=[x for x in semantic_model.get('open_questions') or [] if x.get('status')!='REJECTED']
         constraint_lines=self._constraint_lines(constraints,model_policy)
         if stage_id=='product-vision':
             actor_text='; '.join(str(x.get('statement') or '') for x in actors)
             outcome_text='; '.join(str(x.get('statement') or '') for x in outcomes)
             body=[
-                '## Resumen ejecutivo','',f'**{project_name}** es un producto orientado a {actor_text}. DevPilot deriva este DRAFT desde un Semantic Model confirmado por el Owner; no fija todavía arquitectura ni stack.','',
+                '## Resumen ejecutivo','',f'**{project_name}** es un producto orientado a {actor_text or 'un actor pendiente de precisión'}. DevPilot deriva este DRAFT desde un Semantic Model interno y gobernado; no fija todavía arquitectura ni stack.','',
                 '## Problema','',business_need,'',
                 '## Usuario/actor','',*sum(([f'- **{x["id"]}** — {x["statement"]}.',''] for x in actors),[]),
-                '## Visión','',f'Permitir que {actor_text} alcance el resultado de negocio confirmado: {outcome_text}.','',
+                '## Visión','',f'Permitir que {actor_text or 'el actor principal'} alcance el resultado de negocio identificado: {outcome_text or 'resultado pendiente de precisión'}.','',
                 '## Propuesta de valor','',*sum(([f'- **{x["id"]}** — {x["statement"]}.',''] for x in outcomes),[]),
                 '## MVP','',*sum(([f'- **{x["id"]}** — {x["statement"]}.',''] for x in capabilities),[]),
                 '## Indicadores','',
-                '- Las capacidades MVP confirmadas pueden demostrarse de extremo a extremo por el Owner.','',
+                '- Las capacidades MVP representadas en este DRAFT pueden revisarse de extremo a extremo por el Owner.','',
                 '- Las métricas cuantitativas no se inventan: cualquier umbral no presente en la fuente permanece como decisión gobernada.','',
                 '## Local-first','',*constraint_lines,'',
                 '## Preguntas abiertas','',
@@ -652,7 +672,7 @@ class PreCodeWizardApplicationService:
                 '- Selección de frontend, backend, base de datos o framework antes de Architecture.','',
                 '- Cloud obligatorio o API externa obligatoria cuando Project Context no lo autoriza.','',
                 '## Criterios','',
-                '- Cada ítem In Scope conserva un ID estable y traza a una capability confirmada.','',
+                '- Cada ítem In Scope conserva un ID estable y traza a una capability gobernada.','',
                 '- El alcance no agrega capacidades no aprobadas y mantiene tecnología diferida hasta Architecture.','',
                 '## Restricciones','',*constraint_lines,'',
                 '## Dependencies','',
@@ -662,7 +682,7 @@ class PreCodeWizardApplicationService:
                 '## Open decisions','',
                 *([f'- {q["id"]}: {q["statement"]} — decisión: {q.get("decision") or "pendiente"}.' for q in open_questions if q.get('critical')] or ['- No quedan decisiones críticas abiertas para delimitar el MVP.']),'',
                 '## Exit criteria','',
-                '- Todas las capabilities MVP confirmadas están representadas exactamente una vez y no existe scope drift.','',
+                '- Todas las capabilities MVP gobernadas están representadas exactamente una vez y no existe scope drift.','',
             ]
         else:
             records=requirement_records(semantic_model)
@@ -670,11 +690,13 @@ class PreCodeWizardApplicationService:
             for rec in records:
                 rf.extend([f'### {rec["id"]}','',f'- **Tipo:** {rec["type"]}.',f'- **Statement:** {rec["statement"]}',f'- **Fuente:** {", ".join(rec["source_capability_ids"])}.',f'- **Prioridad:** {rec["priority"]}.',f'- **Criterio de aceptación:** {rec["acceptance_criteria"][0]}',f'- **Método de verificación:** {rec["verification_method"]}.',''])
             body=[
-                '## Propósito','',f'Definir requisitos verificables del MVP de {project_name}, derivados del Semantic Model confirmado, Scope FROZEN y Product Vision FROZEN.','',
+                '## Propósito','',f'Definir requisitos verificables del MVP de {project_name}, derivados del Semantic Model gobernado, Scope FROZEN y Product Vision FROZEN.','',
                 '## Alcance','',*[f'- {x["id"]}: {x["statement"]}.' for x in capabilities],'',
                 '## Requerimientos funcionales del MVP','',*rf,
                 '## Requerimientos no funcionales','',
                 '- No se fabrican NFR cuantitativos. Los atributos de calidad que requieran métricas se decidirán de forma gobernada antes de convertirse en NFR verificables.','',
+                '## Decisiones pendientes','',
+                *([f'- {q["id"]}: {q["statement"]} — pendiente antes de approval.' for q in unresolved_decisions_for_stage(semantic_model,'requirements')] or ['- No quedan decisiones críticas pendientes para Requirements.']),'',
                 '## Restricciones heredadas','',*constraint_lines,'',
                 '## Trazabilidad','',*[f'- {rec["id"]} ← {", ".join(rec["source_capability_ids"])}.' for rec in records],'',
                 '## Upstream trace','',

@@ -46,6 +46,20 @@ def _json(payload: dict[str, Any], status_code: int) -> JSONResponse:
     return JSONResponse(content=payload, status_code=status_code)
 
 
+def _pre_code_content_json(result: tuple[dict[str, Any], int]) -> JSONResponse:
+    """Keep authorization 403 distinct from semantic/content findings.
+
+    Authentication/RBAC still fail before dispatch in `_pre_code_identity`. A
+    semantic BLOCK is actionable content feedback, not an authorization denial.
+    """
+    payload,status=result
+    findings=payload.get("findings") if isinstance(payload,dict) else []
+    ids={str(row.get("id") or "") for row in findings or [] if isinstance(row,dict)}
+    if status==403 and any(fid.startswith("GSDLC13C01_SEMANTIC") or fid=="GSDLC05E_EMPTY_DRAFT_BLOCK" for fid in ids):
+        status=422
+    return _json(payload,status)
+
+
 @router.get("/api/v1/guided-sdlc/status")
 def guided_sdlc_project_status(
     workspace_id: str | None = Query(default=None, max_length=128),
@@ -127,7 +141,7 @@ def guided_pre_code_draft(request: Request, stage_id: str, body: PreCodeDraftBod
     if error: return error
     assert identity is not None
     principal=identity["principal"]
-    return _json(*dispatch_application_request(service, operation="guided_sdlc.pre_code.draft", payload={"stage_id":stage_id,"mode":body.mode,"content":body.content,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"],"semantic_model":body.semantic_model}))
+    return _pre_code_content_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.draft", payload={"stage_id":stage_id,"mode":body.mode,"content":body.content,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"],"semantic_model":body.semantic_model}))
 
 
 @router.post("/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review")
@@ -136,7 +150,7 @@ def guided_pre_code_review(request: Request, stage_id: str, service: Application
     if error: return error
     assert identity is not None
     principal=identity["principal"]
-    return _json(*dispatch_application_request(service, operation="guided_sdlc.pre_code.review", payload={"stage_id":stage_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
+    return _pre_code_content_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.review", payload={"stage_id":stage_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
 
 
 @router.post("/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request")

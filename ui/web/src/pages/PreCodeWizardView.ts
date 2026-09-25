@@ -166,41 +166,42 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     else editor.querySelector<HTMLTextAreaElement>('[data-pre-code-authoring-content]')?.focus();
   }
 
-  function semanticModelEditor(model: PreCodeSemanticModel): { element: HTMLElement; read: () => PreCodeSemanticModel } {
-    const draft=JSON.parse(JSON.stringify(model)) as PreCodeSemanticModel;
-    const host=document.createElement('section'); host.className='pre-code-semantic-model'; host.dataset.preCodeSemanticModel='true';
-    const h=document.createElement('h4'); h.textContent='Base semántica derivada';
-    const p=document.createElement('p'); p.textContent='DevPilot propone candidatos conservadores. Corrige el significado cuando sea necesario; no se escribirá ningún documento hasta que esta base sea coherente y después apruebes el diff.';
-    host.append(h,p);
+  function semanticAdvancedDetails(model: PreCodeSemanticModel): HTMLElement {
+    const details=document.createElement('details'); details.className='pre-code-semantic-details'; details.dataset.preCodeSemanticAdvanced='true';
+    const summary=document.createElement('summary'); summary.textContent='Ver análisis de DevPilot';
+    const intro=document.createElement('p'); intro.className='muted'; intro.textContent='Detalle avanzado para auditoría. No necesitas revisar esta estructura para completar el flujo normal.';
+    const pre=document.createElement('pre'); pre.textContent=JSON.stringify(model,null,2);
+    details.append(summary,intro,pre); return details;
+  }
 
-    const renderGroups=():void=>{
-      host.querySelectorAll('[data-semantic-dynamic="true"]').forEach((node)=>node.remove());
-      const groups:Array<[keyof Pick<PreCodeSemanticModel,'actors'|'outcomes'|'capabilities'|'constraints'|'open_questions'>,string]>=[['actors','Actores'],['outcomes','Resultados de negocio'],['capabilities','Capacidades MVP'],['constraints','Restricciones'],['open_questions','Preguntas/decisiones abiertas']];
-      for(const [key,label] of groups){
-        const section=document.createElement('div'); section.className='pre-code-semantic-model__group'; section.dataset.semanticDynamic='true';
-        const gh=document.createElement('h5'); gh.textContent=label; section.append(gh);
-        for(const item of draft[key] as PreCodeSemanticItem[]){
-          const row=document.createElement('div'); row.className='pre-code-semantic-model__item'; row.dataset.semanticItemId=item.id;
-          const meta=document.createElement('p'); meta.className='muted'; meta.textContent=`${item.id||'NUEVO'} · ${item.kind} · ${item.confidence_class??'n/a'}${item.critical?' · CRÍTICA':''}`;
-          const statement=document.createElement('input'); statement.type='text'; statement.value=item.statement; statement.setAttribute('aria-label',`Statement ${item.id||'nuevo'}`); statement.addEventListener('input',()=>{item.statement=statement.value;});
-          const kind=document.createElement('select'); kind.setAttribute('aria-label',`Tipo ${item.id||'nuevo'}`); for(const k of ['ACTOR','OUTCOME','CAPABILITY','CONSTRAINT','CONTEXT','OPEN_QUESTION']){const o=document.createElement('option');o.value=k;o.textContent=k;if(k===item.kind)o.selected=true;kind.append(o);} kind.addEventListener('change',()=>{item.kind=kind.value;});
-          const status=document.createElement('select'); status.setAttribute('aria-label',`Estado ${item.id||'nuevo'}`); const allowed=item.kind==='OPEN_QUESTION'?['OPEN','CONFIRMED','REJECTED']:['CANDIDATE','CONFIRMED','REJECTED']; for(const st of allowed){const o=document.createElement('option');o.value=st;o.textContent=st;if(st===item.status)o.selected=true;status.append(o);} status.addEventListener('change',()=>{item.status=status.value;item.owner_confirmed=status.value==='CONFIRMED';});
-          row.append(meta,statement,kind,status);
-          if(item.kind==='OPEN_QUESTION'){
-            const decision=document.createElement('input'); decision.type='text'; decision.placeholder='Respuesta/decisión del Owner'; decision.value=item.decision??''; decision.setAttribute('aria-label',`Decisión ${item.id||'nueva'}`); decision.addEventListener('input',()=>{item.decision=decision.value;if(decision.value.trim()){item.status='CONFIRMED';item.owner_confirmed=true;status.value='CONFIRMED';}}); row.append(decision);
-          }
-          if(item.source_excerpt){const evidence=document.createElement('small'); evidence.textContent=`Fuente: ${item.source_excerpt}`; row.append(evidence);}
-          section.append(row);
-        }
-        if(key==='actors'||key==='outcomes'||key==='capabilities'){
-          const add=document.createElement('button'); add.type='button'; add.className='button-link'; add.textContent=`Añadir ${key==='actors'?'actor':key==='outcomes'?'resultado':'capacidad'}`; add.addEventListener('click',()=>{const kindValue=key==='actors'?'ACTOR':key==='outcomes'?'OUTCOME':'CAPABILITY'; (draft[key] as PreCodeSemanticItem[]).push({id:'',kind:kindValue,statement:'',source_excerpt:'Owner semantic review',source_ref:'owner-semantic-review',confidence_class:'AMBIGUOUS',owner_confirmed:true,status:'CONFIRMED'}); renderGroups();}); section.append(add);
-        }
-        host.append(section);
-      }
-      const note=document.createElement('p'); note.className='muted'; note.dataset.semanticDynamic='true'; note.textContent='Al confirmar, los CANDIDATE no rechazados se consideran confirmados por esta decisión global. Las preguntas críticas requieren respuesta y las capacidades vagas deben reescribirse como acciones observables.'; host.append(note);
-    };
-    renderGroups();
-    return {element:host,read:()=>{for(const key of ['actors','outcomes','capabilities','constraints'] as const){for(const item of draft[key]){if(item.status==='CANDIDATE'){item.status='CONFIRMED';item.owner_confirmed=true;}}}return draft;}};
+  function decisionQuestions(model: PreCodeSemanticModel, stageId: string): PreCodeSemanticItem[] {
+    const order:Record<string,number>={'product-vision':1,'scope':2,'requirements':3};
+    const current=order[stageId]??3;
+    return (model.open_questions??[]).filter((item)=>{
+      if(item.status==='REJECTED' || !item.critical)return false;
+      const required=order[item.required_stage??'requirements']??3;
+      if(required>current)return false;
+      return !(item.status==='CONFIRMED' && Boolean((item.decision??'').trim()));
+    });
+  }
+
+  function semanticDecisionInbox(model: PreCodeSemanticModel, stageId: string): { element: HTMLElement; read: () => PreCodeSemanticModel } | null {
+    const draft=JSON.parse(JSON.stringify(model)) as PreCodeSemanticModel;
+    const questions=decisionQuestions(draft,stageId);
+    if(!questions.length)return null;
+    const host=document.createElement('section'); host.className='pre-code-decision-inbox'; host.dataset.preCodeDecisionInbox='true';
+    const h=document.createElement('h4'); h.textContent=`Decisiones pendientes (${questions.length})`;
+    const p=document.createElement('p'); p.textContent='DevPilot ya preparó el documento. Responde solo estas decisiones porque son necesarias para que la etapa actual pueda quedar verificable; no necesitas revisar el modelo interno.';
+    host.append(h,p);
+    for(const item of questions){
+      const row=document.createElement('div'); row.className='pre-code-decision-inbox__item'; row.dataset.semanticItemId=item.id;
+      const label=document.createElement('label'); label.textContent=item.statement; label.htmlFor=`decision-${stageId}-${item.id}`;
+      const impact=document.createElement('p'); impact.className='muted'; impact.textContent=`Afecta ${item.required_stage??stageId}. Fuente: ${item.source_excerpt??'Project Context'}.`;
+      const input=document.createElement('input'); input.type='text'; input.id=`decision-${stageId}-${item.id}`; input.value=item.decision??''; input.placeholder='Escribe la decisión del Owner';
+      input.addEventListener('input',()=>{item.decision=input.value;if(input.value.trim()){item.status='CONFIRMED';item.owner_confirmed=true;}else{item.status='OPEN';item.owner_confirmed=false;}});
+      row.append(label,impact,input); host.append(row);
+    }
+    return {element:host,read:()=>draft};
   }
 
   function stageEditor(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection): HTMLElement {
@@ -209,8 +210,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     const path=document.createElement('p'); path.className='muted'; path.textContent=`Destino gobernado: ${stage.relative_path} · Estado ${stage.status}`;
     section.append(heading,path);
     const feedback=document.createElement('div'); feedback.dataset.preCodeStageFeedback='true'; feedback.setAttribute('role','status'); feedback.setAttribute('aria-live','polite'); section.append(feedback);
-    const semanticReview=stage.stage_id==='product-vision' && preCode.semantic_model && preCode.semantic_model.quality_state!=='CONFIRMED' ? semanticModelEditor(preCode.semantic_model) : null;
-    if(semanticReview) section.append(semanticReview.element);
+    const inbox=preCode.semantic_model ? semanticDecisionInbox(preCode.semantic_model,stage.stage_id) : null;
 
     if(['MISSING','DRAFT','FINDINGS'].includes(stage.status)){
       const form=document.createElement('div'); form.className='pre-code-stage__editor';
@@ -218,25 +218,43 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const mode=document.createElement('select'); mode.dataset.preCodeAuthoringMode='true'; mode.setAttribute('aria-label','Modo de autoría');
       for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?'DevPilot · Mock local / sin API':value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
       if(stage.mode && stage.allowed_modes.includes(stage.mode)) mode.value=stage.mode;
-      const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Contenido Markdown';
-      const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=18; textarea.spellcheck=false; textarea.placeholder=mode.value==='DEVPL_MOCK'?(semanticReview?'Primero confirma/corrige la Base semántica; DevPilot generará el Markdown después.':'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; textarea.value=stage.draft_content??'';
+      const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Propuesta del artefacto';
+      const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=20; textarea.spellcheck=false; textarea.value=stage.draft_content??'';
+      textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';
       const fileLabel=document.createElement('label'); fileLabel.textContent='Archivo local para IMPORT';
       const file=document.createElement('input'); file.dataset.preCodeAuthoringFile='true'; file.type='file'; file.accept='.md,text/markdown,text/plain'; file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden;
-      mode.addEventListener('change',()=>{file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden; textarea.placeholder=mode.value==='DEVPL_MOCK'?(semanticReview?'Primero confirma/corrige la Base semántica; DevPilot generará el Markdown después.':'Pulsa “Generar propuesta con DevPilot”. Después revisa el Markdown propuesto antes de validar.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.'; save.textContent=mode.value==='DEVPL_MOCK'?(semanticReview?'Confirmar base semántica y generar DRAFT':'Generar propuesta con DevPilot'):'Guardar DRAFT';});
-      file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
-      const save=button(mode.value==='DEVPL_MOCK'?(semanticReview?'Confirmar base semántica y generar DRAFT':'Generar propuesta con DevPilot'):'Guardar DRAFT',async()=>{
-        setFeedback(feedback,'loading',mode.value==='DEVPL_MOCK'?'Derivando propuesta local desde el contexto gobernado; sin red ni API externa…':'Guardando DRAFT sin escribir source…');
-        if(!await ensureLiveHumanSession(feedback)) return; try{ const semanticPayload=mode.value==='DEVPL_MOCK' && semanticReview ? semanticReview.read() : null; const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK',content:mode.value==='DEVPL_MOCK'?'':textarea.value,semantic_model:semanticPayload}); if(!r.ok) throw new Error(formatFindings(r)); const semanticPrepared=mode.value==='DEVPL_MOCK' && stage.stage_id==='product-vision' && !semanticReview; await load(mode.value==='DEVPL_MOCK'?(semanticPrepared?'Base semántica preparada. Confirma/corrige los candidatos antes de generar el DRAFT.':'Propuesta DevPilot generada como DRAFT desde el Semantic Model confirmado. Revísala antes de validar; source todavía no fue mutado.'):'DRAFT persistido server-side; source todavía no fue mutado.'); }catch(e){await renderGovernedError(feedback,e);}
+      const save=button(mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):'Guardar DRAFT',async()=>{
+        setFeedback(feedback,'loading',mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generando propuesta completa desde el contexto gobernado; sin red ni API externa…':'Guardando revisión del Owner sin escribir source…'):'Guardando DRAFT sin escribir source…');
+        if(!await ensureLiveHumanSession(feedback)) return;
+        try{
+          const devpilot=mode.value==='DEVPL_MOCK';
+          const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK',content:devpilot?(stage.status==='MISSING'?'':textarea.value):textarea.value,semantic_model:null});
+          if(!r.ok) throw new Error(formatFindings(r));
+          await load(devpilot?(stage.status==='MISSING'?'Propuesta completa generada como DRAFT. Revísala; source todavía no fue mutado.':'Revisión del Owner guardada como DRAFT gobernado. Cualquier plan anterior quedó invalidado.'):'DRAFT persistido server-side; source todavía no fue mutado.');
+        }catch(e){await renderGovernedError(feedback,e);}
       });
+      const updateSaveLabel=()=>{file.hidden=mode.value!=='IMPORT';fileLabel.hidden=file.hidden;textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';save.textContent=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):'Guardar DRAFT';};
+      mode.addEventListener('change',updateSaveLabel);
+      file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
       const review=button('Validar y preparar diff',async()=>{
         setFeedback(feedback,'loading','Ejecutando validadores y plan inmutable…');
         if(!await ensureLiveHumanSession(feedback)) return; try{ const r=await client().preCodeReview(stage.stage_id); if(!r.ok){ setFeedback(feedback,'block',formatFindings(r)); await load(); return; } await load('Validación PASS; plan/diff inmutable listo para approval.'); }catch(e){await renderGovernedError(feedback,e);}
       });
       review.disabled=stage.status==='MISSING';
-      form.append(modeLabel,mode,fileLabel,file,textLabel,textarea,save,review); section.append(form);
+      form.append(modeLabel,mode,fileLabel,file,textLabel,textarea);
+      if(inbox){
+        form.append(inbox.element);
+        form.append(button('Guardar decisiones y regenerar propuesta',async()=>{
+          setFeedback(feedback,'loading','Guardando únicamente las decisiones pendientes y regenerando la propuesta afectada…');
+          if(!await ensureLiveHumanSession(feedback)) return;
+          try{const r=await client().preCodeDraft(stage.stage_id,{mode:'DEVPL_MOCK',content:'',semantic_model:inbox.read()});if(!r.ok) throw new Error(formatFindings(r));await load('Decisiones guardadas. DevPilot regeneró el DRAFT; revisa el documento completo antes de validar.');}catch(e){await renderGovernedError(feedback,e);}
+        }));
+      }
+      form.append(save,review); section.append(form);
+      if(preCode.semantic_model)section.append(semanticAdvancedDetails(preCode.semantic_model));
       if(stage.derivation){
         const d=stage.derivation; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
-        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · revisión humana obligatoria.`;
+        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
         section.append(provenance);
       }
       if(stage.findings?.length){ const findings=document.createElement('ul'); findings.className='pre-code-findings'; for(const row of stage.findings){const li=document.createElement('li'); li.textContent=`${String(row['id']??'finding')}: ${String(row['message']??'')}`; findings.append(li);} section.append(findings); }
@@ -251,7 +269,15 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         const dt=document.createElement('dt'); dt.textContent=label; const dd=document.createElement('dd'); dd.textContent=String(value); meta.append(dt,dd);
       }
       plan.append(meta);
-      if(stage.diff?.content){ const diff=document.createElement('pre'); diff.className='pre-code-plan__diff'; diff.dataset.diffSha256=stage.diff.sha256; diff.textContent=stage.diff.content; plan.append(diff); const warning=document.createElement('p'); warning.className='muted'; warning.textContent='Si cambia el DRAFT o la base semántica, este plan/diff deja de representar el cambio aprobado y debe generarse de nuevo.'; plan.append(warning); }
+      if(stage.diff?.content){ const diff=document.createElement('pre'); diff.className='pre-code-plan__diff'; diff.dataset.diffSha256=stage.diff.sha256; diff.textContent=stage.diff.content; plan.append(diff); const warning=document.createElement('p'); warning.className='muted'; warning.textContent='Si cambia el DRAFT o una decisión semántica, este plan/diff deja de representar el cambio aprobado y debe generarse de nuevo.'; plan.append(warning); }
+      if(stage.mode==='DEVPL_MOCK' && stage.draft_content){
+        const edit=document.createElement('details'); edit.className='pre-code-plan-edit';
+        const es=document.createElement('summary'); es.textContent='Editar propuesta antes de aprobar';
+        const ep=document.createElement('p'); ep.className='muted'; ep.textContent='Guardar una edición invalida este plan/diff y obliga a validar de nuevo.';
+        const et=document.createElement('textarea'); et.rows=18; et.value=stage.draft_content; et.setAttribute('aria-label','Editar DRAFT antes de approval');
+        edit.append(es,ep,et,button('Guardar edición e invalidar plan',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const r=await client().preCodeDraft(stage.stage_id,{mode:'DEVPL_MOCK',content:et.value,semantic_model:null});if(!r.ok)throw new Error(formatFindings(r));await load('Edición guardada. El plan anterior fue invalidado; vuelve a validar y revisar el nuevo diff.');}catch(e){await renderGovernedError(feedback,e);}}));
+        plan.append(edit);
+      }
       if(!stage.approval_id){
         plan.append(button('Solicitar approval',async()=>{ if(!await ensureLiveHumanSession(feedback)) return; try{const r=await client().preCodeApprovalRequest(stage.stage_id); if(!r.ok) throw new Error(formatFindings(r)); const approvalId=String(((r.data as Record<string,unknown>)?.['pre_code'] as Record<string,unknown>|undefined)?.['approval_id']??''); if(!approvalId) throw new Error('La API no devolvió Approval ID.'); armApprovalCenterArtifactReviewHandoff(session,approvalId); await load(`Approval solicitado: ${approvalId}. Abre Approval Center dirigido y decide con un rol autorizado.`);}catch(e){await renderGovernedError(feedback,e);} }));
       } else {
@@ -261,6 +287,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         plan.append(button('Verificar approval y aplicar',async()=>{ if(!await ensureLiveHumanSession(feedback)) return; try{const shown=await client().showApproval(approvalId); const status=String((shown.data as Record<string,unknown>)?.['approval'] && ((shown.data as Record<string,unknown>)['approval'] as Record<string,unknown>)['status'] || ''); if(status!=='approved'){setFeedback(feedback,'block',`Approval todavía está ${status||'pending'}. No se aplica source.`);return;} const r=await client().preCodeApply(stage.stage_id); if(!r.ok) throw new Error(formatFindings(r)); await load('Apply aprobado completado. Freeze es el siguiente gate.');}catch(e){await renderGovernedError(feedback,e);} }));
       }
       section.append(plan);
+      if(preCode.semantic_model)section.append(semanticAdvancedDetails(preCode.semantic_model));
     }
     if(stage.status==='APPLIED'){
       const reviewId=String(stage.review_id??''), executionId=String(stage.execution_id??'');
@@ -272,7 +299,6 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
 
   return host;
 }
-
 function stageStepper(stages: PreCodeWizardStage[], currentId: string|null|undefined, onBlockedAttempt: (stage: PreCodeWizardStage)=>void): HTMLElement {
   const nav=document.createElement('ol'); nav.className='pre-code-stepper'; nav.setAttribute('aria-label','Etapas obligatorias de pre-code');
   const current=stages.find((row)=>row.stage_id===currentId);

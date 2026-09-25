@@ -1735,3 +1735,13 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 .progressive-evidence > summary { min-height:var(--dp-control-min-target); display:flex; align-items:center; cursor:pointer; font-weight:800; }
 .progressive-evidence pre { max-height:18rem; overflow:auto; margin:var(--dp-space-2) 0 0; padding:var(--dp-space-3); border-radius:var(--dp-radius-sm); background:var(--dp-color-surface-subtle); white-space:pre-wrap; overflow-wrap:anywhere; }
 @media (max-width:720px){ .operational-patterns__grid{grid-template-columns:1fr;} .operation-state{grid-template-columns:1fr;} .primary-action__label{width:100%;} }
+
+/* DEVPL-GSDLC-13-C-01 — Draft-first semantic review corrective */
+.pre-code-decision-inbox { display:grid; gap:.7rem; padding:1rem; border:1px solid var(--border-color,#d6dbe5); border-radius:.65rem; background:var(--surface-muted,#f8fafc); }
+.pre-code-decision-inbox h4 { margin:0; }
+.pre-code-decision-inbox__item { display:grid; gap:.35rem; padding:.7rem; border:1px solid var(--border-color,#d6dbe5); border-radius:.5rem; background:#fff; }
+.pre-code-decision-inbox__item label { font-weight:700; }
+.pre-code-decision-inbox__item input { width:100%; box-sizing:border-box; padding:.65rem; border:1px solid #aeb8c9; border-radius:.45rem; }
+.pre-code-semantic-details, .pre-code-plan-edit { margin-top:.75rem; padding:.75rem; border:1px dashed var(--border-color,#d6dbe5); border-radius:.55rem; }
+.pre-code-semantic-details summary, .pre-code-plan-edit summary { cursor:pointer; font-weight:700; }
+.pre-code-semantic-details pre { max-height:26rem; overflow:auto; white-space:pre-wrap; word-break:break-word; font-size:.78rem; }

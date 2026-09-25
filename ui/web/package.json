@@ -54,7 +54,9 @@
     "test:release-readiness": "node scripts/gsdlc11a-release-readiness-smoke.mjs",
     "test:release-package": "node scripts/gsdlc11b-release-package-smoke.mjs",
     "test:release-lifecycle": "node scripts/gsdlc11c-release-lifecycle-smoke.mjs",
-    "test:ux-p0-e": "node scripts/uxp0e-prepilot-closure-smoke.mjs"
+    "test:ux-p0-e": "node scripts/uxp0e-prepilot-closure-smoke.mjs",
+    "test:pre-code-wizard": "node scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
+    "test:gsdlc13c01-draft-first": "node scripts/gsdlc13c01-draft-first-semantic-review-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {

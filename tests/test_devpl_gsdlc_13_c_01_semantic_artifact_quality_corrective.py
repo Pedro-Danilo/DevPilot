@@ -7,18 +7,25 @@ import subprocess
 from copy import deepcopy
 from pathlib import Path
 
+from fastapi.testclient import TestClient
+
 from devpilot_core.application.pre_code_semantic_model import (
     GENERATOR_ID,
     SCHEMA_ID,
     build_candidate_model,
     capability_actionable,
     normalize_owner_model,
+    prepare_draft_first_model,
     requirement_records,
     semantic_hash,
+    unresolved_decisions_for_stage,
     validate_confirmed_model,
+    validate_model_for_stage,
     validate_rendered_artifact,
 )
+from devpilot_core.application.auth_service import AuthApplicationService
 from devpilot_core.application.services import ApplicationService
+from devpilot_core.interfaces.api.app import create_app
 from devpilot_core.workspace.runtime_project_context import activate_project_runtime_context, bind_persisted_project_runtime
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -175,14 +182,16 @@ def test_render_quality_gate_rejects_legacy_placeholder_requirement():
     assert 'SEMANTIC_REQUIREMENT_PLACEHOLDER_BLOCK' in ids
 
 
-def test_product_vision_semantic_prepare_is_runtime_only_and_resume_aware(tmp_path,monkeypatch):
+def test_product_vision_draft_first_is_runtime_only_and_resume_aware(tmp_path,monkeypatch):
     platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
     svc=ApplicationService(platform); before=subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])
     prepared=svc.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name])
-    assert prepared.ok and prepared.data['semantic_model']['quality_state']=='REVIEW_REQUIRED'
+    assert prepared.ok and prepared.data['semantic_model']['quality_state']=='DRAFT_READY'
+    assert prepared.data['stage']['status']=='DRAFT' and prepared.data['stage']['draft_content']
     assert subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])==before==b''
     svc2=ApplicationService(platform); status=svc2.guided_pre_code_status(effective_roles=['owner'],workspace_scopes=[ws.name])
     assert status.data['pre_code']['semantic_model']['semantic_model_sha256']==prepared.data['semantic_model']['semantic_model_sha256']
+    assert next(x for x in status.data['pre_code']['stages'] if x['stage_id']=='product-vision')['draft_content']==prepared.data['stage']['draft_content']
 
 
 def test_confirmed_semantic_model_generates_deterministic_professional_vision(tmp_path,monkeypatch):
@@ -231,9 +240,100 @@ def test_governed_c01_reopen_archives_runtime_and_does_not_mutate_project_source
     assert list((platform/'outputs/pre_code_wizard/gsdlc_05_e'/ws.name/'history').glob('c01_before_retest_*_state.json'))
 
 
-def test_ui_contains_semantic_review_and_diff_explainability_contract():
+def test_ui_contains_draft_first_decision_inbox_and_diff_explainability_contract():
     view=(ROOT/'ui/web/src/pages/PreCodeWizardView.ts').read_text(encoding='utf-8')
-    assert 'Base semántica derivada' in view
-    assert 'Confirmar base semántica y generar DRAFT' in view
+    assert 'Decisiones pendientes' in view
+    assert 'Ver análisis de DevPilot' in view
+    assert 'Generar propuesta con DevPilot' in view
+    assert 'Guardar revisión del Owner' in view
+    assert 'Confirmar base semántica y generar DRAFT' not in view
     assert 'source actual → DRAFT propuesto' in view or 'baseline vacío → DRAFT propuesto' in view
     assert 'este plan/diff deja de representar el cambio aprobado' in view
+
+
+
+def test_draft_first_model_defers_requirement_questions_until_requirements():
+    model=prepare_draft_first_model(_candidate())
+    assert model['quality_state']=='DRAFT_READY'
+    assert unresolved_decisions_for_stage(model,'product-vision')==[]
+    assert unresolved_decisions_for_stage(model,'scope')==[]
+    assert len(unresolved_decisions_for_stage(model,'requirements'))>=1
+    assert validate_model_for_stage(model,'product-vision')==[]
+    assert any(x['id']=='SEMANTIC_MODEL_CRITICAL_QUESTION_BLOCK' for x in validate_model_for_stage(model,'requirements'))
+
+
+def test_optional_new_empty_semantic_row_is_ignored_instead_of_blocking():
+    candidate=prepare_draft_first_model(_candidate())
+    submitted=deepcopy(candidate)
+    submitted['actors'].append({'id':'','kind':'ACTOR','statement':'','decision':'','status':'CONFIRMED'})
+    normalized=normalize_owner_model(candidate,submitted)
+    assert all(str(x.get('statement') or '').strip() for x in normalized['actors'])
+    assert len(normalized['actors'])==len(candidate['actors'])
+
+
+def test_first_devpl_mock_call_returns_complete_product_vision_draft(tmp_path,monkeypatch):
+    platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
+    svc=ApplicationService(platform)
+    before=subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])
+    result=svc.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name])
+    assert result.ok,result.to_dict()
+    stage=result.data['stage']; model=result.data['semantic_model']
+    assert stage['status']=='DRAFT' and stage['draft_content']
+    assert '## Problema' in stage['draft_content'] and '## MVP' in stage['draft_content']
+    assert model['quality_state']=='DRAFT_READY'
+    assert stage['derivation']['network_used'] is False and stage['derivation']['external_api_used'] is False
+    assert not (ws/'docs/00_product/product_vision.md').exists()
+    assert subprocess.check_output(['git','-C',str(ws),'status','--porcelain=v1','-z'])==before==b''
+
+
+def test_owner_edit_preserves_devpl_mock_provenance_and_invalidates_plan(tmp_path,monkeypatch):
+    platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
+    svc=ApplicationService(platform)
+    first=svc.guided_pre_code_save_draft(stage_id='product-vision',content='',mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name])
+    assert first.ok,first.to_dict()
+    review=svc.guided_pre_code_review(stage_id='product-vision',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'])
+    assert review.ok,review.to_dict()
+    status=svc.guided_pre_code_status(effective_roles=['owner'],workspace_scopes=[ws.name])
+    row=next(x for x in status.data['pre_code']['stages'] if x['stage_id']=='product-vision')
+    assert row['status']=='APPROVAL_REQUIRED' and row['plan_id']
+    edited=str(row['draft_content']).replace('## Visión','## Visión\n\nRevisión editorial del Owner.',1)
+    saved=svc.guided_pre_code_save_draft(stage_id='product-vision',content=edited,mode='DEVPL_MOCK',actor='local-owner',actor_role='owner',session_principal='local-owner',effective_roles=['owner'],workspace_scopes=[ws.name])
+    assert saved.ok,saved.to_dict()
+    assert saved.data['plan_invalidated'] is True
+    assert saved.data['stage']['status']=='DRAFT' and saved.data['stage']['plan_id'] is None
+    assert saved.data['stage']['derivation']['owner_edited'] is True
+    assert saved.data['stage']['derivation']['owner_edited_content_sha256']
+    assert saved.data['stage']['derivation']['generated_content_sha256']!=saved.data['stage']['derivation']['owner_edited_content_sha256']
+
+
+def test_semantic_content_block_uses_422_while_missing_session_remains_401(tmp_path,monkeypatch):
+    platform=_platform(tmp_path); ws=_workspace(tmp_path); _activate(platform,ws,monkeypatch)
+    auth=AuthApplicationService(platform)
+    auth.bootstrap_owner(username='draft.first.owner',display_name='Draft First Owner',password='DraftFirstOwner!2026')
+    app=create_app(platform,api_token='draft-first-token',auth_service=auth); client=TestClient(app)
+    no_session=client.get('/api/v1/guided-sdlc/pre-code',headers={'origin':'http://127.0.0.1:5173'})
+    assert no_session.status_code==401
+    login=client.post('/api/v1/auth/login',json={'username':'draft.first.owner','password':'DraftFirstOwner!2026'},headers={'origin':'http://127.0.0.1:5173'})
+    assert login.status_code==200,login.text
+    csrf=str(client.cookies.get('devpilot_csrf') or '')
+    first=client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/draft',json={'mode':'DEVPL_MOCK','content':''},headers={'origin':'http://127.0.0.1:5173','X-DevPilot-CSRF':csrf})
+    assert first.status_code==200,first.text
+    status=client.get('/api/v1/guided-sdlc/pre-code',headers={'origin':'http://127.0.0.1:5173'}).json()['data']['pre_code']
+    model=deepcopy(status['semantic_model'])
+    assert model['actors']
+    model['actors'][0]['statement']=''
+    blocked=client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/draft',json={'mode':'DEVPL_MOCK','content':'','semantic_model':model},headers={'origin':'http://127.0.0.1:5173','X-DevPilot-CSRF':csrf})
+    assert blocked.status_code==422,blocked.text
+    ids={x['id'] for x in blocked.json().get('findings',[])}
+    assert 'GSDLC13C01_SEMANTIC_MODEL_INPUT_BLOCK' in ids
+
+
+def test_ui_draft_first_hides_semantic_matrix_from_normal_flow_and_exposes_decision_inbox():
+    view=(ROOT/'ui/web/src/pages/PreCodeWizardView.ts').read_text(encoding='utf-8')
+    assert 'pre-code-decision-inbox' in view
+    assert 'Ver análisis de DevPilot' in view
+    assert 'No necesitas revisar esta estructura para completar el flujo normal.' in view
+    assert 'Confirmar base semántica y generar DRAFT' not in view
+    assert 'Añadir actor' not in view and 'Añadir capacidad' not in view
+    assert 'Guardar decisiones y regenerar propuesta' in view
+    assert 'Editar propuesta antes de aprobar' in view
