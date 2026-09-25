@@ -3,6 +3,7 @@ const read=(p)=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
 const view=read('src/pages/PreCodeWizardView.ts');
 const types=read('src/api/types.ts');
 const client=read('src/api/client.ts');
+const styles=read('src/styles.css');
 const required=[
   ['draft-first',view.includes('Generar propuesta con DevPilot')&&view.includes('Propuesta completa generada como DRAFT')],
   ['owner-edit',view.includes('Guardar revisión del Owner')&&view.includes('Editar propuesta antes de aprobar')],
@@ -15,6 +16,7 @@ const required=[
   ['typed-owner-edit-provenance',types.includes('owner_edited?: boolean')&&types.includes('owner_edited_content_sha256?: string')],
   ['semantic-payload',client.includes('semantic_model?: import(\'./types\').PreCodeSemanticModel | null')],
   ['no-inner-html',!view.includes('.innerHTML')],
+  ['diff-viewport-bounded',styles.includes('.pre-code-plan__diff')&&styles.includes('white-space:pre-wrap')&&styles.includes('overflow-wrap:anywhere')&&styles.includes('.pre-code-stage, .pre-code-plan')],
 ];
 const failed=required.filter(([,ok])=>!ok).map(([id])=>id);
 if(failed.length){console.error(JSON.stringify({status:'BLOCK',failed},null,2));process.exit(2);}

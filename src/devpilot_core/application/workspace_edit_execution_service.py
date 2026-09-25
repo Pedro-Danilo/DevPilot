@@ -418,8 +418,17 @@ class WorkspaceEditExecutionApplicationService:
             return None, None, relative_path
         if target.is_symlink() or target.parent.is_symlink() or not target.parent.is_dir():
             return None, None, relative_path
+        governed_artifact_plan = str(plan.get("schema_id") or "") == "devpilot.gsdlc04d.artifact_apply_plan.v1"
         if operation == "create":
             if target.exists():
+                return None, None, relative_path
+            return target, context.effective_workspace_root.resolve(), relative_path
+        if governed_artifact_plan:
+            # ArtifactReview plans carry artifact:<artifact_id>, not a Document
+            # Center doc_* identifier. plan_artifact() already resolved and
+            # bounded this workspace-relative target server-side; apply must
+            # resolve the same target contract used by recheck().
+            if not target.is_file():
                 return None, None, relative_path
             return target, context.effective_workspace_root.resolve(), relative_path
         read = self.documents.read_document(document_id)

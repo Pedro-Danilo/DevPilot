@@ -186,7 +186,7 @@ def guided_pre_code_apply(request: Request, stage_id: str, service: ApplicationS
     if error: return error
     assert identity is not None
     principal=identity["principal"]
-    return _json(*dispatch_application_request(service, operation="guided_sdlc.pre_code.apply", payload={"stage_id":stage_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.apply", payload={"stage_id":stage_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
 
 
 @router.post("/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze")
@@ -195,7 +195,7 @@ def guided_pre_code_freeze(request: Request, stage_id: str, body: PreCodeFreezeB
     if error: return error
     assert identity is not None
     principal=identity["principal"]
-    return _json(*dispatch_application_request(service, operation="guided_sdlc.pre_code.freeze", payload={"stage_id":stage_id,"review_id":body.review_id,"execution_id":body.execution_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"]}))
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.freeze", payload={"stage_id":stage_id,"review_id":body.review_id,"execution_id":body.execution_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"]}))
 
 
 @router.get("/api/v1/guided-sdlc/pre-code/readiness")

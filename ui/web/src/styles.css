@@ -1745,3 +1745,12 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 .pre-code-semantic-details, .pre-code-plan-edit { margin-top:.75rem; padding:.75rem; border:1px dashed var(--border-color,#d6dbe5); border-radius:.55rem; }
 .pre-code-semantic-details summary, .pre-code-plan-edit summary { cursor:pointer; font-weight:700; }
 .pre-code-semantic-details pre { max-height:26rem; overflow:auto; white-space:pre-wrap; word-break:break-word; font-size:.78rem; }
+
+/* DEVPL-GSDLC-13-C-01 — keep pre-code diff/review inside the viewport. */
+.pre-code-wizard, .pre-code-wizard__body, .pre-code-stage, .pre-code-plan { min-width:0; max-width:100%; }
+.pre-code-plan { display:grid; gap:.65rem; width:100%; box-sizing:border-box; }
+.pre-code-plan__meta { display:grid; grid-template-columns:minmax(9rem,14rem) minmax(0,1fr); gap:.3rem .75rem; margin:.5rem 0; }
+.pre-code-plan__meta dt { font-weight:700; }
+.pre-code-plan__meta dd { margin:0; min-width:0; overflow-wrap:anywhere; word-break:break-word; }
+.pre-code-plan__diff { display:block; width:100%; max-width:100%; box-sizing:border-box; max-height:32rem; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; border:1px solid var(--border-color,#d6dbe5); border-radius:.5rem; padding:.75rem; background:var(--surface-muted,#f8fafc); }
+@media(max-width:760px){.pre-code-plan__meta{grid-template-columns:1fr;}}

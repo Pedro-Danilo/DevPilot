@@ -141,3 +141,74 @@ def test_stale_artifact_plan_is_conflict_not_false_forbidden(tmp_path: Path, mon
     ids = {row['id'] for row in requested.json().get('findings', [])}
     assert 'UOC004_OPTIMISTIC_CONCURRENCY_STALE_BLOCK' in ids
     assert 'UOC005_PRE_APPROVAL_RECHECK_BLOCK' in ids
+
+
+def _request_and_approve(client: TestClient, headers: dict[str, str]) -> str:
+    requested = client.post(
+        '/api/v1/guided-sdlc/pre-code/stages/product-vision/approval-request',
+        json={'reason': 'Owner reviewed the exact Product Vision diff.'}, headers=headers,
+    )
+    assert requested.status_code == 200, requested.text
+    approval_id = requested.json()['data']['pre_code']['approval_id']
+    decided = client.post(
+        f'/api/v1/approvals/{approval_id}/approve',
+        json={'reason': 'Owner approves exact governed Product Vision plan.'}, headers=headers,
+    )
+    assert decided.status_code == 200, decided.text
+    return approval_id
+
+
+def test_existing_governed_artifact_modify_can_apply_and_freeze(tmp_path: Path, monkeypatch) -> None:
+    _, ws, client, headers = _client(tmp_path, monkeypatch)
+    _prepare_approval_required(client, headers)
+    approval_id = _request_and_approve(client, headers)
+
+    applied = client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/apply', headers=headers)
+    assert applied.status_code == 200, applied.text
+    payload = applied.json()
+    assert payload['ok'] is True
+    pre_code = payload['data']['pre_code']
+    assert pre_code['approval_id'] == approval_id
+    assert pre_code['execution_id'].startswith('uedit_')
+    assert pre_code['review_id'].startswith('arev_')
+    assert 'Revisión editorial del Owner.' in (ws / 'docs/00_product/product_vision.md').read_text(encoding='utf-8')
+    ids = {row['id'] for row in payload.get('findings', [])}
+    assert 'UOC005_TARGET_SCOPE_BLOCK' not in ids
+    assert 'WORKSPACE_DOCUMENT_ID_BLOCK' not in ids
+
+    frozen = client.post(
+        '/api/v1/guided-sdlc/pre-code/stages/product-vision/freeze',
+        json={'review_id': pre_code['review_id'], 'execution_id': pre_code['execution_id']},
+        headers=headers,
+    )
+    assert frozen.status_code == 200, frozen.text
+    state = client.get('/api/v1/guided-sdlc/pre-code', headers=headers)
+    assert state.status_code == 200, state.text
+    rows = {row['stage_id']: row for row in state.json()['data']['pre_code']['stages']}
+    assert rows['product-vision']['status'] == 'FROZEN'
+    assert rows['scope']['status'] == 'MISSING'
+
+
+def test_source_drift_after_approval_blocks_apply_as_conflict(tmp_path: Path, monkeypatch) -> None:
+    _, ws, client, headers = _client(tmp_path, monkeypatch)
+    _prepare_approval_required(client, headers)
+    _request_and_approve(client, headers)
+
+    target = ws / 'docs/00_product/product_vision.md'
+    target.write_text(target.read_text(encoding='utf-8') + '\nExternal drift after approval.\n', encoding='utf-8')
+    applied = client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/apply', headers=headers)
+    assert applied.status_code == 409, applied.text
+    ids = {row['id'] for row in applied.json().get('findings', [])}
+    assert 'UOC004_OPTIMISTIC_CONCURRENCY_STALE_BLOCK' in ids
+    assert 'UOC005_PRE_APPLY_RECHECK_BLOCK' in ids
+
+
+def test_apply_target_resolution_uses_governed_artifact_path_not_document_center_id(tmp_path: Path, monkeypatch) -> None:
+    _, _, client, headers = _client(tmp_path, monkeypatch)
+    plan = _prepare_approval_required(client, headers)
+    assert plan['schema_id'] == 'devpilot.gsdlc04d.artifact_apply_plan.v1'
+    assert plan['document']['operation'] == 'modify'
+    assert str(plan['document']['document_id']).startswith('artifact:')
+    _request_and_approve(client, headers)
+    applied = client.post('/api/v1/guided-sdlc/pre-code/stages/product-vision/apply', headers=headers)
+    assert applied.status_code == 200, applied.text
