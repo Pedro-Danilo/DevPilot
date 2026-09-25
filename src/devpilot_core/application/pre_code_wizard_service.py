@@ -204,7 +204,9 @@ class PreCodeWizardApplicationService:
             model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
             semantic_findings=validate_model_for_stage(model or {},stage_id) + validate_rendered_artifact(stage_id,str(row.get('content') or ''),model or {})
             if semantic_findings:
-                return self._block(command,'GSDLC13C01_SEMANTIC_QUALITY_BLOCK','Semantic quality gate blocked review before an approval-ready plan could be created.',metadata={'semantic_findings':semantic_findings})
+                findings=[Finding('GSDLC13C01_SEMANTIC_QUALITY_BLOCK','Semantic quality gate blocked review before an approval-ready plan could be created.',Severity.BLOCK,metadata={'semantic_findings':semantic_findings})]
+                findings.extend(Finding(str(item.get('id') or 'SEMANTIC_QUALITY_DETAIL_BLOCK'),str(item.get('message') or 'Semantic quality finding.'),Severity.BLOCK,metadata={k:v for k,v in item.items() if k not in {'id','message'}}) for item in semantic_findings)
+                return CommandResult(command,False,ExitCode.BLOCK,'Semantic quality gate blocked review before an approval-ready plan could be created.',data={},findings=findings)
         # A corrected draft always starts a new lifecycle record; persisted row artifact is DRAFT.
         result=self.reviews.start_runtime_draft(source_kind=str(row.get('mode') or 'MANUAL'),source_ref=f'pre-code:{workspace_id}:{stage_id}',artifact=deepcopy(row['artifact']),relative_path=str(self._stage_by_id[stage_id]['relative_path']),content=str(row.get('content') or ''),base_sha=str(row.get('base_sha256') or ZERO_SHA256),actor=actor,actor_role=actor_role,session_principal=session_principal)
         review=(result.data or {}).get('review') if isinstance(result.data,dict) else None
@@ -688,7 +690,11 @@ class PreCodeWizardApplicationService:
             records=requirement_records(semantic_model)
             rf=[]
             for rec in records:
-                rf.extend([f'### {rec["id"]}','',f'- **Tipo:** {rec["type"]}.',f'- **Statement:** {rec["statement"]}',f'- **Fuente:** {", ".join(rec["source_capability_ids"])}.',f'- **Prioridad:** {rec["priority"]}.',f'- **Criterio de aceptación:** {rec["acceptance_criteria"][0]}',f'- **Método de verificación:** {rec["verification_method"]}.',''])
+                lines=[f'### {rec["id"]}','',f'- **Tipo:** {rec["type"]}.',f'- **Statement:** {rec["statement"]}',f'- **Fuente:** {", ".join(rec["source_capability_ids"])}.']
+                if rec.get('owner_decision_context'):
+                    lines.append(f'- **Decisión Owner vinculada:** {rec["owner_decision_context"]}')
+                lines.extend([f'- **Prioridad:** {rec["priority"]}.',f'- **Criterio de aceptación:** {rec["acceptance_criteria"][0]}',f'- **Método de verificación:** {rec["verification_method"]}.',''])
+                rf.extend(lines)
             body=[
                 '## Propósito','',f'Definir requisitos verificables del MVP de {project_name}, derivados del Semantic Model gobernado, Scope FROZEN y Product Vision FROZEN.','',
                 '## Alcance','',*[f'- {x["id"]}: {x["statement"]}.' for x in capabilities],'',

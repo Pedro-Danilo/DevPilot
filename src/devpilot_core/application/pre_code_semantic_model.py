@@ -429,6 +429,66 @@ def capability_actionable(statement: str, *, allow_vague: bool = False) -> bool:
     return bool(_ACTION_RE.match(text) or _ENGLISH_ACTION_RE.match(text))
 
 
+def observable_actions_from_decision(decision: str) -> list[str]:
+    """Extract observable actions from a natural Owner decision deterministically.
+
+    The UI asks the Owner for a business decision, not for parser-shaped text. A
+    valid answer may therefore start with natural lead-ins such as ``Incluye`` or
+    ``La capacidad debe incluir``. This helper normalizes those lead-ins, extracts
+    infinitive-led actions, and propagates a shared trailing object only when the
+    Owner wrote a compact verb list such as ``crear, consultar y retirar productos``.
+    It never invents actions that are not present in the decision.
+    """
+    value = _compact(decision)
+    if not value:
+        return []
+    sentences = [x for x in re.split(r"[.;]+", value) if _compact(x)]
+    actions: list[str] = []
+    lead_in = re.compile(
+        r"^(?:(?:la\s+capacidad|el\s+sistema|la\s+función|la\s+funcion)\s+)?"
+        r"(?:incluye|incluirá|incluira|debe\s+incluir|comprende|abarca|consiste\s+en|"
+        r"permite|debe\s+permitir|se\s+debe\s+poder)\s+",
+        re.IGNORECASE,
+    )
+    for sentence in sentences:
+        original = _compact(sentence)
+        candidate = lead_in.sub("", original, count=1)
+        lead_in_removed = candidate != original
+        if not lead_in_removed and not (_ACTION_RE.match(candidate) or _ENGLISH_ACTION_RE.match(candidate)):
+            continue
+        parts = _split_actions(candidate)
+        # ``crear, consultar, modificar y retirar productos`` shares the final
+        # object. Propagate it only to preceding bare infinitives.
+        tail = ""
+        if parts:
+            tokens = parts[-1].split(maxsplit=1)
+            if len(tokens) == 2 and (_ACTION_RE.match(parts[-1]) or _ENGLISH_ACTION_RE.match(parts[-1])):
+                tail = tokens[1]
+        normalized: list[str] = []
+        for part in parts:
+            part = _compact(part)
+            if not part:
+                continue
+            if len(part.split()) == 1 and tail and (_ACTION_RE.match(part) or _ENGLISH_ACTION_RE.match(part)):
+                part = f"{part} {tail}"
+            if capability_actionable(part, allow_vague=False):
+                normalized.append(part)
+        actions.extend(normalized)
+        # For a vague capability question the first sentence that yields an
+        # operation list is the governed action set. Later sentences commonly
+        # explain business semantics (for example what "retirar" means) and
+        # must not be misclassified as extra requirements.
+        if normalized:
+            break
+    dedup: list[str] = []
+    seen: set[str] = set()
+    for action in actions:
+        key=action.casefold()
+        if key not in seen:
+            seen.add(key); dedup.append(action)
+    return dedup
+
+
 def _resolved_related_decisions(model: dict[str, Any], capability: dict[str, Any]) -> list[str]:
     question_by_id = {str(x.get("id")): x for x in _active(model, "open_questions")}
     decisions: list[str] = []
@@ -458,7 +518,8 @@ def validate_model_for_stage(model: dict[str, Any], stage_id: str) -> list[dict[
     for cap in caps:
         if not capability_actionable(str(cap.get("statement") or ""), allow_vague=stage_id in {"product-vision", "scope"}):
             decisions = _resolved_related_decisions(model, cap)
-            if not (stage_id == "requirements" and decisions and any(capability_actionable(x, allow_vague=False) for x in decisions)):
+            decision_actions = [action for decision in decisions for action in observable_actions_from_decision(decision)]
+            if not (stage_id == "requirements" and decision_actions):
                 findings.append({"id": "SEMANTIC_MODEL_CAPABILITY_ACTION_BLOCK", "message": f"Capability {cap.get('id')} still needs an observable definition for {stage_id}.", "item_id": cap.get("id")})
         if not str(cap.get("source_ref") or "").strip():
             findings.append({"id": "SEMANTIC_MODEL_SOURCE_EVIDENCE_BLOCK", "message": f"Capability {cap.get('id')} lacks source evidence.", "item_id": cap.get("id")})
@@ -486,51 +547,59 @@ def validate_confirmed_model(model: dict[str, Any]) -> list[dict[str, Any]]:
 def requirement_records(model: dict[str, Any]) -> list[dict[str, Any]]:
     caps = _active(model, "capabilities")
     questions = {str(x.get("id")): x for x in _active(model, "open_questions")}
-    records = []
-    for index, cap in enumerate(caps, 1):
+    records: list[dict[str, Any]] = []
+
+    def criterion_for(action: str, resolved_decisions: list[dict[str, Any]], unresolved: list[str]) -> tuple[str, str]:
+        low = action.lower()
+        decision_text = "; ".join(_compact(q.get("decision") or "") for q in resolved_decisions if _compact(q.get("decision") or ""))
+        if low.startswith(("consultar ", "listar ", "mostrar ", "visualizar ")):
+            return (f"Dada información existente y accesible, al ejecutar «{action}», el sistema devuelve la información solicitada sin modificarla.", "TEST")
+        if low.startswith(("registrar ", "crear ", "agregar ", "añadir ", "importar ")):
+            return (f"Dados datos válidos, al ejecutar «{action}», el resultado queda registrado y puede verificarse posteriormente.", "TEST")
+        if low.startswith(("actualizar ", "modificar ", "editar ", "ajustar ")):
+            return (f"Dado un estado inicial conocido, al ejecutar «{action}», el estado resultante refleja la actualización solicitada.", "TEST")
+        if low.startswith(("retirar ", "eliminar ", "desactivar ")):
+            return (f"Dado un elemento existente, al ejecutar «{action}», el elemento deja de estar disponible para la operación correspondiente y el resultado puede verificarse.", "TEST")
+        if low.startswith(("identificar ", "detectar ")):
+            return (f"Dados datos que cumplen el criterio confirmado{': '+decision_text if decision_text else ' [PENDIENTE: resolver decisión asociada]'}, el sistema identifica los elementos correspondientes y no marca los que no lo cumplen.", "TEST")
+        if low.startswith(("calcular ", "determinar ")):
+            return (f"Dados datos de entrada conocidos, al ejecutar «{action}», el sistema produce un resultado reproducible conforme a la regla aprobada.", "TEST")
+        if unresolved:
+            return (f"[PENDIENTE: resolver {', '.join(unresolved)} antes de approval]", "DEMONSTRATION")
+        return (f"Mediante demostración controlada, un actor autorizado puede completar «{action}» y observar el resultado definido por el alcance aprobado.", "DEMONSTRATION")
+
+    next_id = 1
+    for cap in caps:
         statement = _compact(cap.get("statement") or "")
         related = [questions.get(str(qid)) for qid in cap.get("related_item_ids") or [] if questions.get(str(qid))]
         resolved = [q for q in related if q and str(q.get("status") or "") == "CONFIRMED" and _compact(q.get("decision") or "")]
         unresolved = [str(q.get("id")) for q in related if q and q not in resolved and bool(q.get("critical"))]
         low = statement.lower()
-        effective_action = statement
+        owner_decision_context = "; ".join(_compact(q.get("decision") or "") for q in resolved if _compact(q.get("decision") or ""))
+        actions = [statement]
         if low.split() and low.split()[0] in _VAGUE_VERBS:
-            action_decision = next((_compact(q.get("decision") or "") for q in resolved if capability_actionable(_compact(q.get("decision") or ""), allow_vague=False)), "")
-            if action_decision:
-                effective_action = action_decision
-        fr_statement = f"El sistema debe permitir al actor autorizado {effective_action[0].lower()+effective_action[1:] if effective_action else effective_action}."
-        if low.startswith(("consultar ", "listar ", "mostrar ")):
-            decision = "; ".join(_compact(q.get("decision") or "") for q in resolved)
-            criterion = f"Dada información existente y accesible, al ejecutar «{statement}», el sistema devuelve la información solicitada{': '+decision if decision else ''} sin modificarla."
-            method = "TEST"
-        elif low.startswith(("registrar ", "crear ", "importar ")):
-            criterion = f"Dados datos válidos, al ejecutar «{statement}», el resultado queda registrado y puede verificarse posteriormente."
-            method = "TEST"
-        elif low.startswith(("actualizar ", "modificar ")):
-            criterion = f"Dado un estado inicial conocido, al ejecutar «{statement}», el estado resultante refleja la actualización solicitada."
-            method = "TEST"
-        elif low.startswith(("identificar ", "detectar ")):
-            decision = "; ".join(_compact(q.get("decision") or "") for q in resolved)
-            criterion = f"Dados datos que cumplen el criterio confirmado{': '+decision if decision else ' [PENDIENTE: resolver decisión asociada]'}, el sistema identifica los elementos correspondientes y no marca los que no lo cumplen."
-            method = "TEST"
-        elif unresolved:
-            criterion = f"[PENDIENTE: resolver {', '.join(unresolved)} antes de approval]"
-            method = "DEMONSTRATION"
-        else:
-            criterion = f"Mediante demostración controlada, un actor autorizado puede completar «{effective_action}» y observar el resultado definido por el alcance aprobado."
-            method = "DEMONSTRATION"
-        records.append(
-            {
-                "id": f"RF-{index:03d}",
-                "type": "FR",
-                "statement": fr_statement,
-                "source_capability_ids": [cap.get("id")],
-                "priority": "MUST",
-                "acceptance_criteria": [criterion],
-                "verification_method": method,
-                "open_decisions": unresolved,
-            }
-        )
+            actions = []
+            for question in resolved:
+                actions.extend(observable_actions_from_decision(_compact(question.get("decision") or "")))
+            if not actions:
+                actions = [statement]
+        for action in actions:
+            criterion, method = criterion_for(action, resolved, unresolved)
+            fr_action = action[0].lower()+action[1:] if action else action
+            records.append(
+                {
+                    "id": f"RF-{next_id:03d}",
+                    "type": "FR",
+                    "statement": f"El sistema debe permitir al actor autorizado {fr_action}.",
+                    "source_capability_ids": [cap.get("id")],
+                    "priority": "MUST",
+                    "acceptance_criteria": [criterion],
+                    "verification_method": method,
+                    "open_decisions": unresolved,
+                    "owner_decision_context": owner_decision_context or None,
+                }
+            )
+            next_id += 1
     return records
 
 
@@ -545,6 +614,8 @@ def validate_rendered_artifact(stage_id: str, content: str, model: dict[str, Any
         for rec in records:
             if rec["id"] not in content or rec["statement"] not in content or rec["verification_method"] not in content:
                 findings.append({"id": "SEMANTIC_REQUIREMENT_RENDER_BLOCK", "message": f"Rendered requirements omitted governed fields for {rec['id']}."})
+            if rec.get("owner_decision_context") and str(rec["owner_decision_context"]) not in content:
+                findings.append({"id": "SEMANTIC_REQUIREMENT_DECISION_TRACE_BLOCK", "message": f"Rendered requirements omitted Owner decision context for {rec['id']}."})
             if rec.get("open_decisions"):
                 findings.append({"id": "SEMANTIC_REQUIREMENT_OPEN_DECISION_BLOCK", "message": f"{rec['id']} still depends on {', '.join(rec['open_decisions'])}."})
         if re.search(r"El sistema debe soportar(?: de forma verificable)?:", content, flags=re.IGNORECASE):
