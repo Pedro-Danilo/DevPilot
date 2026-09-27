@@ -105,11 +105,38 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     }
     const stage=preCode.stages.find((row)=>row.stage_id===preCode.current_stage_id);
     if(!stage){ body.append(statusBox('block','BLOCK: no existe current stage determinístico.')); return; }
+    const adrGate=preCode.architecture_adr_bundle;
+    if(adrGate?.required && !adrGate.ready){
+      body.append(renderArchitectureAdrGate(adrGate));
+      if(stage.order>4) return;
+    }
     const editor=stageEditor(stage,preCode);
     if(preCode.advisor){
       body.append(renderPreCodeActionGuide(stage,preCode,editor));
     }
     body.append(editor);
+  }
+
+  function renderArchitectureAdrGate(gate: NonNullable<PreCodeWizardProjection['architecture_adr_bundle']>): HTMLElement {
+    const section=document.createElement('section'); section.className='panel pre-code-adr-gate'; section.dataset.architectureAdrGate='true'; section.dataset.status=gate.status;
+    const h=document.createElement('h3'); h.textContent='ADRs de Architecture · materialización gobernada';
+    const p=document.createElement('p'); p.textContent='Architecture ya está FROZEN. Sus decisiones ADR deben materializarse como documentos standalone antes de comenzar Security. Este paso no reinterpreta ni cambia las decisiones aprobadas.';
+    const list=document.createElement('ul');
+    for(const adr of gate.adrs??[]){const li=document.createElement('li');li.textContent=`${adr.adr_id} · ${adr.title} → ${adr.relative_path} · ${adr.source_state??'PENDIENTE'}`;list.append(li);}
+    const feedback=document.createElement('div'); feedback.setAttribute('role','status'); feedback.setAttribute('aria-live','polite');
+    section.append(h,p,list,feedback);
+    if(gate.status==='REQUIRED' || gate.status==='BLOCK'){
+      section.append(button('Preparar plan/diff de ADRs',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const r=await client().preCodeArchitectureAdrsPrepare();if(!r.ok)throw new Error(formatFindings(r));await load('Plan ADR multiarchivo preparado sin escribir source. Revisa paths/hashes y solicita approval.');}catch(e){await renderGovernedError(feedback,e);}}));
+    } else if(gate.status==='PLANNED'){
+      const meta=document.createElement('p'); meta.textContent=`Plan ${gate.plan_id??'n/a'} · hash ${gate.plan_hash??'n/a'}. Paths exactos: ${(gate.exact_paths??[]).join(', ')}`; section.append(meta);
+      section.append(button('Solicitar approval para materializar ADRs',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const r=await client().preCodeArchitectureAdrsApprovalRequest();if(!r.ok)throw new Error(formatFindings(r));await load('Approval ADR solicitado. Abre Approval Center dirigido, decide y vuelve a verificar/aplicar.');}catch(e){await renderGovernedError(feedback,e);}}));
+    } else if(gate.status==='APPROVAL_PENDING' && gate.approval_id){
+      const approvalId=String(gate.approval_id); armApprovalCenterArtifactReviewHandoff(session,approvalId);
+      const a=document.createElement('p'); a.textContent=`Approval ADR: ${approvalId}`; section.append(a);
+      const open=document.createElement('button'); open.type='button'; open.className='button-link'; open.textContent='Abrir Approval Center dirigido ↗'; open.addEventListener('click',()=>{armApprovalCenterArtifactReviewHandoff(session,approvalId);globalThis.open(`/approvals?handoff=artifact-review&approval_id=${encodeURIComponent(approvalId)}`,'_blank','noopener,noreferrer');}); section.append(open);
+      section.append(button('Verificar approval y materializar ADRs',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const shown=await client().showApproval(approvalId);const status=String((shown.data as Record<string,unknown>)?.['approval']&&((shown.data as Record<string,unknown>)['approval'] as Record<string,unknown>)['status']||'');if(status!=='approved'){setFeedback(feedback,'block',`Approval todavía está ${status||'pending'}. No se escriben ADRs.`);return;}const r=await client().preCodeArchitectureAdrsApply();if(!r.ok)throw new Error(formatFindings(r));await load('ADRs standalone materializados con approval exacto. Security queda habilitada.');}catch(e){await renderGovernedError(feedback,e);}}));
+    }
+    return section;
   }
 
   function renderPreCodeActionGuide(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection, editor: HTMLElement): HTMLElement {
@@ -122,7 +149,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     const authoring=actionGroup('Cómo crear el DRAFT');
     if(stage.allowed_modes.includes('DEVPL_MOCK')){
       const c02=['architecture','security','test-strategy','traceability'].includes(stage.stage_id);
-      authoring.append(simpleActionCard(c02?'DevPilot local + RAG':'DevPilot local',c02?'Genera un baseline técnico trazable desde artefactos FROZEN y ContextPack v2 local como grounding suplementario. No ejecuta LLM ni API externa; el Owner revisa/edita y aprueba.':'Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
+      authoring.append(simpleActionCard(c02?'DevPilot local · grounding ContextPack':'DevPilot local',c02?'Genera un baseline técnico trazable desde artefactos FROZEN y ContextPack v2 local como grounding suplementario. No ejecuta LLM ni API externa; el Owner revisa/edita y aprueba.':'Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
     }
     const manual=actions.find((row)=>row.kind==='MANUAL');
     if(stage.allowed_modes.includes('MANUAL')) authoring.append(simpleActionCard('Manual / Paste','Escribe o pega el contenido dentro del editor gobernado de esta etapa.',manual?.availability ?? 'AVAILABLE',manual?.executable ?? true,()=>selectAuthoringMode(editor,'MANUAL')));
@@ -271,6 +298,14 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         const rag=Boolean(d.rag_execution_used);
         provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · RAG local ${rag?'sí':'no'}${d.rag_grounding_status?` (${d.rag_grounding_status})`:''} · LLM ejecutado ${d.model_execution_used?'sí':'no'} · agente ejecutado ${d.agent_execution_used?'sí':'no'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
         section.append(provenance);
+        if(stage.stage_id==='architecture' && Array.isArray(d.decision_summary) && d.decision_summary.length){
+          const decisions=document.createElement('section'); decisions.className='pre-code-architecture-decisions'; decisions.dataset.architectureDecisionSummary='true';
+          const dh=document.createElement('h4'); dh.textContent='Decisiones incluidas en Architecture';
+          const dc=document.createElement('p'); dc.textContent='Estas decisiones forman parte del DRAFT. Aprobar el plan/diff de Architecture aprueba también estas decisiones; puedes editar o rechazar el DRAFT antes del approval.';
+          const ul=document.createElement('ul');
+          for(const item of d.decision_summary){const li=document.createElement('li');li.textContent=`${item.adr_id} · ${item.title}: ${item.decision}${item.selection_basis?` · base ${item.selection_basis}`:''}`;ul.append(li);}
+          decisions.append(dh,dc,ul); section.append(decisions);
+        }
       }
       if(stage.findings?.length){ const findings=document.createElement('ul'); findings.className='pre-code-findings'; for(const row of stage.findings){const li=document.createElement('li'); li.textContent=`${String(row['id']??'finding')}: ${String(row['message']??'')}`; findings.append(li);} section.append(findings); }
     }

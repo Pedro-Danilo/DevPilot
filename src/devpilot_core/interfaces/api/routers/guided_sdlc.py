@@ -198,6 +198,33 @@ def guided_pre_code_freeze(request: Request, stage_id: str, body: PreCodeFreezeB
     return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.freeze", payload={"stage_id":stage_id,"review_id":body.review_id,"execution_id":body.execution_id,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"]}))
 
 
+@router.post("/api/v1/guided-sdlc/pre-code/architecture-adrs/prepare")
+def guided_pre_code_architecture_adrs_prepare(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _pre_code_identity(request, service)
+    if error: return error
+    assert identity is not None
+    principal=identity["principal"]
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.architecture_adrs.prepare", payload={"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
+
+
+@router.post("/api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request")
+def guided_pre_code_architecture_adrs_approval(request: Request, body: PreCodeApprovalBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _pre_code_identity(request, service)
+    if error: return error
+    assert identity is not None
+    principal=identity["principal"]
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.architecture_adrs.approval_request", payload={"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"reason":body.reason}))
+
+
+@router.post("/api/v1/guided-sdlc/pre-code/architecture-adrs/apply")
+def guided_pre_code_architecture_adrs_apply(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _pre_code_identity(request, service)
+    if error: return error
+    assert identity is not None
+    principal=identity["principal"]
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.architecture_adrs.apply", payload={"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
+
+
 @router.get("/api/v1/guided-sdlc/pre-code/readiness")
 def guided_pre_code_readiness(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     identity, error = _pre_code_identity(request, service)

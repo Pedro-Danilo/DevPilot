@@ -1235,7 +1235,7 @@ export interface PreCodeWizardStage {
   status: 'MISSING' | 'DRAFT' | 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPLIED' | 'FROZEN' | string;
   mode?: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | null;
   draft_content?: string | null;
-  derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; model_execution_used?: boolean; agent_execution_used?: boolean; rag_execution_used?: boolean; rag_grounding_status?: string; rag_context_pack_id?: string; rag_context_pack_sha256?: string; rag_citations?: Array<Record<string, unknown>>; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_edited?: boolean; owner_edited_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean } | null;
+  derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; model_execution_used?: boolean; agent_execution_used?: boolean; rag_execution_used?: boolean; rag_grounding_status?: string; rag_context_pack_id?: string; rag_context_pack_sha256?: string; rag_citations?: Array<Record<string, unknown>>; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_edited?: boolean; owner_edited_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean; decision_summary?: Array<{ adr_id: string; title: string; decision: string; status: string; selection_basis?: string }> } | null;
   content_sha256?: string | null;
   base_sha256?: string | null;
   review_id?: string | null;
@@ -1262,6 +1262,22 @@ export interface PreCodeReadiness {
   historical_global_readiness_replaced: false;
 }
 
+export interface ArchitectureAdrBundleProjection {
+  schema_id?: string;
+  status: 'NOT_APPLICABLE' | 'REQUIRED' | 'PLANNED' | 'APPROVAL_PENDING' | 'APPLIED' | 'BLOCK' | string;
+  required: boolean;
+  ready: boolean;
+  architecture_sha256?: string;
+  architecture_approval_id?: string;
+  plan_id?: string | null;
+  plan_hash?: string | null;
+  approval_id?: string | null;
+  execution_id?: string | null;
+  exact_paths?: string[];
+  adrs: Array<{ adr_id: string; title: string; relative_path: string; proposed_sha256?: string; source_state?: string }>;
+  message?: string;
+}
+
 export interface PreCodeWizardProjection {
   schema_id: string;
   profile_id: string;
@@ -1282,6 +1298,7 @@ export interface PreCodeWizardProjection {
     reevaluation_required: boolean;
   };
   readiness: PreCodeReadiness;
+  architecture_adr_bundle?: ArchitectureAdrBundleProjection;
   transition_trace_ref: string;
   server_authoritative: true;
   normal_user_powershell_required: 0;

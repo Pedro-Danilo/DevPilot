@@ -299,6 +299,18 @@ export class DevPilotApiClient {
     return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/freeze`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
   }
 
+  async preCodeArchitectureAdrsPrepare(): Promise<DevPilotApplicationResponse> {
+    return this.post('/guided-sdlc/pre-code/architecture-adrs/prepare', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async preCodeArchitectureAdrsApprovalRequest(reason = 'Approve standalone ADR materialization from frozen Architecture.'): Promise<DevPilotApplicationResponse> {
+    return this.post('/guided-sdlc/pre-code/architecture-adrs/approval-request', { reason }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
+  async preCodeArchitectureAdrsApply(): Promise<DevPilotApplicationResponse> {
+    return this.post('/guided-sdlc/pre-code/architecture-adrs/apply', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async preCodeReadiness(): Promise<DevPilotApplicationResponse<{ readiness: import('./types').PreCodeReadiness }>> {
     return this.get('/guided-sdlc/pre-code/readiness', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<{ readiness: import('./types').PreCodeReadiness }>>;
   }

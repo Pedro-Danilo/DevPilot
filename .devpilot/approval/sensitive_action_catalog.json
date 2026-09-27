@@ -724,6 +724,45 @@
         "story.source-change.rollback"
       ],
       "workspace_scope_required": true
+    },
+    {
+      "action_id": "filesystem.pre_code_architecture_adr_bundle_apply",
+      "allowed_interfaces": [
+        "api",
+        "ui"
+      ],
+      "blocked_interfaces": [
+        "cli",
+        "agent",
+        "multiagent",
+        "remote",
+        "connector",
+        "plugin"
+      ],
+      "default_effect": "allow",
+      "description": "Atomically materialize the exact standalone ADR set deterministically projected from an already approved and FROZEN Architecture document.",
+      "domain": "filesystem",
+      "executable": true,
+      "miasi_policy_rule_ids": [
+        "PRE_CODE_ARCHITECTURE_ADR_BUNDLE_APPLY_APPROVAL_GATED"
+      ],
+      "notes": [
+        "Exact path allowlist and plan/preimage/postimage hashes are mandatory; this action cannot reinterpret Architecture decisions."
+      ],
+      "requires_approval": true,
+      "requires_command_binding": false,
+      "requires_rbac_role": "owner",
+      "requires_tool_call_binding": false,
+      "risk_level": "high",
+      "source_mutation_allowed": true,
+      "status": "implemented-initial",
+      "test_contract_ids": [
+        "gsdlc-13-c-02-architecture-adr-companion"
+      ],
+      "tool_ids": [
+        "workspace.edit.apply"
+      ],
+      "workspace_scope_required": true
     }
   ],
   "catalog_id": "devpilot-sensitive-actions",

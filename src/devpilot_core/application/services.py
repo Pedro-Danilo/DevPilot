@@ -342,6 +342,7 @@ class ApplicationService:
                 documents=self.workspace_documents,
                 reviews=self.artifact_reviews,
                 executions=self.workspace_edit_execution,
+                approval_auth_store=self.approval_auth_store,
             )
         return self._pre_code_wizard
 
@@ -908,6 +909,15 @@ class ApplicationService:
 
     def guided_pre_code_freeze(self, *, stage_id: str, review_id: str, execution_id: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         return self.pre_code_wizard.freeze(stage_id=stage_id, review_id=review_id, execution_id=execution_id, actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles, workspace_scopes=workspace_scopes)
+
+    def guided_pre_code_architecture_adrs_prepare(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
+        return self.pre_code_wizard.architecture_adrs_prepare(actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles)
+
+    def guided_pre_code_architecture_adrs_request_approval(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], reason: str) -> CommandResult:
+        return self.pre_code_wizard.architecture_adrs_request_approval(actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles, reason=reason)
+
+    def guided_pre_code_architecture_adrs_apply(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
+        return self.pre_code_wizard.architecture_adrs_apply(actor=actor, actor_role=actor_role, session_principal=session_principal, effective_roles=effective_roles)
 
     def guided_pre_code_readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         return self.pre_code_wizard.readiness(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
@@ -2391,6 +2401,9 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "guided_sdlc.pre_code.approval_request": lambda payload: service.guided_pre_code_request_approval(stage_id=str(payload.get("stage_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), reason=str(payload.get("reason", "Approve governed pre-code artifact apply."))),
         "guided_sdlc.pre_code.apply": lambda payload: service.guided_pre_code_apply(stage_id=str(payload.get("stage_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.pre_code.freeze": lambda payload: service.guided_pre_code_freeze(stage_id=str(payload.get("stage_id", "")), review_id=str(payload.get("review_id", "")), execution_id=str(payload.get("execution_id", "")), actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "guided_sdlc.pre_code.architecture_adrs.prepare": lambda payload: service.guided_pre_code_architecture_adrs_prepare(actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
+        "guided_sdlc.pre_code.architecture_adrs.approval_request": lambda payload: service.guided_pre_code_architecture_adrs_request_approval(actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), reason=str(payload.get("reason", "Approve standalone ADR materialization from frozen Architecture."))),
+        "guided_sdlc.pre_code.architecture_adrs.apply": lambda payload: service.guided_pre_code_architecture_adrs_apply(actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.pre_code.readiness": lambda payload: service.guided_pre_code_readiness(effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
         "planning.roadmap.status": lambda payload: service.planning_roadmap_status(effective_roles=list(payload.get("effective_roles") or [])),
         "planning.roadmap.propose": lambda payload: service.planning_roadmap_propose(mode=str(payload.get("mode", "MANUAL")), roadmap=dict(payload.get("roadmap") or {}), required_requirement_ids=list(payload.get("required_requirement_ids") or []), required_risk_ids=list(payload.get("required_risk_ids") or []), actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", "")), source_label=str(payload.get("source_label", ""))),
@@ -2544,6 +2557,9 @@ def _capabilities() -> list[ServiceCapability]:
         ("guided_sdlc.pre_code.approval_request", "Request exact human approval bound to the current stage immutable plan.", "approval_store_write", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request"),
         ("guided_sdlc.pre_code.apply", "Execute inherited UOC-005 approval-bound atomic source apply for the current stage.", "approval_gated_source_write", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"),
         ("guided_sdlc.pre_code.freeze", "Bind an approval-applied execution to current stage, freeze artifact and advance wizard.", "approval_bound_state_transition", False, "POST /api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze"),
+        ("guided_sdlc.pre_code.architecture_adrs.prepare", "Project embedded Architecture ADR decisions into an immutable standalone multi-file plan without source writes.", "runtime_review_plan_only", False, "POST /api/v1/guided-sdlc/pre-code/architecture-adrs/prepare"),
+        ("guided_sdlc.pre_code.architecture_adrs.approval_request", "Request Owner approval exactly bound to the standalone Architecture ADR multi-file plan.", "approval_store_write", False, "POST /api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request"),
+        ("guided_sdlc.pre_code.architecture_adrs.apply", "Atomically materialize standalone ADRs derived from frozen Architecture after exact approval recheck.", "approval_gated_source_write", False, "POST /api/v1/guided-sdlc/pre-code/architecture-adrs/apply"),
         ("guided_sdlc.pre_code.readiness", "Evaluate strict seven-stage guided pre-code vertical-slice readiness without replacing historical global readiness.", "none", True, "GET /api/v1/guided-sdlc/pre-code/readiness"),
         ("planning.roadmap.status", "Read project-scoped GSDLC-08-B Roadmap Workbench runtime state and StepActionAdvisor projection.", "none", True, "GET /api/v1/planning/roadmap; server-authoritative local runtime projection."),
         ("planning.roadmap.propose", "Create MANUAL/IMPORT/AGENT roadmap DRAFT using one shared planning schema and explicit provenance.", "runtime_draft_only", False, "POST /api/v1/planning/roadmap/proposals; no managed source write or external model execution."),
@@ -2698,6 +2714,9 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-05-E-PRE-CODE-APPROVAL", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request", "guided_sdlc.pre_code.approval_request", ["GSDLC-05-E exact-plan approval request; server session actor is authoritative."]),
         ("APP-ROUTE-GSDLC-05-E-PRE-CODE-APPLY", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply", "guided_sdlc.pre_code.apply", ["GSDLC-05-E approval-gated inherited UOC-005 atomic source apply; no arbitrary shell."]),
         ("APP-ROUTE-GSDLC-05-E-PRE-CODE-FREEZE", "POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/freeze", "guided_sdlc.pre_code.freeze", ["GSDLC-05-E approval-applied execution binding and sequential FROZEN stage advance."]),
+        ("APP-ROUTE-GSDLC-13-C-02-ADR-PREPARE", "POST", "/api/v1/guided-sdlc/pre-code/architecture-adrs/prepare", "guided_sdlc.pre_code.architecture_adrs.prepare", ["C-02 companion plan derived only from frozen Architecture; zero source writes."]),
+        ("APP-ROUTE-GSDLC-13-C-02-ADR-APPROVAL", "POST", "/api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request", "guided_sdlc.pre_code.architecture_adrs.approval_request", ["C-02 Owner approval exactly bound to the immutable ADR path/hash set."]),
+        ("APP-ROUTE-GSDLC-13-C-02-ADR-APPLY", "POST", "/api/v1/guided-sdlc/pre-code/architecture-adrs/apply", "guided_sdlc.pre_code.architecture_adrs.apply", ["C-02 atomic all-or-nothing standalone ADR materialization before Security."]),
         ("APP-ROUTE-GSDLC-05-E-PRE-CODE-READINESS", "GET", "/api/v1/guided-sdlc/pre-code/readiness", "guided_sdlc.pre_code.readiness", ["GSDLC-05-E strict seven-stage vertical-slice readiness; historical global readiness remains separate."]),
         ("APP-ROUTE-GSDLC-03-B-DISCOVERY", "POST", "/api/v1/project-entry/environment-discovery", "project_entry.environment_discovery", ["GSDLC-03-B authenticated read-only environment discovery; writes/network/installers remain disabled."]),
         ("APP-ROUTE-GSDLC-03-B-PLAN", "POST", "/api/v1/project-entry/bootstrap-plan", "project_entry.bootstrap_plan", ["GSDLC-03-B authenticated planning-only BootstrapPlan/UI projection; execution remains disabled."]),

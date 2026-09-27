@@ -11,6 +11,7 @@ from devpilot_core.application.pre_code_technical_design import (
     validate_technical_artifact,
 )
 from devpilot_core.application.services import ApplicationService
+from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling import LocalProviderDiscoveryOptions, LocalProviderDiscoveryService
 
 from test_devpl_gsdlc_13_c_01_pre_code_derived_authoring_corrective import (
@@ -56,6 +57,21 @@ def _draft_and_review(svc: ApplicationService, ws: Path, stage_id: str) -> str:
     return row["draft_content"]
 
 
+def _materialize_architecture_adrs(svc: ApplicationService, monkeypatch) -> None:
+    actor="local-owner"
+    prepared=svc.guided_pre_code_architecture_adrs_prepare(actor=actor,actor_role="owner",session_principal=actor,effective_roles=["owner"])
+    assert prepared.ok, prepared.to_dict()
+    monkeypatch.setattr(svc.pre_code_wizard.adr_bundle.approvals,"request",lambda *_args,**_kwargs: CommandResult("approval request",True,ExitCode.PASS,"ok",data={"approval":{"approval_id":"APPROVAL-ADR-C02-TEST"}},findings=[]))
+    requested=svc.guided_pre_code_architecture_adrs_request_approval(actor=actor,actor_role="owner",session_principal=actor,effective_roles=["owner"],reason="Approve ADR companion")
+    assert requested.ok, requested.to_dict()
+    monkeypatch.setattr("devpilot_core.application.pre_code_adr_bundle_service.PolicyEngine.evaluate",lambda *_args,**_kwargs: CommandResult("policy",True,ExitCode.PASS,"ok",data={},findings=[Finding("POLICY_PASS","ok",Severity.INFO)]))
+    ctx=svc.pre_code_wizard._context(); assert isinstance(ctx,tuple); plan=svc.pre_code_wizard._load_state(ctx[0]).get("architecture_adr_bundle",{}).get("plan",{})
+    monkeypatch.setattr(svc.pre_code_wizard.adr_bundle.approvals,"show",lambda approval_id: CommandResult(
+        "approval show",True,ExitCode.PASS,"ok",data={"approval":{"approval_id":approval_id,"subject":plan["plan_id"],"tool_id":"workspace.edit.apply","action":"filesystem.pre_code_architecture_adr_bundle_apply","status":"approved","scope":{"subject_hash":plan["plan_hash"],"workspace_id":"inventory-sales-local-greenfield","exact_path_allowlist":list(plan["exact_path_allowlist"])},"metadata":{"plan_hash":plan["plan_hash"]}}},findings=[]))
+    applied=svc.guided_pre_code_architecture_adrs_apply(actor=actor,actor_role="owner",session_principal=actor,effective_roles=["owner"])
+    assert applied.ok, applied.to_dict()
+
+
 def test_c02_catalog_and_ui_expose_governed_deterministic_rag_route_without_faking_agent_authoring():
     catalog = json.loads((ROOT / ".devpilot/gsdlc/pre_code_wizard_catalog.json").read_text(encoding="utf-8"))
     rows = {x["stage_id"]: x for x in catalog["stages"]}
@@ -64,7 +80,7 @@ def test_c02_catalog_and_ui_expose_governed_deterministic_rag_route_without_faki
         assert rows[stage]["allowed_modes"][0] == "DEVPL_MOCK"
     view = (ROOT / "ui/web/src/pages/PreCodeWizardView.ts").read_text(encoding="utf-8")
     assert "DevPilot · Diseño local + RAG / sin API" in view
-    assert "DevPilot local + RAG" in view
+    assert "DevPilot local · grounding ContextPack" in view
     assert "aún no son providers de primer DRAFT de Pre-code" in view
     assert "c01SemanticStage=stage.order<=3" in view
     assert "LLM ejecutado" in view and "agente ejecutado" in view
@@ -81,6 +97,7 @@ def test_c02_generates_reviewable_architecture_security_test_and_traceability(tm
         assert token in arch
     assert not (ws / "docs/02_architecture/architecture_document.md").exists()
     _freeze_test_stage(platform, ws, "architecture", "docs/02_architecture/architecture_document.md", arch)
+    _materialize_architecture_adrs(svc, monkeypatch)
 
     sec = _draft_and_review(svc, ws, "security")
     for token in ("## Activos", "## Límites de confianza", "## Amenazas", "SEC-001", "CTRL-001", "## Criterios de bloqueo"):

@@ -946,6 +946,15 @@
       "gate": "SourceChangeApplicationService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+ExactPostimageParity+VerifiedBackupSet+CompensatingRestore",
       "observability_required": true,
       "rule_id": "STORY_SOURCE_CHANGE_ROLLBACK_APPROVAL_GATED"
+    },
+    {
+      "action": "pre_code_architecture_adr_bundle_apply",
+      "approval_required": true,
+      "default_effect": "allow",
+      "domain": "Filesystem",
+      "gate": "ArchitectureAdrBundleService+PolicyEngine+ApprovalPolicyChecker+StrongApprovalBindingValidator+RBAC(owner)+FrozenArchitectureSHA+ExactPathAllowlist+ExactPlanHash+PreimageRevalidation+AtomicReplace+CompensatingRollback+PostimageVerification",
+      "observability_required": true,
+      "rule_id": "PRE_CODE_ARCHITECTURE_ADR_BUNDLE_APPLY_APPROVAL_GATED"
     }
   ],
   "schema_version": "1.0",

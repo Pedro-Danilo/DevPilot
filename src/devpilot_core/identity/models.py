@@ -43,6 +43,7 @@ ACTION_PERMISSION_MAP = {
     "overwrite": "filesystem.write.approve",
     "filesystem.story_source_change_apply": "filesystem.write.approve",
     "filesystem.story_source_change_rollback": "filesystem.write.approve",
+    "filesystem.pre_code_architecture_adr_bundle_apply": "filesystem.write.approve",
 }
 
 

@@ -24,7 +24,7 @@
   "legacy_role_aliases": {
     "reviewer": "qa-reviewer"
   },
-  "micro_sprint": "DEVPL-GSDLC-12-B",
+  "micro_sprint": "DEVPL-GSDLC-13-C-02-C02-ADR-RBAC",
   "notes": [
     "Approval requests are human-session-bound in 02-D; legacy local token has no approval request/decision authority.",
     "Approve/deny transport permits approval-capable roles, while approval_authority_matrix applies record risk/domain/SoD authorization.",
@@ -37,7 +37,8 @@
     "GSDLC-07-E registers settings.agent_evals as a human-session-required, deny-by-default read-only route; legacy token cannot substitute human authority.",
     "GSDLC-09-B registers bounded source inspection for authenticated project roles and runtime-draft authoring only for owner/developer; unknown routes remain deny-by-default.",
     "GSDLC-10-C Story Quality routes require authenticated human sessions; waiver decision is owner-only and application service additionally enforces no self-approval/S0-S1 non-waivable/model non-authority.",
-    "GSDLC-10-D registers eight human-session story Git routes; stage/commit and both approval requests are owner-only and reuse governed Git policy authority. Model/agent routing grants no Git authority."
+    "GSDLC-10-D registers eight human-session story Git routes; stage/commit and both approval requests are owner-only and reuse governed Git policy authority. Model/agent routing grants no Git authority.",
+    "C02_ADR registers the three Architecture ADR companion routes and its exact approval-bound filesystem action. Unknown routes/actions remain DENY."
   ],
   "route_policies": [
     {
@@ -4910,6 +4911,57 @@
       "risk_level": "high",
       "route_id": "api.reconciliation.adopt",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.architecture_adrs.prepare",
+      "path": "/api/v1/guided-sdlc/pre-code/architecture-adrs/prepare",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.guided-sdlc.pre-code.architecture-adrs.prepare",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.architecture_adrs.approval_request",
+      "path": "/api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.guided-sdlc.pre-code.architecture-adrs.approval-request",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.architecture_adrs.apply",
+      "path": "/api/v1/guided-sdlc/pre-code/architecture-adrs/apply",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.guided-sdlc.pre-code.architecture-adrs.apply",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
     }
   ],
   "runtime_enforced": true,
@@ -5170,6 +5222,19 @@
       "original_status": "implemented-initial",
       "risk_level": "high",
       "workspace_scope_required": true
+    },
+    {
+      "action_id": "filesystem.pre_code_architecture_adr_bundle_apply",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "legacy_role_resolution": null,
+      "legacy_token_allowed": false,
+      "original_executable": true,
+      "original_status": "implemented-initial",
+      "risk_level": "high",
+      "workspace_scope_required": true
     }
   ],
   "source_repo": "repo_DevPilot_Local_385_DEVPL_GSDLC_07_D_TOOLS_APPROVALS_LIMITS_HANDOFFS_WINDOWS_VALIDATED_CANDIDATE.zip",
@@ -5243,17 +5308,20 @@
     "gsdlc_12_b_legacy_token_allowed_total": 0,
     "gsdlc_12_b_reconciliation_policies_total": 3,
     "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
-    "human_session_required_total": 156,
+    "human_session_required_total": 159,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 232,
-    "sensitive_action_policies_total": 19,
+    "route_policies_total": 235,
+    "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
-    "unmapped_sensitive_actions_total": 0
+    "unmapped_sensitive_actions_total": 0,
+    "gsdlc_13_c_02_adr_companion_policies_total": 3,
+    "gsdlc_13_c_02_legacy_token_allowed_total": 0,
+    "gsdlc_13_c_02_owner_only_action_policies_total": 1
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-12",
-  "updated_by": "DEVPL-GSDLC-12-B",
-  "version": "1.1.0",
+  "updated": "2026-09-27",
+  "updated_by": "DEVPL-GSDLC-13-C-02-C02-ADR-RBAC",
+  "version": "1.2.0",
   "workspace": {
     "cross_workspace_effect": "DENY",
     "default_local_workspace_id": "devpilot-local",

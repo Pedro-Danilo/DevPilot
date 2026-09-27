@@ -26,6 +26,7 @@ from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_edit_plan_service import ZERO_SHA256
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .pre_code_technical_design import C02_STAGES, C02_MODEL, C02_SCHEMA, derive_technical_stage, validate_technical_artifact
+from .pre_code_adr_bundle_service import ArchitectureAdrBundleService
 from .pre_code_semantic_model import (
     build_candidate_model,
     normalize_owner_model,
@@ -83,11 +84,12 @@ class PreCodeWizardApplicationService:
     their policies.
     """
 
-    def __init__(self, platform_root: Path, *, documents: WorkspaceDocumentsApplicationService, reviews: ArtifactReviewApplicationService, executions: WorkspaceEditExecutionApplicationService) -> None:
+    def __init__(self, platform_root: Path, *, documents: WorkspaceDocumentsApplicationService, reviews: ArtifactReviewApplicationService, executions: WorkspaceEditExecutionApplicationService, approval_auth_store=None) -> None:
         self.root = Path(platform_root).resolve()
         self.documents = documents
         self.reviews = reviews
         self.executions = executions
+        self.adr_bundle = ArchitectureAdrBundleService(self.root, approval_auth_store=approval_auth_store)
         self.lifecycle = ArtifactLifecycleService(self.root)
         self.profiles = ArtifactProfileRegistry(self.root)
         self.advisor = ExecutionModeAdvisor(self.root)
@@ -131,6 +133,8 @@ class PreCodeWizardApplicationService:
         if normalized_mode not in {'MANUAL','IMPORT','DEVPL_MOCK'}:
             return self._block(command,'GSDLC05E_MODE_BLOCK','Only governed MANUAL/IMPORT/DEVPL_MOCK modes are available.')
         state=self._load_state(workspace_id)
+        adr_gate=self._adr_companion_gate(state=state,workspace_root=workspace_root,requested_stage_id=stage_id)
+        if adr_gate is not None:return adr_gate
         current=self._current_stage(state)
         if current is None:
             return self._block(command,'GSDLC05E_ALREADY_READY_BLOCK','Pre-code wizard is already complete.')
@@ -202,7 +206,10 @@ class PreCodeWizardApplicationService:
         workspace_id,workspace_root=context
         identity=self._identity(actor,actor_role,session_principal,effective_roles)
         if identity is not None:return identity
-        state=self._load_state(workspace_id); current=self._current_stage(state)
+        state=self._load_state(workspace_id)
+        adr_gate=self._adr_companion_gate(state=state,workspace_root=workspace_root,requested_stage_id=stage_id)
+        if adr_gate is not None:return adr_gate
+        current=self._current_stage(state)
         if current is None or current['stage_id']!=stage_id:return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Only the current mandatory stage can enter review.')
         row=self._stage_state(state,stage_id)
         if row.get('status') not in {'DRAFT','FINDINGS'} or not isinstance(row.get('artifact'),dict):
@@ -367,6 +374,42 @@ class PreCodeWizardApplicationService:
         self._append_trace(workspace_id,event)
         return self._pass(command,'GSDLC13C01_RETEST_REOPEN_PASS','C-01 runtime state reopened for an exact selective retest; prior evidence archived and managed project source bytes preserved.',{'workspace_id':workspace_id,'state_archive':event['state_archive'],'trace_archive':event['trace_archive'],'project_source_mutations':0})
 
+    def architecture_adrs_prepare(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
+        command='guided pre-code architecture ADRs prepare'
+        context=self._context()
+        if isinstance(context,CommandResult):return context
+        workspace_id,workspace_root=context
+        identity=self._identity(actor,actor_role,session_principal,effective_roles)
+        if identity is not None:return identity
+        state=self._load_state(workspace_id)
+        result=self.adr_bundle.prepare(workspace_root=workspace_root,workspace_id=workspace_id,state=state,actor=actor,actor_role=actor_role)
+        if result.ok:self._write_state(workspace_id,state)
+        return result
+
+    def architecture_adrs_request_approval(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], reason: str) -> CommandResult:
+        command='guided pre-code architecture ADRs approval request'
+        context=self._context()
+        if isinstance(context,CommandResult):return context
+        workspace_id,workspace_root=context
+        identity=self._identity(actor,actor_role,session_principal,effective_roles)
+        if identity is not None:return identity
+        state=self._load_state(workspace_id)
+        result=self.adr_bundle.request_approval(workspace_root=workspace_root,workspace_id=workspace_id,state=state,actor=actor,actor_role=actor_role,reason=reason)
+        if result.ok:self._write_state(workspace_id,state)
+        return result
+
+    def architecture_adrs_apply(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
+        command='guided pre-code architecture ADRs apply'
+        context=self._context()
+        if isinstance(context,CommandResult):return context
+        workspace_id,workspace_root=context
+        identity=self._identity(actor,actor_role,session_principal,effective_roles)
+        if identity is not None:return identity
+        state=self._load_state(workspace_id)
+        result=self.adr_bundle.apply(workspace_root=workspace_root,workspace_id=workspace_id,state=state,actor=actor,actor_role=actor_role)
+        if result.ok:self._write_state(workspace_id,state)
+        return result
+
     def readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         context=self._context()
         if isinstance(context,CommandResult):return context
@@ -386,7 +429,8 @@ class PreCodeWizardApplicationService:
         readiness=self._readiness_payload(state,workspace_id,workspace_root,miasi=miasi)
         current_row=self._stage_state(state,current['stage_id']) if current else {}
         current_derivation=current_row.get('derivation') if isinstance(current_row.get('derivation'),dict) else {}
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+        adr_bundle=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=workspace_id,state=state)
+        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _readiness_payload(self,state:dict[str,Any],workspace_id:str,workspace_root:Path,*,miasi:dict[str,Any]|None=None)->dict[str,Any]:
         blockers=[]; artifacts=[]
@@ -406,7 +450,18 @@ class PreCodeWizardApplicationService:
             ok=status=='FROZEN' and bool(expected) and actual_sha==expected and profile_ok
             if not ok:blockers.append({'stage_id':stage['stage_id'],'status':status,'source_exists':target.is_file(),'expected_sha256':expected,'actual_sha256':actual_sha,'profile_ok':profile_ok,'profile_findings':profile_findings})
             artifacts.append({'stage_id':stage['stage_id'],'relative_path':stage['relative_path'],'lifecycle_state':status,'approved_sha256':expected,'actual_sha256':actual_sha,'profile_id':stage['profile_id'],'profile_valid':profile_ok})
+        adr_projection=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=workspace_id,state=state)
+        if bool(adr_projection.get('required')) and not bool(adr_projection.get('ready')):
+            blockers.append({'stage_id':'architecture-adrs','status':str(adr_projection.get('status') or 'REQUIRED'),'reason':'Standalone Architecture ADR companion artifacts must be approval-bound and materialized before downstream C-02 stages/readiness.'})
         return {'schema_id':'devpilot.gsdlc05e.pre_code_readiness.v1','profile_id':self.catalog['profile_id'],'strict':True,'scope':'guided-pre-code-manual-v1/vertical-slice','status':'PASS' if not blockers else 'BLOCK','pre_code_ready':not blockers,'mandatory_stages_total':len(self._stages),'mandatory_stages_frozen':sum(1 for x in artifacts if x['lifecycle_state']=='FROZEN'),'artifacts':artifacts,'miasi':miasi,'blockers':blockers,'historical_global_readiness_replaced':False,'network_used':False,'external_api_used':False}
+
+    def _adr_companion_gate(self, *, state: dict[str,Any], workspace_root: Path, requested_stage_id: str) -> CommandResult | None:
+        stage=self._stage_by_id.get(str(requested_stage_id))
+        if stage is None or int(stage.get('order') or 0)<=4:return None
+        projection=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=str(state.get('workspace_id') or ''),state=state)
+        if bool(projection.get('required')) and not bool(projection.get('ready')):
+            return self._block('guided pre-code downstream stage','GSDLC13C02_ADR_COMPANION_REQUIRED_BLOCK','Architecture is FROZEN, but its standalone ADR companion gate is not complete. Materialize the approved ADR bundle before starting Security or later C-02 stages.',metadata={'requested_stage_id':requested_stage_id,'architecture_adr_bundle':projection})
+        return None
 
     def _miasi_payload(self,workspace_id:str)->dict[str,Any]:
         context_path=self.miasi.context_path(workspace_id)
