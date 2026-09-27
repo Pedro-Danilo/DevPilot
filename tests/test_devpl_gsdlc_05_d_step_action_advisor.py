@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-import hashlib
 import json
-import os
 import shutil
 from pathlib import Path
 
@@ -11,8 +9,10 @@ from fastapi.testclient import TestClient
 
 from devpilot_core.application import AuthApplicationService, RBACApplicationService
 from devpilot_core.application.guided_sdlc_service import GuidedSDLCApplicationService
+from devpilot_core.cli_models import CommandResult, ExitCode
 from devpilot_core.guided_sdlc import AdvisorContext, ExecutionModeAdvisor, StepActionCatalog
 from devpilot_core.guided_sdlc.models import EngineeringLifecycleStatus, MIPSoftwarePhase, WorkspaceEngineeringState
+from devpilot_core.guided_sdlc.registry_binding import WorkspaceRegistryBindingResolver
 from devpilot_core.identity.auth_models import AuthenticatedPrincipal
 from devpilot_core.interfaces.api.app import create_app
 from devpilot_core.interfaces.api.operator_flow_smoke import OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS
@@ -161,35 +161,30 @@ def test_05_d_ui_renders_server_decisions_without_recalculating_authority():
     assert "No se habilita ninguna acción por fallback" in component
 
 
-def test_05_d_application_service_uses_project_status_plus_authenticated_roles_and_scopes(tmp_path):
-    for rel in [".devpilot", "docs/06_miasi"]:
-        source = ROOT / rel
-        target = tmp_path / rel
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copytree(
-            source,
-            target,
-            ignore=shutil.ignore_patterns(*OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS),
-        )
-    fingerprint = hashlib.sha256(os.path.normcase(str(tmp_path.resolve())).encode("utf-8")).hexdigest()
-    state = WorkspaceEngineeringState(
-        workspace_id="devpilot-local", project_id="devpilot-local", workspace_root_fingerprint=fingerprint,
-        lifecycle_status=EngineeringLifecycleStatus.IN_PROGRESS, phase=MIPSoftwarePhase.REQUIREMENTS,
-        current_step="requirements", sequence=0, created_at_utc="2026-08-24T00:00:00Z", updated_at_utc="2026-08-24T00:00:00Z",
-        git={"head":None,"branch":None,"dirty":None,"fingerprint":None},
-        artifacts=({"artifact_id":"requirements-specification","status":"DRAFT","source_ref":None,"fingerprint":None},),
-        planning=(), quality=(), gates=(), blockers=(), revalidation={"status":"NOT_REQUIRED","reason_codes":[]}, source_fingerprints=(), next_action_ref=None,
-    )
-    store = tmp_path / "outputs/workspaces/devpilot-local"
-    store.mkdir(parents=True)
-    (store / "engineering_state.json").write_text(json.dumps(state.to_payload(), indent=2), encoding="utf-8")
-    miasi = {
-        "schema_id":"SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1","schema_version":"1.0","workspace_id":"devpilot-local",
-        "project":{"declared_ai_usage":False,"capabilities":[],"risk_level":"low","evidence_refs":["fixture:project"]},
-        "features":[],"risk_review_status":"NOT_REQUIRED","evidence_refs":["fixture:05-d"]
+def test_05_d_application_service_uses_project_status_plus_authenticated_roles_and_scopes(monkeypatch):
+    # This test owns the application-boundary contract only. Repository/registry
+    # integration is covered separately; keeping filesystem authority out of this
+    # fixture makes the RBAC/advisor assertion deterministic across Windows/Linux.
+    service = GuidedSDLCApplicationService(ROOT)
+    project_status = {
+        "workspace_id": "devpilot-local",
+        "project_id": "devpilot-local",
+        "current_step": "requirements",
+        "lifecycle_status": "IN_PROGRESS",
+        "artifact_readiness": {"status": "READY"},
+        "miasi": {"gate_status": "PASS"},
+        "provider": {"status": "AVAILABLE"},
+        "model_budget": {"status": "PASS"},
+        "blockers": [],
     }
-    (store / "miasi_applicability_context.json").write_text(json.dumps(miasi, indent=2), encoding="utf-8")
-    result = GuidedSDLCApplicationService(tmp_path).step_actions_primary(
+    status_result = CommandResult(
+        command="guided_sdlc.project_status", ok=True, exit_code=ExitCode.PASS,
+        message="fixture project status",
+        data={"workspace_id": "devpilot-local", "project_status": project_status},
+        findings=[],
+    )
+    monkeypatch.setattr(service, "project_status_primary", lambda **_: status_result)
+    result = service.step_actions_primary(
         workspace_id="devpilot-local", observed_at_utc="2026-08-24T00:00:01Z",
         effective_roles=["owner"], workspace_scopes=["devpilot-local"],
     )
@@ -219,7 +214,9 @@ def test_05_d_step_actions_http_route_does_not_raise_server_error(tmp_path):
             target,
             ignore=shutil.ignore_patterns(*OPERATOR_FLOW_RUNTIME_SANDBOX_IGNORE_PATTERNS),
         )
-    fingerprint = hashlib.sha256(os.path.normcase(str(tmp_path.resolve())).encode("utf-8")).hexdigest()
+    binding = WorkspaceRegistryBindingResolver(tmp_path).resolve("devpilot-local")
+    assert binding.root == tmp_path.resolve()
+    fingerprint = binding.root_fingerprint
     out = tmp_path / "outputs/workspaces/devpilot-local"
     out.mkdir(parents=True)
     state = WorkspaceEngineeringState(

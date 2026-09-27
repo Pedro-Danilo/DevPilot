@@ -88,8 +88,33 @@ class LocalProviderDiscoveryService:
         config = self.registry.get(provider_id)
         if config is None:
             decision = self.policy.evaluate(provider_id, None)
-            findings.append(Finding('GSDLC_06_B_PROVIDER_MISSING', f'Local provider {provider_id} is missing.', Severity.BLOCK, metadata={'provider_id': provider_id}))
-            return {'provider_id': provider_id, 'configured': False, 'reachable': False, 'healthy': False, 'model_discovered': False, 'enabled': False, 'probe_attempted': False, 'models': [], 'models_total': 0, 'endpoint_policy': decision.to_dict(), 'fallback': {'provider_id': 'mock', 'reason': 'provider-missing', 'explicit': True}}
+            findings.append(
+                Finding(
+                    'GSDLC_06_B_PROVIDER_NOT_CONFIGURED',
+                    f'Optional local provider {provider_id} is not configured; discovery remains read-only and disabled.',
+                    Severity.WARNING,
+                    metadata={'provider_id': provider_id, 'configured': False},
+                )
+            )
+            return {
+                'provider_id': provider_id,
+                'configured': False,
+                'reachable': None,
+                'healthy': None,
+                'model_discovered': False,
+                'enabled': False,
+                'probe_attempted': False,
+                'probe_status': 'not-configured',
+                'models': [],
+                'models_total': 0,
+                'error_type': 'provider-missing',
+                'endpoint': None,
+                'endpoint_policy': decision.to_dict(),
+                'external_api': False,
+                'requires_api_key': False,
+                'discovery_enables_provider': False,
+                'fallback': {'provider_id': 'mock', 'reason': 'provider-missing', 'explicit': True},
+            }
         decision = self.policy.evaluate(provider_id, config.endpoint)
         if not decision.ok:
             findings.append(Finding('GSDLC_06_B_ENDPOINT_POLICY_BLOCK', f'Endpoint policy blocked {provider_id}.', Severity.BLOCK, metadata={'provider_id': provider_id, 'reason': decision.reason}))

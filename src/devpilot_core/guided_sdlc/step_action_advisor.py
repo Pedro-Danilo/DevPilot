@@ -436,9 +436,9 @@ class ExecutionModeAdvisor:
     @staticmethod
     def _forced_message(code: str) -> str:
         if code == "GSDLC_05_AGENT_EXECUTION_OUT_OF_SCOPE":
-            return "AGENT remains visible but unavailable until GSDLC-06 authorizes a real governed route."
+            return "Standalone AGENT authoring is not integrated into this Pre-code stage. Existing specialized agents remain governed analysis/review capabilities."
         if code == "GSDLC_05_RAG_EXECUTION_OUT_OF_SCOPE":
-            return "RAG remains visible but unavailable until GSDLC-07 authorizes a real governed route."
+            return "Standalone RAG authoring is not integrated into this Pre-code stage. ContextPack v2 may still be used internally by a governed local derivation route."
         return "Action is disabled by the current GSDLC policy."
 
     @staticmethod

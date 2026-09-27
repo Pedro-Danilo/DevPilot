@@ -25,6 +25,7 @@ from .artifact_review_service import ArtifactReviewApplicationService
 from .workspace_documents_service import WorkspaceDocumentsApplicationService
 from .workspace_edit_plan_service import ZERO_SHA256
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
+from .pre_code_technical_design import C02_STAGES, C02_MODEL, C02_SCHEMA, derive_technical_stage, validate_technical_artifact
 from .pre_code_semantic_model import (
     build_candidate_model,
     normalize_owner_model,
@@ -140,23 +141,29 @@ class PreCodeWizardApplicationService:
         content=str(content or '')
         plan_invalidated=bool(row.get('plan_id') or row.get('approval_id'))
         if normalized_mode=='DEVPL_MOCK':
-            semantic_result=self._ensure_semantic_model(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state,submitted=semantic_model)
-            if isinstance(semantic_result,CommandResult): return semantic_result
+            if stage_id in C02_STAGES:
+                semantic_result=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
+                if semantic_model is not None and semantic_result is not None:
+                    semantic_result=self._ensure_semantic_model(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state,submitted=semantic_model)
+                    if isinstance(semantic_result,CommandResult): return semantic_result
+            else:
+                semantic_result=self._ensure_semantic_model(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state,submitted=semantic_model)
+                if isinstance(semantic_result,CommandResult): return semantic_result
             owner_edit=bool(content.strip()) and str(row.get('mode') or '')=='DEVPL_MOCK' and row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} and semantic_model is None
             if owner_edit:
                 content=_canonical_text(content)
                 derivation=deepcopy(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else {}
                 generated_sha=str(derivation.get('generated_content_sha256') or row.get('content_sha256') or _sha_text(content))
                 derivation.update({
-                    'schema_id':str(derivation.get('schema_id') or DERIVATION_SCHEMA),
-                    'mode':'DEVPL_MOCK','provider':'devpilot-local','model':DERIVATION_MODEL,
+                    'schema_id':str(derivation.get('schema_id') or (C02_SCHEMA if stage_id in C02_STAGES else DERIVATION_SCHEMA)),
+                    'mode':'DEVPL_MOCK','provider':str(derivation.get('provider') or 'devpilot-local'),'model':str(derivation.get('model') or (C02_MODEL if stage_id in C02_STAGES else DERIVATION_MODEL)),
                     'network_used':False,'external_api_used':False,'cost_usd':0.0,
                     'generated_content_sha256':generated_sha,
                     'owner_edited':_sha_text(content)!=generated_sha,
                     'owner_edited_content_sha256':_sha_text(content),
-                    'semantic_model_sha256':semantic_hash(semantic_result),
-                    'semantic_model_schema_id':semantic_result.get('schema_id'),
-                    'owner_semantic_reviewed':bool(semantic_result.get('owner_semantic_reviewed')),
+                    'semantic_model_sha256':semantic_hash(semantic_result) if isinstance(semantic_result,dict) else derivation.get('semantic_model_sha256'),
+                    'semantic_model_schema_id':semantic_result.get('schema_id') if isinstance(semantic_result,dict) else derivation.get('semantic_model_schema_id'),
+                    'owner_semantic_reviewed':bool(semantic_result.get('owner_semantic_reviewed')) if isinstance(semantic_result,dict) else bool(derivation.get('owner_semantic_reviewed')),
                     'owner_review_required':True,'approval_required_before_source_write':True,
                 })
             else:
@@ -192,7 +199,7 @@ class PreCodeWizardApplicationService:
         command='guided pre-code review'
         context=self._context()
         if isinstance(context,CommandResult):return context
-        workspace_id,_=context
+        workspace_id,workspace_root=context
         identity=self._identity(actor,actor_role,session_principal,effective_roles)
         if identity is not None:return identity
         state=self._load_state(workspace_id); current=self._current_stage(state)
@@ -202,11 +209,20 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC05E_DRAFT_REQUIRED_BLOCK','Save a current-stage DRAFT before validation/review.')
         if str(row.get('mode') or '')=='DEVPL_MOCK':
             model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
-            semantic_findings=validate_model_for_stage(model or {},stage_id) + validate_rendered_artifact(stage_id,str(row.get('content') or ''),model or {})
-            if semantic_findings:
-                findings=[Finding('GSDLC13C01_SEMANTIC_QUALITY_BLOCK','Semantic quality gate blocked review before an approval-ready plan could be created.',Severity.BLOCK,metadata={'semantic_findings':semantic_findings})]
-                findings.extend(Finding(str(item.get('id') or 'SEMANTIC_QUALITY_DETAIL_BLOCK'),str(item.get('message') or 'Semantic quality finding.'),Severity.BLOCK,metadata={k:v for k,v in item.items() if k not in {'id','message'}}) for item in semantic_findings)
-                return CommandResult(command,False,ExitCode.BLOCK,'Semantic quality gate blocked review before an approval-ready plan could be created.',data={},findings=findings)
+            if stage_id in C02_STAGES:
+                req_stage=self._stage_by_id['requirements']; req_path=workspace_root/str(req_stage['relative_path'])
+                requirements_text=_canonical_text(req_path.read_text(encoding='utf-8')) if req_path.is_file() else ''
+                technical_findings=validate_technical_artifact(stage_id,str(row.get('content') or ''),requirements_text)
+                if technical_findings:
+                    findings=[Finding('GSDLC13C02_TECHNICAL_QUALITY_BLOCK','C-02 technical quality gate blocked review before an approval-ready plan could be created.',Severity.BLOCK,metadata={'technical_findings':technical_findings})]
+                    findings.extend(Finding(str(item.get('id') or 'TECHNICAL_QUALITY_DETAIL_BLOCK'),str(item.get('message') or 'Technical quality finding.'),Severity.BLOCK,metadata={k:v for k,v in item.items() if k not in {'id','message'}}) for item in technical_findings)
+                    return CommandResult(command,False,ExitCode.BLOCK,'C-02 technical quality gate blocked review before an approval-ready plan could be created.',data={},findings=findings)
+            else:
+                semantic_findings=validate_model_for_stage(model or {},stage_id) + validate_rendered_artifact(stage_id,str(row.get('content') or ''),model or {})
+                if semantic_findings:
+                    findings=[Finding('GSDLC13C01_SEMANTIC_QUALITY_BLOCK','Semantic quality gate blocked review before an approval-ready plan could be created.',Severity.BLOCK,metadata={'semantic_findings':semantic_findings})]
+                    findings.extend(Finding(str(item.get('id') or 'SEMANTIC_QUALITY_DETAIL_BLOCK'),str(item.get('message') or 'Semantic quality finding.'),Severity.BLOCK,metadata={k:v for k,v in item.items() if k not in {'id','message'}}) for item in semantic_findings)
+                    return CommandResult(command,False,ExitCode.BLOCK,'Semantic quality gate blocked review before an approval-ready plan could be created.',data={},findings=findings)
         # A corrected draft always starts a new lifecycle record; persisted row artifact is DRAFT.
         result=self.reviews.start_runtime_draft(source_kind=str(row.get('mode') or 'MANUAL'),source_ref=f'pre-code:{workspace_id}:{stage_id}',artifact=deepcopy(row['artifact']),relative_path=str(self._stage_by_id[stage_id]['relative_path']),content=str(row.get('content') or ''),base_sha=str(row.get('base_sha256') or ZERO_SHA256),actor=actor,actor_role=actor_role,session_principal=session_principal)
         review=(result.data or {}).get('review') if isinstance(result.data,dict) else None
@@ -368,7 +384,9 @@ class PreCodeWizardApplicationService:
             ctx=AdvisorContext(workspace_id=workspace_id,current_step=str(current['advisor_step']),effective_roles=tuple(effective_roles),workspace_scopes=tuple(workspace_scopes),artifact_readiness='READY' if artifact_status in {'DRAFT','APPROVAL_REQUIRED','FROZEN'} else 'UNKNOWN',miasi_gate_status=str(miasi.get('gate_status') or 'BLOCK'),provider_status='NOT_AVAILABLE',budget_status='NOT_APPLICABLE',active_project_context=True)
             advisor_payload=self.advisor.advise(ctx).to_payload()
         readiness=self._readiness_payload(state,workspace_id,workspace_root,miasi=miasi)
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':False,'agent_execution_used':False,'rag_execution_used':False,'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+        current_row=self._stage_state(state,current['stage_id']) if current else {}
+        current_derivation=current_row.get('derivation') if isinstance(current_row.get('derivation'),dict) else {}
+        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _readiness_payload(self,state:dict[str,Any],workspace_id:str,workspace_root:Path,*,miasi:dict[str,Any]|None=None)->dict[str,Any]:
         blockers=[]; artifacts=[]
@@ -510,8 +528,8 @@ class PreCodeWizardApplicationService:
 
     def _derive_local_proposal(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any]) -> tuple[str, dict[str, Any]] | CommandResult:
         command='guided pre-code deterministic local proposal'
-        if stage_id not in {'product-vision','scope','requirements'}:
-            return self._block(command,'GSDLC13C01_DERIVATION_SCOPE_BLOCK','DEVPL_MOCK derivation is limited to Vision/Scope/Requirements in 13-C-01.')
+        if stage_id not in {'product-vision','scope','requirements',*C02_STAGES}:
+            return self._block(command,'GSDLC13C_DERIVATION_SCOPE_BLOCK','DEVPL_MOCK derivation is not implemented for this pre-code stage.')
         project_file=workspace_root/'.devpilot/project.yaml'
         if not project_file.is_file():
             return self._block(command,'GSDLC13C01_PROJECT_CONTEXT_BLOCK','Project context is missing; deterministic proposal cannot be grounded.')
@@ -527,7 +545,15 @@ class PreCodeWizardApplicationService:
         document_date=self._project_document_date(workspace_root)
         refs=[{'path':'.devpilot/project.yaml','sha256':_sha_text(project_text),'kind':'project-context'}]
         upstream:dict[str,str]={}
-        required_upstream=() if stage_id=='product-vision' else (('product-vision',) if stage_id=='scope' else ('product-vision','scope'))
+        required_upstream={
+            'product-vision':(),
+            'scope':('product-vision',),
+            'requirements':('product-vision','scope'),
+            'architecture':('product-vision','scope','requirements'),
+            'security':('requirements','architecture'),
+            'test-strategy':('requirements','architecture','security'),
+            'traceability':('product-vision','scope','requirements','architecture','security','test-strategy'),
+        }[stage_id]
         for source_id in required_upstream:
             source_stage=self._stage_by_id[source_id]
             source_row=self._stage_state(state,source_id)
@@ -545,6 +571,18 @@ class PreCodeWizardApplicationService:
             upstream[source_id]=text
             refs.append({'path':str(source_stage['relative_path']),'sha256':_sha_text(text),'approved_sha256':approved_sha,'kind':'frozen-input'})
         semantic_model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
+        if stage_id in C02_STAGES:
+            try:
+                content,technical=derive_technical_stage(
+                    root=self.root,stage_id=stage_id,workspace_id=workspace_id,project_name=name,document_date=document_date,
+                    project_metadata=metadata,upstream=upstream,semantic_model=semantic_model,
+                )
+            except ValueError as exc:
+                return self._block(command,'GSDLC13C02_DERIVATION_INPUT_BLOCK',str(exc),metadata={'stage_id':stage_id})
+            derivation=dict(technical)
+            derivation['source_refs']=refs + list(technical.get('rag_source_refs') or [])
+            derivation['owner_review_required']=True; derivation['approval_required_before_source_write']=True
+            return content,derivation
         if not semantic_model or semantic_model.get('schema_id')!='devpilot.gsdlc13c01.pre_code_semantic_model.v1':
             return self._block(command,'GSDLC13C01_SEMANTIC_MODEL_REQUIRED_BLOCK','A valid PreCode Semantic Model is required for deterministic generation.')
         canonical_input={

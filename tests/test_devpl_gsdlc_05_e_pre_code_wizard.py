@@ -101,7 +101,7 @@ def _approve(platform: Path, auth: AuthApplicationService, issue, approval_id: s
     assert result.ok, result.to_dict()
 
 
-def test_catalog_is_seven_stage_sequential_and_preserves_manual_import_with_c01_local_derivation():
+def test_catalog_is_seven_stage_sequential_and_preserves_manual_import_with_c01_c02_local_derivation():
     payload = json.loads((ROOT / ".devpilot/gsdlc/pre_code_wizard_catalog.json").read_text(encoding="utf-8"))
     assert payload["schema_id"] == "devpilot.gsdlc05e.pre_code_wizard_catalog.v1"
     assert payload["profile_id"] == "guided-pre-code-manual-v1"
@@ -110,7 +110,7 @@ def test_catalog_is_seven_stage_sequential_and_preserves_manual_import_with_c01_
     assert payload["stages"][0]["allowed_modes"] == ["DEVPL_MOCK", "MANUAL", "IMPORT"]
     assert all(set(row["allowed_modes"]).issubset({"MANUAL", "IMPORT", "DEVPL_MOCK"}) for row in payload["stages"])
     assert all("DEVPL_MOCK" in row["allowed_modes"] for row in payload["stages"][:3])
-    assert all("DEVPL_MOCK" not in row["allowed_modes"] for row in payload["stages"][3:])
+    assert all("DEVPL_MOCK" in row["allowed_modes"] for row in payload["stages"][3:])
 
 
 def test_skip_and_wrong_role_are_fail_closed_before_source_write(env):

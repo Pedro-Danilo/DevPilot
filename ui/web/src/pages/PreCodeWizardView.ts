@@ -121,7 +121,8 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
 
     const authoring=actionGroup('Cómo crear el DRAFT');
     if(stage.allowed_modes.includes('DEVPL_MOCK')){
-      authoring.append(simpleActionCard('DevPilot local','Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
+      const c02=['architecture','security','test-strategy','traceability'].includes(stage.stage_id);
+      authoring.append(simpleActionCard(c02?'DevPilot local + RAG':'DevPilot local',c02?'Genera un baseline técnico trazable desde artefactos FROZEN y ContextPack v2 local como grounding suplementario. No ejecuta LLM ni API externa; el Owner revisa/edita y aprueba.':'Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
     }
     const manual=actions.find((row)=>row.kind==='MANUAL');
     if(stage.allowed_modes.includes('MANUAL')) authoring.append(simpleActionCard('Manual / Paste','Escribe o pega el contenido dentro del editor gobernado de esta etapa.',manual?.availability ?? 'AVAILABLE',manual?.executable ?? true,()=>selectAuthoringMode(editor,'MANUAL')));
@@ -138,8 +139,9 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     for(const kind of ['AGENT','RAG'] as const){
       const action=actions.find((row)=>row.kind===kind);
       const label=kind==='AGENT'?'Agent':'RAG';
-      const reasons=action?.disabled_reasons?.map((row)=>row.message).join(' · ') || 'No requerido para el baseline C-01.';
-      advanced.append(simpleActionCard(label,action?.availability==='AVAILABLE'?(action.purpose || 'Ruta agentic gobernada.'):`${action?.purpose || 'Ruta agentic gobernada.'} ${reasons}`,action?.availability ?? 'UNAVAILABLE',false));
+      const reasons=action?.disabled_reasons?.map((row)=>row.message).join(' · ') || 'Esta ruta avanzada no es necesaria para el baseline determinístico.';
+      const c02Note=stage.order>=4?(kind==='AGENT'?'Los agentes especializados existentes son capacidades gobernadas de análisis/review; aún no son providers de primer DRAFT de Pre-code.':'El DRAFT local de C-02 usa ContextPack v2 internamente; esta tarjeta representa una ruta RAG/agentic independiente todavía no integrada.'):'';
+      advanced.append(simpleActionCard(label,action?.availability==='AVAILABLE'?(action.purpose || 'Ruta agentic gobernada.'):`${c02Note} ${reasons}`.trim(),action?.availability ?? 'UNAVAILABLE',false));
     }
     section.append(authoring,auxiliary,advanced);
     return section;
@@ -216,7 +218,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const form=document.createElement('div'); form.className='pre-code-stage__editor';
       const modeLabel=document.createElement('label'); modeLabel.textContent='Modo de autoría';
       const mode=document.createElement('select'); mode.dataset.preCodeAuthoringMode='true'; mode.setAttribute('aria-label','Modo de autoría');
-      for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?'DevPilot · Mock local / sin API':value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
+      for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?(stage.order>=4?'DevPilot · Diseño local + RAG / sin API':'DevPilot · Mock local / sin API'):value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
       if(stage.mode && stage.allowed_modes.includes(stage.mode)) mode.value=stage.mode;
       const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Propuesta del artefacto';
       const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=20; textarea.spellcheck=false; textarea.value=stage.draft_content??'';
@@ -259,13 +261,15 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         setFeedback(feedback,'loading','Regenerando DRAFT desde el Semantic Model y decisiones gobernadas…');
         try{const r=await client().preCodeDraft(stage.stage_id,{mode:'DEVPL_MOCK',content:'',semantic_model:null});if(!r.ok)throw new Error(formatFindings(r));await load('DRAFT regenerado desde las decisiones guardadas. Revísalo antes de validar.');}catch(e){await renderGovernedError(feedback,e);}
       });
-      regenerate.hidden=!(stage.status==='DRAFT' && mode.value==='DEVPL_MOCK' && !inbox);
-      mode.addEventListener('change',()=>{regenerate.hidden=!(stage.status==='DRAFT' && mode.value==='DEVPL_MOCK' && !inbox);});
+      const c01SemanticStage=stage.order<=3;
+      regenerate.hidden=!(c01SemanticStage && stage.status==='DRAFT' && mode.value==='DEVPL_MOCK' && !inbox);
+      mode.addEventListener('change',()=>{regenerate.hidden=!(c01SemanticStage && stage.status==='DRAFT' && mode.value==='DEVPL_MOCK' && !inbox);});
       form.append(save,regenerate,review); section.append(form);
       if(preCode.semantic_model)section.append(semanticAdvancedDetails(preCode.semantic_model));
       if(stage.derivation){
         const d=stage.derivation; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
-        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
+        const rag=Boolean(d.rag_execution_used);
+        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · RAG local ${rag?'sí':'no'}${d.rag_grounding_status?` (${d.rag_grounding_status})`:''} · LLM ejecutado ${d.model_execution_used?'sí':'no'} · agente ejecutado ${d.agent_execution_used?'sí':'no'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
         section.append(provenance);
       }
       if(stage.findings?.length){ const findings=document.createElement('ul'); findings.className='pre-code-findings'; for(const row of stage.findings){const li=document.createElement('li'); li.textContent=`${String(row['id']??'finding')}: ${String(row['message']??'')}`; findings.append(li);} section.append(findings); }
