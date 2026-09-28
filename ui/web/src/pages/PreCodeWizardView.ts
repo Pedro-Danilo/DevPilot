@@ -69,26 +69,32 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     const summary=document.createElement('section'); summary.className='panel pre-code-wizard__summary'; summary.dataset.status=preCode.status;
     const currentStage=preCode.stages.find((row)=>row.stage_id===preCode.current_stage_id);
     const sh=document.createElement('h3'); sh.textContent='Preparación antes de programar';
-    const sp=document.createElement('p'); sp.textContent=`${preCode.readiness.mandatory_stages_frozen}/${preCode.readiness.mandatory_stages_total} etapas listas. ${currentStage ? `Ahora: ${currentStage.label}.` : 'Revisa el estado antes de continuar.'}`;
+    const sp=document.createElement('p'); sp.textContent=`${preCode.readiness.mandatory_stages_frozen}/${preCode.readiness.mandatory_stages_total} etapas listas. ${currentStage ? `Ahora: ${currentStage.label}.` : preCode.status==='PRE_CODE_READY' ? 'Baseline Pre-code completo; Planning es el siguiente checkpoint.' : 'Baseline documental completo; falta resolver MIASI/readiness.'}`;
     const technical=renderTechnicalDisclosure('Ver readiness y controles técnicos',`Estado: ${preCode.status} · Readiness estricta: ${preCode.readiness.status} · MIASI: ${preCode.miasi.status} · gate ${preCode.miasi.gate_status} · riesgo ${preCode.miasi.risk_level}.`);
     technical.classList.add('pre-code-wizard__technical');
     summary.append(sh,sp,technical);
     if(message){ const m=document.createElement('p'); m.className='notice notice--pass'; m.textContent=message; summary.append(m); }
     const currentStatus=currentStage?.status ?? 'UNKNOWN';
-    const nextAction=currentStatus==='APPROVAL_REQUIRED'
-      ? 'Revisa el diff y solicita/verifica el approval antes de aplicar.'
-      : currentStatus==='APPLIED'
-        ? 'Congela la etapa aplicada para habilitar la siguiente.'
-        : currentStatus==='FROZEN'
-          ? 'Continúa con la siguiente etapa disponible.'
-          : 'Completa el contenido de la etapa actual y valida antes de pedir approval.';
+    const sevenFrozen=preCode.readiness.mandatory_stages_frozen===preCode.readiness.mandatory_stages_total;
+    const atC03Boundary=!currentStage && sevenFrozen && preCode.status!=='PRE_CODE_READY';
+    const nextAction=preCode.status==='PRE_CODE_READY'
+      ? 'Pre-code está READY. La siguiente frontera gobernada es Planning/Roadmap.'
+      : atC03Boundary
+        ? 'Confirma la aplicabilidad MIASI del producto y deja que DevPilot recalcule readiness estricta.'
+        : currentStatus==='APPROVAL_REQUIRED'
+          ? 'Revisa el diff y solicita/verifica el approval antes de aplicar.'
+          : currentStatus==='APPLIED'
+            ? 'Congela la etapa aplicada para habilitar la siguiente.'
+            : currentStatus==='FROZEN'
+              ? 'Continúa con la siguiente etapa disponible.'
+              : 'Completa el contenido de la etapa actual y valida antes de pedir approval.';
     const guide=renderCriticalPathGuidance({
       eyebrow:'Pre-code · 7 etapas',
-      title:currentStage ? `Etapa ${currentStage.order}: ${currentStage.label}` : 'Pre-code listo',
-      summary:'Cada etapa conserva la misma secuencia gobernada: draft → validar/diff → approval → apply → freeze.',
+      title:currentStage ? `Etapa ${currentStage.order}: ${currentStage.label}` : preCode.status==='PRE_CODE_READY' ? 'Pre-code listo' : 'Boundary C-03 · MIASI/readiness',
+      summary:atC03Boundary ? 'Los siete documentos ya están FROZEN. MIPSoftware sigue siendo el estándar transversal; este perfil Pre-code acredita su slice gobernado y MIASI/readiness decide si puede avanzar a Planning, sin afirmar que todas las fases del registry MIPSoftware global hayan sido ejecutadas.' : 'Cada etapa conserva la misma secuencia gobernada: draft → validar/diff → approval → apply → freeze.',
       steps:preCode.stages.map((row)=>({label:row.label,state:row.status==='FROZEN'?'done':row.stage_id===preCode.current_stage_id?'current':'upcoming'})),
       nextAction,
-      blocker:preCode.readiness.status==='PASS' ? 'Sin blocker de readiness para este milestone.' : 'La etapa actual debe completar sus gates antes de avanzar.',
+      blocker:preCode.readiness.status==='PASS' ? 'Sin blocker de readiness para este milestone.' : atC03Boundary ? 'MIASI debe quedar evaluado y el gate debe PASS antes de declarar PRE_CODE_READY.' : 'La etapa actual debe completar sus gates antes de avanzar.',
       approvalEffect:'El approval autoriza únicamente el plan/diff actual; no salta validación ni freeze.',
       recoveryHref:'/recovery',
     });
@@ -97,6 +103,10 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       skipFeedback.replaceChildren(statusBox('block',`BLOCK: ${attempted.label} todavía no está habilitada. Completa y congela la etapa actual antes de avanzar; no se ejecutó ninguna mutación.`));
       skipFeedback.tabIndex=-1; skipFeedback.focus();
     }),skipFeedback);
+    if(!currentStage && preCode.readiness.mandatory_stages_frozen===preCode.readiness.mandatory_stages_total && preCode.status!=='PRE_CODE_READY') {
+      body.append(renderC03ReadinessGate(preCode));
+      return;
+    }
     if(preCode.status==='PRE_CODE_READY'){
       const done=document.createElement('section'); done.className='panel pre-code-wizard__done'; done.dataset.preCodeReady='true';
       const dh=document.createElement('h3'); dh.textContent='PRE_CODE_READY';
@@ -115,6 +125,33 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       body.append(renderPreCodeActionGuide(stage,preCode,editor));
     }
     body.append(editor);
+  }
+
+  function renderC03ReadinessGate(preCode: PreCodeWizardProjection): HTMLElement {
+    const section=document.createElement('section'); section.className='panel pre-code-c03-readiness'; section.dataset.c03Readiness='true';
+    const h=document.createElement('h3'); h.textContent='Paso 13 · MIASI/MIPSoftware + Pre-code readiness';
+    const p=document.createElement('p'); p.textContent='Las siete etapas documentales están FROZEN y fueron ejecutadas bajo el perfil Pre-code gobernado por MIPSoftware. El estado formal del registry MIPSoftware global es una proyección distinta y todavía no está mapeado fase por fase; para cerrar este perfil falta clasificar explícitamente si el producto incorpora capacidades AI/agentic.';
+    const state=document.createElement('p'); state.className='notice notice--info'; state.textContent=`MIASI ${preCode.miasi.status} · gate ${preCode.miasi.gate_status} · strict readiness ${preCode.readiness.status}. Esta decisión escribe solo runtime de DevPilot; no modifica documentos del proyecto.`;
+    const feedback=document.createElement('div'); feedback.setAttribute('role','status'); feedback.setAttribute('aria-live','polite');
+    const form=document.createElement('div'); form.className='pre-code-c03-readiness__form';
+    const label=document.createElement('label'); label.textContent='¿El producto inventory-sales-local-greenfield usa capacidades AI/agentic?';
+    const select=document.createElement('select'); select.setAttribute('aria-label','Aplicabilidad MIASI del producto');
+    const no=document.createElement('option'); no.value='no'; no.textContent='No · producto sin AI/agents/RAG';
+    const yes=document.createElement('option'); yes.value='yes'; yes.textContent='Sí · el producto incorpora AI/agentic'; select.append(no,yes);
+    const riskLabel=document.createElement('label'); riskLabel.textContent='Riesgo declarado';
+    const risk=document.createElement('select'); risk.setAttribute('aria-label','Riesgo MIASI');
+    for(const value of ['low','medium','medium_high','high','critical']){const o=document.createElement('option');o.value=value;o.textContent=value;risk.append(o);}
+    const capabilities=document.createElement('input'); capabilities.type='text'; capabilities.placeholder='Capacidades AI separadas por coma (solo si aplica)'; capabilities.setAttribute('aria-label','Capacidades MIASI');
+    capabilities.disabled=true; risk.disabled=true;
+    select.addEventListener('change',()=>{const ai=select.value==='yes';capabilities.disabled=!ai;risk.disabled=!ai;if(!ai){capabilities.value='';risk.value='low';}});
+    const submit=button('Evaluar MIASI y recalcular readiness',async()=>{
+      if(!await ensureLiveHumanSession(feedback))return;
+      const declared=select.value==='yes';
+      const caps=declared?capabilities.value.split(',').map(x=>x.trim()).filter(Boolean):[];
+      try{const r=await client().preCodeMiasiApplicability({declared_ai_usage:declared,capabilities:caps,risk_level:(declared?risk.value:'low') as 'low'|'medium'|'medium_high'|'high'|'critical',evidence_refs:['owner-confirmed:13-C-03']});if(!r.ok)throw new Error(formatFindings(r));await load(declared?'MIASI evaluada. Revisa controles faltantes antes de avanzar.':'MIASI NOT_APPLICABLE confirmada por el Owner; readiness estricta fue reevaluada.');}catch(e){await renderGovernedError(feedback,e);}
+    });
+    const disclosure=renderTechnicalDisclosure('Qué cambia y qué no cambia','La decisión se persiste en outputs/workspaces/<workspace>/miasi_applicability_context.json. No edita docs/standards, no ejecuta modelos/agentes/RAG ni usa red/API externa. Tampoco falsifica el phase-state del registry MIPSoftware global: Pre-code conserva su evidencia de conformidad bounded y el registry formal permanece explícitamente separado hasta disponer de un mapping gobernado.');
+    form.append(label,select,riskLabel,risk,capabilities,submit); section.append(h,p,state,form,feedback,disclosure); return section;
   }
 
   function renderArchitectureAdrGate(gate: NonNullable<PreCodeWizardProjection['architecture_adr_bundle']>): HTMLElement {

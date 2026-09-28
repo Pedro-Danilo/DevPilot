@@ -40,7 +40,7 @@ class PlanningClosureApplicationService:
             return CommandResult("planning.closure.status", False, ExitCode.BLOCK, str(exc), data={}, findings=[Finding(exc.code, str(exc), Severity.BLOCK)])
 
     def _project(self, workspace: Path, workspace_id: str, roadmap: dict[str, Any] | None, backlog: dict[str, Any] | None, sprint: dict[str, Any] | None, roles: list[str]) -> dict[str, Any]:
-        pre_code_ready = self._pre_code_ready(workspace, workspace_id)
+        pre_code_ready = self._pre_code_ready(self.root, workspace, workspace_id)
         roadmap_frozen = bool(roadmap and roadmap.get("lifecycle") == "FROZEN")
         backlog_frozen = bool(backlog and backlog.get("lifecycle") == "FROZEN")
         sprint_frozen = bool(sprint and sprint.get("lifecycle") == "FROZEN")
@@ -61,10 +61,19 @@ class PlanningClosureApplicationService:
         if sprint and not sprint_executable:
             blockers.append({"code": "SPRINT_EXECUTABLE_REQUIRED", "message": "Frozen sprint must remain executable with READY stories and valid capacity/dependencies."})
 
-        if pre_code_ready and roadmap_frozen and backlog_frozen and backlog_coverage >= 100.0 and sprint_frozen and sprint_executable:
+        if not pre_code_ready:
+            journey_state = "PRE_CODE_BLOCKED"
+            next_action = {
+                "kind": "RESOLVE_BLOCKER",
+                "label": "Completar Pre-code readiness",
+                "navigation_target": "pre-code",
+                "available": True,
+                "reason_code": "PRE_CODE_READY_REQUIRED",
+            }
+        elif roadmap_frozen and backlog_frozen and backlog_coverage >= 100.0 and sprint_frozen and sprint_executable:
             journey_state = "IMPLEMENTING_READY"
             next_action = {"kind": "IMPLEMENT", "label": "Implementar historias READY", "navigation_target": "project-status", "available": False, "reason_code": "GSDLC_09_REQUIRED"}
-        elif pre_code_ready and not any([roadmap, backlog, sprint]):
+        elif not any([roadmap, backlog, sprint]):
             journey_state = "PRE_CODE_READY"
             next_action = {"kind": "PLANNING", "label": "Construir roadmap", "navigation_target": "planning-roadmap", "available": True, "reason_code": "ROADMAP_REQUIRED"}
         else:
@@ -134,8 +143,10 @@ class PlanningClosureApplicationService:
         return round(100.0 * len(required & mapped) / len(required), 2)
 
     @staticmethod
-    def _pre_code_ready(workspace: Path, workspace_id: str) -> bool:
+    def _pre_code_ready(platform_root: Path, workspace: Path, workspace_id: str) -> bool:
         candidates = [
+            platform_root / "outputs" / "pre_code_wizard" / "gsdlc_05_e" / workspace_id / "state.json",
+            platform_root / "outputs" / "pre_code_wizard" / "gsdlc_05_e" / workspace.name / "state.json",
             workspace / "outputs" / "pre_code_wizard" / "gsdlc_05_e" / workspace_id / "state.json",
             workspace / "outputs" / "pre_code_wizard" / "gsdlc_05_e" / workspace.name / "state.json",
         ]

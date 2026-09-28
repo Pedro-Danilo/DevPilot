@@ -806,6 +806,8 @@ export interface MiasiApplicabilityStatus {
   reevaluation_required?: boolean;
   project_status_authoritative?: boolean;
   blocking_scope?: string;
+  project_decision?: Record<string, unknown>;
+  context_source?: string;
 }
 
 export interface GuidedSdlcProjectStatus {
@@ -827,6 +829,7 @@ export interface GuidedSdlcProjectStatus {
   model_budget?: Record<string, unknown>;
   freshness?: Record<string, unknown>;
   source_refs?: string[];
+  pre_code_profile?: { available?: boolean; state_status?: string; mandatory_stages_total?: number; mandatory_stages_frozen?: number; percent?: number; all_stages_frozen?: boolean; current_stage_id?: string | null; strict_readiness_status?: string; pre_code_ready?: boolean; next_boundary?: string; miasi?: MiasiApplicabilityStatus; [key: string]: unknown };
   reason?: string | null;
 }
 

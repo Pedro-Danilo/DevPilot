@@ -504,13 +504,71 @@ class AdvancedWorkspaceReconciliationService:
         return digest.hexdigest()
 
     def _engineering_binding(self, workspace_id: str) -> dict[str, Any]:
+        """Return every project path already governed by engineering authority.
+
+        WorkspaceEngineeringState remains the durable global lifecycle aggregate,
+        but the Greenfield Pre-code profile stores its approval-bound artifact
+        authority in a dedicated runtime state. Reconciliation must recognize both
+        authorities or it will misclassify DevPilot-authored/FROZEN Pre-code
+        artifacts as external edits when no reconciliation baseline exists yet.
+
+        This bridge is read-only: it never captures/adopts a baseline and never
+        mutates Git or the managed workspace.
+        """
+        pre_code_paths = self._pre_code_authority_paths(workspace_id)
         try:
             state = WorkspaceEngineeringStateRepository(self.root).load(workspace_id)
             payload = state.to_payload()
         except (KeyError, RuntimeError, ValueError):
-            return {"fingerprint": None, "authority_paths": set(), "available": False}
-        authority_paths = self._extract_paths(payload)
-        return {"fingerprint": str(getattr(state, "fingerprint", "") or _sha(payload)), "authority_paths": authority_paths, "available": True}
+            return {
+                "fingerprint": None,
+                "authority_paths": pre_code_paths,
+                "available": bool(pre_code_paths),
+                "workspace_engineering_state_available": False,
+                "pre_code_authority_paths": len(pre_code_paths),
+            }
+        authority_paths = self._extract_paths(payload) | pre_code_paths
+        return {
+            "fingerprint": str(getattr(state, "fingerprint", "") or _sha(payload)),
+            "authority_paths": authority_paths,
+            "available": True,
+            "workspace_engineering_state_available": True,
+            "pre_code_authority_paths": len(pre_code_paths),
+        }
+
+    def _pre_code_authority_paths(self, workspace_id: str) -> set[str]:
+        safe_workspace = re.sub(r"[^A-Za-z0-9_.-]", "_", str(workspace_id))
+        state_path = self.root / "outputs" / "pre_code_wizard" / "gsdlc_05_e" / safe_workspace / "state.json"
+        if not state_path.is_file() or state_path.is_symlink():
+            return set()
+        try:
+            state = json.loads(state_path.read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError):
+            return set()
+        result: set[str] = set()
+
+        def add_path(value: Any) -> None:
+            candidate = str(value or "").replace("\\", "/").lstrip("./")
+            if not candidate or candidate.startswith(("http://", "https://", "/")) or ".." in Path(candidate).parts:
+                return
+            result.add(candidate)
+
+        stages = state.get("stages") if isinstance(state.get("stages"), dict) else {}
+        for row in stages.values():
+            if not isinstance(row, dict) or str(row.get("status") or "").upper() != "FROZEN":
+                continue
+            artifact = row.get("artifact") if isinstance(row.get("artifact"), dict) else {}
+            for key in ("relative_path", "path", "target_path", "document_path"):
+                if artifact.get(key):
+                    add_path(artifact.get(key))
+                    break
+
+        adr_bundle = state.get("architecture_adr_bundle") if isinstance(state.get("architecture_adr_bundle"), dict) else {}
+        if str(adr_bundle.get("status") or "").upper() == "APPLIED":
+            for row in adr_bundle.get("adrs") or []:
+                if isinstance(row, dict):
+                    add_path(row.get("relative_path"))
+        return result
 
     def _extract_paths(self, payload: Any) -> set[str]:
         result: set[str] = set()

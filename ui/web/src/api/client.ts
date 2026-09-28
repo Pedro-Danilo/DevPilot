@@ -311,6 +311,10 @@ export class DevPilotApiClient {
     return this.post('/guided-sdlc/pre-code/architecture-adrs/apply', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async preCodeMiasiApplicability(payload: { declared_ai_usage: boolean; capabilities?: string[]; risk_level?: 'low' | 'medium' | 'medium_high' | 'high' | 'critical'; evidence_refs?: string[] }): Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>> {
+    return this.post('/guided-sdlc/pre-code/miasi/applicability', { capabilities: [], risk_level: 'low', evidence_refs: [], ...payload }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
+  }
+
   async preCodeReadiness(): Promise<DevPilotApplicationResponse<{ readiness: import('./types').PreCodeReadiness }>> {
     return this.get('/guided-sdlc/pre-code/readiness', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<{ readiness: import('./types').PreCodeReadiness }>>;
   }

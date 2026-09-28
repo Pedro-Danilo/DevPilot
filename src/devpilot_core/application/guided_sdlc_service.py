@@ -9,6 +9,7 @@ from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreE
 from devpilot_core.story_execution import StoryExecutionStore
 
 from .portfolio_service import PortfolioApplicationService
+from .pre_code_boundary import load_pre_code_boundary
 from .ui_workspace_context import UiWorkspaceContextResolver
 
 
@@ -165,6 +166,71 @@ class GuidedSDLCApplicationService:
             )
             status_payload = projection.status.to_payload()
             next_payload = next_projection.next_action.to_payload()
+            pre_code = load_pre_code_boundary(self.root, resolved)
+            if pre_code.get("available"):
+                status_payload["pre_code_profile"] = pre_code
+                progress = dict(status_payload.get("progress") or {})
+                progress["mipsoftware_percent"] = progress.get("percent")
+                progress["active_profile"] = "PRE_CODE"
+                progress["active_profile_percent"] = pre_code.get("percent")
+                progress["pre_code_stages_frozen"] = pre_code.get("mandatory_stages_frozen")
+                progress["pre_code_stages_total"] = pre_code.get("mandatory_stages_total")
+                status_payload["progress"] = progress
+                status_payload["artifact_readiness"] = {
+                    "status": "READY" if pre_code.get("all_stages_frozen") else "IN_PROGRESS",
+                    "total": pre_code.get("mandatory_stages_total", 7),
+                    "ready": pre_code.get("mandatory_stages_frozen", 0),
+                    "attention": max(0, int(pre_code.get("mandatory_stages_total", 7)) - int(pre_code.get("mandatory_stages_frozen", 0))),
+                    "counts": {"FROZEN": pre_code.get("mandatory_stages_frozen", 0)},
+                    "authority": "guided-pre-code-runtime",
+                }
+                status_payload["miasi"] = dict(pre_code.get("miasi") or status_payload.get("miasi") or {})
+                mip = dict(status_payload.get("mipsoftware") or {})
+                # MIPSoftware remains the cross-lifecycle normative standard. The
+                # Greenfield Pre-code wizard is a bounded execution/conformance
+                # profile mapped to selected MIP steps; it does not prove that the
+                # formal global MIP registry has advanced through every mandatory
+                # phase. Keep both facts explicit instead of labelling the standard
+                # itself as NOT_STARTED.
+                mip["authority_scope"] = "global-lifecycle"
+                mip["standard_applies"] = True
+                mip["standard_scope"] = "cross-lifecycle"
+                mip["pre_code_profile_status"] = "COMPLETE" if pre_code.get("all_stages_frozen") else "IN_PROGRESS"
+                mip["pre_code_profile_conformance"] = "APPLIED" if pre_code.get("all_stages_frozen") else "IN_PROGRESS"
+                mip["pre_code_profile_is_separate_authority"] = False
+                mip["pre_code_profile_is_separate_execution_profile"] = True
+                mip["formal_registry_phase"] = status_payload.get("phase")
+                mip["formal_registry_lifecycle_status"] = status_payload.get("lifecycle_status")
+                mip["formal_registry_synchronized"] = False
+                mip["formal_registry_reason_code"] = "BOUNDED_PRE_CODE_PROFILE_NOT_MAPPED_TO_GLOBAL_MIP_PHASE"
+                status_payload["mipsoftware"] = mip
+                if pre_code.get("all_stages_frozen"):
+                    status_payload["current_step_global_mipsoftware"] = status_payload.get("current_step")
+                    status_payload["current_step"] = "planning-readiness" if pre_code.get("pre_code_ready") else "pre-code-readiness"
+                    if pre_code.get("pre_code_ready"):
+                        next_payload = {
+                            "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1", "schema_version": "1.0",
+                            "action_id": "next.pre-code-ready-planning", "kind": "ADVANCE_TRANSITION", "priority": 60,
+                            "reason_code": "PRE_CODE_READY_PLANNING_NEXT",
+                            "explanation": "Pre-code readiness is PASS. Continue to Roadmap/Planning without mutating the global MIPSoftware lifecycle projection.",
+                            "target_phase": None, "target_step": "planning-roadmap", "transition_id": None,
+                            "navigation_target": "planning-roadmap", "required_prerequisites": [], "approval_needed": False,
+                            "mutating": False, "dry_run_required": False, "available": True, "disabled_reason": None,
+                            "expected_evidence": ["pre-code-readiness:PASS"], "source_state_fingerprint": None,
+                            "executes_action": False, "network_used": False, "external_api_used": False, "source_mutations_performed": False,
+                        }
+                    else:
+                        next_payload = {
+                            "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1", "schema_version": "1.0",
+                            "action_id": "next.pre-code-miasi-applicability", "kind": "RESOLVE_BLOCKER", "priority": 30,
+                            "reason_code": "MIASI_APPLICABILITY_REQUIRED",
+                            "explanation": "The seven Pre-code artifacts are FROZEN. Complete the explicit MIASI applicability decision to evaluate strict Pre-code readiness.",
+                            "target_phase": None, "target_step": "pre-code-readiness", "transition_id": None,
+                            "navigation_target": "pre-code", "required_prerequisites": ["seven-pre-code-stages-frozen"], "approval_needed": False,
+                            "mutating": False, "dry_run_required": False, "available": True, "disabled_reason": None,
+                            "expected_evidence": ["miasi-applicability-decision"], "source_state_fingerprint": None,
+                            "executes_action": False, "network_used": False, "external_api_used": False, "source_mutations_performed": False,
+                        }
             freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
             revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
             lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
@@ -202,6 +268,11 @@ class GuidedSDLCApplicationService:
             elif status_payload.get("reason") == "unknown":
                 ui_state = "UNKNOWN"
             else:
+                ui_state = "READY"
+            pre_code = status_payload.get("pre_code_profile") if isinstance(status_payload.get("pre_code_profile"), dict) else {}
+            if pre_code.get("all_stages_frozen") and not pre_code.get("pre_code_ready"):
+                ui_state = "BLOCKED"
+            elif pre_code.get("pre_code_ready"):
                 ui_state = "READY"
         except (WorkspaceEngineeringStateStoreError, WorkflowEngineError, ReconciliationError, KeyError, ValueError):
             unknown = ProjectProgressEngine.unknown(workspace_id=resolved, observed_at_utc=observed_at_utc)
@@ -313,6 +384,42 @@ class GuidedSDLCApplicationService:
             )
 
         current_step = str(project_status.get("current_step") or "").strip()
+        pre_code = project_status.get("pre_code_profile") if isinstance(project_status.get("pre_code_profile"), dict) else {}
+        if pre_code.get("all_stages_frozen"):
+            ready = bool(pre_code.get("pre_code_ready"))
+            action_id = "typed.pre-code-ready-planning" if ready else "typed.miasi-applicability"
+            card = {
+                "action_id": action_id, "kind": "TYPED_OPERATION",
+                "label": "Continuar a Roadmap" if ready else "Resolver aplicabilidad MIASI",
+                "purpose": "Pre-code está READY; la siguiente frontera es Planning." if ready else "Clasificar explícitamente si el producto usa capacidades AI/agentic y reevaluar readiness estricta.",
+                "availability": "AVAILABLE", "executable": True, "disabled_reasons": [],
+                "prerequisites": [{"prerequisite_id": "seven-pre-code-stages-frozen", "satisfied": True, "reason": "7/7 stages FROZEN"}],
+                "required_roles": ["owner"], "effective_roles": sorted({str(x) for x in effective_roles}),
+                "risk": {"level": "low" if ready else "medium", "policy_refs": ["MIASIApplicabilityEvaluator"]},
+                "side_effects": ["none"] if ready else ["platform-runtime-only"], "approval_required": False,
+                "network_required": False, "external_api_required": False,
+                "cost": {"applicable": False, "value": None, "unit": "USD", "reason": "local deterministic route"},
+                "tokens": {"applicable": False, "value": None, "unit": "tokens", "reason": "no model execution"},
+                "rank": 1, "recommended": True,
+                "navigation_target": "/planning/roadmap" if ready else "/pre-code",
+                "configuration_target": None, "typed_operation_id": action_id,
+                "api_route_id": None if ready else "api.guided-sdlc.pre-code.miasi-applicability",
+                "source_refs": ["guided-pre-code-runtime", "MIASIApplicabilityEvaluator"], "agent_descriptor": None,
+            }
+            import hashlib, json
+            advisor = {
+                "workspace_id": resolved, "current_step": current_step, "status": "PASS",
+                "recommended_action_id": action_id, "actions": [card],
+                "decision_fingerprint": hashlib.sha256(json.dumps(card, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest(),
+                "authority": {"server_rbac": True, "policy": True, "pre_code_runtime": True},
+                "safety": {"advisor_grants_capability": False, "network_used": False, "external_api_used": False, "source_mutations_performed": False},
+            }
+            return CommandResult(
+                command="guided_sdlc.step_actions", ok=True, exit_code=ExitCode.PASS,
+                message="Step Action Advisor projected the C-03 boundary action from authoritative Pre-code runtime state.",
+                data={"ui_state":"READY","workspace_id":resolved,"current_step":current_step,"advisor":advisor,"read_only":True,"actor_neutral":False,"server_authoritative":True,"network_used":False,"external_api_used":False,"model_execution_used":False,"mutations_performed":False,"source_mutations_performed":False},
+                findings=[],
+            )
         context = AdvisorContext.from_payload(
             workspace_id=resolved,
             current_step=current_step,

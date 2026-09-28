@@ -410,6 +410,62 @@ class PreCodeWizardApplicationService:
         if result.ok:self._write_state(workspace_id,state)
         return result
 
+    def decide_miasi_applicability(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], declared_ai_usage: bool, capabilities: list[str], risk_level: str, evidence_refs: list[str] | None = None) -> CommandResult:
+        command = 'guided pre-code MIASI applicability decision'
+        context = self._context()
+        if isinstance(context, CommandResult):
+            return context
+        workspace_id, workspace_root = context
+        identity = self._identity(actor, actor_role, session_principal, effective_roles)
+        if identity is not None:
+            return identity
+        if 'owner' not in set(effective_roles):
+            return self._block(command, 'GSDLC13C03_MIASI_OWNER_BLOCK', 'Owner role is required to classify project MIASI applicability.')
+        if workspace_id not in set(workspace_scopes):
+            return self._block(command, 'GSDLC13C03_MIASI_SCOPE_BLOCK', 'Active workspace scope is required for the MIASI applicability decision.')
+        state = self._load_state(workspace_id)
+        if self._current_stage(state) is not None:
+            return self._block(command, 'GSDLC13C03_PRE_CODE_NOT_COMPLETE_BLOCK', 'MIASI applicability for strict pre-code readiness can be finalized only after all seven pre-code stages are FROZEN.')
+        payload = {
+            'schema_id': 'SCHEMA-DEVPL-MIASI-APPLICABILITY-CONTEXT-V1',
+            'schema_version': '1.0',
+            'project': {
+                'declared_ai_usage': bool(declared_ai_usage),
+                'capabilities': [str(x).strip() for x in capabilities if str(x).strip()],
+                'risk_level': str(risk_level or 'low').strip().lower(),
+                'evidence_refs': [str(x) for x in (evidence_refs or []) if str(x)],
+            },
+            'features': [],
+            'risk_review_status': 'NOT_REQUIRED',
+            'evidence_refs': [f'owner-decision:{workspace_id}:13-C-03'],
+            'decision_actor': actor,
+        }
+        try:
+            result = self.miasi.evaluate(payload, state_payload={'artifacts': []}, context_source='owner-session/runtime-preview')
+        except Exception as exc:
+            return self._block(command, 'GSDLC13C03_MIASI_INPUT_BLOCK', f'MIASI applicability input is invalid: {exc}')
+        target = self.miasi.context_path(workspace_id)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        tmp = target.with_suffix('.tmp')
+        tmp.write_text(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')
+        os.replace(tmp, target)
+        evaluated = self.miasi.evaluate_workspace(workspace_id, {'artifacts': []}).to_payload()
+        evaluated.update({'pre_code_authoritative': True, 'blocking_scope': 'pre-code-readiness'})
+        readiness = self._readiness_payload(state, workspace_id, workspace_root, miasi=evaluated)
+        if readiness.get('status') == 'PASS' and readiness.get('pre_code_ready') is True:
+            state['status'] = 'PRE_CODE_READY'
+            state['completed_at'] = state.get('completed_at') or _now()
+            state['updated_at'] = _now()
+            self._write_state(workspace_id, state)
+            self._append_trace(workspace_id, {'event': 'MIASI_APPLICABILITY_CONFIRMED', 'actor': actor, 'status': evaluated.get('status'), 'gate_status': evaluated.get('gate_status'), 'pre_code_ready': True, 'at': _now()})
+        else:
+            state['status'] = 'BLOCKED'
+            state['updated_at'] = _now()
+            self._write_state(workspace_id, state)
+            self._append_trace(workspace_id, {'event': 'MIASI_APPLICABILITY_CONFIRMED', 'actor': actor, 'status': evaluated.get('status'), 'gate_status': evaluated.get('gate_status'), 'pre_code_ready': False, 'at': _now()})
+        projection = self._projection(state, workspace_id, workspace_root, effective_roles, workspace_scopes)
+        return self._pass(command, 'GSDLC13C03_MIASI_DECISION_PASS', 'MIASI applicability was evaluated from an explicit Owner decision and strict pre-code readiness was recomputed.', {'pre_code': projection, 'miasi_decision': {'runtime_only': True, 'context_source': evaluated.get('context_source'), 'workspace_source_writes': 0, 'network_used': False, 'external_api_used': False}})
+
     def readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         context=self._context()
         if isinstance(context,CommandResult):return context

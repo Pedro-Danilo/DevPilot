@@ -11710,7 +11710,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 232,
+    "api_routes_total": 236,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
@@ -12985,6 +12985,7 @@
       "title": "Ayuda y glosario"
     }
   ],
-  "updated": "2026-09-13",
-  "version": "1.4.0"
+  "updated": "2026-09-28",
+  "version": "1.2.1",
+  "updated_by": "DEVPL-GSDLC-13-C-03-BRIDGE"
 }

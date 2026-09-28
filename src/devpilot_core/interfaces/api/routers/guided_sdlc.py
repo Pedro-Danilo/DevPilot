@@ -30,6 +30,13 @@ class PreCodeFreezeBody(BaseModel):
     execution_id: str = Field(pattern=r"^uedit_[0-9a-f]{32}$")
 
 
+class PreCodeMiasiApplicabilityBody(BaseModel):
+    declared_ai_usage: bool
+    capabilities: list[str] = Field(default_factory=list, max_length=32)
+    risk_level: str = Field(default="low", pattern=r"^(low|medium|medium_high|high|critical)$")
+    evidence_refs: list[str] = Field(default_factory=list, max_length=32)
+
+
 def _pre_code_identity(request: Request, service: ApplicationService):
     principal = getattr(request.state, "authenticated_principal", None)
     session = getattr(request.state, "authenticated_session_context", None)
@@ -223,6 +230,15 @@ def guided_pre_code_architecture_adrs_apply(request: Request, service: Applicati
     assert identity is not None
     principal=identity["principal"]
     return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.architecture_adrs.apply", payload={"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"]}))
+
+
+@router.post("/api/v1/guided-sdlc/pre-code/miasi/applicability")
+def guided_pre_code_miasi_applicability(request: Request, body: PreCodeMiasiApplicabilityBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _pre_code_identity(request, service)
+    if error: return error
+    assert identity is not None
+    principal=identity["principal"]
+    return _pre_code_transition_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.miasi_applicability", payload={"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"],"declared_ai_usage":body.declared_ai_usage,"capabilities":body.capabilities,"risk_level":body.risk_level,"evidence_refs":body.evidence_refs}))
 
 
 @router.get("/api/v1/guided-sdlc/pre-code/readiness")

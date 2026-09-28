@@ -271,6 +271,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/guided-sdlc/pre-code/architecture-adrs/prepare"): ApiRoutePolicy("guided_sdlc.pre_code.architecture_adrs.prepare", "read", "protected-human-session-gsdlc-13-c-02-adrs"),
     ("POST", "/api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request"): ApiRoutePolicy("guided_sdlc.pre_code.architecture_adrs.approval_request", "read", "protected-human-session-gsdlc-13-c-02-adrs"),
     ("POST", "/api/v1/guided-sdlc/pre-code/architecture-adrs/apply"): ApiRoutePolicy("guided_sdlc.pre_code.architecture_adrs.apply", "read", "protected-human-session-gsdlc-13-c-02-adrs"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/miasi/applicability"): ApiRoutePolicy("guided_sdlc.pre_code.miasi_applicability", "read", "protected-human-session-gsdlc-13-c-03-miasi"),
     ("GET", "/api/v1/guided-sdlc/pre-code/readiness"): ApiRoutePolicy("guided_sdlc.pre_code.readiness", "read", "protected-human-session-gsdlc-05-e-pre-code"),
     ("GET", "/api/v1/application/contract"): ApiRoutePolicy("app.contract", "read", "protected-read"),
     ("GET", "/api/v1/miasi/status"): ApiRoutePolicy("miasi.validate", "read", "protected-read"),

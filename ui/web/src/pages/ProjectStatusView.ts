@@ -72,9 +72,21 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
     wizardLink.className = 'button-link';
     wizardLink.textContent = 'Abrir pre-code guiado';
     wizardCta.append(wizardTitle, wizardText, wizardLink);
+    const reconciliationReport = reconciliationResult.status === 'fulfilled' ? reconciliationResult.value.data.reconciliation : null;
+    const preCodeProfile = (data.project_status?.pre_code_profile ?? {}) as Record<string, any>;
+    const reconciliationChanges = Array.isArray(reconciliationReport?.snapshot?.changes) ? reconciliationReport.snapshot.changes : [];
+    const governedPreCodeSourceOnly =
+      preCodeProfile.all_stages_frozen === true &&
+      reconciliationReport?.classification === 'READ_ONLY_BLOCK' &&
+      Array.isArray(reconciliationReport?.reason_codes) &&
+      reconciliationReport.reason_codes.includes('RECONCILIATION_BASELINE_MISSING') &&
+      reconciliationChanges.length > 0 &&
+      reconciliationChanges.every((row: any) => row?.linked_to_engineering_authority === true);
     const reconciliationPanel =
       reconciliationResult.status === 'fulfilled'
-        ? renderReconciliationSummary(reconciliationResult.value.data.reconciliation)
+        ? governedPreCodeSourceOnly
+          ? renderGovernedPreCodeSourceState(reconciliationChanges.length)
+          : renderReconciliationSummary(reconciliationReport!)
         : renderAuxiliaryProjectionUnavailable(
             'Reconciliación no disponible temporalmente',
             'El estado principal del proyecto sigue siendo autoritativo. Esta proyección auxiliar no convierte la vista completa en un falso bloqueo.',
@@ -103,6 +115,21 @@ async function loadStepActions(mount: HTMLElement, tokenProvider: () => string):
   } catch (error) {
     mount.replaceChildren(renderStepActionAdvisorError(error));
   }
+}
+
+function renderGovernedPreCodeSourceState(changeCount: number): HTMLElement {
+  const panel = document.createElement('section');
+  panel.className = 'panel project-status-card project-status-card--governed-source';
+  panel.dataset.auxiliaryState = 'governed-pre-code-source';
+  const title = document.createElement('h3');
+  title.textContent = 'Cambios Pre-code gobernados';
+  const body = document.createElement('p');
+  body.textContent = `${changeCount} cambios del workspace están ligados a artefactos Pre-code FROZEN y a su authority approval-bound. El baseline Git/reconciliation global todavía no fue capturado; esa ausencia no convierte estos writes gobernados en ediciones externas ni bloquea MIASI/readiness.`;
+  const note = document.createElement('p');
+  note.className = 'project-status-muted';
+  note.textContent = 'No captures ni adoptes un baseline desde C-03. La reconciliación global conserva su autoridad y se resolverá en su checkpoint natural; aquí solo se evita presentar como drift externo lo que DevPilot ya materializó y congeló de forma gobernada.';
+  panel.append(title, body, note);
+  return panel;
 }
 
 function renderAuxiliaryProjectionUnavailable(titleText: string, bodyText: string): HTMLElement {
@@ -176,12 +203,13 @@ function renderOverview(status: GuidedSdlcProjectStatus, state: string): HTMLEle
   badge.textContent = humanState(state);
   heading.append(title, badge);
 
-  const progress = asNumber(status.progress?.percent);
+  const preCodePercent = asNumber(status.pre_code_profile?.percent);
+  const progress = preCodePercent ?? asNumber(status.progress?.percent);
   const progressWrap = document.createElement('div');
   progressWrap.className = 'project-status-progress';
   const progressLabel = document.createElement('div');
   progressLabel.className = 'project-status-progress__label';
-  progressLabel.append(textPair('Progreso', progress === null ? 'No disponible' : `${progress}%`));
+  progressLabel.append(textPair(preCodePercent !== null ? 'Pre-code' : 'Progreso MIPSoftware', progress === null ? 'No disponible' : `${progress}%${preCodePercent !== null ? ` · ${String(status.pre_code_profile?.mandatory_stages_frozen ?? 0)}/${String(status.pre_code_profile?.mandatory_stages_total ?? 7)} FROZEN` : ''}`));
   const bar = document.createElement('progress');
   bar.max = 100;
   bar.value = progress ?? 0;
@@ -192,10 +220,10 @@ function renderOverview(status: GuidedSdlcProjectStatus, state: string): HTMLEle
   facts.className = 'project-status-facts';
   addFact(facts, 'Workspace', safe(status.workspace_id));
   addFact(facts, 'Proyecto', safe(status.project_id));
-  addFact(facts, 'Fase', safe(status.phase));
-  addFact(facts, 'Paso actual', safe(status.current_step));
-  addFact(facts, 'Lifecycle', safe(status.lifecycle_status));
-  addFact(facts, 'MIPSoftware', safe(status.mipsoftware?.status));
+  addFact(facts, 'Boundary actual', safe(status.current_step));
+  addFact(facts, 'MIPSoftware · estándar', status.mipsoftware?.standard_applies === true ? 'APLICA · estándar transversal del ciclo' : safe(status.mipsoftware?.status));
+  addFact(facts, 'Perfil Pre-code', status.pre_code_profile?.available ? `${String(status.pre_code_profile.mandatory_stages_frozen ?? 0)}/${String(status.pre_code_profile.mandatory_stages_total ?? 7)} FROZEN · readiness ${safe(status.pre_code_profile.strict_readiness_status)} · conformidad ${safe(status.mipsoftware?.pre_code_profile_conformance)}` : 'No disponible');
+  addFact(facts, 'Registry MIPSoftware formal', `${safe(status.mipsoftware?.formal_registry_phase ?? status.phase)} / ${safe(status.mipsoftware?.formal_registry_lifecycle_status ?? status.lifecycle_status)} · ${status.mipsoftware?.formal_registry_synchronized === false ? 'perfil bounded aún no mapeado al phase-state global' : 'sincronizado'}`);
   addFact(facts, 'MIASI', safe(status.miasi?.status));
   panel.append(heading, progressWrap, facts);
   return panel;
