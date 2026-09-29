@@ -9,6 +9,7 @@ from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreE
 from devpilot_core.story_execution import StoryExecutionStore
 
 from .portfolio_service import PortfolioApplicationService
+from .planning_closure_service import PlanningClosureApplicationService
 from .pre_code_boundary import load_pre_code_boundary
 from .ui_workspace_context import UiWorkspaceContextResolver
 
@@ -30,6 +31,86 @@ class GuidedSDLCApplicationService:
         # Lazy construction preserves ApplicationService compatibility for
         # tests/tools that instantiate a facade over a minimal temporary root.
         return GuidedSDLCService.from_platform_root(self.root)
+
+    @staticmethod
+    def _guided_next_from_planning_closure(closure: dict[str, Any]) -> dict[str, Any]:
+        journey_state = str(closure.get("journey_state") or "UNKNOWN").upper()
+        closure_next = closure.get("next_action") if isinstance(closure.get("next_action"), dict) else {}
+        if journey_state == "IMPLEMENTING_READY":
+            return {
+                "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1",
+                "schema_version": "1.0",
+                "action_id": "next.implementing-ready-story-context",
+                "kind": "ADVANCE_TRANSITION",
+                "priority": 60,
+                "reason_code": "IMPLEMENTING_READY_STORY_CONTEXT_NEXT",
+                "explanation": "Planning is complete and FROZEN. Continue to Story Code Workbench for the first READY story context and implementation route.",
+                "target_phase": None,
+                "target_step": "story-code-workbench",
+                "transition_id": None,
+                "navigation_target": "ui.story-code-workbench",
+                "required_prerequisites": ["planning:IMPLEMENTING_READY"],
+                "approval_needed": False,
+                "mutating": False,
+                "dry_run_required": False,
+                "available": True,
+                "disabled_reason": None,
+                "expected_evidence": ["roadmap:FROZEN", "backlog:FROZEN", "sprint:FROZEN", "sprint:executable"],
+                "source_state_fingerprint": None,
+                "executes_action": False,
+                "network_used": False,
+                "external_api_used": False,
+                "source_mutations_performed": False,
+            }
+        label = str(closure_next.get("label") or "Continue Planning").strip()
+        reason = str(closure_next.get("reason_code") or "PLANNING_IN_PROGRESS").strip()
+        return {
+            "schema_id": "SCHEMA-DEVPL-GUIDED-SDLC-NEXT-ACTION-V1",
+            "schema_version": "1.0",
+            "action_id": f"next.planning.{reason.lower().replace('_', '-')}",
+            "kind": "CONTINUE_STEP",
+            "priority": 60,
+            "reason_code": reason,
+            "explanation": f"Planning is in progress. {label}.",
+            "target_phase": None,
+            "target_step": "planning-roadmap",
+            "transition_id": None,
+            "navigation_target": str(closure_next.get("navigation_target") or "planning-roadmap"),
+            "required_prerequisites": ["pre-code-readiness:PASS"],
+            "approval_needed": False,
+            "mutating": False,
+            "dry_run_required": False,
+            "available": bool(closure_next.get("available", True)),
+            "disabled_reason": None,
+            "expected_evidence": [f"planning:{journey_state}"],
+            "source_state_fingerprint": None,
+            "executes_action": False,
+            "network_used": False,
+            "external_api_used": False,
+            "source_mutations_performed": False,
+        }
+
+    def _apply_planning_journey_overlay(self, *, status_payload: dict[str, Any], next_payload: dict[str, Any], pre_code: dict[str, Any]) -> dict[str, Any]:
+        if not pre_code.get("pre_code_ready"):
+            return next_payload
+        result = PlanningClosureApplicationService(self.root, context_resolver=self.context_resolver).status(effective_roles=[])
+        if not result.ok or not isinstance(result.data, dict):
+            return next_payload
+        closure = (result.data.get("planning_closure") or {}) if isinstance(result.data.get("planning_closure"), dict) else {}
+        if not closure:
+            return next_payload
+        journey_state = str(closure.get("journey_state") or "UNKNOWN").upper()
+        # Keep Guided ProjectStatus within its existing governed schema: Planning
+        # closure is an internal authority used to reconcile the current step and
+        # next action, not a new ad-hoc ProjectStatus field. The global MIPSoftware
+        # phase/lifecycle projection remains untouched.
+        if journey_state == "IMPLEMENTING_READY":
+            status_payload["current_step"] = "story-context-readiness"
+            return self._guided_next_from_planning_closure(closure)
+        if journey_state == "PLANNING":
+            status_payload["current_step"] = "planning"
+            return self._guided_next_from_planning_closure(closure)
+        return next_payload
 
     def evaluate_transition(
         self,
@@ -231,6 +312,7 @@ class GuidedSDLCApplicationService:
                             "expected_evidence": ["miasi-applicability-decision"], "source_state_fingerprint": None,
                             "executes_action": False, "network_used": False, "external_api_used": False, "source_mutations_performed": False,
                         }
+            next_payload = self._apply_planning_journey_overlay(status_payload=status_payload, next_payload=next_payload, pre_code=pre_code)
             freshness = str((status_payload.get("freshness") or {}).get("status") or "UNKNOWN").upper()
             revalidation = str((status_payload.get("revalidation") or {}).get("status") or "UNKNOWN").upper()
             lifecycle = str(status_payload.get("lifecycle_status") or "UNKNOWN").upper()
@@ -385,6 +467,40 @@ class GuidedSDLCApplicationService:
 
         current_step = str(project_status.get("current_step") or "").strip()
         pre_code = project_status.get("pre_code_profile") if isinstance(project_status.get("pre_code_profile"), dict) else {}
+        if current_step == "story-context-readiness":
+            action_id = "typed.implementing-ready-story-context"
+            card = {
+                "action_id": action_id, "kind": "TYPED_OPERATION",
+                "label": "Abrir Story Code Workbench",
+                "purpose": "Planning está completo y FROZEN; continúa al primer contexto de historia READY y su ruta de implementación.",
+                "availability": "AVAILABLE", "executable": True, "disabled_reasons": [],
+                "prerequisites": [{"prerequisite_id": "planning-implementing-ready", "satisfied": True, "reason": "Roadmap/Backlog/Sprint FROZEN; Planning IMPLEMENTING_READY"}],
+                "required_roles": ["owner"], "effective_roles": sorted({str(x) for x in effective_roles}),
+                "risk": {"level": "low", "policy_refs": ["PlanningClosureApplicationService"]},
+                "side_effects": ["none"], "approval_required": False,
+                "network_required": False, "external_api_required": False,
+                "cost": {"applicable": False, "value": None, "unit": "USD", "reason": "local deterministic route"},
+                "tokens": {"applicable": False, "value": None, "unit": "tokens", "reason": "no model execution"},
+                "rank": 1, "recommended": True,
+                "navigation_target": "ui.story-code-workbench",
+                "configuration_target": None, "typed_operation_id": action_id,
+                "api_route_id": None,
+                "source_refs": ["guided-project-status", "PlanningClosureApplicationService"], "agent_descriptor": None,
+            }
+            import hashlib, json
+            advisor = {
+                "workspace_id": resolved, "current_step": current_step, "status": "PASS",
+                "recommended_action_id": action_id, "actions": [card],
+                "decision_fingerprint": hashlib.sha256(json.dumps(card, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest(),
+                "authority": {"server_rbac": True, "policy": True, "planning_closure": True},
+                "safety": {"advisor_grants_capability": False, "network_used": False, "external_api_used": False, "source_mutations_performed": False},
+            }
+            return CommandResult(
+                command="guided_sdlc.step_actions", ok=True, exit_code=ExitCode.PASS,
+                message="Step Action Advisor projected the post-Planning Story Code boundary from authoritative Guided/Planning state.",
+                data={"ui_state":"READY","workspace_id":resolved,"current_step":current_step,"advisor":advisor,"read_only":True,"actor_neutral":False,"server_authoritative":True,"network_used":False,"external_api_used":False,"model_execution_used":False,"mutations_performed":False,"source_mutations_performed":False},
+                findings=[],
+            )
         if pre_code.get("all_stages_frozen"):
             ready = bool(pre_code.get("pre_code_ready"))
             action_id = "typed.pre-code-ready-planning" if ready else "typed.miasi-applicability"

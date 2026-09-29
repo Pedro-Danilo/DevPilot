@@ -83,10 +83,12 @@ def test_frozen_same_version_requires_successor_revision(tmp_path: Path) -> None
 def test_advisor_is_server_authority_description_not_capability_grant(tmp_path: Path) -> None:
     advisor=RoadmapWorkbench(tmp_path).advisor(effective_roles=["developer"])
     assert advisor["status"] == "PASS"
-    assert len(advisor["actions"]) == 3
+    assert len(advisor["actions"]) == 4
+    assert next(x for x in advisor["actions"] if x["kind"]=="DEVPL_LOCAL")["executable"] is True
     assert advisor["authority"]["advisor_grants_capability"] is False
     assert advisor["safety"]["agent_auto_approval"] is False
     assert next(x for x in advisor["actions"] if x["kind"]=="AGENT")["agent_descriptor"]["human_review_required"] is True
+    assert next(x for x in advisor["actions"] if x["kind"]=="AGENT")["executable"] is False
 
 
 def test_roadmap_schema_validates_shared_payload(tmp_path: Path) -> None:

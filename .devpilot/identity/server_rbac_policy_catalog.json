@@ -1180,6 +1180,31 @@
       "workspace_scope_required": false
     },
     {
+      "access_class": "authenticated-read-role-aware",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "planning.authoring.status",
+      "path": "/api/v1/planning/authoring-context",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.planning-authoring.status",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
       "access_class": "human-session/project-planning",
       "allowed_roles": [
         "owner",
@@ -1215,6 +1240,26 @@
       "risk_level": "high",
       "route_id": "api.planning-backlog.approve",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.backlog.derive",
+      "path": "/api/v1/planning/backlog/derive",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-backlog.derive",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
     },
     {
       "access_class": "human-session/project-planning",
@@ -1366,6 +1411,26 @@
       "human_session_required": true,
       "legacy_token_allowed": false,
       "method": "POST",
+      "operation": "planning.roadmap.generate",
+      "path": "/api/v1/planning/roadmap/generate",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-roadmap.generate",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
       "operation": "planning.roadmap.propose",
       "path": "/api/v1/planning/roadmap/proposals",
       "public": false,
@@ -1430,6 +1495,26 @@
       "risk_level": "high",
       "route_id": "api.planning-sprint.approve",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "authenticated-project-planning",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "planning.sprint.derive",
+      "path": "/api/v1/planning/sprint/derive",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.planning-sprint.derive",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
     },
     {
       "access_class": "human-session/project-planning",
@@ -5325,16 +5410,17 @@
     "gsdlc_12_b_legacy_token_allowed_total": 0,
     "gsdlc_12_b_reconciliation_policies_total": 3,
     "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
-    "human_session_required_total": 160,
+    "human_session_required_total": 164,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 236,
+    "route_policies_total": 240,
     "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
     "gsdlc_13_c_02_adr_companion_policies_total": 3,
     "gsdlc_13_c_02_legacy_token_allowed_total": 0,
     "gsdlc_13_c_02_owner_only_action_policies_total": 1,
-    "gsdlc_13_c_03_miasi_applicability_policies_total": 1
+    "gsdlc_13_c_03_miasi_applicability_policies_total": 1,
+    "gsdlc_13_c_04_planning_authoring_policies_total": 4
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-09-28",

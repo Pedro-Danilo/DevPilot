@@ -66,6 +66,7 @@ from .roadmap_workbench_service import RoadmapWorkbenchApplicationService
 from .backlog_workbench_service import BacklogWorkbenchApplicationService
 from .sprint_planner_service import SprintPlannerApplicationService
 from .planning_closure_service import PlanningClosureApplicationService
+from .planning_authoring_service import PlanningAuthoringApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 from devpilot_core.code_workbench import CodeWorkbenchApplicationService, SourceChangeApplicationService
 from devpilot_core.story_execution import StoryExecutionStatus, StoryExecutionStore, StoryExecutionTransitionError
@@ -110,6 +111,7 @@ class ApplicationService:
         self.backlog_workbench = BacklogWorkbenchApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.sprint_planner = SprintPlannerApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.planning_closure = PlanningClosureApplicationService(self.root, context_resolver=self.ui_workspace_context)
+        self.planning_authoring = PlanningAuthoringApplicationService(self.root, context_resolver=self.ui_workspace_context)
         self.workspace = WorkspaceApplicationService(self.root)
         self.project_entry_planning = ProjectEntryPlanningApplicationService(self.root)
         self.project_entry_dry_run_service = ProjectEntryDryRunApplicationService(self.root)
@@ -925,11 +927,24 @@ class ApplicationService:
     def guided_pre_code_readiness(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
         return self.pre_code_wizard.readiness(effective_roles=effective_roles, workspace_scopes=workspace_scopes)
 
+    def planning_authoring_status(self, *, effective_roles: list[str]):
+        return self.planning_authoring.status(effective_roles=effective_roles)
+
+    def planning_roadmap_generate(self, *, actor_id: str, actor_role: str):
+        return self.planning_authoring.generate_roadmap(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_backlog_derive(self, *, actor_id: str, actor_role: str):
+        return self.planning_authoring.derive_backlog(actor_id=actor_id, actor_role=actor_role)
+
+    def planning_sprint_derive(self, *, actor_id: str, actor_role: str, capacity_limit: int = 8):
+        return self.planning_authoring.derive_sprint(actor_id=actor_id, actor_role=actor_role, capacity_limit=capacity_limit)
+
     def planning_roadmap_status(self, *, effective_roles: list[str]):
         return self.roadmap_workbench.status(effective_roles=effective_roles)
 
     def planning_roadmap_propose(self, *, mode: str, roadmap: dict[str, Any], required_requirement_ids: list[str], required_risk_ids: list[str], actor_id: str, actor_role: str, source_label: str):
-        return self.roadmap_workbench.propose(mode=mode, roadmap=roadmap, required_requirement_ids=required_requirement_ids, required_risk_ids=required_risk_ids, actor_id=actor_id, actor_role=actor_role, source_label=source_label)
+        binding = self.planning_authoring.roadmap_binding()
+        return self.roadmap_workbench.propose(mode=mode, roadmap=roadmap, required_requirement_ids=list(binding["requirement_ids"]), required_risk_ids=list(binding["required_roadmap_risk_ids"]), actor_id=actor_id, actor_role=actor_role, source_label=source_label)
 
     def planning_roadmap_review(self, *, actor_id: str, actor_role: str):
         return self.roadmap_workbench.review(actor_id=actor_id, actor_role=actor_role)
@@ -944,7 +959,8 @@ class ApplicationService:
         return self.backlog_workbench.status(effective_roles=effective_roles)
 
     def planning_backlog_propose(self, *, mode: str, backlog: dict[str, Any], required_requirement_ids: list[str], roadmap_milestone_ids: list[str], known_adr_ids: list[str], known_risk_ids: list[str], known_test_intent_ids: list[str], actor_id: str, actor_role: str, source_label: str):
-        return self.backlog_workbench.propose(mode=mode, backlog=backlog, required_requirement_ids=required_requirement_ids, roadmap_milestone_ids=roadmap_milestone_ids, known_adr_ids=known_adr_ids, known_risk_ids=known_risk_ids, known_test_intent_ids=known_test_intent_ids, actor_id=actor_id, actor_role=actor_role, source_label=source_label)
+        binding = self.planning_authoring.backlog_binding()
+        return self.backlog_workbench.propose(mode=mode, backlog=backlog, required_requirement_ids=list(binding["requirement_ids"]), roadmap_milestone_ids=list(binding["roadmap_milestone_ids"]), known_adr_ids=list(binding["known_adr_ids"]), known_risk_ids=list(binding["known_risk_ids"]), known_test_intent_ids=list(binding["known_test_intent_ids"]), actor_id=actor_id, actor_role=actor_role, source_label=source_label)
 
     def planning_backlog_review(self, *, actor_id: str, actor_role: str):
         return self.backlog_workbench.review(actor_id=actor_id, actor_role=actor_role)
@@ -959,7 +975,13 @@ class ApplicationService:
         return self.sprint_planner.status(effective_roles=effective_roles)
 
     def planning_sprint_propose(self, *, sprint_plan: dict[str, Any], backlog: dict[str, Any], dependencies: list[dict[str, Any]], actor_id: str, actor_role: str):
-        return self.sprint_planner.propose(sprint_plan=sprint_plan, backlog=backlog, dependencies=dependencies, actor_id=actor_id, actor_role=actor_role)
+        binding = self.planning_authoring.sprint_binding()
+        authoritative = dict(binding["backlog"])
+        reference = sprint_plan.get("backlog_reference") if isinstance(sprint_plan.get("backlog_reference"), dict) else {}
+        record = binding["backlog_record"]
+        sprint_plan = dict(sprint_plan)
+        sprint_plan["backlog_reference"] = {"backlog_id": authoritative.get("backlog_id"), "version": authoritative.get("version"), "lifecycle": "FROZEN", "content_sha256": record.get("content_sha256")}
+        return self.sprint_planner.propose(sprint_plan=sprint_plan, backlog=authoritative, dependencies=list(binding["dependencies"]), actor_id=actor_id, actor_role=actor_role)
 
     def planning_sprint_review(self, *, actor_id: str, actor_role: str):
         return self.sprint_planner.review(actor_id=actor_id, actor_role=actor_role)
@@ -2409,6 +2431,10 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "guided_sdlc.pre_code.architecture_adrs.apply": lambda payload: service.guided_pre_code_architecture_adrs_apply(actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or [])),
         "guided_sdlc.pre_code.miasi_applicability": lambda payload: service.guided_pre_code_miasi_applicability(actor=str(payload.get("actor", "")), actor_role=str(payload.get("actor_role", "")), session_principal=str(payload.get("session_principal", "")), effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or []), declared_ai_usage=bool(payload.get("declared_ai_usage")), capabilities=list(payload.get("capabilities") or []), risk_level=str(payload.get("risk_level", "low")), evidence_refs=list(payload.get("evidence_refs") or [])),
         "guided_sdlc.pre_code.readiness": lambda payload: service.guided_pre_code_readiness(effective_roles=list(payload.get("effective_roles") or []), workspace_scopes=list(payload.get("workspace_scopes") or [])),
+        "planning.authoring.status": lambda payload: service.planning_authoring_status(effective_roles=list(payload.get("effective_roles") or [])),
+        "planning.roadmap.generate": lambda payload: service.planning_roadmap_generate(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.backlog.derive": lambda payload: service.planning_backlog_derive(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
+        "planning.sprint.derive": lambda payload: service.planning_sprint_derive(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", "")), capacity_limit=int(payload.get("capacity_limit", 8))),
         "planning.roadmap.status": lambda payload: service.planning_roadmap_status(effective_roles=list(payload.get("effective_roles") or [])),
         "planning.roadmap.propose": lambda payload: service.planning_roadmap_propose(mode=str(payload.get("mode", "MANUAL")), roadmap=dict(payload.get("roadmap") or {}), required_requirement_ids=list(payload.get("required_requirement_ids") or []), required_risk_ids=list(payload.get("required_risk_ids") or []), actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", "")), source_label=str(payload.get("source_label", ""))),
         "planning.roadmap.review": lambda payload: service.planning_roadmap_review(actor_id=str(payload.get("actor_id", "")), actor_role=str(payload.get("actor_role", ""))),
@@ -2566,6 +2592,10 @@ def _capabilities() -> list[ServiceCapability]:
         ("guided_sdlc.pre_code.architecture_adrs.apply", "Atomically materialize standalone ADRs derived from frozen Architecture after exact approval recheck.", "approval_gated_source_write", False, "POST /api/v1/guided-sdlc/pre-code/architecture-adrs/apply"),
         ("guided_sdlc.pre_code.miasi_applicability", "Persist an explicit Owner MIASI applicability decision in platform runtime only and recompute strict pre-code readiness; no managed workspace source write.", "runtime_state_only", False, "POST /api/v1/guided-sdlc/pre-code/miasi/applicability"),
         ("guided_sdlc.pre_code.readiness", "Evaluate strict seven-stage guided pre-code vertical-slice readiness without replacing historical global readiness.", "none", True, "GET /api/v1/guided-sdlc/pre-code/readiness"),
+        ("planning.authoring.status", "Read C-04 planning authoring authority, sequential availability and FROZEN-source binding.", "none", True, "GET /api/v1/planning/authoring-context; local deterministic projection."),
+        ("planning.roadmap.generate", "Generate a deterministic Roadmap DRAFT from PRE_CODE_READY FROZEN authorities.", "runtime_draft_only", False, "POST /api/v1/planning/roadmap/generate; no model/network/source write."),
+        ("planning.backlog.derive", "Derive a Backlog DRAFT from FROZEN Roadmap and real RF/ADR/SEC/TEST authorities.", "runtime_draft_only", False, "POST /api/v1/planning/backlog/derive; Roadmap FROZEN required."),
+        ("planning.sprint.derive", "Derive a human-governed Sprint DRAFT from FROZEN Backlog with bounded capacity.", "runtime_draft_only", False, "POST /api/v1/planning/sprint/derive; Backlog FROZEN required."),
         ("planning.roadmap.status", "Read project-scoped GSDLC-08-B Roadmap Workbench runtime state and StepActionAdvisor projection.", "none", True, "GET /api/v1/planning/roadmap; server-authoritative local runtime projection."),
         ("planning.roadmap.propose", "Create MANUAL/IMPORT/AGENT roadmap DRAFT using one shared planning schema and explicit provenance.", "runtime_draft_only", False, "POST /api/v1/planning/roadmap/proposals; no managed source write or external model execution."),
         ("planning.roadmap.review", "Validate roadmap contract, coverage and immutable diff/review before human approval.", "runtime_review_only", False, "POST /api/v1/planning/roadmap/review."),
@@ -2730,6 +2760,10 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-GSDLC-03-C-REVALIDATE", "POST", "/api/v1/project-entry/revalidate", "project_entry.revalidate", ["GSDLC-03-C immutable plan/preimage revalidation; stale state blocks future execution."]),
         ("APP-ROUTE-GSDLC-03-D-APPROVAL", "POST", "/api/v1/project-entry/execution-approval-request", "project_entry.execution_approval_request", ["GSDLC-03-D authenticated exact-plan approval request; caller actor is non-authoritative."]),
         ("APP-ROUTE-GSDLC-03-D-EXECUTE", "POST", "/api/v1/project-entry/execute", "project_entry.execute", ["GSDLC-03-D approval-bound typed bootstrap execution inside authorized fixture/workspace; rollback mandatory."]),
+        ("APP-ROUTE-GSDLC-13-C04-AUTHORING-STATUS", "GET", "/api/v1/planning/authoring-context", "planning.authoring.status", ["C-04 bounded authority/sequential planning projection; no mutation."]),
+        ("APP-ROUTE-GSDLC-13-C04-ROADMAP-GENERATE", "POST", "/api/v1/planning/roadmap/generate", "planning.roadmap.generate", ["C-04 deterministic local Roadmap DRAFT grounded in PRE_CODE_READY authorities."]),
+        ("APP-ROUTE-GSDLC-13-C04-BACKLOG-DERIVE", "POST", "/api/v1/planning/backlog/derive", "planning.backlog.derive", ["C-04 deterministic Backlog derivation; Roadmap FROZEN required."]),
+        ("APP-ROUTE-GSDLC-13-C04-SPRINT-DERIVE", "POST", "/api/v1/planning/sprint/derive", "planning.sprint.derive", ["C-04 bounded Sprint derivation; Backlog FROZEN required."]),
         ("APP-ROUTE-GSDLC-08-B-ROADMAP-STATUS", "GET", "/api/v1/planning/roadmap", "planning.roadmap.status", ["GSDLC-08-E successor exposure of the GSDLC-08-B RoadmapWorkbench runtime state through the integrated Planning Workbench."]),
         ("APP-ROUTE-GSDLC-08-B-ROADMAP-PROPOSE", "POST", "/api/v1/planning/roadmap/proposals", "planning.roadmap.propose", ["GSDLC-08-E governed MANUAL/IMPORT/AGENT roadmap DRAFT route; agent remains proposal-only."]),
         ("APP-ROUTE-GSDLC-08-B-ROADMAP-REVIEW", "POST", "/api/v1/planning/roadmap/review", "planning.roadmap.review", ["GSDLC-08-E governed roadmap coverage/review route."]),

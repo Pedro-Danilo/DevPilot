@@ -313,7 +313,11 @@
         "api.planning-sprint.review",
         "api.planning-sprint.approve",
         "api.planning-sprint.freeze",
-        "api.planning-closure.status"
+        "api.planning-closure.status",
+        "api.planning-authoring.status",
+        "api.planning-roadmap.generate",
+        "api.planning-backlog.derive",
+        "api.planning-sprint.derive"
       ],
       "connector_write_allowed": false,
       "critical": true,
@@ -335,9 +339,11 @@
       },
       "no_remote_badge_required": true,
       "notes": [
-        "GSDLC-08-E upgrades the existing planning route into the complete roadmap→backlog→sprint browser journey.",
-        "Approval/freeze stays server-authoritative; developer wrong-role remains fail-closed.",
-        "Trace graph and IMPLEMENTING_READY are deterministic runtime projections; no source/code execution."
+        "C-04 promotes a deterministic DevPilot-local authoring path grounded in FROZEN project authorities.",
+        "Backlog is server/UI locked until Roadmap FROZEN; Sprint is locked until Backlog FROZEN.",
+        "Import uses a local JSON file picker; manual authoring uses guided structured fields with JSON only as advanced disclosure.",
+        "Agent-assisted remains visibly unavailable until a real model/agent runtime is bound; no false affordance.",
+        "Approval/freeze stays server-authoritative; no managed source/code write."
       ],
       "owner": "ui.web",
       "page_component": "RoadmapWorkbenchView",
@@ -347,12 +353,11 @@
       "route_id": "ui.planning-roadmap",
       "shows_mutation_controls": true,
       "source_files": [
-        "ui/web/src/components/StepActionAdvisor.ts",
         "ui/web/src/pages/ProjectStatusView.ts",
         "ui/web/src/pages/RoadmapWorkbenchView.ts"
       ],
       "state_contract": {
-        "agent": true,
+        "agent": false,
         "api_down": true,
         "approval_required": true,
         "backlog": true,
@@ -375,9 +380,12 @@
         "review": true,
         "sprint": true,
         "trace_graph": true,
-        "unauthorized": true
+        "unauthorized": true,
+        "agent_unavailable_explained": true,
+        "devpilot_local_authoring": true,
+        "sequential_gating": true
       },
-      "status": "implemented/gsdlc-08-e-local-qualified-windows-pending",
+      "status": "implemented/gsdlc-13-c04-authoring-bridge-windows-pending",
       "status_visibility": [
         "PASS",
         "WARN",
@@ -1828,14 +1836,15 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-12-A",
+    "updated_by": "DEVPL-GSDLC-13-C-04-BRIDGE",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
     "workspace_validation_api_routes_total": 4,
     "gsdlc_12_c_guided_expert_modes": true,
     "gsdlc_12_c_help_system": true,
-    "gsdlc_12_c_a11y_first_version": true
+    "gsdlc_12_c_a11y_first_version": true,
+    "gsdlc_13_c_04_planning_authoring_bridge": true
   },
   "updated": "2026-09-13"
 }

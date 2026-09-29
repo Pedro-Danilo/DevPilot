@@ -3,6 +3,7 @@ import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectSt
 import { renderStepActionAdvisor, renderStepActionAdvisorError } from '../components/StepActionAdvisor';
 import { renderReconciliationSummary } from './ConflictResolutionView';
 import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
+import { navigationPathFromServerTarget } from '../ux/navigationPresentation';
 
 const ROUTE_ID = 'ui.project-status';
 const PLANNING_ROADMAP_ROUTE_ID = 'ui.planning-roadmap';
@@ -161,8 +162,10 @@ function renderState(data: GuidedSdlcProjectStatusResponseData): HTMLElement {
   wrapper.className = 'project-status-grid';
   const blockerCount = Array.isArray(status.blockers) ? status.blockers.length : 0;
   const currentStep = safe(status.current_step, 'project');
-  const inPlanning = currentStep.toLowerCase().includes('planning') || safe(status.phase).toLowerCase().includes('planning');
-  const inPreCode = !inPlanning && !['implementing','release','released'].includes(safe(status.phase).toLowerCase());
+  const guidedStep = currentStep.toLowerCase();
+  const atImplementationBoundary = guidedStep.includes('story-context') || guidedStep.includes('story-code') || guidedStep.includes('implementing-ready');
+  const inPlanning = !atImplementationBoundary && (guidedStep.includes('planning') || safe(status.phase).toLowerCase().includes('planning'));
+  const inPreCode = !inPlanning && !atImplementationBoundary && !['implementing','release','released'].includes(safe(status.phase).toLowerCase());
   const nextExplanation = safe(next.explanation, 'Revisa el estado antes de continuar.');
   const blockerExplanation = blockerCount > 0
     ? `${blockerCount} blocker(s) materializados. Revisa el detalle antes de continuar.`
@@ -177,7 +180,7 @@ function renderState(data: GuidedSdlcProjectStatusResponseData): HTMLElement {
       { label: 'Proyecto', state: 'done' },
       { label: 'Pre-code', state: inPreCode ? 'current' : 'done' },
       { label: 'Planning', state: inPlanning ? 'current' : inPreCode ? 'upcoming' : 'done' },
-      { label: 'Construir', state: ['implementing','release','released'].includes(safe(status.phase).toLowerCase()) ? 'current' : 'upcoming' },
+      { label: 'Construir', state: atImplementationBoundary || ['implementing','release','released'].includes(safe(status.phase).toLowerCase()) ? 'current' : 'upcoming' },
     ],
     nextAction: nextExplanation,
     blocker: blockerExplanation,
@@ -247,7 +250,7 @@ function renderNextAction(action: GuidedSdlcNextAction): HTMLElement {
   button.className = 'project-status-continue';
   button.textContent = 'Continuar';
   const target = safe(action.navigation_target, 'project-status');
-  const destination = navigationPath(target);
+  const destination = navigationPathFromServerTarget(target);
   const canNavigate = action.available === true && action.mutating !== true && destination !== null;
   if (!canNavigate) {
     button.disabled = true;
@@ -458,14 +461,6 @@ function humanState(state: string): string {
     ready: 'READY', blocked: 'BLOCKED', revalidation: 'REVALIDATION REQUIRED', stale: 'STALE', unknown: 'UNKNOWN', empty: 'EMPTY',
   };
   return labels[state] ?? state.toUpperCase();
-}
-
-function navigationPath(target: string): string | null {
-  const mapping: Record<string, string> = {
-    'ui.approvals': '/approvals',
-    'project-status': '/project/status',
-  };
-  return mapping[target] ?? null;
 }
 
 function safe(value: unknown, fallback = 'unknown'): string {

@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .service import PlanningPolicyError
+from .human_projection import write_sprint_projection
 
 REVIEW_ROLES = frozenset({"owner", "product-owner", "architect", "qa-reviewer"})
 APPROVER_ROLES = frozenset({"owner", "product-owner"})
@@ -145,6 +146,8 @@ class SprintPlanner:
             raise PlanningPolicyError("SPRINT_AGENT_AUTHOR_BLOCK", "Sprint scheduling requires a human owner/product-owner actor.")
         existing = self._load_state()
         version = str(sprint_plan.get("version") or "")
+        if existing and str(existing.get("lifecycle")) == "APPROVED":
+            raise PlanningPolicyError("SPRINT_APPROVED_CORRECTION_BLOCK", "Approved SprintPlan cannot return to DRAFT; freeze it first, then create a successor semantic version if a new revision is required.")
         if existing and existing.get("lifecycle") == "FROZEN" and version == str(existing.get("version") or ""):
             raise PlanningPolicyError("SPRINT_FROZEN_REVISION_REQUIRED", "Frozen SprintPlan is immutable; create a successor semantic version.")
         report = self.validator.evaluate(sprint_plan, backlog=backlog, dependencies=dependencies)
@@ -166,6 +169,7 @@ class SprintPlanner:
             "freeze": None,
         }
         self._atomic_json(self.state_path, record)
+        write_sprint_projection(self.runtime_root, record)
         for path in (self.report_path, self.dependency_path):
             if path.exists():
                 path.unlink()
@@ -193,6 +197,7 @@ class SprintPlanner:
         self._atomic_json(self.state_path, record)
         self._atomic_json(self.report_path, report)
         self._atomic_json(self.dependency_path, {"schema_id":"DEVPL-GSDLC-08-D-DEPENDENCY-CHECK-V1","status":report["status"],"sprint_plan_id":record.get("sprint_plan_id"),"applicable_dependencies":report["applicable_dependencies"],"findings":[x for x in report["findings"] if x["code"].startswith("SPRINT_DEPENDENCY") or x["code"].startswith("SPRINT_PREREQUISITE")]})
+        write_sprint_projection(self.runtime_root, record)
         return review
 
     def approve(self, *, actor_id: str, actor_role: str) -> dict[str, Any]:
@@ -208,6 +213,7 @@ class SprintPlanner:
         record["lifecycle"] = "APPROVED"
         record["approval"] = approval
         self._atomic_json(self.state_path, record)
+        write_sprint_projection(self.runtime_root, record)
         return approval
 
     def freeze(self, *, actor_id: str, actor_role: str) -> dict[str, Any]:
@@ -227,6 +233,7 @@ class SprintPlanner:
         frozen = {**record,"lifecycle":"FROZEN","freeze":{"revision":number,"actor_id":actor_id,"actor_role":role,"source_kind":"human","frozen_at":_utc_now(),"immutable":True,"content_sha256":record.get("content_sha256")}}
         self._atomic_json(path, frozen)
         self._atomic_json(self.state_path, frozen)
+        write_sprint_projection(self.runtime_root, frozen, revision_number=number)
         return {"status":"PASS","revision":number,"content_sha256":record.get("content_sha256"),"artifact_path":str(path.relative_to(self.workspace_root)).replace("\\","/"),"sprint_plan":frozen}
 
     def _load_state(self) -> dict[str, Any] | None:

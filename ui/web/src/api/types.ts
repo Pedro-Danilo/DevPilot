@@ -1319,9 +1319,27 @@ export interface PreCodeWizardResponseData {
 }
 
 
+
+export interface PlanningAuthoringResponseData {
+  planning_authoring: {
+    workspace_id?: string;
+    pre_code_ready?: boolean;
+    authority?: Record<string, unknown>;
+    provider?: { provider_id?: string; strategy_id?: string; model_id?: string | null; status?: string; provider_family?: string; model_execution_used?: boolean; agent_execution_used?: boolean; rag_execution_used?: boolean; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; human_review_required?: boolean; approval_authority?: string; future_provider_slots?: string[] };
+    templates?: { roadmap?: Record<string, unknown> | null; backlog?: Record<string, unknown> | null; sprint?: Record<string, unknown> | null };
+    lifecycle?: { roadmap?: string; backlog?: string; sprint?: string };
+    availability?: Record<string, unknown>;
+    recommended_next?: string;
+    runtime_only?: boolean;
+    source_mutations_performed?: false;
+    network_used?: false;
+    external_api_used?: false;
+  };
+}
+
 // DEVPL-GSDLC-08-B — governed Roadmap Workbench.
 export interface RoadmapProposalRequest {
-  mode: 'MANUAL' | 'IMPORT' | 'AGENT';
+  mode: 'DEVPL_LOCAL' | 'MANUAL' | 'IMPORT' | 'AGENT';
   roadmap: Record<string, unknown>;
   required_requirement_ids: string[];
   required_risk_ids: string[];

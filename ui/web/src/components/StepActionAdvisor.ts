@@ -1,4 +1,5 @@
 import type { GuidedSdlcStepActionsResponseData, StepActionCard } from '../api/types';
+import { navigationPathFromServerTarget } from '../ux/navigationPresentation';
 
 const PLANNING_ROADMAP_ROUTE_ID = 'ui.planning-roadmap';
 
@@ -124,15 +125,16 @@ function renderStepActionCard(action: StepActionCard, options: StepActionAdvisor
   primary.type = 'button';
   primary.textContent = action.recommended ? 'Usar opción recomendada' : 'Abrir opción';
   const target = typeof action.navigation_target === 'string' ? action.navigation_target : '';
-  if (target === '/planning/roadmap') card.dataset.routeId = PLANNING_ROADMAP_ROUTE_ID;
-  if (!available || (!target && !options.onAction)) {
+  const destination = navigationPathFromServerTarget(target);
+  if (destination === '/planning/roadmap') card.dataset.routeId = PLANNING_ROADMAP_ROUTE_ID;
+  if (!available || (!destination && !options.onAction)) {
     primary.disabled = true;
     primary.setAttribute('aria-disabled', 'true');
     primary.title = action.disabled_reasons?.map((row) => row.code).join(', ') || 'Ruta no ejecutable';
   } else {
     primary.addEventListener('click', () => {
       if (options.onAction?.(action) === true) return;
-      if (target) globalThis.location.assign(target);
+      if (destination) globalThis.location.assign(destination);
     });
   }
   controls.append(primary);

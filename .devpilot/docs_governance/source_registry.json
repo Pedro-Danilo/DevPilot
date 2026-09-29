@@ -131,6 +131,33 @@
       "classification": "machine-readable-source",
       "criticality": "P0",
       "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-AGENT-BINDINGS",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": ".devpilot/agents/story_code_agent_bindings.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "current-active",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
       "doc_id": "POST-H-032-F-TOOL-CALL-POLICY",
       "domain": "agentic.runtime",
       "lifecycle": "active",
@@ -241,6 +268,33 @@
       ],
       "status_required": "implemented-initial",
       "sync_rules": []
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-POLICY",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Current bounded source allowlist/deny policy."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": ".devpilot/code_workbench/source_policy.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     },
     {
       "classification": "machine-readable-source",
@@ -687,6 +741,26 @@
         "DEVPL-GSDLC-00-E"
       ],
       "status_required": "closed/PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-ROOTS",
+      "domain": "validation.instrumentation",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": ".devpilot/gsdlc/gsdlc13_acceptance_roots.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "APPROVED/NOT-MATERIALIZED",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -1865,6 +1939,35 @@
     {
       "classification": "machine-readable-source",
       "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-UOC005-FROZEN-ROUTE-SNAPSHOT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": [
+        "tests/test_uoc005_source_mutation_routes_at_close.py"
+      ],
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": ".devpilot/testing/fixtures/uoc005_source_mutation_routes_at_close.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
       "doc_id": "FRX-V2-2-A-SOURCE-DELTA-MANIFEST",
       "domain": "governance.testing",
       "lifecycle": "active",
@@ -2687,6 +2790,33 @@
     {
       "classification": "source-of-truth",
       "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-10-ACTIVATION",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Activation/rebind authority folded into 10-A."
+      ],
+      "owner": "Ordóñez",
+      "path": "00_PROMPT_DEVPL_GSDLC_10_ACTIVATION_REBIND_v1_0_0_REPO414.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
       "doc_id": "DEVPL-PROMPT-GSDLC-04-A",
       "domain": "governance.gsdlc",
       "frontmatter_required": true,
@@ -2821,6 +2951,33 @@
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-10-A",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "GSDLC-10-A implementation authority."
+      ],
+      "owner": "Ordóñez",
+      "path": "01_PROMPT_DEVPL_GSDLC_10_A_v1_0_0_REPO414.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -3081,6 +3238,60 @@
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC-08-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-09-B",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "GSDLC-09-B execution prompt rebound to repo408; browser mandatory, full=0."
+      ],
+      "owner": "Ordóñez",
+      "path": "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-10-B",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "GSDLC-10-B implementation authority rebound to repo415."
+      ],
+      "owner": "Ordóñez",
+      "path": "02_PROMPT_DEVPL_GSDLC_10_B_v1_0_1_REBOUND_REPO415.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -3361,6 +3572,33 @@
       ]
     },
     {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-09-C",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "03_PROMPT_DEVPL_GSDLC_09_C_v1_0_1_REBOUND_REPO409.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
       "classification": "historical",
       "criticality": "P0",
       "doc_id": "03_PROMPT_FRX_V2_2_C_TEMPORAL_SCHEDULER_V1_0_0",
@@ -3606,6 +3844,33 @@
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC-08-D"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-09-D",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "04_PROMPT_DEVPL_GSDLC_09_D_v1_0_1_REBOUND_REPO410.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -3894,6 +4159,35 @@
       ]
     },
     {
+      "classification": "derived",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "PROMPT-DEVPL-GSDLC-09-E",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
+      ],
+      "owner": "DEVPL-GSDLC-09-E",
+      "path": "05_PROMPT_DEVPL_GSDLC_09_E_v1_0_1_REBOUND_REPO411.md",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-E"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
       "classification": "source-of-truth",
       "criticality": "P0",
       "derived_documents": [],
@@ -4013,6 +4307,89 @@
         "DEVPL-GSDLC-08"
       ],
       "status_required": "closed",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09 final current-active backlog authority reconciled after Windows composite closure; repo412 is functional closure predecessor and repo413 is final reconciliation successor."
+      ],
+      "owner": "DEVPL-GSDLC-09-E",
+      "path": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-E"
+      ],
+      "status_required": "closed",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Current approved/rebound GSDLC-10 backlog authority."
+      ],
+      "owner": "Ordóñez",
+      "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "GSDLC-10 backlog rebound to repo415 and active at 10-B."
+      ],
+      "owner": "Ordóñez",
+      "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "approved",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -6021,6 +6398,26 @@
     {
       "classification": "source-of-truth",
       "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-EXECUTION-PACKAGE-INDEX",
+      "domain": "governance.program",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/00_DEVPL_GSDLC_13_EXECUTION_PACKAGE_INDEX_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
       "doc_id": "DEVPL-FULL-REGRESSION-V2-2-V2-3-EXECUTION-ROADMAP",
       "domain": "governance.testing",
       "lifecycle": "active",
@@ -6033,6 +6430,46 @@
       "roadmap_milestones": [
         "FRX-v2.2",
         "FRX-v2.2-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-GREENFIELD-ROADMAP",
+      "domain": "planning.roadmap",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/DEVPL_GSDLC_13_GREENFIELD_REAL_PRODUCT_ACCEPTANCE_ROADMAP_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-OWNER-DEVPL-CHATGPT-OPERATING-MODEL",
+      "domain": "governance.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/DEVPL_GSDLC_13_OWNER_DEVPL_CHATGPT_OPERATING_MODEL_v1_0_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -6103,6 +6540,26 @@
       "status_required": "approved",
       "sync_rules": [
         "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-UX-P1-PILOT-DRIVEN-PRODUCTIZATION",
+      "domain": "product.ui",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/00_product/DEVPL_UX_P1_PILOT_DRIVEN_PRODUCTIZATION_PLAN_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
         "test_must_pass"
       ]
     },
@@ -6238,6 +6695,98 @@
         "tests/test_devpl_gsdlc_07_a_agent_role_bindings.py"
       ],
       "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [
+        "docs/02_architecture/architecture_document.md"
+      ],
+      "doc_id": "ADR-DEVPL-GSDLC-13-B-02-NEUTRAL-PROJECT-SHELL",
+      "domain": "guided_sdlc.project_entry",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [
+        "docs/schemas/project_intake_gsdlc13_v2.schema.json",
+        ".devpilot/workspaces/technology_catalog_gsdlc13_v2.json",
+        ".devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json"
+      ],
+      "notes": [
+        "Successor decision for 13-B-02 corrective; Windows proof pending."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_b_02_greenfield_intake_corrective.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [
+        "docs/02_architecture/architecture_document.md"
+      ],
+      "doc_id": "ADR-DEVPL-GSDLC-13-B-03-PERSISTENT-ACTIVE-PROJECT-RUNTIME-CONTEXT",
+      "domain": "guided_sdlc.project_status.runtime_context",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "notes": [
+        "13-B-03 corrective: persistent active-project runtime registry, initial engineering state and standard api serve auto-binding."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md",
+        "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_b_03_runtime_project_context_corrective.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-B"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass",
+        "frontmatter_status"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "ADR-DEVPL-GSDLC-13-C-04-PLANNING-HUMAN-PROJECTIONS",
+      "domain": "planning.architecture",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-C-04-planning-canonical-json-human-projections.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-GSDLC-010-planning-domain-lifecycle-and-freeze.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_c_04_planning_authoring_bridge.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-C",
+        "DEVPL-GSDLC-13-C-04",
+        "C04_BR_105"
+      ],
+      "status_required": "accepted",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -7410,6 +7959,26 @@
       "status_required": "approved",
       "sync_rules": [
         "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK",
+      "domain": "operations.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_0_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
         "test_must_pass"
       ]
     },
@@ -15291,6 +15860,1307 @@
       ]
     },
     {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-CONTRACT-RECONCILIATION-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-DOR-REPORT",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_DOR_REPORT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-FULL-REGRESSION-WAIVER",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Intermediate A-D no-full cadence; exactly-one backlog full remains reserved for 09-E."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_FULL_REGRESSION_WAIVER.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "approved-by-owner-policy",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "implemented/local-qualified/windows-pending",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-OWNER-ADJUDICATION-PROPOSAL",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_OWNER_ADJUDICATION_PROPOSAL.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "proposed/local-qualified/windows-pending",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-SOURCE-DELTA-MANIFEST",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Semantic LF/CRLF-neutral source delta from repo407 activation authority to 09-A local-qualified tree."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_SOURCE_DELTA_MANIFEST.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-TEST-IMPACT",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Dry-run Test Impact v2 plus bounded manual execution plan; no tests executed by analyzer."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/audits/DEVPL_GSDLC_09_A_TEST_IMPACT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-BROWSER-COMPONENT-QUALIFICATION",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Local Chromium component qualification; Windows live browser remains authoritative for closure."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_BROWSER_COMPONENT_QUALIFICATION.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-CODE-WORKBENCH-SECURITY-REPORT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_CODE_WORKBENCH_SECURITY_REPORT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-CONTRACT-RECONCILIATION-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-FULL-REGRESSION-WAIVER",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_FULL_REGRESSION_WAIVER.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "approved-by-owner-policy",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B Windows closure current evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "closed/pass/windows-validated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-OWNER-ADJUDICATION-PROPOSAL",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B Windows adjudication current evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_OWNER_ADJUDICATION_PROPOSAL.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "adjudicated/closed/pass/windows-validated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-DELTA-MANIFEST",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Semantic LF/CRLF-neutral delta from repo408 to 09-B local-qualified tree."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_SOURCE_DELTA_MANIFEST.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-TEST-IMPACT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Dry-run Test Impact v2 plus bounded execution plan; no full run."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-CONTRACT-RECONCILIATION-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-FULL-REGRESSION-WAIVER",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_FULL_REGRESSION_WAIVER.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "approved-by-owner-policy",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_uoc005_source_mutation_routes_at_close.py",
+        "tests/test_frx_v2_4_a_historical_contract_authority.py"
+      ],
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "closed/pass/windows-validated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-OWNER-ADJUDICATION-PROPOSAL",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_OWNER_ADJUDICATION_PROPOSAL.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "adjudicated/closed/pass/windows-validated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-SOURCE-CHANGE-SECURITY-REPORT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_SOURCE_CHANGE_SECURITY_REPORT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-SOURCE-DELTA-MANIFEST",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_SOURCE_DELTA_MANIFEST.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-TEST-IMPACT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/audits/DEVPL_GSDLC_09_C_TEST_IMPACT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-AGENT-SECURITY-EVAL",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_AGENT_SECURITY_EVAL.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-CODING-AGENT-TRACES",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_CODING_AGENT_TRACES.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-CONTRACT-RECONCILIATION-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-FULL-REGRESSION-WAIVER",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_FULL_REGRESSION_WAIVER.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "closed/pass/windows-validated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-TEST-AGENT-TRACES",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/audits/DEVPL_GSDLC_09_D_TEST_AGENT_TRACES.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-E-CONTRACT-RECONCILIATION",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
+      ],
+      "owner": "DEVPL-GSDLC-09-E",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-E"
+      ],
+      "status_required": "PASS/CORRECTIVE-LOCAL-QUALIFIED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-E-FULL-PLAN",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
+      ],
+      "owner": "DEVPL-GSDLC-09-E",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_FULL_REGRESSION_EXECUTION_PLAN.json",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-E"
+      ],
+      "status_required": "FULL-CONSUMED/FUNCTIONAL-FAIL-PRESERVED/COMPOSITE-RECOVERY-REQUIRED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-E-HISTORICAL-SWEEP",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
+      ],
+      "owner": "DEVPL-GSDLC-09-E",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-E"
+      ],
+      "status_required": "PASS/CORRECTIVE-LOCAL-QUALIFIED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-E-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
+      ],
+      "owner": "DEVPL-GSDLC-09-E",
+      "path": "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [
+        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-E"
+      ],
+      "status_required": "closed/pass/windows-validated/composite-recovery",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-CONTRACT-RECONCILIATION-SWEEP",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Contract reconciliation for 10-A."
+      ],
+      "owner": "DEVPL-GSDLC-10-A",
+      "path": "docs/audits/DEVPL_GSDLC_10_A_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Historical/current contract classification for 10-A."
+      ],
+      "owner": "DEVPL-GSDLC-10-A",
+      "path": "docs/audits/DEVPL_GSDLC_10_A_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [
+        "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json"
+      ],
+      "notes": [
+        "10-A local qualification report; Windows closure updates status in same sprint."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_10_A_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "closed/pass/windows-validated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-SOURCE-DELTA-MANIFEST",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Exact source delta manifest for 10-A."
+      ],
+      "owner": "DEVPL-GSDLC-10-A",
+      "path": "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "PASS/WINDOWS-VALIDATED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-TEST-IMPACT",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Final Test Impact v2 report for 10-A source delta."
+      ],
+      "owner": "DEVPL-GSDLC-10-A",
+      "path": "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-CONTRACT-RECONCILIATION-SWEEP",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Contract reconciliation for 10-B."
+      ],
+      "owner": "DEVPL-GSDLC-10-B",
+      "path": "docs/audits/DEVPL_GSDLC_10_B_CONTRACT_RECONCILIATION_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-HISTORICAL-CONTRACT-SWEEP",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Historical/current contract classification for 10-B."
+      ],
+      "owner": "DEVPL-GSDLC-10-B",
+      "path": "docs/audits/DEVPL_GSDLC_10_B_HISTORICAL_CONTRACT_SWEEP.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-IMPLEMENTATION-REPORT",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "10-B local qualification report; Windows closure updates status in same sprint."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_10_B_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "implemented/local-qualified/windows-validation-pending",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-SOURCE-DELTA-MANIFEST",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Exact source delta manifest for 10-B."
+      ],
+      "owner": "DEVPL-GSDLC-10-B",
+      "path": "docs/audits/DEVPL_GSDLC_10_B_SOURCE_DELTA_MANIFEST.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "CLOSED/PASS/WINDOWS-VALIDATED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-TEST-IMPACT",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Final Test Impact v2 report for 10-B source delta."
+      ],
+      "owner": "DEVPL-GSDLC-10-B",
+      "path": "docs/audits/DEVPL_GSDLC_10_B_TEST_IMPACT.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "PASS",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-B-03-BLOCK-ADJUDICATION",
+      "domain": "acceptance.corrective",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "notes": [
+        "First-attempt B-03 BLOCK preserved; no restart performed after EMPTY/UNKNOWN."
+      ],
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_B_03_BLOCK_ADJUDICATION_v1_0_0.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_b_03_runtime_project_context_corrective.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-B"
+      ],
+      "status_required": "active-corrective",
+      "sync_rules": [
+        "frontmatter_status"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-13-C-04-C04-BR-105-IMPLEMENTATION-REPORT",
+      "domain": "governance.testing",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_C_04_C04_BR_105_IMPLEMENTATION_REPORT.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-C-04-planning-canonical-json-human-projections.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_c_04_planning_authoring_bridge.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-C",
+        "DEVPL-GSDLC-13-C-04",
+        "C04_BR_105",
+        "C04_BR_106"
+      ],
+      "status_required": "validated-successor-required",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
       "classification": "source-of-truth",
       "criticality": "P0",
       "doc_id": "FRX-V2-2-A-IMPLEMENTATION-REPORT",
@@ -20375,6 +22245,46 @@
         "FRX-v2.3-E"
       ],
       "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-BACKLOG",
+      "domain": "planning.backlog",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/backlogs/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_BACKLOG_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-REBASELINE",
+      "domain": "governance.program",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/backlogs/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_REBASELINE_v2_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved/active",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -25907,6 +27817,168 @@
     {
       "classification": "machine-readable-source",
       "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-DRAFT-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-POLICY-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-B current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-B",
+      "path": "docs/schemas/gsdlc_09_b_source_policy.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-B"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-APPLY-MANIFEST-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/schemas/gsdlc_09_c_apply_manifest.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-ROLLBACK-EVIDENCE-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/schemas/gsdlc_09_c_rollback_evidence.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-SOURCE-CHANGE-PLAN-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/schemas/gsdlc_09_c_source_change_plan.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-D-PROPOSAL-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-D current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-D",
+      "path": "docs/schemas/gsdlc_09_d_agent_proposal.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-D"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
       "doc_id": "SCHEMA-DEVPL-GSDLC-07-D-HANDOFF-TRANSFER-STATE-V1",
       "domain": "schema",
       "lifecycle": "active",
@@ -27585,6 +29657,192 @@
     {
       "classification": "machine-readable-source",
       "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-STORY-CONTEXT-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/schemas/story_context_pack.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-DOR-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/schemas/story_dor_report.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-STORY-EXECUTION-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "docs/schemas/story_execution_state.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-TEST-IMPACT-REPORT-SCHEMA",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Current deterministic StoryTestPlan Test Impact projection schema."
+      ],
+      "owner": "DEVPL-GSDLC-10-A",
+      "path": "docs/schemas/story_test_impact_report.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-A-STORY-TEST-PLAN-SCHEMA",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Current StoryTestPlan schema."
+      ],
+      "owner": "DEVPL-GSDLC-10-A",
+      "path": "docs/schemas/story_test_plan.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-A"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-SCHEMA",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Current immutable StoryValidationJob context schema."
+      ],
+      "owner": "DEVPL-GSDLC-10-B",
+      "path": "docs/schemas/story_validation_job_context.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-RESULT-SCHEMA",
+      "domain": "gsdlc.integrated-quality",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Current structured StoryValidationJob result schema."
+      ],
+      "owner": "DEVPL-GSDLC-10-B",
+      "path": "docs/schemas/story_validation_job_result.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-10",
+        "DEVPL-GSDLC-10-B"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
       "doc_id": "SCHEMA-DEVPL-GSDLC-03-A-TECHNOLOGY-CATALOG-V1",
       "domain": "schemas.workspace.project-entry",
       "lifecycle": "active",
@@ -28701,6 +30959,46 @@
         "frontmatter_status",
         "template_local_first",
         "template_no_secrets"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GREENFIELD-E2E-PRODUCT-ACCEPTANCE-CHARTER",
+      "domain": "validation.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/validation/DEVPL_GREENFIELD_E2E_PRODUCT_ACCEPTANCE_CHARTER_v1_1_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL",
+      "domain": "validation.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-A",
+      "path": "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_0_0_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-A"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "test_must_pass"
       ]
     },
     {
@@ -32486,6 +34784,32 @@
       ]
     },
     {
+      "classification": "derived",
+      "criticality": "P2",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-A-STORY-FIXTURE",
+      "domain": "gsdlc.story-coding",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-A current contract/evidence."
+      ],
+      "owner": "DEVPL-GSDLC-09-A",
+      "path": "tests/fixtures/gsdlc09a/story_context_fixture.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-A"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
       "classification": "machine-readable-source",
       "criticality": "P1",
       "doc_id": "POST-H-024-E-PILOT-FIXTURE",
@@ -34990,2274 +37314,81 @@
       ]
     },
     {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-STORY-EXECUTION-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/schemas/story_execution_state.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-STORY-CONTEXT-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/schemas/story_context_pack.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-DOR-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/schemas/story_dor_report.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_IMPLEMENTATION_REPORT.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "implemented/local-qualified/windows-pending",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-DOR-REPORT",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_DOR_REPORT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-HISTORICAL-CONTRACT-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-CONTRACT-RECONCILIATION-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-OWNER-ADJUDICATION-PROPOSAL",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_OWNER_ADJUDICATION_PROPOSAL.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "proposed/local-qualified/windows-pending",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P2",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-STORY-FIXTURE",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-A current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "tests/fixtures/gsdlc09a/story_context_fixture.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-TEST-IMPACT",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Dry-run Test Impact v2 plus bounded manual execution plan; no tests executed by analyzer."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_TEST_IMPACT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-FULL-REGRESSION-WAIVER",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Intermediate A-D no-full cadence; exactly-one backlog full remains reserved for 09-E."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_FULL_REGRESSION_WAIVER.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "approved-by-owner-policy",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-A-SOURCE-DELTA-MANIFEST",
-      "domain": "gsdlc.story-coding",
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Semantic LF/CRLF-neutral source delta from repo407 activation authority to 09-A local-qualified tree."
-      ],
-      "owner": "DEVPL-GSDLC-09-A",
-      "path": "docs/audits/DEVPL_GSDLC_09_A_SOURCE_DELTA_MANIFEST.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_a_story_execution_context.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
       "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-09-B",
-      "domain": "gsdlc.story-coding",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-13-C-04-C04-BR-106-IMPLEMENTATION-REPORT",
+      "domain": "governance.testing",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "GSDLC-09-B execution prompt rebound to repo408; browser mandatory, full=0."
-      ],
       "owner": "Ordóñez",
-      "path": "02_PROMPT_DEVPL_GSDLC_09_B_v1_0_1_REBOUND_REPO408.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-POLICY",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Current bounded source allowlist/deny policy."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": ".devpilot/code_workbench/source_policy.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-POLICY-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/schemas/gsdlc_09_b_source_policy.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-DRAFT-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-CODE-WORKBENCH-SECURITY-REPORT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_CODE_WORKBENCH_SECURITY_REPORT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-BROWSER-COMPONENT-QUALIFICATION",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Local Chromium component qualification; Windows live browser remains authoritative for closure."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_BROWSER_COMPONENT_QUALIFICATION.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-HISTORICAL-CONTRACT-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-CONTRACT-RECONCILIATION-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-FULL-REGRESSION-WAIVER",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_FULL_REGRESSION_WAIVER.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "approved-by-owner-policy",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B Windows closure current evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_IMPLEMENTATION_REPORT.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "closed/pass/windows-validated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-OWNER-ADJUDICATION-PROPOSAL",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-B Windows adjudication current evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_OWNER_ADJUDICATION_PROPOSAL.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "adjudicated/closed/pass/windows-validated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-TEST-IMPACT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Dry-run Test Impact v2 plus bounded execution plan; no full run."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_TEST_IMPACT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-B-SOURCE-DELTA-MANIFEST",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Semantic LF/CRLF-neutral delta from repo408 to 09-B local-qualified tree."
-      ],
-      "owner": "DEVPL-GSDLC-09-B",
-      "path": "docs/audits/DEVPL_GSDLC_09_B_SOURCE_DELTA_MANIFEST.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-09-C",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "03_PROMPT_DEVPL_GSDLC_09_C_v1_0_1_REBOUND_REPO409.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-SOURCE-CHANGE-PLAN-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/schemas/gsdlc_09_c_source_change_plan.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-APPLY-MANIFEST-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/schemas/gsdlc_09_c_apply_manifest.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-ROLLBACK-EVIDENCE-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/schemas/gsdlc_09_c_rollback_evidence.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-SOURCE-CHANGE-SECURITY-REPORT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_SOURCE_CHANGE_SECURITY_REPORT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-HISTORICAL-CONTRACT-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py",
-        "tests/test_uoc005_source_mutation_routes_at_close.py",
-        "tests/test_frx_v2_4_a_historical_contract_authority.py"
-      ],
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-CONTRACT-RECONCILIATION-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-FULL-REGRESSION-WAIVER",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_FULL_REGRESSION_WAIVER.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "approved-by-owner-policy",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-TEST-IMPACT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_TEST_IMPACT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_IMPLEMENTATION_REPORT.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "closed/pass/windows-validated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-OWNER-ADJUDICATION-PROPOSAL",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_OWNER_ADJUDICATION_PROPOSAL.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "adjudicated/closed/pass/windows-validated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-UOC005-FROZEN-ROUTE-SNAPSHOT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": [
-        "tests/test_uoc005_source_mutation_routes_at_close.py"
-      ],
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": ".devpilot/testing/fixtures/uoc005_source_mutation_routes_at_close.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-C-SOURCE-DELTA-MANIFEST",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-C current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-C",
-      "path": "docs/audits/DEVPL_GSDLC_09_C_SOURCE_DELTA_MANIFEST.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_c_source_change.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-C"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-09-D",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "04_PROMPT_DEVPL_GSDLC_09_D_v1_0_1_REBOUND_REPO410.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_IMPLEMENTATION_REPORT.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "closed/pass/windows-validated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-AGENT-SECURITY-EVAL",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_AGENT_SECURITY_EVAL.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-CODING-AGENT-TRACES",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_CODING_AGENT_TRACES.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-TEST-AGENT-TRACES",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_TEST_AGENT_TRACES.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-HISTORICAL-CONTRACT-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-CONTRACT-RECONCILIATION-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-FULL-REGRESSION-WAIVER",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/audits/DEVPL_GSDLC_09_D_FULL_REGRESSION_WAIVER.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-AGENT-BINDINGS",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": ".devpilot/agents/story_code_agent_bindings.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "current-active",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-D-PROPOSAL-SCHEMA",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-D current contract/evidence."
-      ],
-      "owner": "DEVPL-GSDLC-09-D",
-      "path": "docs/schemas/gsdlc_09_d_agent_proposal.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_d_agent_proposals.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-D"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-09-E",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
-      ],
-      "owner": "DEVPL-GSDLC-09-E",
-      "path": "05_PROMPT_DEVPL_GSDLC_09_E_v1_0_1_REBOUND_REPO411.md",
+      "path": "docs/audits/DEVPL_GSDLC_13_C_04_C04_BR_106_IMPLEMENTATION_REPORT.md",
       "related_adrs": [
-        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-C-04-planning-canonical-json-human-projections.md"
       ],
       "required_tests": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+        "tests/test_devpl_gsdlc_13_c_04_planning_authoring_bridge.py",
+        "tests/test_documentation_source_registry_schema.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-E"
+        "DEVPL-GSDLC-13-C",
+        "DEVPL-GSDLC-13-C-04",
+        "C04_BR_106"
       ],
-      "status_required": "approved",
+      "status_required": "POST_UI_PASS_PROMOTION_DEFERRED",
       "sync_rules": [
         "test_must_pass"
       ]
     },
     {
-      "classification": "derived",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09 final current-active backlog authority reconciled after Windows composite closure; repo412 is functional closure predecessor and repo413 is final reconciliation successor."
-      ],
-      "owner": "DEVPL-GSDLC-09-E",
-      "path": "DEVPL-GSDLC-09_story_and_coding_workbench_v1_4_5_APPROVED_REBOUND_REPO411.md",
-      "related_adrs": [
-        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-E"
-      ],
-      "status_required": "closed",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
+      "classification": "source-of-truth",
       "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-E-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.story-coding",
+      "doc_id": "DEVPL-GSDLC-13-C-04-C04-BR-107-IMPLEMENTATION-REPORT",
+      "domain": "governance.testing",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
-      ],
-      "owner": "DEVPL-GSDLC-09-E",
-      "path": "docs/audits/DEVPL_GSDLC_09_E_IMPLEMENTATION_REPORT.md",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_C_04_C04_BR_107_IMPLEMENTATION_REPORT.md",
       "related_adrs": [
-        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-C-04-planning-canonical-json-human-projections.md"
       ],
       "required_tests": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
+        "tests/test_devpl_gsdlc_13_c_04_planning_authoring_bridge.py",
+        "tests/test_documentation_source_registry_schema.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-E"
+        "DEVPL-GSDLC-13-C",
+        "DEVPL-GSDLC-13-C-04",
+        "C04_BR_107"
       ],
-      "status_required": "closed/pass/windows-validated/composite-recovery",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-E-HISTORICAL-SWEEP",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
-      ],
-      "owner": "DEVPL-GSDLC-09-E",
-      "path": "docs/audits/DEVPL_GSDLC_09_E_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [
-        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-E"
-      ],
-      "status_required": "PASS/CORRECTIVE-LOCAL-QUALIFIED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-E-CONTRACT-RECONCILIATION",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
-      ],
-      "owner": "DEVPL-GSDLC-09-E",
-      "path": "docs/audits/DEVPL_GSDLC_09_E_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [
-        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-E"
-      ],
-      "status_required": "PASS/CORRECTIVE-LOCAL-QUALIFIED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-09-E-FULL-PLAN",
-      "domain": "gsdlc.story-coding",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "DEVPL-GSDLC-09-E current closure contract/evidence; exactly-one full reserved for Windows."
-      ],
-      "owner": "DEVPL-GSDLC-09-E",
-      "path": "docs/audits/DEVPL_GSDLC_09_E_FULL_REGRESSION_EXECUTION_PLAN.json",
-      "related_adrs": [
-        "docs/adr/ADR-FRX-005-current-execution-profile-lock.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_09_e_story_closure.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-09",
-        "DEVPL-GSDLC-09-E"
-      ],
-      "status_required": "FULL-CONSUMED/FUNCTIONAL-FAIL-PRESERVED/COMPOSITE-RECOVERY-REQUIRED",
+      "status_required": "POST_UI_PASS_PROMOTION_DEFERRED",
       "sync_rules": [
         "test_must_pass"
       ]
     },
     {
       "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Current approved/rebound GSDLC-10 backlog authority."
-      ],
-      "owner": "Ordóñez",
-      "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-10-ACTIVATION",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Activation/rebind authority folded into 10-A."
-      ],
-      "owner": "Ordóñez",
-      "path": "00_PROMPT_DEVPL_GSDLC_10_ACTIVATION_REBIND_v1_0_0_REPO414.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-10-A",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "GSDLC-10-A implementation authority."
-      ],
-      "owner": "Ordóñez",
-      "path": "01_PROMPT_DEVPL_GSDLC_10_A_v1_0_0_REPO414.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-STORY-TEST-PLAN-SCHEMA",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Current StoryTestPlan schema."
-      ],
-      "owner": "DEVPL-GSDLC-10-A",
-      "path": "docs/schemas/story_test_plan.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-TEST-IMPACT-REPORT-SCHEMA",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Current deterministic StoryTestPlan Test Impact projection schema."
-      ],
-      "owner": "DEVPL-GSDLC-10-A",
-      "path": "docs/schemas/story_test_impact_report.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
       "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.integrated-quality",
+      "doc_id": "DEVPL-GSDLC-13-C-04-C04-BR-108-IMPLEMENTATION-REPORT",
+      "domain": "governance.testing",
       "frontmatter_required": true,
       "lifecycle": "active",
-      "machine_readable_counterparts": [
-        "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json"
-      ],
-      "notes": [
-        "10-A local qualification report; Windows closure updates status in same sprint."
-      ],
       "owner": "Ordóñez",
-      "path": "docs/audits/DEVPL_GSDLC_10_A_IMPLEMENTATION_REPORT.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "closed/pass/windows-validated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-HISTORICAL-CONTRACT-SWEEP",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Historical/current contract classification for 10-A."
-      ],
-      "owner": "DEVPL-GSDLC-10-A",
-      "path": "docs/audits/DEVPL_GSDLC_10_A_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-CONTRACT-RECONCILIATION-SWEEP",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Contract reconciliation for 10-A."
-      ],
-      "owner": "DEVPL-GSDLC-10-A",
-      "path": "docs/audits/DEVPL_GSDLC_10_A_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-TEST-IMPACT",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Final Test Impact v2 report for 10-A source delta."
-      ],
-      "owner": "DEVPL-GSDLC-10-A",
-      "path": "docs/audits/DEVPL_GSDLC_10_A_TEST_IMPACT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-A-SOURCE-DELTA-MANIFEST",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Exact source delta manifest for 10-A."
-      ],
-      "owner": "DEVPL-GSDLC-10-A",
-      "path": "docs/audits/DEVPL_GSDLC_10_A_SOURCE_DELTA_MANIFEST.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_a_story_test_plan.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-A"
-      ],
-      "status_required": "PASS/WINDOWS-VALIDATED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "GSDLC-10 backlog rebound to repo415 and active at 10-B."
-      ],
-      "owner": "Ordóñez",
-      "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "PROMPT-DEVPL-GSDLC-10-B",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "GSDLC-10-B implementation authority rebound to repo415."
-      ],
-      "owner": "Ordóñez",
-      "path": "02_PROMPT_DEVPL_GSDLC_10_B_v1_0_1_REBOUND_REPO415.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-CONTEXT-SCHEMA",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Current immutable StoryValidationJob context schema."
-      ],
-      "owner": "DEVPL-GSDLC-10-B",
-      "path": "docs/schemas/story_validation_job_context.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-RESULT-SCHEMA",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Current structured StoryValidationJob result schema."
-      ],
-      "owner": "DEVPL-GSDLC-10-B",
-      "path": "docs/schemas/story_validation_job_result.schema.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "current",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-IMPLEMENTATION-REPORT",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "10-B local qualification report; Windows closure updates status in same sprint."
-      ],
-      "owner": "Ordóñez",
-      "path": "docs/audits/DEVPL_GSDLC_10_B_IMPLEMENTATION_REPORT.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "implemented/local-qualified/windows-validation-pending",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-HISTORICAL-CONTRACT-SWEEP",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Historical/current contract classification for 10-B."
-      ],
-      "owner": "DEVPL-GSDLC-10-B",
-      "path": "docs/audits/DEVPL_GSDLC_10_B_HISTORICAL_CONTRACT_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-CONTRACT-RECONCILIATION-SWEEP",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Contract reconciliation for 10-B."
-      ],
-      "owner": "DEVPL-GSDLC-10-B",
-      "path": "docs/audits/DEVPL_GSDLC_10_B_CONTRACT_RECONCILIATION_SWEEP.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-TEST-IMPACT",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Final Test Impact v2 report for 10-B source delta."
-      ],
-      "owner": "DEVPL-GSDLC-10-B",
-      "path": "docs/audits/DEVPL_GSDLC_10_B_TEST_IMPACT.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "PASS",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "derived_documents": [],
-      "doc_id": "DEVPL-GSDLC-10-B-SOURCE-DELTA-MANIFEST",
-      "domain": "gsdlc.integrated-quality",
-      "frontmatter_required": false,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "Exact source delta manifest for 10-B."
-      ],
-      "owner": "DEVPL-GSDLC-10-B",
-      "path": "docs/audits/DEVPL_GSDLC_10_B_SOURCE_DELTA_MANIFEST.json",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_10_b_story_validation_jobs.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-10",
-        "DEVPL-GSDLC-10-B"
-      ],
-      "status_required": "CLOSED/PASS/WINDOWS-VALIDATED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-EXECUTION-PACKAGE-INDEX",
-      "domain": "governance.program",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/00_product/00_DEVPL_GSDLC_13_EXECUTION_PACKAGE_INDEX_v1_1_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-OWNER-DEVPL-CHATGPT-OPERATING-MODEL",
-      "domain": "governance.acceptance",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/00_product/DEVPL_GSDLC_13_OWNER_DEVPL_CHATGPT_OPERATING_MODEL_v1_0_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK",
-      "domain": "operations.acceptance",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_0_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL",
-      "domain": "validation.acceptance",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_0_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GREENFIELD-E2E-PRODUCT-ACCEPTANCE-CHARTER",
-      "domain": "validation.acceptance",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/validation/DEVPL_GREENFIELD_E2E_PRODUCT_ACCEPTANCE_CHARTER_v1_1_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-REBASELINE",
-      "domain": "governance.program",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/backlogs/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_REBASELINE_v2_1_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved/active",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-GREENFIELD-ROADMAP",
-      "domain": "planning.roadmap",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/00_product/DEVPL_GSDLC_13_GREENFIELD_REAL_PRODUCT_ACCEPTANCE_ROADMAP_v1_1_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-BACKLOG",
-      "domain": "planning.backlog",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/backlogs/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_BACKLOG_v1_1_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-UX-P1-PILOT-DRIVEN-PRODUCTIZATION",
-      "domain": "product.ui",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/00_product/DEVPL_UX_P1_PILOT_DRIVEN_PRODUCTIZATION_PLAN_v1_1_0_APPROVED.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "machine-readable-source",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-ROOTS",
-      "domain": "validation.instrumentation",
-      "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": ".devpilot/gsdlc/gsdlc13_acceptance_roots.json",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
-      ],
-      "status_required": "APPROVED/NOT-MATERIALIZED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [
-        "docs/02_architecture/architecture_document.md"
-      ],
-      "doc_id": "ADR-DEVPL-GSDLC-13-B-02-NEUTRAL-PROJECT-SHELL",
-      "domain": "guided_sdlc.project_entry",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [
-        "docs/schemas/project_intake_gsdlc13_v2.schema.json",
-        ".devpilot/workspaces/technology_catalog_gsdlc13_v2.json",
-        ".devpilot/workspaces/bootstrap_planning_catalog_gsdlc13_v2.json"
-      ],
-      "notes": [
-        "Successor decision for 13-B-02 corrective; Windows proof pending."
-      ],
-      "owner": "Ordóñez",
-      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md",
+      "path": "docs/audits/DEVPL_GSDLC_13_C_04_C04_BR_108_IMPLEMENTATION_REPORT.md",
       "related_adrs": [
-        "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md"
+        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-C-04-planning-canonical-json-human-projections.md"
       ],
       "required_tests": [
-        "tests/test_devpl_gsdlc_13_b_02_greenfield_intake_corrective.py"
+        "tests/test_devpl_gsdlc_13_c_04_planning_authoring_bridge.py",
+        "tests/test_documentation_source_registry_schema.py"
       ],
       "roadmap_milestones": [
-        "DEVPL-GSDLC-13-B"
+        "DEVPL-GSDLC-13-C",
+        "DEVPL-GSDLC-13-C-04",
+        "C04_BR_108"
       ],
-      "status_required": "approved",
+      "status_required": "PRE_UI_VALIDATION",
       "sync_rules": [
-        "test_must_pass",
-        "frontmatter_status"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "derived_documents": [
-        "docs/02_architecture/architecture_document.md"
-      ],
-      "doc_id": "ADR-DEVPL-GSDLC-13-B-03-PERSISTENT-ACTIVE-PROJECT-RUNTIME-CONTEXT",
-      "domain": "guided_sdlc.project_status.runtime_context",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "notes": [
-        "13-B-03 corrective: persistent active-project runtime registry, initial engineering state and standard api serve auto-binding."
-      ],
-      "owner": "Ordóñez",
-      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-02-neutral-project-shell-before-architecture.md",
-        "docs/02_architecture/adrs/ADR-GSDLC-001-guided-sdlc-engine.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_b_03_runtime_project_context_corrective.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13-B"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "test_must_pass",
-        "frontmatter_status"
-      ]
-    },
-    {
-      "classification": "derived",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-B-03-BLOCK-ADJUDICATION",
-      "domain": "acceptance.corrective",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "notes": [
-        "First-attempt B-03 BLOCK preserved; no restart performed after EMPTY/UNKNOWN."
-      ],
-      "owner": "Ordóñez",
-      "path": "docs/audits/DEVPL_GSDLC_13_B_03_BLOCK_ADJUDICATION_v1_0_0.md",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-B-03-persistent-active-project-runtime-context.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_b_03_runtime_project_context_corrective.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13-B"
-      ],
-      "status_required": "active-corrective",
-      "sync_rules": [
-        "frontmatter_status"
+        "test_must_pass"
       ]
     }
   ],
@@ -40211,24 +40342,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1495,
+    "critical_sources_total": 1500,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1591,
-    "documents_with_required_tests_total": 1591,
+    "documents_total": 1596,
+    "documents_with_required_tests_total": 1596,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 19,
-    "last_updated_by": "DEVPL-GSDLC-13-B-03-CORRECTIVE",
+    "last_updated_by": "DEVPL-GSDLC-13-C-04/C04_BR_108",
     "machine_readable_source_total": 815,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 578
+    "source_of_truth_total": 583
   },
-  "updated": "2026-09-22",
-  "updated_at": "2026-09-22",
-  "updated_by": "DEVPL-GSDLC-13-A/WINDOWS-CLOSURE",
+  "updated": "2026-09-29",
+  "updated_at": "2026-09-29",
+  "updated_by": "DEVPL-GSDLC-13-C-04/C04_BR_108",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",

@@ -321,6 +321,22 @@ export class DevPilotApiClient {
 
 
 
+  async planningAuthoringStatus(): Promise<DevPilotApplicationResponse<import('./types').PlanningAuthoringResponseData>> {
+    return this.get('/planning/authoring-context', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PlanningAuthoringResponseData>>;
+  }
+
+  async roadmapGenerate(): Promise<DevPilotApplicationResponse<Record<string, unknown>>> {
+    return this.post('/planning/roadmap/generate', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<Record<string, unknown>>>;
+  }
+
+  async backlogDerive(): Promise<DevPilotApplicationResponse<Record<string, unknown>>> {
+    return this.post('/planning/backlog/derive', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<Record<string, unknown>>>;
+  }
+
+  async sprintDerive(capacityLimit = 8): Promise<DevPilotApplicationResponse<Record<string, unknown>>> {
+    return this.post('/planning/sprint/derive', { capacity_limit: capacityLimit }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<Record<string, unknown>>>;
+  }
+
   async roadmapStatus(): Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>> {
     return this.get('/planning/roadmap', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').RoadmapWorkbenchResponseData>>;
   }

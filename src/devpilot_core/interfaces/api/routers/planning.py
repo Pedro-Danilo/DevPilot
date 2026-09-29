@@ -30,8 +30,14 @@ class SprintProposalBody(BaseModel):
     sprint_plan: dict[str, Any]
     backlog: dict[str, Any]
     dependencies: list[dict[str, Any]] = Field(default_factory=list, max_length=5000)
+
+
+class SprintDeriveBody(BaseModel):
+    capacity_limit: int = Field(default=8, ge=1, le=20)
+
+
 class RoadmapProposalBody(BaseModel):
-    mode: str = Field(pattern=r"^(MANUAL|IMPORT|AGENT)$")
+    mode: str = Field(pattern=r"^(DEVPL_LOCAL|MANUAL|IMPORT|AGENT)$")
     roadmap: dict[str, Any]
     required_requirement_ids: list[str] = Field(default_factory=list, max_length=5000)
     required_risk_ids: list[str] = Field(default_factory=list, max_length=5000)
@@ -52,6 +58,34 @@ def _identity(request: Request, service: ApplicationService):
     if not role:
         return None, _json({"operation":"planning.roadmap","ok":False,"exit_code":4,"message":"Authenticated principal has no canonical role.","data":{},"findings":[{"id":"RBAC_ROLE_REQUIRED_BLOCK","severity":"block","message":"Roadmap Workbench requires a canonical role."}]}, 403)
     return {"principal": principal, "roles": roles, "role": role, "scopes": list(principal.workspace_scopes)}, None
+
+
+@router.get("/api/v1/planning/authoring-context")
+def planning_authoring_context(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service)
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="planning.authoring.status", payload={"effective_roles": identity["roles"]}))
+
+
+@router.post("/api/v1/planning/roadmap/generate")
+def roadmap_generate(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service)
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="planning.roadmap.generate", payload={"actor_id":identity["principal"].actor_id,"actor_role":identity["role"]}))
+
+
+@router.post("/api/v1/planning/backlog/derive")
+def backlog_derive(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service)
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="planning.backlog.derive", payload={"actor_id":identity["principal"].actor_id,"actor_role":identity["role"]}))
+
+
+@router.post("/api/v1/planning/sprint/derive")
+def sprint_derive(request: Request, body: SprintDeriveBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _identity(request, service)
+    if error: return error
+    return _json(*dispatch_application_request(service, operation="planning.sprint.derive", payload={"actor_id":identity["principal"].actor_id,"actor_role":identity["role"],"capacity_limit":body.capacity_limit}))
 
 
 @router.get("/api/v1/planning/roadmap")

@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from .service import PlanningPolicyError
+from .human_projection import write_backlog_projection
 
 AUTHORING_MODES = frozenset({"MANUAL", "DERIVED", "AGENT"})
 AUTHOR_ROLES = frozenset({"owner", "product-owner", "architect", "developer"})
@@ -268,6 +269,8 @@ class BacklogWorkbench:
             raise PlanningPolicyError("BACKLOG_AUTHOR_ROLE_BLOCK", "Actor role is not authorized to author backlog proposals.")
         existing = self._load_state()
         incoming_version = str(backlog.get("version") or "")
+        if existing and str(existing.get("lifecycle")) == "APPROVED":
+            raise PlanningPolicyError("BACKLOG_APPROVED_CORRECTION_BLOCK", "Approved backlog cannot return to DRAFT; freeze it first, then create a successor semantic version if a new revision is required.")
         if existing and str(existing.get("lifecycle")) == "FROZEN" and incoming_version == str(existing.get("version") or ""):
             raise PlanningPolicyError("BACKLOG_FROZEN_REVISION_REQUIRED", "Frozen backlog is immutable; create a new semantic version.")
         if existing and str(existing.get("authoring_mode")) == "MANUAL" and mode in {"DERIVED", "AGENT"} and incoming_version == str(existing.get("version") or ""):
@@ -305,6 +308,7 @@ class BacklogWorkbench:
             "freeze": None,
         }
         self._atomic_json(self.state_path, record)
+        write_backlog_projection(self.runtime_root, record)
         for path in (self.review_path, self.matrix_path):
             if path.exists(): path.unlink()
         return record
@@ -338,6 +342,7 @@ class BacklogWorkbench:
         }
         record["lifecycle"] = "REVIEW"; record["coverage"] = report; record["review"] = review
         self._atomic_json(self.state_path, record); self._atomic_json(self.review_path, report)
+        write_backlog_projection(self.runtime_root, record)
         self._atomic_json(self.matrix_path, {"schema_id":"DEVPL-GSDLC-08-C-REQUIREMENT-TO-STORY-MATRIX-V1","status":report["status"],"backlog_id":record.get("backlog_id"),"requirement_coverage_percent":report["requirement_coverage_percent"],"rows":report["requirement_to_story_matrix"]})
         return review
 
@@ -353,7 +358,7 @@ class BacklogWorkbench:
         if record.get("lifecycle") != "REVIEW":
             raise PlanningPolicyError("BACKLOG_APPROVAL_STATE_BLOCK", "Approval requires REVIEW lifecycle.")
         approval = {"approval_id":"backlog-approval-"+_canonical_sha({"content":record.get("content_sha256"),"actor":actor_id})[:20],"actor_id":actor_id,"actor_role":role,"source_kind":"human","approved_at":_utc_now(),"content_sha256":record.get("content_sha256")}
-        record["lifecycle"]="APPROVED"; record["approval"]=approval; self._atomic_json(self.state_path,record); return approval
+        record["lifecycle"]="APPROVED"; record["approval"]=approval; self._atomic_json(self.state_path,record); write_backlog_projection(self.runtime_root, record); return approval
 
     def freeze(self, *, actor_id: str, actor_role: str) -> dict[str, Any]:
         role = str(actor_role).strip().lower(); record = self._require_state()
@@ -367,6 +372,7 @@ class BacklogWorkbench:
         if path.exists(): raise PlanningPolicyError("BACKLOG_REVISION_COLLISION_BLOCK", "Frozen backlog revision already exists.")
         frozen = {**record,"lifecycle":"FROZEN","freeze":{"revision":number,"actor_id":actor_id,"actor_role":role,"source_kind":"human","frozen_at":_utc_now(),"immutable":True}}
         self._atomic_json(path,frozen); self._atomic_json(self.state_path,frozen)
+        write_backlog_projection(self.runtime_root, frozen, revision_number=number)
         return {"status":"PASS","revision":number,"artifact_path":str(path.relative_to(self.workspace_root)).replace("\\","/"),"backlog":frozen}
 
     def _load_state(self) -> dict[str, Any] | None: return self._read_json(self.state_path)

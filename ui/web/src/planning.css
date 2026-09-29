@@ -1,3 +1,22 @@
 /* DEVPL-GSDLC-08-E — Planning Workbench responsive styles. */
 .roadmap-workbench{display:grid;gap:1rem}.roadmap-workbench__content{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(18rem,.65fr);gap:1rem;align-items:start}.roadmap-workbench__editor{display:grid;gap:.75rem}.roadmap-workbench__editor textarea,.roadmap-workbench__editor input,.roadmap-workbench__editor select{width:100%;box-sizing:border-box}.roadmap-workbench__actions{display:flex;flex-wrap:wrap;gap:.6rem}.roadmap-workbench__facts{display:grid;grid-template-columns:max-content 1fr;gap:.35rem .75rem}.roadmap-workbench__facts dt{font-weight:700}.roadmap-workbench__facts dd{margin:0}.roadmap-workbench__findings{padding-left:1.25rem}.roadmap-workbench__findings [data-severity="block"]{font-weight:700}.roadmap-workbench__review{max-height:22rem;overflow:auto;white-space:pre-wrap}.roadmap-workbench button:disabled{cursor:not-allowed;opacity:.55}
 @media(max-width:900px){.roadmap-workbench__content{grid-template-columns:1fr}.roadmap-workbench__actions{display:grid;grid-template-columns:1fr}.roadmap-workbench__facts{grid-template-columns:1fr}.roadmap-workbench__facts dt{margin-top:.5rem}}
+
+/* C04_BR_103 — Guided planning authoring/readability corrective. */
+.planning-readable-preview,.planning-structured-editor{display:grid;gap:.75rem;margin-top:.75rem}
+.roadmap-workbench [hidden]{display:none!important}
+.planning-readable-preview__lead{padding:.8rem 1rem;border:1px solid var(--dp-color-border);border-radius:var(--dp-radius-md);background:var(--dp-color-surface-soft)}
+.planning-readable-preview__lead h4,.planning-readable-card h4{margin:0 0 .35rem}
+.planning-readable-card,.planning-edit-card{display:grid;gap:.55rem;padding:.9rem 1rem;border:1px solid var(--dp-color-border);border-radius:var(--dp-radius-md);background:var(--dp-color-surface)}
+.planning-readable-card p,.planning-readable-list ul{margin:.25rem 0}
+.planning-readable-list ul{padding-left:1.25rem}
+.planning-edit-field{display:grid;gap:.3rem;font-weight:700}
+.planning-edit-field input,.planning-edit-field textarea{width:100%;box-sizing:border-box;font-weight:400}
+.planning-route-selector:disabled,.roadmap-workbench input:disabled{cursor:not-allowed;opacity:.6}
+
+/* C04_BR_105 — lifecycle-consistent Planning actions and guided Sprint authoring. */
+.planning-sprint-story-option{display:grid;grid-template-columns:auto minmax(0,1fr) 5.5rem;gap:.65rem;align-items:center;padding:.45rem 0;border-bottom:1px solid var(--dp-color-border)}
+.planning-sprint-story-option:last-child{border-bottom:0}
+.planning-sprint-story-option input[type="checkbox"]{width:auto}
+.planning-sprint-story-option input[type="number"]{width:100%}
+@media(max-width:700px){.planning-sprint-story-option{grid-template-columns:auto 1fr}.planning-sprint-story-option input[type="number"]{grid-column:2}}

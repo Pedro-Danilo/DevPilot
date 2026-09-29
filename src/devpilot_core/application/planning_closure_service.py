@@ -72,7 +72,13 @@ class PlanningClosureApplicationService:
             }
         elif roadmap_frozen and backlog_frozen and backlog_coverage >= 100.0 and sprint_frozen and sprint_executable:
             journey_state = "IMPLEMENTING_READY"
-            next_action = {"kind": "IMPLEMENT", "label": "Implementar historias READY", "navigation_target": "project-status", "available": False, "reason_code": "GSDLC_09_REQUIRED"}
+            next_action = {
+                "kind": "IMPLEMENT",
+                "label": "Abrir Story Code Workbench",
+                "navigation_target": "ui.story-code-workbench",
+                "available": True,
+                "reason_code": "IMPLEMENTING_READY_STORY_CONTEXT_NEXT",
+            }
         elif not any([roadmap, backlog, sprint]):
             journey_state = "PRE_CODE_READY"
             next_action = {"kind": "PLANNING", "label": "Construir roadmap", "navigation_target": "planning-roadmap", "available": True, "reason_code": "ROADMAP_REQUIRED"}

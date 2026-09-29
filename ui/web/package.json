@@ -57,7 +57,8 @@
     "test:ux-p0-e": "node scripts/uxp0e-prepilot-closure-smoke.mjs",
     "test:pre-code-wizard": "node scripts/gsdlc05e-pre-code-wizard-smoke.mjs",
     "test:gsdlc13c01-draft-first": "node scripts/gsdlc13c01-draft-first-semantic-review-smoke.mjs",
-    "test:gsdlc13c02-technical-design": "node scripts/gsdlc13c02-technical-design-smoke.mjs"
+    "test:gsdlc13c02-technical-design": "node scripts/gsdlc13c02-technical-design-smoke.mjs",
+    "test:gsdlc13c04-planning-authoring": "node scripts/gsdlc13c04-planning-authoring-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -488,7 +489,11 @@
     "currentUiSourceBudgetPolicy": "absolute-budget-or-successor-baseline-no-regression",
     "uxP0EClosureMode": "COMPOSITE-RECOVERY",
     "gsdlc13ARebaseline": true,
-    "gsdlc13GreenfieldProjectMaterialized": false
+    "gsdlc13GreenfieldProjectMaterialized": false,
+    "gsdlc13c04DeterministicPlanningAuthoring": true,
+    "gsdlc13c04SequentialPlanningGates": true,
+    "gsdlc13c04AgentAuthoringAvailable": false,
+    "gsdlc13c04FullRegressionRuns": 0
   },
   "uoc006Status": "closed/PASS",
   "uoc006Preliminary": false,

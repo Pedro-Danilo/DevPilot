@@ -10,8 +10,9 @@ from typing import Any, Iterable
 
 from .models import Dependency, DependencyKind, Milestone, PlanningLifecycle, PlanningState, TraceKind, TraceLink
 from .service import PlanningPolicyError, PlanningStateService
+from .human_projection import write_roadmap_projection
 
-AUTHORING_MODES = frozenset({"MANUAL", "IMPORT", "AGENT"})
+AUTHORING_MODES = frozenset({"DEVPL_LOCAL", "MANUAL", "IMPORT", "AGENT"})
 AUTHOR_ROLES = frozenset({"owner", "product-owner", "architect", "developer"})
 APPROVER_ROLES = frozenset({"owner", "product-owner"})
 
@@ -81,20 +82,26 @@ class RoadmapWorkbench:
         allowed = bool(set(roles) & AUTHOR_ROLES)
         actions = []
         labels = {
+            "DEVPL_LOCAL": ("roadmap.devpilot-local", "Generar propuesta con DevPilot", 5),
             "MANUAL": ("roadmap.manual", "Escribir roadmap", 10),
             "IMPORT": ("roadmap.import", "Importar roadmap local", 20),
             "AGENT": ("roadmap.agent", "Usar propuesta de agente", 30),
         }
-        for mode in ("MANUAL", "IMPORT", "AGENT"):
+        for mode in ("DEVPL_LOCAL", "MANUAL", "IMPORT", "AGENT"):
             action_id, label, rank = labels[mode]
-            reasons = [] if allowed else [{"code": "RBAC_AUTHOR_ROLE_REQUIRED", "message": "La autoría de roadmap requiere owner, product-owner, architect o developer.", "subject": mode}]
+            if mode == "AGENT":
+                reasons = [{"code": "PLANNING_AGENT_RUNTIME_UNAVAILABLE", "message": "Agent-assisted authoring is not executable in this release; use DevPilot local, Manual or Import.", "subject": mode}]
+                executable = False
+            else:
+                reasons = [] if allowed else [{"code": "RBAC_AUTHOR_ROLE_REQUIRED", "message": "La autoría de roadmap requiere owner, product-owner, architect o developer.", "subject": mode}]
+                executable = allowed
             actions.append({
                 "action_id": action_id,
                 "kind": mode,
                 "label": label,
                 "purpose": "Crear una propuesta DRAFT con el mismo contrato de roadmap y provenance explícita.",
-                "availability": "AVAILABLE" if allowed else "UNAVAILABLE",
-                "executable": allowed,
+                "availability": "AVAILABLE" if executable else "UNAVAILABLE",
+                "executable": executable,
                 "disabled_reasons": reasons,
                 "prerequisites": [],
                 "required_roles": sorted(AUTHOR_ROLES),
@@ -107,7 +114,7 @@ class RoadmapWorkbench:
                 "cost": {"applicable": False, "value": None, "unit": "USD", "reason": "local/mock first"},
                 "tokens": {"applicable": False, "value": None, "unit": "tokens", "reason": "structured proposal ingestion; no model execution required"},
                 "rank": rank,
-                "recommended": mode == "MANUAL" and allowed,
+                "recommended": mode == "DEVPL_LOCAL" and executable,
                 "navigation_target": f"/planning/roadmap?mode={mode}",
                 "configuration_target": None,
                 "typed_operation_id": f"planning.roadmap.propose.{mode.lower()}",
@@ -116,8 +123,8 @@ class RoadmapWorkbench:
                 "agent_descriptor": ({
                     "display_name": "Structured Planning Agent Proposal",
                     "runtime_agent_id": "structured-output-only",
-                    "enabled": True,
-                    "reason": "GSDLC-08-B accepts structured agent output as DRAFT; no model/tool authority is granted.",
+                    "enabled": False,
+                    "reason": "No executable planning agent/model runtime is bound to this surface in the current authority.",
                     "required_model_capabilities": [],
                     "tool_allowlist": [],
                     "policy_status": "DRAFT-HUMAN-REVIEW-REQUIRED",
@@ -130,7 +137,7 @@ class RoadmapWorkbench:
         payload = {"workspace_id": self.workspace_id, "current_step": "PLANNING_ROADMAP", "status": "PASS" if allowed else "BLOCK", "actions": actions}
         return {
             **payload,
-            "recommended_action_id": "roadmap.manual" if allowed else None,
+            "recommended_action_id": "roadmap.devpilot-local" if allowed else None,
             "decision_fingerprint": _canonical_sha(payload),
             "authority": {"server_rbac_authoritative": True, "advisor_grants_capability": False},
             "safety": {"source_write": False, "agent_auto_approval": False, "network_used": False, "external_api_used": False},
@@ -150,10 +157,12 @@ class RoadmapWorkbench:
         mode = str(mode).strip().upper()
         role = str(actor_role).strip().lower()
         if mode not in AUTHORING_MODES:
-            raise PlanningPolicyError("ROADMAP_AUTHORING_MODE_BLOCK", "Roadmap mode must be MANUAL, IMPORT or AGENT.")
+            raise PlanningPolicyError("ROADMAP_AUTHORING_MODE_BLOCK", "Roadmap mode must be DEVPL_LOCAL, MANUAL, IMPORT or AGENT.")
         if role not in AUTHOR_ROLES:
             raise PlanningPolicyError("ROADMAP_AUTHOR_ROLE_BLOCK", "Actor role is not authorized to author roadmap proposals.")
         existing = self._load_state()
+        if existing and str(existing.get("lifecycle")) == "APPROVED":
+            raise PlanningPolicyError("ROADMAP_APPROVED_CORRECTION_BLOCK", "Approved roadmap cannot return to DRAFT; freeze it first, then create a successor semantic version if a new revision is required.")
         if existing and str(existing.get("lifecycle")) == "FROZEN":
             incoming_version = str(roadmap.get("version") or "")
             if incoming_version == str(existing.get("version") or ""):
@@ -196,6 +205,7 @@ class RoadmapWorkbench:
             "freeze": None,
         }
         self._atomic_json(self.state_path, record)
+        write_roadmap_projection(self.runtime_root, record)
         if self.review_path.exists():
             self.review_path.unlink()
         return record
@@ -229,6 +239,7 @@ class RoadmapWorkbench:
         record["review"] = review
         self._atomic_json(self.state_path, record)
         self._atomic_json(self.review_path, review)
+        write_roadmap_projection(self.runtime_root, record)
         return review
 
     def approve(self, *, actor_id: str, actor_role: str) -> dict[str, Any]:
@@ -245,6 +256,7 @@ class RoadmapWorkbench:
         approval = {"approval_id": "roadmap-approval-" + _canonical_sha({"state": state.to_dict(), "actor": actor_id})[:20], "actor_id": actor_id, "actor_role": actor_role, "source_kind": "human", "approved_at": _utc_now(), "content_sha256": _canonical_sha(state.to_dict())}
         record["planning_state"] = state.to_dict(); record["lifecycle"] = "APPROVED"; record["approval"] = approval
         self._atomic_json(self.state_path, record)
+        write_roadmap_projection(self.runtime_root, record)
         return approval
 
     def freeze(self, *, actor_id: str, actor_role: str) -> dict[str, Any]:
@@ -267,6 +279,7 @@ class RoadmapWorkbench:
             raise PlanningPolicyError("ROADMAP_REVISION_COLLISION_BLOCK", "Frozen roadmap revision already exists.")
         self._atomic_json(revision_path, frozen)
         self._atomic_json(self.state_path, frozen)
+        write_roadmap_projection(self.runtime_root, frozen, revision_number=revision_number)
         return {"status": "PASS", "revision": revision_number, "artifact_path": str(revision_path.relative_to(self.workspace_root)).replace("\\", "/"), "roadmap": frozen}
 
     def _parse_state(self, payload: dict[str, Any]) -> PlanningState:
