@@ -37482,7 +37482,7 @@
       "frontmatter_required": true,
       "lifecycle": "active",
       "owner": "Ordóñez",
-      "path": "docs/validation/RUN_CARD_13_D_01_v1_0_1_APPROVED.md",
+      "path": "docs/validation/RUN_CARD_13_D_01_v1_0_2_APPROVED.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
       ],
