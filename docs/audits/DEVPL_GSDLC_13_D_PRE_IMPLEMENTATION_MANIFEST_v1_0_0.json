@@ -1,0 +1,38 @@
+{
+  "schema_id": "devpilot.gsdlc13.d.pre.implementation_manifest.v1",
+  "status": "IMPLEMENTED/LOCAL-VALIDATED/PRE-WINDOWS-VALIDATION",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-09-30",
+  "functional_runtime_changed": false,
+  "ui_runtime_changed": false,
+  "api_runtime_changed": false,
+  "full_regression_runs": 0,
+  "base_authority": {
+    "repo": "repo451_C04_BR_108_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "commit": "bb06260ce94298bf1e9dbb798e057d7ad07ea459",
+    "sha256": "7bc2e7c5185d28c195161e6eaaece4c4258e084f3805766f70586b381b9bcc4c"
+  },
+  "local_validation": {
+    "pytest": "PASS/41",
+    "docs_governance": "PASS/blocking=0",
+    "source_registry_schema": "PASS/errors=0",
+    "full_regression_runs": 0
+  },
+  "changed_paths": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
+    ".devpilot/gsdlc/gsdlc13_pilot_a_deterministic_lineage.json",
+    ".devpilot/project_state.json",
+    "04_PROMPT_DEVPL_GSDLC_13_D_v1_2_0_APPROVED.md",
+    "SPRINT_DEVPL_GSDLC_13_D_v1_2_0_APPROVED.md",
+    "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_1_0_APPROVED.md",
+    "docs/audits/DEVPL_GSDLC_13_D_PRE_IMPLEMENTATION_MANIFEST_v1_0_0.json",
+    "docs/audits/DEVPL_GSDLC_13_D_PRE_OWNER_ADJUDICATION_v1_0_0.md",
+    "docs/audits/DEVPL_IMPLEMENTATION_RELEASE_CAPABILITY_AUDIT_PRE_13D_v1_0_0.md",
+    "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_1_0_APPROVED.md",
+    "docs/validation/RUN_CARD_13_D_01_v1_0_1_APPROVED.md",
+    "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+  ],
+  "note": "The implementation manifest does not embed its own SHA-256 to avoid recursive self-hash."
+}

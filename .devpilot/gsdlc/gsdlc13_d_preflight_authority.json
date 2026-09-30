@@ -1,0 +1,66 @@
+{
+  "schema_id": "devpilot.gsdlc13.d_preflight_authority.v1",
+  "status": "APPROVED/PRE-13D-READY",
+  "owner": "Ordóñez",
+  "updated": "2026-09-30",
+  "finding_resolved": "GOV-13D-PREFLIGHT-001",
+  "resolution_mode": "authority-override/non-functional",
+  "scope": "DEVPL-GSDLC-13-D only",
+  "execution_authority": {
+    "functional_baseline_branch": "official/devpilot-local",
+    "functional_baseline_repo": "repo451_C04_BR_108_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "functional_baseline_commit": "bb06260ce94298bf1e9dbb798e057d7ad07ea459",
+    "functional_baseline_sha256": "7bc2e7c5185d28c195161e6eaaece4c4258e084f3805766f70586b381b9bcc4c",
+    "pilot_a_functional_baseline_immutable": true,
+    "pre13d_governance_overlay_allowed": true,
+    "allowed_overlay_paths": [
+      ".devpilot/project_state.json",
+      ".devpilot/docs_governance/source_registry.json",
+      ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
+      ".devpilot/gsdlc/gsdlc13_pilot_a_deterministic_lineage.json",
+      "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_1_0_APPROVED.md",
+      "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_1_0_APPROVED.md",
+      "docs/validation/RUN_CARD_13_D_01_v1_0_1_APPROVED.md",
+      "docs/audits/DEVPL_IMPLEMENTATION_RELEASE_CAPABILITY_AUDIT_PRE_13D_v1_0_0.md",
+      "docs/audits/DEVPL_GSDLC_13_D_PRE_OWNER_ADJUDICATION_v1_0_0.md",
+      "docs/audits/DEVPL_GSDLC_13_D_PRE_IMPLEMENTATION_MANIFEST_v1_0_0.json",
+      "SPRINT_DEVPL_GSDLC_13_D_v1_2_0_APPROVED.md",
+      "04_PROMPT_DEVPL_GSDLC_13_D_v1_2_0_APPROVED.md",
+      "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+    ],
+    "head_validation_policy": {
+      "baseline_head_allowed": true,
+      "descendant_head_allowed": true,
+      "baseline_must_be_ancestor": true,
+      "delta_must_be_subset_of_allowed_overlay_paths": true,
+      "runtime_api_ui_source_delta_allowed": false
+    }
+  },
+  "authority_precedence": [
+    ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
+    "C04_BR_108/final_result.json + promoted repo SHA",
+    "Git HEAD in the real Windows worktree must equal execution_authority.commit before D01"
+  ],
+  "legacy_pointer_policy": {
+    "project_state.current_repo": "legacy aggregation pointer; non-authoritative for 13-D start-state",
+    "project_state.current_micro_sprint": "legacy aggregation pointer; non-authoritative for 13-D start-state",
+    "source_registry.current_repo": "legacy aggregation pointer; non-authoritative for 13-D start-state",
+    "source_registry.current_micro_sprint": "legacy aggregation pointer; non-authoritative for 13-D start-state",
+    "historical_snapshots_mutated": false
+  },
+  "required_start_state": {
+    "phase": "DEVPL-GSDLC-13",
+    "checkpoint": "13-D-01",
+    "planning_state": "FROZEN/IMPLEMENTING_READY",
+    "active_project_context_required": true,
+    "story_execution_preseed_allowed": false
+  },
+  "safety": {
+    "functional_runtime_changed": false,
+    "ui_runtime_changed": false,
+    "api_runtime_changed": false,
+    "operator_project_writes_allowed": false,
+    "full_regression_runs_allowed": 0,
+    "external_api_required": false
+  }
+}

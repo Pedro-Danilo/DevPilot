@@ -1,0 +1,45 @@
+{
+  "schema_id": "devpilot.gsdlc13.pilot_a_deterministic_lineage.v1",
+  "status": "FROZEN/DETERMINISTIC/PRE-MULTIPROVIDER",
+  "owner": "Ordóñez",
+  "updated": "2026-09-30",
+  "lineage_id": "DEVPL-GSDLC-13-PILOT-A-DETERMINISTIC",
+  "pilot": "A",
+  "workspace_root": "D:\\Projects\\DevPilot_Workspaces\\inventory-sales-local-greenfield",
+  "devpilot_engine_baseline": {
+    "functional_repo": "repo451_C04_BR_108_WINDOWS_VALIDATED_CANDIDATE.zip",
+    "functional_commit": "bb06260ce94298bf1e9dbb798e057d7ad07ea459",
+    "functional_sha256": "7bc2e7c5185d28c195161e6eaaece4c4258e084f3805766f70586b381b9bcc4c",
+    "governance_overlay_allowed": true,
+    "runtime_api_ui_delta_allowed": false
+  },
+  "freeze_scope": [
+    "DevPilot engine authority used to generate Pilot A acceptance evidence for 13-D/13-E",
+    "model/provider posture for Pilot A",
+    "pre-multiprovider control baseline"
+  ],
+  "model_posture": {
+    "multiprovider_e1_e2_e3_adopted": false,
+    "manual_first_class": true,
+    "mock_allowed": true,
+    "fake_local_allowed": true,
+    "real_local_model_required": false,
+    "external_api_required": false,
+    "external_network_required": false
+  },
+  "branching_policy": {
+    "pilot_a_must_not_receive_e1_e2_e3_features": true,
+    "pilot_a_product_defects_may_be_forward_ported_to_multiprovider_line": true,
+    "multiprovider_features_must_not_be_backported_to_pilot_a": true,
+    "manual_file_copy_between_workstreams_allowed": false
+  },
+  "project_content_policy": {
+    "operator_project_writes_allowed": false,
+    "chatgpt_project_content_for_copy_paste_allowed": false,
+    "devpilot_must_generate_project_content": true
+  },
+  "release_policy": {
+    "full_regression_runs_in_13d": 0,
+    "13e_independent_adjudication_preserved": true
+  }
+}

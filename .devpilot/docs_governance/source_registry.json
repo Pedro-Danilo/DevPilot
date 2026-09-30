@@ -7968,14 +7968,14 @@
       "doc_id": "DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK",
       "domain": "operations.acceptance",
       "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_0_0_APPROVED.md",
+      "owner": "DEVPL-GSDLC-13-D/PRE",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_1_0_APPROVED.md",
       "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
+        "DEVPL-GSDLC-13-D"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -30987,14 +30987,14 @@
       "doc_id": "DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL",
       "domain": "validation.acceptance",
       "lifecycle": "active",
-      "owner": "DEVPL-GSDLC-13-A",
-      "path": "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_0_0_APPROVED.md",
+      "owner": "DEVPL-GSDLC-13-D/PRE",
+      "path": "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_1_0_APPROVED.md",
       "required_tests": [
-        "tests/test_devpl_gsdlc_13_a_transition_rebind.py"
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-A"
+        "DEVPL-GSDLC-13-D"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -37390,6 +37390,112 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-PREFLIGHT-AUTHORITY",
+      "domain": "governance.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-D/PRE",
+      "path": ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D"
+      ],
+      "status_required": "APPROVED/PRE-13D-READY",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-PILOT-A-DETERMINISTIC-LINEAGE",
+      "domain": "governance.acceptance",
+      "lifecycle": "active",
+      "owner": "DEVPL-GSDLC-13-D/PRE",
+      "path": ".devpilot/gsdlc/gsdlc13_pilot_a_deterministic_lineage.json",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D"
+      ],
+      "status_required": "FROZEN/DETERMINISTIC/PRE-MULTIPROVIDER",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-PRE-OWNER-ADJUDICATION",
+      "domain": "governance.acceptance",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_D_PRE_OWNER_ADJUDICATION_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-13-D-PREIMPLEMENTATION-AUDIT",
+      "domain": "governance.audit",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_IMPLEMENTATION_RELEASE_CAPABILITY_AUDIT_PRE_13D_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D"
+      ],
+      "status_required": "AUDITED / PRE-13D-IMPLEMENTATION-INPUT",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-01-RUN-CARD",
+      "domain": "validation.acceptance",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/validation/RUN_CARD_13_D_01_v1_0_1_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_preflight_governance.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-01"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -40342,24 +40448,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1500,
+    "critical_sources_total": 1505,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1596,
-    "documents_with_required_tests_total": 1596,
+    "documents_total": 1601,
+    "documents_with_required_tests_total": 1601,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 19,
-    "last_updated_by": "DEVPL-GSDLC-13-C-04/C04_BR_108",
-    "machine_readable_source_total": 815,
+    "last_updated_by": "DEVPL-GSDLC-13-D/PRE-AUTHORITY-LINEAGE-REBIND",
+    "machine_readable_source_total": 817,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 583
+    "source_of_truth_total": 586
   },
   "updated": "2026-09-29",
   "updated_at": "2026-09-29",
-  "updated_by": "DEVPL-GSDLC-13-C-04/C04_BR_108",
+  "updated_by": "DEVPL-GSDLC-13-D/PRE-AUTHORITY-LINEAGE-REBIND",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
@@ -40414,5 +40520,13 @@
   "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
   "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_13_d_preflight_status": "PASS/AUTHORITY-OVERRIDE-ACTIVE/DETERMINISTIC-LINEAGE-FROZEN",
+  "gsdlc_13_d_preflight_authority_path": ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
+  "gsdlc_13_d_pilot_a_lineage_path": ".devpilot/gsdlc/gsdlc13_pilot_a_deterministic_lineage.json",
+  "gsdlc_13_d_execution_source_repo": "repo451_C04_BR_108_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_13_d_execution_source_commit": "bb06260ce94298bf1e9dbb798e057d7ad07ea459",
+  "gsdlc_13_d_execution_source_sha256": "7bc2e7c5185d28c195161e6eaaece4c4258e084f3805766f70586b381b9bcc4c",
+  "gsdlc_13_d_next_checkpoint": "13-D-01",
+  "gsdlc_13_d_legacy_current_pointer_policy": "NON-AUTHORITATIVE-FOR-13D/USE-PREFLIGHT-AUTHORITY-RECORD"
 }
