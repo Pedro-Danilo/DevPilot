@@ -370,6 +370,9 @@ export class DevPilotApiClient {
   async sprintFreeze(): Promise<DevPilotApplicationResponse<import('./types').SprintPlannerResponseData>> { return this.post('/planning/sprint/freeze', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').SprintPlannerResponseData>>; }
   async planningClosure(): Promise<DevPilotApplicationResponse<import('./types').PlanningClosureResponseData>> { return this.get('/planning/closure', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PlanningClosureResponseData>>; }
 
+  async storyActivationStatus(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/activation', { retryNetworkErrors: true }); }
+  async storyActivationPrepare(storyId:string): Promise<DevPilotApplicationResponse> { return this.post('/story/code/activation/prepare', {story_id:storyId}); }
+  async storyActivationStart(expectedStateSha256:string): Promise<DevPilotApplicationResponse> { return this.post('/story/code/activation/start', {expected_state_sha256:expectedStateSha256}); }
   async storyCodeStatus(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/status', { retryNetworkErrors: true }); }
   async storyCodeSources(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/sources', { retryNetworkErrors: true }); }
   async storyCodeSource(sourceId: string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/sources/${encodeURIComponent(sourceId)}`); }

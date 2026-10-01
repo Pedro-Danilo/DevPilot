@@ -67,6 +67,7 @@ from .backlog_workbench_service import BacklogWorkbenchApplicationService
 from .sprint_planner_service import SprintPlannerApplicationService
 from .planning_closure_service import PlanningClosureApplicationService
 from .planning_authoring_service import PlanningAuthoringApplicationService
+from .story_activation_service import StoryActivationApplicationService
 from .ui_workspace_context import UiWorkspaceContextResolver
 from devpilot_core.code_workbench import CodeWorkbenchApplicationService, SourceChangeApplicationService
 from devpilot_core.story_execution import StoryExecutionStatus, StoryExecutionStore, StoryExecutionTransitionError
@@ -126,6 +127,7 @@ class ApplicationService:
         # Keep them lazy so unrelated historical/minimal workspaces can still
         # construct the general ApplicationService facade.  The policy remains
         # fail-closed at the first Story Code operation that actually uses it.
+        self._story_activation: StoryActivationApplicationService | None = None
         self._code_workbench: CodeWorkbenchApplicationService | None = None
         self._source_changes: SourceChangeApplicationService | None = None
         self._story_test_plans: StoryTestPlanApplicationService | None = None
@@ -185,6 +187,17 @@ class ApplicationService:
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
         self.rbac = RBACApplicationService(self.root)
 
+
+
+    @property
+    def story_activation(self) -> StoryActivationApplicationService:
+        """Lazily construct the bounded Planning -> StoryExecution activation bridge."""
+        if self._story_activation is None:
+            self._story_activation = StoryActivationApplicationService(
+                self.root,
+                context_resolver=self.ui_workspace_context,
+            )
+        return self._story_activation
 
     @property
     def code_workbench(self) -> CodeWorkbenchApplicationService:
@@ -1520,6 +1533,16 @@ class ApplicationService:
             data={"summary": {"action_id": normalized, "supported": False, "dry_run": True, "preliminary": True}, "supported_actions": sorted(safe_actions)},
             findings=[Finding("UI_ACTION_NOT_EXPOSED_BLOCK", "The requested action is not exposed by the UI dry-run launcher.", Severity.BLOCK, metadata={"action_id": normalized})],
         )
+
+
+    def story_activation_status(self) -> CommandResult:
+        return self.story_activation.status()
+
+    def story_activation_prepare(self, *, story_id: str, actor_id: str, actor_role: str, observed_at_utc: str) -> CommandResult:
+        return self.story_activation.prepare(story_id=story_id, actor_id=actor_id, actor_role=actor_role, observed_at_utc=observed_at_utc)
+
+    def story_activation_start(self, *, expected_state_sha256: str, actor_id: str, actor_role: str, observed_at_utc: str) -> CommandResult:
+        return self.story_activation.start(expected_state_sha256=expected_state_sha256, actor_id=actor_id, actor_role=actor_role, observed_at_utc=observed_at_utc)
 
     def story_code_status(self) -> CommandResult:
         return self.code_workbench.status()

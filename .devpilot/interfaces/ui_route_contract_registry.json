@@ -1069,6 +1069,9 @@
         "api.story-agent-assist.proposal.create",
         "api.story-agent-assist.proposal.decision",
         "api.story-agent-assist.proposal.get",
+        "api.story-code.activation.prepare",
+        "api.story-code.activation.start",
+        "api.story-code.activation.status",
         "api.story-code.drafts.discard",
         "api.story-code.drafts.get",
         "api.story-code.drafts.recheck",
@@ -1123,7 +1126,8 @@
         "09-D adds CodingAgent/TestAgent proposal-only with human ACCEPT/REJECT; ACCEPT inserts into editor only and does not write draft/source.",
         "10-A adds Story → Validar → Test Impact v2 → StoryTestPlan review/approval; Full signal is informative only and no free-form test command exists.",
         "GSDLC-10-B extends Story Workbench with typed validation-job planning/start/status; no arbitrary shell.",
-        "GSDLC-10-D reuses WorkspaceGitOperationsPanel inside Story Code Workbench for CommitPlan→stage approval→exact stage→commit approval→commit; no second Git engine and no push."
+        "GSDLC-10-D reuses WorkspaceGitOperationsPanel inside Story Code Workbench for CommitPlan→stage approval→exact stage→commit approval→commit; no second Git engine and no push.",
+        "13-D-01 adds UI-native READY Story activation, DoR/StoryContextPack review and PLANNED→IN_PROGRESS transition without terminal/API seeding."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1173,9 +1177,15 @@
         "unknown_impact_visible": true,
         "unsafe_agent_proposal_blocked": true,
         "waiver_expired_block": true,
-        "wrong_role_block": true
+        "wrong_role_block": true,
+        "story_activation_ready": true,
+        "story_planned": true,
+        "story_in_progress": true,
+        "story_dor_visible": true,
+        "story_context_visible": true,
+        "no_ready_story_block": true
       },
-      "status": "implemented-initial/gsdlc-10-d",
+      "status": "implemented-initial/gsdlc-13-d-01",
       "status_visibility": [
         "PASS",
         "WARN",
@@ -1185,9 +1195,10 @@
       ],
       "tags": [
         "gsdlc-10-b",
-        "gsdlc-10-d"
+        "gsdlc-10-d",
+        "gsdlc-13-d-01"
       ],
-      "title": "Story Code Workbench — manual + agents + governed source change + tests + governed Git commit"
+      "title": "Story Code Workbench — story activation/context + manual/agents + governed source/tests/Git"
     },
     {
       "allowed_api_routes": [
@@ -1730,7 +1741,7 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "allowed_api_routes_unique_total": 201,
+    "allowed_api_routes_unique_total": 209,
     "critical_routes_total": 22,
     "current_routes_total": 22,
     "dashboard_max_concurrency": 2,
@@ -1836,7 +1847,7 @@
     "uoc_011_matrix_cases_total": 108,
     "uoc_011_routes_total": 9,
     "uoc_011_states_per_route": 12,
-    "updated_by": "DEVPL-GSDLC-13-C-04-BRIDGE",
+    "updated_by": "DEVPL-GSDLC-13-D-01-STORY-ACTIVATION-CORRECTIVE",
     "validation_jobs_preliminary_synchronous": true,
     "workspace_context_surface_routes_total": 6,
     "workspace_document_api_routes_total": 7,
@@ -1844,7 +1855,9 @@
     "gsdlc_12_c_guided_expert_modes": true,
     "gsdlc_12_c_help_system": true,
     "gsdlc_12_c_a11y_first_version": true,
-    "gsdlc_13_c_04_planning_authoring_bridge": true
+    "gsdlc_13_c_04_planning_authoring_bridge": true,
+    "gsdlc_13_d_01_story_activation_bridge": true,
+    "gsdlc_13_d_01_story_activation_api_routes_total": 3
   },
-  "updated": "2026-09-13"
+  "updated": "2026-09-30"
 }

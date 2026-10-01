@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import Any
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
@@ -34,6 +35,14 @@ def _result(result, operation: str) -> JSONResponse:
     if not result.ok and result.exit_code.value == 2 and any("CONFLICT" in f.id for f in result.findings):
         status = 409
     return _json(payload, status)
+
+
+class StoryActivationPrepareBody(BaseModel):
+    story_id: str = Field(min_length=1, max_length=200)
+
+
+class StoryActivationStartBody(BaseModel):
+    expected_state_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
 class SourceDraftSaveBody(BaseModel):
@@ -167,6 +176,45 @@ class StoryAgentProposalBody(BaseModel):
 class StoryAgentProposalDecisionBody(BaseModel):
     proposal_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     decision: str = Field(pattern=r"^(ACCEPT|REJECT)$")
+
+
+@router.get("/api/v1/story/code/activation")
+def story_activation_status(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_activation_status(), "story.code.activation.status")
+
+
+@router.post("/api/v1/story/code/activation/prepare")
+def story_activation_prepare(request: Request, body: StoryActivationPrepareBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(
+        service.story_activation_prepare(
+            story_id=body.story_id,
+            actor_id=actor,
+            actor_role=role,
+            observed_at_utc=datetime.now(timezone.utc).isoformat(),
+        ),
+        "story.code.activation.prepare",
+    )
+
+
+@router.post("/api/v1/story/code/activation/start")
+def story_activation_start(request: Request, body: StoryActivationStartBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(
+        service.story_activation_start(
+            expected_state_sha256=body.expected_state_sha256,
+            actor_id=actor,
+            actor_role=role,
+            observed_at_utc=datetime.now(timezone.utc).isoformat(),
+        ),
+        "story.code.activation.start",
+    )
 
 
 @router.get("/api/v1/story/code/status")

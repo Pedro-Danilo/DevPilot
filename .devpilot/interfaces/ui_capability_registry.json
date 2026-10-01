@@ -11710,7 +11710,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 240,
+    "api_routes_total": 243,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
@@ -11778,7 +11778,7 @@
     "gsdlc_12_b_conflict_resolution_view": true,
     "gsdlc_12_b_project_status_conflict_projection": true,
     "gsdlc_12_b_reconciliation_api_routes_total": 3,
-    "last_updated_by": "DEVPL-GSDLC-13-C-04-BRIDGE",
+    "last_updated_by": "DEVPL-GSDLC-13-D-01-STORY-ACTIVATION-CORRECTIVE",
     "mutating_without_policy_total": 0,
     "parity_status_counts": {
       "CLI-BRIDGE-REGISTERED": 178,
@@ -11857,13 +11857,15 @@
     "uoc_011_authorized": true,
     "uoc_011_capabilities_total_at_close": 193,
     "uoc_011_ui_routes_at_close": 9,
-    "updated_by": "DEVPL-GSDLC-13-C-04-BRIDGE",
+    "updated_by": "DEVPL-GSDLC-13-D-01-STORY-ACTIVATION-CORRECTIVE",
     "gsdlc_12_c_guided_expert_modes": true,
     "gsdlc_12_c_mode_policy_parity": true,
     "gsdlc_12_c_help_system": true,
     "gsdlc_12_c_keyboard_a11y": true,
     "gsdlc_13_c_04_planning_authoring_routes_total": 4,
-    "gsdlc_13_c_04_planning_authoring_available": true
+    "gsdlc_13_c_04_planning_authoring_available": true,
+    "gsdlc_13_d_01_story_activation_bridge": true,
+    "gsdlc_13_d_01_story_activation_api_routes_total": 3
   },
   "ui_routes": [
     {
@@ -12433,6 +12435,9 @@
         "api.story-agent-assist.proposal.create",
         "api.story-agent-assist.proposal.decision",
         "api.story-agent-assist.proposal.get",
+        "api.story-code.activation.prepare",
+        "api.story-code.activation.start",
+        "api.story-code.activation.status",
         "api.story-code.drafts.discard",
         "api.story-code.drafts.get",
         "api.story-code.drafts.recheck",
@@ -12606,6 +12611,19 @@
             "build",
             "lint"
           ]
+        },
+        {
+          "application_service": "story_activation",
+          "capability_id": "ui.story-code-workbench.story-activation-context",
+          "parity_status": "UI-NATIVE",
+          "planned_sprint": "DEVPL-GSDLC-13-D-01",
+          "read_write": "runtime-dor-context-story-execution",
+          "risk_class": "governed-runtime-state",
+          "runtime_persistence": "outputs/story_execution/gsdlc_09_a",
+          "source_write_enabled": false,
+          "planning_write_enabled": false,
+          "human_activation_required": true,
+          "model_route_grants_authority": false
         }
       ],
       "page_component": "StoryCodeWorkbenchView",
@@ -12639,9 +12657,14 @@
         "unexpected_dirty_block": true,
         "unknown_impact_visible": true,
         "validation_jobs_visible": true,
-        "wrong_role_block": true
+        "wrong_role_block": true,
+        "story_activation_ready": true,
+        "story_planned": true,
+        "story_in_progress": true,
+        "story_dor_visible": true,
+        "story_context_visible": true
       },
-      "title": "Story Code Workbench — Code, Validation, Quality and Governed Commit"
+      "title": "Story Code Workbench — Story activation/context, Code, Validation, Quality and Governed Commit"
     },
     {
       "allowed_api_route_ids": [
@@ -12987,6 +13010,6 @@
       "title": "Ayuda y glosario"
     }
   ],
-  "updated": "2026-09-28",
+  "updated": "2026-09-30",
   "version": "1.2.1"
 }

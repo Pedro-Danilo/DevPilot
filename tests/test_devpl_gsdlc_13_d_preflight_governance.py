@@ -45,7 +45,7 @@ def test_audit_aligned_successors_are_approved_and_active() -> None:
         "04_PROMPT_DEVPL_GSDLC_13_D_v1_2_0_APPROVED.md",
         "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_1_0_APPROVED.md",
         "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_1_0_APPROVED.md",
-        "docs/validation/RUN_CARD_13_D_01_v1_0_2_APPROVED.md",
+        "docs/validation/RUN_CARD_13_D_01_v1_0_3_APPROVED.md",
     ]
     for rel in required:
         text = (ROOT / rel).read_text(encoding="utf-8")
@@ -55,7 +55,7 @@ def test_audit_aligned_successors_are_approved_and_active() -> None:
     by_id = {item["doc_id"]: item for item in sr["documents"]}
     assert by_id["DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK"]["path"].endswith("v1_1_0_APPROVED.md")
     assert by_id["DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL"]["path"].endswith("v1_1_0_APPROVED.md")
-    assert by_id["DEVPL-GSDLC-13-D-01-RUN-CARD"]["path"].endswith("RUN_CARD_13_D_01_v1_0_2_APPROVED.md")
+    assert by_id["DEVPL-GSDLC-13-D-01-RUN-CARD"]["path"].endswith("RUN_CARD_13_D_01_v1_0_3_APPROVED.md")
 
 
 def test_pre13d_changes_are_governance_only_and_d01_policy_is_zero_full() -> None:
@@ -71,12 +71,12 @@ def test_pre13d_changes_are_governance_only_and_d01_policy_is_zero_full() -> Non
     assert auth["safety"]["full_regression_runs_allowed"] == 0
 
 
-def test_d01_run_card_v102_windows_environment_and_evidence_contract() -> None:
+def test_d01_run_card_v103_windows_environment_and_evidence_contract() -> None:
     text = (
-        ROOT / "docs/validation/RUN_CARD_13_D_01_v1_0_2_APPROVED.md"
+        ROOT / "docs/validation/RUN_CARD_13_D_01_v1_0_3_APPROVED.md"
     ).read_text(encoding="utf-8")
 
-    assert 'version: "1.0.2"' in text
+    assert 'version: "1.0.3"' in text
     assert '.venv\\Scripts\\python.exe' in text
     assert 'import fastapi,uvicorn' in text
     assert '& $Py -m devpilot_core api serve' in text
@@ -86,20 +86,20 @@ def test_d01_run_card_v102_windows_environment_and_evidence_contract() -> None:
     assert 'no Full Regression' in text
 
     for required in [
-        "audit_13_D_01.txt",
-        "api_13_D_01.txt",
-        "ui_13_D_01.txt",
-        "START_STATE_13_D_01.json",
-        "MANUAL_OBSERVATIONS_13_D_01.md",
+        "audit_13_D_01_RUN_02.txt",
+        "api_13_D_01_RUN_02.txt",
+        "ui_13_D_01_RUN_02.txt",
+        "START_STATE_13_D_01_RUN_02.json",
+        "MANUAL_OBSERVATIONS_13_D_01_RUN_02.md",
         "01_project_status_initial.png",
         "02_planning_frozen_implementing_ready.png",
-        "03_story_code_first_attempt.png",
-        "04_story_ready_activation_action.png",
-        "05_story_execution_planned_or_in_progress.png",
-        "06_story_context_reviewability.png",
-        "07_implementation_route_provenance.png",
-        "08_stop_before_change_plan.png",
+        "03_story_code_activation_panel_ready.png",
+        "04_ready_story_before_prepare.png",
+        "05_dor_context_pack_planned.png",
+        "07_context_reviewability.png",
+        "08_implementation_route_provenance.png",
+        "09_stop_before_d02.png",
         "99_block_state.png",
-        "RUN_PACKET_13_D_01_RUN_01.zip",
+        "RUN_PACKET_13_D_01_RUN_02.zip",
     ]:
         assert required in text

@@ -17,6 +17,7 @@ class StoryExecutionStore:
         self.state_path = self.root / "current_state.json"
         self.context_path = self.root / "story_context_pack.json"
         self.dor_path = self.root / "dor_report.json"
+        self.history_root = self.root / "history"
 
     def save_dor(self, payload: dict[str, Any]) -> None:
         self._atomic(self.dor_path, payload)
@@ -39,6 +40,47 @@ class StoryExecutionStore:
 
     def load_dor(self) -> dict[str, Any] | None:
         return self._read(self.dor_path)
+
+
+    def archive_current_completed(self) -> dict[str, Any] | None:
+        """Archive a DONE execution before a successor overwrites current runtime state.
+
+        Runtime-only, idempotent, and deliberately separate from the FROZEN SprintPlan.
+        """
+        state = self.load_state()
+        if state is None or str(state.status.value) != "DONE":
+            return None
+        target = self.history_root / state.execution_id
+        state_target = target / "story_execution_state.json"
+        if state_target.exists():
+            return self._read(state_target)
+        target.mkdir(parents=True, exist_ok=True)
+        self._atomic(state_target, state.to_dict())
+        context = self.load_context()
+        dor = self.load_dor()
+        if context is not None:
+            self._atomic(target / "story_context_pack.json", context)
+        if dor is not None:
+            self._atomic(target / "dor_report.json", dor)
+        return self._read(state_target)
+
+    def completed_story_ids(self) -> set[str]:
+        completed: set[str] = set()
+        current = self.load_state()
+        if current is not None and str(current.status.value) == "DONE" and current.story_id:
+            completed.add(current.story_id)
+        if self.history_root.is_dir():
+            for path in sorted(self.history_root.glob("*/story_execution_state.json")):
+                try:
+                    payload = self._read(path) or {}
+                    if str(payload.get("status") or "") == "DONE" and str(payload.get("story_id") or "").strip():
+                        completed.add(str(payload["story_id"]))
+                except Exception:
+                    # Corrupt history must not silently authorize a successor.  The
+                    # current StoryActivation service will still fail closed if the
+                    # requested story collides with the current execution.
+                    continue
+        return completed
 
     def current_story_projection(self) -> dict[str, Any] | None:
         state = self.load_state()
