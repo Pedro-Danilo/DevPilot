@@ -45,7 +45,7 @@ def test_audit_aligned_successors_are_approved_and_active() -> None:
         "04_PROMPT_DEVPL_GSDLC_13_D_v1_2_0_APPROVED.md",
         "docs/05_operations/DEVPL_GSDLC_13_GREENFIELD_USER_JOURNEY_RUNBOOK_v1_1_0_APPROVED.md",
         "docs/validation/DEVPL_GSDLC_13_ACCEPTANCE_CHECKPOINT_PROTOCOL_v1_1_0_APPROVED.md",
-        "docs/validation/RUN_CARD_13_D_01_v1_0_3_APPROVED.md",
+        "docs/validation/RUN_CARD_13_D_01_v1_0_4_APPROVED.md",
     ]
     for rel in required:
         text = (ROOT / rel).read_text(encoding="utf-8")
@@ -55,7 +55,7 @@ def test_audit_aligned_successors_are_approved_and_active() -> None:
     by_id = {item["doc_id"]: item for item in sr["documents"]}
     assert by_id["DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK"]["path"].endswith("v1_1_0_APPROVED.md")
     assert by_id["DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL"]["path"].endswith("v1_1_0_APPROVED.md")
-    assert by_id["DEVPL-GSDLC-13-D-01-RUN-CARD"]["path"].endswith("RUN_CARD_13_D_01_v1_0_3_APPROVED.md")
+    assert by_id["DEVPL-GSDLC-13-D-01-RUN-CARD"]["path"].endswith("RUN_CARD_13_D_01_v1_0_4_APPROVED.md")
 
 
 def test_pre13d_changes_are_governance_only_and_d01_policy_is_zero_full() -> None:

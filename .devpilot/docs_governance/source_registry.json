@@ -37482,7 +37482,7 @@
       "frontmatter_required": true,
       "lifecycle": "active",
       "owner": "Ordóñez",
-      "path": "docs/validation/RUN_CARD_13_D_01_v1_0_3_APPROVED.md",
+      "path": "docs/validation/RUN_CARD_13_D_01_v1_0_4_APPROVED.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_13_d_preflight_governance.py",
         "tests/test_devpl_gsdlc_13_d_01_story_activation_bridge.py"
@@ -37529,7 +37529,7 @@
       "frontmatter_required": true,
       "lifecycle": "active",
       "owner": "Ordóñez",
-      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_0.md",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_1.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_13_d_01_story_activation_bridge.py"
       ],
@@ -37543,6 +37543,29 @@
         "13-D-05"
       ],
       "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-13-D-01-RUN-02-CONTEXT-REVIEWABILITY-ADJUDICATION",
+      "domain": "validation.acceptance",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_D_01_RUN_02_CONTEXT_REVIEWABILITY_ADJUDICATION_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_01_story_activation_bridge.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-01"
+      ],
+      "status_required": "BLOCK / FUNCTIONAL-UX / ACTIVE-CORRECTIVE-REQUIRED",
       "sync_rules": [
         "frontmatter_status",
         "test_must_pass"
@@ -40499,11 +40522,11 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1507,
+    "critical_sources_total": 1508,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1603,
-    "documents_with_required_tests_total": 1603,
+    "documents_total": 1604,
+    "documents_with_required_tests_total": 1604,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 19,
@@ -40512,7 +40535,7 @@
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 588
+    "source_of_truth_total": 589
   },
   "updated": "2026-09-30",
   "updated_at": "2026-09-29",

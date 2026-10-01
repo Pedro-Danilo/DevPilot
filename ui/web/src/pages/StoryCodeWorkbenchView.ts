@@ -26,10 +26,20 @@ export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, sess
   const startStory=button('Iniciar story preparada'); startStory.dataset.startStoryExecution='true'; startStory.disabled=true;
   const refreshActivation=button('Actualizar activación'); refreshActivation.dataset.refreshStoryActivation='true';
   activationActions.append(startStory,refreshActivation);
+  const reviewPanel=panel('Owner context review','Revisión humana previa al inicio. No es approval de source: confirma que Story, AC, DoR, requisitos, arquitectura, riesgos y test intent son coherentes. Si algo no cuadra, detén D01 y no inicies la Story.'); reviewPanel.dataset.storyContextReview='true';
+  const reviewDecision=document.createElement('div'); reviewDecision.className='code-safety-strip'; reviewDecision.dataset.storyContextOwnerDecision='true'; reviewDecision.textContent='DECISIÓN OWNER · CONTINUAR = contexto suficiente → Iniciar story preparada · DETENER = inconsistencia o contexto insuficiente → no iniciar y reportar BLOCK.';
+  const reviewStory=document.createElement('section'); reviewStory.className='viewer-card'; reviewStory.dataset.storyContextReviewStory='true';
+  const reviewDor=document.createElement('section'); reviewDor.className='viewer-card'; reviewDor.dataset.storyContextReviewDor='true';
+  const reviewFragments=document.createElement('div'); reviewFragments.className='viewer-list'; reviewFragments.dataset.storyContextReviewFragments='true';
+  const reviewIdentity=document.createElement('section'); reviewIdentity.className='viewer-card'; reviewIdentity.dataset.storyContextReviewIdentity='true';
+  const reviewRoute=document.createElement('section'); reviewRoute.className='viewer-card'; reviewRoute.dataset.storyContextReviewRoute='true';
+  const rawDetails=document.createElement('details'); rawDetails.dataset.storyContextRawEvidence='true';
+  const rawSummary=document.createElement('summary'); rawSummary.textContent='Evidencia técnica expandible · DoR / ContextPack / implementation route';
   const dorView=document.createElement('pre'); dorView.className='code-test-impact'; dorView.dataset.storyDorReport='true'; dorView.textContent='DoR pendiente.';
   const contextView=document.createElement('pre'); contextView.className='code-change-evidence'; contextView.dataset.storyContextPack='true'; contextView.textContent='StoryContextPack pendiente.';
   const routeView=document.createElement('pre'); routeView.className='code-change-evidence'; routeView.dataset.implementationRoute='true';
-  activationPanel.append(activationSummary,candidateList,activationActions,dorView,contextView,routeView); host.append(activationPanel);
+  rawDetails.append(rawSummary,dorView,contextView,routeView); reviewPanel.append(reviewDecision,reviewStory,reviewDor,reviewFragments,reviewIdentity,reviewRoute,rawDetails);
+  activationPanel.append(activationSummary,candidateList,activationActions); host.append(activationPanel,reviewPanel);
   const layout=document.createElement('div'); layout.className='code-workbench-grid';
   const sourcePanel=panel('Source tree','Solo archivos de texto/código admitidos por la policy server-side.');
   const sourceList=document.createElement('div'); sourceList.className='code-source-list'; sourceList.dataset.sourceList='true'; sourcePanel.append(sourceList);
@@ -163,10 +173,53 @@ export function renderStoryCodeWorkbenchView(tokenProvider:()=>string|null, sess
       for(const candidate of candidates){const row=document.createElement('section');row.className='viewer-list__item';row.dataset.readyStoryId=String(candidate.story_id??'');const title=document.createElement('strong');title.textContent=`${String(candidate.story_id??'')} · ${String(candidate.title??'')}`;const ac=document.createElement('p');ac.textContent=`READY · AC=${Array.isArray(candidate.acceptance_criteria)?candidate.acceptance_criteria.length:0} · order=${String(candidate.sprint_order??'')}`;const prepare=button('Preparar contexto');prepare.dataset.prepareStoryId=String(candidate.story_id??'');prepare.disabled=!canAuthor||Boolean(current&&String(current.status)!=='DONE');prepare.addEventListener('click',()=>void prepareStory(String(candidate.story_id??'')));row.append(title,ac,prepare);candidateList.append(row);}
     }
     startStory.disabled=!canAuthor||String(current?.status??'')!=='PLANNED'||!String(current?.state_sha256??'');
-    const dor=data.dor_report??null; dorView.textContent=dor?JSON.stringify({status:dor.status,story_id:dor.story_id,dor_report_sha256:dor.dor_report_sha256,checks:dor.checks??dor.criteria??[]},null,2):'DoR pendiente.';
-    const cp=data.context_pack??null; contextView.textContent=cp?JSON.stringify({context_pack_id:cp.context_pack_id,context_sha256:cp.context_sha256,story_id:cp.story_id,acceptance_criteria:cp.acceptance_criteria,fragments:cp.fragments,relevant_files:cp.relevant_files,safety:cp.safety},null,2):'StoryContextPack pendiente.';
-    routeView.textContent=JSON.stringify(data.implementation_route??{},null,2);
+    const dor=data.dor_report??null; const cp=data.context_pack??null; const route=data.implementation_route??{};
+    renderContextReview(current,dor,cp,route,data.safety??{});
+    dorView.textContent=dor?JSON.stringify({status:dor.status,story_id:dor.story_id,dor_report_sha256:dor.dor_report_sha256,checks:dor.checks??dor.criteria??[]},null,2):'DoR pendiente.';
+    contextView.textContent=cp?JSON.stringify({context_pack_id:cp.context_pack_id,context_sha256:cp.context_sha256,story:cp.story,fragments:cp.fragments,relevant_files:cp.relevant_files,safety:cp.safety},null,2):'StoryContextPack pendiente.';
+    routeView.textContent=JSON.stringify(route,null,2);
   }
+  function renderContextReview(current:any,dor:any,cp:any,route:any,safety:any):void{
+    const story=cp?.story??{}; const fragments=Array.isArray(cp?.fragments)?cp.fragments:[]; const acceptance=fragments.find((x:any)=>String(x?.kind??'')==='acceptance');
+    const executionStatus=String(current?.status??'NONE').toUpperCase();
+    reviewDecision.textContent=executionStatus==='PLANNED'
+      ? 'DECISIÓN OWNER · CONTINUAR = contexto suficiente → Iniciar story preparada · DETENER = inconsistencia o contexto insuficiente → no iniciar y reportar BLOCK.'
+      : executionStatus==='IN_PROGRESS'
+        ? 'DECISIÓN OWNER · CONTINUAR = contexto revisable/suficiente para cerrar D01 · DETENER = inconsistencia o contexto insuficiente → reportar BLOCK. Story ya IN_PROGRESS: no reiniciar ni iniciar D02 desde esta decisión.'
+        : 'DECISIÓN OWNER · PENDIENTE · prepara una Story READY para materializar y revisar contexto antes de iniciarla.';
+    reviewStory.replaceChildren();
+    const storyTitle=document.createElement('h4'); storyTitle.textContent='1 · Story y Acceptance Criteria';
+    const storyMeta=document.createElement('p'); storyMeta.textContent=story?.id?`${String(story.id)} · ${String(story.title??'')} · version=${String(story.version??'—')}`:'Prepara una Story READY para materializar el contexto.';
+    const acList=document.createElement('ul'); acList.className='story-test-plan-list'; acList.dataset.storyAcceptanceCriteria='true';
+    const criteria=String(acceptance?.content??'').split(/\r?\n/).map((x:string)=>x.trim()).filter(Boolean);
+    for(const criterion of criteria){const li=document.createElement('li');li.textContent=criterion;acList.append(li);} if(!criteria.length){const li=document.createElement('li');li.textContent='Acceptance Criteria todavía no materializados.';acList.append(li);}
+    reviewStory.append(storyTitle,storyMeta,acList);
+
+    reviewDor.replaceChildren();
+    const dorTitle=document.createElement('h4');dorTitle.textContent='2 · Definition of Ready';
+    const dorMeta=document.createElement('p');dorMeta.textContent=dor?`DoR ${String(dor.status??'UNKNOWN')} · report=${String(dor.dor_report_sha256??'—').slice(0,16)}…`:'DoR pendiente.';
+    const dorList=document.createElement('ul');dorList.className='story-test-plan-list';dorList.dataset.storyDorChecksReadable='true';
+    const checks=Array.isArray(dor?.checks)?dor.checks:(Array.isArray(dor?.criteria)?dor.criteria:[]);
+    for(const check of checks){const li=document.createElement('li');li.textContent=`${String(check?.status??'UNKNOWN')} · ${String(check?.code??check?.id??'check')} · ${String(check?.message??'')}`;dorList.append(li);} if(!checks.length){const li=document.createElement('li');li.textContent='Checks DoR todavía no disponibles.';dorList.append(li);}
+    reviewDor.append(dorTitle,dorMeta,dorList);
+
+    reviewFragments.replaceChildren();
+    const labels:Record<string,string>={requirement:'3 · Requirement',adr:'4 · Architecture / ADR',risk:'5 · Risk / security','test-intent':'6 · Test intent'};
+    for(const kind of ['requirement','adr','risk','test-intent']){const rows=fragments.filter((x:any)=>String(x?.kind??'')===kind);const card=document.createElement('section');card.className='viewer-list__item';card.dataset.contextKind=kind;const h=document.createElement('h4');h.textContent=labels[kind];card.append(h);if(!rows.length){const p=document.createElement('p');p.className='muted';p.textContent='No se materializó fragmento para esta categoría.';card.append(p);}for(const row of rows){const meta=document.createElement('p');meta.textContent=`${String(row?.target_id??'')} · source=${String(row?.source_ref??'')} · authority=${String(row?.authority_scope??'')}`;const content=document.createElement('pre');content.className='code-change-evidence';content.textContent=String(row?.content??'');card.append(meta,content);}reviewFragments.append(card);}
+
+    reviewIdentity.replaceChildren();
+    const identityTitle=document.createElement('h4');identityTitle.textContent='7 · ContextPack / StoryExecution / safety';
+    const identityList=document.createElement('ul');identityList.className='story-test-plan-list';
+    const identityRows=[`ContextPack: ${String(cp?.context_pack_id??'pending')}`,`Context hash: ${String(cp?.context_sha256??'pending')}`,`StoryExecution: ${String(current?.execution_id??'pending')} · ${String(current?.status??'NONE')}`,`State hash: ${String(current?.state_sha256??'pending')}`,`Planning mutated: ${String(safety?.planning_artifacts_mutated??false)}`,`Source mutated: ${String(safety?.source_mutations_performed??false)}`];
+    for(const value of identityRows){const li=document.createElement('li');li.textContent=value;identityList.append(li);}reviewIdentity.append(identityTitle,identityList);
+
+    reviewRoute.replaceChildren();
+    const routeTitle=document.createElement('h4');routeTitle.textContent='8 · Implementation route / authority';
+    const routeList=document.createElement('ul');routeList.className='story-test-plan-list';
+    const manual=route?.manual??{};const assisted=route?.agent_assisted??{};const routeRows=[`Manual: ${manual?.available===true?'available':'unavailable'} · first-class=${String(manual?.first_class??false)} · source write=${String(manual?.source_write??'none')} · terminal required=${String(manual?.terminal_required??false)}`,`Agent-assisted: ${assisted?.available===true?'available':'unavailable'} · modes=${Array.isArray(assisted?.modes)?assisted.modes.join(', '):'none'} · proposal-only=${String(assisted?.proposal_only??false)}`,`Real local model required: ${String(route?.real_local_model_required??false)} · External API required: ${String(route?.external_api_required??false)}`,`Model route grants tool/apply/approval authority: ${String(route?.model_route_grants_tool_authority??false)} / ${String(route?.model_route_grants_apply_authority??false)} / ${String(route?.model_route_grants_approval_authority??false)}`];
+    for(const value of routeRows){const li=document.createElement('li');li.textContent=value;routeList.append(li);}reviewRoute.append(routeTitle,routeList);
+  }
+
   async function prepareStory(storyId:string):Promise<void>{
     if(!storyId){setState('block','BLOCK · Story ID READY ausente.');return;} setState('loading',`Preparando DoR + StoryContextPack para ${storyId}…`);
     try{const r=await client().storyActivationPrepare(storyId);activation=(r.data??{}) as StoryActivationData;renderActivation();const current=activation.story_execution_state??{};storyStatus=String(current.status??'UNKNOWN').toUpperCase();sourceMeta.textContent=`Story ${String(current.story_id??storyId)} · ${storyStatus} · source write=approval-gated`;updateButtons();setState('pass',`PASS · ${storyId} preparada en PLANNED; revisa DoR/contexto y luego pulsa Iniciar story preparada.`);}catch(e){setState('block',errorText(e));}

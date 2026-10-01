@@ -1127,7 +1127,8 @@
         "10-A adds Story → Validar → Test Impact v2 → StoryTestPlan review/approval; Full signal is informative only and no free-form test command exists.",
         "GSDLC-10-B extends Story Workbench with typed validation-job planning/start/status; no arbitrary shell.",
         "GSDLC-10-D reuses WorkspaceGitOperationsPanel inside Story Code Workbench for CommitPlan→stage approval→exact stage→commit approval→commit; no second Git engine and no push.",
-        "13-D-01 adds UI-native READY Story activation, DoR/StoryContextPack review and PLANNED→IN_PROGRESS transition without terminal/API seeding."
+        "13-D-01 adds UI-native READY Story activation, DoR/StoryContextPack review and PLANNED→IN_PROGRESS transition without terminal/API seeding.",
+        "13-D-01 context reviewability corrective renders Story/AC, DoR, requirement, ADR, risk, test-intent, ContextPack identity and route/authority as human-readable sections; raw JSON is secondary expandable evidence."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1183,9 +1184,11 @@
         "story_in_progress": true,
         "story_dor_visible": true,
         "story_context_visible": true,
-        "no_ready_story_block": true
+        "no_ready_story_block": true,
+        "story_context_reviewable": true,
+        "story_owner_context_decision_visible": true
       },
-      "status": "implemented-initial/gsdlc-13-d-01",
+      "status": "implemented-initial/gsdlc-13-d-01-context-reviewability-corrective",
       "status_visibility": [
         "PASS",
         "WARN",

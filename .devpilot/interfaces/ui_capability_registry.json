@@ -12623,7 +12623,9 @@
           "source_write_enabled": false,
           "planning_write_enabled": false,
           "human_activation_required": true,
-          "model_route_grants_authority": false
+          "model_route_grants_authority": false,
+          "owner_review_mode": "structured-human-readable-with-collapsed-raw-evidence",
+          "owner_decision": "CONTINUE_OR_STOP_BEFORE_D02"
         }
       ],
       "page_component": "StoryCodeWorkbenchView",
@@ -12662,7 +12664,9 @@
         "story_planned": true,
         "story_in_progress": true,
         "story_dor_visible": true,
-        "story_context_visible": true
+        "story_context_visible": true,
+        "story_context_reviewable": true,
+        "story_owner_context_decision_visible": true
       },
       "title": "Story Code Workbench — Story activation/context, Code, Validation, Quality and Governed Commit"
     },

@@ -321,3 +321,92 @@ def test_d01_v103_run_card_has_no_control_characters() -> None:
     payload = (ROOT / "docs/validation/RUN_CARD_13_D_01_v1_0_3_APPROVED.md").read_bytes()
     bad = sorted({value for value in payload if value < 32 and value not in {9, 10, 13}})
     assert bad == []
+
+
+def test_d01_context_reviewability_corrective_is_human_readable_and_secondary_raw_evidence() -> None:
+    view = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
+    for marker in (
+        "Owner context review",
+        "DECISIÓN OWNER",
+        "Story y Acceptance Criteria",
+        "Definition of Ready",
+        "Requirement",
+        "Architecture / ADR",
+        "Risk / security",
+        "Test intent",
+        "ContextPack / StoryExecution / safety",
+        "Implementation route / authority",
+        "storyContextRawEvidence",
+        "Evidencia técnica expandible",
+        "CONTINUAR",
+        "DETENER",
+        "Story ya IN_PROGRESS: no reiniciar ni iniciar D02",
+        "prepara una Story READY para materializar y revisar contexto antes de iniciarla",
+    ):
+        assert marker in view
+    assert "rawDetails.append(rawSummary,dorView,contextView,routeView)" in view
+    assert "reviewPanel.append(reviewDecision,reviewStory,reviewDor,reviewFragments,reviewIdentity,reviewRoute,rawDetails)" in view
+
+
+def test_d01_v104_continuation_preserves_run02_and_stops_before_d02() -> None:
+    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_01_v1_0_4_APPROVED.md").read_text(encoding="utf-8")
+    for marker in (
+        'version: "1.0.4"',
+        'continuation_from: "9.7"',
+        "no repite 9.1–9.6",
+        "07_context_reviewability.png",
+        "08_implementation_route_provenance.png",
+        "09_stop_before_d02.png",
+        "Owner context review",
+        "CONTINUAR",
+        "DETENER",
+        "SourceChangePlan",
+        "full_regression_runs=0",
+        "audit_13_D_01_RUN_02_CONTINUATION.txt",
+        "api_13_D_01_RUN_02_CONTINUATION.txt",
+        "ui_13_D_01_RUN_02_CONTINUATION.txt",
+        "Falta evidencia previa",
+        "Falta evidencia de continuación",
+        "v1.0.3 ordenó 9.6",
+        "siguiente Story/repetición",
+    ):
+        assert marker in run_card
+    assert "usando los mismos comandos estándar de v1.0.3" not in run_card
+    payload = run_card.encode("utf-8")
+    bad = sorted({value for value in payload if value < 32 and value not in {9, 10, 13}})
+    assert bad == []
+
+
+def test_d01_reviewability_contract_and_registries_are_reconciled() -> None:
+    contract = (ROOT / "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_1.md").read_text(encoding="utf-8")
+    assert 'version: "1.0.1"' in contract
+    assert "representación **humana, agrupada y accionable**" in contract
+    assert "CONTINUAR o DETENER" in contract
+
+    source_registry = json.loads((ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8"))
+    run_card = next(x for x in source_registry["documents"] if x["doc_id"] == "DEVPL-GSDLC-13-D-01-RUN-CARD")
+    operational = next(x for x in source_registry["documents"] if x["doc_id"] == "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT")
+    assert run_card["path"].endswith("RUN_CARD_13_D_01_v1_0_4_APPROVED.md")
+    assert operational["path"].endswith("OPERATIONAL_CONTRACT_v1_0_1.md")
+
+    def find_story_route(value):
+        if isinstance(value, dict):
+            if value.get("route_id") == "ui.story-code-workbench":
+                return value
+            for nested in value.values():
+                found = find_story_route(nested)
+                if found is not None:
+                    return found
+        elif isinstance(value, list):
+            for nested in value:
+                found = find_story_route(nested)
+                if found is not None:
+                    return found
+        return None
+
+    for registry_path in (".devpilot/interfaces/ui_capability_registry.json", ".devpilot/interfaces/ui_route_contract_registry.json"):
+        registry = json.loads((ROOT / registry_path).read_text(encoding="utf-8"))
+        story = find_story_route(registry)
+        assert story is not None
+        assert story["state_contract"]["story_context_reviewable"] is True
+        assert story["state_contract"]["story_owner_context_decision_visible"] is True
