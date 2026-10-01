@@ -192,7 +192,7 @@ def test_d01_transport_policy_and_ui_contract_are_registered() -> None:
     }
     assert expected <= route_ids
     assert expected <= policy_ids
-    assert len(api["routes"]) == len(rbac["route_policies"]) == 243
+    assert len(api["routes"]) == len(rbac["route_policies"]) == 246
     assert api["summary"]["gsdlc_13_d_01_story_activation_routes_total"] == 3
     assert rbac["summary"]["gsdlc_13_d_01_story_activation_policies_total"] == 3
     story_ui = next(x for x in ui["routes"] if x["route_id"] == "ui.story-code-workbench")
@@ -387,7 +387,7 @@ def test_d01_reviewability_contract_and_registries_are_reconciled() -> None:
     run_card = next(x for x in source_registry["documents"] if x["doc_id"] == "DEVPL-GSDLC-13-D-01-RUN-CARD")
     operational = next(x for x in source_registry["documents"] if x["doc_id"] == "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT")
     assert run_card["path"].endswith("RUN_CARD_13_D_01_v1_0_4_APPROVED.md")
-    assert operational["path"].endswith("OPERATIONAL_CONTRACT_v1_0_1.md")
+    assert operational["path"].endswith("OPERATIONAL_CONTRACT_v1_0_2.md")
 
     def find_story_route(value):
         if isinstance(value, dict):

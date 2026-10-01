@@ -161,6 +161,25 @@ class CodeWorkbenchApplicationService:
         store_dir.mkdir(parents=True, exist_ok=True); self._atomic_json(path, base)
         return self._pass(command,"SourceDraftBuffer persisted in runtime state; workspace source was not modified.",{"draft":base,"source_mutations_performed":False})
 
+    def list_drafts(self) -> CommandResult:
+        command = "story code drafts list"
+        context, failure = self._context(command)
+        if failure:
+            return failure
+        assert context is not None
+        root = self._draft_root(context.effective_workspace_root, str(context.active_workspace_id))
+        current_execution_id = self._story_execution_id(context.effective_workspace_root, str(context.active_workspace_id))
+        rows: list[dict[str, Any]] = []
+        if root.is_dir():
+            for path in sorted(root.glob("source-draft-*.json")):
+                payload = self._load_json(path)
+                if not isinstance(payload, dict):
+                    continue
+                if str(payload.get("story_execution_id") or "") != str(current_execution_id):
+                    continue
+                rows.append(payload)
+        return self._pass(command, "Current Story SourceDraftBuffer set loaded from runtime state.", {"drafts": rows, "summary": {"drafts_total": len(rows), "source_mutations_performed": False}})
+
     def get_draft(self, draft_id: str) -> CommandResult:
         context, failure = self._context("story code draft get")
         if failure: return failure

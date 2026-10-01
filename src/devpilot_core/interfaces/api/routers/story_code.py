@@ -166,6 +166,11 @@ class StoryGitCommitBody(BaseModel):
     approval_id: str = Field(min_length=1, max_length=160)
 
 
+class StoryImplementationProposalDecisionBody(BaseModel):
+    proposal_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    decision: str = Field(pattern=r"^(ACCEPT|REJECT)$")
+
+
 class StoryAgentProposalBody(BaseModel):
     agent_type: str = Field(pattern=r"^(coding|test)$")
     mode: str = Field(default="mock", pattern=r"^(mock|fake-local)$")
@@ -236,6 +241,13 @@ def story_code_source(request: Request, source_id: str, service: ApplicationServ
     _, error = _principal(request)
     if error: return error
     return _result(service.story_code_source_read(source_id=source_id), "story.code.source.read")
+
+
+@router.get("/api/v1/story/code/drafts")
+def story_code_drafts(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    _, error = _principal(request)
+    if error: return error
+    return _result(service.story_code_drafts_list(), "story.code.drafts.list")
 
 
 @router.post("/api/v1/story/code/drafts")
@@ -482,6 +494,22 @@ def story_source_change_rollback_evidence(request: Request, execution_id: str, s
     _, error = _principal(request)
     if error: return error
     return _result(service.story_source_change_rollback_evidence(execution_id=execution_id), "story.source-change.rollback-evidence")
+
+
+@router.post("/api/v1/story/code/implementation-proposals")
+def story_implementation_proposal_create(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_implementation_proposal_create(actor=actor, actor_role=role), "story.implementation-proposal.create")
+
+
+@router.post("/api/v1/story/code/implementation-proposals/{proposal_id}/decision")
+def story_implementation_proposal_decide(request: Request, proposal_id: str, body: StoryImplementationProposalDecisionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity, error = _principal(request, authoring=True)
+    if error: return error
+    actor, role = identity
+    return _result(service.story_implementation_proposal_decide(proposal_id=proposal_id, proposal_sha256=body.proposal_sha256, decision=body.decision, actor=actor, actor_role=role), "story.implementation-proposal.decision")
 
 
 @router.post("/api/v1/story/code/agent-assist/proposals")

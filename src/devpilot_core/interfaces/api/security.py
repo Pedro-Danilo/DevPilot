@@ -151,6 +151,9 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/story/code/sources"): ApiRoutePolicy("story.code.sources", "read", "protected-human-session-code-workbench"),
     ("GET", "/api/v1/story/code/sources/{source_id}"): ApiRoutePolicy("story.code.source.read", "read", "protected-human-session-code-workbench"),
     ("POST", "/api/v1/story/code/drafts"): ApiRoutePolicy("story.code.draft.save", "read", "protected-human-session-code-draft-runtime"),
+    ("GET", "/api/v1/story/code/drafts"): ApiRoutePolicy("story.code.drafts.list", "read", "protected-human-session-code-workbench"),
+    ("POST", "/api/v1/story/code/implementation-proposals"): ApiRoutePolicy("story.implementation-proposal.create", "read", "protected-human-session-story-implementation-proposal-runtime"),
+    ("POST", "/api/v1/story/code/implementation-proposals/{proposal_id}/decision"): ApiRoutePolicy("story.implementation-proposal.decision", "read", "protected-human-session-story-implementation-proposal-runtime"),
     ("GET", "/api/v1/story/code/drafts/{draft_id}"): ApiRoutePolicy("story.code.draft.get", "read", "protected-human-session-code-workbench"),
     ("POST", "/api/v1/story/code/drafts/{draft_id}/recheck"): ApiRoutePolicy("story.code.draft.recheck", "read", "protected-human-session-code-draft-runtime"),
     ("POST", "/api/v1/story/code/drafts/{draft_id}/discard"): ApiRoutePolicy("story.code.draft.discard", "read", "protected-human-session-code-draft-runtime"),
@@ -616,6 +619,8 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/cancel"))
         if path.endswith("/kill"):
             return API_ROUTE_POLICIES.get(("POST", "/api/v1/settings/agent-execution/sessions/{session_id}/kill"))
+    if method.upper() == "POST" and path.startswith("/api/v1/story/code/implementation-proposals/") and path.endswith("/decision"):
+        return API_ROUTE_POLICIES.get(("POST", "/api/v1/story/code/implementation-proposals/{proposal_id}/decision"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/imports/") and path.endswith("/start"):
         return API_ROUTE_POLICIES.get(("POST", "/api/v1/workspace/artifact-reviews/imports/{import_id}/start"))
     if method.upper() == "POST" and path.startswith("/api/v1/workspace/artifact-reviews/documents/") and path.endswith("/start"):

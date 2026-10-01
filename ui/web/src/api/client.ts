@@ -376,6 +376,7 @@ export class DevPilotApiClient {
   async storyCodeStatus(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/status', { retryNetworkErrors: true }); }
   async storyCodeSources(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/sources', { retryNetworkErrors: true }); }
   async storyCodeSource(sourceId: string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/sources/${encodeURIComponent(sourceId)}`); }
+  async storyCodeDrafts(): Promise<DevPilotApplicationResponse> { return this.get('/story/code/drafts', { retryNetworkErrors: true }); }
   async storyCodeDraftSave(payload: { operation:'CREATE'|'EDIT'|'RENAME'; content:string; target_path:string; source_id:string|null; expected_source_sha256:string|null; expected_revision_sha256:string|null }): Promise<DevPilotApplicationResponse> { return this.post('/story/code/drafts', payload); }
   async storyCodeDraft(draftId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/drafts/${encodeURIComponent(draftId)}`); }
   async storyCodeDraftRecheck(draftId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/drafts/${encodeURIComponent(draftId)}/recheck`, {}); }
@@ -395,6 +396,8 @@ export class DevPilotApiClient {
   async storySourceChangeRollback(executionId:string, approvalId:string): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback`, {approval_id:approvalId}); }
   async storySourceChangeApplyManifest(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}/apply-manifest`); }
   async storySourceChangeRollbackEvidence(executionId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/change-executions/${encodeURIComponent(executionId)}/rollback-evidence`); }
+  async storyImplementationProposalCreate(): Promise<DevPilotApplicationResponse> { return this.post('/story/code/implementation-proposals', {}); }
+  async storyImplementationProposalDecision(proposalId:string, proposalSha256:string, decision:'ACCEPT'|'REJECT'): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/implementation-proposals/${encodeURIComponent(proposalId)}/decision`, {proposal_sha256:proposalSha256,decision}); }
   async storyAgentProposalCreate(payload:{agent_type:'coding'|'test';mode:'mock'|'fake-local';instruction:string;source_id:string|null}): Promise<DevPilotApplicationResponse> { return this.post('/story/code/agent-assist/proposals', payload); }
   async storyAgentProposal(proposalId:string): Promise<DevPilotApplicationResponse> { return this.get(`/story/code/agent-assist/proposals/${encodeURIComponent(proposalId)}`); }
   async storyAgentProposalDecision(proposalId:string, proposalSha256:string, decision:'ACCEPT'|'REJECT'): Promise<DevPilotApplicationResponse> { return this.post(`/story/code/agent-assist/proposals/${encodeURIComponent(proposalId)}/decision`, {proposal_sha256:proposalSha256,decision}); }

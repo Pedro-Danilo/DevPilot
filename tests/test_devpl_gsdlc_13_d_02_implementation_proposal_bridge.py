@@ -1,0 +1,263 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from devpilot_core.application.story_activation_service import StoryActivationApplicationService
+from devpilot_core.application.story_implementation_candidate_service import StoryImplementationCandidateApplicationService
+from devpilot_core.application.ui_workspace_context import UiWorkspaceContext
+from devpilot_core.code_workbench.change_service import SourceChangeApplicationService
+from devpilot_core.code_workbench.service import CodeWorkbenchApplicationService
+from devpilot_core.interfaces.api.security import resolve_route_policy
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class StaticResolver:
+    def __init__(self, context: UiWorkspaceContext) -> None:
+        self.context = context
+
+    def resolve(self) -> UiWorkspaceContext:
+        return self.context
+
+
+def _write(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+
+def _fixture(tmp_path: Path):
+    workspace = tmp_path / "inventory-sales-local-greenfield"
+    workspace.mkdir(parents=True)
+    workspace_id = "inventory-sales-local-greenfield"
+    _write(workspace / ".devpilot/project.yaml", 'schema_version: "1.0"\nproject:\n  id: "inventory-sales-local-greenfield"\n  name: "Inventory Sales"\n  type: "application"\n  owner: "owner"\n')
+    _write(workspace / "docs/01_requirements/requirements_specification.md", "# Requirements\n\n### RF-001\n- Statement: El sistema debe permitir al actor autorizado crear productos disponibles.\n")
+    _write(workspace / "docs/02_architecture/adrs/ADR-001.md", "# ADR-001\n\nLocal-first modular architecture.\n")
+    _write(workspace / "docs/03_security/security_threat_model.md", "# Threats\n\n### SEC-001\nReject unauthorized mutation.\n")
+    _write(workspace / "docs/04_quality/test_strategy.md", "# Tests\n\n### TEST-001\nIntegration + unit for RF-001.\n")
+    _write(
+        workspace / "docs/02_architecture/architecture_document.md",
+        '''---\nstatus: "frozen"\n---\n# Architecture\n\n## Tecnología\n- **Perfil propuesto para decisión Owner:** `react-ts-fastapi-sqlite`.\n- Frontend: `react-typescript`.\n- Backend: `fastapi-python`.\n- Database: `sqlite`.\n\n## Componentes\n- **ARC-C01 — Presentation / Interaction Adapter.** Interaction only.\n- **ARC-C02 — Application Services.** Use-case orchestration.\n- **ARC-C03 — Domain Core.** Domain behavior.\n- **ARC-C04 — Persistence Port + Local Adapter.** Local persistence.\n''',
+    )
+    story = {
+        "id": "story-rf-001",
+        "version": "1.0.0",
+        "title": "El sistema debe permitir al actor autorizado crear productos disponibles",
+        "acceptance_criteria": ["Dados datos válidos, el resultado queda registrado y puede verificarse posteriormente."],
+        "trace_links": [
+            {"kind": "requirement", "target_id": "RF-001"},
+            {"kind": "adr", "target_id": "ADR-001"},
+            {"kind": "risk", "target_id": "SEC-001"},
+            {"kind": "test-intent", "target_id": "TEST-001"},
+        ],
+    }
+    sprint = {
+        "schema_id": "DEVPL-GSDLC-08-D-SPRINT-PLANNER-V1",
+        "lifecycle": "FROZEN",
+        "backlog": {"stories": [story]},
+        "sprint_plan": {
+            "sprint_plan_id": "sprint-plan-pilot-a",
+            "selected_stories": [{"story_id": story["id"], "readiness": "READY", "blocking_reasons": [], "estimate": 1}],
+            "definition_of_ready": ["Requirement, ADR, risk and test intent are bound."],
+            "definition_of_done": ["Targeted tests and governed Git evidence pass."],
+            "test_intent_ids": ["TEST-001"],
+            "risk_focus_ids": ["SEC-001"],
+            "completed_story_ids": [],
+        },
+    }
+    _write(workspace / "outputs/planning/gsdlc_08_d" / workspace_id / "sprint_planner.json", json.dumps(sprint, indent=2))
+    context = UiWorkspaceContext(
+        platform_root=ROOT,
+        mode="active-root",
+        configured=True,
+        valid=True,
+        active_workspace_id=workspace_id,
+        active_workspace_root=workspace,
+        reports_root=workspace / "outputs/reports",
+        traces_root=workspace / "outputs/traces",
+        project_file=workspace / ".devpilot/project.yaml",
+    )
+    resolver = StaticResolver(context)
+    activation = StoryActivationApplicationService(ROOT, context_resolver=resolver)
+    prepared = activation.prepare(story_id=story["id"], actor_id="owner-1", actor_role="owner", observed_at_utc="2026-10-01T20:00:00Z").to_dict()["data"]
+    started = activation.start(expected_state_sha256=prepared["story_execution_state"]["state_sha256"], actor_id="owner-1", actor_role="owner", observed_at_utc="2026-10-01T20:01:00Z").to_dict()
+    assert started["ok"] is True
+    return workspace, resolver
+
+
+def test_d02_source_empty_greenfield_gets_reviewable_deterministic_proposal_without_source_write(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+
+    assert code.list_sources().to_dict()["data"]["summary"]["sources_total"] == 0
+    result = service.propose(actor="owner-1", actor_role="owner").to_dict()
+    assert result["ok"] is True
+    proposal = result["data"]["proposal"]
+    assert proposal["status"] == "PROPOSED"
+    assert proposal["provider"]["provider_id"] == "devpilot-local"
+    assert proposal["provider"]["model_id"] == "deterministic-story-implementation-template-v1"
+    assert proposal["provider"]["network_used"] is False
+    assert proposal["provider"]["external_api_used"] is False
+    assert proposal["safety"]["proposal_only"] is True
+    assert proposal["safety"]["source_mutations_performed"] is False
+    assert len(proposal["files"]) == 3
+    assert {row["operation"] for row in proposal["files"]} == {"CREATE"}
+    assert all(row["target_path"].endswith(".py") for row in proposal["files"])
+    assert not (workspace / "src").exists()
+    assert not (workspace / "tests").exists()
+
+
+def test_d02_accept_materializes_multi_file_runtime_draft_set_and_existing_change_plan_consumes_it(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+
+    decided = service.decide(proposal_id=proposal["proposal_id"], proposal_sha256=proposal["proposal_sha256"], decision="ACCEPT", actor="owner-1", actor_role="owner").to_dict()
+    assert decided["ok"] is True
+    drafts = decided["data"]["drafts"]
+    assert len(drafts) == 3
+    assert all(row["operation"] == "CREATE" and row["status"] == "DRAFT" for row in drafts)
+    assert decided["data"]["source_mutations_performed"] is False
+    assert code.list_sources().to_dict()["data"]["summary"]["sources_total"] == 0
+    listed = code.list_drafts().to_dict()["data"]["drafts"]
+    assert {x["draft_id"] for x in listed} == {x["draft_id"] for x in drafts}
+
+    changes = SourceChangeApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    plan_result = changes.create_plan(draft_ids=[x["draft_id"] for x in drafts], actor="owner-1", actor_role="owner").to_dict()
+    assert plan_result["ok"] is True
+    plan = plan_result["data"]["plan"]
+    assert len(plan["changes"]) == 3
+    assert set(plan["exact_path_allowlist"]) == {x["target_path"] for x in drafts}
+    assert plan_result["data"]["source_mutations_performed"] is False
+    assert not (workspace / "src").exists()
+    assert not (workspace / "tests").exists()
+
+
+def test_d02_reject_is_terminal_without_draft_or_source_mutation(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+    rejected = service.decide(proposal_id=proposal["proposal_id"], proposal_sha256=proposal["proposal_sha256"], decision="REJECT", actor="owner-1", actor_role="owner").to_dict()
+    assert rejected["ok"] is True
+    assert rejected["data"]["proposal"]["status"] == "REJECTED"
+    assert rejected["data"]["drafts"] == []
+    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 0
+    assert not (workspace / "src").exists()
+
+
+def test_d02_transport_rbac_ui_and_multifile_bridge_are_registered() -> None:
+    api = json.loads((ROOT / ".devpilot/interfaces/api_route_contract_registry.json").read_text(encoding="utf-8"))
+    rbac = json.loads((ROOT / ".devpilot/identity/server_rbac_policy_catalog.json").read_text(encoding="utf-8"))
+    ui = json.loads((ROOT / ".devpilot/interfaces/ui_route_contract_registry.json").read_text(encoding="utf-8"))
+    expected = {"api.story-code.drafts.list", "api.story-implementation.proposal.create", "api.story-implementation.proposal.decision"}
+    assert expected <= {x["route_id"] for x in api["routes"]}
+    assert expected <= {x["route_id"] for x in rbac["route_policies"]}
+    assert len(api["routes"]) == len(rbac["route_policies"]) == 246
+    story_ui = next(x for x in ui["routes"] if x["route_id"] == "ui.story-code-workbench")
+    assert expected <= set(story_ui["allowed_api_routes"])
+    assert story_ui["state_contract"]["implementation_proposal_accepted_to_draft_set"] is True
+    assert resolve_route_policy("GET", "/api/v1/story/code/drafts") is not None
+    assert resolve_route_policy("POST", "/api/v1/story/code/implementation-proposals") is not None
+    assert resolve_route_policy("POST", "/api/v1/story/code/implementation-proposals/example/decision") is not None
+
+    view = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
+    for marker in (
+        "Implementación propuesta por DevPilot",
+        "Proponer implementación desde contexto",
+        "Aceptar como Draft Set",
+        "sourceDraftSet",
+        "SourceChangePlan incluirá todos los drafts vigentes",
+        "Manual CREATE sigue disponible como override humano",
+        "no necesitas inventar src/new_file.py",
+    ):
+        assert marker in view
+    assert "storySourceChangePlanCreate(usable.map((x)=>x.draft_id))" in view
+
+
+def test_d02_corrective_documents_define_proposal_draftset_and_preserve_first_attempt() -> None:
+    contract = (ROOT / "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_2.md").read_text(encoding="utf-8")
+    for marker in (
+        "Implementation Candidate — proposal-only",
+        "SourceDraftBuffer Set",
+        "Multi-file SourceChangePlan",
+        "deterministic-story-implementation-template-v1",
+        "Manual CREATE/EDIT/RENAME",
+    ):
+        assert marker in contract
+    adr = (ROOT / "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-D-02-deterministic-implementation-proposal-before-source-plan.md").read_text(encoding="utf-8")
+    assert "FUNC-13D02-IMPLEMENTATION-BRIDGE-001" in adr
+    assert "SourceDraftBuffer Set" in adr
+    adjudication = (ROOT / "docs/audits/DEVPL_GSDLC_13_D_02_FIRST_ATTEMPT_ADJUDICATION_v1_0_0.md").read_text(encoding="utf-8")
+    assert "RUN_01 = BLOCK" in adjudication
+    assert "99_block_state.png" in adjudication
+    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_02_v1_0_1_APPROVED.md").read_text(encoding="utf-8")
+    for marker in (
+        'version: "1.0.1"',
+        'continuation_run: "RUN_02"',
+        "Proponer implementación desde contexto",
+        "02_implementation_proposal_review.png",
+        "03_draft_set_runtime_only.png",
+        "04_source_change_plan_multifile.png",
+        "10_stop_before_d03.png",
+        "RUN_01` es evidencia inmutable",
+        "Full Regression=0",
+    ):
+        assert marker in run_card
+    payload = run_card.encode("utf-8")
+    assert sorted({x for x in payload if x < 32 and x not in {9, 10, 13}}) == []
+
+
+def test_d02_repeated_propose_recovers_same_terminal_proposal_without_reopening(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+    decided = service.decide(
+        proposal_id=proposal["proposal_id"],
+        proposal_sha256=proposal["proposal_sha256"],
+        decision="ACCEPT",
+        actor="owner-1",
+        actor_role="owner",
+    ).to_dict()
+    assert decided["ok"] is True
+    recovered = service.propose(actor="owner-1", actor_role="owner").to_dict()
+    assert recovered["ok"] is True
+    assert recovered["data"]["recovered"] is True
+    assert recovered["data"]["proposal"]["proposal_id"] == proposal["proposal_id"]
+    assert recovered["data"]["proposal"]["status"] == "ACCEPTED"
+    assert len(recovered["data"]["proposal"]["draft_ids"]) == 3
+    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 3
+    assert not (workspace / "src").exists()
+
+
+def test_d02_accept_reconciles_exact_partial_draft_set_after_interruption(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+    first = proposal["files"][0]
+    seeded = code.save_draft(
+        operation="CREATE",
+        content=first["content"],
+        target_path=first["target_path"],
+        source_id=None,
+        expected_source_sha256=None,
+        expected_revision_sha256=None,
+        actor="owner-1",
+        actor_role="owner",
+    ).to_dict()
+    assert seeded["ok"] is True
+    decided = service.decide(
+        proposal_id=proposal["proposal_id"],
+        proposal_sha256=proposal["proposal_sha256"],
+        decision="ACCEPT",
+        actor="owner-1",
+        actor_role="owner",
+    ).to_dict()
+    assert decided["ok"] is True
+    assert len(decided["data"]["drafts"]) == 3
+    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 3
+    assert not (workspace / "src").exists()

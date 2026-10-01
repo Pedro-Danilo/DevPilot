@@ -5122,6 +5122,64 @@
       "risk_level": "medium",
       "route_id": "api.workspace.validations.status",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-code-workbench-read",
+      "allowed_roles": [
+        "owner",
+        "product-owner",
+        "architect",
+        "security-reviewer",
+        "developer",
+        "qa-reviewer",
+        "release-manager",
+        "operator",
+        "agent-supervisor"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "story.code.drafts.list",
+      "path": "/api/v1/story/code/drafts",
+      "public": false,
+      "risk_level": "low",
+      "route_id": "api.story-code.drafts.list",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-implementation-proposal",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.implementation-proposal.create",
+      "path": "/api/v1/story/code/implementation-proposals",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-implementation.proposal.create",
+      "workspace_scope_required": true
+    },
+    {
+      "access_class": "human-session/project-story-implementation-proposal",
+      "allowed_roles": [
+        "owner",
+        "developer"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "story.implementation-proposal.decision",
+      "path": "/api/v1/story/code/implementation-proposals/{proposal_id}/decision",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.story-implementation.proposal.decision",
+      "workspace_scope_required": true
     }
   ],
   "runtime_enforced": true,
@@ -5425,7 +5483,7 @@
     "gsdlc_08_e_legacy_token_allowed_total": 0,
     "gsdlc_08_e_planning_policies_total": 11,
     "gsdlc_09_b_authoring_policies_total": 3,
-    "gsdlc_09_b_code_workbench_policies_total": 7,
+    "gsdlc_09_b_code_workbench_policies_total": 8,
     "gsdlc_09_b_legacy_token_allowed_total": 0,
     "gsdlc_09_c_legacy_token_allowed_total": 0,
     "gsdlc_09_c_owner_only_action_policies_total": 4,
@@ -5468,9 +5526,9 @@
     "gsdlc_12_b_legacy_token_allowed_total": 0,
     "gsdlc_12_b_reconciliation_policies_total": 3,
     "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
-    "human_session_required_total": 167,
+    "human_session_required_total": 170,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 243,
+    "route_policies_total": 246,
     "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
@@ -5479,11 +5537,12 @@
     "gsdlc_13_c_02_owner_only_action_policies_total": 1,
     "gsdlc_13_c_03_miasi_applicability_policies_total": 1,
     "gsdlc_13_c_04_planning_authoring_policies_total": 4,
-    "gsdlc_13_d_01_story_activation_policies_total": 3
+    "gsdlc_13_d_01_story_activation_policies_total": 3,
+    "gsdlc_13_d_02_implementation_proposal_policies_total": 2
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-09-30",
-  "updated_by": "DEVPL-GSDLC-13-D-01-STORY-ACTIVATION-CORRECTIVE",
+  "updated": "2026-10-01",
+  "updated_by": "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-PROPOSAL-CORRECTIVE",
   "version": "1.3.1",
   "workspace": {
     "cross_workspace_effect": "DENY",

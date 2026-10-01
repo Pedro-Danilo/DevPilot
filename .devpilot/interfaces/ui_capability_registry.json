@@ -11710,7 +11710,7 @@
   },
   "status": "approved",
   "summary": {
-    "api_routes_total": 243,
+    "api_routes_total": 246,
     "classification_complete": true,
     "cli_commands_classified_total": 210,
     "cli_commands_total": 210,
@@ -11778,7 +11778,7 @@
     "gsdlc_12_b_conflict_resolution_view": true,
     "gsdlc_12_b_project_status_conflict_projection": true,
     "gsdlc_12_b_reconciliation_api_routes_total": 3,
-    "last_updated_by": "DEVPL-GSDLC-13-D-01-STORY-ACTIVATION-CORRECTIVE",
+    "last_updated_by": "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-PROPOSAL-CORRECTIVE",
     "mutating_without_policy_total": 0,
     "parity_status_counts": {
       "CLI-BRIDGE-REGISTERED": 178,
@@ -13014,6 +13014,6 @@
       "title": "Ayuda y glosario"
     }
   ],
-  "updated": "2026-09-30",
+  "updated": "2026-10-01",
   "version": "1.2.1"
 }

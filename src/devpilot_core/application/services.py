@@ -44,6 +44,7 @@ from .artifact_review_service import ArtifactReviewApplicationService
 from .agent_assist_service import AgentAssistApplicationService
 from .agent_execution_service import AgentExecutionApplicationService
 from .story_agent_assist_service import StoryAgentAssistApplicationService
+from .story_implementation_candidate_service import StoryImplementationCandidateApplicationService
 from .story_test_plan_service import StoryTestPlanApplicationService
 from .story_validation_jobs import StoryValidationJobApplicationService
 from .story_quality_gate import StoryQualityGateApplicationService
@@ -153,6 +154,7 @@ class ApplicationService:
         self._agent_assist: AgentAssistApplicationService | None = None
         self._agent_execution: AgentExecutionApplicationService | None = None
         self._story_agent_assist: StoryAgentAssistApplicationService | None = None
+        self._story_implementation_candidate: StoryImplementationCandidateApplicationService | None = None
         self._pre_code_wizard: PreCodeWizardApplicationService | None = None
         self.workspace_git_operations = WorkspaceGitOperationsApplicationService(
             self.root,
@@ -341,6 +343,17 @@ class ApplicationService:
                 code_workbench=self.code_workbench,
             )
         return self._story_agent_assist
+
+    @property
+    def story_implementation_candidate(self) -> StoryImplementationCandidateApplicationService:
+        """Lazily construct the 13-D-02 deterministic source-bootstrap proposal boundary."""
+        if self._story_implementation_candidate is None:
+            self._story_implementation_candidate = StoryImplementationCandidateApplicationService(
+                self.root,
+                context_resolver=self.ui_workspace_context,
+                code_workbench=self.code_workbench,
+            )
+        return self._story_implementation_candidate
 
     @property
     def pre_code_wizard(self) -> PreCodeWizardApplicationService:
@@ -1556,6 +1569,9 @@ class ApplicationService:
     def story_code_draft_save(self, *, operation: str, content: str, target_path: str, source_id: str | None, expected_source_sha256: str | None, expected_revision_sha256: str | None, actor: str, actor_role: str) -> CommandResult:
         return self.code_workbench.save_draft(operation=operation, content=content, target_path=target_path, source_id=source_id, expected_source_sha256=expected_source_sha256, expected_revision_sha256=expected_revision_sha256, actor=actor, actor_role=actor_role)
 
+    def story_code_drafts_list(self) -> CommandResult:
+        return self.code_workbench.list_drafts()
+
     def story_code_draft_get(self, *, draft_id: str) -> CommandResult:
         return self.code_workbench.get_draft(draft_id)
 
@@ -1865,6 +1881,12 @@ class ApplicationService:
 
     def story_source_change_rollback_evidence(self, *, execution_id: str) -> CommandResult:
         return self.source_changes.get_rollback_evidence(execution_id=execution_id)
+
+    def story_implementation_proposal_create(self, *, actor: str, actor_role: str) -> CommandResult:
+        return self.story_implementation_candidate.propose(actor=actor, actor_role=actor_role)
+
+    def story_implementation_proposal_decide(self, *, proposal_id: str, proposal_sha256: str, decision: str, actor: str, actor_role: str) -> CommandResult:
+        return self.story_implementation_candidate.decide(proposal_id=proposal_id, proposal_sha256=proposal_sha256, decision=decision, actor=actor, actor_role=actor_role)
 
     def story_agent_proposal_create(self, *, agent_type: str, mode: str, instruction: str, source_id: str | None, actor: str, actor_role: str) -> CommandResult:
         return self.story_agent_assist.propose(agent_type=agent_type, mode=mode, instruction=instruction, source_id=source_id, actor=actor, actor_role=actor_role)
