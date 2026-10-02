@@ -96,14 +96,52 @@ def test_d02_source_empty_greenfield_gets_reviewable_deterministic_proposal_with
     proposal = result["data"]["proposal"]
     assert proposal["status"] == "PROPOSED"
     assert proposal["provider"]["provider_id"] == "devpilot-local"
-    assert proposal["provider"]["model_id"] == "deterministic-story-implementation-template-v1"
+    assert proposal["provider"]["model_id"] == "deterministic-story-implementation-template-v2"
     assert proposal["provider"]["network_used"] is False
     assert proposal["provider"]["external_api_used"] is False
     assert proposal["safety"]["proposal_only"] is True
     assert proposal["safety"]["source_mutations_performed"] is False
-    assert len(proposal["files"]) == 3
+    assert len(proposal["files"]) == 4
     assert {row["operation"] for row in proposal["files"]} == {"CREATE"}
     assert all(row["target_path"].endswith(".py") for row in proposal["files"])
+    assert not (workspace / "src").exists()
+    assert not (workspace / "tests").exists()
+
+
+def test_d02_v2_proposal_is_domain_reusable_docstring_reviewable_and_blocks_business_field_invention(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+
+    paths = {row["target_path"] for row in proposal["files"]}
+    assert paths == {
+        "src/inventory_sales_local_greenfield/domain/product.py",
+        "src/inventory_sales_local_greenfield/application/create_product.py",
+        "src/inventory_sales_local_greenfield/infrastructure/sqlite_product_repository.py",
+        "tests/test_create_product.py",
+    }
+    assert proposal["quality"]["ready_for_draft_materialization"] is True
+    assert proposal["quality"]["docstring_contract_pass"] is True
+    assert proposal["quality"]["architecture_coverage"] == {"ARC-C02": True, "ARC-C03": True, "ARC-C04": True}
+    assert proposal["quality"]["story_specific_storage"] is False
+    assert proposal["quality"]["reusable_product_storage"] is True
+    assert proposal["quality"]["business_field_invention"] is False
+    assert proposal["quality"]["product_data_contract_posture"].startswith("opaque-attributes")
+
+    combined = "\n".join(row["content"] for row in proposal["files"])
+    assert "story_rf_001_records" not in combined
+    assert "CREATE TABLE IF NOT EXISTS products" in combined
+    assert "class Product:" in combined
+    assert "class ProductRepository(Protocol):" in combined
+    assert "class CreateProductService:" in combined
+    for row in proposal["files"]:
+        assert row["docstring_summary"]
+        content = row["content"]
+        for section in ("Purpose:", "Responsibilities:", "Boundaries:", "Traceability:"):
+            assert section in content
+        compile(content, row["target_path"], "exec")
+
     assert not (workspace / "src").exists()
     assert not (workspace / "tests").exists()
 
@@ -117,7 +155,7 @@ def test_d02_accept_materializes_multi_file_runtime_draft_set_and_existing_chang
     decided = service.decide(proposal_id=proposal["proposal_id"], proposal_sha256=proposal["proposal_sha256"], decision="ACCEPT", actor="owner-1", actor_role="owner").to_dict()
     assert decided["ok"] is True
     drafts = decided["data"]["drafts"]
-    assert len(drafts) == 3
+    assert len(drafts) == 4
     assert all(row["operation"] == "CREATE" and row["status"] == "DRAFT" for row in drafts)
     assert decided["data"]["source_mutations_performed"] is False
     assert code.list_sources().to_dict()["data"]["summary"]["sources_total"] == 0
@@ -128,11 +166,36 @@ def test_d02_accept_materializes_multi_file_runtime_draft_set_and_existing_chang
     plan_result = changes.create_plan(draft_ids=[x["draft_id"] for x in drafts], actor="owner-1", actor_role="owner").to_dict()
     assert plan_result["ok"] is True
     plan = plan_result["data"]["plan"]
-    assert len(plan["changes"]) == 3
+    assert len(plan["changes"]) == 4
     assert set(plan["exact_path_allowlist"]) == {x["target_path"] for x in drafts}
     assert plan_result["data"]["source_mutations_performed"] is False
     assert not (workspace / "src").exists()
     assert not (workspace / "tests").exists()
+
+
+def test_d02_v1_proposal_cannot_be_accepted_after_quality_corrective(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+    store = service._store_path(workspace, "inventory-sales-local-greenfield")
+    payload = json.loads(store.read_text(encoding="utf-8"))
+    row = payload["proposals"][proposal["proposal_id"]]
+    row["provider"]["model_id"] = "deterministic-story-implementation-template-v1"
+    row.pop("quality", None)
+    store.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    result = service.decide(
+        proposal_id=proposal["proposal_id"],
+        proposal_sha256=proposal["proposal_sha256"],
+        decision="ACCEPT",
+        actor="owner-1",
+        actor_role="owner",
+    ).to_dict()
+    assert result["ok"] is False
+    assert result["exit_code"] == 2
+    assert "OBSOLETE_PROPOSAL" in json.dumps(result["findings"])
+    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 0
 
 
 def test_d02_reject_is_terminal_without_draft_or_source_mutation(tmp_path: Path) -> None:
@@ -165,25 +228,27 @@ def test_d02_transport_rbac_ui_and_multifile_bridge_are_registered() -> None:
 
     view = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
     for marker in (
-        "Implementación propuesta por DevPilot",
+        "integrated-source-tree",
+        "Árbol unificado para source real, propuesta DevPilot y Draft Set runtime-only",
         "Proponer implementación desde contexto",
-        "Aceptar como Draft Set",
-        "sourceDraftSet",
-        "SourceChangePlan incluirá todos los drafts vigentes",
-        "Manual CREATE sigue disponible como override humano",
-        "no necesitas inventar src/new_file.py",
+        "Aceptar propuesta → Draft Set",
+        "PROPOSAL",
+        "read-only hasta ACCEPT",
+        "renderUnifiedSourceTree",
+        "quality=",
     ):
         assert marker in view
+    assert "Implementación propuesta por DevPilot" not in view
     assert "storySourceChangePlanCreate(usable.map((x)=>x.draft_id))" in view
 
 
 def test_d02_corrective_documents_define_proposal_draftset_and_preserve_first_attempt() -> None:
-    contract = (ROOT / "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_2.md").read_text(encoding="utf-8")
+    contract = (ROOT / "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_3.md").read_text(encoding="utf-8")
     for marker in (
-        "Implementation Candidate — proposal-only",
+        "Proposal review model",
         "SourceDraftBuffer Set",
-        "Multi-file SourceChangePlan",
-        "deterministic-story-implementation-template-v1",
+        "multi-file SourceChangePlan",
+        "deterministic-story-implementation-template-v2",
         "Manual CREATE/EDIT/RENAME",
     ):
         assert marker in contract
@@ -193,16 +258,16 @@ def test_d02_corrective_documents_define_proposal_draftset_and_preserve_first_at
     adjudication = (ROOT / "docs/audits/DEVPL_GSDLC_13_D_02_FIRST_ATTEMPT_ADJUDICATION_v1_0_0.md").read_text(encoding="utf-8")
     assert "RUN_01 = BLOCK" in adjudication
     assert "99_block_state.png" in adjudication
-    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_02_v1_0_1_APPROVED.md").read_text(encoding="utf-8")
+    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_02_v1_0_2_APPROVED.md").read_text(encoding="utf-8")
     for marker in (
-        'version: "1.0.1"',
+        'version: "1.0.2"',
         'continuation_run: "RUN_02"',
         "Proponer implementación desde contexto",
-        "02_implementation_proposal_review.png",
-        "03_draft_set_runtime_only.png",
-        "04_source_change_plan_multifile.png",
-        "10_stop_before_d03.png",
-        "RUN_01` es evidencia inmutable",
+        "03_proposal_v2_tree_editor.png",
+        "04_draft_set_tree_editor.png",
+        "SourceChangePlan",
+        "CHANGES_READY",
+        "screenshots 01 and 02 from the partial RUN_02 remain preserved",
         "Full Regression=0",
     ):
         assert marker in run_card
@@ -228,8 +293,8 @@ def test_d02_repeated_propose_recovers_same_terminal_proposal_without_reopening(
     assert recovered["data"]["recovered"] is True
     assert recovered["data"]["proposal"]["proposal_id"] == proposal["proposal_id"]
     assert recovered["data"]["proposal"]["status"] == "ACCEPTED"
-    assert len(recovered["data"]["proposal"]["draft_ids"]) == 3
-    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 3
+    assert len(recovered["data"]["proposal"]["draft_ids"]) == 4
+    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 4
     assert not (workspace / "src").exists()
 
 
@@ -258,6 +323,6 @@ def test_d02_accept_reconciles_exact_partial_draft_set_after_interruption(tmp_pa
         actor_role="owner",
     ).to_dict()
     assert decided["ok"] is True
-    assert len(decided["data"]["drafts"]) == 3
-    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 3
+    assert len(decided["data"]["drafts"]) == 4
+    assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 4
     assert not (workspace / "src").exists()

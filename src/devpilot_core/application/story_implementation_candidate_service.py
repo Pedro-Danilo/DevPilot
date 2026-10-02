@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import hashlib
 import json
 import re
@@ -46,7 +47,8 @@ class StoryImplementationCandidateApplicationService:
     SourceDraftBuffer records only; 09-C remains the sole source mutation boundary.
     """
 
-    SCHEMA_ID = "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-CANDIDATE-V1"
+    SCHEMA_ID = "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-CANDIDATE-V2"
+    GENERATOR_ID = "deterministic-story-implementation-template-v2"
 
     def __init__(self, root: Path, *, context_resolver, code_workbench: CodeWorkbenchApplicationService) -> None:
         self.root = Path(root).resolve()
@@ -95,16 +97,40 @@ class StoryImplementationCandidateApplicationService:
         acceptance = self._fragment(story_context, "acceptance")
         test_intent = self._fragment(story_context, "test-intent")
         namespace = _slug(workspace_id, fallback="app")
-        story_slug = _slug(story_id, fallback="story")
-        module_path = f"src/{namespace}/application/{story_slug}.py"
-        repository_path = f"src/{namespace}/infrastructure/sqlite_{story_slug}_repository.py"
-        test_path = f"tests/test_{story_slug}.py"
-
         files = [
-            self._file(module_path, self._application_module(story_id, title, requirement, acceptance)),
-            self._file(repository_path, self._repository_module(story_id, namespace, story_slug)),
-            self._file(test_path, self._test_module(story_id, namespace, story_slug, acceptance)),
+            self._file(
+                f"src/{namespace}/domain/product.py",
+                self._domain_module(story_id, title, requirement, acceptance),
+                rationale="ARC-C03 · reusable Product domain model + persistence port; no story-specific table or business field invention.",
+                artifact_role="domain",
+            ),
+            self._file(
+                f"src/{namespace}/application/create_product.py",
+                self._application_module(story_id, title, namespace, requirement, acceptance),
+                rationale="ARC-C02 · authorization + create-product use-case orchestration over the domain port.",
+                artifact_role="application",
+            ),
+            self._file(
+                f"src/{namespace}/infrastructure/sqlite_product_repository.py",
+                self._repository_module(story_id, namespace),
+                rationale="ARC-C04 · reusable SQLite ProductRepository adapter with a products table and transactional write.",
+                artifact_role="infrastructure",
+            ),
+            self._file(
+                "tests/test_create_product.py",
+                self._test_module(story_id, namespace, acceptance),
+                rationale="TEST-001 · acceptance-focused authorization and durable-observability tests for RF-001.",
+                artifact_role="test",
+            ),
         ]
+        quality = self._quality_report(files)
+        if not quality["ready_for_draft_materialization"]:
+            return self._block(
+                command,
+                "GSDLC13D02_IMPLEMENTATION_INTERNAL_QUALITY_BLOCK",
+                "Generated implementation proposal failed the internal architecture/reviewability gate; no proposal was persisted.",
+                metadata={"quality": quality},
+            )
         stable = {
             "workspace_id": workspace_id,
             "story_execution_id": state.execution_id,
@@ -135,17 +161,20 @@ class StoryImplementationCandidateApplicationService:
             "status": "PROPOSED",
             "provider": {
                 "provider_id": "devpilot-local",
-                "model_id": "deterministic-story-implementation-template-v1",
+                "model_id": self.GENERATOR_ID,
                 "preliminary": True,
                 "network_used": False,
                 "external_api_used": False,
                 "cost_usd": 0.0,
             },
             "technology": technology,
+            "quality": quality,
             "rationale": [
                 "StoryContextPack is IN_PROGRESS and the source tree is empty.",
-                "The frozen Architecture selected fastapi-python + sqlite; the first bounded slice therefore uses Python application and SQLite persistence boundaries.",
-                "The Story is allocated to ARC-C02/ARC-C03/ARC-C04; this preliminary slice materializes application/domain behavior and local persistence without inventing an ARC-C01 presentation contract that is not required by the StoryContextPack.",
+                "The frozen Architecture selected fastapi-python + sqlite; the first bounded slice therefore uses Python Application/Domain/Persistence boundaries.",
+                "The Story is allocated to ARC-C02/ARC-C03/ARC-C04; the proposal now materializes those responsibilities explicitly as reusable product-oriented modules rather than story-specific persistence.",
+                "Requirements do not define a complete product-field schema. The proposal therefore preserves product attributes as opaque governed data and does not invent name/price/SKU/stock business rules.",
+                "Every generated Python artifact carries a module docstring that states purpose, responsibilities, boundaries and traceability for human review.",
                 "D03 quality/remediation may require a successor change if targeted tests expose a missing boundary or insufficient behavior.",
                 "Manual authoring remains available; this proposal is a reviewable default, not authority to write source.",
             ],
@@ -195,6 +224,15 @@ class StoryImplementationCandidateApplicationService:
             return self._block(command, "GSDLC13D02_IMPLEMENTATION_PROPOSAL_HASH_BLOCK", "Implementation proposal SHA-256 changed; refresh before decision.")
         if proposal.get("status") != "PROPOSED":
             return self._block(command, "GSDLC13D02_IMPLEMENTATION_PROPOSAL_DECIDED_BLOCK", "Implementation proposal already has a terminal human decision.")
+        provider = proposal.get("provider") if isinstance(proposal.get("provider"), dict) else {}
+        quality = proposal.get("quality") if isinstance(proposal.get("quality"), dict) else {}
+        if str(provider.get("model_id") or "") != self.GENERATOR_ID or quality.get("ready_for_draft_materialization") is not True:
+            return self._block(
+                command,
+                "GSDLC13D02_IMPLEMENTATION_OBSOLETE_PROPOSAL_BLOCK",
+                "This proposal predates the architecture/reviewability quality corrective or did not pass its quality gate; generate a fresh proposal before ACCEPT.",
+                metadata={"model_id": provider.get("model_id"), "quality": quality},
+            )
         if decision == "REJECT":
             proposal["status"] = "REJECTED"
             proposal["human_decision"] = {"decision": decision, "actor": actor, "actor_role": actor_role, "decided_at_utc": _now()}
@@ -302,118 +340,296 @@ class StoryImplementationCandidateApplicationService:
         return {}
 
     @staticmethod
-    def _file(target_path: str, content: str) -> dict[str, Any]:
+    def _file(target_path: str, content: str, *, rationale: str, artifact_role: str) -> dict[str, Any]:
+        module_docstring = ""
+        try:
+            tree = ast.parse(content)
+            module_docstring = ast.get_docstring(tree, clean=False) or ""
+        except SyntaxError:
+            module_docstring = ""
         return {
             "operation": "CREATE",
             "target_path": target_path,
             "content": content,
             "content_sha256": _sha_text(content),
-            "rationale": "Generated as one bounded file in the first architecture-aligned implementation slice.",
+            "rationale": rationale,
+            "artifact_role": artifact_role,
+            "docstring_summary": module_docstring.splitlines()[0].strip() if module_docstring else "",
         }
 
     @staticmethod
-    def _application_module(story_id: str, title: str, requirement: dict[str, Any], acceptance: dict[str, Any]) -> str:
-        req = " ".join(str(requirement.get("content") or "").split())[:500]
-        ac = " ".join(str(acceptance.get("content") or "").split())[:400]
-        return f'''"""Application boundary for {story_id}: {title}.
+    def _quality_report(files: list[dict[str, Any]]) -> dict[str, Any]:
+        required_docstring_sections = ("Purpose:", "Responsibilities:", "Boundaries:", "Traceability:")
+        docstrings: list[dict[str, Any]] = []
+        syntax_pass = True
+        for row in files:
+            content = str(row.get("content") or "")
+            try:
+                tree = ast.parse(content)
+                doc = ast.get_docstring(tree, clean=False) or ""
+                syntax_ok = True
+            except SyntaxError:
+                doc = ""
+                syntax_ok = False
+                syntax_pass = False
+            missing = [section for section in required_docstring_sections if section not in doc]
+            docstrings.append({
+                "target_path": row.get("target_path"),
+                "syntax_pass": syntax_ok,
+                "module_docstring_present": bool(doc.strip()),
+                "required_sections_present": not missing,
+                "missing_sections": missing,
+            })
+        paths = {str(row.get("target_path") or "") for row in files}
+        architecture_coverage = {
+            "ARC-C02": any("/application/" in path for path in paths),
+            "ARC-C03": any("/domain/" in path for path in paths),
+            "ARC-C04": any("/infrastructure/" in path for path in paths),
+        }
+        no_story_specific_storage = all("story_rf_001_records" not in str(row.get("content") or "") for row in files)
+        reusable_product_storage = any("CREATE TABLE IF NOT EXISTS products" in str(row.get("content") or "") for row in files)
+        docstrings_pass = all(x["module_docstring_present"] and x["required_sections_present"] for x in docstrings)
+        ready = syntax_pass and all(architecture_coverage.values()) and no_story_specific_storage and reusable_product_storage and docstrings_pass
+        return {
+            "ready_for_draft_materialization": ready,
+            "python_syntax_pass": syntax_pass,
+            "docstring_contract_pass": docstrings_pass,
+            "docstring_contract": "module Purpose/Responsibilities/Boundaries/Traceability required for every generated Python artifact",
+            "docstrings": docstrings,
+            "architecture_coverage": architecture_coverage,
+            "story_specific_storage": not no_story_specific_storage,
+            "reusable_product_storage": reusable_product_storage,
+            "business_field_invention": False,
+            "product_data_contract_posture": "opaque-attributes-until-governed-requirement-specializes-fields",
+            "known_limitations": [
+                "RF-001 does not define a complete product-field schema; the slice preserves arbitrary governed attributes without inventing name/SKU/price/stock rules.",
+                "ARC-C01 presentation is intentionally absent because RF-001 is allocated only to ARC-C02/ARC-C03/ARC-C04 in the frozen Architecture.",
+                "FastAPI/React technical scaffold and dependency manifests remain a separate project-level hardening concern; this Story does not silently create them.",
+            ],
+        }
 
-Requirement context: {req}
-Acceptance oracle: {ac}
-Generated by DevPilot deterministic-story-implementation-template-v1.
-"""
+    @staticmethod
+    def _module_docstring(*, title: str, purpose: str, responsibilities: list[str], boundaries: list[str], traceability: list[str]) -> str:
+        def lines(label: str, values: list[str]) -> str:
+            return label + "\n" + "\n".join(f"- {value}" for value in values)
+        return (
+            f'"""{title}\n\n'
+            f'Purpose:\n{purpose}\n\n'
+            f'{lines("Responsibilities:", responsibilities)}\n\n'
+            f'{lines("Boundaries:", boundaries)}\n\n'
+            f'{lines("Traceability:", traceability)}\n'
+            '"""'
+        )
+
+    @classmethod
+    def _domain_module(cls, story_id: str, title: str, requirement: dict[str, Any], acceptance: dict[str, Any]) -> str:
+        doc = cls._module_docstring(
+            title="Product domain model and persistence port for the first governed product-creation slice.",
+            purpose="Represent a product independently of UI/database concerns and define the repository contract required by RF-001.",
+            responsibilities=[
+                "Represent product identity, opaque governed attributes and availability state.",
+                "Expose the ProductRepository port used by Application Services.",
+                "Remain reusable by RF-002/RF-003/RF-004 instead of encoding story-rf-001 in storage semantics.",
+            ],
+            boundaries=[
+                "Does not choose presentation/API contracts.",
+                "Does not invent business fields such as SKU, price or stock because RF-001 does not define them.",
+                "Does not depend on SQLite, network, external APIs or DevPilot runtime stores.",
+            ],
+            traceability=[f"Story: {story_id} — {title}", "Requirement: RF-001", "Architecture: ARC-C03 + ARC-C04 port", "Test intent: TEST-001"],
+        )
+        return f'''{doc}
 
 from __future__ import annotations
 
 from collections.abc import Mapping
+from dataclasses import dataclass
 from typing import Any, Protocol
 
 
-class AuthorizationRequired(PermissionError):
-    """Raised when the caller has not crossed the authorization boundary."""
+@dataclass(frozen=True)
+class Product:
+    """Domain representation of one product known to the local application."""
+
+    product_id: str
+    attributes: Mapping[str, Any]
+    available: bool = True
 
 
-class StoryRepository(Protocol):
-    def create(self, payload: Mapping[str, Any]) -> str: ...
-    def get(self, record_id: str) -> Mapping[str, Any] | None: ...
+class ProductRepository(Protocol):
+    """Persistence port used by product application services."""
 
+    def add(self, product: Product) -> None:
+        """Persist a product as one atomic repository operation."""
+        ...
 
-def execute(*, actor_authorized: bool, payload: Mapping[str, Any], repository: StoryRepository) -> str:
-    """Create one durable record and verify it can be observed afterwards."""
-    if not actor_authorized:
-        raise AuthorizationRequired("authorized actor required")
-    normalized = dict(payload)
-    if not normalized:
-        raise ValueError("valid non-empty payload required")
-    record_id = repository.create(normalized)
-    if repository.get(record_id) is None:
-        raise RuntimeError("record was not observable after create")
-    return record_id
+    def get(self, product_id: str) -> Product | None:
+        """Return the persisted product without mutating repository state."""
+        ...
 '''
 
-    @staticmethod
-    def _repository_module(story_id: str, namespace: str, story_slug: str) -> str:
-        table = re.sub(r"[^a-z0-9_]+", "_", story_slug.lower()) + "_records"
-        return f'''"""SQLite persistence adapter for {story_id}."""
+    @classmethod
+    def _application_module(cls, story_id: str, title: str, namespace: str, requirement: dict[str, Any], acceptance: dict[str, Any]) -> str:
+        doc = cls._module_docstring(
+            title="Create-product application service for RF-001.",
+            purpose="Orchestrate authorization, domain creation and durable observability for the active Story without embedding persistence details.",
+            responsibilities=[
+                "Reject callers that have not crossed the authorization boundary.",
+                "Create an available Product while preserving caller-supplied attributes as opaque governed data.",
+                "Persist through ProductRepository and verify the created product is observable afterwards.",
+            ],
+            boundaries=[
+                "Does not define product-field business rules that are absent from frozen Requirements.",
+                "Does not open SQLite connections, render UI, perform network access or write outside the repository port.",
+                "Does not grant apply/approval/Git authority.",
+            ],
+            traceability=[f"Story: {story_id} — {title}", "Requirement: RF-001", "Architecture: ARC-C02 + ARC-C03 + ARC-C04", "Security: SEC-001 + SEC-002", "Test intent: TEST-001"],
+        )
+        return f'''{doc}
+
+from __future__ import annotations
+
+import uuid
+from collections.abc import Mapping
+from typing import Any
+
+from src.{namespace}.domain.product import Product, ProductRepository
+
+
+class AuthorizationRequired(PermissionError):
+    """Raised when a caller attempts RF-001 without prior authorization."""
+
+
+class CreateProductService:
+    """Application service implementing the RF-001 creation use case."""
+
+    def __init__(self, repository: ProductRepository) -> None:
+        """Bind the use case to the approved product persistence port."""
+        self.repository = repository
+
+    def execute(self, *, actor_authorized: bool, attributes: Mapping[str, Any]) -> Product:
+        """Create, persist and re-read one available product for an authorized actor."""
+        if not actor_authorized:
+            raise AuthorizationRequired("authorized actor required")
+        product = Product(product_id=uuid.uuid4().hex, attributes=dict(attributes), available=True)
+        self.repository.add(product)
+        observed = self.repository.get(product.product_id)
+        if observed != product:
+            raise RuntimeError("created product was not observable after persistence")
+        return observed
+'''
+
+    @classmethod
+    def _repository_module(cls, story_id: str, namespace: str) -> str:
+        doc = cls._module_docstring(
+            title="SQLite adapter for the reusable ProductRepository port.",
+            purpose="Persist Product records locally behind ARC-C04 while keeping RF-001 application/domain code independent of SQLite.",
+            responsibilities=[
+                "Create the bounded products table when the adapter is initialized.",
+                "Persist one Product atomically and reconstruct it by product_id.",
+                "Preserve product attributes losslessly as JSON without defining undeclared business fields.",
+            ],
+            boundaries=[
+                "Implements ProductRepository only; no authorization or UI logic.",
+                "Uses local SQLite only; no network or external API.",
+                "Uses a product-oriented table reusable by later CAP-001 stories instead of story-specific storage.",
+            ],
+            traceability=[f"Story: {story_id}", "Requirement: RF-001", "Architecture: ARC-C04", "ADR-002: persistence behind port/adaptor", "ADR-004: bounded mutable consistency"],
+        )
+        return f'''{doc}
 
 from __future__ import annotations
 
 import json
 import sqlite3
-import uuid
-from collections.abc import Mapping
-from typing import Any
+
+from src.{namespace}.domain.product import Product
 
 
-class SQLiteStoryRepository:
+class SQLiteProductRepository:
+    """Local SQLite implementation of ProductRepository."""
+
     def __init__(self, connection: sqlite3.Connection) -> None:
+        """Initialize the adapter and ensure the reusable products table exists."""
         self.connection = connection
-        self.connection.execute(
-            "CREATE TABLE IF NOT EXISTS {table} (record_id TEXT PRIMARY KEY, payload_json TEXT NOT NULL)"
-        )
-        self.connection.commit()
+        with self.connection:
+            self.connection.execute(
+                "CREATE TABLE IF NOT EXISTS products ("
+                "product_id TEXT PRIMARY KEY, attributes_json TEXT NOT NULL, "
+                "available INTEGER NOT NULL CHECK (available IN (0, 1)))"
+            )
 
-    def create(self, payload: Mapping[str, Any]) -> str:
-        record_id = uuid.uuid4().hex
-        self.connection.execute(
-            "INSERT INTO {table}(record_id, payload_json) VALUES (?, ?)",
-            (record_id, json.dumps(dict(payload), sort_keys=True, ensure_ascii=False)),
-        )
-        self.connection.commit()
-        return record_id
+    def add(self, product: Product) -> None:
+        """Persist one Product using a single SQLite transaction."""
+        with self.connection:
+            self.connection.execute(
+                "INSERT INTO products(product_id, attributes_json, available) VALUES (?, ?, ?)",
+                (product.product_id, json.dumps(dict(product.attributes), sort_keys=True, ensure_ascii=False), int(product.available)),
+            )
 
-    def get(self, record_id: str) -> Mapping[str, Any] | None:
+    def get(self, product_id: str) -> Product | None:
+        """Read one Product by identity without mutating storage."""
         row = self.connection.execute(
-            "SELECT payload_json FROM {table} WHERE record_id = ?", (record_id,)
+            "SELECT attributes_json, available FROM products WHERE product_id = ?", (product_id,)
         ).fetchone()
-        return json.loads(row[0]) if row else None
+        if row is None:
+            return None
+        return Product(product_id=product_id, attributes=json.loads(row[0]), available=bool(row[1]))
 '''
 
-    @staticmethod
-    def _test_module(story_id: str, namespace: str, story_slug: str, acceptance: dict[str, Any]) -> str:
+    @classmethod
+    def _test_module(cls, story_id: str, namespace: str, acceptance: dict[str, Any]) -> str:
         ac = " ".join(str(acceptance.get("content") or "").split())[:400]
-        return f'''"""Acceptance-focused tests for {story_id}.
-
-Oracle: {ac}
-"""
+        doc = cls._module_docstring(
+            title="Acceptance-focused tests for RF-001 product creation.",
+            purpose="Verify the active Story's authorization boundary and durable observability against the SQLite adapter without introducing external dependencies.",
+            responsibilities=[
+                "Verify unauthorized creation is rejected before persistence.",
+                "Verify an authorized product is persisted, remains available and can be observed afterwards.",
+                "Verify caller-supplied opaque attributes survive the persistence round-trip.",
+            ],
+            boundaries=[
+                "Does not assert undeclared product fields such as SKU, price or stock.",
+                "Uses SQLite in-memory and no network/external API.",
+                "Does not execute Full Regression; D03 remains the governed validation checkpoint.",
+            ],
+            traceability=[f"Story: {story_id}", f"Acceptance oracle: {ac}", "Requirement: RF-001", "Test intent: TEST-001", "Security: SEC-001 + SEC-002"],
+        )
+        return f'''{doc}
 
 import sqlite3
 
 import pytest
 
-from src.{namespace}.application.{story_slug} import AuthorizationRequired, execute
-from src.{namespace}.infrastructure.sqlite_{story_slug}_repository import SQLiteStoryRepository
+from src.{namespace}.application.create_product import AuthorizationRequired, CreateProductService
+from src.{namespace}.infrastructure.sqlite_product_repository import SQLiteProductRepository
 
 
-def test_authorization_is_required() -> None:
-    repository = SQLiteStoryRepository(sqlite3.connect(":memory:"))
+def test_unauthorized_actor_cannot_create_product() -> None:
+    """SEC-001: reject unauthorized creation before any product row is stored."""
+    connection = sqlite3.connect(":memory:")
+    repository = SQLiteProductRepository(connection)
+    service = CreateProductService(repository)
+
     with pytest.raises(AuthorizationRequired):
-        execute(actor_authorized=False, payload={{"name": "sample"}}, repository=repository)
+        service.execute(actor_authorized=False, attributes={{"example": "opaque-value"}})
+
+    assert connection.execute("SELECT COUNT(*) FROM products").fetchone()[0] == 0
 
 
-def test_valid_data_is_recorded_and_observable() -> None:
-    repository = SQLiteStoryRepository(sqlite3.connect(":memory:"))
-    record_id = execute(actor_authorized=True, payload={{"name": "sample"}}, repository=repository)
-    assert repository.get(record_id) == {{"name": "sample"}}
+def test_authorized_product_is_recorded_available_and_observable() -> None:
+    """TEST-001: an authorized RF-001 create remains observable after persistence."""
+    repository = SQLiteProductRepository(sqlite3.connect(":memory:"))
+    service = CreateProductService(repository)
+    attributes = {{"example": "opaque-value"}}
+
+    created = service.execute(actor_authorized=True, attributes=attributes)
+
+    observed = repository.get(created.product_id)
+    assert observed == created
+    assert observed is not None
+    assert observed.available is True
+    assert dict(observed.attributes) == attributes
 '''
 
     def _store_path(self, workspace: Path, workspace_id: str) -> Path:

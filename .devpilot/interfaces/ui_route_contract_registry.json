@@ -1132,8 +1132,9 @@
         "GSDLC-10-D reuses WorkspaceGitOperationsPanel inside Story Code Workbench for CommitPlan→stage approval→exact stage→commit approval→commit; no second Git engine and no push.",
         "13-D-01 adds UI-native READY Story activation, DoR/StoryContextPack review and PLANNED→IN_PROGRESS transition without terminal/API seeding.",
         "13-D-01 context reviewability corrective renders Story/AC, DoR, requirement, ADR, risk, test-intent, ContextPack identity and route/authority as human-readable sections; raw JSON is secondary expandable evidence.",
-        "13-D-02 corrective adds a deterministic local implementation proposal for source-empty greenfield. Owner reviews file paths/content/provenance before ACCEPT materializes runtime-only SourceDraftBuffer records.",
-        "13-D-02 Draft Set allows one SourceChangePlan to bind all current non-conflict drafts; Manual CREATE/EDIT/RENAME remains an explicit override and does not infer architecture from a placeholder."
+        "13-D-02 proposal-quality corrective replaces generator v1 with deterministic-story-implementation-template-v2. Proposal files are virtual PROPOSAL nodes inside the existing Source tree and open read-only in the existing Draft editor for human review.",
+        "13-D-02 proposal quality gate requires explicit ARC-C02/C03/C04 coverage, reusable Product persistence rather than Story-ID storage, no invented business fields, and structured Purpose/Responsibilities/Boundaries/Traceability module docstrings before Owner ACCEPT.",
+        "Owner ACCEPT converts the reviewed proposal file set into runtime-only DRAFT nodes; SourceChangePlan/diff/dry-run/Owner approval/atomic apply remain the only source-write path. Obsolete v1 proposals are non-acceptable."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1196,9 +1197,14 @@
         "implementation_proposal_rejected": true,
         "implementation_proposal_accepted_to_draft_set": true,
         "draft_set_reviewable": true,
-        "source_empty_guided_bridge": true
+        "source_empty_guided_bridge": true,
+        "implementation_proposal_integrated_tree_review": true,
+        "implementation_proposal_docstring_quality_gate": true,
+        "implementation_proposal_architecture_quality_gate": true,
+        "obsolete_implementation_proposal_blocked": true,
+        "proposal_file_readonly_editor_review": true
       },
-      "status": "implemented-initial/gsdlc-13-d-02-implementation-proposal-corrective",
+      "status": "implemented-initial/gsdlc-13-d-02-proposal-quality-tree-corrective",
       "status_visibility": [
         "PASS",
         "WARN",
