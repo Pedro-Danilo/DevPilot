@@ -384,3 +384,26 @@ def test_d02_v21_product_attribute_contract_is_json_compatible_without_business_
     assert 'JsonValue: TypeAlias' in domain
     assert 'ProductAttributes: TypeAlias = Mapping[str, JsonValue]' in domain
     assert 'name:' not in domain and 'sku:' not in domain and 'price:' not in domain and 'stock:' not in domain
+
+
+def test_d02_draft_plan_governance_ui_and_docs_contract() -> None:
+    view=(ROOT/"ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
+    styles=(ROOT/"ui/web/src/styles.css").read_text(encoding="utf-8")
+    for marker in (
+        "Guardar cambios en draft",
+        "preimage_check",
+        "Owner review · qué debes decidir antes de approval",
+        "sourceChangeOwnerReviewed",
+        "Test Impact preview · no equivale a cobertura de tests",
+        "dryRunPassed",
+        "finalRecheckPassed",
+        "approval requiere Dry-run PASS persistido",
+    ):
+        assert marker in view
+    assert ".code-workbench-actions[hidden]{display:none!important}" in styles
+    contract=(ROOT/"docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_5.md").read_text(encoding="utf-8")
+    run_card=(ROOT/"docs/validation/RUN_CARD_13_D_02_v1_0_4_APPROVED.md").read_text(encoding="utf-8")
+    audit=(ROOT/"docs/audits/DEVPL_GSDLC_13_D_02_DRAFT_PLAN_GOVERNANCE_ADJUDICATION_v1_0_0.md").read_text(encoding="utf-8")
+    for marker in ("dry-run PASS receipt","per-Draft","unmatched_paths_total"):
+        assert marker.lower() in contract.lower()
+    assert 'version: "1.0.4"' in run_card and "FUNC-GOV-13D02-DRYRUN-014" in audit

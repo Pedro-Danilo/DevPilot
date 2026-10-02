@@ -37743,12 +37743,12 @@
       ]
     },
     {
-      "classification": "source-of-truth",
+      "classification": "historical",
       "criticality": "P0",
       "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
       "domain": "operations.story-code",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "owner": "Ordóñez",
       "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_4.md",
       "required_tests": [
@@ -37790,12 +37790,12 @@
       ]
     },
     {
-      "classification": "source-of-truth",
+      "classification": "historical",
       "criticality": "P0",
       "doc_id": "DEVPL-GSDLC-13-D-02-RUN-CARD",
       "domain": "validation.acceptance",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "owner": "Ordóñez",
       "path": "docs/validation/RUN_CARD_13_D_02_v1_0_3_APPROVED.md",
       "required_tests": [
@@ -37811,6 +37811,111 @@
       "status_required": "approved",
       "sync_rules": [
         "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
+      "domain": "operations.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_5.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_01_story_activation_bridge.py",
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-02"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-ADJUDICATION",
+      "domain": "validation.acceptance",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_D_02_DRAFT_PLAN_GOVERNANCE_ADJUDICATION_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-02"
+      ],
+      "status_required": "BLOCK / FUNCTIONAL-UX / ACTIVE-CORRECTIVE-REQUIRED",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-02-RUN-CARD",
+      "domain": "validation.acceptance",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/validation/RUN_CARD_13_D_02_v1_0_4_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-02"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-09-C-DRY-RUN-RECEIPT-SCHEMA",
+      "domain": "gsdlc.story-coding",
+      "frontmatter_required": false,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "DEVPL-GSDLC-09-C persisted dry-run receipt required before apply approval."
+      ],
+      "owner": "DEVPL-GSDLC-09-C",
+      "path": "docs/schemas/gsdlc_09_c_dry_run_receipt.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-09",
+        "DEVPL-GSDLC-09-C",
+        "DEVPL-GSDLC-13",
+        "13-D-02"
+      ],
+      "status_required": "current",
+      "sync_rules": [
         "test_must_pass"
       ]
     }
@@ -38214,6 +38319,14 @@
   "gsdlc_12_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "gsdlc_13_authorized": true,
   "gsdlc_13_b_02_corrective_status": "implementation-candidate/pending-windows-validation",
+  "gsdlc_13_d_execution_source_commit": "bb06260ce94298bf1e9dbb798e057d7ad07ea459",
+  "gsdlc_13_d_execution_source_repo": "repo451_C04_BR_108_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "gsdlc_13_d_execution_source_sha256": "7bc2e7c5185d28c195161e6eaaece4c4258e084f3805766f70586b381b9bcc4c",
+  "gsdlc_13_d_legacy_current_pointer_policy": "NON-AUTHORITATIVE-FOR-13D/USE-PREFLIGHT-AUTHORITY-RECORD",
+  "gsdlc_13_d_next_checkpoint": "13-D-01",
+  "gsdlc_13_d_pilot_a_lineage_path": ".devpilot/gsdlc/gsdlc13_pilot_a_deterministic_lineage.json",
+  "gsdlc_13_d_preflight_authority_path": ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
+  "gsdlc_13_d_preflight_status": "PASS/AUTHORITY-OVERRIDE-ACTIVE/DETERMINISTIC-LINEAGE-FROZEN",
   "gsdlc_13_execution_deferred_by": "DEVPL-UX-P0/PRE-PILOT-PRODUCTIZATION",
   "gsdlc_13_execution_deferred_until": "DEVPL-UX-P0-E/CLOSED-PASS-WINDOWS-VALIDATED",
   "gsdlc_active_program": "DEVPL-GSDLC",
@@ -38228,7 +38341,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-PROPOSAL-CORRECTIVE",
+  "last_updated_by": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-CORRECTIVE",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -40765,24 +40878,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1518,
+    "critical_sources_total": 1522,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1614,
-    "documents_with_required_tests_total": 1614,
+    "documents_total": 1618,
+    "documents_with_required_tests_total": 1618,
     "external_api_used": false,
     "generated_runtime_total": 0,
-    "historical_total": 23,
-    "last_updated_by": "DEVPL-GSDLC-13-D-02-SESSION-FEEDBACK-COMPACT-TREE-CORRECTIVE",
-    "machine_readable_source_total": 817,
+    "historical_total": 25,
+    "last_updated_by": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-CORRECTIVE",
+    "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 595
+    "source_of_truth_total": 596
   },
   "updated": "2026-10-01",
   "updated_at": "2026-09-29",
-  "updated_by": "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-PROPOSAL-CORRECTIVE",
+  "updated_by": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-CORRECTIVE",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
@@ -40837,13 +40950,5 @@
   "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
   "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_13_d_preflight_status": "PASS/AUTHORITY-OVERRIDE-ACTIVE/DETERMINISTIC-LINEAGE-FROZEN",
-  "gsdlc_13_d_preflight_authority_path": ".devpilot/gsdlc/gsdlc13_d_preflight_authority.json",
-  "gsdlc_13_d_pilot_a_lineage_path": ".devpilot/gsdlc/gsdlc13_pilot_a_deterministic_lineage.json",
-  "gsdlc_13_d_execution_source_repo": "repo451_C04_BR_108_WINDOWS_VALIDATED_CANDIDATE.zip",
-  "gsdlc_13_d_execution_source_commit": "bb06260ce94298bf1e9dbb798e057d7ad07ea459",
-  "gsdlc_13_d_execution_source_sha256": "7bc2e7c5185d28c195161e6eaaece4c4258e084f3805766f70586b381b9bcc4c",
-  "gsdlc_13_d_next_checkpoint": "13-D-01",
-  "gsdlc_13_d_legacy_current_pointer_policy": "NON-AUTHORITATIVE-FOR-13D/USE-PREFLIGHT-AUTHORITY-RECORD"
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
 }

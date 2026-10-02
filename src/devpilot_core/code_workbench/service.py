@@ -154,6 +154,7 @@ class CodeWorkbenchApplicationService:
             "schema_id":"SCHEMA-DEVPL-GSDLC-09-B-SOURCE-DRAFT-BUFFER-V1","schema_version":"1.0.0","draft_id":draft_id,
             "workspace_id":str(context.active_workspace_id),"story_execution_id":self._story_execution_id(context.effective_workspace_root,str(context.active_workspace_id)),
             "operation":op,"source":source,"target_path":target_rel,"content":content,"content_sha256":content_sha,"status":"DRAFT",
+            "preimage_check":{"status":"PENDING","checked_at_utc":None,"reasons":[]},
             "created_at_utc":str((existing or {}).get("created_at_utc") or now),"updated_at_utc":now,"actor":actor,"actor_role":actor_role,
             "safety":{"source_mutations_performed":False,"apply_enabled":False,"shell_enabled":False,"path_guard_passed":True,"secret_scan_passed":True,"runtime_only":True,"network_used":False,"external_api_used":False},
         }
@@ -214,7 +215,10 @@ class CodeWorkbenchApplicationService:
                 if actual!=str(source.get("sha256") or ""): reasons.append("source-preimage-changed")
         if op in {"CREATE","RENAME"} and target_abs.exists(): reasons.append("target-now-exists")
         status="CONFLICT" if reasons else "DRAFT"
-        draft["status"]=status; draft["updated_at_utc"]=_now()
+        checked_at=_now()
+        draft["status"]=status
+        draft["preimage_check"]={"status":"CONFLICT" if reasons else "PASS","checked_at_utc":checked_at,"reasons":reasons}
+        draft["updated_at_utc"]=checked_at
         draft["revision_sha256"]=_canonical_sha({k:v for k,v in draft.items() if k!="revision_sha256"})
         self._atomic_json(path,draft)
         if reasons:return self._conflict(command,"GSDLC09B_EXTERNAL_EDIT_CONFLICT","External source/target change invalidated the draft preimage.",path=target_rel,metadata={"reasons":reasons,"draft":draft})

@@ -154,3 +154,18 @@ def test_schemas_validate_policy_and_draft(workspace: Path) -> None:
     service=_service(); created=service.save_draft(operation="CREATE",content="x=1\n",target_path="src/schema.py",source_id=None,expected_source_sha256=None,expected_revision_sha256=None,actor="owner.local",actor_role="owner")
     draft_schema=json.loads((ROOT/"docs/schemas/gsdlc_09_b_source_draft_buffer.schema.json").read_text())
     Draft202012Validator(draft_schema).validate(created.data["draft"])
+
+
+def test_09_draft_preimage_state_is_per_draft_and_save_resets_pending(workspace: Path) -> None:
+    service=_service()
+    created=service.save_draft(operation="CREATE",content="x=1\n",target_path="src/preimage.py",source_id=None,expected_source_sha256=None,expected_revision_sha256=None,actor="owner.local",actor_role="owner")
+    assert created.ok,created.to_dict()
+    draft=created.data["draft"]
+    assert draft["preimage_check"]["status"]=="PENDING"
+    checked=service.recheck_draft(draft["draft_id"])
+    assert checked.ok,checked.to_dict()
+    checked_draft=checked.data["draft"]
+    assert checked_draft["preimage_check"]["status"]=="PASS"
+    saved=service.save_draft(operation="CREATE",content="x=2\n",target_path="src/preimage.py",source_id=None,expected_source_sha256=None,expected_revision_sha256=checked_draft["revision_sha256"],actor="owner.local",actor_role="owner")
+    assert saved.ok,saved.to_dict()
+    assert saved.data["draft"]["preimage_check"]["status"]=="PENDING"

@@ -76,6 +76,8 @@ def _plan(app: ApplicationService, drafts: list[dict]) -> dict:
 
 
 def _approve_apply(app: ApplicationService, plan: dict, client: TestClient) -> str:
+    dry=app.story_source_change_dry_run(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner")
+    assert dry.ok,dry.to_dict()
     req=app.story_source_change_apply_approval_request(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner",reason="Reviewed exact full diff and Test Impact")
     assert req.ok,req.to_dict(); aid=req.data["approval"]["approval_id"]
     decided=client.post(f"/api/v1/approvals/{aid}/approve",json={"reason":"Human owner approves exact SourceChangePlan"},headers=_csrf(client))
@@ -112,6 +114,17 @@ def test_02_multifile_dry_run_is_zero_source_mutation(workspace: Path, runtime) 
     assert dry.ok and dry.data["source_mutations_performed"] is False
     after={(p.relative_to(workspace).as_posix()):p.read_bytes() for p in (workspace/"src").glob("*.py")}; assert after==before
 
+
+
+
+def test_02b_owner_approval_is_blocked_until_exact_plan_dry_run_receipt_exists(workspace: Path, runtime) -> None:
+    app,client=runtime;plan=_plan(app,[_edit_draft(app,"src/app.py","def answer():\n    return 440\n")])
+    blocked=app.story_source_change_apply_approval_request(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner",reason="Reviewed")
+    assert not blocked.ok and any(f.id=="GSDLC09C_DRY_RUN_REQUIRED_BLOCK" for f in blocked.findings)
+    dry=app.story_source_change_dry_run(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner")
+    assert dry.ok and dry.data["dry_run_receipt"]["status"]=="PASS"
+    allowed=app.story_source_change_apply_approval_request(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner",reason="Reviewed exact plan after dry-run")
+    assert allowed.ok,allowed.to_dict()
 
 def test_03_stale_preimage_blocks_before_apply(workspace: Path, runtime) -> None:
     app,client=runtime;plan=_plan(app,[_edit_draft(app,"src/app.py","def answer():\n    return 45\n")])
@@ -196,3 +209,12 @@ def test_14_api_contract_has_exact_11_successor_routes_and_two_source_writes() -
     assert snapshot["routes_total_at_close"]==180 and snapshot["gsdlc_09_c_routes_total"]==11
     assert snapshot["source_mutation_routes_total"]==2
     assert {"api.story-source-change.apply","api.story-source-change.rollback"}.issubset(set(snapshot["route_ids"]))
+
+
+def test_15_dry_run_receipt_schema_validates(workspace: Path, runtime) -> None:
+    from jsonschema import Draft202012Validator
+    app,client=runtime;plan=_plan(app,[_edit_draft(app,"src/app.py","def answer():\n    return 451\n")])
+    dry=app.story_source_change_dry_run(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner")
+    assert dry.ok,dry.to_dict()
+    schema=json.loads((ROOT/"docs/schemas/gsdlc_09_c_dry_run_receipt.schema.json").read_text())
+    Draft202012Validator(schema).validate(dry.data["dry_run_receipt"])

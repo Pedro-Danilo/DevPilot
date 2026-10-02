@@ -193,8 +193,33 @@ class SourceChangeApplicationService:
         recheck = self.recheck(plan_id=plan_id, plan_hash=plan_hash)
         if not recheck.ok:
             return recheck
-        plan = self.get_plan(plan_id=plan_id).data["plan"]
-        return self._pass(command, "Dry-run PASS: diff, risk, Test Impact and exact paths reviewed with zero source mutation.", {"plan_id": plan_id, "plan_hash": plan_hash, "full_diff": plan["full_diff"], "risk": plan["risk"], "required_approval_role": plan["required_approval_role"], "test_impact_preview": plan["test_impact_preview"], "exact_path_allowlist": plan["exact_path_allowlist"], "source_mutations_performed": False, "actor": actor})
+        loaded = self.get_plan(plan_id=plan_id)
+        if not loaded.ok:
+            return loaded
+        plan = dict(loaded.data["plan"])
+        context, failure = self.code._context(command)
+        if failure:
+            return failure
+        assert context is not None
+        receipt = {
+            "schema_id": "SCHEMA-DEVPL-GSDLC-09-C-DRY-RUN-RECEIPT-V1",
+            "schema_version": "1.0.0",
+            "workspace_id": str(context.active_workspace_id),
+            "story_execution_id": str(plan.get("story_execution_id") or ""),
+            "plan_id": plan_id,
+            "plan_hash": plan_hash,
+            "status": "PASS",
+            "exact_path_allowlist": list(plan["exact_path_allowlist"]),
+            "risk": dict(plan["risk"]),
+            "test_impact_preview": dict(plan["test_impact_preview"]),
+            "source_mutations_performed": False,
+            "actor": actor,
+            "actor_role": actor_role,
+            "completed_at_utc": _now(),
+        }
+        receipt["receipt_hash"] = _canonical_sha({k: v for k, v in receipt.items() if k != "receipt_hash"})
+        self._atomic_json(self._dry_run_path(context.effective_workspace_root, str(context.active_workspace_id), plan_id), receipt)
+        return self._pass(command, "Dry-run PASS: exact immutable plan revalidated; zero source mutation; receipt persisted before approval.", {"plan_id": plan_id, "plan_hash": plan_hash, "full_diff": plan["full_diff"], "risk": plan["risk"], "required_approval_role": plan["required_approval_role"], "test_impact_preview": plan["test_impact_preview"], "exact_path_allowlist": plan["exact_path_allowlist"], "source_mutations_performed": False, "actor": actor, "dry_run_receipt": receipt})
 
     # ---------- approval + apply ----------
     def request_apply_approval(self, *, plan_id: str, plan_hash: str, actor: str, actor_role: str, reason: str, ttl_minutes: int = 15) -> CommandResult:
@@ -205,6 +230,22 @@ class SourceChangeApplicationService:
         if not recheck.ok:
             return recheck
         plan = self.get_plan(plan_id=plan_id).data["plan"]
+        context, failure = self.code._context(command)
+        if failure:
+            return failure
+        assert context is not None
+        dry_run_receipt = self._read_json(self._dry_run_path(context.effective_workspace_root, str(context.active_workspace_id), plan_id))
+        if not isinstance(dry_run_receipt, dict):
+            return self._block(command, "GSDLC09C_DRY_RUN_REQUIRED_BLOCK", "Owner approval requires a persisted PASS dry-run receipt for the exact immutable plan.")
+        expected_receipt_hash = _canonical_sha({k: v for k, v in dry_run_receipt.items() if k != "receipt_hash"})
+        if (
+            str(dry_run_receipt.get("status") or "") != "PASS"
+            or str(dry_run_receipt.get("plan_id") or "") != str(plan_id)
+            or str(dry_run_receipt.get("plan_hash") or "") != str(plan_hash)
+            or dry_run_receipt.get("source_mutations_performed") is not False
+            or str(dry_run_receipt.get("receipt_hash") or "") != expected_receipt_hash
+        ):
+            return self._block(command, "GSDLC09C_DRY_RUN_RECEIPT_BLOCK", "Persisted dry-run receipt is missing, stale or does not bind the exact immutable plan.")
         reason = str(reason or "").strip()
         if not reason:
             return self._block(command, "GSDLC09C_APPROVAL_REASON_REQUIRED_BLOCK", "Apply approval requires a human-readable reason.")
@@ -487,6 +528,12 @@ class SourceChangeApplicationService:
     def _plan_root(self,workspace_root:Path,workspace_id:str)->Path:
         safe="".join(c if c.isalnum() or c in "-_" else "-" for c in workspace_id).strip("-") or "workspace"
         return workspace_root/"outputs"/"code_workbench"/"gsdlc_09_c"/safe/"plans"
+    def _dry_run_root(self,workspace_root:Path,workspace_id:str)->Path:
+        safe="".join(c if c.isalnum() or c in "-_" else "-" for c in workspace_id).strip("-") or "workspace"
+        return workspace_root/"outputs"/"code_workbench"/"gsdlc_09_c"/safe/"dry_runs"
+    def _dry_run_path(self,workspace_root:Path,workspace_id:str,plan_id:str)->Path:
+        if not str(plan_id).startswith("source-plan-") or len(str(plan_id))!=36:return self._dry_run_root(workspace_root,workspace_id)/"__invalid__.json"
+        return self._dry_run_root(workspace_root,workspace_id)/f"{plan_id}.json"
     def _plan_path(self,workspace_root:Path,workspace_id:str,plan_id:str)->Path:
         if not str(plan_id).startswith("source-plan-") or len(str(plan_id))!=36:return self._plan_root(workspace_root,workspace_id)/"__invalid__.json"
         return self._plan_root(workspace_root,workspace_id)/f"{plan_id}.json"

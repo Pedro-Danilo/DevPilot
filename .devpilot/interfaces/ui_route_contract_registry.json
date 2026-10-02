@@ -1137,7 +1137,10 @@
         "Owner ACCEPT converts the reviewed proposal file set into runtime-only DRAFT nodes; SourceChangePlan/diff/dry-run/Owner approval/atomic apply remain the only source-write path. Obsolete v1 proposals are non-acceptable.",
         "13-D-02 session-feedback corrective keeps server human-session/CSRF/RBAC fail-closed and preflights live session before D02 mutations; HTTP 401 is rendered beside the active action with a reauthentication route.",
         "Source tree leafs render file names only with SOURCE/PROPOSAL/DRAFT/CONFLICT retained in accessible metadata; help/policy/proposal provenance is collapsed by default under Información y provenance.",
-        "Proposal read-only review hides Draft mutation toolbar until ACCEPT produces runtime-only Draft nodes."
+        "Proposal read-only review hides Draft mutation toolbar until ACCEPT produces runtime-only Draft nodes.",
+        "13-D-02 Draft/preimage corrective makes preimage status per-Draft, hides/disables inappropriate Draft actions during PROPOSAL review, and treats Save as human edit persistence rather than ACCEPT materialization.",
+        "Governed source change now requires explicit Owner review confirmation, plan recheck, persisted dry-run PASS receipt, exact Owner approval, final recheck and only then atomic apply; approval cannot be requested before dry-run.",
+        "Test Impact analyzer PASS is execution success only; unmatched paths are rendered as REVIEW/unknown-impact for D03 rather than test coverage PASS."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1210,9 +1213,15 @@
         "session_expired_action_local_block": true,
         "source_tree_progressive_disclosure": true,
         "source_tree_filename_only_leafs": true,
-        "proposal_review_hides_draft_toolbar": true
+        "proposal_review_hides_draft_toolbar": true,
+        "draft_preimage_state_per_file": true,
+        "draft_save_dirty_only": true,
+        "source_change_owner_review_confirmation": true,
+        "dry_run_receipt_required_before_approval": true,
+        "source_change_progressive_enablement": true,
+        "test_impact_unmatched_review_visible": true
       },
-      "status": "implemented-initial/gsdlc-13-d-02-session-feedback-compact-tree-corrective",
+      "status": "implemented-initial/gsdlc-13-d-02-draft-plan-governance-corrective",
       "status_visibility": [
         "PASS",
         "WARN",
