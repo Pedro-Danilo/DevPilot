@@ -48,7 +48,7 @@ class StoryImplementationCandidateApplicationService:
     """
 
     SCHEMA_ID = "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-CANDIDATE-V2"
-    GENERATOR_ID = "deterministic-story-implementation-template-v2"
+    GENERATOR_ID = "deterministic-story-implementation-template-v2.1"
 
     def __init__(self, root: Path, *, context_resolver, code_workbench: CodeWorkbenchApplicationService) -> None:
         self.root = Path(root).resolve()
@@ -173,7 +173,7 @@ class StoryImplementationCandidateApplicationService:
                 "StoryContextPack is IN_PROGRESS and the source tree is empty.",
                 "The frozen Architecture selected fastapi-python + sqlite; the first bounded slice therefore uses Python Application/Domain/Persistence boundaries.",
                 "The Story is allocated to ARC-C02/ARC-C03/ARC-C04; the proposal now materializes those responsibilities explicitly as reusable product-oriented modules rather than story-specific persistence.",
-                "Requirements do not define a complete product-field schema. The proposal therefore preserves product attributes as opaque governed data and does not invent name/price/SKU/stock business rules.",
+                "Requirements do not define a complete product-field schema. The proposal therefore preserves product attributes as JSON-compatible opaque governed data and does not invent name/price/SKU/stock business rules.",
                 "Every generated Python artifact carries a module docstring that states purpose, responsibilities, boundaries and traceability for human review.",
                 "D03 quality/remediation may require a successor change if targeted tests expose a missing boundary or insufficient behavior.",
                 "Manual authoring remains available; this proposal is a reviewable default, not authority to write source.",
@@ -389,7 +389,8 @@ class StoryImplementationCandidateApplicationService:
         no_story_specific_storage = all("story_rf_001_records" not in str(row.get("content") or "") for row in files)
         reusable_product_storage = any("CREATE TABLE IF NOT EXISTS products" in str(row.get("content") or "") for row in files)
         docstrings_pass = all(x["module_docstring_present"] and x["required_sections_present"] for x in docstrings)
-        ready = syntax_pass and all(architecture_coverage.values()) and no_story_specific_storage and reusable_product_storage and docstrings_pass
+        json_type_contract = any("ProductAttributes: TypeAlias" in str(row.get("content") or "") and "JsonValue: TypeAlias" in str(row.get("content") or "") for row in files)
+        ready = syntax_pass and all(architecture_coverage.values()) and no_story_specific_storage and reusable_product_storage and docstrings_pass and json_type_contract
         return {
             "ready_for_draft_materialization": ready,
             "python_syntax_pass": syntax_pass,
@@ -400,9 +401,10 @@ class StoryImplementationCandidateApplicationService:
             "story_specific_storage": not no_story_specific_storage,
             "reusable_product_storage": reusable_product_storage,
             "business_field_invention": False,
-            "product_data_contract_posture": "opaque-attributes-until-governed-requirement-specializes-fields",
+            "json_serializable_type_contract": json_type_contract,
+            "product_data_contract_posture": "json-compatible-opaque-attributes-until-governed-requirement-specializes-fields",
             "known_limitations": [
-                "RF-001 does not define a complete product-field schema; the slice preserves arbitrary governed attributes without inventing name/SKU/price/stock rules.",
+                "RF-001 does not define a complete product-field schema; the slice preserves JSON-compatible governed attributes without inventing name/SKU/price/stock rules.",
                 "ARC-C01 presentation is intentionally absent because RF-001 is allocated only to ARC-C02/ARC-C03/ARC-C04 in the frozen Architecture.",
                 "FastAPI/React technical scaffold and dependency manifests remain a separate project-level hardening concern; this Story does not silently create them.",
             ],
@@ -427,7 +429,7 @@ class StoryImplementationCandidateApplicationService:
             title="Product domain model and persistence port for the first governed product-creation slice.",
             purpose="Represent a product independently of UI/database concerns and define the repository contract required by RF-001.",
             responsibilities=[
-                "Represent product identity, opaque governed attributes and availability state.",
+                "Represent product identity, JSON-compatible opaque governed attributes and availability state.",
                 "Expose the ProductRepository port used by Application Services.",
                 "Remain reusable by RF-002/RF-003/RF-004 instead of encoding story-rf-001 in storage semantics.",
             ],
@@ -444,7 +446,12 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
-from typing import Any, Protocol
+from typing import Protocol, TypeAlias
+
+
+JsonScalar: TypeAlias = str | int | float | bool | None
+JsonValue: TypeAlias = JsonScalar | list["JsonValue"] | dict[str, "JsonValue"]
+ProductAttributes: TypeAlias = Mapping[str, JsonValue]
 
 
 @dataclass(frozen=True)
@@ -452,7 +459,7 @@ class Product:
     """Domain representation of one product known to the local application."""
 
     product_id: str
-    attributes: Mapping[str, Any]
+    attributes: ProductAttributes
     available: bool = True
 
 
@@ -475,7 +482,7 @@ class ProductRepository(Protocol):
             purpose="Orchestrate authorization, domain creation and durable observability for the active Story without embedding persistence details.",
             responsibilities=[
                 "Reject callers that have not crossed the authorization boundary.",
-                "Create an available Product while preserving caller-supplied attributes as opaque governed data.",
+                "Create an available Product while preserving caller-supplied JSON-compatible attributes as opaque governed data.",
                 "Persist through ProductRepository and verify the created product is observable afterwards.",
             ],
             boundaries=[
@@ -490,10 +497,7 @@ class ProductRepository(Protocol):
 from __future__ import annotations
 
 import uuid
-from collections.abc import Mapping
-from typing import Any
-
-from src.{namespace}.domain.product import Product, ProductRepository
+from src.{namespace}.domain.product import Product, ProductAttributes, ProductRepository
 
 
 class AuthorizationRequired(PermissionError):
@@ -507,7 +511,7 @@ class CreateProductService:
         """Bind the use case to the approved product persistence port."""
         self.repository = repository
 
-    def execute(self, *, actor_authorized: bool, attributes: Mapping[str, Any]) -> Product:
+    def execute(self, *, actor_authorized: bool, attributes: ProductAttributes) -> Product:
         """Create, persist and re-read one available product for an authorized actor."""
         if not actor_authorized:
             raise AuthorizationRequired("authorized actor required")

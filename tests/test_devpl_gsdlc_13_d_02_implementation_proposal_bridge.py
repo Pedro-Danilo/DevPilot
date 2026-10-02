@@ -96,7 +96,7 @@ def test_d02_source_empty_greenfield_gets_reviewable_deterministic_proposal_with
     proposal = result["data"]["proposal"]
     assert proposal["status"] == "PROPOSED"
     assert proposal["provider"]["provider_id"] == "devpilot-local"
-    assert proposal["provider"]["model_id"] == "deterministic-story-implementation-template-v2"
+    assert proposal["provider"]["model_id"] == "deterministic-story-implementation-template-v2.1"
     assert proposal["provider"]["network_used"] is False
     assert proposal["provider"]["external_api_used"] is False
     assert proposal["safety"]["proposal_only"] is True
@@ -127,7 +127,8 @@ def test_d02_v2_proposal_is_domain_reusable_docstring_reviewable_and_blocks_busi
     assert proposal["quality"]["story_specific_storage"] is False
     assert proposal["quality"]["reusable_product_storage"] is True
     assert proposal["quality"]["business_field_invention"] is False
-    assert proposal["quality"]["product_data_contract_posture"].startswith("opaque-attributes")
+    assert proposal["quality"]["product_data_contract_posture"].startswith("json-compatible-opaque-attributes")
+    assert proposal["quality"]["json_serializable_type_contract"] is True
 
     combined = "\n".join(row["content"] for row in proposal["files"])
     assert "story_rf_001_records" not in combined
@@ -243,13 +244,16 @@ def test_d02_transport_rbac_ui_and_multifile_bridge_are_registered() -> None:
 
 
 def test_d02_corrective_documents_define_proposal_draftset_and_preserve_first_attempt() -> None:
-    contract = (ROOT / "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_3.md").read_text(encoding="utf-8")
+    contract = (ROOT / "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_4.md").read_text(encoding="utf-8")
     for marker in (
         "Proposal review model",
         "SourceDraftBuffer Set",
         "multi-file SourceChangePlan",
-        "deterministic-story-implementation-template-v2",
+        "deterministic-story-implementation-template-v2.1",
         "Manual CREATE/EDIT/RENAME",
+        "Human-session boundary",
+        "Action-feedback locality",
+        "filename",
     ):
         assert marker in contract
     adr = (ROOT / "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-D-02-deterministic-implementation-proposal-before-source-plan.md").read_text(encoding="utf-8")
@@ -258,16 +262,16 @@ def test_d02_corrective_documents_define_proposal_draftset_and_preserve_first_at
     adjudication = (ROOT / "docs/audits/DEVPL_GSDLC_13_D_02_FIRST_ATTEMPT_ADJUDICATION_v1_0_0.md").read_text(encoding="utf-8")
     assert "RUN_01 = BLOCK" in adjudication
     assert "99_block_state.png" in adjudication
-    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_02_v1_0_2_APPROVED.md").read_text(encoding="utf-8")
+    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_02_v1_0_3_APPROVED.md").read_text(encoding="utf-8")
     for marker in (
-        'version: "1.0.2"',
+        'version: "1.0.3"',
         'continuation_run: "RUN_02"',
         "Proponer implementación desde contexto",
-        "03_proposal_v2_tree_editor.png",
-        "04_draft_set_tree_editor.png",
+        "Información y provenance",
+        "99_block_state_v2.png",
         "SourceChangePlan",
         "CHANGES_READY",
-        "screenshots 01 and 02 from the partial RUN_02 remain preserved",
+        "screenshots 01..06",
         "Full Regression=0",
     ):
         assert marker in run_card
@@ -326,3 +330,57 @@ def test_d02_accept_reconciles_exact_partial_draft_set_after_interruption(tmp_pa
     assert len(decided["data"]["drafts"]) == 4
     assert code.list_drafts().to_dict()["data"]["summary"]["drafts_total"] == 4
     assert not (workspace / "src").exists()
+
+
+def test_d02_session_expiry_feedback_and_compact_tree_contract() -> None:
+    view = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
+    styles = (ROOT / "ui/web/src/styles.css").read_text(encoding="utf-8")
+    for marker in (
+        "Información y provenance",
+        "storyImplementationFeedback",
+        "storySourceChangeFeedback",
+        "ensureLiveHumanSession",
+        "client().authSession()",
+        "Reautenticar y volver a Story Code",
+        "proposalReviewFile",
+        "actions.hidden=true",
+        "actions.hidden=false",
+        "b=button(name)",
+        "aria-label',`${entry.state} · ${entry.path}`",
+    ):
+        assert marker in view
+    assert "button(`${entry.state} · ${name}`)" not in view
+    for marker in (".code-source-tree-info", ".code-source-item{appearance:none", ".code-action-feedback"):
+        assert marker in styles
+
+
+def test_d02_story_code_session_policy_remains_fail_closed() -> None:
+    # Corrective improves browser preflight/feedback; it must not relax server-side human-session policy.
+    security = (ROOT / "src/devpilot_core/interfaces/api/security.py").read_text(encoding="utf-8")
+    app = (ROOT / "src/devpilot_core/interfaces/api/app.py").read_text(encoding="utf-8")
+    assert '("POST", "/api/v1/story/code/implementation-proposals/{proposal_id}/decision")' in security
+    assert "Authenticated human session is required for this local API endpoint." in app
+    assert "session_required and human_session is None" in app
+
+
+def test_d02_session_feedback_corrective_documents_are_governed() -> None:
+    audit = (ROOT / "docs/audits/DEVPL_GSDLC_13_D_02_SESSION_FEEDBACK_ADJUDICATION_v1_0_0.md").read_text(encoding="utf-8")
+    assert "FUNC-UX-13D02-SESSION-012" in audit
+    assert "1800-second idle timeout" in audit
+    assert "Do not weaken this security boundary" in audit
+    run_card = (ROOT / "docs/validation/RUN_CARD_13_D_02_v1_0_3_APPROVED.md").read_text(encoding="utf-8")
+    for marker in ("Información y provenance", "Reauthentication", "four exact Drafts", "Full Regression=0"):
+        assert marker.lower() in run_card.lower()
+
+
+def test_d02_v21_product_attribute_contract_is_json_compatible_without_business_schema(tmp_path: Path) -> None:
+    workspace, resolver = _fixture(tmp_path)
+    code = CodeWorkbenchApplicationService(ROOT, context_resolver=resolver)
+    service = StoryImplementationCandidateApplicationService(ROOT, context_resolver=resolver, code_workbench=code)
+    proposal = service.propose(actor="owner-1", actor_role="owner").to_dict()["data"]["proposal"]
+    assert proposal["provider"]["model_id"] == "deterministic-story-implementation-template-v2.1"
+    assert proposal["quality"]["json_serializable_type_contract"] is True
+    domain = next(row for row in proposal["files"] if row.get("artifact_role") == "domain")["content"]
+    assert 'JsonValue: TypeAlias' in domain
+    assert 'ProductAttributes: TypeAlias = Mapping[str, JsonValue]' in domain
+    assert 'name:' not in domain and 'sku:' not in domain and 'price:' not in domain and 'stock:' not in domain

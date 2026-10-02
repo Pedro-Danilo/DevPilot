@@ -1134,7 +1134,10 @@
         "13-D-01 context reviewability corrective renders Story/AC, DoR, requirement, ADR, risk, test-intent, ContextPack identity and route/authority as human-readable sections; raw JSON is secondary expandable evidence.",
         "13-D-02 proposal-quality corrective replaces generator v1 with deterministic-story-implementation-template-v2. Proposal files are virtual PROPOSAL nodes inside the existing Source tree and open read-only in the existing Draft editor for human review.",
         "13-D-02 proposal quality gate requires explicit ARC-C02/C03/C04 coverage, reusable Product persistence rather than Story-ID storage, no invented business fields, and structured Purpose/Responsibilities/Boundaries/Traceability module docstrings before Owner ACCEPT.",
-        "Owner ACCEPT converts the reviewed proposal file set into runtime-only DRAFT nodes; SourceChangePlan/diff/dry-run/Owner approval/atomic apply remain the only source-write path. Obsolete v1 proposals are non-acceptable."
+        "Owner ACCEPT converts the reviewed proposal file set into runtime-only DRAFT nodes; SourceChangePlan/diff/dry-run/Owner approval/atomic apply remain the only source-write path. Obsolete v1 proposals are non-acceptable.",
+        "13-D-02 session-feedback corrective keeps server human-session/CSRF/RBAC fail-closed and preflights live session before D02 mutations; HTTP 401 is rendered beside the active action with a reauthentication route.",
+        "Source tree leafs render file names only with SOURCE/PROPOSAL/DRAFT/CONFLICT retained in accessible metadata; help/policy/proposal provenance is collapsed by default under Información y provenance.",
+        "Proposal read-only review hides Draft mutation toolbar until ACCEPT produces runtime-only Draft nodes."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1202,9 +1205,14 @@
         "implementation_proposal_docstring_quality_gate": true,
         "implementation_proposal_architecture_quality_gate": true,
         "obsolete_implementation_proposal_blocked": true,
-        "proposal_file_readonly_editor_review": true
+        "proposal_file_readonly_editor_review": true,
+        "human_session_preflight_before_story_mutation": true,
+        "session_expired_action_local_block": true,
+        "source_tree_progressive_disclosure": true,
+        "source_tree_filename_only_leafs": true,
+        "proposal_review_hides_draft_toolbar": true
       },
-      "status": "implemented-initial/gsdlc-13-d-02-proposal-quality-tree-corrective",
+      "status": "implemented-initial/gsdlc-13-d-02-session-feedback-compact-tree-corrective",
       "status_visibility": [
         "PASS",
         "WARN",
