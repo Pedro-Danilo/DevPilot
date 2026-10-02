@@ -1558,7 +1558,15 @@ class ApplicationService:
         return self.story_activation.start(expected_state_sha256=expected_state_sha256, actor_id=actor_id, actor_role=actor_role, observed_at_utc=observed_at_utc)
 
     def story_code_status(self) -> CommandResult:
-        return self.code_workbench.status()
+        base = self.code_workbench.status()
+        if not base.ok:
+            return base
+        recovery = self.source_changes.recovery_context()
+        if not recovery.ok:
+            return recovery
+        data = dict(base.data or {})
+        data["source_change_recovery"] = dict(recovery.data or {})
+        return CommandResult(base.command, base.ok, base.exit_code, base.message, data=data, findings=[*base.findings, *recovery.findings])
 
     def story_code_sources(self) -> CommandResult:
         return self.code_workbench.list_sources()

@@ -126,6 +126,44 @@ def test_02b_owner_approval_is_blocked_until_exact_plan_dry_run_receipt_exists(w
     allowed=app.story_source_change_apply_approval_request(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner",reason="Reviewed exact plan after dry-run")
     assert allowed.ok,allowed.to_dict()
 
+def test_02c_story_code_status_rehydrates_active_plan_before_approval_and_restores_dry_run_receipt(workspace: Path, runtime) -> None:
+    app,client=runtime
+    draft=_edit_draft(app,"src/app.py","def answer():\n    return 441\n")
+    plan=_plan(app,[draft])
+    status=app.story_code_status()
+    assert status.ok,status.to_dict()
+    recovery=status.data["source_change_recovery"]
+    assert recovery["active_plan_found"] is True
+    assert recovery["active_plan"]["plan_id"]==plan["plan_id"]
+    assert recovery["active_plan"]["plan_hash"]==plan["plan_hash"]
+    assert recovery["dry_run_receipt_valid"] is False
+    assert recovery["source_mutations_performed"] is False
+
+    dry=app.story_source_change_dry_run(plan_id=plan["plan_id"],plan_hash=plan["plan_hash"],actor="local-owner",actor_role="owner")
+    assert dry.ok,dry.to_dict()
+    status_after=app.story_code_status()
+    recovery_after=status_after.data["source_change_recovery"]
+    assert recovery_after["active_plan"]["plan_id"]==plan["plan_id"]
+    assert recovery_after["dry_run_receipt_valid"] is True
+    assert recovery_after["dry_run_receipt"]["plan_id"]==plan["plan_id"]
+
+
+def test_02d_recovery_does_not_resurrect_plan_bound_to_obsolete_draft_revision(workspace: Path, runtime) -> None:
+    app,client=runtime
+    draft=_edit_draft(app,"src/app.py","def answer():\n    return 442\n")
+    plan=_plan(app,[draft])
+    current=next(row for row in app.story_code_drafts_list().data["drafts"] if row["draft_id"]==draft["draft_id"])
+    saved=app.story_code_draft_save(operation="EDIT",content="def answer():\n    return 443\n",target_path="src/app.py",source_id=current["source"]["source_id"],expected_source_sha256=current["source"]["sha256"],expected_revision_sha256=current["revision_sha256"],actor="local-owner",actor_role="owner")
+    assert saved.ok,saved.to_dict()
+    assert saved.data["draft"]["revision_sha256"]!=draft["revision_sha256"]
+    status=app.story_code_status()
+    recovery=status.data["source_change_recovery"]
+    assert recovery["active_plan_found"] is False
+    assert recovery["stale_plan_candidates_total"]>=1
+    assert recovery["source_mutations_performed"] is False
+    assert app.story_source_change_plan_get(plan_id=plan["plan_id"]).ok is True
+
+
 def test_03_stale_preimage_blocks_before_apply(workspace: Path, runtime) -> None:
     app,client=runtime;plan=_plan(app,[_edit_draft(app,"src/app.py","def answer():\n    return 45\n")])
     (workspace/"src/app.py").write_text("# external\n",encoding="utf-8")

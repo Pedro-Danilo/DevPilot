@@ -169,6 +169,84 @@ class SourceChangeApplicationService:
             return self._block(command, "GSDLC09C_PLAN_TAMPER_BLOCK", "Immutable SourceChangePlan hash no longer matches its contents.")
         return self._pass(command, "Immutable SourceChangePlan loaded.", {"plan": payload})
 
+    def recovery_context(self) -> CommandResult:
+        """Project the current StoryExecution source-change context from persisted runtime artifacts.
+
+        This is a read-only recovery primitive. It does not depend on browser
+        sessionStorage or on an approval already existing, so a plan created
+        before dry-run/approval can survive an API/UI restart and remain
+        discoverable through the normal Story Code status projection.
+        """
+        command = "story source change recovery context"
+        context, failure = self.code._context(command)
+        if failure:
+            return failure
+        assert context is not None
+        workspace_root = context.effective_workspace_root
+        workspace_id = str(context.active_workspace_id)
+        story_execution_id = self.code._story_execution_id(workspace_root, workspace_id)
+
+        drafts_result = self.code.list_drafts()
+        current_drafts: dict[str, dict[str, Any]] = {}
+        if drafts_result.ok:
+            for row in list((drafts_result.data or {}).get("drafts") or []):
+                if isinstance(row, dict) and row.get("draft_id"):
+                    current_drafts[str(row["draft_id"])] = row
+
+        matching: list[dict[str, Any]] = []
+        stale_candidates = 0
+        invalid_candidates = 0
+        root = self._plan_root(workspace_root, workspace_id)
+        if root.is_dir():
+            for path in sorted(root.glob("source-plan-*.json")):
+                payload = self._read_json(path)
+                if not isinstance(payload, dict) or not self._plan_hash_valid(payload):
+                    invalid_candidates += 1
+                    continue
+                if str(payload.get("story_execution_id") or "") != story_execution_id:
+                    continue
+                changes = list(payload.get("changes") or [])
+                exact_current_drafts = bool(changes)
+                for change in changes:
+                    if not isinstance(change, dict):
+                        exact_current_drafts = False
+                        break
+                    draft_id = str(change.get("draft_id") or "")
+                    current = current_drafts.get(draft_id)
+                    if current is None or str(current.get("revision_sha256") or "") != str(change.get("draft_revision_sha256") or ""):
+                        exact_current_drafts = False
+                        break
+                if exact_current_drafts:
+                    matching.append(payload)
+                else:
+                    stale_candidates += 1
+
+        matching.sort(key=lambda row: (str(row.get("created_at_utc") or ""), str(row.get("plan_id") or "")))
+        active_plan = matching[-1] if matching else None
+        dry_run_receipt = None
+        dry_run_receipt_valid = False
+        if active_plan is not None:
+            dry_run_receipt = self._read_json(self._dry_run_path(workspace_root, workspace_id, str(active_plan.get("plan_id") or "")))
+            dry_run_receipt_valid = self._dry_run_receipt_valid(dry_run_receipt, active_plan)
+            if not dry_run_receipt_valid:
+                dry_run_receipt = None
+
+        return self._pass(
+            command,
+            "Persisted source-change recovery context projected without source mutation.",
+            {
+                "story_execution_id": story_execution_id,
+                "active_plan": active_plan,
+                "active_plan_found": active_plan is not None,
+                "matching_plan_candidates_total": len(matching),
+                "stale_plan_candidates_total": stale_candidates,
+                "invalid_plan_candidates_total": invalid_candidates,
+                "dry_run_receipt": dry_run_receipt,
+                "dry_run_receipt_valid": dry_run_receipt_valid,
+                "source_mutations_performed": False,
+            },
+        )
+
     def recheck(self, *, plan_id: str, plan_hash: str) -> CommandResult:
         command = "story source change plan recheck"
         loaded = self.get_plan(plan_id=plan_id)
@@ -237,14 +315,7 @@ class SourceChangeApplicationService:
         dry_run_receipt = self._read_json(self._dry_run_path(context.effective_workspace_root, str(context.active_workspace_id), plan_id))
         if not isinstance(dry_run_receipt, dict):
             return self._block(command, "GSDLC09C_DRY_RUN_REQUIRED_BLOCK", "Owner approval requires a persisted PASS dry-run receipt for the exact immutable plan.")
-        expected_receipt_hash = _canonical_sha({k: v for k, v in dry_run_receipt.items() if k != "receipt_hash"})
-        if (
-            str(dry_run_receipt.get("status") or "") != "PASS"
-            or str(dry_run_receipt.get("plan_id") or "") != str(plan_id)
-            or str(dry_run_receipt.get("plan_hash") or "") != str(plan_hash)
-            or dry_run_receipt.get("source_mutations_performed") is not False
-            or str(dry_run_receipt.get("receipt_hash") or "") != expected_receipt_hash
-        ):
+        if not self._dry_run_receipt_valid(dry_run_receipt, plan):
             return self._block(command, "GSDLC09C_DRY_RUN_RECEIPT_BLOCK", "Persisted dry-run receipt is missing, stale or does not bind the exact immutable plan.")
         reason = str(reason or "").strip()
         if not reason:
@@ -537,6 +608,19 @@ class SourceChangeApplicationService:
     def _plan_path(self,workspace_root:Path,workspace_id:str,plan_id:str)->Path:
         if not str(plan_id).startswith("source-plan-") or len(str(plan_id))!=36:return self._plan_root(workspace_root,workspace_id)/"__invalid__.json"
         return self._plan_root(workspace_root,workspace_id)/f"{plan_id}.json"
+    @staticmethod
+    def _dry_run_receipt_valid(receipt: Any, plan: dict[str, Any]) -> bool:
+        if not isinstance(receipt, dict):
+            return False
+        expected = _canonical_sha({k: v for k, v in receipt.items() if k != "receipt_hash"})
+        return (
+            str(receipt.get("status") or "") == "PASS"
+            and str(receipt.get("plan_id") or "") == str(plan.get("plan_id") or "")
+            and str(receipt.get("plan_hash") or "") == str(plan.get("plan_hash") or "")
+            and receipt.get("source_mutations_performed") is False
+            and str(receipt.get("receipt_hash") or "") == expected
+        )
+
     @staticmethod
     def _plan_hash_valid(plan:dict[str,Any])->bool:return str(plan.get("plan_hash") or "")==_canonical_sha({k:v for k,v in plan.items() if k!="plan_hash"})
     @staticmethod

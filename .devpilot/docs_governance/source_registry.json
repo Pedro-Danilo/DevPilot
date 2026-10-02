@@ -37820,7 +37820,7 @@
       "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
       "domain": "operations.story-code",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "owner": "Ordóñez",
       "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_5.md",
       "required_tests": [
@@ -37871,7 +37871,7 @@
       "doc_id": "DEVPL-GSDLC-13-D-02-RUN-CARD",
       "domain": "validation.acceptance",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "owner": "Ordóñez",
       "path": "docs/validation/RUN_CARD_13_D_02_v1_0_4_APPROVED.md",
       "required_tests": [
@@ -37916,6 +37916,81 @@
       ],
       "status_required": "current",
       "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
+      "domain": "operations.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_6.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_01_story_activation_bridge.py",
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-02"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-02-RUN-CARD",
+      "domain": "validation.acceptance",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/validation/RUN_CARD_13_D_02_v1_0_5_APPROVED.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-02"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "DEVPL-GSDLC-13-D-02-SOURCE-CHANGE-PLAN-RESUMABILITY-ADJUDICATION",
+      "domain": "audit.gsdlc13d02",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/audits/DEVPL_GSDLC_13_D_02_SOURCE_CHANGE_PLAN_RESUMABILITY_ADJUDICATION_v1_0_0.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-02"
+      ],
+      "status_required": "reviewed",
+      "sync_rules": [
+        "frontmatter_status",
         "test_must_pass"
       ]
     }
@@ -38341,7 +38416,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-CORRECTIVE",
+  "last_updated_by": "DEVPL-GSDLC-13-D-02-SOURCE-CHANGE-PLAN-RESUMABILITY-CORRECTIVE",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -40878,22 +40953,22 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1522,
+    "critical_sources_total": 1525,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1618,
-    "documents_with_required_tests_total": 1618,
+    "documents_total": 1621,
+    "documents_with_required_tests_total": 1621,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 25,
-    "last_updated_by": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-CORRECTIVE",
+    "last_updated_by": "DEVPL-GSDLC-13-D-02-SOURCE-CHANGE-RESUMABILITY-CORRECTIVE",
     "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 596
+    "source_of_truth_total": 599
   },
-  "updated": "2026-10-01",
+  "updated": "2026-10-02",
   "updated_at": "2026-09-29",
   "updated_by": "DEVPL-GSDLC-13-D-02-DRAFT-PLAN-GOVERNANCE-CORRECTIVE",
   "ux_p0_a_full_regression_runs": 0,

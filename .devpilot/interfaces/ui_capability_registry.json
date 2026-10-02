@@ -12566,7 +12566,10 @@
           "requires_approval_for_future_apply": true,
           "requires_dry_run": true,
           "risk_class": "sensitive",
-          "source_write_enabled": false
+          "source_write_enabled": false,
+          "runtime_persistence": "outputs/code_workbench/gsdlc_09_c",
+          "restart_resumable": true,
+          "recovery_authority": "server-story-code-status/current-story-execution"
         },
         {
           "application_service": "code_workbench",
@@ -12666,7 +12669,12 @@
         "story_dor_visible": true,
         "story_context_visible": true,
         "story_context_reviewable": true,
-        "story_owner_context_decision_visible": true
+        "story_owner_context_decision_visible": true,
+        "source_change_plan_server_rehydration": true,
+        "source_change_dry_run_receipt_rehydration": true,
+        "source_change_owner_gate_prominent": true,
+        "story_code_sections_collapsible": true,
+        "story_code_block_auto_expands_section": true
       },
       "title": "Story Code Workbench — Story activation/context, Code, Validation, Quality and Governed Commit"
     },

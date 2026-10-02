@@ -1140,7 +1140,12 @@
         "Proposal read-only review hides Draft mutation toolbar until ACCEPT produces runtime-only Draft nodes.",
         "13-D-02 Draft/preimage corrective makes preimage status per-Draft, hides/disables inappropriate Draft actions during PROPOSAL review, and treats Save as human edit persistence rather than ACCEPT materialization.",
         "Governed source change now requires explicit Owner review confirmation, plan recheck, persisted dry-run PASS receipt, exact Owner approval, final recheck and only then atomic apply; approval cannot be requested before dry-run.",
-        "Test Impact analyzer PASS is execution success only; unmatched paths are rendered as REVIEW/unknown-impact for D03 rather than test coverage PASS."
+        "Test Impact analyzer PASS is execution success only; unmatched paths are rendered as REVIEW/unknown-impact for D03 rather than test coverage PASS.",
+        "13-D-02 resumability corrective projects the active immutable SourceChangePlan and exact dry-run receipt through server-authoritative Story Code status; recovery no longer depends on browser sessionStorage or on an approval already existing.",
+        "Story Code restores only a plan bound to the current StoryExecution and current Draft revisions; stale/tampered historical plans are not resurrected.",
+        "Owner review gate is visually prominent and recheck feedback names a missing Owner confirmation explicitly.",
+        "Top-level Story Code sections support progressive disclosure with active section expansion, Expandir todas/Colapsar inactivas, sessionStorage-only UI preference and auto-expand on local BLOCK.",
+        "Approval recovery filters by the recovered active plan instead of probing arbitrary historical approval subjects as SourceChangePlan IDs."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1219,9 +1224,15 @@
         "source_change_owner_review_confirmation": true,
         "dry_run_receipt_required_before_approval": true,
         "source_change_progressive_enablement": true,
-        "test_impact_unmatched_review_visible": true
+        "test_impact_unmatched_review_visible": true,
+        "source_change_plan_server_rehydration": true,
+        "source_change_dry_run_receipt_rehydration": true,
+        "source_change_owner_gate_prominent": true,
+        "story_code_sections_collapsible": true,
+        "story_code_block_auto_expands_section": true,
+        "historical_plan_probe_noise_removed": true
       },
-      "status": "implemented-initial/gsdlc-13-d-02-draft-plan-governance-corrective",
+      "status": "implemented-initial/gsdlc-13-d-02-source-change-resumability-corrective",
       "status_visibility": [
         "PASS",
         "WARN",

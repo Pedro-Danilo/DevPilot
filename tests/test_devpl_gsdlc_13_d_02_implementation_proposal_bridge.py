@@ -407,3 +407,44 @@ def test_d02_draft_plan_governance_ui_and_docs_contract() -> None:
     for marker in ("dry-run PASS receipt","per-Draft","unmatched_paths_total"):
         assert marker.lower() in contract.lower()
     assert 'version: "1.0.4"' in run_card and "FUNC-GOV-13D02-DRYRUN-014" in audit
+
+
+def test_d02_source_change_resumability_owner_gate_and_collapsible_story_sections_contract() -> None:
+    view=(ROOT/"ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
+    styles=(ROOT/"ui/web/src/styles.css").read_text(encoding="utf-8")
+    services=(ROOT/"src/devpilot_core/application/services.py").read_text(encoding="utf-8")
+    change_service=(ROOT/"src/devpilot_core/code_workbench/change_service.py").read_text(encoding="utf-8")
+    for marker in (
+        "source_change_recovery",
+        "active_plan",
+        "dry_run_receipt_valid",
+    ):
+        assert marker in services or marker in change_service
+    for marker in (
+        "SourceChangeRecovery",
+        "restoreApplyContext(story,recovery)",
+        "Colapsar inactivas",
+        "Expandir todas",
+        "story-code-section",
+        "Falta confirmar la revisión Owner para habilitar Dry-run",
+        "source-change-owner-review-gate",
+        "activeSectionId",
+    ):
+        assert marker in view
+    assert "for(const row of candidates)" not in view
+    assert ".story-code-section" in styles
+    assert ".source-change-owner-review-confirmation" in styles
+
+    contract=(ROOT/"docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_6.md").read_text(encoding="utf-8")
+    run_card=(ROOT/"docs/validation/RUN_CARD_13_D_02_v1_0_5_APPROVED.md").read_text(encoding="utf-8")
+    audit=(ROOT/"docs/audits/DEVPL_GSDLC_13_D_02_SOURCE_CHANGE_PLAN_RESUMABILITY_ADJUDICATION_v1_0_0.md").read_text(encoding="utf-8")
+    for marker in (
+        "server-authoritative",
+        "current StoryExecution",
+        "Draft revisions",
+        "Progressive disclosure",
+    ):
+        assert marker.lower() in contract.lower()
+    assert 'version: "1.0.5"' in run_card
+    assert "source-plan-e4c37acd9038329150734b4c" in run_card
+    assert "FUNC-RESUME-13D02-SOURCE-PLAN-019" in audit
