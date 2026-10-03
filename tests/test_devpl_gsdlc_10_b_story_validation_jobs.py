@@ -73,6 +73,20 @@ def test_stale_or_unapproved_story_test_plan_is_fail_closed(tmp_path: Path):
     assert blocked_hash.findings[0].id == 'GSDLC10B_TEST_PLAN_HASH_BLOCK'
 
 
+
+def test_empty_test_target_plan_blocks_before_job_materialization(tmp_path: Path):
+    root = _root(tmp_path); plan = _plan(paths=['src/devpilot_core/application/quality_operations.py'])
+    plan['required_tests'] = []
+    plan['effective_required_tests'] = []
+    plan['recommended_tests'] = []
+    service = StoryValidationJobApplicationService(root, story_test_plan_loader=_loader(plan))
+    result = service.create_for_plan(
+        test_plan_id=plan['test_plan_id'], test_plan_hash=plan['test_plan_hash'], actor='owner', actor_role='owner'
+    )
+    assert not result.ok
+    assert result.findings[0].id == 'GSDLC10B_EMPTY_TEST_TARGET_BLOCK'
+    assert service.store.list() == []
+
 def test_plan_is_idempotent_and_retry_keeps_exact_context_identity(tmp_path: Path):
     root = _root(tmp_path); plan = _plan(paths=['src/devpilot_core/application/quality_operations.py'])
     service = StoryValidationJobApplicationService(root, story_test_plan_loader=_loader(plan))
@@ -230,3 +244,88 @@ def test_story_job_cancel_uses_process_tree_termination(tmp_path: Path, monkeypa
     assert called == [43210]
     assert service.store.load(job['job_id'])['status'] == 'cancelled'
     assert result.data['process_tree']['terminated'] is True
+
+
+def _active_workspace_resolver(workspace_root: Path, workspace_id: str = 'workspace-10b'):
+    from types import SimpleNamespace
+
+    class Resolver:
+        def resolve(self):
+            return SimpleNamespace(
+                configured=True,
+                valid=True,
+                active_workspace_id=workspace_id,
+                effective_workspace_root=workspace_root,
+            )
+    return Resolver()
+
+
+def test_project_story_validation_jobs_bind_execution_to_server_active_workspace(tmp_path: Path):
+    from devpilot_core.application.story_validation_job_worker import run_job
+
+    platform = _root(tmp_path / 'platform')
+    project = tmp_path / 'project'
+    (project / '.devpilot').mkdir(parents=True)
+    (project / '.devpilot/project.yaml').write_text(
+        'schema_version: "1.0"\nproject_id: workspace-10b\n', encoding='utf-8'
+    )
+    source = project / 'src/example/value.py'
+    source.parent.mkdir(parents=True)
+    source.write_text('VALUE = 4\n', encoding='utf-8')
+    test_file = project / 'tests/test_project_story.py'
+    test_file.parent.mkdir(parents=True)
+    test_file.write_text(
+        'from pathlib import Path\n\n'
+        'def test_runs_from_active_project_workspace():\n'
+        '    assert Path("src/example/value.py").read_text(encoding="utf-8").strip() == "VALUE = 4"\n',
+        encoding='utf-8',
+    )
+    plan = _plan(paths=['src/example/value.py', 'tests/test_project_story.py'])
+    plan['required_tests'] = ['tests/test_project_story.py']
+    plan['effective_required_tests'] = ['tests/test_project_story.py']
+    plan['recommended_tests'] = []
+    service = StoryValidationJobApplicationService(
+        platform,
+        story_test_plan_loader=_loader(plan),
+        context_resolver=_active_workspace_resolver(project),
+    )
+    created = service.create_for_plan(
+        test_plan_id=plan['test_plan_id'], test_plan_hash=plan['test_plan_hash'], actor='owner', actor_role='owner'
+    )
+    assert created.ok, created.to_dict()
+    assert {job['story_validation_kind'] for job in created.data['jobs']} == {'test', 'lint'}
+    for job in created.data['jobs']:
+        record = service.store.load(job['job_id'])
+        context = json.loads((platform / record['runtime_context_ref']).read_text(encoding='utf-8'))
+        assert context['execution_root'] == str(project.resolve())
+        assert context['execution_root_source'] == 'server-active-workspace'
+        service.framework.queue(job['job_id'])
+        assert run_job(platform, job['job_id']) == 0
+        final = service.store.load(job['job_id'])
+        assert final['status'] == 'pass'
+        assert final['result_summary']['timed_out'] is False
+    test_job = next(job for job in created.data['jobs'] if job['story_validation_kind'] == 'test')
+    test_final = service.store.load(test_job['job_id'])
+    assert test_final['result_summary']['tests'] == 1
+    assert test_final['result_summary']['passed'] == 1
+
+
+def test_project_story_validation_jobs_block_workspace_identity_mismatch(tmp_path: Path):
+    platform = _root(tmp_path / 'platform')
+    project = tmp_path / 'project'
+    project.mkdir(parents=True)
+    plan = _plan(paths=['src/example/value.py', 'tests/test_project_story.py'])
+    plan['required_tests'] = ['tests/test_project_story.py']
+    plan['effective_required_tests'] = ['tests/test_project_story.py']
+    plan['recommended_tests'] = []
+    service = StoryValidationJobApplicationService(
+        platform,
+        story_test_plan_loader=_loader(plan),
+        context_resolver=_active_workspace_resolver(project, workspace_id='another-workspace'),
+    )
+    result = service.create_for_plan(
+        test_plan_id=plan['test_plan_id'], test_plan_hash=plan['test_plan_hash'], actor='owner', actor_role='owner'
+    )
+    assert not result.ok
+    assert result.findings[0].id == 'GSDLC10B_WORKSPACE_ID_MISMATCH_BLOCK'
+    assert service.store.list() == []

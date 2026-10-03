@@ -16,12 +16,13 @@ PASSWORD = "A-very-long-local-password-10a"
 KNOWN_PATH = "src/devpilot_core/application/quality_operations.py"
 SENSITIVE_PATH = "src/devpilot_core/testing/impact_v2.py"
 UNKNOWN_PATH = "src/unknown-gsdlc10a-fixture.py"
+PROJECT_TEST = "tests/test_story_risk_target.py"
 
 
 @pytest.fixture
 def workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     root = tmp_path / "story-test-plan-workspace"
-    for rel in [KNOWN_PATH, SENSITIVE_PATH, UNKNOWN_PATH]:
+    for rel in [KNOWN_PATH, SENSITIVE_PATH, UNKNOWN_PATH, PROJECT_TEST]:
         p = root / rel
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(f"# fixture {rel}\nVALUE = 1\n", encoding="utf-8")
@@ -71,24 +72,31 @@ def source(app: ApplicationService, rel: str) -> dict:
     return got.data["source"]
 
 
-def plan(app: ApplicationService, rel: str) -> dict:
-    src = source(app, rel)
-    draft = app.story_code_draft_save(
-        operation="EDIT",
-        content=src["content"] + "# changed\n",
-        target_path=rel,
-        source_id=src["source_id"],
-        expected_source_sha256=src["sha256"],
-        expected_revision_sha256=None,
-        actor="local-owner",
-        actor_role="owner",
-    )
-    assert draft.ok, draft.to_dict()
+def plan_many(app: ApplicationService, rels: list[str]) -> dict:
+    draft_ids: list[str] = []
+    for rel in rels:
+        src = source(app, rel)
+        draft = app.story_code_draft_save(
+            operation="EDIT",
+            content=src["content"] + "# changed\n",
+            target_path=rel,
+            source_id=src["source_id"],
+            expected_source_sha256=src["sha256"],
+            expected_revision_sha256=None,
+            actor="local-owner",
+            actor_role="owner",
+        )
+        assert draft.ok, draft.to_dict()
+        draft_ids.append(draft.data["draft"]["draft_id"])
     created = app.story_source_change_plan_create(
-        draft_ids=[draft.data["draft"]["draft_id"]], actor="local-owner", actor_role="owner"
+        draft_ids=draft_ids, actor="local-owner", actor_role="owner"
     )
     assert created.ok, created.to_dict()
     return created.data["plan"]
+
+
+def plan(app: ApplicationService, rel: str) -> dict:
+    return plan_many(app, [rel])
 
 
 def create_test_plan(app: ApplicationService, source_plan: dict, *, role: str = "owner") -> dict:
@@ -157,24 +165,47 @@ def test_03_story_must_be_changes_ready(workspace: Path, runtime) -> None:
     assert any(f.id == "GSDLC10A_STORY_NOT_CHANGES_READY_BLOCK" for f in result.findings)
 
 
-def test_04_unknown_path_is_fail_closed_and_requires_explicit_human_reason(workspace: Path, runtime) -> None:
+def test_04_unknown_path_is_fail_closed_and_targetless_plan_cannot_be_approved(workspace: Path, runtime) -> None:
     app, _ = runtime
     source_plan = plan(app, UNKNOWN_PATH)
     test_plan = create_test_plan(app, source_plan)
     assert test_plan["status"] == "REVIEW_REQUIRED"
     assert test_plan["unknown_impact"]["paths"] == [UNKNOWN_PATH]
     assert test_plan["unknown_impact"]["fail_closed"] is True
+    assert test_plan["required_tests"] == []
+    assert test_plan["recommended_tests"] == []
     blocked = app.story_test_plan_decide(
-        test_plan_id=test_plan["test_plan_id"], test_plan_hash=test_plan["test_plan_hash"],
-        decision="APPROVE", actor="owner", actor_role="owner", reason="",
-    )
-    assert not blocked.ok
-    assert any(f.id == "GSDLC10A_UNKNOWN_REVIEW_REASON_BLOCK" for f in blocked.findings)
-    approved = app.story_test_plan_decide(
         test_plan_id=test_plan["test_plan_id"], test_plan_hash=test_plan["test_plan_hash"],
         decision="APPROVE", actor="owner", actor_role="owner", reason="Owner manually reviewed unknown path impact.",
     )
-    assert approved.ok and approved.data["story_test_plan"]["status"] == "APPROVED"
+    assert not blocked.ok
+    assert any(f.id == "GSDLC10A_UNKNOWN_UNTARGETED_APPROVAL_BLOCK" for f in blocked.findings)
+
+
+def test_04b_changed_project_test_artifact_becomes_required_target_and_unknown_source_remains_reviewable(workspace: Path, runtime) -> None:
+    app, _ = runtime
+    source_plan = plan_many(app, [UNKNOWN_PATH, PROJECT_TEST])
+    test_plan = create_test_plan(app, source_plan)
+    assert test_plan["status"] == "REVIEW_REQUIRED"
+    assert test_plan["project_local_test_targets"] == [PROJECT_TEST]
+    assert test_plan["required_tests"] == [PROJECT_TEST]
+    assert test_plan["recommended_tests"] == []
+    assert test_plan["unknown_impact"]["paths"] == [UNKNOWN_PATH]
+    assert "source-change:changed-project-test-artifact" in test_plan["test_reasons"][PROJECT_TEST]
+    assert test_plan["test_policy"][PROJECT_TEST]["waivable"] is False
+    missing_reason = app.story_test_plan_decide(
+        test_plan_id=test_plan["test_plan_id"], test_plan_hash=test_plan["test_plan_hash"],
+        decision="APPROVE", actor="owner", actor_role="owner", reason="",
+    )
+    assert not missing_reason.ok
+    assert any(f.id == "GSDLC10A_UNKNOWN_REVIEW_REASON_BLOCK" for f in missing_reason.findings)
+    approved = app.story_test_plan_decide(
+        test_plan_id=test_plan["test_plan_id"], test_plan_hash=test_plan["test_plan_hash"],
+        decision="APPROVE", actor="owner", actor_role="owner",
+        reason="Owner reviewed the remaining unknown source paths and accepts targeted validation with the changed Story test artifact.",
+    )
+    assert approved.ok, approved.to_dict()
+    assert approved.data["story_test_plan"]["status"] == "APPROVED"
 
 
 def test_05_sensitive_delta_cannot_be_under_tested_or_waived(workspace: Path, runtime) -> None:
@@ -270,7 +301,7 @@ def test_08_api_human_session_contract_and_story_plan_endpoints(workspace: Path,
 def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_test_command() -> None:
     text = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
     client = (ROOT / "ui/web/src/api/client.ts").read_text(encoding="utf-8")
-    for marker in ["Validar story", "StoryTestPlan", "Required tests", "Recommended tests", "unknown impact", "SENSITIVE", "informative only", "execution_authorized"]:
+    for marker in ["Validar story", "StoryTestPlan", "Required tests", "Recommended tests", "unknown impact", "SENSITIVE", "informative only", "execution_authorized", "Owner review · qué estás decidiendo", "Motivo Owner de revisión", "REVIEW_REQUIRED", "unknown impact sin test target ejecutable"]:
         assert marker in text
     for marker in ["restoreApplyContext", "listApprovals", "sessionStorage", "storySourceChangePlan", "story_execution_id", "APPLY_CONTEXT_SESSION_KEY", "armApprovalCenterArtifactReviewHandoff", "handoff=artifact-review", "Abrir Approval Center dirigido", "storyStatus", "CHANGES_READY", "SourceChangePlan restaurado para validación"]:
         assert marker in text
@@ -278,8 +309,8 @@ def test_09_ui_static_contract_exposes_validate_explainability_and_no_free_form_
     assert "validationAllowed=new Set(['CHANGES_READY','VALIDATING'])" in text
     assert "validateStory.disabled=!canAuthor||!plan||!execution" not in text
     assert "new Set(['IN_PROGRESS','CHANGES_READY','VALIDATING']).has(currentStatus)" in text
-    assert "row?.metadata?.plan_hash" in text
-    assert "boundHash!==String(candidate.plan_hash??'')" in text
+    assert "recovery?.active_plan" in text
+    assert "dry_run_receipt_valid" in text
     assert "sourceChangeAllowed=new Set(['IN_PROGRESS','VALIDATING']).has(storyStatus)" in text
     assert "requestApproval.disabled=!isOwner||!plan||!sourceChangeAllowed" in text
     assert "apply.disabled=!isOwner||!plan||!approvalInput.value.trim()||!sourceChangeAllowed" in text

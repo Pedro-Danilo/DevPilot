@@ -12595,7 +12595,12 @@
           "runtime_persistence": "outputs/story_execution/gsdlc_10_a",
           "source_write_enabled": false,
           "test_execution_enabled": false,
-          "waiver_authority": "human-owner-server-side"
+          "waiver_authority": "human-owner-server-side",
+          "project_local_changed_test_targeting": true,
+          "unknown_impact_owner_reason_required": true,
+          "targetless_unknown_approval_blocked": true,
+          "waiver_scope": "required-tests-policy-waivable-only",
+          "owner_decision_explained_in_ui": true
         },
         {
           "application_service": "story_validation_jobs",
@@ -12613,7 +12618,9 @@
             "test",
             "build",
             "lint"
-          ]
+          ],
+          "execution_root_authority": "server-active-workspace",
+          "browser_execution_root_input_allowed": false
         },
         {
           "application_service": "story_activation",
@@ -12674,9 +12681,19 @@
         "source_change_dry_run_receipt_rehydration": true,
         "source_change_owner_gate_prominent": true,
         "story_code_sections_collapsible": true,
-        "story_code_block_auto_expands_section": true
+        "story_code_block_auto_expands_section": true,
+        "story_test_plan_owner_guide_visible": true,
+        "story_test_plan_target_summary_visible": true,
+        "story_test_plan_targetless_unknown_blocked": true,
+        "story_validation_jobs_active_workspace_execution": true
       },
-      "title": "Story Code Workbench — Story activation/context, Code, Validation, Quality and Governed Commit"
+      "title": "Story Code Workbench — Story activation/context, Code, Validation, Quality and Governed Commit",
+      "status": "implemented-initial/gsdlc-13-d-03-story-test-plan-targeting-owner-review-corrective",
+      "notes": [
+        "13-D-03 clarifies REVIEW_REQUIRED and APPROVE/REJECT/WAIVER semantics; targetless unknown impact is server-side approval BLOCK.",
+        "StoryTestPlan reuses Test Impact v2 and additionally requires an exact changed project-local tests/**/*.py artifact to run when it exists in the immutable Story delta.",
+        "Typed Story validation jobs execute from the server-authoritative active project workspace; browser-supplied execution roots and arbitrary shell remain forbidden."
+      ]
     },
     {
       "allowed_api_route_ids": [
@@ -13022,6 +13039,6 @@
       "title": "Ayuda y glosario"
     }
   ],
-  "updated": "2026-10-01",
+  "updated": "2026-10-03",
   "version": "1.2.1"
 }

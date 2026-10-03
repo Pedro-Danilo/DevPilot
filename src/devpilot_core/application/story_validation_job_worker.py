@@ -84,6 +84,38 @@ def _result_path(root: Path, job_id: str) -> Path:
     return path
 
 
+def _execution_root(platform_root: Path, context: dict[str, Any]) -> Path:
+    raw = str(context.get('execution_root') or '').strip()
+    source = str(context.get('execution_root_source') or '').strip()
+    if not raw:
+        raise RuntimeError('StoryValidationJob immutable context has no execution root.')
+    root = Path(raw)
+    if not root.is_absolute():
+        raise RuntimeError('StoryValidationJob execution root must be absolute and server-derived.')
+    root = root.resolve()
+    if not root.is_dir():
+        raise RuntimeError('StoryValidationJob execution root does not exist.')
+    if source not in {'server-active-workspace', 'platform-root'}:
+        raise RuntimeError('StoryValidationJob execution root source is not trusted.')
+    if source == 'platform-root' and root != platform_root:
+        raise RuntimeError('Platform-root validation context does not match DevPilot authority root.')
+    if source == 'server-active-workspace':
+        project_file = root / '.devpilot' / 'project.yaml'
+        if not project_file.is_file():
+            raise RuntimeError('Active project execution root has no .devpilot/project.yaml identity.')
+        # Avoid a second workspace resolver in the worker. The immutable context is
+        # already hash-bound and server-derived; this small check prevents accidental
+        # execution against another project folder after a path move/rebind.
+        project_id = ''
+        for line in project_file.read_text(encoding='utf-8', errors='replace').splitlines():
+            if line.strip().startswith('project_id:'):
+                project_id = line.split(':', 1)[1].strip().strip('"\'')
+                break
+        if project_id and project_id != str(context.get('workspace_id') or ''):
+            raise RuntimeError('StoryValidationJob execution root project identity does not match workspace binding.')
+    return root
+
+
 def run_job(root: Path, job_id: str) -> int:
     root = Path(root).resolve()
     registry = GovernedJobCapabilityRegistry(root, registry_path=CAPABILITY_REGISTRY)
@@ -101,10 +133,14 @@ def run_job(root: Path, job_id: str) -> int:
     actual = hashlib.sha256(json.dumps(core, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode('utf-8')).hexdigest()
     if actual != str(context.get('context_hash')):
         framework.complete(job_id, status='error', error='StoryValidationJob immutable context hash mismatch.'); return 30
+    try:
+        execution_root = _execution_root(root, context)
+    except Exception as exc:
+        framework.complete(job_id, status='error', error=f'{type(exc).__name__}: {exc}'); return 30
     framework.start(job_id)
     ops.record_progress(job_id=job_id, phase='running', progress_percent=5, worker_pid=os.getpid(), message=f'GSDLC-10-B {context["job_kind"]} adapter started; shell=false; Full=false')
     kind = str(context['job_kind']); limits = dict(context.get('limits') or {}); timeout = int(limits.get('timeout_seconds', record.get('timeout_seconds', 120)))
-    result: dict[str, Any] = {'schema_id': 'SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-RESULT-V1', 'job_id': job_id, 'job_kind': kind, 'context_hash': context['context_hash'], 'story_test_plan_id': context['story_test_plan_id'], 'story_test_plan_hash': context['story_test_plan_hash'], 'full_regression': False, 'network_used': False, 'external_api_used': False}
+    result: dict[str, Any] = {'schema_id': 'SCHEMA-DEVPL-GSDLC-10-B-STORY-VALIDATION-JOB-RESULT-V1', 'job_id': job_id, 'job_kind': kind, 'context_hash': context['context_hash'], 'story_test_plan_id': context['story_test_plan_id'], 'story_test_plan_hash': context['story_test_plan_hash'], 'full_regression': False, 'network_used': False, 'external_api_used': False, 'execution_root_source': context.get('execution_root_source')}
     artifact_refs: list[str] = []
     try:
         if kind == 'test':
@@ -114,7 +150,7 @@ def run_job(root: Path, job_id: str) -> int:
                 raise RuntimeError('Typed test target set is empty or exceeds its immutable budget.')
             junit = root / 'outputs/runtime/gsdlc10b_story_validation/junit' / f'{job_id}.xml'; junit.parent.mkdir(parents=True, exist_ok=True)
             argv = [sys.executable, '-m', 'pytest', '-q', *targets, f'--junitxml={junit}']
-            rc, timed_out = _stream_process(root, job_id, argv, timeout_seconds=timeout, logs=logs, heartbeat=lambda: ops.record_progress(job_id=job_id, phase='running', progress_percent=50, worker_pid=os.getpid(), message=None))
+            rc, timed_out = _stream_process(execution_root, job_id, argv, timeout_seconds=timeout, logs=logs, heartbeat=lambda: ops.record_progress(job_id=job_id, phase='running', progress_percent=50, worker_pid=os.getpid(), message=None))
             result['timed_out'] = timed_out; result['summary'] = _pytest_summary(junit, rc)
             if junit.is_file(): artifact_refs.append(str(junit.relative_to(root)).replace('\\', '/'))
         elif kind == 'build':
@@ -122,8 +158,8 @@ def run_job(root: Path, job_id: str) -> int:
             if not npm:
                 raise RuntimeError('Typed build adapter requires npm from the validated local toolchain.')
             argv = [npm, '--prefix', 'ui/web', 'run', 'build']
-            rc, timed_out = _stream_process(root, job_id, argv, timeout_seconds=timeout, logs=logs, heartbeat=lambda: ops.record_progress(job_id=job_id, phase='running', progress_percent=50, worker_pid=os.getpid(), message=None))
-            result['timed_out'] = timed_out; result['summary'] = {'returncode': rc, 'build_profile': 'ui-vite-build', 'dist_present': (root / 'ui/web/dist').is_dir()}
+            rc, timed_out = _stream_process(execution_root, job_id, argv, timeout_seconds=timeout, logs=logs, heartbeat=lambda: ops.record_progress(job_id=job_id, phase='running', progress_percent=50, worker_pid=os.getpid(), message=None))
+            result['timed_out'] = timed_out; result['summary'] = {'returncode': rc, 'build_profile': 'ui-vite-build', 'dist_present': (execution_root / 'ui/web/dist').is_dir()}
         elif kind == 'lint':
             paths = [str(x) for x in context.get('changed_paths', []) if str(x).endswith('.py')]
             max_targets = int(limits.get('max_targets', 100))
@@ -131,9 +167,9 @@ def run_job(root: Path, job_id: str) -> int:
                 raise RuntimeError('Typed lint target set exceeds immutable budget.')
             failed: list[dict[str, str]] = []
             for rel in paths:
-                path = (root / rel).resolve()
-                try: path.relative_to(root)
-                except ValueError: raise RuntimeError('Lint target escaped repository root.')
+                path = (execution_root / rel).resolve()
+                try: path.relative_to(execution_root)
+                except ValueError: raise RuntimeError('Lint target escaped project execution root.')
                 try: py_compile.compile(str(path), doraise=True)
                 except py_compile.PyCompileError as exc: failed.append({'path': rel, 'error': str(exc)[:1000]})
             rc = 0 if not failed else 1; timed_out = False

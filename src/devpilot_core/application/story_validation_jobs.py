@@ -53,9 +53,11 @@ class StoryValidationJobApplicationService:
         root: Path,
         *,
         story_test_plan_loader: Callable[..., CommandResult],
+        context_resolver=None,
     ) -> None:
         self.root = Path(root).resolve()
         self.story_test_plan_loader = story_test_plan_loader
+        self.context_resolver = context_resolver
         self.registry = GovernedJobCapabilityRegistry(self.root, registry_path=CAPABILITY_REGISTRY)
         self.framework = GovernedJobFramework(self.root, registry=self.registry, store=GovernedJobStore(self.root))
         self.store = self.framework.store
@@ -82,9 +84,20 @@ class StoryValidationJobApplicationService:
         if any(not self._safe_test_target(x) for x in tests):
             return self._block(command, 'GSDLC10B_TEST_TARGET_CONTRACT_BLOCK', 'StoryTestPlan contains a test target outside the typed repository test contract.')
 
+        execution_root, execution_root_source, failure = self._execution_root(command, workspace_id)
+        if failure:
+            return failure
+        assert execution_root is not None
+
         applicable = [profile for profile in self.profiles if self._applies(profile, changed_paths)]
         if not applicable:
             return self._block(command, 'GSDLC10B_NO_JOB_PROFILE_BLOCK', 'No typed validation profile applies to this StoryTestPlan.')
+        if any(str(profile.get('job_kind')) == 'test' for profile in applicable) and not tests:
+            return self._block(
+                command,
+                'GSDLC10B_EMPTY_TEST_TARGET_BLOCK',
+                'The approved StoryTestPlan has no executable test targets; typed test jobs cannot be planned.',
+            )
 
         jobs: list[dict[str, Any]] = []
         for profile in applicable:
@@ -101,6 +114,8 @@ class StoryValidationJobApplicationService:
                 'adapter': str(profile['adapter']),
                 'limits': dict(profile.get('limits') or {}),
                 'full_regression': False,
+                'execution_root': str(execution_root),
+                'execution_root_source': execution_root_source,
             }
             context_hash = _sha(context_core)
             context = {**context_core, 'context_hash': context_hash}
@@ -193,6 +208,33 @@ class StoryValidationJobApplicationService:
         if bool((plan.get('full_regression_signal') or {}).get('execution_authorized')):
             return None, self._block(command, 'GSDLC10B_FULL_AUTHORITY_BLOCK', 'StoryTestPlan must not authorize Full Regression execution in GSDLC-10-B.')
         return plan, None
+
+
+    def _execution_root(self, command: str, workspace_id: str) -> tuple[Path | None, str, CommandResult | None]:
+        """Resolve the typed adapter cwd from server-side workspace authority.
+
+        Browser payloads never provide a filesystem root. Production uses the same
+        UiWorkspaceContext authority that binds StoryTestPlan/SourceChangePlan.
+        Unit/self-validation without an external context remains platform-rooted.
+        """
+        if self.context_resolver is None:
+            return self.root, 'platform-root', None
+        try:
+            context = self.context_resolver.resolve()
+        except Exception as exc:
+            return None, '', self._block(command, 'GSDLC10B_WORKSPACE_CONTEXT_BLOCK', f'Active workspace context could not be resolved: {type(exc).__name__}: {exc}')
+        active_id = str(getattr(context, 'active_workspace_id', '') or '').strip()
+        configured = bool(getattr(context, 'configured', False))
+        valid = bool(getattr(context, 'valid', False))
+        effective = getattr(context, 'effective_workspace_root', None)
+        if not configured or not valid or not active_id or effective is None:
+            return None, '', self._block(command, 'GSDLC10B_WORKSPACE_CONTEXT_BLOCK', 'Story validation requires a valid server-authoritative active project workspace.')
+        if active_id != workspace_id:
+            return None, '', self._block(command, 'GSDLC10B_WORKSPACE_ID_MISMATCH_BLOCK', f'StoryTestPlan workspace {workspace_id} does not match active workspace {active_id}.')
+        root = Path(effective).resolve()
+        if not root.is_dir():
+            return None, '', self._block(command, 'GSDLC10B_EXECUTION_ROOT_MISSING_BLOCK', 'Active project workspace root does not exist.')
+        return root, 'server-active-workspace', None
 
     def _context_for_record(self, command: str, record: dict[str, Any]) -> tuple[dict[str, Any] | None, CommandResult | None]:
         ref = str(record.get('runtime_context_ref') or '')

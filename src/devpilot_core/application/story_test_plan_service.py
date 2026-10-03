@@ -144,6 +144,25 @@ class StoryTestPlanApplicationService:
             matched_rules=matched_rules,
             sensitive_paths=sensitive_paths,
         )
+        project_local_test_targets = self._project_local_changed_test_targets(
+            changed_paths=changed_paths,
+            workspace_root=Path(context.effective_workspace_root),
+        )
+        for test_id in project_local_test_targets:
+            if test_id not in required_tests:
+                required_tests.append(test_id)
+            if test_id in recommended_tests:
+                recommended_tests.remove(test_id)
+            test_reasons.setdefault(test_id, []).append("source-change:changed-project-test-artifact")
+            test_policy[test_id] = {
+                "criticality": "P2",
+                "waivable": False,
+                "reason": "changed-project-test-artifact-must-run",
+            }
+        required_tests = sorted(set(required_tests))
+        recommended_tests = sorted(set(recommended_tests) - set(required_tests))
+        test_reasons = {key: sorted(set(value)) for key, value in test_reasons.items()}
+        unknown_paths = [path for path in unknown_paths if path not in set(project_local_test_targets)]
         if sensitive_paths and not required_tests:
             return self._block(
                 command,
@@ -173,6 +192,7 @@ class StoryTestPlanApplicationService:
             "recommended_tests": recommended_tests,
             "test_reasons": test_reasons,
             "test_policy": test_policy,
+            "project_local_test_targets": project_local_test_targets,
             "unknown_impact": {
                 "paths": unknown_paths,
                 "manual_review_required": bool(unknown_paths),
@@ -201,6 +221,8 @@ class StoryTestPlanApplicationService:
             },
             "provenance": {
                 "engine": "TestImpactAnalyzerV2",
+                "story_test_plan_strategy": "test-impact-v2-plus-exact-changed-test-artifact-v1",
+                "project_local_test_targets": project_local_test_targets,
                 "test_contract_registry": str((impact_data.get("summary") or {}).get("registry_path") or ".devpilot/testing/test_contract_registry_v2.json"),
                 "test_impact_rules": str((impact_data.get("summary") or {}).get("rules_path") or ".devpilot/testing/test_impact_rules.json"),
                 "source_change_plan_hash": str(source["plan_hash"]),
@@ -216,7 +238,7 @@ class StoryTestPlanApplicationService:
             },
         }
         plan_hash = _canonical_sha(plan_core)
-        plan_id = f"story-test-plan-{_canonical_sha({'story_execution_id': story.execution_id, 'source_change_plan_hash': source['plan_hash'], 'impact_hash': impact_hash})[:24]}"
+        plan_id = f"story-test-plan-{_canonical_sha({'story_execution_id': story.execution_id, 'source_change_plan_hash': source['plan_hash'], 'impact_hash': impact_hash, 'strategy': 'changed-project-test-artifact-v1'})[:24]}"
         plan = {**plan_core, "test_plan_id": plan_id, "test_plan_hash": plan_hash}
         record = {
             "plan": plan,
@@ -305,6 +327,17 @@ class StoryTestPlanApplicationService:
             return self._block(command, "GSDLC10A_APPROVAL_ROLE_BLOCK", "Only owner may approve a StoryTestPlan.")
         if action == "APPROVE" and self._expired_waivers(record):
             return self._block(command, "GSDLC10A_EXPIRED_WAIVER_BLOCK", "StoryTestPlan has expired waivers; remove/renew them before approval.")
+        if action == "APPROVE":
+            projected = self._project(record)
+            executable_targets = sorted(set(
+                str(x) for x in list(projected.get("effective_required_tests") or []) + list(projected.get("recommended_tests") or []) if str(x).strip()
+            ))
+            if (plan.get("unknown_impact") or {}).get("paths") and not executable_targets:
+                return self._block(
+                    command,
+                    "GSDLC10A_UNKNOWN_UNTARGETED_APPROVAL_BLOCK",
+                    "Unknown impact cannot be approved until the StoryTestPlan contains at least one explainable executable test target.",
+                )
         if action == "APPROVE" and (plan.get("unknown_impact") or {}).get("paths") and not str(reason or "").strip():
             return self._block(command, "GSDLC10A_UNKNOWN_REVIEW_REASON_BLOCK", "Unknown impact requires an explicit human review reason before approval.")
         record["status"] = "APPROVED" if action == "APPROVE" else "REJECTED"
@@ -408,6 +441,34 @@ class StoryTestPlanApplicationService:
             "recommended_tests": sorted(set(str(x) for x in item.get("recommended_tests", []))),
             "escalation": dict(item.get("escalation") or {}),
         }
+
+    @staticmethod
+    def _project_local_changed_test_targets(*, changed_paths: list[str], workspace_root: Path) -> list[str]:
+        """Return safe project-local tests that are themselves part of the exact Story source delta.
+
+        This does not create a second Test Impact engine.  Test Impact v2 remains
+        authoritative for contract/rule matching.  The StoryTestPlan adds one
+        bounded project-level fact that the platform registry cannot know in
+        advance: if the immutable SourceChangePlan itself creates/changes a safe
+        ``tests/*.py`` artifact inside the active workspace, that artifact is an
+        explainable targeted validation input and must be executed before Quality.
+        """
+        root = Path(workspace_root).resolve()
+        targets: list[str] = []
+        for raw in changed_paths:
+            rel = str(raw).replace("\\", "/").strip().lstrip("./")
+            if not rel.startswith("tests/") or not rel.endswith(".py"):
+                continue
+            if any(token in rel for token in ("..", "\n", "\r", "\x00", ";", "|", "&", "$(", "`")):
+                continue
+            candidate = (root / rel).resolve()
+            try:
+                candidate.relative_to(root)
+            except ValueError:
+                continue
+            if candidate.is_file():
+                targets.append(rel)
+        return sorted(set(targets))
 
     def _test_sets(
         self,

@@ -1145,7 +1145,10 @@
         "Story Code restores only a plan bound to the current StoryExecution and current Draft revisions; stale/tampered historical plans are not resurrected.",
         "Owner review gate is visually prominent and recheck feedback names a missing Owner confirmation explicitly.",
         "Top-level Story Code sections support progressive disclosure with active section expansion, Expandir todas/Colapsar inactivas, sessionStorage-only UI preference and auto-expand on local BLOCK.",
-        "Approval recovery filters by the recovered active plan instead of probing arbitrary historical approval subjects as SourceChangePlan IDs."
+        "Approval recovery filters by the recovered active plan instead of probing arbitrary historical approval subjects as SourceChangePlan IDs.",
+        "13-D-03 Owner review explains REVIEW_REQUIRED and APPROVE/REJECT/WAIVER before any typed test execution.",
+        "Unknown impact with no effective required/recommended test target is approval-blocked server-side.",
+        "Typed validation jobs bind execution root to server-active-workspace; browser CWD/path authority is forbidden."
       ],
       "owner": "ui.story-code-workbench",
       "page_component": "StoryCodeWorkbenchView",
@@ -1230,9 +1233,13 @@
         "source_change_owner_gate_prominent": true,
         "story_code_sections_collapsible": true,
         "story_code_block_auto_expands_section": true,
-        "historical_plan_probe_noise_removed": true
+        "historical_plan_probe_noise_removed": true,
+        "story_test_plan_owner_guide_visible": true,
+        "story_test_plan_target_summary_visible": true,
+        "story_test_plan_targetless_unknown_blocked": true,
+        "story_validation_jobs_active_workspace_execution": true
       },
-      "status": "implemented-initial/gsdlc-13-d-02-source-change-resumability-corrective",
+      "status": "implemented-initial/gsdlc-13-d-03-story-test-plan-targeting-owner-review-corrective",
       "status_visibility": [
         "PASS",
         "WARN",
@@ -1244,7 +1251,8 @@
         "gsdlc-10-b",
         "gsdlc-10-d",
         "gsdlc-13-d-01",
-        "gsdlc-13-d-02"
+        "gsdlc-13-d-02",
+        "gsdlc-13-d-03"
       ],
       "title": "Story Code Workbench — story activation/context + manual/agents + governed source/tests/Git"
     },
@@ -1909,5 +1917,5 @@
     "gsdlc_13_d_02_implementation_proposal_api_routes_total": 2,
     "gsdlc_13_d_02_draft_set_bridge": true
   },
-  "updated": "2026-10-01"
+  "updated": "2026-10-03"
 }

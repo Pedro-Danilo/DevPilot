@@ -246,6 +246,7 @@ class ApplicationService:
             self._story_validation_jobs = StoryValidationJobApplicationService(
                 self.root,
                 story_test_plan_loader=self.story_test_plans.get,
+                context_resolver=self.ui_workspace_context,
             )
         return self._story_validation_jobs
 
