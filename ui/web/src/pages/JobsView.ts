@@ -60,8 +60,15 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
   async function inspectId(jobId: string): Promise<void> {
     state.logCursor = 0; state.loading = true; draw();
     const client = new DevPilotApiClient({ token: tokenProvider() });
+    try {
+      state.jobs = await client.listJobs({ workspace_id: state.workspace || undefined, capability_id: state.capability || undefined, status: state.status || undefined, limit: 100 });
+      delete state.errors.jobs;
+    } catch (error) { state.errors.jobs = message(error); }
     await refreshSelected(client, jobId);
-    state.loading = false; draw();
+    state.loading = false;
+    const snapshot = currentSnapshot();
+    if (snapshot && ACTIVE.has(snapshot.status) && !state.polling) enablePolling();
+    draw();
   }
 
   async function cancel(): Promise<void> {
@@ -91,10 +98,17 @@ export function renderJobsView(tokenProvider: () => string, initialJobId?: strin
     } catch (error) { state.errors.action = message(error); state.loading = false; draw(); }
   }
 
+  function enablePolling(): void {
+    state.polling = true;
+    if (pollHandle !== undefined) globalThis.clearInterval(pollHandle);
+    pollHandle = globalThis.setInterval(() => { if (!state.loading) void refresh(); }, 3000);
+  }
+
   function togglePolling(): void {
-    state.polling = !state.polling;
-    if (pollHandle !== undefined) { globalThis.clearInterval(pollHandle); pollHandle = undefined; }
-    if (state.polling) pollHandle = globalThis.setInterval(() => { if (!state.loading) void refresh(); }, 3000);
+    if (state.polling) {
+      state.polling = false;
+      if (pollHandle !== undefined) { globalThis.clearInterval(pollHandle); pollHandle = undefined; }
+    } else enablePolling();
     draw();
   }
 

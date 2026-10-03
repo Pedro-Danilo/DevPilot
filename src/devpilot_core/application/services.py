@@ -1565,9 +1565,23 @@ class ApplicationService:
         recovery = self.source_changes.recovery_context()
         if not recovery.ok:
             return recovery
+        recovery_data = dict(recovery.data or {})
+        active_plan = dict(recovery_data.get("active_plan") or {})
+        test_plan_recovery_data: dict[str, Any] = {"story_test_plan": None, "candidates_total": 0}
+        test_plan_findings: list[Finding] = []
+        if active_plan.get("plan_id") and active_plan.get("plan_hash"):
+            test_plan_recovery = self.story_test_plans.recover_for_source_plan(
+                source_plan_id=str(active_plan["plan_id"]),
+                source_plan_hash=str(active_plan["plan_hash"]),
+            )
+            if not test_plan_recovery.ok:
+                return test_plan_recovery
+            test_plan_recovery_data = dict(test_plan_recovery.data or {})
+            test_plan_findings = list(test_plan_recovery.findings)
         data = dict(base.data or {})
-        data["source_change_recovery"] = dict(recovery.data or {})
-        return CommandResult(base.command, base.ok, base.exit_code, base.message, data=data, findings=[*base.findings, *recovery.findings])
+        data["source_change_recovery"] = recovery_data
+        data["story_test_plan_recovery"] = test_plan_recovery_data
+        return CommandResult(base.command, base.ok, base.exit_code, base.message, data=data, findings=[*base.findings, *recovery.findings, *test_plan_findings])
 
     def story_code_sources(self) -> CommandResult:
         return self.code_workbench.list_sources()

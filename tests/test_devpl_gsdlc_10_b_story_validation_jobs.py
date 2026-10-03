@@ -329,3 +329,76 @@ def test_project_story_validation_jobs_block_workspace_identity_mismatch(tmp_pat
     assert not result.ok
     assert result.findings[0].id == 'GSDLC10B_WORKSPACE_ID_MISMATCH_BLOCK'
     assert service.store.list() == []
+
+
+def test_start_launcher_executes_real_worker_and_reaches_terminal_pass(tmp_path: Path):
+    import time
+
+    root = _root(tmp_path)
+    shutil.copytree(ROOT / 'src/devpilot_core', root / 'src/devpilot_core')
+    sample = root / 'tests/test_launcher_sample.py'
+    sample.parent.mkdir(parents=True, exist_ok=True)
+    sample.write_text('def test_launcher_sample():\n    assert 3 * 7 == 21\n', encoding='utf-8')
+    plan = _plan(paths=['tests/test_launcher_sample.py'])
+    plan['required_tests'] = ['tests/test_launcher_sample.py']
+    plan['effective_required_tests'] = ['tests/test_launcher_sample.py']
+    plan['recommended_tests'] = []
+    service = StoryValidationJobApplicationService(root, story_test_plan_loader=_loader(plan))
+    created = service.create_for_plan(
+        test_plan_id=plan['test_plan_id'], test_plan_hash=plan['test_plan_hash'], actor='owner', actor_role='owner'
+    )
+    assert created.ok, created.to_dict()
+    job = next(x for x in created.data['jobs'] if x['story_validation_kind'] == 'test')
+    started = service.start(job_id=job['job_id'])
+    assert started.ok, started.to_dict()
+    assert started.data['worker']['launch_handshake'] is True
+    assert started.data['worker']['shell'] is False
+    deadline = time.monotonic() + 15
+    final = service.store.load(job['job_id'])
+    while final['status'] not in {'pass', 'block', 'error'} and time.monotonic() < deadline:
+        time.sleep(0.10)
+        final = service.store.load(job['job_id'])
+    assert final['status'] == 'pass', final
+    assert final['result_summary']['tests'] == 1
+    assert final['result_summary']['passed'] == 1
+    meta = service.metadata.load(job['job_id'])
+    assert int(meta.get('worker_pid') or 0) > 0
+    logs = service.operations.logs.read(job['job_id'], cursor=0, limit=200)
+    messages = '\n'.join(str(entry.get('message') or '') for entry in logs['entries'])
+    assert 'worker queued' in messages
+    assert 'adapter started' in messages
+
+
+def test_ui_rehydrates_story_plan_and_job_console_loads_index_for_direct_link():
+    story = (ROOT / 'ui/web/src/pages/StoryCodeWorkbenchView.ts').read_text(encoding='utf-8')
+    jobs = (ROOT / 'ui/web/src/pages/JobsView.ts').read_text(encoding='utf-8')
+    assert 'story_test_plan_recovery' in story
+    assert "if(storyTestPlan.status==='APPROVED')await loadStoryValidationJobs()" in story
+    assert "validateStory.textContent=storyTestPlan?'StoryTestPlan actual':'Validar story'" in story
+    assert '||Boolean(storyTestPlan)' in story
+    assert 'state.jobs = await client.listJobs' in jobs
+    assert "start.disabled=!['planned','approved'].includes(job.status)" in story
+    assert 'if (snapshot && ACTIVE.has(snapshot.status) && !state.polling) enablePolling()' in jobs
+
+
+def test_start_is_idempotent_for_already_queued_job(tmp_path: Path, monkeypatch):
+    root = _root(tmp_path)
+    plan = _plan(paths=['tests/test_any.py'])
+    plan['required_tests'] = ['tests/test_any.py']
+    plan['effective_required_tests'] = ['tests/test_any.py']
+    service = StoryValidationJobApplicationService(root, story_test_plan_loader=_loader(plan))
+    created = service.create_for_plan(
+        test_plan_id=plan['test_plan_id'], test_plan_hash=plan['test_plan_hash'], actor='owner', actor_role='owner'
+    )
+    assert created.ok, created.to_dict()
+    job = next(x for x in created.data['jobs'] if x['story_validation_kind'] == 'test')
+    service.framework.queue(job['job_id'])
+
+    def forbidden_popen(*args, **kwargs):
+        raise AssertionError('duplicate queued start must not spawn another worker')
+
+    monkeypatch.setattr('devpilot_core.application.story_validation_jobs.subprocess.Popen', forbidden_popen)
+    result = service.start(job_id=job['job_id'])
+    assert result.ok, result.to_dict()
+    assert result.data['worker']['duplicate_launch_suppressed'] is True
+    assert service.store.load(job['job_id'])['status'] == 'queued'

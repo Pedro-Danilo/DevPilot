@@ -260,6 +260,49 @@ class StoryTestPlanApplicationService:
         _atomic_json(path, record)
         return self._pass(command, "StoryTestPlan derived from immutable SourceChangePlan and Test Impact v2; no tests executed.", {"story_test_plan": self._project(record), "idempotent": False})
 
+    def recover_for_source_plan(self, *, source_plan_id: str, source_plan_hash: str) -> CommandResult:
+        """Recover the latest valid StoryTestPlan for the active Story/source-plan binding.
+
+        This is a read-only resumability projection for Story Code.  Browser/session
+        memory is never authority: persisted runtime records are filtered by the
+        current StoryExecution plus the exact immutable SourceChangePlan ID/hash.
+        """
+        command = "story test plan recovery"
+        context, failure = self._context(command)
+        if failure:
+            return failure
+        assert context is not None
+        story, failure = self._story(command, context)
+        if failure:
+            return failure
+        assert story is not None
+        wanted_id = str(source_plan_id or "").strip()
+        wanted_hash = str(source_plan_hash or "").strip()
+        if not wanted_id or not wanted_hash:
+            return self._pass(command, "No active SourceChangePlan binding; StoryTestPlan recovery is empty.", {"story_test_plan": None, "candidates_total": 0})
+
+        record_root = self._record_root(context.effective_workspace_root, str(context.active_workspace_id))
+        matches: list[dict[str, Any]] = []
+        if record_root.is_dir():
+            for path in sorted(record_root.glob("story-test-plan-*.json")):
+                record = self._read(path)
+                if not record or not isinstance(record.get("plan"), dict):
+                    continue
+                plan = dict(record["plan"])
+                if str(plan.get("story_execution_id") or "") != story.execution_id:
+                    continue
+                if str(plan.get("source_change_plan_id") or "") != wanted_id or str(plan.get("source_change_plan_hash") or "") != wanted_hash:
+                    continue
+                integrity = self._record_integrity(command, record)
+                if integrity:
+                    return integrity
+                matches.append(record)
+        if not matches:
+            return self._pass(command, "No persisted StoryTestPlan matches the current Story/source-plan binding.", {"story_test_plan": None, "candidates_total": 0})
+        matches.sort(key=lambda row: (str(row.get("created_at_utc") or ""), str((row.get("plan") or {}).get("test_plan_id") or "")))
+        projected = self._project(matches[-1])
+        return self._pass(command, "StoryTestPlan recovered from server-side runtime authority.", {"story_test_plan": projected, "candidates_total": len(matches)})
+
     def get(self, *, test_plan_id: str) -> CommandResult:
         command = "story test plan get"
         context, failure = self._context(command)

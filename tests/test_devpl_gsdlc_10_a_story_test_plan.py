@@ -335,3 +335,37 @@ def test_10_a_closed_and_current_successor_preserves_full_budget_zero() -> None:
     assert state["gsdlc_10_a_full_regression_runs"] == 0
     assert state["gsdlc_10_a_full_regression_runs_allowed"] == 0
     assert state["gsdlc_10_c_full_regression_runs_allowed"] == 0
+
+
+def test_11_story_test_plan_recovery_is_bound_to_current_source_plan(workspace: Path, runtime) -> None:
+    app, _ = runtime
+    source_plan = plan_many(app, [UNKNOWN_PATH, PROJECT_TEST])
+    test_plan = create_test_plan(app, source_plan)
+    approved = app.story_test_plan_decide(
+        test_plan_id=test_plan["test_plan_id"],
+        test_plan_hash=test_plan["test_plan_hash"],
+        decision="APPROVE",
+        actor="owner",
+        actor_role="owner",
+        reason="Owner reviewed the residual unknown source impact and accepts the bounded changed-test target.",
+    )
+    assert approved.ok, approved.to_dict()
+    recovered = app.story_test_plans.recover_for_source_plan(
+        source_plan_id=source_plan["plan_id"],
+        source_plan_hash=source_plan["plan_hash"],
+    )
+    assert recovered.ok, recovered.to_dict()
+    row = recovered.data["story_test_plan"]
+    assert row["test_plan_id"] == test_plan["test_plan_id"]
+    assert row["test_plan_hash"] == test_plan["test_plan_hash"]
+    assert row["status"] == "APPROVED"
+    assert row["source_change_plan_id"] == source_plan["plan_id"]
+    assert recovered.data["candidates_total"] == 1
+
+    wrong = app.story_test_plans.recover_for_source_plan(
+        source_plan_id=source_plan["plan_id"],
+        source_plan_hash="f" * 64,
+    )
+    assert wrong.ok
+    assert wrong.data["story_test_plan"] is None
+    assert wrong.data["candidates_total"] == 0

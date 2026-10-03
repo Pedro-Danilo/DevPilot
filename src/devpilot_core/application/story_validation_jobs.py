@@ -6,6 +6,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 from typing import Any, Callable
 
@@ -180,20 +181,87 @@ class StoryValidationJobApplicationService:
         if bool(context.get('full_regression')):
             return self._block(command, 'GSDLC10B_FULL_REGRESSION_BLOCK', 'GSDLC-10-B cannot start a Full Regression job.')
         status = str(record.get('status'))
+        queued = False
         try:
             if status in {'planned', 'approved'}:
                 self.framework.queue(job_id)
-            elif status != 'queued':
+                queued = True
+            elif status == 'queued':
+                # Start is idempotent for an already queued job. Never spawn a
+                # second worker from a duplicate click/request. A genuinely
+                # orphaned queued job is reconciled to ERROR by API startup and
+                # can then use the governed retry lifecycle.
+                meta = self.metadata.load(job_id)
+                return self._pass(
+                    command,
+                    'StoryValidationJob is already queued; duplicate worker launch was suppressed.',
+                    {
+                        'job': self._project(record),
+                        'worker': {
+                            'pid': meta.get('worker_pid'),
+                            'shell': False,
+                            'argv_contract': 'fixed-gsdlc10b-worker',
+                            'duplicate_launch_suppressed': True,
+                        },
+                    },
+                )
+            else:
                 return self._block(command, 'GSDLC10B_JOB_STATE_BLOCK', f'StoryValidationJob cannot start from state {status}.')
             cmd = [sys.executable, '-m', 'devpilot_core.application.story_validation_job_worker', '--repo-root', str(self.root), '--job-id', job_id]
-            proc = subprocess.Popen(cmd, cwd=str(self.root), stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=False, close_fds=(os.name != 'nt'))
+            env = os.environ.copy()
+            source_root = self.root / 'src'
+            if source_root.is_dir():
+                existing = [item for item in str(env.get('PYTHONPATH') or '').split(os.pathsep) if item]
+                source_text = str(source_root)
+                env['PYTHONPATH'] = os.pathsep.join([source_text, *[item for item in existing if os.path.normcase(os.path.abspath(item)) != os.path.normcase(source_text)]])
+            env['PYTHONUNBUFFERED'] = '1'
+            proc = subprocess.Popen(
+                cmd, cwd=str(self.root), env=env, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                shell=False, close_fds=(os.name != 'nt'),
+            )
             meta = self.metadata.load(job_id)
-            meta.update({'phase': 'worker-starting', 'progress_percent': 1, 'worker_pid': proc.pid, 'worker_started_at': record.get('updated_at'), 'reconciled_orphan': False})
+            current_phase = str(meta.get('phase') or '').lower()
+            meta.update({'worker_pid': proc.pid, 'worker_started_at': self.store.load(job_id).get('updated_at'), 'reconciled_orphan': False})
+            if current_phase in {'', 'planned', 'approved', 'queued'}:
+                meta.update({'phase': 'worker-starting', 'progress_percent': max(1, int(meta.get('progress_percent') or 0))})
             self.metadata.save(meta)
             self.operations.logs.append(job_id, level='INFO', phase='queue', message=f'GSDLC-10-B typed {record.get("story_validation_kind")} worker queued; shell=false; Full=false')
+
+            # Bounded launch handshake: do not wait for the test itself, only ensure
+            # that the child either advances the governed lifecycle or remains alive.
+            # This closes the historical blind spot where an import/startup failure
+            # could leave an apparently approved/queued job at 0% with no evidence.
+            deadline = time.monotonic() + 1.0
             current = self.store.load(job_id)
-            return self._pass(command, 'Typed StoryValidationJob worker started.', {'job': self._project(current), 'worker': {'pid': proc.pid, 'shell': False, 'argv_contract': 'fixed-gsdlc10b-worker'}})
+            while time.monotonic() < deadline and str(current.get('status')) == 'queued':
+                returncode = proc.poll()
+                if returncode is not None:
+                    current = self.framework.complete(
+                        job_id, status='error',
+                        error=f'Typed validation worker exited before lifecycle handoff (exit={returncode}).',
+                    )
+                    self.operations.logs.append(job_id, level='ERROR', phase='launcher', message=f'GSDLC-10-B worker launch failed before lifecycle handoff; exit={returncode}')
+                    failed_meta = self.metadata.load(job_id)
+                    failed_meta.update({'phase': 'launcher-error', 'progress_percent': int(failed_meta.get('progress_percent') or 1), 'worker_pid': proc.pid})
+                    self.metadata.save(failed_meta)
+                    return self._block(
+                        command, 'GSDLC10B_WORKER_LAUNCH_BLOCK',
+                        'Typed validation worker exited before taking lifecycle authority; inspect sanitized Job Console logs.',
+                        metadata={'job_id': job_id, 'worker_exit_code': returncode, 'job_status': str(current.get('status'))},
+                    )
+                time.sleep(0.05)
+                current = self.store.load(job_id)
+            current = self.store.load(job_id)
+            return self._pass(command, 'Typed StoryValidationJob launch accepted and lifecycle state is observable.', {'job': self._project(current), 'worker': {'pid': proc.pid, 'shell': False, 'argv_contract': 'fixed-gsdlc10b-worker', 'launch_handshake': True}})
         except Exception as exc:
+            if queued:
+                try:
+                    current = self.store.load(job_id)
+                    if str(current.get('status')) == 'queued':
+                        self.framework.complete(job_id, status='error', error=f'Launcher error: {type(exc).__name__}')
+                    self.operations.logs.append(job_id, level='ERROR', phase='launcher', message=f'GSDLC-10-B launcher error: {type(exc).__name__}')
+                except Exception:
+                    pass
             return self._block(command, 'GSDLC10B_JOB_START_BLOCK', f'{type(exc).__name__}: {exc}')
 
     def _approved_test_plan(self, command: str, test_plan_id: str, test_plan_hash: str) -> tuple[dict[str, Any] | None, CommandResult | None]:
