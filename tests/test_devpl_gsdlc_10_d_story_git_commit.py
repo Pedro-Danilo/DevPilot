@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 
 from devpilot_core.application.approval_service import ApprovalApplicationService
 from devpilot_core.application.auth_service import AuthApplicationService
 from devpilot_core.application.workspace_git_operations_service import WorkspaceGitOperationsApplicationService
+from devpilot_core.approval.service import ApprovalCliInput
 from devpilot_core.cli_models import CommandResult, ExitCode
 from devpilot_core.story_execution import StoryExecutionState, StoryExecutionStatus, StoryExecutionStore
 
@@ -303,6 +305,9 @@ def test_story_code_ui_reuses_workspace_git_panel_and_exposes_10d_safety_contrac
     assert "authority=human-session" in panel
     assert "Agente/modelo puede proponer, nunca conceder permiso Git" in panel
     assert "stage_and_commit_separate" in panel
+    assert "Baseline greenfield verificado" in panel
+    assert "Runtime outputs" in panel
+    assert "Excluidos de source Git" in panel
     story_section = panel.split("function createStoryGitOperationsPanel", 1)[1]
     assert "decideApproval(approval.approval_id, decision, { reason:" in story_section
     assert "decideApproval(approval.approval_id, decision, { actor: ACTOR" not in story_section
@@ -311,3 +316,132 @@ def test_story_code_ui_reuses_workspace_git_panel_and_exposes_10d_safety_contrac
     assert "{ reason: payload.reason }" in decide_method
     assert "this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload" not in decide_method
     assert "createWorkspaceGitOperationsPanel" in story and "storyMode:true" in story
+
+
+
+def _install_greenfield_precode_baseline(uoc006_env, service, issue):
+    platform = uoc006_env["platform"]
+    workspace = uoc006_env["workspace"]
+    catalog = json.loads((platform / ".devpilot/gsdlc/pre_code_wizard_catalog.json").read_text(encoding="utf-8"))
+    stages = {}
+    baseline_paths = []
+    for stage in catalog["stages"]:
+        rel = stage["relative_path"]
+        target = workspace / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(f"# {stage['label']}\napproved greenfield baseline\n", encoding="utf-8", newline="\n")
+        approved = semantic_sha(target)
+        stages[stage["stage_id"]] = {
+            "stage_id": stage["stage_id"], "status": "FROZEN", "approved_sha256": approved,
+            "approval_id": f"approval-{stage['stage_id']}", "updated_at": "2026-10-01T00:00:00Z",
+        }
+        baseline_paths.append(rel)
+    state = {
+        "schema_id": "devpilot.gsdlc05e.pre_code_state.v1", "workspace_id": workspace.name,
+        "profile_id": catalog["profile_id"], "status": "READY", "semantic_model": None,
+        "stages": stages, "created_at": "2026-10-01T00:00:00Z", "updated_at": "2026-10-01T00:00:00Z", "completed_at": "2026-10-01T00:00:00Z",
+    }
+    state_path = platform / "outputs/pre_code_wizard/gsdlc_05_e" / workspace.name / "state.json"
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+
+    adr_paths = []
+    for index in range(1, 3):
+        rel = f"docs/02_architecture/adrs/ADR-00{index}-fixture.md"
+        target = workspace / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(f"# ADR-00{index}\napproved decision\n", encoding="utf-8", newline="\n")
+        adr_paths.append(rel)
+    plan_id = "adr-bundle-plan-fixture"
+    plan_hash = "9" * 64
+    actor = issue.context.principal.actor_id
+    scope = {
+        "actor_id": actor, "role_at_decision": "owner", "tool_id": "workspace.edit.apply",
+        "action": "filesystem.pre_code_architecture_adr_bundle_apply", "action_id": "filesystem.pre_code_architecture_adr_bundle_apply",
+        "subject": plan_id, "subject_hash": plan_hash, "workspace_id": workspace.name,
+        "exact_path_allowlist": adr_paths, "interface": "ui", "scope_type": "pre-code-architecture-adr-bundle",
+    }
+    requested = service.approvals.request(ApprovalCliInput(
+        tool_id="workspace.edit.apply", action="filesystem.pre_code_architecture_adr_bundle_apply", subject=plan_id,
+        actor=actor, reason="Fixture ADR materialization approval", scope=json.dumps(scope, sort_keys=True), ttl_minutes=30,
+        metadata={"plan_hash": plan_hash},
+    ))
+    assert requested.ok, requested.to_dict()
+    approval_id = find_approval_id(requested.data)
+    decided = service.approvals.approve(approval_id, actor=actor, reason="Approve fixture ADR bundle")
+    assert decided.ok, decided.to_dict()
+    receipt = {
+        "schema_id": "devpilot.gsdlc13c02.architecture_adr_bundle_execution.v1",
+        "execution_id": "adr-exec-fixture", "workspace_id": workspace.name, "plan_id": plan_id, "plan_hash": plan_hash,
+        "approval_id": approval_id, "architecture_sha256": stages["architecture"]["approved_sha256"],
+        "paths": [{"relative_path": rel, "sha256": semantic_sha(workspace / rel)} for rel in adr_paths],
+        "atomic_all_or_nothing": True, "network_used": False, "external_api_used": False, "applied_at": "2026-10-01T00:00:00Z",
+    }
+    receipt_path = platform / "outputs/pre_code_wizard/gsdlc_13_c_02" / workspace.name / "architecture_adr_bundle_execution.json"
+    receipt_path.parent.mkdir(parents=True, exist_ok=True)
+    receipt_path.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    baseline_paths.extend(adr_paths)
+    return sorted(baseline_paths)
+
+
+def test_first_greenfield_story_commit_absorbs_only_authority_verified_untracked_baseline_and_ignores_runtime_outputs(uoc006_env):
+    service, auth, issue, _, quality = prepared(uoc006_env)
+    baseline_paths = _install_greenfield_precode_baseline(uoc006_env, service, issue)
+    runtime = uoc006_env["workspace"] / "outputs/runtime/story.json"
+    runtime.parent.mkdir(parents=True, exist_ok=True)
+    runtime.write_text('{"runtime":true}\n', encoding="utf-8")
+    # prepared() adds outputs/ to .git/info/exclude for historical fixtures; remove
+    # it here so the test reproduces Pilot A where outputs/ is currently untracked.
+    info_exclude = uoc006_env["workspace"] / ".git/info/exclude"
+    info_exclude.write_text("\n".join(line for line in info_exclude.read_text(encoding="utf-8").splitlines() if line.strip() != "outputs/") + "\n", encoding="utf-8")
+
+    plan = make_plan(service, quality)
+    assert plan["exact_paths"] == sorted(["docs/review.md", *baseline_paths])
+    assert "outputs/runtime/story.json" not in plan["exact_paths"]
+    baseline_rows = [row for row in plan["files"] if row["relative_path"] != "docs/review.md"]
+    assert {row["change_operation"] for row in baseline_rows} == {"GREENFIELD_BASELINE_PRECODE", "GREENFIELD_BASELINE_ADR"}
+
+    stage = stage_plan(service, auth, issue, plan)
+    approval = service.request_story_commit_approval(stage_execution_id=stage["stage_execution_id"], actor="owner", actor_role="owner", reason="Approve first greenfield source baseline and story commit")
+    commit_approval_id = approve(service, auth, issue, approval)
+    committed = service.commit_story(stage_execution_id=stage["stage_execution_id"], approval_id=commit_approval_id, actor="owner", actor_role="owner")
+    assert committed.ok, committed.to_dict()
+    record = committed.data["git_commit_record"]
+    assert record["committed_paths"] == plan["exact_paths"]
+    assert git(uoc006_env["workspace"], "status", "--porcelain", "--untracked-files=all").strip().startswith("?? outputs/")
+    assert StoryExecutionStore(uoc006_env["workspace"], workspace_id=plan["workspace_id"]).load_state().status is StoryExecutionStatus.DONE
+
+
+def test_first_greenfield_baseline_frozen_source_drift_blocks(uoc006_env):
+    service, _, issue, _, quality = prepared(uoc006_env)
+    _install_greenfield_precode_baseline(uoc006_env, service, issue)
+    target = uoc006_env["workspace"] / "docs/00_product/product_vision.md"
+    target.write_text("# tampered after approval\n", encoding="utf-8")
+    result = service.plan_story_commit(
+        quality_report_id=quality["report_id"], quality_report_hash=quality["report_hash"], commit_message="feat: blocked baseline drift",
+        author_name="DevPilot Owner", author_email="devpilot-owner@local.invalid", actor="owner", actor_role="owner",
+    )
+    assert not result.ok
+    assert any(f.id == "GSDLC13D04_PRECODE_SOURCE_DRIFT_BLOCK" for f in result.findings)
+
+
+def test_greenfield_baseline_reconciliation_never_absorbs_tracked_doc_drift(uoc006_env):
+    service, _, issue, _, quality = prepared(uoc006_env)
+    _install_greenfield_precode_baseline(uoc006_env, service, issue)
+    target = uoc006_env["workspace"] / "docs/00_product/product_vision.md"
+    git(uoc006_env["workspace"], "add", "--", "docs/00_product/product_vision.md")
+    git(uoc006_env["workspace"], "commit", "-qm", "track precode fixture")
+    # Restore Story COMMIT_READY authority to this new HEAD, then create unrelated tracked drift.
+    target.write_text("# tracked drift\n", encoding="utf-8")
+    result = service.plan_story_commit(
+        quality_report_id=quality["report_id"], quality_report_hash=quality["report_hash"], commit_message="feat: blocked tracked drift",
+        author_name="DevPilot Owner", author_email="devpilot-owner@local.invalid", actor="owner", actor_role="owner",
+    )
+    assert not result.ok
+    assert any(f.id == "GSDLC13D04_BASELINE_TRACKED_DRIFT_BLOCK" for f in result.findings)
+
+
+def test_future_project_bootstrap_ignores_runtime_outputs_by_default():
+    source = (Path(__file__).parents[1] / "src/devpilot_core/workspace/project_bootstrap_execution.py").read_text(encoding="utf-8")
+    line = next(row for row in source.splitlines() if '"common.gitignore"' in row)
+    assert "outputs/\\n" in line

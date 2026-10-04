@@ -343,7 +343,10 @@ function createStoryGitOperationsPanel(options: WorkspaceGitOperationsPanelOptio
       const next = (response.data as { commit_plan?: StoryGitCommitPlan }).commit_plan;
       if (!response.ok || !next) throw new Error(response.message || 'CommitPlan blocked.');
       plan = next; stageApproval = undefined; stageExecution = undefined; commitApproval = undefined; commitRecord = undefined;
-      notice = 'PLAN PASS · exact path set bound to story/change-plan/tests/quality; index unchanged.';
+      const baselineCount = context ? next.exact_paths.filter(path => !context.exact_paths.includes(path)).length : 0;
+      notice = baselineCount > 0
+        ? `PLAN PASS · Story + ${baselineCount} artefactos baseline greenfield verificados; outputs runtime excluidos; índice sin cambios.`
+        : 'PLAN PASS · exact path set bound to story/change-plan/tests/quality; index unchanged.';
     } catch (cause) { error = cause instanceof Error ? cause.message : String(cause); }
     finally { busy = false; draw(); }
   }
@@ -439,7 +442,11 @@ function createStoryGitOperationsPanel(options: WorkspaceGitOperationsPanelOptio
     const planButton = btn('Construir CommitPlan exacto', () => void createPlan()); planButton.disabled = busy || Boolean(stageExecution); root.append(planButton);
     if (plan) {
       const card = document.createElement('section'); card.className = 'uoc006-plan-card'; card.dataset.storyCommitPlan = 'true';
-      card.innerHTML = `<h3>CommitPlan PASS</h3><dl><dt>ID</dt><dd><code>${escapeHtml(plan.commit_plan_id)}</code></dd><dt>Hash</dt><dd><code>${escapeHtml(plan.commit_plan_hash)}</code></dd><dt>HEAD</dt><dd><code>${escapeHtml(plan.head_before)}</code></dd><dt>Exact paths</dt><dd>${plan.exact_paths.map(escapeHtml).join(', ')}</dd><dt>Quality hash</dt><dd><code>${escapeHtml(plan.story_quality_report_hash)}</code></dd><dt>Approval</dt><dd>${String(plan.approval.required)} · owner · stage=${String(plan.approval.stage_approval_required)} · commit=${String(plan.approval.commit_approval_required)} · stage_and_commit_separate=${String(plan.approval.stage_and_commit_separate)}</dd></dl>`; root.append(card);
+      const baselinePaths = plan.exact_paths.filter(path => !context.exact_paths.includes(path));
+      const baselineRow = baselinePaths.length > 0
+        ? `<dt>Baseline greenfield verificado</dt><dd>${baselinePaths.map(escapeHtml).join(', ')}</dd><dt>Runtime outputs</dt><dd>Excluidos de source Git; permanecen en disco como estado/evidencia.</dd>`
+        : '';
+      card.innerHTML = `<h3>CommitPlan PASS</h3><dl><dt>ID</dt><dd><code>${escapeHtml(plan.commit_plan_id)}</code></dd><dt>Hash</dt><dd><code>${escapeHtml(plan.commit_plan_hash)}</code></dd><dt>HEAD</dt><dd><code>${escapeHtml(plan.head_before)}</code></dd><dt>Story paths</dt><dd>${context.exact_paths.map(escapeHtml).join(', ')}</dd>${baselineRow}<dt>Exact paths del commit</dt><dd>${plan.exact_paths.map(escapeHtml).join(', ')}</dd><dt>Quality hash</dt><dd><code>${escapeHtml(plan.story_quality_report_hash)}</code></dd><dt>Approval</dt><dd>${String(plan.approval.required)} · owner · stage=${String(plan.approval.stage_approval_required)} · commit=${String(plan.approval.commit_approval_required)} · stage_and_commit_separate=${String(plan.approval.stage_and_commit_separate)}</dd></dl>`; root.append(card);
       if (!stageApproval) root.append(btn('Solicitar approval de stage', () => void requestStageApproval()));
     }
     if (stageApproval) root.append(approvalCard('Approval 1 · stage exacto', stageApproval, 'stage'));

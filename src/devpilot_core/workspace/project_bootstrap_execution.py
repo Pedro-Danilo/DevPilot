@@ -34,7 +34,7 @@ STAGES = (
 )
 
 _TEMPLATE_CONTENT = {
-    "common.gitignore": ".venv/\nnode_modules/\n__pycache__/\n*.pyc\n.env\n.devpilot/bootstrap-execution.json\n.devpilot/workspace-registration.json\n",
+    "common.gitignore": ".venv/\nnode_modules/\n__pycache__/\n*.pyc\n.env\noutputs/\n.devpilot/bootstrap-execution.json\n.devpilot/workspace-registration.json\n",
     "frontend.react-typescript.package": json.dumps(
         {
             "name": "devpilot-created-frontend",

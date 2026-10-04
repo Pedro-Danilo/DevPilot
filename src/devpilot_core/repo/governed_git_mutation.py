@@ -60,12 +60,17 @@ class GovernedGitMutationAdapter:
             raise RuntimeError(result.stderr.strip() or "git diff --cached --name-only failed")
         return _split_z(result.stdout)
 
+    def untracked_paths(self) -> list[str]:
+        result = self._run(("ls-files", "--others", "--exclude-standard", "-z"))
+        if not result.ok:
+            raise RuntimeError(result.stderr.strip() or "git untracked path inventory failed")
+        return sorted(set(_split_z(result.stdout)))
+
     def dirty_paths(self) -> list[str]:
         changed = self._run(("diff", "--name-only", "-z"))
-        untracked = self._run(("ls-files", "--others", "--exclude-standard", "-z"))
-        if not changed.ok or not untracked.ok:
-            raise RuntimeError((changed.stderr or untracked.stderr).strip() or "git dirty path inventory failed")
-        return sorted(set(_split_z(changed.stdout) + _split_z(untracked.stdout)))
+        if not changed.ok:
+            raise RuntimeError(changed.stderr.strip() or "git dirty path inventory failed")
+        return sorted(set(_split_z(changed.stdout) + self.untracked_paths()))
 
     def stage_paths(self, paths: Iterable[str], *, max_paths: int = MAX_PATHS) -> GovernedGitCommandResult:
         validated = validate_paths(paths, max_paths=max_paths)

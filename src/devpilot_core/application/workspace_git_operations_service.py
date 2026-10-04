@@ -37,6 +37,12 @@ BRANCH_ACTION = "git.workspace_branch_create"
 STAGE_TOOL = "git.workspace.stage"
 COMMIT_TOOL = "git.workspace.commit"
 BRANCH_TOOL = "git.workspace.branch_create"
+STORY_RUNTIME_ONLY_PREFIXES = ("outputs/",)
+PRE_CODE_CATALOG_PATH = Path(".devpilot/gsdlc/pre_code_wizard_catalog.json")
+PRE_CODE_STATE_ROOT = Path("outputs/pre_code_wizard/gsdlc_05_e")
+PRE_CODE_ADR_RECEIPT_ROOT = Path("outputs/pre_code_wizard/gsdlc_13_c_02")
+PRE_CODE_ADR_APPROVAL_TOOL = "workspace.edit.apply"
+PRE_CODE_ADR_APPROVAL_ACTION = "filesystem.pre_code_architecture_adr_bundle_apply"
 
 
 class WorkspaceGitOperationsApplicationService:
@@ -604,8 +610,8 @@ class WorkspaceGitOperationsApplicationService:
             return chain_failure
         assert chain is not None
         source_plan = chain["source_plan"]
-        exact_paths = sorted({str(path).replace("\\", "/") for path in source_plan.get("exact_path_allowlist") or [] if str(path).strip()})
-        if not exact_paths or len(exact_paths) > MAX_STORY_PLAN_FILES:
+        source_exact_paths = sorted({str(path).replace("\\", "/") for path in source_plan.get("exact_path_allowlist") or [] if str(path).strip()})
+        if not source_exact_paths or len(source_exact_paths) > MAX_STORY_PLAN_FILES:
             return self._story_block(command, "GSDLC10D_EXACT_PATH_SET_BLOCK", f"Story CommitPlan requires 1-{MAX_STORY_PLAN_FILES} exact approved paths.")
 
         mutation = GovernedGitMutationAdapter(root)
@@ -618,17 +624,34 @@ class WorkspaceGitOperationsApplicationService:
         try:
             staged = sorted(mutation.staged_paths())
             dirty = sorted(mutation.dirty_paths())
+            untracked = sorted(mutation.untracked_paths())
         except RuntimeError as exc:
             return self._story_block(command, "GSDLC10D_GIT_INVENTORY_BLOCK", str(exc))
         if staged:
             return self._story_block(command, "GSDLC10D_PREEXISTING_STAGED_BLOCK", "Index must be empty before a story CommitPlan is created.", metadata={"staged_paths": staged})
-        if dirty != exact_paths:
-            return self._story_block(command, "GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK", "Dirty Git path set must equal the approved SourceChangePlan exactly.", metadata={"expected_paths": exact_paths, "actual_dirty_paths": dirty})
 
-        expected_files, expected_failure = self._story_expected_files(source_plan, root)
+        source_dirty = self._story_source_dirty_paths(dirty)
+        baseline_candidates = sorted(set(source_dirty) - set(source_exact_paths))
+        baseline_files, baseline_failure = self._story_greenfield_baseline_files(
+            root=root,
+            workspace_id=str(context.active_workspace_id),
+            candidate_paths=baseline_candidates,
+            untracked_paths=untracked,
+        )
+        if baseline_failure is not None:
+            return baseline_failure
+        assert baseline_files is not None
+        exact_paths = sorted(set(source_exact_paths) | {str(row["relative_path"]) for row in baseline_files})
+        if len(exact_paths) > MAX_STORY_PLAN_FILES:
+            return self._story_block(command, "GSDLC13D04_GREENFIELD_BASELINE_SIZE_BLOCK", f"First-story greenfield baseline plus Story source exceeds the {MAX_STORY_PLAN_FILES}-path bounded CommitPlan.", metadata={"exact_paths": exact_paths})
+        if source_dirty != exact_paths:
+            return self._story_block(command, "GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK", "Source dirty path set must equal the approved Story paths plus any authority-verified first-greenfield baseline artifacts exactly.", metadata={"expected_paths": exact_paths, "actual_source_dirty_paths": source_dirty, "runtime_only_dirty_paths": sorted(set(dirty) - set(source_dirty))})
+
+        expected_story_files, expected_failure = self._story_expected_files(source_plan, root)
         if expected_failure is not None:
             return expected_failure
-        assert expected_files is not None
+        assert expected_story_files is not None
+        expected_files = sorted([*expected_story_files, *baseline_files], key=lambda row: str(row["relative_path"]))
         context_pack = StoryExecutionStore(root, workspace_id=str(context.active_workspace_id)).load_context() or {}
         requirement_ids = sorted({str(row.get("target_id") or "") for row in context_pack.get("fragments") or [] if isinstance(row, dict) and row.get("kind") == "requirement" and str(row.get("target_id") or "").strip()})
         quality = chain["quality_report"]
@@ -860,8 +883,9 @@ class WorkspaceGitOperationsApplicationService:
         try:
             committed=sorted(mutation.committed_paths(head_after)); parent=mutation.parent_of(head_after); staged_after=mutation.staged_paths(); dirty_after=mutation.dirty_paths()
         except Exception as exc:return self._story_block(command,"GSDLC10D_POST_COMMIT_VERIFY_BLOCK",f"Commit completed but Git postconditions could not be verified: {exc}")
-        if parent!=plan["head_before"] or committed!=expected or staged_after or dirty_after:
-            return self._story_block(command,"GSDLC10D_POST_COMMIT_CONTRACT_BLOCK","Commit tree, parent or clean-worktree postconditions differ from the approved CommitPlan.",metadata={"parent":parent,"expected_parent":plan["head_before"],"committed_paths":committed,"expected_paths":expected,"staged_after":staged_after,"dirty_after":dirty_after})
+        source_dirty_after=self._story_source_dirty_paths(dirty_after)
+        if parent!=plan["head_before"] or committed!=expected or staged_after or source_dirty_after:
+            return self._story_block(command,"GSDLC10D_POST_COMMIT_CONTRACT_BLOCK","Commit tree, parent or source-clean postconditions differ from the approved CommitPlan.",metadata={"parent":parent,"expected_parent":plan["head_before"],"committed_paths":committed,"expected_paths":expected,"staged_after":staged_after,"source_dirty_after":source_dirty_after,"runtime_only_dirty_after":sorted(set(dirty_after)-set(source_dirty_after))})
         commit_record={
             "schema_id":"SCHEMA-DEVPL-GSDLC-10-D-GIT-COMMIT-RECORD-V1","schema_version":"1.0.0",
             "commit_record_id":f"story-commit-record-{head_after[:24]}","commit_hash":head_after,"parent_hash":parent,
@@ -957,13 +981,19 @@ class WorkspaceGitOperationsApplicationService:
         if not head.ok or not branch.ok or head.stdout.strip()!=str(plan["head_before"]) or branch.stdout.strip()!=str(plan["branch"]):
             return self._story_block(command,"GSDLC10D_HEAD_BRANCH_STALE_BLOCK","HEAD or branch changed after CommitPlan creation.")
         try:
-            staged=sorted(mutation.staged_paths()); dirty=sorted(mutation.dirty_paths())
+            staged=sorted(mutation.staged_paths()); dirty=sorted(mutation.dirty_paths()); untracked=sorted(mutation.untracked_paths())
         except RuntimeError as exc:return self._story_block(command,"GSDLC10D_GIT_INVENTORY_BLOCK",str(exc))
         if require_unstaged and staged:return self._story_block(command,"GSDLC10D_PREEXISTING_STAGED_BLOCK","Index is no longer empty before exact story staging.",metadata={"staged_paths":staged})
-        if dirty!=sorted(plan["exact_paths"]):return self._story_block(command,"GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK","Dirty path set drifted from approved CommitPlan.",metadata={"expected_paths":plan["exact_paths"],"actual_dirty_paths":dirty})
-        expected_files,expected_failure=self._story_expected_files(chain["source_plan"],root)
+        source_dirty=self._story_source_dirty_paths(dirty)
+        if source_dirty!=sorted(plan["exact_paths"]):return self._story_block(command,"GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK","Source dirty path set drifted from approved CommitPlan.",metadata={"expected_paths":plan["exact_paths"],"actual_source_dirty_paths":source_dirty,"runtime_only_dirty_paths":sorted(set(dirty)-set(source_dirty))})
+        expected_story_files,expected_failure=self._story_expected_files(chain["source_plan"],root)
         if expected_failure is not None:return expected_failure
-        if expected_files!=plan["files"]:return self._story_block(command,"GSDLC10D_SOURCE_CONTENT_STALE_BLOCK","Current source content/state differs from the approved story CommitPlan.")
+        source_paths={str(row["relative_path"]) for row in expected_story_files or []}
+        baseline_candidates=sorted(set(plan["exact_paths"])-source_paths)
+        baseline_files,baseline_failure=self._story_greenfield_baseline_files(root=root,workspace_id=str(context.active_workspace_id),candidate_paths=baseline_candidates,untracked_paths=untracked)
+        if baseline_failure is not None:return baseline_failure
+        expected_files=sorted([*(expected_story_files or []),*(baseline_files or [])],key=lambda row:str(row["relative_path"]))
+        if expected_files!=plan["files"]:return self._story_block(command,"GSDLC10D_SOURCE_CONTENT_STALE_BLOCK","Current source/baseline content or authority state differs from the approved story CommitPlan.")
         return self._story_pass(command,"Story CommitPlan still matches Quality, story state, HEAD and exact dirty paths.",{"stale":False,"mutations_performed":False})
 
     def _story_chain(self, *, root: Path | None, workspace_id: str, quality_report_id: str, quality_report_hash: str) -> tuple[dict[str, Any] | None, CommandResult | None]:
@@ -1019,6 +1049,122 @@ class WorkspaceGitOperationsApplicationService:
                 row["working_content_sha256"]=actual
             rows.append(row)
         return rows,None
+
+    @staticmethod
+    def _story_source_dirty_paths(paths: list[str]) -> list[str]:
+        """Return Git-dirty paths that belong to project source authority.
+
+        Project-local ``outputs/`` are runtime/evidence state. They must remain on
+        disk for resumability and audit, but are never staged by Story Git.
+        """
+        normalized = {str(path or "").replace("\\", "/") for path in paths if str(path or "").strip()}
+        return sorted(path for path in normalized if not any(path == prefix.rstrip("/") or path.startswith(prefix) for prefix in STORY_RUNTIME_ONLY_PREFIXES))
+
+    def _story_greenfield_baseline_files(
+        self,
+        *,
+        root: Path,
+        workspace_id: str,
+        candidate_paths: list[str],
+        untracked_paths: list[str],
+    ) -> tuple[list[dict[str, Any]] | None, CommandResult | None]:
+        """Adjudicate first-greenfield approved engineering artifacts for D04.
+
+        Earlier Greenfield checkpoints produced approval-bound pre-code documents
+        before the pilot reached its first governed Git checkpoint. D04 may include
+        those files exactly once, but only while they are still untracked and only
+        when platform runtime authority proves their approved bytes. Unknown dirty
+        files and tracked drift remain fail-closed.
+        """
+        command = "story git greenfield baseline recheck"
+        candidates = sorted({str(path).replace("\\", "/") for path in candidate_paths if str(path).strip()})
+        if not candidates:
+            return [], None
+        baseline_prefixes = ("docs/00_product/", "docs/01_requirements/", "docs/02_architecture/", "docs/03_security/", "docs/04_quality/")
+        clearly_unrelated = sorted(path for path in candidates if not any(path.startswith(prefix) for prefix in baseline_prefixes))
+        if clearly_unrelated:
+            return None, self._story_block(command, "GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK", "Non-runtime dirty paths outside the Story are not eligible first-greenfield baseline artifacts.", metadata={"unexpected_paths": clearly_unrelated})
+        untracked = set(str(path).replace("\\", "/") for path in untracked_paths)
+        tracked_candidates = sorted(set(candidates) - untracked)
+        if tracked_candidates:
+            return None, self._story_block(command, "GSDLC13D04_BASELINE_TRACKED_DRIFT_BLOCK", "Greenfield baseline reconciliation is first-commit-only; pre-existing tracked source drift cannot be absorbed into a Story commit.", metadata={"tracked_candidate_paths": tracked_candidates})
+
+        state_path = self.platform_root / PRE_CODE_STATE_ROOT / workspace_id / "state.json"
+        catalog_path = self.platform_root / PRE_CODE_CATALOG_PATH
+        state = self._read_json(state_path)
+        catalog = self._read_json(catalog_path)
+        if not isinstance(state, dict) or state.get("schema_id") != "devpilot.gsdlc05e.pre_code_state.v1" or str(state.get("workspace_id") or "") != workspace_id:
+            return None, self._story_block(command, "GSDLC13D04_PRECODE_STATE_AUTHORITY_BLOCK", "First-story baseline requires the exact server-authoritative Pre-code state for this workspace.", metadata={"state_path": state_path.as_posix()})
+        if not isinstance(catalog, dict) or catalog.get("schema_id") != "devpilot.gsdlc05e.pre_code_wizard_catalog.v1":
+            return None, self._story_block(command, "GSDLC13D04_PRECODE_CATALOG_AUTHORITY_BLOCK", "Pre-code stage catalog is missing or incompatible while reconciling the first Git baseline.")
+
+        stages = state.get("stages") if isinstance(state.get("stages"), dict) else {}
+        approved: dict[str, dict[str, Any]] = {}
+        for stage in catalog.get("stages") or []:
+            if not isinstance(stage, dict):
+                continue
+            stage_id = str(stage.get("stage_id") or "")
+            rel = str(stage.get("relative_path") or "").replace("\\", "/")
+            row = stages.get(stage_id) if isinstance(stages.get(stage_id), dict) else {}
+            expected = str(row.get("approved_sha256") or "")
+            if row.get("status") != "FROZEN" or len(expected) != 64:
+                return None, self._story_block(command, "GSDLC13D04_PRECODE_NOT_FROZEN_BLOCK", "Every mandatory Pre-code stage must remain FROZEN before its first Git baseline can be committed.", metadata={"stage_id": stage_id, "relative_path": rel, "status": row.get("status")})
+            path = (root / rel).resolve()
+            try:
+                path.relative_to(root.resolve())
+            except ValueError:
+                return None, self._story_block(command, "GSDLC13D04_BASELINE_PATH_ESCAPE_BLOCK", "Pre-code baseline path escaped the active workspace.", path=rel)
+            if not path.is_file():
+                return None, self._story_block(command, "GSDLC13D04_PRECODE_SOURCE_MISSING_BLOCK", "A FROZEN Pre-code artifact is missing before first Git baseline reconciliation.", path=rel)
+            actual = self._story_semantic_sha(path)
+            if actual != expected:
+                return None, self._story_block(command, "GSDLC13D04_PRECODE_SOURCE_DRIFT_BLOCK", "A FROZEN Pre-code artifact no longer matches its approved bytes/content.", path=rel, metadata={"expected": expected, "actual": actual})
+            approved[rel] = {"relative_path": rel, "expected_state": "present", "change_operation": "GREENFIELD_BASELINE_PRECODE", "approved_content_sha256": expected, "working_content_sha256": actual}
+
+        adr_candidates = sorted(path for path in candidates if path.startswith("docs/02_architecture/adrs/"))
+        if adr_candidates:
+            receipt_path = self.platform_root / PRE_CODE_ADR_RECEIPT_ROOT / workspace_id / "architecture_adr_bundle_execution.json"
+            receipt = self._read_json(receipt_path)
+            if not isinstance(receipt, dict) or receipt.get("schema_id") != "devpilot.gsdlc13c02.architecture_adr_bundle_execution.v1" or str(receipt.get("workspace_id") or "") != workspace_id or receipt.get("atomic_all_or_nothing") is not True:
+                return None, self._story_block(command, "GSDLC13D04_ADR_RECEIPT_AUTHORITY_BLOCK", "Standalone Architecture ADR baseline requires its exact approval-bound atomic execution receipt.", metadata={"receipt_path": receipt_path.as_posix()})
+            approval_id = str(receipt.get("approval_id") or "")
+            plan_id = str(receipt.get("plan_id") or "")
+            plan_hash = str(receipt.get("plan_hash") or "")
+            shown = self.approvals.show(approval_id) if approval_id else None
+            record = (shown.data or {}).get("approval") if shown is not None and shown.ok and isinstance(shown.data, dict) else None
+            scope = record.get("scope") if isinstance(record, dict) and isinstance(record.get("scope"), dict) else {}
+            receipt_paths = {str(row.get("relative_path") or "").replace("\\", "/"): str(row.get("sha256") or "") for row in receipt.get("paths") or [] if isinstance(row, dict)}
+            approval_ok = bool(
+                isinstance(record, dict)
+                and str(record.get("status") or "").lower() == "approved"
+                and str(record.get("tool_id") or "") == PRE_CODE_ADR_APPROVAL_TOOL
+                and str(record.get("action") or "") == PRE_CODE_ADR_APPROVAL_ACTION
+                and str(record.get("subject") or "") == plan_id
+                and str(scope.get("subject_hash") or "") == plan_hash
+                and str(scope.get("workspace_id") or "") == workspace_id
+                and sorted(str(x) for x in scope.get("exact_path_allowlist") or []) == sorted(receipt_paths)
+            )
+            if not approval_ok:
+                return None, self._story_block(command, "GSDLC13D04_ADR_APPROVAL_BINDING_BLOCK", "ADR execution receipt is not re-bound to the persisted APPROVED Owner decision and exact path set.", metadata={"approval_id": approval_id, "plan_id": plan_id})
+            for rel, expected in sorted(receipt_paths.items()):
+                if not rel.startswith("docs/02_architecture/adrs/") or len(expected) != 64:
+                    return None, self._story_block(command, "GSDLC13D04_ADR_RECEIPT_PATH_BLOCK", "ADR receipt contains an invalid governed path/hash.", path=rel)
+                path = (root / rel).resolve()
+                try:
+                    path.relative_to(root.resolve())
+                except ValueError:
+                    return None, self._story_block(command, "GSDLC13D04_BASELINE_PATH_ESCAPE_BLOCK", "ADR baseline path escaped the active workspace.", path=rel)
+                if not path.is_file():
+                    return None, self._story_block(command, "GSDLC13D04_ADR_SOURCE_MISSING_BLOCK", "An approved standalone ADR is missing before first Git baseline reconciliation.", path=rel)
+                actual = self._story_semantic_sha(path)
+                if actual != expected:
+                    return None, self._story_block(command, "GSDLC13D04_ADR_SOURCE_DRIFT_BLOCK", "An approved standalone ADR no longer matches its execution receipt.", path=rel, metadata={"expected": expected, "actual": actual})
+                approved[rel] = {"relative_path": rel, "expected_state": "present", "change_operation": "GREENFIELD_BASELINE_ADR", "approved_content_sha256": expected, "working_content_sha256": actual}
+
+        unknown = sorted(set(candidates) - set(approved))
+        if unknown:
+            return None, self._story_block(command, "GSDLC10D_UNEXPECTED_DIRTY_PATH_BLOCK", "Non-runtime dirty paths outside the Story are not authority-verified Greenfield baseline artifacts.", metadata={"unexpected_paths": unknown, "approved_baseline_paths": sorted(approved)})
+        return [approved[path] for path in candidates], None
 
     def _validate_story_staged(self, plan: dict[str, Any], root: Path) -> dict[str, Any]:
         mutation=GovernedGitMutationAdapter(root); checks=[]; expected=sorted(plan["exact_paths"])
