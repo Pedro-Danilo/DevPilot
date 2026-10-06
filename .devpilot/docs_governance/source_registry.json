@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP-0B",
+  "current_micro_sprint": "MP-0C",
   "current_phase": "DEVPL-MULTIPROVIDER-V2-MP-0",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
@@ -38329,6 +38329,144 @@
         "test_must_pass"
       ],
       "frontmatter_required": true
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0C-ARTIFACT-PROFILE-CONTRACT",
+      "domain": "multiprovider.profiles",
+      "lifecycle": "active",
+      "owner": "MP-0C",
+      "path": "src/devpilot_core/validators/artifact_profiles.py",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROFILE_DEPENDENCY_EQUIVALENCE_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py",
+        "tests/test_artifact_profile_registry.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0C"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "MP-0C extends the existing deterministic ArtifactProfile additively; no parallel profile catalog."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0C-ARTIFACT-PROFILE-REGISTRY",
+      "domain": "multiprovider.profiles",
+      "lifecycle": "active",
+      "owner": "MP-0C",
+      "path": "src/devpilot_core/validation/artifact_profile_registry.py",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROFILE_DEPENDENCY_EQUIVALENCE_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py",
+        "tests/test_artifact_profile_registry.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0C"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Existing registry remains selection truth; parser/status projection now exposes additive MP-v2 profile metadata."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0C-DEPENDENCY-FOUNDATION",
+      "domain": "multiprovider.dependencies",
+      "lifecycle": "active",
+      "owner": "MP-0C",
+      "path": "src/devpilot_core/generation/dependencies.py",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROFILE_DEPENDENCY_EQUIVALENCE_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py",
+        "tests/test_devpl_gsdlc_07_b_context_pack_v2.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0C"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Artifact dependency authority selection and bounded context; composes existing ContextPack v2 and does not implement retrieval/indexing."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0C-EQUIVALENCE-HARNESS",
+      "domain": "multiprovider.equivalence",
+      "lifecycle": "active",
+      "owner": "MP-0C",
+      "path": "src/devpilot_core/generation/equivalence.py",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROFILE_DEPENDENCY_EQUIVALENCE_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0C"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Reusable deterministic parity harness; exact prose snapshots are not the universal acceptance criterion."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0C-FOUNDATION-DOC",
+      "domain": "multiprovider.foundation",
+      "lifecycle": "active",
+      "owner": "MP-0C",
+      "path": "docs/02_architecture/MP_V2_PROFILE_DEPENDENCY_EQUIVALENCE_v1_0_0.md",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0C"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "notes": [
+        "Repo-local MP-0C contract bound to approved Multiprovider v2.1 planning."
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -38754,7 +38892,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-13-D-04-GREENFIELD-GIT-BASELINE-CORRECTIVE",
+  "last_updated_by": "MP-0C",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -41291,20 +41429,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1538,
+    "critical_sources_total": 1543,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1634,
-    "documents_with_required_tests_total": 1634,
+    "documents_total": 1639,
+    "documents_with_required_tests_total": 1639,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
-    "last_updated_by": "DEVPL-GSDLC-13-D-04-GREENFIELD-GIT-BASELINE-CORRECTIVE",
+    "last_updated_by": "MP-0C",
     "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 604
+    "source_of_truth_total": 609
   },
   "updated": "2026-10-06",
   "updated_at": "2026-10-06",
@@ -41367,7 +41505,9 @@
   "mp_v2_branch": "evolution/multiprovider-v2",
   "mp_v2_baseline_commit": "758b04be867ca24ed5eda2614ce4053c669076ef",
   "mp_v2_mp0_a_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED",
-  "mp_v2_mp0_b_status": "IMPLEMENTED/WINDOWS-VALIDATED-CANDIDATE",
+  "mp_v2_mp0_b_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED/PROMOTED",
   "mp_v2_mp0_b_full_regression_runs": 0,
-  "mp_v2_test_mp0a_001_disposition": "CARRY-FORWARD-MP0D"
+  "mp_v2_test_mp0a_001_disposition": "CARRY-FORWARD-MP0D",
+  "mp_v2_mp0_c_status": "IMPLEMENTED/SANDBOX-CANDIDATE",
+  "mp_v2_mp0_c_full_regression_runs": 0
 }

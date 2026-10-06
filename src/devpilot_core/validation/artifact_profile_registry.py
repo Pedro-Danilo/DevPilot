@@ -160,11 +160,25 @@ class ArtifactProfileRegistry:
             path_contains=tuple(str(value) for value in item.get("path_contains", [])),
             required_headings=tuple(str(value) for value in item.get("required_headings", [])),
             recommended_headings=tuple(str(value) for value in item.get("recommended_headings", [])),
+            profile_version=str(item.get("profile_version") or "1.0.0"),
+            purpose=str(item.get("purpose") or item.get("description") or "").strip(),
+            payload_schema_ref=item.get("payload_schema_ref"),
+            semantic_rules=tuple(str(value) for value in item.get("semantic_rules", [])),
+            completeness_rules=tuple(str(value) for value in item.get("completeness_rules", [])),
+            upstream_trace_required=bool(item.get("upstream_trace_required", False)),
+            assumptions_policy=str(item.get("assumptions_policy") or "explicit"),
+            open_questions_policy=str(item.get("open_questions_policy") or "explicit"),
+            prohibited_unsupported_claims=tuple(str(value) for value in item.get("prohibited_unsupported_claims", [])),
+            quality_gates=tuple(str(value) for value in item.get("quality_gates", [])),
+            render_template_ref=item.get("render_template_ref"),
+            human_review_checklist=tuple(str(value) for value in item.get("human_review_checklist", [])),
+            downstream_semantics=tuple(str(value) for value in item.get("downstream_semantics", [])),
+            migration_policy=str(item.get("migration_policy") or "compatible-additive"),
         )
 
     @staticmethod
     def _profile_to_dict(profile: ArtifactProfile) -> dict[str, Any]:
-        return {
+        payload = {
             "id": profile.id,
             "description": profile.description,
             "filename": profile.filename,
@@ -172,3 +186,5 @@ class ArtifactProfileRegistry:
             "required_headings": list(profile.required_headings),
             "recommended_headings": list(profile.recommended_headings),
         }
+        payload.update(profile.foundation_contract())
+        return payload

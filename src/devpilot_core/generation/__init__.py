@@ -1,11 +1,25 @@
 """Shared Multiprovider v2 candidate/generation contracts.
 
-MP-0B adds a provider-neutral candidate kernel only. Runtime routing, provider
-health/cost selection, ArtifactProfile/DependencyProfile and UI remain owned by
-later MP-0 micro-sprints and by existing DevPilot authority services.
+MP-0B adds the provider-neutral candidate kernel. MP-0C extends the same
+foundation with artifact/dependency contracts and deterministic equivalence,
+while runtime routing, provider health/cost selection and UI remain later scope.
 """
 
 from .compatibility import wrap_technical_design_candidate
+from .dependencies import (
+    ArtifactAuthorityRecord,
+    ArtifactDependencyProfile,
+    ArtifactDependencyResolutionError,
+    ArtifactDependencyResolver,
+    DependencyRequirement,
+    ResolvedArtifactContext,
+)
+from .equivalence import (
+    DeterministicEquivalenceHarness,
+    EquivalenceContract,
+    EquivalenceMode,
+    EquivalenceResult,
+)
 from .contracts import (
     ArtifactCandidateEnvelope,
     CandidateComparisonGroup,
@@ -31,6 +45,16 @@ from .contracts import (
 
 __all__ = [
     "ArtifactCandidateEnvelope",
+    "ArtifactAuthorityRecord",
+    "ArtifactDependencyProfile",
+    "ArtifactDependencyResolutionError",
+    "ArtifactDependencyResolver",
+    "DependencyRequirement",
+    "ResolvedArtifactContext",
+    "DeterministicEquivalenceHarness",
+    "EquivalenceContract",
+    "EquivalenceMode",
+    "EquivalenceResult",
     "CandidateComparisonGroup",
     "CandidateLineage",
     "CandidateOrigin",

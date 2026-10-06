@@ -6,11 +6,14 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class ArtifactProfile:
-    """Validation profile for one family of engineering artifacts.
+    """Versioned artifact-quality profile with backward-compatible Markdown rules.
 
-    A profile defines the minimum headings expected for a Markdown artifact.
-    FUNC-SPRINT-03 intentionally keeps the rules deterministic and local-first:
-    no LLM, no external service and no schema dependency are required.
+    Historical DevPilot validators consume ``path_contains``, ``filename`` and
+    heading lists. MP-0C extends that same contract with provider-neutral
+    quality metadata instead of creating a parallel profile registry. Existing
+    JSON profiles remain valid because every new field has a conservative
+    deterministic default. Domain-complete professional profiles are later-wave
+    scope; this class only establishes the shared foundation.
     """
 
     id: str
@@ -19,6 +22,67 @@ class ArtifactProfile:
     filename: str | None = None
     required_headings: tuple[str, ...] = ()
     recommended_headings: tuple[str, ...] = ()
+    profile_version: str = "1.0.0"
+    purpose: str = ""
+    payload_schema_ref: str | None = None
+    semantic_rules: tuple[str, ...] = ()
+    completeness_rules: tuple[str, ...] = ()
+    upstream_trace_required: bool = False
+    assumptions_policy: str = "explicit"
+    open_questions_policy: str = "explicit"
+    prohibited_unsupported_claims: tuple[str, ...] = ()
+    quality_gates: tuple[str, ...] = ()
+    render_template_ref: str | None = None
+    human_review_checklist: tuple[str, ...] = ()
+    downstream_semantics: tuple[str, ...] = ()
+    migration_policy: str = "compatible-additive"
+
+    def __post_init__(self) -> None:
+        import re
+
+        if not str(self.id or "").strip():
+            raise ValueError("artifact profile id must be non-empty")
+        if not str(self.description or "").strip():
+            raise ValueError("artifact profile description must be non-empty")
+        if not re.fullmatch(r"\d+\.\d+\.\d+", str(self.profile_version or "")):
+            raise ValueError("profile_version must use semantic version form MAJOR.MINOR.PATCH")
+        if not self.purpose:
+            object.__setattr__(self, "purpose", self.description)
+        if self.assumptions_policy not in {"explicit", "forbidden", "allowed-with-rationale"}:
+            raise ValueError("unsupported assumptions_policy")
+        if self.open_questions_policy not in {"explicit", "forbidden", "allowed"}:
+            raise ValueError("unsupported open_questions_policy")
+
+    @property
+    def required_sections(self) -> tuple[str, ...]:
+        return self.required_headings
+
+    @property
+    def optional_sections(self) -> tuple[str, ...]:
+        return self.recommended_headings
+
+    def foundation_contract(self) -> dict[str, object]:
+        """Return MP-v2 foundation metadata without changing legacy selection."""
+
+        return {
+            "artifact_type": self.id,
+            "profile_version": self.profile_version,
+            "purpose": self.purpose,
+            "required_sections": list(self.required_sections),
+            "optional_sections": list(self.optional_sections),
+            "payload_schema_ref": self.payload_schema_ref,
+            "semantic_rules": list(self.semantic_rules),
+            "completeness_rules": list(self.completeness_rules),
+            "upstream_trace_required": self.upstream_trace_required,
+            "assumptions_policy": self.assumptions_policy,
+            "open_questions_policy": self.open_questions_policy,
+            "prohibited_unsupported_claims": list(self.prohibited_unsupported_claims),
+            "quality_gates": list(self.quality_gates),
+            "render_template_ref": self.render_template_ref,
+            "human_review_checklist": list(self.human_review_checklist),
+            "downstream_semantics": list(self.downstream_semantics),
+            "migration_policy": self.migration_policy,
+        }
 
 
 GENERIC_MARKDOWN_PROFILE = ArtifactProfile(
