@@ -2,7 +2,7 @@
 
 MP-0B adds the provider-neutral candidate kernel. MP-0C extends the same
 foundation with artifact/dependency contracts and deterministic equivalence,
-while runtime routing, provider health/cost selection and UI remain later scope.
+and MP-0D adds provider runtime governance/provenance/observability contracts without model execution; UI remains later scope.
 """
 
 from .compatibility import wrap_technical_design_candidate
@@ -13,6 +13,22 @@ from .dependencies import (
     ArtifactDependencyResolver,
     DependencyRequirement,
     ResolvedArtifactContext,
+)
+from .runtime import (
+    FallbackDecision,
+    GenerationProvenanceEnvelope,
+    GenerationProviderRegistryView,
+    GenerationRoute,
+    GenerationRouteResolver,
+    ProviderAvailability,
+    ProviderExecutionReceipt,
+    ProviderHealthSnapshot,
+    ProviderSelectionPolicy,
+    build_execution_receipt,
+    build_provenance,
+    prompt_reference_snapshot,
+    provider_authority_surface,
+    provider_runtime_span,
 )
 from .equivalence import (
     DeterministicEquivalenceHarness,
@@ -74,5 +90,19 @@ __all__ = [
     "invalidate_stale_authority",
     "provider_authority_violations",
     "transition_candidate",
+    "FallbackDecision",
+    "GenerationProvenanceEnvelope",
+    "GenerationProviderRegistryView",
+    "GenerationRoute",
+    "GenerationRouteResolver",
+    "ProviderAvailability",
+    "ProviderExecutionReceipt",
+    "ProviderHealthSnapshot",
+    "ProviderSelectionPolicy",
+    "build_execution_receipt",
+    "build_provenance",
+    "prompt_reference_snapshot",
+    "provider_authority_surface",
+    "provider_runtime_span",
     "wrap_technical_design_candidate",
 ]

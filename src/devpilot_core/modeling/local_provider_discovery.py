@@ -134,9 +134,14 @@ class LocalProviderDiscoveryService:
             models = list((health.data or {}).get('models') or [])
             error_type = hs.get('error_type')
             probe_status = availability
+        operator_configured = (
+            not self.registry.used_example
+            and self.registry.source_path != 'built-in-defaults'
+            and bool(config.endpoint)
+        )
         return {
             'provider_id': provider_id,
-            'configured': bool(config.endpoint),
+            'configured': operator_configured,
             'reachable': reachable,
             'healthy': healthy,
             'model_discovered': bool(models),

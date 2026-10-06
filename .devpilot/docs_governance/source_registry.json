@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP-0C",
+  "current_micro_sprint": "MP-0D",
   "current_phase": "DEVPL-MULTIPROVIDER-V2-MP-0",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
@@ -34970,6 +34970,9 @@
       "status_required": "implemented-initial",
       "sync_rules": [
         "test_must_pass"
+      ],
+      "notes": [
+        "MP-0D clarifies configured=true only for operator-local provider configuration; versioned example/default declarations remain contracts, not runtime configuration."
       ]
     },
     {
@@ -38350,12 +38353,13 @@
         "MP-0",
         "MP-0C"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "MP-0C extends the existing deterministic ArtifactProfile additively; no parallel profile catalog."
+        "MP-0C extends the existing deterministic ArtifactProfile additively; no parallel profile catalog.",
+        "MP-0C Windows validation promoted at commit 0ff309cf686438dada6e64f0d4714584f3c312a3."
       ]
     },
     {
@@ -38378,12 +38382,13 @@
         "MP-0",
         "MP-0C"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Existing registry remains selection truth; parser/status projection now exposes additive MP-v2 profile metadata."
+        "Existing registry remains selection truth; parser/status projection now exposes additive MP-v2 profile metadata.",
+        "MP-0C Windows validation promoted at commit 0ff309cf686438dada6e64f0d4714584f3c312a3."
       ]
     },
     {
@@ -38406,12 +38411,13 @@
         "MP-0",
         "MP-0C"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Artifact dependency authority selection and bounded context; composes existing ContextPack v2 and does not implement retrieval/indexing."
+        "Artifact dependency authority selection and bounded context; composes existing ContextPack v2 and does not implement retrieval/indexing.",
+        "MP-0C Windows validation promoted at commit 0ff309cf686438dada6e64f0d4714584f3c312a3."
       ]
     },
     {
@@ -38433,12 +38439,13 @@
         "MP-0",
         "MP-0C"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Reusable deterministic parity harness; exact prose snapshots are not the universal acceptance criterion."
+        "Reusable deterministic parity harness; exact prose snapshots are not the universal acceptance criterion.",
+        "MP-0C Windows validation promoted at commit 0ff309cf686438dada6e64f0d4714584f3c312a3."
       ]
     },
     {
@@ -38459,13 +38466,93 @@
         "MP-0",
         "MP-0C"
       ],
+      "status_required": "implemented/windows-validated/promoted",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "notes": [
+        "Repo-local MP-0C contract bound to approved Multiprovider v2.1 planning.",
+        "MP-0C Windows validation promoted at commit 0ff309cf686438dada6e64f0d4714584f3c312a3."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0D-PROVIDER-RUNTIME",
+      "domain": "multiprovider.runtime",
+      "lifecycle": "active",
+      "owner": "MP-0D",
+      "path": "src/devpilot_core/generation/runtime.py",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROVIDER_RUNTIME_FOUNDATION_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0d_provider_runtime_governance.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0D"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Candidate-generation runtime governance adapts existing ModelRouterV2/ProviderRegistry/CostGuard/PromptRegistry/TraceStore; no parallel runtime authority."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0D-RUNTIME-DOC",
+      "domain": "multiprovider.runtime",
+      "lifecycle": "active",
+      "owner": "MP-0D",
+      "path": "docs/02_architecture/MP_V2_PROVIDER_RUNTIME_FOUNDATION_v1_0_0.md",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0d_provider_runtime_governance.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0D"
+      ],
       "status_required": "implemented/sandbox-candidate",
       "sync_rules": [
         "test_must_pass"
       ],
       "frontmatter_required": true,
       "notes": [
-        "Repo-local MP-0C contract bound to approved Multiprovider v2.1 planning."
+        "Repo-local MP-0D provider runtime/provenance/observability contract with Mermaid architecture diagrams."
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0D-RUNTIME-TESTS",
+      "domain": "multiprovider.runtime",
+      "lifecycle": "active",
+      "owner": "MP-0D",
+      "path": "tests/test_mp0d_provider_runtime_governance.py",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0d_provider_runtime_governance.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0D"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Focal/security-negative contract tests; no real provider execution."
       ]
     }
   ],
@@ -41429,20 +41516,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1543,
+    "critical_sources_total": 1546,
     "deprecated_total": 0,
-    "derived_total": 179,
-    "documents_total": 1639,
-    "documents_with_required_tests_total": 1639,
+    "derived_total": 180,
+    "documents_total": 1642,
+    "documents_with_required_tests_total": 1642,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
-    "last_updated_by": "MP-0C",
+    "last_updated_by": "MP-0D",
     "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 609
+    "source_of_truth_total": 611
   },
   "updated": "2026-10-06",
   "updated_at": "2026-10-06",
@@ -41509,5 +41596,9 @@
   "mp_v2_mp0_b_full_regression_runs": 0,
   "mp_v2_test_mp0a_001_disposition": "CARRY-FORWARD-MP0D",
   "mp_v2_mp0_c_status": "IMPLEMENTED/SANDBOX-CANDIDATE",
-  "mp_v2_mp0_c_full_regression_runs": 0
+  "mp_v2_mp0_c_full_regression_runs": 0,
+  "mp_0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
+  "mp_0_c_successor_commit": "0ff309cf686438dada6e64f0d4714584f3c312a3",
+  "mp_0_d_status": "IMPLEMENTED / SANDBOX-CANDIDATE",
+  "mp_0_d_full_regression_runs": 0
 }
