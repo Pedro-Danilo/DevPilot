@@ -1,8 +1,8 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "DEVPL-GSDLC-13-D-04",
-  "current_phase": "DEVPL-GSDLC-13-D",
-  "current_repo": "repo_462_13D03_JOB_RUNTIME_WINDOWS_CANDIDATE.zip",
+  "current_micro_sprint": "MP-0B",
+  "current_phase": "DEVPL-MULTIPROVIDER-V2-MP-0",
+  "current_repo": "evolution/multiprovider-v2",
   "documents": [
     {
       "classification": "machine-readable-source",
@@ -38244,6 +38244,91 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_CANDIDATE_GENERATION_KERNEL_v1_0_0.md"
+      ],
+      "doc_id": "MP-V2-MP0B-GENERATION-CONTRACTS",
+      "domain": "multiprovider.generation",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "MP-0B common provider-neutral candidate/generation contract kernel. No routing runtime or source authority."
+      ],
+      "owner": "MP-0B",
+      "path": "src/devpilot_core/generation/contracts.py",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0b_candidate_generation_kernel.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0B"
+      ],
+      "status_required": "implemented/windows-validated-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_CANDIDATE_GENERATION_KERNEL_v1_0_0.md"
+      ],
+      "doc_id": "MP-V2-MP0B-TECHNICAL-DESIGN-COMPAT",
+      "domain": "multiprovider.generation",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Backward-compatibility seam around existing C-02 deterministic Technical Design provider output; historical provider remains unchanged."
+      ],
+      "owner": "MP-0B",
+      "path": "src/devpilot_core/generation/compatibility.py",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0b_candidate_generation_kernel.py",
+        "tests/test_devpl_gsdlc_13_c_02_technical_design_bridge.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0B"
+      ],
+      "status_required": "implemented/windows-validated-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "MP-V2-MP0B-CANDIDATE-KERNEL-DOC",
+      "domain": "multiprovider.generation",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "Repo-local implementation contract bound to the approved Multiprovider v2.1 program and MP-0B sprint."
+      ],
+      "owner": "MP-0B",
+      "path": "docs/02_architecture/MP_V2_CANDIDATE_GENERATION_KERNEL_v1_0_0.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0b_candidate_generation_kernel.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0B"
+      ],
+      "status_required": "implemented/windows-validated-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -41206,11 +41291,11 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1535,
+    "critical_sources_total": 1538,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1631,
-    "documents_with_required_tests_total": 1631,
+    "documents_total": 1634,
+    "documents_with_required_tests_total": 1634,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
@@ -41219,10 +41304,10 @@
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 601
+    "source_of_truth_total": 604
   },
-  "updated": "2026-10-04",
-  "updated_at": "2026-10-04",
+  "updated": "2026-10-06",
+  "updated_at": "2026-10-06",
   "updated_by": "DEVPL-GSDLC-13-D-03-JOB-RUNTIME-RESUMABILITY-CORRECTIVE",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
@@ -41278,5 +41363,11 @@
   "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
   "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "mp_v2_branch": "evolution/multiprovider-v2",
+  "mp_v2_baseline_commit": "758b04be867ca24ed5eda2614ce4053c669076ef",
+  "mp_v2_mp0_a_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED",
+  "mp_v2_mp0_b_status": "IMPLEMENTED/WINDOWS-VALIDATED-CANDIDATE",
+  "mp_v2_mp0_b_full_regression_runs": 0,
+  "mp_v2_test_mp0a_001_disposition": "CARRY-FORWARD-MP0D"
 }
