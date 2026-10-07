@@ -1,5 +1,5 @@
 // DevPilot UI contract: ui.settings
-import type { DevPilotApplicationResponse, ModelGatewayRouteItem, ModelGatewaySettingsData } from '../api/types';
+import type { DevPilotApplicationResponse, ModelGatewayRouteItem, ModelGatewaySettingsData, MultiproviderFoundationData, MultiproviderRouteChoice } from '../api/types';
 import { escapeHtml, safeJsonForHtml } from '../utils/sanitize';
 
 export type ControlledEvalMode = 'mock' | 'fake-local' | 'fake-external';
@@ -65,6 +65,107 @@ function providerActionHtml(route: ModelGatewayRouteItem, feedback?: ProviderAct
     </div>`;
 }
 
+function routeChoiceBadge(choice: MultiproviderRouteChoice): string {
+  if (choice.execution_enabled) return 'pass';
+  if (choice.status === 'blocked') return 'block';
+  return 'warning';
+}
+
+function routeChoiceLabel(choice: MultiproviderRouteChoice): string {
+  if (choice.execution_enabled) return 'EXECUTABLE';
+  if (choice.status === 'blocked') return 'BLOCKED';
+  return 'VISIBLE · NO EXECUTION';
+}
+
+function renderMultiproviderFoundation(foundation?: MultiproviderFoundationData): string {
+  if (!foundation) {
+    return `
+      <article class="card multiprovider-foundation" data-multiprovider-foundation="missing">
+        <span class="badge block">BLOCK</span>
+        <h4>Multiprovider foundation</h4>
+        <p>No existe una proyección Multiprovider autoritativa en la respuesta actual.</p>
+      </article>`;
+  }
+  const choices = Array.isArray(foundation.route_choices) ? foundation.route_choices : [];
+  const candidate = (foundation.candidate ?? {}) as Record<string, unknown>;
+  const origin = (candidate.origin ?? {}) as Record<string, unknown>;
+  const lineage = (candidate.lineage ?? {}) as Record<string, unknown>;
+  const runtime = (foundation.runtime_provenance ?? {}) as Record<string, unknown>;
+  const receipt = (foundation.execution_receipt ?? {}) as Record<string, unknown>;
+  const grounding = (foundation.grounding ?? {}) as Record<string, unknown>;
+  const guided = (foundation.guided_summary ?? {}) as Record<string, unknown>;
+  const cards = choices.map((choice) => `
+    <article class="card multiprovider-route-choice" data-provider-class="${escapeHtml(choice.provider_class)}" data-execution-enabled="${choice.execution_enabled ? 'true' : 'false'}">
+      <div class="section-heading-row">
+        <div>
+          <span class="badge ${routeChoiceBadge(choice)}">${escapeHtml(routeChoiceLabel(choice))}</span>
+          <h5>${escapeHtml(choice.provider_class)}</h5>
+        </div>
+        <span class="badge ${choice.network_classification.includes('external') ? 'warning' : 'pass'}">${escapeHtml(choice.network_classification)}</span>
+      </div>
+      <dl class="compact-definition-list">
+        <dt>Requested → resolved</dt><dd>${escapeHtml(choice.requested_provider_class)} → ${escapeHtml(choice.resolved_provider_class ?? 'none')}</dd>
+        <dt>Provider / model</dt><dd>${escapeHtml(choice.provider_id ?? 'none')} / ${escapeHtml(choice.model_id ?? 'n/a')}</dd>
+        <dt>Status</dt><dd>${escapeHtml(choice.status)}</dd>
+        <dt>Disabled reason</dt><dd>${escapeHtml(choice.disabled_reason ?? 'none')}</dd>
+        <dt>Cost class</dt><dd>${escapeHtml(choice.cost_classification)}</dd>
+        <dt>Fallback</dt><dd>${escapeHtml(String((choice.fallback ?? {}).reason ?? 'not-applied'))}</dd>
+      </dl>
+    </article>`).join('');
+  return `
+    <section class="multiprovider-foundation" data-multiprovider-foundation="ready">
+      <article class="card">
+        <div class="section-heading-row">
+          <div>
+            <span class="badge pass">MP-0E · FOUNDATION PREVIEW</span>
+            <h4>Provider, candidate y provenance</h4>
+          </div>
+          <span class="badge warning">SIN INFERENCIA</span>
+        </div>
+        <p>${escapeHtml(String(guided.message ?? 'Vista de foundation sin model calls.'))}</p>
+        <p class="muted"><strong>Clasificación:</strong> ${escapeHtml(foundation.fixture_classification)} · model call: ${foundation.model_call_performed ? 'YES' : 'NO'} · network: ${foundation.network_used ? 'USED' : 'no'} · external API: ${foundation.external_api_used ? 'USED' : 'no'}.</p>
+        <p class="muted">Las rutas Local/External se muestran como opciones gobernadas, no como ejecuciones. Una ruta disabled no ofrece CTA de ejecución.</p>
+      </article>
+      <div class="grid three-cols multiprovider-route-choice-grid">${cards || '<article class="card"><span class="badge block">EMPTY</span><p>No hay route choices.</p></article>'}</div>
+      <article class="card multiprovider-candidate-card" data-candidate-id="${escapeHtml(String(candidate.candidate_id ?? 'none'))}">
+        <div class="section-heading-row">
+          <div>
+            <span class="badge warning">${escapeHtml(String(candidate.status ?? 'UNKNOWN'))}</span>
+            <h5>Candidate determinístico de demostración contractual</h5>
+          </div>
+          <span class="badge pass">NO LLM</span>
+        </div>
+        <dl class="compact-definition-list">
+          <dt>Candidate</dt><dd>${escapeHtml(String(candidate.candidate_id ?? 'n/a'))}</dd>
+          <dt>Version</dt><dd>${escapeHtml(String(candidate.version ?? 'n/a'))}</dd>
+          <dt>Artifact</dt><dd>${escapeHtml(String(candidate.artifact_type ?? 'n/a'))}</dd>
+          <dt>Origin</dt><dd>${escapeHtml(String(origin.kind ?? 'n/a'))} · ${escapeHtml(String(origin.provider_class ?? 'n/a'))}</dd>
+          <dt>Provider / model</dt><dd>${escapeHtml(String(origin.provider_id ?? 'n/a'))} / ${escapeHtml(String(origin.model_id ?? 'n/a'))}</dd>
+          <dt>Lineage</dt><dd>${escapeHtml(String(lineage.reason ?? 'n/a'))} · root ${escapeHtml(String(lineage.root_candidate_id ?? 'n/a'))}</dd>
+          <dt>Canonical input</dt><dd><code>${escapeHtml(String(candidate.canonical_input_sha256 ?? 'n/a'))}</code></dd>
+          <dt>Content hash</dt><dd><code>${escapeHtml(String(candidate.content_sha256 ?? 'n/a'))}</code></dd>
+        </dl>
+      </article>
+      <article class="card">
+        <h5>Grounding ≠ Agentic RAG</h5>
+        <p><strong>${escapeHtml(String(grounding.label ?? 'ContextPack grounding'))}:</strong> ${escapeHtml(String(grounding.context_reference ?? 'n/a'))}. Retrieval executed: ${grounding.retrieval_executed ? 'yes' : 'no'}.</p>
+        <p class="muted">${escapeHtml(String(grounding.agentic_rag_note ?? 'Agentic RAG permanece separado.'))}</p>
+      </article>
+      <details class="card multiprovider-expert-details">
+        <summary>Expert details · hashes, provenance y receipt</summary>
+        <dl class="compact-definition-list">
+          <dt>Route hash</dt><dd><code>${escapeHtml(String(runtime.route_sha256 ?? 'n/a'))}</code></dd>
+          <dt>Provenance hash</dt><dd><code>${escapeHtml(String(runtime.provenance_sha256 ?? 'n/a'))}</code></dd>
+          <dt>Receipt hash</dt><dd><code>${escapeHtml(String(receipt.receipt_sha256 ?? 'n/a'))}</code></dd>
+          <dt>Profile</dt><dd>${escapeHtml(String(runtime.profile_version ?? 'n/a'))}</dd>
+          <dt>Dependency profile</dt><dd>${escapeHtml(String(runtime.dependency_profile_version ?? 'n/a'))}</dd>
+          <dt>Fallback visible</dt><dd>${escapeHtml(String(((runtime.fallback ?? {}) as Record<string, unknown>).reason ?? 'not-applied'))}</dd>
+        </dl>
+        <pre>${safeJsonForHtml({ runtime_provenance: runtime, execution_receipt: receipt, authority_boundary: foundation.authority_boundary })}</pre>
+      </details>
+    </section>`;
+}
+
 function renderEvaluationResult(evaluation?: DevPilotApplicationResponse): string {
   if (!evaluation) return '<p class="muted">Todavía no existe una evaluación en esta sesión.</p>';
   const summary = (evaluation.data?.summary ?? {}) as Record<string, unknown>;
@@ -106,6 +207,7 @@ export function renderModelSettingsView(
 ): string {
   const routes = routesOf(response);
   const summary = response?.data?.summary ?? {};
+  const foundation = response?.data?.multiprovider_foundation;
   const cards = routes.length
     ? routes.map((route) => `
       <article class="card model-route-card" data-access-route-id="${escapeHtml(route.access_route_id)}" data-route-disposition="${escapeHtml(route.disposition)}">
@@ -141,17 +243,20 @@ export function renderModelSettingsView(
       <header class="card">
         <span class="badge pass">MODEL GATEWAY</span>
         <h3>Provider Settings y routing controlado</h3>
-        <p>Las tarjetas se proyectan dinámicamente desde Model Capability Catalog + estado runtime; no son botones que habiliten modelos por sí mismos. Visibilidad de provider/model/access-route, costo, freshness y fallback. Blocked/unknown nunca se ocultan.</p>
-        <pre>${safeJsonForHtml(summary)}</pre>
+        <p>Resumen Guided de disponibilidad y gobierno de generación. La configuración persistente, las acciones runtime y el diagnóstico conservan authority separada; esta vista no habilita providers por sí sola.</p>
+        <p class="muted"><strong>Scope:</strong> instalación DevPilot · <strong>Persistencia:</strong> lectura/proyección · <strong>Authority:</strong> Model Gateway + policy · <strong>Efecto:</strong> ninguno al consultar.</p>
+        <details><summary>Expert · Model Gateway summary JSON</summary><pre>${safeJsonForHtml(summary)}</pre></details>
       </header>
-      <article class="card controlled-model-eval">
-        <h4>Evaluación controlada</h4>
+      ${renderMultiproviderFoundation(foundation)}
+      <details class="card controlled-model-eval">
+        <summary>Diagnóstico runtime · simulación de routing controlada</summary>
+        <h4>Evaluación hermética sin inferencia</h4>
         <p>Simulación hermética de routing: mock prueba la ruta segura; fake-local simula una ruta loopback registrada; fake-external simula gobernanza/fallback externo sin red real. No genera contenido LLM y la API real no es requisito.</p>
         <label>Modo
           <select id="model-gateway-eval-mode" ${uiState.evaluationPending ? 'disabled' : ''}>
-            <option value="mock" ${selected('mock')}>mock</option>
-            <option value="fake-local" ${selected('fake-local')}>fake-local</option>
-            <option value="fake-external" ${selected('fake-external')}>fake-external</option>
+            <option value="mock" ${selected('mock')}>deterministic/mock</option>
+            <option value="fake-local" ${selected('fake-local')}>local · simulado, sin daemon</option>
+            <option value="fake-external" ${selected('fake-external')}>external · simulado, sin API</option>
           </select>
         </label>
         <label>Input tokens<input id="model-gateway-input-tokens" type="number" min="0" value="${Number(uiState.evaluationInputTokens)}" ${uiState.evaluationPending ? 'disabled' : ''} /></label>
@@ -160,7 +265,11 @@ export function renderModelSettingsView(
         <button id="model-gateway-evaluate" ${uiState.evaluationPending ? 'disabled' : ''}>${uiState.evaluationPending ? 'Evaluando…' : 'Ejecutar evaluación controlada'}</button>
         <p class="action-status" role="status" aria-live="polite">${escapeHtml(uiState.evaluationStatus ?? (evaluation ? evaluation.message ?? 'Evaluación completada.' : 'Sin evaluación en esta sesión.'))}</p>
         ${renderEvaluationResult(evaluation)}
-      </article>
-      <div class="grid two-cols model-route-grid">${cards}</div>
+      </details>
+      <details class="card provider-runtime-catalog">
+        <summary>Expert · Provider catalog y controles runtime</summary>
+        <p class="muted"><strong>Scope:</strong> runtime/provider · <strong>Persistencia:</strong> depende de la acción · <strong>Authority:</strong> provider enablement governance. Blocked/unknown nunca se ocultan.</p>
+        <div class="grid two-cols model-route-grid">${cards}</div>
+      </details>
     </section>`;
 }

@@ -4,6 +4,21 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.generation import (
+    CandidateOrigin,
+    CandidateOriginKind,
+    CandidateStatus,
+    GenerationProvenance,
+    GenerationProviderRegistryView,
+    GenerationRequest,
+    GenerationRouteResolver,
+    ProviderClass,
+    ProviderSelectionPolicy,
+    build_execution_receipt,
+    build_provenance,
+    canonical_sha256,
+    create_candidate,
+)
 from devpilot_core.modeling.budget import BudgetScopeUsage, TokenBudgetPolicy, estimate_route_cost
 from devpilot_core.modeling.catalog import ModelCapabilityCatalog
 from devpilot_core.modeling.contracts import ModelRoutingRequest, RouteLocality
@@ -140,7 +155,8 @@ class ModelGatewaySettingsService:
             "external_api_used": False,
             "controlled_eval_modes": ["mock", "fake-local", "fake-external"],
             "real_api_required_for_pass": False,
-            "current_micro_sprint": "DEVPL-GSDLC-06-E",
+            "current_micro_sprint": "MP-0E",
+            "multiprovider_foundation_preview": True,
         }
         return CommandResult(
             command="settings model-gateway",
@@ -150,6 +166,7 @@ class ModelGatewaySettingsService:
             data={
                 "summary": summary,
                 "routes": routes,
+                "multiprovider_foundation": self._multiprovider_foundation_projection(),
                 "budget_policy": self.budget_policy.to_dict(),
                 "routing_policy": dict(self.catalog.payload.get("routing_policy") or {}),
                 "authority_boundary": {
@@ -167,6 +184,216 @@ class ModelGatewaySettingsService:
             },
             findings=[Finding("MODEL_GATEWAY_SETTINGS_PASS", "Model Gateway Settings projection is safe, redacted and provider-agnostic.", Severity.INFO)],
         )
+
+    def _multiprovider_foundation_projection(self) -> dict[str, Any]:
+        """Read-only MP-0E projection over the real MP-0B..D contracts.
+
+        This is deliberately a foundation preview: it adjudicates route eligibility,
+        provenance and candidate identity without invoking any model adapter.
+        """
+
+        registry_view = GenerationProviderRegistryView(self.root)
+        resolver = GenerationRouteResolver(self.root)
+        health_snapshots = registry_view.static_health_snapshots()
+        policy = ProviderSelectionPolicy(
+            policy_id="mp0e-foundation-ui-v1",
+            allowed_provider_classes=(
+                ProviderClass.DETERMINISTIC,
+                ProviderClass.LOCAL_MODEL,
+                ProviderClass.EXTERNAL_MODEL,
+            ),
+            allow_local_to_deterministic_fallback=True,
+            allow_external_fallback=False,
+            external_enabled=False,
+            execution_enabled_classes=(ProviderClass.DETERMINISTIC,),
+            max_estimated_cost_usd=0.0,
+            network_policy="DENY",
+        )
+        upstream_hash = canonical_sha256(
+            {
+                "authority": "settings/model-gateway",
+                "projection": "mp0e-foundation-preview",
+                "source": "provider-registry+model-capability-catalog",
+            }
+        )
+        context_hash = canonical_sha256(
+            {
+                "kind": "context-pack-grounding",
+                "mode": "foundation-preview/no-retrieval",
+                "agentic_rag": False,
+                "network_used": False,
+            }
+        )
+        allowed_routes = ("deterministic", "local-model", "external-model")
+        route_rows: list[dict[str, Any]] = []
+        requests: dict[ProviderClass, GenerationRequest] = {}
+        resolved: dict[ProviderClass, Any] = {}
+        for provider_class in (
+            ProviderClass.DETERMINISTIC,
+            ProviderClass.LOCAL_MODEL,
+            ProviderClass.EXTERNAL_MODEL,
+        ):
+            request = GenerationRequest(
+                request_id=f"mp0e-settings-{provider_class.value}",
+                artifact_type="requirements",
+                profile_version="mp-v2-foundation-preview-v1",
+                dependency_profile_version="mp-v2-foundation-dependencies-v1",
+                upstream_hashes={"settings_authority": upstream_hash},
+                owner_inputs={"purpose": "read-only foundation UX preview"},
+                preferred_route=provider_class.value,
+                allowed_routes=allowed_routes,
+                policy_snapshot={
+                    "privacy_class": "internal",
+                    "data_classes": ["configuration-metadata"],
+                    "offline_required": True,
+                },
+                budget_snapshot={"estimated_cost_usd": 0.0, "api_cost_cap_usd": 0.0},
+                context_reference=f"context-pack:{context_hash[:16]}",
+            )
+            route = resolver.resolve(
+                request,
+                policy=policy,
+                health_snapshots=health_snapshots,
+                required_capabilities=("text_generation", "structured_output"),
+                estimated_input_tokens=600,
+                estimated_output_tokens=200,
+                estimated_cost_usd=0.0,
+            )
+            requests[provider_class] = request
+            resolved[provider_class] = route
+            route_payload = route.to_dict()
+            requested_health = [
+                row.to_dict()
+                for row in health_snapshots
+                if row.provider_class is provider_class
+            ]
+            disabled_reason = None
+            if not route.execution_allowed or route.used_provider_class is not provider_class:
+                disabled_reason = (
+                    route.fallback.reason
+                    if route.fallback.applied
+                    else (route.reasons[0] if route.reasons else "execution-disabled-by-policy")
+                )
+            route_rows.append(
+                {
+                    "provider_class": provider_class.value,
+                    "requested_provider_class": route.requested_provider_class.value,
+                    "resolved_provider_class": route.used_provider_class.value if route.used_provider_class else None,
+                    "status": route.status,
+                    "execution_enabled": bool(
+                        route.execution_allowed and route.used_provider_class is provider_class
+                    ),
+                    "disabled_reason": disabled_reason,
+                    "provider_id": route.provider_id,
+                    "model_id": route.model_id,
+                    "access_route_id": route.access_route_id,
+                    "fallback": route.fallback.to_dict(),
+                    "cost_classification": (
+                        "api-cost-zero"
+                        if provider_class is ProviderClass.DETERMINISTIC
+                        else "local-resource/no-api-cost"
+                        if provider_class is ProviderClass.LOCAL_MODEL
+                        else "external-cost-governed/disabled"
+                    ),
+                    "network_classification": (
+                        "none"
+                        if provider_class is ProviderClass.DETERMINISTIC
+                        else "loopback-only/disabled-in-mp0"
+                        if provider_class is ProviderClass.LOCAL_MODEL
+                        else "external-network-deny"
+                    ),
+                    "health": requested_health,
+                    "route": route_payload,
+                }
+            )
+
+        deterministic_request = requests[ProviderClass.DETERMINISTIC]
+        deterministic_route = resolved[ProviderClass.DETERMINISTIC]
+        runtime_provenance = build_provenance(
+            deterministic_request,
+            deterministic_route,
+            context_sha256=context_hash,
+            validation_refs=(
+                "MP-0B candidate-kernel",
+                "MP-0C profile-dependency-equivalence",
+                "MP-0D provider-runtime-governance",
+            ),
+            metadata={
+                "foundation_preview": True,
+                "context_kind": "ContextPack grounding",
+                "agentic_rag": False,
+                "fixture": "deterministic-only/no-inference",
+            },
+        )
+        receipt = build_execution_receipt(
+            deterministic_route,
+            runtime_provenance,
+            outcome="foundation-preview/no-model-call",
+            metadata={"foundation_preview": True, "candidate_execution": "not-attempted"},
+        )
+        candidate = create_candidate(
+            request=deterministic_request,
+            payload={
+                "foundation_preview": True,
+                "summary": "Deterministic candidate contract preview; no LLM content was generated.",
+                "artifact_type": "requirements",
+                "grounding": "ContextPack reference only; no retrieval executed.",
+            },
+            origin=CandidateOrigin(
+                kind=CandidateOriginKind.PROVIDER,
+                provider_class=ProviderClass.DETERMINISTIC,
+                provider_id="deterministic",
+                model_id=None,
+            ),
+            provenance=GenerationProvenance(
+                prompt_ref=None,
+                profile_ref=deterministic_request.profile_version,
+                context_ref=deterministic_request.context_reference,
+                network_used=False,
+                external_api_used=False,
+                cost_usd=0.0,
+                evidence_refs=("MP-0E foundation preview",),
+            ),
+            status=CandidateStatus.GENERATED,
+            evaluation_summary={
+                "schema": "not-run",
+                "semantic": "not-run",
+                "foundation_preview": True,
+            },
+        )
+        return {
+            "schema_id": "devpilot.mp-v2.foundation-ux.v1",
+            "foundation_preview": True,
+            "fixture_classification": "deterministic-only/no-inference",
+            "model_call_performed": False,
+            "network_used": False,
+            "external_api_used": False,
+            "route_choices": route_rows,
+            "candidate": candidate.to_dict(),
+            "runtime_provenance": runtime_provenance.to_dict(),
+            "execution_receipt": receipt.to_dict(),
+            "grounding": {
+                "label": "ContextPack grounding",
+                "context_sha256": context_hash,
+                "context_reference": deterministic_request.context_reference,
+                "retrieval_executed": False,
+                "agentic_rag": False,
+                "agentic_rag_note": "Agentic RAG is a separate review/runtime capability and is not executed by this foundation preview.",
+            },
+            "authority_boundary": {
+                "provider_can_write_source": False,
+                "provider_can_apply": False,
+                "provider_can_approve": False,
+                "provider_can_freeze": False,
+                "provider_can_pass_quality": False,
+                "provider_can_git": False,
+                "tool_execution_authority": False,
+            },
+            "guided_summary": {
+                "message": "Deterministic is executable in MP-0; Local and External are visible as governed choices but are not executed.",
+                "next_action": "Review route/provenance only. No model execution is available in MP-0E.",
+            },
+        }
 
     def controlled_evaluation(
         self,

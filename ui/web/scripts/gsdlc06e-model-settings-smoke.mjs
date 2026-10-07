@@ -19,6 +19,10 @@ const checks = [
   ['Provider action feedback is inline', model.includes('provider-action-feedback') && settings.includes('providerAction')],
   ['Runtime provider state is visible', model.includes('Runtime credential state') && model.includes('Last runtime action')],
   ['Hermetic evaluation semantics are explained', model.includes('Simulación hermética de routing') && model.includes('No genera contenido LLM')],
+  ['MP-0E foundation provenance vertical', model.includes('data-multiprovider-foundation') && model.includes('Provider, candidate y provenance') && model.includes('SIN INFERENCIA')],
+  ['MP-0E disabled routes have no execution CTA', model.includes('Una ruta disabled no ofrece CTA de ejecución') && model.includes('execution_enabled')],
+  ['MP-0E ContextPack is distinct from Agentic RAG', model.includes('Grounding ≠ Agentic RAG') && model.includes('Agentic RAG')],
+  ['MP-0E expert provenance details', model.includes('Expert details · hashes, provenance y receipt') && model.includes('receipt_sha256')],
 ];
 
 let failed = 0;

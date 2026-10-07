@@ -38495,12 +38495,13 @@
         "MP-0",
         "MP-0D"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Candidate-generation runtime governance adapts existing ModelRouterV2/ProviderRegistry/CostGuard/PromptRegistry/TraceStore; no parallel runtime authority."
+        "Candidate-generation runtime governance adapts existing ModelRouterV2/ProviderRegistry/CostGuard/PromptRegistry/TraceStore; no parallel runtime authority.",
+        "MP-0D Windows validation promoted at commit 45c75db8958027d72ead68b51c3375e7203628a4."
       ]
     },
     {
@@ -38521,13 +38522,14 @@
         "MP-0",
         "MP-0D"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "frontmatter_required": true,
       "notes": [
-        "Repo-local MP-0D provider runtime/provenance/observability contract with Mermaid architecture diagrams."
+        "Repo-local MP-0D provider runtime/provenance/observability contract with Mermaid architecture diagrams.",
+        "MP-0D Windows validation promoted at commit 45c75db8958027d72ead68b51c3375e7203628a4."
       ]
     },
     {
@@ -38552,7 +38554,246 @@
         "test_must_pass"
       ],
       "notes": [
-        "Focal/security-negative contract tests; no real provider execution."
+        "Focal/security-negative contract tests; no real provider execution.",
+        "MP-0D Windows validation promoted at commit 45c75db8958027d72ead68b51c3375e7203628a4."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0E-MODEL-GATEWAY-PROJECTION",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "src/devpilot_core/application/model_gateway_settings_service.py",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROVIDER_PROVENANCE_UX_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0e_provider_provenance_ux.py",
+        "tests/test_devpl_gsdlc_06_e_provider_settings.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Existing Model Gateway snapshot is extended with a read-only Multiprovider foundation projection; no parallel API/runtime."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0E-UI-TYPES",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "ui/web/src/api/types.ts",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROVIDER_PROVENANCE_UX_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0e_provider_provenance_ux.py",
+        "tests/test_web_ui_settings.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Typed foundation route/candidate/provenance projection consumed by existing Settings UI."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0E-MODEL-SETTINGS-VIEW",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "ui/web/src/components/ModelSettingsView.ts",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROVIDER_PROVENANCE_UX_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0e_provider_provenance_ux.py",
+        "tests/test_web_ui_settings.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Guided/Expert provider/origin/provenance vertical on the existing Model Gateway surface; disabled Local/External routes have no execution CTA."
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "doc_id": "MP-V2-MP0E-MODEL-SETTINGS-SMOKE",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "ui/web/scripts/gsdlc06e-model-settings-smoke.mjs",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0e_provider_provenance_ux.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Existing model-settings static smoke extended with MP-0E UX/provenance assertions."
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0E-UX-TESTS",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "tests/test_mp0e_provider_provenance_ux.py",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0e_provider_provenance_ux.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Focal backend/API-contract/UI-source tests; model/network/external execution remains zero."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0E-UX-DOC",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "docs/02_architecture/MP_V2_PROVIDER_PROVENANCE_UX_v1_0_0.md",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0e_provider_provenance_ux.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "notes": [
+        "Repo-local MP-0E Guided/Expert provider/provenance UX contract; no new ADR required."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "MP-V2-MP0E-UI-BUDGET-CONTRACT",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "ui/web/package.json",
+      "derived_documents": [
+        "docs/02_architecture/MP_V2_PROVIDER_PROVENANCE_UX_v1_0_0.md"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_uoc011_ui_accessibility_performance.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Current Multiprovider UI budget uses exact MP-0D predecessor baseline plus explicit bounded MP-0E growth; historical UOC-011 values are preserved."
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "doc_id": "MP-V2-MP0E-PERFORMANCE-SMOKE",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "ui/web/scripts/uoc011-performance-smoke.mjs",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_uoc011_ui_accessibility_performance.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Successor-aware performance smoke v3 reports predecessor baseline, explicit allowance and actual growth; no silent threshold widening."
+      ]
+    },
+    {
+      "classification": "derived",
+      "criticality": "P1",
+      "doc_id": "MP-V2-MP0E-PERFORMANCE-TEST",
+      "domain": "multiprovider.ux",
+      "lifecycle": "active",
+      "owner": "MP-0E",
+      "path": "tests/test_uoc011_ui_accessibility_performance.py",
+      "derived_documents": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_uoc011_ui_accessibility_performance.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0E"
+      ],
+      "status_required": "current",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Validates the explicit successor-delta budget contract while preserving historical UOC-011 evidence."
       ]
     }
   ],
@@ -38979,7 +39220,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "MP-0C",
+  "last_updated_by": "MP-0E",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -41516,24 +41757,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1546,
+    "critical_sources_total": 1555,
     "deprecated_total": 0,
-    "derived_total": 180,
-    "documents_total": 1642,
-    "documents_with_required_tests_total": 1642,
+    "derived_total": 184,
+    "documents_total": 1651,
+    "documents_with_required_tests_total": 1651,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
-    "last_updated_by": "MP-0D",
+    "last_updated_by": "MP-0E",
     "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 611
+    "source_of_truth_total": 616
   },
   "updated": "2026-10-06",
   "updated_at": "2026-10-06",
-  "updated_by": "DEVPL-GSDLC-13-D-03-JOB-RUNTIME-RESUMABILITY-CORRECTIVE",
+  "updated_by": "MP-0E",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
@@ -41599,6 +41840,9 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_0_c_successor_commit": "0ff309cf686438dada6e64f0d4714584f3c312a3",
-  "mp_0_d_status": "IMPLEMENTED / SANDBOX-CANDIDATE",
-  "mp_0_d_full_regression_runs": 0
+  "mp_0_d_status": "closed/PASS/WINDOWS-VALIDATED/PROMOTED",
+  "mp_0_d_full_regression_runs": 0,
+  "mp_0_d_successor_commit": "45c75db8958027d72ead68b51c3375e7203628a4",
+  "mp_0_e_status": "implemented/SANDBOX-CANDIDATE",
+  "mp_0_e_full_regression_runs": 0
 }

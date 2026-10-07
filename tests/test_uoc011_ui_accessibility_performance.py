@@ -31,7 +31,21 @@ def test_uoc011_node_smokes_pass() -> None:
         current_budget = int(devpilot['currentUiSourceBudgetBytes'])
         hard_ceiling = int(devpilot['currentUiSourceBudgetHardCeilingBytes'])
         source_bytes = int(payload['metrics']['source_ui_bytes'])
-        if payload.get('schema_id') == 'devpilot.uoc011.performance_smoke.v2-successor-aware':
+        schema_id = payload.get('schema_id')
+        if schema_id == 'devpilot.uoc011.performance_smoke.v3-successor-delta-aware':
+            assert payload['status'] == 'PASS'
+            assert payload['policy']['mode'] == 'predecessor-baseline-plus-bounded-delta'
+            assert payload['policy']['threshold_widening'] is False
+            assert payload['policy']['allowed_growth_explicit'] is True
+            assert int(payload['budgets']['predecessor_source_ui_bytes']) == int(devpilot['currentUiSourcePredecessorBaselineBytes'])
+            assert int(payload['budgets']['allowed_growth_source_ui_bytes']) == int(devpilot['currentUiSourceAllowedGrowthBytes'])
+            assert int(payload['budgets']['predecessor_single_source_bytes']) == int(devpilot['currentUiSingleSourcePredecessorBaselineBytes'])
+            assert int(payload['budgets']['allowed_growth_single_source_bytes']) == int(devpilot['currentUiSingleSourceAllowedGrowthBytes'])
+            assert int(payload['policy']['actual_growth_source_ui_bytes']) <= int(devpilot['currentUiSourceAllowedGrowthBytes'])
+            assert int(payload['policy']['actual_growth_single_source_bytes']) <= int(devpilot['currentUiSingleSourceAllowedGrowthBytes'])
+            assert source_bytes <= int(payload['budgets']['delta_cap_source_ui_bytes'])
+            assert payload['checks']['source_ui_total'] is True
+        elif schema_id == 'devpilot.uoc011.performance_smoke.v2-successor-aware':
             assert payload['status'] == 'PASS'
             assert payload['policy']['threshold_widening'] is False
             assert source_bytes <= int(payload['budgets']['successor_baseline_source_ui_bytes'])

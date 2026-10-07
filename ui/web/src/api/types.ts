@@ -180,12 +180,46 @@ export interface ModelGatewayRouteItem {
   external_api: boolean;
 }
 
+export interface MultiproviderRouteChoice {
+  provider_class: 'deterministic' | 'local-model' | 'external-model' | string;
+  requested_provider_class: string;
+  resolved_provider_class?: string | null;
+  status: string;
+  execution_enabled: boolean;
+  disabled_reason?: string | null;
+  provider_id?: string | null;
+  model_id?: string | null;
+  access_route_id?: string | null;
+  fallback?: Record<string, unknown>;
+  cost_classification: string;
+  network_classification: string;
+  health?: Array<Record<string, unknown>>;
+  route?: Record<string, unknown>;
+}
+
+export interface MultiproviderFoundationData {
+  schema_id: string;
+  foundation_preview: boolean;
+  fixture_classification: string;
+  model_call_performed: boolean;
+  network_used: boolean;
+  external_api_used: boolean;
+  route_choices: MultiproviderRouteChoice[];
+  candidate?: Record<string, unknown>;
+  runtime_provenance?: Record<string, unknown>;
+  execution_receipt?: Record<string, unknown>;
+  grounding?: Record<string, unknown>;
+  authority_boundary?: Record<string, unknown>;
+  guided_summary?: Record<string, unknown>;
+}
+
 export interface ModelGatewaySettingsData {
   summary?: Record<string, unknown>;
   routes?: ModelGatewayRouteItem[];
   budget_policy?: Record<string, unknown>;
   routing_policy?: Record<string, unknown>;
   authority_boundary?: Record<string, unknown>;
+  multiprovider_foundation?: MultiproviderFoundationData;
 }
 
 export interface ModelGatewayEvaluationPayload {
