@@ -38259,7 +38259,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "MP-0B common provider-neutral candidate/generation contract kernel. No routing runtime or source authority."
+        "MP-0B common provider-neutral candidate/generation contract kernel. No routing runtime or source authority.",
+        "MP-0B Windows validation promoted at commit 2755787f7229570932fe7f7adb7108cafced2e73."
       ],
       "owner": "MP-0B",
       "path": "src/devpilot_core/generation/contracts.py",
@@ -38271,7 +38272,7 @@
         "MP-0",
         "MP-0B"
       ],
-      "status_required": "implemented/windows-validated-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38287,7 +38288,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "Backward-compatibility seam around existing C-02 deterministic Technical Design provider output; historical provider remains unchanged."
+        "Backward-compatibility seam around existing C-02 deterministic Technical Design provider output; historical provider remains unchanged.",
+        "MP-0B Windows validation promoted at commit 2755787f7229570932fe7f7adb7108cafced2e73."
       ],
       "owner": "MP-0B",
       "path": "src/devpilot_core/generation/compatibility.py",
@@ -38300,7 +38302,7 @@
         "MP-0",
         "MP-0B"
       ],
-      "status_required": "implemented/windows-validated-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38314,7 +38316,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "Repo-local implementation contract bound to the approved Multiprovider v2.1 program and MP-0B sprint."
+        "Repo-local implementation contract bound to the approved Multiprovider v2.1 program and MP-0B sprint.",
+        "MP-0B Windows validation promoted at commit 2755787f7229570932fe7f7adb7108cafced2e73."
       ],
       "owner": "MP-0B",
       "path": "docs/02_architecture/MP_V2_CANDIDATE_GENERATION_KERNEL_v1_0_0.md",
@@ -38327,7 +38330,7 @@
         "MP-0",
         "MP-0B"
       ],
-      "status_required": "implemented/windows-validated-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
@@ -38578,12 +38581,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Existing Model Gateway snapshot is extended with a read-only Multiprovider foundation projection; no parallel API/runtime."
+        "Existing Model Gateway snapshot is extended with a read-only Multiprovider foundation projection; no parallel API/runtime.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38606,12 +38610,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Typed foundation route/candidate/provenance projection consumed by existing Settings UI."
+        "Typed foundation route/candidate/provenance projection consumed by existing Settings UI.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38634,12 +38639,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Guided/Expert provider/origin/provenance vertical on the existing Model Gateway surface; disabled Local/External routes have no execution CTA."
+        "Guided/Expert provider/origin/provenance vertical on the existing Model Gateway surface; disabled Local/External routes have no execution CTA.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38659,12 +38665,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "current",
+      "status_required": "current/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Existing model-settings static smoke extended with MP-0E UX/provenance assertions."
+        "Existing model-settings static smoke extended with MP-0E UX/provenance assertions.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38684,12 +38691,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "current",
+      "status_required": "current/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Focal backend/API-contract/UI-source tests; model/network/external execution remains zero."
+        "Focal backend/API-contract/UI-source tests; model/network/external execution remains zero.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38710,13 +38718,14 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "frontmatter_required": true,
       "notes": [
-        "Repo-local MP-0E Guided/Expert provider/provenance UX contract; no new ADR required."
+        "Repo-local MP-0E Guided/Expert provider/provenance UX contract; no new ADR required.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38738,12 +38747,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "current",
+      "status_required": "implemented/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Current Multiprovider UI budget uses exact MP-0D predecessor baseline plus explicit bounded MP-0E growth; historical UOC-011 values are preserved."
+        "Current Multiprovider UI budget uses exact MP-0D predecessor baseline plus explicit bounded MP-0E growth; historical UOC-011 values are preserved.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38763,12 +38773,13 @@
         "MP-0",
         "MP-0E"
       ],
-      "status_required": "current",
+      "status_required": "current/windows-validated/promoted",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Successor-aware performance smoke v3 reports predecessor baseline, explicit allowance and actual growth; no silent threshold widening."
+        "Successor-aware performance smoke v3 reports predecessor baseline, explicit allowance and actual growth; no silent threshold widening.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
       ]
     },
     {
@@ -38788,12 +38799,187 @@
         "MP-0",
         "MP-0E"
       ],
+      "status_required": "current/windows-validated/promoted",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Validates the explicit successor-delta budget contract while preserving historical UOC-011 evidence.",
+        "MP-0E Windows validation promoted at commit 0eb19e3fc58eca90ed126f3b552d1a3187ee233b."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0F-THREAT-MODEL-SUCCESSOR",
+      "domain": "multiprovider.security",
+      "lifecycle": "active",
+      "owner": "MP-0F",
+      "path": "docs/03_security/MP_V2_SECURITY_THREAT_MODEL_SUCCESSOR_v1_0_0.md",
+      "derived_documents": [
+        "docs/audits/MP_V2_FOUNDATION_CLOSURE_REPORT_v1_0_0.md"
+      ],
+      "machine_readable_counterparts": [
+        "docs/audits/MP_V2_FOUNDATION_SECURITY_NEGATIVE_MATRIX_v1_0_0.json"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0F"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "notes": [
+        "Current Multiprovider MP-0 threat-model successor; supplements historical global security documents without rewriting them."
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0F-CLOSURE-CATALOG",
+      "domain": "multiprovider.closure",
+      "lifecycle": "active",
+      "owner": "MP-0F",
+      "path": "docs/audits/MP_V2_FOUNDATION_CLOSURE_CATALOG_v1_0_0.json",
+      "derived_documents": [
+        "docs/audits/MP_V2_FOUNDATION_CLOSURE_REPORT_v1_0_0.md"
+      ],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0F"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Maps the ten approved MP-0 backlog items to promoted sources/tests and closure status."
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "doc_id": "MP-V2-MP0F-FINDINGS-LEDGER",
+      "domain": "multiprovider.closure",
+      "lifecycle": "active",
+      "owner": "MP-0F",
+      "path": "docs/audits/MP_V2_FOUNDATION_FINDINGS_LEDGER_v1_0_0.json",
+      "derived_documents": [
+        "docs/audits/MP_V2_FOUNDATION_CLOSURE_REPORT_v1_0_0.md"
+      ],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0F"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "MP-0 closure findings ledger; S0/S1 must remain zero."
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0F-SECURITY-NEGATIVE-MATRIX",
+      "domain": "multiprovider.security",
+      "lifecycle": "active",
+      "owner": "MP-0F",
+      "path": "docs/audits/MP_V2_FOUNDATION_SECURITY_NEGATIVE_MATRIX_v1_0_0.json",
+      "derived_documents": [
+        "docs/03_security/MP_V2_SECURITY_THREAT_MODEL_SUCCESSOR_v1_0_0.md"
+      ],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0F"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Negative/adversarial acceptance matrix for MP-0 Foundation closure."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0F-CLOSURE-REPORT",
+      "domain": "multiprovider.closure",
+      "lifecycle": "active",
+      "owner": "MP-0F",
+      "path": "docs/audits/MP_V2_FOUNDATION_CLOSURE_REPORT_v1_0_0.md",
+      "derived_documents": [],
+      "machine_readable_counterparts": [
+        "docs/audits/MP_V2_FOUNDATION_CLOSURE_CATALOG_v1_0_0.json",
+        "docs/audits/MP_V2_FOUNDATION_FINDINGS_LEDGER_v1_0_0.json"
+      ],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0f_security_integration_closure.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0F"
+      ],
+      "status_required": "implemented/sandbox-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "frontmatter_required": true,
+      "notes": [
+        "MP-0 closure report; Windows/browser/Full/Git closure remains pending until Owner evidence is adjudicated."
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP-V2-MP0F-CLOSURE-TESTS",
+      "domain": "multiprovider.security",
+      "lifecycle": "active",
+      "owner": "MP-0F",
+      "path": "tests/test_mp0f_security_integration_closure.py",
+      "derived_documents": [
+        "docs/audits/MP_V2_FOUNDATION_CLOSURE_REPORT_v1_0_0.md"
+      ],
+      "machine_readable_counterparts": [],
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "roadmap_milestones": [
+        "MP-0",
+        "MP-0F"
+      ],
       "status_required": "current",
       "sync_rules": [
         "test_must_pass"
       ],
       "notes": [
-        "Validates the explicit successor-delta budget contract while preserving historical UOC-011 evidence."
+        "MP-0F negative/adversarial and lifecycle integration closure suite."
       ]
     }
   ],
@@ -39220,7 +39406,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "MP-0E",
+  "last_updated_by": "MP-0F",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -41757,24 +41943,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1555,
+    "critical_sources_total": 1561,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1651,
-    "documents_with_required_tests_total": 1651,
+    "documents_total": 1657,
+    "documents_with_required_tests_total": 1657,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
-    "last_updated_by": "MP-0E",
-    "machine_readable_source_total": 818,
-    "markdown_json_pairs_total": 75,
+    "last_updated_by": "MP-0F",
+    "machine_readable_source_total": 821,
+    "markdown_json_pairs_total": 78,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 616
+    "source_of_truth_total": 619
   },
-  "updated": "2026-10-06",
-  "updated_at": "2026-10-06",
-  "updated_by": "MP-0E",
+  "updated": "2026-10-07",
+  "updated_at": "2026-10-07",
+  "updated_by": "MP-0F",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",
@@ -41835,14 +42021,18 @@
   "mp_v2_mp0_a_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED",
   "mp_v2_mp0_b_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED/PROMOTED",
   "mp_v2_mp0_b_full_regression_runs": 0,
-  "mp_v2_test_mp0a_001_disposition": "CARRY-FORWARD-MP0D",
-  "mp_v2_mp0_c_status": "IMPLEMENTED/SANDBOX-CANDIDATE",
+  "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
+  "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_0_c_successor_commit": "0ff309cf686438dada6e64f0d4714584f3c312a3",
   "mp_0_d_status": "closed/PASS/WINDOWS-VALIDATED/PROMOTED",
   "mp_0_d_full_regression_runs": 0,
   "mp_0_d_successor_commit": "45c75db8958027d72ead68b51c3375e7203628a4",
-  "mp_0_e_status": "implemented/SANDBOX-CANDIDATE",
-  "mp_0_e_full_regression_runs": 0
+  "mp_0_e_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
+  "mp_0_e_full_regression_runs": 0,
+  "mp_0_e_successor_commit": "0eb19e3fc58eca90ed126f3b552d1a3187ee233b",
+  "mp_0_f_status": "IMPLEMENTED / CORRECTIVE-101 / WINDOWS-CLOSURE-IN-PROGRESS",
+  "mp_0_f_full_regression_runs": 0,
+  "mp_0_f_progressive_disclosure": "IMPLEMENTED / WINDOWS-EVIDENCE-PENDING"
 }

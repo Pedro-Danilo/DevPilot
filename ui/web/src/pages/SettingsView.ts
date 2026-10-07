@@ -301,7 +301,13 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       renderDataCard('Política de plataforma', 'PolicyEngine, CostGuard y MIASI policy matrix de DevPilot.', state.policy, state.errors.policy, state.durations.policy),
       renderDataCard('Postura de seguridad', 'Token requerido, CORS local restrictivo y capacidades sensibles deshabilitadas.', state.securityPosture, state.errors.securityPosture, state.durations.securityPosture, true)
     );
-    root.append(grid);
+    const contextDisclosure = document.createElement('details');
+    contextDisclosure.className = 'progressive-evidence settings-section-disclosure';
+    contextDisclosure.dataset.settingsSection = 'platform-context';
+    const contextSummary = document.createElement('summary');
+    contextSummary.textContent = 'Contexto técnico, policy y seguridad';
+    contextDisclosure.append(contextSummary, grid);
+    root.append(contextDisclosure);
 
     const providerGrid = document.createElement('div');
     providerGrid.className = 'grid two-cols';
@@ -328,7 +334,13 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     `;
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());
     providerGrid.append(providers, editor);
-    root.append(providerGrid);
+    const providerDisclosure = document.createElement('details');
+    providerDisclosure.className = 'progressive-evidence settings-section-disclosure';
+    providerDisclosure.dataset.settingsSection = 'provider-configuration';
+    const providerSummary = document.createElement('summary');
+    providerSummary.textContent = 'Providers y plan de configuración';
+    providerDisclosure.append(providerSummary, providerGrid);
+    root.append(providerDisclosure);
 
     const aiControlCenter = document.createElement('section');
     aiControlCenter.innerHTML = renderAIControlCenterShell({

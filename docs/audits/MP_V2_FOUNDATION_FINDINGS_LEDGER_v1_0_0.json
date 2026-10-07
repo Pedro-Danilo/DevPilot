@@ -1,0 +1,40 @@
+{
+  "schema_id": "devpilot.mp-v2.mp0-findings-ledger.v1",
+  "status": "implemented/sandbox-candidate",
+  "wave": "MP-0",
+  "summary": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "s2_open": 1,
+    "resolved": 2
+  },
+  "findings": [
+    {
+      "id": "TEST-MP0A-001",
+      "severity": "S2",
+      "category": "TEST_HERMITICITY",
+      "status": "RESOLVED-IN-MP0D",
+      "resolution": "original inherited test passes after local provider configured semantics correction"
+    },
+    {
+      "id": "UX-MP0E-001",
+      "severity": "S2",
+      "category": "UX_EVIDENCE_INFORMATION_ARCHITECTURE",
+      "status": "RESOLVED-ON-SETTINGS-IN-MP0F",
+      "blocking": false,
+      "observation": "Long Settings surfaces can exceed the 16384px full-page capture ceiling.",
+      "policy": "Preserve full screenshots; expand collapsible/progressive disclosure and retain focused supplemental evidence.",
+      "resolution": "MP-0F corrective 1.0.1 adds macro-level progressive disclosure to Settings and AI Control Center while keeping Model Gateway open by default; full-page evidence remains primary and focused evidence supplemental.",
+      "future_rule": "Any long or information-dense surface must provide progressive disclosure before browser acceptance when a full-page capture would otherwise exceed practical capture/readability limits."
+    },
+    {
+      "id": "CAP-13B01-SETTINGS-001",
+      "severity": "S2",
+      "category": "CAPABILITY_GAP",
+      "status": "CARRY-FORWARD",
+      "blocking": false,
+      "observation": "Settings / Model Gateway remains partly read-only/status-oriented, not a complete persistent provider configuration editor.",
+      "policy": "Future provider configuration evolution must separate Overview, Persistent configuration, Runtime controls and Expert observability. Do not add the feature during MP-0 closure."
+    }
+  ]
+}

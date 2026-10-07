@@ -1,0 +1,64 @@
+{
+  "schema_id": "devpilot.mp-v2.mp0-security-negative-matrix.v1",
+  "status": "implemented/sandbox-candidate",
+  "network_used": false,
+  "external_api_used": false,
+  "real_model_calls": 0,
+  "scenarios": [
+    {
+      "id": "NEG-01",
+      "scenario": "malformed candidate",
+      "test": "test_malformed_candidate_fails_closed"
+    },
+    {
+      "id": "NEG-02",
+      "scenario": "stale/tampered candidate hash",
+      "test": "test_candidate_hash_tamper_and_stale_authority_are_detected"
+    },
+    {
+      "id": "NEG-03",
+      "scenario": "stale context",
+      "test": "test_stale_dependency_context_fails_closed"
+    },
+    {
+      "id": "NEG-04",
+      "scenario": "unsupported route",
+      "test": "test_unsupported_route_fails_closed"
+    },
+    {
+      "id": "NEG-05",
+      "scenario": "provider unavailable",
+      "test": "test_unavailable_local_provider_falls_back_only_explicitly"
+    },
+    {
+      "id": "NEG-06",
+      "scenario": "budget denied",
+      "test": "test_budget_denial_blocks_before_execution"
+    },
+    {
+      "id": "NEG-07",
+      "scenario": "secret-like data",
+      "test": "test_secret_like_metadata_is_redacted_from_runtime_evidence"
+    },
+    {
+      "id": "NEG-08",
+      "scenario": "prompt/tool escalation",
+      "test": "test_prompt_derived_tool_escalation_is_detected_as_forbidden_authority"
+    },
+    {
+      "id": "NEG-09",
+      "scenario": "network denied",
+      "test": "test_networked_health_snapshot_is_rejected"
+    },
+    {
+      "id": "NEG-10",
+      "scenario": "external disabled",
+      "test": "test_external_provider_remains_disabled_without_implicit_fallback"
+    },
+    {
+      "id": "NEG-11",
+      "scenario": "model response authority spoofing",
+      "test": "test_model_response_authority_spoofing_is_not_authoritative"
+    }
+  ]
+}

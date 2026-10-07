@@ -11,6 +11,14 @@ export interface AIControlCenterShellOptions {
   skillsToolsStatus?: string;
 }
 
+function renderSettingsSectionDisclosure(id: string, label: string, html: string | undefined, open = false): string {
+  if (!html?.trim()) return '';
+  return `<details class="progressive-evidence settings-section-disclosure" data-settings-section="${escapeHtml(id)}"${open ? ' open' : ''}>
+    <summary>${escapeHtml(label)}</summary>
+    <div class="settings-section-disclosure__body">${html}</div>
+  </details>`;
+}
+
 export function renderAIControlCenterShell(options: AIControlCenterShellOptions): string {
   return `
     <section class="ai-control-center" data-ai-control-center="true">
@@ -25,10 +33,10 @@ export function renderAIControlCenterShell(options: AIControlCenterShellOptions)
           <div class="list-item"><strong>Skills / Tools</strong><br/><small>${escapeHtml(options.skillsToolsStatus ?? 'Permisos separados; ModelRouteDecision no concede ToolExecutionDecision.')}</small></div>
         </div>
       </header>
-      ${options.agentRuntimeHtml ?? ""}
-      ${options.ragProvenanceHtml ?? ""}
-      ${options.agentEvalHtml ?? ""}
-      ${options.skillsToolsHtml ?? ""}
-      ${options.modelGatewayHtml}
+      ${renderSettingsSectionDisclosure('agent-runtime', 'Agent Runtime', options.agentRuntimeHtml)}
+      ${renderSettingsSectionDisclosure('grounding-rag', 'Grounding / RAG', options.ragProvenanceHtml)}
+      ${renderSettingsSectionDisclosure('agent-evals', 'Evals / trazas', options.agentEvalHtml)}
+      ${renderSettingsSectionDisclosure('skills-tools', 'Skills / Tools', options.skillsToolsHtml)}
+      ${renderSettingsSectionDisclosure('model-gateway', 'Model Gateway · MP-0 foundation', options.modelGatewayHtml, true)}
     </section>`;
 }

@@ -1,0 +1,149 @@
+{
+  "schema_id": "devpilot.mp-v2.mp0-closure-catalog.v1",
+  "status": "implemented/sandbox-candidate",
+  "wave": "MP-0",
+  "predecessor_commit": "0eb19e3fc58eca90ed126f3b552d1a3187ee233b",
+  "items": [
+    {
+      "id": "MP0-01",
+      "backlog_item": "candidate/provider/human/agent authority contracts",
+      "primary_sprint": "MP-0B",
+      "sources": [
+        "src/devpilot_core/generation/contracts.py"
+      ],
+      "tests": [
+        "tests/test_mp0b_candidate_generation_kernel.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-02",
+      "backlog_item": "ArtifactCandidateEnvelope + lifecycle/lineage",
+      "primary_sprint": "MP-0B",
+      "sources": [
+        "src/devpilot_core/generation/contracts.py"
+      ],
+      "tests": [
+        "tests/test_mp0b_candidate_generation_kernel.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-03",
+      "backlog_item": "GenerationRequest/Route/Fallback",
+      "primary_sprint": "MP-0B/MP-0D",
+      "sources": [
+        "src/devpilot_core/generation/contracts.py",
+        "src/devpilot_core/generation/runtime.py"
+      ],
+      "tests": [
+        "tests/test_mp0b_candidate_generation_kernel.py",
+        "tests/test_mp0d_provider_runtime_governance.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-04",
+      "backlog_item": "provenance/execution receipt",
+      "primary_sprint": "MP-0D",
+      "sources": [
+        "src/devpilot_core/generation/runtime.py"
+      ],
+      "tests": [
+        "tests/test_mp0d_provider_runtime_governance.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-05",
+      "backlog_item": "ArtifactProfile/DependencyProfile base",
+      "primary_sprint": "MP-0C",
+      "sources": [
+        "src/devpilot_core/validators/artifact_profiles.py",
+        "src/devpilot_core/generation/dependencies.py"
+      ],
+      "tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-06",
+      "backlog_item": "provider registry/selection",
+      "primary_sprint": "MP-0D",
+      "sources": [
+        "src/devpilot_core/generation/runtime.py",
+        "src/devpilot_core/modeling/providers.py"
+      ],
+      "tests": [
+        "tests/test_mp0d_provider_runtime_governance.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-07",
+      "backlog_item": "observability/cost/network metadata",
+      "primary_sprint": "MP-0D",
+      "sources": [
+        "src/devpilot_core/generation/runtime.py",
+        "src/devpilot_core/policy/cost_guard.py",
+        "src/devpilot_core/observability/trace_store.py"
+      ],
+      "tests": [
+        "tests/test_mp0d_provider_runtime_governance.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-08",
+      "backlog_item": "deterministic equivalence harness",
+      "primary_sprint": "MP-0C",
+      "sources": [
+        "src/devpilot_core/generation/equivalence.py"
+      ],
+      "tests": [
+        "tests/test_mp0c_profile_dependency_equivalence.py"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "MP0-09",
+      "backlog_item": "threat model successor",
+      "primary_sprint": "MP-0F",
+      "sources": [
+        "docs/03_security/MP_V2_SECURITY_THREAT_MODEL_SUCCESSOR_v1_0_0.md"
+      ],
+      "tests": [
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "status": "sandbox-candidate"
+    },
+    {
+      "id": "MP0-10",
+      "backlog_item": "Guided/Expert provider provenance UX",
+      "primary_sprint": "MP-0E / MP-0F closure corrective",
+      "sources": [
+        "src/devpilot_core/application/model_gateway_settings_service.py",
+        "ui/web/src/components/ModelSettingsView.ts",
+        "ui/web/src/components/AIControlCenterView.ts",
+        "ui/web/src/pages/SettingsView.ts"
+      ],
+      "tests": [
+        "tests/test_mp0e_provider_provenance_ux.py",
+        "ui/web/scripts/gsdlc06e-model-settings-smoke.mjs",
+        "tests/test_mp0f_security_integration_closure.py"
+      ],
+      "status": "accepted / corrective-pending-windows"
+    }
+  ],
+  "closure": {
+    "items_total": 10,
+    "accepted_before_windows_closure": 9,
+    "candidate_items": 1,
+    "s0": 0,
+    "s1": 0,
+    "real_model_calls": 0,
+    "external_api_calls": 0,
+    "network_provider_execution": 0
+  }
+}
