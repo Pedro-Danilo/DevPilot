@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.mp-v2.mp0-security-negative-matrix.v1",
-  "status": "implemented/sandbox-candidate",
+  "status": "implemented/windows-validated/closure-ready",
   "network_used": false,
   "external_api_used": false,
   "real_model_calls": 0,
@@ -60,5 +60,14 @@
       "scenario": "model response authority spoofing",
       "test": "test_model_response_authority_spoofing_is_not_authoritative"
     }
-  ]
+  ],
+  "acceptance": {
+    "focal_suite": "PASS",
+    "exact_composite_retest": "PASS",
+    "bounded_impact": "PASS",
+    "historical_regression_guard": "PASS",
+    "real_model_calls": 0,
+    "external_api_used": false,
+    "network_used": false
+  }
 }

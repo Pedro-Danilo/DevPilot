@@ -38822,7 +38822,8 @@
         "docs/audits/MP_V2_FOUNDATION_SECURITY_NEGATIVE_MATRIX_v1_0_0.json"
       ],
       "notes": [
-        "Current Multiprovider MP-0 threat-model successor; supplements historical global security documents without rewriting them."
+        "Current Multiprovider MP-0 threat-model successor; supplements historical global security documents without rewriting them.",
+        "MP-0F Windows/browser/Full/composite acceptance is complete; final promotion and successor SHA are proven by the bounded closure operator evidence."
       ],
       "owner": "MP-0F",
       "path": "docs/03_security/MP_V2_SECURITY_THREAT_MODEL_SUCCESSOR_v1_0_0.md",
@@ -38834,7 +38835,7 @@
         "MP-0",
         "MP-0F"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/closure-ready",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38850,7 +38851,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "Maps the ten approved MP-0 backlog items to promoted sources/tests and closure status."
+        "Maps the ten approved MP-0 backlog items to promoted sources/tests and closure status.",
+        "MP-0F Windows/browser/Full/composite acceptance is complete; final promotion and successor SHA are proven by the bounded closure operator evidence."
       ],
       "owner": "MP-0F",
       "path": "docs/audits/MP_V2_FOUNDATION_CLOSURE_CATALOG_v1_0_0.json",
@@ -38862,7 +38864,7 @@
         "MP-0",
         "MP-0F"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/closure-ready",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38878,7 +38880,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "MP-0 closure findings ledger; S0/S1 must remain zero."
+        "MP-0 closure findings ledger; S0/S1 must remain zero.",
+        "MP-0F Windows/browser/Full/composite acceptance is complete; final promotion and successor SHA are proven by the bounded closure operator evidence."
       ],
       "owner": "MP-0F",
       "path": "docs/audits/MP_V2_FOUNDATION_FINDINGS_LEDGER_v1_0_0.json",
@@ -38890,7 +38893,7 @@
         "MP-0",
         "MP-0F"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/closure-ready",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38906,7 +38909,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "Negative/adversarial acceptance matrix for MP-0 Foundation closure."
+        "Negative/adversarial acceptance matrix for MP-0 Foundation closure.",
+        "MP-0F Windows/browser/Full/composite acceptance is complete; final promotion and successor SHA are proven by the bounded closure operator evidence."
       ],
       "owner": "MP-0F",
       "path": "docs/audits/MP_V2_FOUNDATION_SECURITY_NEGATIVE_MATRIX_v1_0_0.json",
@@ -38918,7 +38922,7 @@
         "MP-0",
         "MP-0F"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/closure-ready",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38936,7 +38940,8 @@
         "docs/audits/MP_V2_FOUNDATION_FINDINGS_LEDGER_v1_0_0.json"
       ],
       "notes": [
-        "MP-0 closure report; Windows/browser/Full/Git closure remains pending until Owner evidence is adjudicated."
+        "MP-0 closure report; Windows/browser/Full/Git closure remains pending until Owner evidence is adjudicated.",
+        "MP-0F Windows/browser/Full/composite acceptance is complete; final promotion and successor SHA are proven by the bounded closure operator evidence."
       ],
       "owner": "MP-0F",
       "path": "docs/audits/MP_V2_FOUNDATION_CLOSURE_REPORT_v1_0_0.md",
@@ -38949,7 +38954,7 @@
         "MP-0",
         "MP-0F"
       ],
-      "status_required": "implemented/sandbox-candidate",
+      "status_required": "implemented/windows-validated/closure-ready",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -38965,7 +38970,8 @@
       "lifecycle": "active",
       "machine_readable_counterparts": [],
       "notes": [
-        "MP-0F negative/adversarial and lifecycle integration closure suite."
+        "MP-0F negative/adversarial and lifecycle integration closure suite.",
+        "Original Full FAIL is preserved immutably; exact-39 composite recovery and bounded impact evidence pass without a second Full."
       ],
       "owner": "MP-0F",
       "path": "tests/test_mp0f_security_integration_closure.py",
@@ -38977,7 +38983,7 @@
         "MP-0",
         "MP-0F"
       ],
-      "status_required": "current",
+      "status_required": "current/windows-validated",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -39406,7 +39412,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "MP-0F-COMPOSITE-RECOVERY",
+  "last_updated_by": "MP-0F-FINAL-CLOSURE",
   "mp_0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_0_c_successor_commit": "0ff309cf686438dada6e64f0d4714584f3c312a3",
   "mp_0_d_full_regression_runs": 0,

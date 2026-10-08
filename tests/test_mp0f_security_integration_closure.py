@@ -359,6 +359,14 @@ def test_closure_catalog_covers_exactly_ten_backlog_items_and_findings_have_no_s
     assert len(matrix["scenarios"]) >= 10
     assert matrix["network_used"] is False
     assert matrix["external_api_used"] is False
+    assert catalog["status"] == "implemented/windows-validated/closure-ready"
+    assert all(row["status"] == "accepted" for row in catalog["items"])
+    assert catalog["closure"]["accepted_total"] == 10
+    assert catalog["closure"]["candidate_items"] == 0
+    assert catalog["closure"]["composite_recovery"]["status"] == "PASS"
+    assert catalog["closure"]["composite_recovery"]["new_full_regression_runs"] == 0
+    assert findings["status"] == "implemented/windows-validated/closure-ready"
+    assert matrix["status"] == "implemented/windows-validated/closure-ready"
     assert matrix["real_model_calls"] == 0
 
 

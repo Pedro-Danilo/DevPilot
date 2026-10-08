@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.mp-v2.mp0-findings-ledger.v1",
-  "status": "implemented/sandbox-candidate",
+  "status": "implemented/windows-validated/closure-ready",
   "wave": "MP-0",
   "summary": {
     "s0_open": 0,
@@ -36,5 +36,15 @@
       "observation": "Settings / Model Gateway remains partly read-only/status-oriented, not a complete persistent provider configuration editor.",
       "policy": "Future provider configuration evolution must separate Overview, Persistent configuration, Runtime controls and Expert observability. Do not add the feature during MP-0 closure."
     }
-  ]
+  ],
+  "closure_evidence": {
+    "s0_open": 0,
+    "s1_open": 0,
+    "s2_open": 1,
+    "composite_status": "PASS",
+    "recovery_commit": "a7a1818569e3e0b9283532ea2d79f8dd7f6cf629",
+    "carry_forward": [
+      "CAP-13B01-SETTINGS-001"
+    ]
+  }
 }

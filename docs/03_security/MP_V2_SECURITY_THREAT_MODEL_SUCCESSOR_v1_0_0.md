@@ -1,7 +1,7 @@
 ---
 doc_id: "MP-V2-SECURITY-THREAT-MODEL-SUCCESSOR"
 title: "Multiprovider v2 — MP-0 Foundation Security Threat Model Successor"
-status: "IMPLEMENTED / SANDBOX-CANDIDATE"
+status: "IMPLEMENTED / WINDOWS-VALIDATED / CLOSURE-READY"
 version: "1.0.0"
 owner: "Ordóñez"
 date: "2026-10-07"
@@ -85,3 +85,9 @@ This document is the **current Multiprovider v2 MP-0 threat-model successor**. I
 ## 8. Closure gate
 
 PASS only when the MP-0F negative/integration suite, documentation governance, browser closure, one authorized logical MP-0 Full Regression, Git postflight and evidence packaging all pass with S0/S1=0.
+
+## 9. Windows/composite closure evidence
+
+The MP-0F Windows closure path preserves the original logical Full Regression as immutable evidence. `MP0F-FULL-01-R1` reached 100% terminal coverage and adjudicated `FAIL` with 39 failed nodeids; no second Full was created. A bounded selective/composite recovery then produced `39/39 PASS`, `101/101` bounded-impact PASS with zero overlap, Historical Regression Guard PASS, Vite production build PASS and `17/17` model-settings smoke PASS.
+
+The source-controlled closure state is therefore `WINDOWS-VALIDATED / CLOSURE-READY`. Final wave closure additionally requires a non-force push, clean/upstream parity and an exact successor-authority receipt from the bounded final promotion operator.

@@ -1,6 +1,6 @@
 {
   "schema_id": "devpilot.mp-v2.mp0-closure-catalog.v1",
-  "status": "implemented/sandbox-candidate",
+  "status": "implemented/windows-validated/closure-ready",
   "wave": "MP-0",
   "predecessor_commit": "0eb19e3fc58eca90ed126f3b552d1a3187ee233b",
   "items": [
@@ -116,7 +116,7 @@
       "tests": [
         "tests/test_mp0f_security_integration_closure.py"
       ],
-      "status": "sandbox-candidate"
+      "status": "accepted"
     },
     {
       "id": "MP0-10",
@@ -133,17 +133,39 @@
         "ui/web/scripts/gsdlc06e-model-settings-smoke.mjs",
         "tests/test_mp0f_security_integration_closure.py"
       ],
-      "status": "accepted / corrective-pending-windows"
+      "status": "accepted"
     }
   ],
   "closure": {
     "items_total": 10,
-    "accepted_before_windows_closure": 9,
-    "candidate_items": 1,
+    "accepted_total": 10,
+    "candidate_items": 0,
     "s0": 0,
     "s1": 0,
+    "s2_open": 1,
     "real_model_calls": 0,
     "external_api_calls": 0,
-    "network_provider_execution": 0
+    "network_provider_execution": 0,
+    "original_full": {
+      "session_id": "MP0F-FULL-01-R1",
+      "decision": "FAIL",
+      "immutable": true,
+      "second_full_created": false,
+      "coverage_percent": 100.0,
+      "fail_total": 39,
+      "adjudication_sha256": "d5366df479122574b5a23364eec0978ea650657ad15abdc73089b01fe51ef890"
+    },
+    "composite_recovery": {
+      "status": "PASS",
+      "recovery_commit": "a7a1818569e3e0b9283532ea2d79f8dd7f6cf629",
+      "exact_failed_nodeid_retest": "39/39 PASS",
+      "bounded_impact": "101/101 PASS",
+      "exact_overlap": 0,
+      "historical_regression_guard": "PASS",
+      "vite_build": "PASS",
+      "model_settings_smoke": "17/17 PASS",
+      "new_full_regression_runs": 0
+    },
+    "promotion_contract": "Final closure requires non-force push of the closure commit, clean branch/upstream parity and a successor-authority receipt."
   }
 }
