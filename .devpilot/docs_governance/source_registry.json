@@ -1,7 +1,7 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP-1A-03",
-  "current_phase": "DEVPL-MULTIPROVIDER-V2-MP-0",
+  "current_micro_sprint": "MP-1A-04",
+  "current_phase": "DEVPL-MULTIPROVIDER-V2-MP-1A",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
     {
@@ -39124,6 +39124,105 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "doc_id": "MP1A-CLOSURE",
+      "path": "docs/audits/MP1A_CLOSURE.md",
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "owner": "MP-1A-04",
+      "status_required": "implemented/windows-pending",
+      "required_tests": [
+        "tests/test_mp1a04_closure_stop.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1A",
+        "MP-1A-04"
+      ],
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [
+        "docs/audits/MP1A_STOP_GATE.json",
+        "docs/audits/MP1A_FINDINGS.json"
+      ],
+      "derived_documents": [],
+      "related_adrs": [],
+      "sync_rules": [],
+      "notes": [
+        "MP-1A closure and STOP boundary."
+      ]
+    },
+    {
+      "doc_id": "MP1A-FINDINGS",
+      "path": "docs/audits/MP1A_FINDINGS.json",
+      "classification": "machine-readable-source",
+      "criticality": "P1",
+      "owner": "MP-1A-04",
+      "status_required": "implemented/windows-pending",
+      "required_tests": [
+        "tests/test_mp1a04_closure_stop.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1A",
+        "MP-1A-04"
+      ],
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "related_adrs": [],
+      "sync_rules": [],
+      "notes": [
+        "Nonblocking MP-1A findings and dispositions."
+      ]
+    },
+    {
+      "doc_id": "MP1A-STOP-GATE",
+      "path": "docs/audits/MP1A_STOP_GATE.json",
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "owner": "MP-1A-04",
+      "status_required": "implemented/windows-pending",
+      "required_tests": [
+        "tests/test_mp1a04_closure_stop.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1A",
+        "MP-1A-04",
+        "SYNC-1"
+      ],
+      "domain": "multiprovider.governance",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "related_adrs": [],
+      "sync_rules": [],
+      "notes": [
+        "Program-level STOP gate. Not a runtime feature flag."
+      ]
+    },
+    {
+      "doc_id": "MP1A04-CLOSURE-TESTS",
+      "path": "tests/test_mp1a04_closure_stop.py",
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "owner": "MP-1A-04",
+      "status_required": "current/windows-pending",
+      "required_tests": [
+        "tests/test_mp1a04_closure_stop.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1A-04"
+      ],
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "derived_documents": [],
+      "related_adrs": [],
+      "sync_rules": [],
+      "notes": [
+        "Closure/STOP contract tests."
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -39548,8 +39647,8 @@
   "gsdlc_r01_program_status": "closed/PASS",
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
-  "last_registered_sprint": "MP-1A-03",
-  "last_updated_by": "MP-1A-03-WINDOWS",
+  "last_registered_sprint": "MP-1A-04",
+  "last_updated_by": "MP-1A-04-WINDOWS-CORRECTIVE-102",
   "mp_0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_0_c_successor_commit": "0ff309cf686438dada6e64f0d4714584f3c312a3",
   "mp_0_d_full_regression_runs": 0,
@@ -39569,7 +39668,7 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
-  "next_micro_sprint": "MP-1A-04",
+  "next_micro_sprint": "STOP-MULTIPROVIDER",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -42105,20 +42204,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1566,
+    "critical_sources_total": 1570,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1662,
-    "documents_with_required_tests_total": 1662,
+    "documents_total": 1666,
+    "documents_with_required_tests_total": 1666,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
-    "last_updated_by": "MP-1A-03-WINDOWS",
-    "machine_readable_source_total": 825,
-    "markdown_json_pairs_total": 78,
+    "last_updated_by": "MP-1A-04-WINDOWS-CORRECTIVE-102",
+    "machine_readable_source_total": 828,
+    "markdown_json_pairs_total": 80,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 620
+    "source_of_truth_total": 621
   },
   "updated": "2026-10-08",
   "updated_at": "2026-10-08",
@@ -42184,7 +42283,7 @@
   "mp_1a_02_windows_validation_status": "PASS",
   "mp_1a_02_focal_status": "PASS",
   "mp_1a_02_impact_status": "PASS",
-  "mp_1a_03_status": "PASS/WINDOWS-VALIDATED/OWNER-ADJUDICATION-READY",
+  "mp_1a_03_status": "CLOSED/PASS/WINDOWS-ADJUDICATED",
   "mp_1a_03_full_regression_runs": 0,
   "mp_1a_03_model_calls": 0,
   "mp_1a_03_network_calls": 0,
@@ -42192,5 +42291,11 @@
   "mp_1a_03_windows_validation_status": "PASS",
   "mp_1a_03_focal_status": "PASS",
   "mp_1a_03_impact_status": "PASS",
-  "mp_1a_03_ui_smoke_status": "PASS"
+  "mp_1a_03_ui_smoke_status": "PASS",
+  "mp_1a_04_status": "PASS/WINDOWS-VALIDATED/OWNER-ADJUDICATION-READY",
+  "mp_1a_04_full_regression_runs": 0,
+  "mp_1a_status": "PASS/CLOSURE-CANDIDATE/OWNER-ADJUDICATION-READY",
+  "mp_1a_stop_status": "ACTIVE/STOP-MULTIPROVIDER",
+  "mp_1a_next_track": "deterministic",
+  "mp_1a_resume_gate": "D05->D06->SYNC-1 PASS"
 }

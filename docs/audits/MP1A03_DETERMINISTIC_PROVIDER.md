@@ -1,7 +1,7 @@
 ---
 doc_id: "MP1A03-DETERMINISTIC-PROVIDER"
 title: "MP-1A-03 Deterministic Product Definition Provider Extraction"
-status: "IMPLEMENTED / SANDBOX-VALIDATED / WINDOWS-PENDING"
+status: "CLOSED / PASS / WINDOWS-ADJUDICATED"
 version: "1.0.0"
 owner: "Ordóñez"
 ---
@@ -10,6 +10,8 @@ owner: "Ordóñez"
 ## Authority
 
 Baseline: `evolution/multiprovider-v2 @ e95ec55a0d238b2fe35810b4994fa25fc17c7951`.
+
+Windows successor: `b28a6111aad4de37b605b76223342f3eb24f77a8` (`33/33 focal`, `12/12 impact`, `1/1 UI smoke`, `7/7 docs`, Full=0).
 
 ## Decision
 

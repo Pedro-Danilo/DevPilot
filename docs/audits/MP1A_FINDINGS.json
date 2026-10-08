@@ -1,0 +1,38 @@
+{
+  "schema_id": "devpilot.mp1a.findings.v1",
+  "status": "open-nonblocking",
+  "version": "1.0.0",
+  "owner": "MP-1A-04",
+  "s0_open": 0,
+  "s1_open": 0,
+  "s2_open": 2,
+  "findings": [
+    {
+      "id": "DOC-13C01-LIFECYCLE-001",
+      "severity": "S2",
+      "status": "CARRY-FORWARD",
+      "theme": "lifecycle-metadata",
+      "disposition": "DETERMINISTIC-D05/D06-RECONCILIATION",
+      "blocking_mp1a_closure": false,
+      "note": "No se reescriben artifacts FROZEN históricos; reconciliar metadata solo mediante successor gobernado si D05/D06 lo requiere."
+    },
+    {
+      "id": "MP1A01-CROSS-STAGE-DECISION-LINEAGE",
+      "severity": "S2",
+      "status": "RESOLVED-IN-MP-1A-02",
+      "theme": "cross-stage-decisions",
+      "disposition": "CLOSED",
+      "blocking_mp1a_closure": false,
+      "note": "ArtifactDependencyProfile y resolver explícito enlazan decisiones/authority Vision→Scope→Requirements."
+    },
+    {
+      "id": "MP1A01-ERROR-EXPLAINABILITY",
+      "severity": "S2",
+      "status": "CARRY-FORWARD",
+      "theme": "error-explainability",
+      "disposition": "MP-1C-03-AFTER-SYNC-1",
+      "blocking_mp1a_closure": false,
+      "note": "El flujo actual falla cerrado; copy Guided/Expert adicional pertenece a evolución visible posterior a SYNC-1."
+    }
+  ]
+}

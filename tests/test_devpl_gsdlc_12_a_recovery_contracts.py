@@ -104,7 +104,9 @@ def test_12_a_new_human_session_restores_project_route_from_durable_recovery_bef
     assert "client.settingsWorkspace()" in segment
     assert "client.recoveryStatus()" in segment
     assert "restoreProjectJourneyContextFromDurableRecovery(recovery, expectedWorkspaceId)" in segment
-    assert segment.index("projectStatusSessionRecovery") < segment.index("settingsWorkspace") < segment.index("recoveryStatus")
+    assert segment.index("projectStatus()") < segment.index("settingsWorkspace") < segment.index("projectStatusSessionRecovery") < segment.index("recoveryStatus")
+    assert "for (const expectedWorkspaceId of scopes)" in segment
+    assert "if (scopes.length === 1)" in segment
     helper = client.split("export function restoreProjectJourneyContextFromDurableRecovery", 1)[1].split("export function beginProjectEntryJourney", 1)[0]
     for required in [
         "response.ok === true",

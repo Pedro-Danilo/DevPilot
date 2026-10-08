@@ -1,0 +1,28 @@
+{
+  "schema_id": "devpilot.mp1a.stop-gate.v1",
+  "status": "ACTIVE/STOP-MULTIPROVIDER",
+  "version": "1.0.0",
+  "owner": "MP-1A-04",
+  "activation_condition": "MP-1A-04 CLOSED/PASS|PASS+FINDING + branch clean/pushed + successor authority",
+  "multiprovider_branch": "evolution/multiprovider-v2",
+  "baseline_commit": "b28a6111aad4de37b605b76223342f3eb24f77a8",
+  "multiprovider_mutation_allowed_after_activation": false,
+  "next_track": "deterministic",
+  "deterministic_branch": "official/devpilot-local",
+  "required_before_resume": [
+    "D05 CLOSED/PASS|PASS+FINDING",
+    "D06 CLOSED/PASS|PASS+FINDING",
+    "SYNC-1 PASS"
+  ],
+  "resume_gate": "SYNC-1 PASS",
+  "sync_direction": "deterministic->multiprovider",
+  "prohibitions": [
+    "no MP-1B/C/D before SYNC-1 PASS",
+    "no LocalModel Product Definition before D06/SYNC-1",
+    "no rebase sealed commits",
+    "no massive cherry-pick as sync substitute",
+    "no MP->deterministic merge during construction"
+  ],
+  "activated_by": "MP-1A-04-WINDOWS-CORRECTIVE-102",
+  "multiprovider_mutation_allowed": false
+}

@@ -297,22 +297,41 @@ async function recoverSessionBoundProjectRouteContext(
   const route=resolveUiRoute(path);
   if (!route || route.scope !== 'project') return 'not-requested';
   const scopes=[...new Set((session.principal.workspace_scopes ?? []).map((value) => String(value).trim()).filter(Boolean))];
-  if (scopes.length !== 1) return 'failed';
-  const expectedWorkspaceId=scopes[0];
+  if (!scopes.length) return 'failed';
+
+  // Prefer the server-active context. Multi-scope principals are valid when the
+  // server-selected workspace is one of their authenticated scopes; browser
+  // storage never chooses the authority. This keeps recovery fail-closed while
+  // avoiding the historical single-scope-only dead end.
   try {
-    const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
-    const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
-    if (restored) return 'restored';
-  } catch { /* A registered project may legitimately have no WorkspaceEngineeringState yet. */ }
+    const response=await client.projectStatus();
+    for (const expectedWorkspaceId of scopes) {
+      const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
+      if (restored) return 'restored';
+    }
+  } catch { /* Missing engineering state may still recover from registered workspace metadata. */ }
   try {
     const workspace=await client.settingsWorkspace();
-    const restored=restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(workspace, expectedWorkspaceId);
-    if (restored) return 'restored';
-  } catch { /* A minimal OPEN_EXISTING fixture may not satisfy the richer settings projection contract. */ }
+    for (const expectedWorkspaceId of scopes) {
+      const restored=restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(workspace, expectedWorkspaceId);
+      if (restored) return 'restored';
+    }
+  } catch { /* A minimal registered workspace may not satisfy the richer settings projection contract. */ }
+  if (scopes.length === 1) {
+    const expectedWorkspaceId=scopes[0];
+    try {
+      const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
+      const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
+      if (restored) return 'restored';
+    } catch { /* Historical single-scope fallback. */ }
+  }
   try {
     const recovery=await client.recoveryStatus();
-    const restored=restoreProjectJourneyContextFromDurableRecovery(recovery, expectedWorkspaceId);
-    return restored ? 'restored' : 'failed';
+    for (const expectedWorkspaceId of scopes) {
+      const restored=restoreProjectJourneyContextFromDurableRecovery(recovery, expectedWorkspaceId);
+      if (restored) return 'restored';
+    }
+    return 'failed';
   } catch {
     return 'failed';
   }
@@ -336,25 +355,37 @@ async function recoverExplicitProjectStatusContext(client: DevPilotApiClient, se
   if (readProjectJourneyContext()?.phase === 'project') return 'already-project';
   if (path !== '/project/status' || params.get('recover_project_context') !== 'server-active') return 'not-requested';
   const scopes=[...new Set((session.principal.workspace_scopes ?? []).map((value) => String(value).trim()).filter(Boolean))];
-  const expectedWorkspaceId=scopes.length===1 ? scopes[0] : undefined;
-  try {
-    const response=await client.projectStatus();
-    const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response);
-    if (restored) {
-      try { globalThis.history?.replaceState(null, '', '/project/status'); } catch { /* cosmetic only; route authority is already server-validated. */ }
-      return 'restored';
-    }
-  } catch { /* session-bound fallback below keeps recovery read-only and fail-closed. */ }
-  if (!expectedWorkspaceId) return 'failed';
-  try {
-    const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
-    const restored=restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId);
-    if (!restored) return 'failed';
+  if (!scopes.length) return 'failed';
+  const restoredToProjectStatus=(): ProjectRecoveryOutcome => {
     try { globalThis.history?.replaceState(null, '', '/project/status'); } catch { /* cosmetic only; route authority is already server-validated. */ }
     return 'restored';
-  } catch {
-    return 'failed';
+  };
+  try {
+    const response=await client.projectStatus();
+    for (const expectedWorkspaceId of scopes) {
+      if (restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId)) return restoredToProjectStatus();
+    }
+  } catch { /* Registered workspace fallback below remains read-only and server-authoritative. */ }
+  try {
+    const workspace=await client.settingsWorkspace();
+    for (const expectedWorkspaceId of scopes) {
+      if (restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(workspace, expectedWorkspaceId)) return restoredToProjectStatus();
+    }
+  } catch { /* Keep fail-closed; durable recovery remains available below. */ }
+  if (scopes.length === 1) {
+    const expectedWorkspaceId=scopes[0];
+    try {
+      const response=await client.projectStatusSessionRecovery(expectedWorkspaceId);
+      if (restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId)) return restoredToProjectStatus();
+    } catch { /* Historical single-scope recovery fallback. */ }
   }
+  try {
+    const recovery=await client.recoveryStatus();
+    for (const expectedWorkspaceId of scopes) {
+      if (restoreProjectJourneyContextFromDurableRecovery(recovery, expectedWorkspaceId)) return restoredToProjectStatus();
+    }
+  } catch { /* Fail closed below. */ }
+  return 'failed';
 }
 async function recoverExplicitServerProjectContext(client: DevPilotApiClient, path: string, params: URLSearchParams): Promise<ProjectRecoveryOutcome> {
   if (readProjectJourneyContext()?.phase === 'project') {

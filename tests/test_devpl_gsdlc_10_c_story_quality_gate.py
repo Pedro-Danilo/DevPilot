@@ -131,8 +131,10 @@ def test_10_c_project_status_browser_recovery_uses_session_bound_fallback_withou
     assert 'client.projectStatus()' in segment
     assert 'client.projectStatusSessionRecovery(expectedWorkspaceId)' in segment
     assert 'session.principal.workspace_scopes' in segment
-    assert 'scopes.length===1 ? scopes[0] : undefined' in segment
-    assert "if (!expectedWorkspaceId) return 'failed'" in segment
+    assert "if (!scopes.length) return 'failed'" in segment
+    assert 'for (const expectedWorkspaceId of scopes)' in segment
+    assert 'client.settingsWorkspace()' in segment
+    assert 'if (scopes.length === 1)' in segment
     assert 'projectStatusSessionRecovery(workspaceId?: string)' in client
     helper=client.split('async projectStatusSessionRecovery',1)[1].split('async stepActions',1)[0]
     assert "this.authJson<DevPilotApplicationResponse<GuidedSdlcProjectStatusResponseData>>" in helper

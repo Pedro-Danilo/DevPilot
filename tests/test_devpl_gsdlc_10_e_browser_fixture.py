@@ -23,7 +23,10 @@ def test_gsdlc10e_project_route_recovery_is_server_session_bound() -> None:
     main = (ROOT / "ui" / "web" / "src" / "main.ts").read_text(encoding="utf-8")
     assert "recoverSessionBoundProjectRouteContext(client, envelope.session, path)" in main
     assert "route.scope !== 'project'" in main
-    assert "scopes.length !== 1" in main
+    assert "if (!scopes.length) return 'failed'" in main
+    assert "const response=await client.projectStatus()" in main
+    assert "for (const expectedWorkspaceId of scopes)" in main
+    assert "client.settingsWorkspace()" in main
     assert "projectStatusSessionRecovery(expectedWorkspaceId)" in main
     assert "restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId)" in main
     assert "recovery=session-bound-project-failed" in main

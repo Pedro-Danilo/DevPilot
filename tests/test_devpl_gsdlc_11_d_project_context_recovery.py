@@ -8,12 +8,14 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_11_d_restart_recovery_keeps_project_status_as_primary_and_registered_workspace_as_read_only_fallback() -> None:
     main = (ROOT / "ui/web/src/main.ts").read_text(encoding="utf-8")
     segment = main.split("async function recoverSessionBoundProjectRouteContext", 1)[1].split("function renderRouteHeader", 1)[0]
-    assert "scopes.length !== 1" in segment
-    assert "client.projectStatusSessionRecovery(expectedWorkspaceId)" in segment
-    assert "restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId)" in segment
+    assert "if (!scopes.length) return 'failed'" in segment
+    assert "const response=await client.projectStatus()" in segment
+    assert "for (const expectedWorkspaceId of scopes)" in segment
     assert "client.settingsWorkspace()" in segment
     assert "restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(workspace, expectedWorkspaceId)" in segment
-    assert segment.index("projectStatusSessionRecovery") < segment.index("settingsWorkspace")
+    assert "if (scopes.length === 1)" in segment
+    assert "client.projectStatusSessionRecovery(expectedWorkspaceId)" in segment
+    assert segment.index("projectStatus()") < segment.index("settingsWorkspace") < segment.index("projectStatusSessionRecovery")
     assert "projectEntryDryRun" not in segment
     assert "projectEntryExecute" not in segment
 
@@ -37,8 +39,10 @@ def test_11_d_registered_workspace_recovery_is_scope_bound_read_only_and_gsdlc03
         "workspaceId === expectedWorkspaceId",
         "projectId === workspaceId",
         "projectId.toLowerCase() !== 'unknown'",
-        "String(workspace.project_type ?? '').trim() === 'agent-assisted-sdlc'",
-        "workspace.miasi_required === true",
+        "projectType === 'agent-assisted-sdlc'",
+        "miasiRequired",
+        "nestedProject.type",
+        "nestedMiasi.required",
         "standards.includes('MIPSoftware')",
         "standards.includes('MIASI')",
         "phase: 'project'",
@@ -97,3 +101,12 @@ def test_11_d_registered_workspace_fallback_backend_projection_matches_open_exis
     assert context["network_used"] is False
     assert context["external_api_used"] is False
     assert context["mutations_performed"] is False
+
+
+def test_11_d_registered_workspace_recovery_accepts_current_nested_project_yaml_shape() -> None:
+    client = (ROOT / "ui/web/src/api/client.ts").read_text(encoding="utf-8")
+    helper = client.split("export function restoreProjectJourneyContextFromRegisteredWorkspaceRecovery", 1)[1].split("export function beginProjectEntryJourney", 1)[0]
+    assert "const nestedProject = (workspace.project ?? {})" in helper
+    assert "const nestedMiasi = (workspace.miasi ?? {})" in helper
+    assert "workspace.project_type ?? nestedProject.type" in helper
+    assert "workspace.miasi_required === true || nestedMiasi.required === true" in helper

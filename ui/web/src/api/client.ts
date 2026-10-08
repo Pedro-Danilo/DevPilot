@@ -1320,8 +1320,11 @@ export function restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(
   const workspace = (data.workspace ?? {}) as Record<string, unknown>;
   const context = (data.workspace_context ?? {}) as Record<string, unknown>;
   const nestedProject = (workspace.project ?? {}) as Record<string, unknown>;
+  const nestedMiasi = (workspace.miasi ?? {}) as Record<string, unknown>;
   const workspaceId = String(context.active_workspace_id ?? '').trim();
   const projectId = String(workspace.project_id ?? nestedProject.id ?? summary.project_id ?? '').trim();
+  const projectType = String(workspace.project_type ?? nestedProject.type ?? '').trim();
+  const miasiRequired = workspace.miasi_required === true || nestedMiasi.required === true;
   const workspaceRoot = String(context.active_workspace_root ?? '').trim();
   const projectFile = String(context.project_file ?? '').trim();
   const standards = Array.isArray(workspace.standards) ? workspace.standards.map((item) => String(item)) : [];
@@ -1344,8 +1347,8 @@ export function restoreProjectJourneyContextFromRegisteredWorkspaceRecovery(
     && projectId.toLowerCase() !== 'unknown'
     && Boolean(workspaceRoot)
     && Boolean(projectFile)
-    && String(workspace.project_type ?? '').trim() === 'agent-assisted-sdlc'
-    && workspace.miasi_required === true
+    && projectType === 'agent-assisted-sdlc'
+    && miasiRequired
     && standards.includes('MIPSoftware')
     && standards.includes('MIASI');
   if (!valid) return null;

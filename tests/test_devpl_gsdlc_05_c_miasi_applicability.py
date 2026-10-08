@@ -155,7 +155,9 @@ def test_05_c_project_status_explicit_context_recovery_is_server_validated_and_b
     assert "path !== '/project/status' || params.get('recover_project_context') !== 'server-active'" in main
     segment=main.split('async function recoverExplicitProjectStatusContext',1)[1].split('async function recoverExplicitServerProjectContext',1)[0]
     assert 'client.projectStatus()' in segment
-    assert 'restoreProjectJourneyContextFromProjectStatusRecovery(response)' in segment
+    assert 'restoreProjectJourneyContextFromProjectStatusRecovery(response, expectedWorkspaceId)' in segment
+    assert 'client.settingsWorkspace()' in segment
+    assert 'for (const expectedWorkspaceId of scopes)' in segment
     assert 'projectEntryDryRun' not in segment and 'projectEntryExecute' not in segment
     assert "return journey?.phase === 'project';" in main
     helper=client.split('export function restoreProjectJourneyContextFromProjectStatusRecovery',1)[1].split('export function beginProjectEntryJourney',1)[0]
