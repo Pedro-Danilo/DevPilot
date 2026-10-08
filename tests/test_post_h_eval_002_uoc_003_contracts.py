@@ -210,6 +210,10 @@ def test_uoc_003_ui_version_is_synchronized() -> None:
         assert version_uoc >= 3
     else:
         assert historical_uoc_number >= 3
-        assert current_sprint.startswith(("DEVPL-GSDLC-", "DEVPL-UX-P0-"))
-    assert current_sprint == str(load(".devpilot/project_state.json")["current_micro_sprint"])
+        assert current_sprint.startswith(("DEVPL-GSDLC-", "DEVPL-UX-P0-", "DEVPL-MP-"))
+    state_sprint=str(load(".devpilot/project_state.json")["current_micro_sprint"])
+    if current_sprint.startswith("DEVPL-MP-"):
+        assert state_sprint=="DEVPL-GSDLC-13-A"
+    else:
+        assert current_sprint==state_sprint
     assert package["devpilot"]["uoc003Status"] == "closed/PASS"

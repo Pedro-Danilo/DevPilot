@@ -806,14 +806,14 @@
   "schema_version": "1.0",
   "status": "implemented-initial",
   "summary": {
-    "actions_requiring_approval_total": 19,
-    "actions_requiring_rbac_total": 19,
-    "actions_total": 19,
+    "actions_requiring_approval_total": 20,
+    "actions_requiring_rbac_total": 20,
+    "actions_total": 20,
     "blocked_actions_total": 11,
     "connector_write_actions_blocked_total": 1,
     "critical_actions_total": 9,
     "domains_total": 12,
-    "miasi_policy_links_total": 24,
+    "miasi_policy_links_total": 25,
     "plugin_execution_actions_blocked_total": 1,
     "preliminary": true,
     "remote_actions_blocked_total": 1

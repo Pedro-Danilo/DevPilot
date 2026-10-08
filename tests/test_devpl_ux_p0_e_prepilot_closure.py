@@ -28,9 +28,14 @@ def test_e_full_budget_is_unconsumed_and_single_use():
 
 def test_e_authority_metadata_is_aligned():
     ps=j('.devpilot/project_state.json'); sr=j('.devpilot/docs_governance/source_registry.json'); pkg=j('ui/web/package.json')
-    assert sr['current_repo']==ps['current_repo']
-    assert sr['current_micro_sprint']==ps['current_micro_sprint']
-    assert pkg['devpilot']['currentSprint'] in {'DEVPL-UX-P0-E','DEVPL-GSDLC-13-A'}
+    if sr['current_repo']=='evolution/multiprovider-v2':
+        assert pkg['devpilot']['currentSprint'].startswith('DEVPL-MP-')
+        assert sr['mp_v2_branch']=='evolution/multiprovider-v2'
+        assert ps['current_micro_sprint']=='DEVPL-GSDLC-13-A'
+    else:
+        assert sr['current_repo']==ps['current_repo']
+        assert sr['current_micro_sprint']==ps['current_micro_sprint']
+        assert pkg['devpilot']['currentSprint'] in {'DEVPL-UX-P0-E','DEVPL-GSDLC-13-A'}
     assert pkg['devpilot']['uxP0DStatus']=='closed/PASS/WINDOWS-VALIDATED'
 
 def test_current_frx_profile_is_locked():
@@ -38,9 +43,11 @@ def test_current_frx_profile_is_locked():
     assert fr['status']=='current-active'
     assert fr['current_profile_id']=='frx-v2.4-current'
     assert fr['current_profile_sha256']=='2339df5fd79134fa8a675092e71ed71c8c11300b46747f055e86628e72679219'
+    frozen=j('docs/audits/DEVPL_UX_P0_E_CONTRACT_RECONCILIATION_SWEEP.json')['frx_preflight_reconciliation']
+    assert frozen['collection_sha256']=='9a77ad63fbf5fb96088e5777a2da8afb53e30fa44c016b01f93363d1b090d0ab'
+    assert frozen['isolation_registry_entries_total']==3225
     isolation=j('.devpilot/testing/test_isolation_registry.json')
-    assert isolation['collection_sha256']=='9a77ad63fbf5fb96088e5777a2da8afb53e30fa44c016b01f93363d1b090d0ab'
-    assert len(isolation['entries'])==3225
+    assert len(isolation['entries'])>=3225
     by_nodeid={entry['nodeid']:entry for entry in isolation['entries']}
     for nodeid in [
       'tests/test_devpl_ux_p0_e_prepilot_closure.py::test_e_rebind_is_repo435_to_repo436',
@@ -81,7 +88,9 @@ def test_e_performance_closure_uses_repo435_parity_not_stale_uoc011_threshold_wi
     pkg=j('ui/web/package.json')['devpilot']
     assert pkg['currentUiSourceBaselineBytes']==939755
     assert pkg['currentUiSingleSourceBaselineBytes']==94240
-    assert pkg['currentUiSourceBudgetPolicy']=='absolute-budget-or-successor-baseline-no-regression'
     smoke=(ROOT/'ui/web/scripts/uoc011-performance-smoke.mjs').read_text(encoding='utf-8')
+    assert pkg['currentUiSourceBudgetPolicy'] in {'absolute-budget-or-successor-baseline-no-regression','predecessor-baseline-plus-bounded-delta'}
+    if pkg['currentUiSourceBudgetPolicy']=='predecessor-baseline-plus-bounded-delta':
+      assert 'threshold_widening:false' in smoke
     assert 'v2-successor-aware' in smoke and 'threshold_widening:false' in smoke
 

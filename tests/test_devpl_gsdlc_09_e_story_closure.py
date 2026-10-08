@@ -35,6 +35,7 @@ def source(app:ApplicationService)->dict:
 def plan(app:ApplicationService,content:str)->dict:
     src=source(app); d=app.story_code_draft_save(operation='EDIT',content=content,target_path='src/app.py',source_id=src['source_id'],expected_source_sha256=src['sha256'],expected_revision_sha256=None,actor='local-owner',actor_role='owner'); assert d.ok,d.to_dict(); p=app.story_source_change_plan_create(draft_ids=[d.data['draft']['draft_id']],actor='local-owner',actor_role='owner'); assert p.ok,p.to_dict(); return p.data['plan']
 def approve(app:ApplicationService,client:TestClient,p:dict)->str:
+    dry=app.story_source_change_dry_run(plan_id=p['plan_id'],plan_hash=p['plan_hash'],actor='local-owner',actor_role='owner'); assert dry.ok,dry.to_dict(); assert dry.data['dry_run_receipt']['status']=='PASS'
     r=app.story_source_change_apply_approval_request(plan_id=p['plan_id'],plan_hash=p['plan_hash'],actor='local-owner',actor_role='owner',reason='09-E reviewed exact plan'); assert r.ok,r.to_dict(); aid=r.data['approval']['approval_id']; d=client.post(f'/api/v1/approvals/{aid}/approve',json={'reason':'Owner accepts 09-E plan'},headers=csrf(client)); assert d.status_code==200,d.text; return aid
 
 def test_01_approved_atomic_apply_advances_active_story_to_changes_ready(workspace:Path,runtime)->None:

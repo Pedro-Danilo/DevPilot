@@ -1271,12 +1271,12 @@
             "items": {
               "$ref": "#/components/schemas/ValidationError"
             },
-            "type": "array",
-            "title": "Detail"
+            "title": "Detail",
+            "type": "array"
           }
         },
-        "type": "object",
-        "title": "HTTPValidationError"
+        "title": "HTTPValidationError",
+        "type": "object"
       },
       "JobControlBody": {
         "properties": {
@@ -1296,6 +1296,72 @@
           }
         },
         "title": "JobControlBody",
+        "type": "object"
+      },
+      "LockAcquireBody": {
+        "properties": {
+          "action_id": {
+            "maxLength": 256,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_.:-]+$",
+            "title": "Action Id",
+            "type": "string"
+          },
+          "sensitive": {
+            "default": true,
+            "title": "Sensitive",
+            "type": "boolean"
+          },
+          "ttl_seconds": {
+            "default": 300,
+            "maximum": 3600.0,
+            "minimum": 30.0,
+            "title": "Ttl Seconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "action_id"
+        ],
+        "title": "LockAcquireBody",
+        "type": "object"
+      },
+      "LockActionBody": {
+        "properties": {
+          "action_id": {
+            "maxLength": 256,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_.:-]+$",
+            "title": "Action Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action_id"
+        ],
+        "title": "LockActionBody",
+        "type": "object"
+      },
+      "LockRecoverBody": {
+        "properties": {
+          "action_id": {
+            "maxLength": 256,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_.:-]+$",
+            "title": "Action Id",
+            "type": "string"
+          },
+          "confirmation": {
+            "pattern": "^RECOVER_STALE_LOCK$",
+            "title": "Confirmation",
+            "type": "string"
+          }
+        },
+        "required": [
+          "action_id",
+          "confirmation"
+        ],
+        "title": "LockRecoverBody",
         "type": "object"
       },
       "LoginBody": {
@@ -1788,6 +1854,131 @@
         "title": "ReconciliationMutationBody",
         "type": "object"
       },
+      "RecoveryCheckpointBody": {
+        "properties": {
+          "draft_refs": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Draft Refs",
+            "type": "array"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "title": "Evidence Refs",
+            "type": "array"
+          },
+          "pending_work": {
+            "items": {
+              "$ref": "#/components/schemas/RecoveryPendingWorkBody"
+            },
+            "maxItems": 100,
+            "title": "Pending Work",
+            "type": "array"
+          },
+          "recovery_reason": {
+            "default": "manual-checkpoint",
+            "maxLength": 256,
+            "minLength": 3,
+            "title": "Recovery Reason",
+            "type": "string"
+          }
+        },
+        "title": "RecoveryCheckpointBody",
+        "type": "object"
+      },
+      "RecoveryPendingWorkBody": {
+        "properties": {
+          "approval_actor": {
+            "anyOf": [
+              {
+                "maxLength": 256,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approval Actor"
+          },
+          "approval_expires_at": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approval Expires At"
+          },
+          "approval_id": {
+            "anyOf": [
+              {
+                "maxLength": 256,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approval Id"
+          },
+          "bound_git_head": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bound Git Head"
+          },
+          "kind": {
+            "default": "work",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Kind",
+            "type": "string"
+          },
+          "safe_to_resume": {
+            "default": false,
+            "title": "Safe To Resume",
+            "type": "boolean"
+          },
+          "sensitive": {
+            "default": false,
+            "title": "Sensitive",
+            "type": "boolean"
+          },
+          "status": {
+            "default": "PENDING",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Status",
+            "type": "string"
+          },
+          "work_id": {
+            "maxLength": 256,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_.:-]+$",
+            "title": "Work Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "work_id"
+        ],
+        "title": "RecoveryPendingWorkBody",
+        "type": "object"
+      },
       "ReleaseLifecycleExecuteBody": {
         "properties": {
           "plan_hash": {
@@ -2172,6 +2363,35 @@
         "title": "SprintProposalBody",
         "type": "object"
       },
+      "StoryActivationPrepareBody": {
+        "properties": {
+          "story_id": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Story Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "story_id"
+        ],
+        "title": "StoryActivationPrepareBody",
+        "type": "object"
+      },
+      "StoryActivationStartBody": {
+        "properties": {
+          "expected_state_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Expected State Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "expected_state_sha256"
+        ],
+        "title": "StoryActivationStartBody",
+        "type": "object"
+      },
       "StoryAgentProposalBody": {
         "properties": {
           "agent_type": {
@@ -2357,6 +2577,26 @@
           "approval_id"
         ],
         "title": "StoryGitStageBody",
+        "type": "object"
+      },
+      "StoryImplementationProposalDecisionBody": {
+        "properties": {
+          "decision": {
+            "pattern": "^(ACCEPT|REJECT)$",
+            "title": "Decision",
+            "type": "string"
+          },
+          "proposal_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Proposal Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_sha256",
+          "decision"
+        ],
+        "title": "StoryImplementationProposalDecisionBody",
         "type": "object"
       },
       "StoryQualityEvaluateBody": {
@@ -2648,6 +2888,13 @@
       },
       "ValidationError": {
         "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
           "loc": {
             "items": {
               "anyOf": [
@@ -2659,251 +2906,24 @@
                 }
               ]
             },
-            "type": "array",
-            "title": "Location"
+            "title": "Location",
+            "type": "array"
           },
           "msg": {
-            "type": "string",
-            "title": "Message"
+            "title": "Message",
+            "type": "string"
           },
           "type": {
-            "type": "string",
-            "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
+            "title": "Error Type",
+            "type": "string"
           }
         },
-        "type": "object",
         "required": [
           "loc",
           "msg",
           "type"
         ],
-        "title": "ValidationError"
-      },
-      "LockAcquireBody": {
-        "properties": {
-          "action_id": {
-            "type": "string",
-            "maxLength": 256,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_.:-]+$",
-            "title": "Action Id"
-          },
-          "sensitive": {
-            "type": "boolean",
-            "title": "Sensitive",
-            "default": true
-          },
-          "ttl_seconds": {
-            "type": "integer",
-            "maximum": 3600.0,
-            "minimum": 30.0,
-            "title": "Ttl Seconds",
-            "default": 300
-          }
-        },
-        "type": "object",
-        "required": [
-          "action_id"
-        ],
-        "title": "LockAcquireBody"
-      },
-      "LockActionBody": {
-        "properties": {
-          "action_id": {
-            "type": "string",
-            "maxLength": 256,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_.:-]+$",
-            "title": "Action Id"
-          }
-        },
-        "type": "object",
-        "required": [
-          "action_id"
-        ],
-        "title": "LockActionBody"
-      },
-      "LockRecoverBody": {
-        "properties": {
-          "action_id": {
-            "type": "string",
-            "maxLength": 256,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_.:-]+$",
-            "title": "Action Id"
-          },
-          "confirmation": {
-            "type": "string",
-            "pattern": "^RECOVER_STALE_LOCK$",
-            "title": "Confirmation"
-          }
-        },
-        "type": "object",
-        "required": [
-          "action_id",
-          "confirmation"
-        ],
-        "title": "LockRecoverBody"
-      },
-      "RecoveryCheckpointBody": {
-        "properties": {
-          "draft_refs": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "maxItems": 100,
-            "title": "Draft Refs"
-          },
-          "pending_work": {
-            "items": {
-              "$ref": "#/components/schemas/RecoveryPendingWorkBody"
-            },
-            "type": "array",
-            "maxItems": 100,
-            "title": "Pending Work"
-          },
-          "evidence_refs": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "maxItems": 100,
-            "title": "Evidence Refs"
-          },
-          "recovery_reason": {
-            "type": "string",
-            "maxLength": 256,
-            "minLength": 3,
-            "title": "Recovery Reason",
-            "default": "manual-checkpoint"
-          }
-        },
-        "type": "object",
-        "title": "RecoveryCheckpointBody"
-      },
-      "RecoveryPendingWorkBody": {
-        "properties": {
-          "work_id": {
-            "type": "string",
-            "maxLength": 256,
-            "minLength": 1,
-            "pattern": "^[A-Za-z0-9_.:-]+$",
-            "title": "Work Id"
-          },
-          "kind": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 1,
-            "title": "Kind",
-            "default": "work"
-          },
-          "status": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 1,
-            "title": "Status",
-            "default": "PENDING"
-          },
-          "sensitive": {
-            "type": "boolean",
-            "title": "Sensitive",
-            "default": false
-          },
-          "safe_to_resume": {
-            "type": "boolean",
-            "title": "Safe To Resume",
-            "default": false
-          },
-          "approval_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 256
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Approval Id"
-          },
-          "approval_actor": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 256
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Approval Actor"
-          },
-          "approval_expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 64
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Approval Expires At"
-          },
-          "bound_git_head": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 64
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Bound Git Head"
-          }
-        },
-        "type": "object",
-        "required": [
-          "work_id"
-        ],
-        "title": "RecoveryPendingWorkBody"
-      },
-      "StoryActivationPrepareBody": {
-        "properties": {
-          "story_id": {
-            "maxLength": 200,
-            "minLength": 1,
-            "title": "Story Id",
-            "type": "string"
-          }
-        },
-        "required": [
-          "story_id"
-        ],
-        "title": "StoryActivationPrepareBody",
-        "type": "object"
-      },
-      "StoryActivationStartBody": {
-        "properties": {
-          "expected_state_sha256": {
-            "pattern": "^[0-9a-f]{64}$",
-            "title": "Expected State Sha256",
-            "type": "string"
-          }
-        },
-        "required": [
-          "expected_state_sha256"
-        ],
-        "title": "StoryActivationStartBody",
+        "title": "ValidationError",
         "type": "object"
       }
     }
@@ -3662,6 +3682,25 @@
         ]
       }
     },
+    "/api/v1/docs": {
+      "get": {
+        "operationId": "api_docs",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "api.docs",
+        "tags": [
+          "devpilot"
+        ]
+      }
+    },
     "/api/v1/guided-sdlc/pre-code": {
       "get": {
         "operationId": "guided_pre_code_status_api_v1_guided_sdlc_pre_code_get",
@@ -3676,6 +3715,82 @@
           }
         },
         "summary": "Guided Pre Code Status",
+        "tags": [
+          "guided-sdlc"
+        ]
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/architecture-adrs/apply": {
+      "post": {
+        "operationId": "guided_sdlc_pre_code_architecture_adrs_apply",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "guided_sdlc.pre_code.architecture_adrs.apply",
+        "tags": [
+          "guided-sdlc"
+        ]
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request": {
+      "post": {
+        "operationId": "guided_sdlc_pre_code_architecture_adrs_approval_request",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "guided_sdlc.pre_code.architecture_adrs.approval_request",
+        "tags": [
+          "guided-sdlc"
+        ]
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/architecture-adrs/prepare": {
+      "post": {
+        "operationId": "guided_sdlc_pre_code_architecture_adrs_prepare",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "guided_sdlc.pre_code.architecture_adrs.prepare",
+        "tags": [
+          "guided-sdlc"
+        ]
+      }
+    },
+    "/api/v1/guided-sdlc/pre-code/miasi/applicability": {
+      "post": {
+        "operationId": "guided_sdlc_pre_code_miasi_applicability",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "guided_sdlc.pre_code.miasi_applicability",
         "tags": [
           "guided-sdlc"
         ]
@@ -4690,6 +4805,25 @@
         ]
       }
     },
+    "/api/v1/openapi.json": {
+      "get": {
+        "operationId": "api_openapi",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "api.openapi",
+        "tags": [
+          "devpilot"
+        ]
+      }
+    },
     "/api/v1/operator/claims-no-go": {
       "get": {
         "operationId": "operator_claims_no_go_api_v1_operator_claims_no_go_get",
@@ -4915,6 +5049,25 @@
         ]
       }
     },
+    "/api/v1/planning/authoring-context": {
+      "get": {
+        "operationId": "planning_authoring_status",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "planning.authoring.status",
+        "tags": [
+          "planning"
+        ]
+      }
+    },
     "/api/v1/planning/backlog": {
       "get": {
         "operationId": "backlog_status_api_v1_planning_backlog_get",
@@ -4948,6 +5101,25 @@
           }
         },
         "summary": "Backlog Approve",
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/api/v1/planning/backlog/derive": {
+      "post": {
+        "operationId": "planning_backlog_derive",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "planning.backlog.derive",
         "tags": [
           "planning"
         ]
@@ -5106,6 +5278,25 @@
         ]
       }
     },
+    "/api/v1/planning/roadmap/generate": {
+      "post": {
+        "operationId": "planning_roadmap_generate",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "planning.roadmap.generate",
+        "tags": [
+          "planning"
+        ]
+      }
+    },
     "/api/v1/planning/roadmap/proposals": {
       "post": {
         "operationId": "roadmap_propose_api_v1_planning_roadmap_proposals_post",
@@ -5197,6 +5388,25 @@
           }
         },
         "summary": "Sprint Approve",
+        "tags": [
+          "planning"
+        ]
+      }
+    },
+    "/api/v1/planning/sprint/derive": {
+      "post": {
+        "operationId": "planning_sprint_derive",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "planning.sprint.derive",
         "tags": [
           "planning"
         ]
@@ -5824,6 +6034,181 @@
         "summary": "Reconciliation Baseline",
         "tags": [
           "reconciliation"
+        ]
+      }
+    },
+    "/api/v1/recovery": {
+      "get": {
+        "operationId": "recovery_status_api_v1_recovery_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Recovery Status",
+        "tags": [
+          "recovery"
+        ]
+      }
+    },
+    "/api/v1/recovery/checkpoint": {
+      "post": {
+        "operationId": "recovery_checkpoint_api_v1_recovery_checkpoint_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecoveryCheckpointBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recovery Checkpoint",
+        "tags": [
+          "recovery"
+        ]
+      }
+    },
+    "/api/v1/recovery/locks/acquire": {
+      "post": {
+        "operationId": "recovery_lock_acquire_api_v1_recovery_locks_acquire_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockAcquireBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recovery Lock Acquire",
+        "tags": [
+          "recovery"
+        ]
+      }
+    },
+    "/api/v1/recovery/locks/recover": {
+      "post": {
+        "operationId": "recovery_lock_recover_api_v1_recovery_locks_recover_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockRecoverBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recovery Lock Recover",
+        "tags": [
+          "recovery"
+        ]
+      }
+    },
+    "/api/v1/recovery/locks/release": {
+      "post": {
+        "operationId": "recovery_lock_release_api_v1_recovery_locks_release_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LockActionBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recovery Lock Release",
+        "tags": [
+          "recovery"
         ]
       }
     },
@@ -7392,6 +7777,103 @@
         ]
       }
     },
+    "/api/v1/story/code/activation": {
+      "get": {
+        "operationId": "story_activation_status_api_v1_story_code_activation_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Story Activation Status",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/activation/prepare": {
+      "post": {
+        "operationId": "story_activation_prepare_api_v1_story_code_activation_prepare_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryActivationPrepareBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Activation Prepare",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/activation/start": {
+      "post": {
+        "operationId": "story_activation_start_api_v1_story_code_activation_start_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryActivationStartBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Activation Start",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
     "/api/v1/story/code/agent-assist/proposals": {
       "post": {
         "operationId": "story_agent_proposal_create_api_v1_story_code_agent_assist_proposals_post",
@@ -8071,6 +8553,23 @@
       }
     },
     "/api/v1/story/code/drafts": {
+      "get": {
+        "operationId": "story_code_drafts_api_v1_story_code_drafts_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Story Code Drafts",
+        "tags": [
+          "story-code-workbench"
+        ]
+      },
       "post": {
         "operationId": "story_code_draft_save_api_v1_story_code_drafts_post",
         "requestBody": {
@@ -8234,6 +8733,75 @@
           }
         },
         "summary": "Story Code Draft Recheck",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/implementation-proposals": {
+      "post": {
+        "operationId": "story_implementation_proposal_create_api_v1_story_code_implementation_proposals_post",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Story Implementation Proposal Create",
+        "tags": [
+          "story-code-workbench"
+        ]
+      }
+    },
+    "/api/v1/story/code/implementation-proposals/{proposal_id}/decision": {
+      "post": {
+        "operationId": "story_implementation_proposal_decide_api_v1_story_code_implementation_proposals__proposal_id__decision_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoryImplementationProposalDecisionBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Story Implementation Proposal Decide",
         "tags": [
           "story-code-workbench"
         ]
@@ -11794,468 +12362,6 @@
           "workspace-validations"
         ]
       }
-    },
-    "/api/v1/recovery": {
-      "get": {
-        "tags": [
-          "recovery"
-        ],
-        "summary": "Recovery Status",
-        "operationId": "recovery_status_api_v1_recovery_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/recovery/checkpoint": {
-      "post": {
-        "tags": [
-          "recovery"
-        ],
-        "summary": "Recovery Checkpoint",
-        "operationId": "recovery_checkpoint_api_v1_recovery_checkpoint_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecoveryCheckpointBody"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/recovery/locks/acquire": {
-      "post": {
-        "tags": [
-          "recovery"
-        ],
-        "summary": "Recovery Lock Acquire",
-        "operationId": "recovery_lock_acquire_api_v1_recovery_locks_acquire_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LockAcquireBody"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/recovery/locks/release": {
-      "post": {
-        "tags": [
-          "recovery"
-        ],
-        "summary": "Recovery Lock Release",
-        "operationId": "recovery_lock_release_api_v1_recovery_locks_release_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LockActionBody"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/recovery/locks/recover": {
-      "post": {
-        "tags": [
-          "recovery"
-        ],
-        "summary": "Recovery Lock Recover",
-        "operationId": "recovery_lock_recover_api_v1_recovery_locks_recover_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LockRecoverBody"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/story/code/activation": {
-      "get": {
-        "operationId": "story_activation_status_api_v1_story_code_activation_get",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Story Activation Status",
-        "tags": [
-          "story-code-workbench"
-        ]
-      }
-    },
-    "/api/v1/story/code/activation/prepare": {
-      "post": {
-        "operationId": "story_activation_prepare_api_v1_story_code_activation_prepare_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Story Activation Prepare",
-        "tags": [
-          "story-code-workbench"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoryActivationPrepareBody"
-              }
-            }
-          },
-          "required": true
-        }
-      }
-    },
-    "/api/v1/story/code/activation/start": {
-      "post": {
-        "operationId": "story_activation_start_api_v1_story_code_activation_start_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Story Activation Start",
-        "tags": [
-          "story-code-workbench"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StoryActivationStartBody"
-              }
-            }
-          },
-          "required": true
-        }
-      }
-    },
-    "/api/v1/docs": {
-      "get": {
-        "operationId": "api_docs",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "api.docs",
-        "tags": [
-          "devpilot"
-        ]
-      }
-    },
-    "/api/v1/guided-sdlc/pre-code/architecture-adrs/apply": {
-      "post": {
-        "operationId": "guided_sdlc_pre_code_architecture_adrs_apply",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "guided_sdlc.pre_code.architecture_adrs.apply",
-        "tags": [
-          "guided-sdlc"
-        ]
-      }
-    },
-    "/api/v1/guided-sdlc/pre-code/architecture-adrs/approval-request": {
-      "post": {
-        "operationId": "guided_sdlc_pre_code_architecture_adrs_approval_request",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "guided_sdlc.pre_code.architecture_adrs.approval_request",
-        "tags": [
-          "guided-sdlc"
-        ]
-      }
-    },
-    "/api/v1/guided-sdlc/pre-code/architecture-adrs/prepare": {
-      "post": {
-        "operationId": "guided_sdlc_pre_code_architecture_adrs_prepare",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "guided_sdlc.pre_code.architecture_adrs.prepare",
-        "tags": [
-          "guided-sdlc"
-        ]
-      }
-    },
-    "/api/v1/guided-sdlc/pre-code/miasi/applicability": {
-      "post": {
-        "operationId": "guided_sdlc_pre_code_miasi_applicability",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "guided_sdlc.pre_code.miasi_applicability",
-        "tags": [
-          "guided-sdlc"
-        ]
-      }
-    },
-    "/api/v1/openapi.json": {
-      "get": {
-        "operationId": "api_openapi",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "api.openapi",
-        "tags": [
-          "devpilot"
-        ]
-      }
-    },
-    "/api/v1/planning/authoring-context": {
-      "get": {
-        "operationId": "planning_authoring_status",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "planning.authoring.status",
-        "tags": [
-          "planning"
-        ]
-      }
-    },
-    "/api/v1/planning/backlog/derive": {
-      "post": {
-        "operationId": "planning_backlog_derive",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "planning.backlog.derive",
-        "tags": [
-          "planning"
-        ]
-      }
-    },
-    "/api/v1/planning/roadmap/generate": {
-      "post": {
-        "operationId": "planning_roadmap_generate",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "planning.roadmap.generate",
-        "tags": [
-          "planning"
-        ]
-      }
-    },
-    "/api/v1/planning/sprint/derive": {
-      "post": {
-        "operationId": "planning_sprint_derive",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "planning.sprint.derive",
-        "tags": [
-          "planning"
-        ]
-      }
     }
   },
   "x-devpilot": {
@@ -12478,11 +12584,11 @@
     "status": "local-qualified"
   },
   "x-devpilot-gsdlc-13-d-01": {
-    "status": "corrective-candidate",
-    "routes_total": 3,
-    "story_activation_bridge": true,
+    "full_regression_runs": 0,
     "planning_mutation_enabled": false,
+    "routes_total": 3,
     "source_write_enabled": false,
-    "full_regression_runs": 0
+    "status": "corrective-candidate",
+    "story_activation_bridge": true
   }
 }

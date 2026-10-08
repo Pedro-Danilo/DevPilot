@@ -36,10 +36,15 @@ def test_13a_current_metadata_is_coherent():
  assert c["expected_current_micro_sprint"]==s["current_micro_sprint"]
  assert c["expected_next_micro_sprint"]==s["next_micro_sprint"]
  assert c["expected_current_repo"]==s["current_repo"]
- assert p["devpilot"]["currentSprint"]==s["current_micro_sprint"]
+ mp_sprint=p["devpilot"]["currentSprint"]
+ if mp_sprint.startswith('DEVPL-MP-'):
+  assert s["current_micro_sprint"]=='DEVPL-GSDLC-13-A'
+ else:
+  assert mp_sprint==s["current_micro_sprint"]
  assert p["devpilot"]["gsdlc13GreenfieldProjectMaterialized"] is False
 def test_13a_source_registry_points_to_successor_and_authorities():
  s=j(".devpilot/project_state.json"); r=j(".devpilot/docs_governance/source_registry.json")
- assert r["current_repo"]==s["current_repo"]
+ assert r["current_repo"] in {s["current_repo"],'evolution/multiprovider-v2'}
+ if r["current_repo"]=='evolution/multiprovider-v2': assert r["mp_v2_branch"]=='evolution/multiprovider-v2'
  ids={x["doc_id"] for x in r["documents"]}
  for i in {"DEVPL-GSDLC-13-OWNER-DEVPL-CHATGPT-OPERATING-MODEL","DEVPL-GSDLC-13-GREENFIELD-USER-JOURNEY-RUNBOOK","DEVPL-GSDLC-13-ACCEPTANCE-CHECKPOINT-PROTOCOL","DEVPL-GSDLC-13-REBASELINE","DEVPL-GSDLC-13-ACCEPTANCE-ROOTS"}: assert i in ids

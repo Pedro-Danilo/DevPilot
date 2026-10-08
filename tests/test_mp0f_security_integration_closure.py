@@ -377,8 +377,10 @@ def test_settings_progressive_disclosure_bounds_long_surface_without_changing_au
     settings = (ROOT / "ui/web/src/pages/SettingsView.ts").read_text(encoding="utf-8")
     control = (ROOT / "ui/web/src/components/AIControlCenterView.ts").read_text(encoding="utf-8")
 
-    assert "contextDisclosure.dataset.settingsSection = 'platform-context'" in settings
-    assert "providerDisclosure.dataset.settingsSection = 'provider-configuration'" in settings
+    assert "function disclosure(id: string, label: string, body: HTMLElement)" in settings
+    assert "node.dataset.settingsSection = id" in settings
+    assert "disclosure('platform-context', 'Contexto técnico, policy y seguridad', grid)" in settings
+    assert "disclosure('provider-configuration', 'Providers y plan de configuración', providerGrid)" in settings
     assert "progressive-evidence settings-section-disclosure" in settings
     for section_id in ("agent-runtime", "grounding-rag", "agent-evals", "skills-tools", "model-gateway"):
         assert f"renderSettingsSectionDisclosure('{section_id}'" in control

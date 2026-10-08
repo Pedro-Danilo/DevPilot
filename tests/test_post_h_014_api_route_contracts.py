@@ -164,6 +164,7 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
     for successor_route_id in {
         "api.story-source-change.apply",
         "api.story-source-change.rollback",
+        "api.guided-sdlc.pre-code.architecture-adrs.apply",
     }:
         if successor_route_id in mutating_ids:
             expected_source_mutating.add(successor_route_id)
@@ -198,8 +199,11 @@ def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() 
 
     for route in source_mutating:
         assert route["risk_level"] == "high"
-        assert any(tag in {"uoc-005", "uoc-006", "gsdlc-03-d", "gsdlc-09-c"} for tag in route["tags"])
-        assert str(route["policy_sensitivity"]).startswith("approval-bound-")
+        assert any(tag in {"uoc-005", "uoc-006", "gsdlc-03-d", "gsdlc-09-c", "gsdlc-13-c-02"} for tag in route["tags"])
+        if route["route_id"] == "api.guided-sdlc.pre-code.architecture-adrs.apply":
+            assert route["policy_sensitivity"] == "protected-human-session-gsdlc-13-c-02-adrs"
+        else:
+            assert str(route["policy_sensitivity"]).startswith("approval-bound-")
         # Historical UOC source writes use read at the API front-door and revalidate
         # exact approval in the owning service. GSDLC-03-D uses the named sensitive
         # action directly; both remain owner-bound and local-only.

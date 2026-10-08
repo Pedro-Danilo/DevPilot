@@ -12,6 +12,7 @@ from statistics import quantiles
 from typing import Any
 
 from devpilot_core.agents.execution_policy import AgentExecutionPolicy, ToolIntent
+from devpilot_core.application import AuthApplicationService
 from devpilot_core.application.release_lifecycle_service import _safe_extract
 from devpilot_core.mcp.fake_server import FakeMcpRequest, LocalFakeMcpServer
 from devpilot_core.identity.session_service import LocalAuthService, CsrfInvalid, SessionInvalid
@@ -77,7 +78,7 @@ class IndustrialHardeningEvaluator:
         }
         with tempfile.TemporaryDirectory(prefix='devpilot-12d-api-auth-') as auth_tmp:
             token = 'gsdlc12d-performance-local-token'
-            auth = LocalAuthService(Path(auth_tmp))
+            auth = AuthApplicationService(Path(auth_tmp))
             start = time.perf_counter(); app = create_app(self.root, api_token=token, auth_service=auth); app_create_ms = _ms(start)
             headers = {'X-DevPilot-Token': token, 'Origin': 'http://127.0.0.1:5173'}
             api_specs = {

@@ -59,7 +59,8 @@ def test_guided_copy_keeps_technical_detail_available_progressively():
     planning = read("ui/web/src/pages/RoadmapWorkbenchView.ts")
     assert "Ver razón técnica" in status
     assert "Ver contrato técnico del Artifact Workbench" in docs
-    assert "Editar contenido técnico JSON" in planning
+    assert "Ver/editar JSON técnico avanzado" in planning
+    assert "planning-json-disclosure" in planning
 
 
 def test_current_project_state_points_to_ux_p0_c_successor():

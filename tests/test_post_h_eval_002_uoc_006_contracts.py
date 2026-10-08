@@ -110,12 +110,13 @@ def test_uoc006_api_routes_are_exact_typed_local_and_no_go_stays_blocked() -> No
     successor_mutations = {
         rid for rid, route in routes.items()
         if route.get("source_mutation_allowed") is True
-        and ({"gsdlc-05-e", "gsdlc-09-c"} & set(route.get("tags", [])))
+        and ({"gsdlc-05-e", "gsdlc-09-c", "gsdlc-13-c-02"} & set(route.get("tags", [])))
     }
     assert successor_mutations == {
         "api.guided-sdlc.pre-code.apply",
         "api.story-source-change.apply",
         "api.story-source-change.rollback",
+        "api.guided-sdlc.pre-code.architecture-adrs.apply",
     }
     # UOC-006 remains frozen; later source-write successors are recognized without rewriting the historical close.
     assert historical_mutations | successor_mutations == source_mutations

@@ -43,8 +43,10 @@ def test_sensitive_action_cross_registry_mapping_is_total():
 def test_documentation_global_and_gsdlc_pointers_have_distinct_authority():
     state=j(".devpilot/project_state.json"); reg=j(".devpilot/docs_governance/source_registry.json")
     assert reg["last_registered_sprint"]==state["last_registered_sprint"]
-    assert reg["gsdlc_last_registered_micro_sprint"]==state["gsdlc_current_micro_sprint"]
+    assert reg["gsdlc_last_registered_micro_sprint"]==state["gsdlc_last_registered_micro_sprint"]
     assert reg["gsdlc_program_status"]==state["gsdlc_program_status"]
+    assert reg["gsdlc_13_d_legacy_current_pointer_policy"]=="NON-AUTHORITATIVE-FOR-13D/USE-PREFLIGHT-AUTHORITY-RECORD"
+    assert reg["gsdlc_13_d_preflight_authority_path"]==state["gsdlc_13_d_preflight_authority_path"]
 
 def test_02a_historical_sources_use_frozen_snapshots():
     assert (ROOT/".devpilot/identity/identity_registry_gsdlc02a_at_close.json").is_file()

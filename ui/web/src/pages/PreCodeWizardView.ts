@@ -150,7 +150,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const caps=declared?capabilities.value.split(',').map(x=>x.trim()).filter(Boolean):[];
       try{const r=await client().preCodeMiasiApplicability({declared_ai_usage:declared,capabilities:caps,risk_level:(declared?risk.value:'low') as 'low'|'medium'|'medium_high'|'high'|'critical',evidence_refs:['owner-confirmed:13-C-03']});if(!r.ok)throw new Error(formatFindings(r));await load(declared?'MIASI evaluada. Revisa controles faltantes antes de avanzar.':'MIASI NOT_APPLICABLE confirmada por el Owner; readiness estricta fue reevaluada.');}catch(e){await renderGovernedError(feedback,e);}
     });
-    const disclosure=renderTechnicalDisclosure('Qué cambia y qué no cambia','La decisión se persiste en outputs/workspaces/<workspace>/miasi_applicability_context.json. No edita docs/standards, no ejecuta modelos/agentes/RAG ni usa red/API externa. Tampoco falsifica el phase-state del registry MIPSoftware global: Pre-code conserva su evidencia de conformidad bounded y el registry formal permanece explícitamente separado hasta disponer de un mapping gobernado.');
+    const disclosure=renderTechnicalDisclosure('Qué cambia y qué no cambia','La decisión se guarda como evidencia runtime local del workspace a través de la API gobernada. No edita estándares, no ejecuta modelos/agentes/RAG ni usa red externa; el registry MIPSoftware conserva autoridad separada.');
     form.append(label,select,riskLabel,risk,capabilities,submit); section.append(h,p,state,form,feedback,disclosure); return section;
   }
 

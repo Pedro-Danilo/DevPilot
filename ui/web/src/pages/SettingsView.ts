@@ -50,6 +50,16 @@ function status(response?: DevPilotApplicationResponse, error?: string): string 
   return response.ok ? 'PASS' : 'BLOCK';
 }
 
+function disclosure(id: string, label: string, body: HTMLElement): HTMLDetailsElement {
+  const node = document.createElement('details');
+  node.className = 'progressive-evidence settings-section-disclosure';
+  node.dataset.settingsSection = id;
+  const summary = document.createElement('summary');
+  summary.textContent = label;
+  node.append(summary, body);
+  return node;
+}
+
 export function renderSettingsView(client: DevPilotApiClient, token: () => string): HTMLElement {
   const root = document.createElement('section');
   root.className = 'panel settings-panel';
@@ -301,13 +311,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       renderDataCard('Política de plataforma', 'PolicyEngine, CostGuard y MIASI policy matrix de DevPilot.', state.policy, state.errors.policy, state.durations.policy),
       renderDataCard('Postura de seguridad', 'Token requerido, CORS local restrictivo y capacidades sensibles deshabilitadas.', state.securityPosture, state.errors.securityPosture, state.durations.securityPosture, true)
     );
-    const contextDisclosure = document.createElement('details');
-    contextDisclosure.className = 'progressive-evidence settings-section-disclosure';
-    contextDisclosure.dataset.settingsSection = 'platform-context';
-    const contextSummary = document.createElement('summary');
-    contextSummary.textContent = 'Contexto técnico, policy y seguridad';
-    contextDisclosure.append(contextSummary, grid);
-    root.append(contextDisclosure);
+    root.append(disclosure('platform-context', 'Contexto técnico, policy y seguridad', grid));
 
     const providerGrid = document.createElement('div');
     providerGrid.className = 'grid two-cols';
@@ -334,13 +338,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     `;
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());
     providerGrid.append(providers, editor);
-    const providerDisclosure = document.createElement('details');
-    providerDisclosure.className = 'progressive-evidence settings-section-disclosure';
-    providerDisclosure.dataset.settingsSection = 'provider-configuration';
-    const providerSummary = document.createElement('summary');
-    providerSummary.textContent = 'Providers y plan de configuración';
-    providerDisclosure.append(providerSummary, providerGrid);
-    root.append(providerDisclosure);
+    root.append(disclosure('provider-configuration', 'Providers y plan de configuración', providerGrid));
 
     const aiControlCenter = document.createElement('section');
     aiControlCenter.innerHTML = renderAIControlCenterShell({

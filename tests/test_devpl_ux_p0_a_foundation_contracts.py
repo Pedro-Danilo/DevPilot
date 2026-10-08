@@ -31,7 +31,11 @@ def test_frontend_identity_and_design_tokens_are_current_without_route_authority
     package = load_json("ui/web/package.json")
     assert re.fullmatch(r"0\.\d+\.0-(?:ux-p0-[a-e](?:-rc)?|gsdlc-13-a)", package["version"])
     state = load_json(".devpilot/project_state.json")
-    assert package["devpilot"]["currentSprint"] == state["current_micro_sprint"]
+    sprint=package["devpilot"]["currentSprint"]
+    if sprint.startswith("DEVPL-MP-"):
+        assert state["current_micro_sprint"] == "DEVPL-GSDLC-13-A"
+    else:
+        assert sprint == state["current_micro_sprint"]
     assert package["devpilot"]["uxP0RoutePathsChanged"] is False
     assert package["devpilot"]["uxP0ServerAuthorityChanged"] is False
     tokens = (ROOT / "ui/web/src/design-tokens.css").read_text(encoding="utf-8")

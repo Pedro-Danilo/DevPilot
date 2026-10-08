@@ -96,4 +96,6 @@ def test_backlog_and_readme_record_01_d_closure() -> None:
 def test_no_pilot_workspace_or_browser_evidence_is_versioned() -> None:
     assert not (ROOT / "workspaces/inventory-sales-local").exists()
     assert not (ROOT / "evidence/PILOT-E2E-001/03_ui_baseline_acceptance").exists()
-    assert not list(ROOT.rglob("*.png"))
+    runtime_parts={".venv","node_modules","outputs",".pytest_cache","__pycache__"}
+    versionable_pngs=[p for p in ROOT.rglob("*.png") if not (set(p.relative_to(ROOT).parts) & runtime_parts)]
+    assert not versionable_pngs
