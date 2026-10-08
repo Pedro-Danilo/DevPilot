@@ -13,6 +13,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.guided_sdlc.step_action_advisor import AdvisorContext, ExecutionModeAdvisor
+from devpilot_core.generation import DeterministicProductDefinitionProvider, GenerationRequest, artifact_type_for_stage, select_product_definition_dependency_profile
 from devpilot_core.policy.path_guard import PathGuard
 from devpilot_core.miasi.applicability import MIASIApplicabilityEvaluator
 from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
@@ -708,18 +709,38 @@ class PreCodeWizardApplicationService:
             'upstream':upstream,
         }
         canonical_json=json.dumps(canonical_input,sort_keys=True,separators=(',',':'),ensure_ascii=False)
-        content=self._proposal_markdown(
-            stage_id=stage_id,workspace_id=workspace_id,project_name=name,business_need=need,
-            document_date=document_date,constraints=constraints,model_policy=model_policy,upstream=upstream,semantic_model=semantic_model,
+        artifact_type=artifact_type_for_stage(stage_id)
+        profile=self.profiles.select(self.root/str(self._stage_by_id[stage_id]['relative_path']))
+        dependency_profile=select_product_definition_dependency_profile(self.root,artifact_type)
+        upstream_hashes={str(row['path']):str(row['sha256']) for row in refs}
+        request=GenerationRequest(
+            request_id=f"c01-{workspace_id}-{stage_id}-{_sha_bytes(canonical_json.encode('utf-8'))[:16]}",
+            artifact_type=artifact_type,
+            profile_version=profile.profile_version,
+            dependency_profile_version=dependency_profile.profile_version,
+            upstream_hashes=upstream_hashes,
+            owner_inputs={'semantic_model_sha256':semantic_hash(semantic_model),'owner_semantic_reviewed':bool(semantic_model.get('owner_semantic_reviewed'))},
+            preferred_route='deterministic',allowed_routes=('deterministic',),
+            policy_snapshot={'network':'deny','external_api':False,'source_write':False,'apply_authority':False},
+            budget_snapshot={'max_cost_usd':0.0},context_reference=f"pre-code:{workspace_id}:{stage_id}",
         )
+        render_input={
+            'stage_id':stage_id,'workspace_id':workspace_id,'project_name':name,'business_need':need,
+            'document_date':document_date,'constraints':constraints,'model_policy':model_policy,'upstream':upstream,'semantic_model':semantic_model,
+        }
+        provider=DeterministicProductDefinitionProvider(lambda value:self._proposal_markdown(**dict(value)))
+        candidate=provider.generate(request,render_input)
+        content=str(candidate.payload['content'])
+        candidate_meta=candidate.to_dict(); candidate_meta.pop('payload',None)
         derivation={
             'schema_id':DERIVATION_SCHEMA,
-            'mode':'DEVPL_MOCK','provider':'devpilot-local','model':DERIVATION_MODEL,
+            'mode':'DEVPL_MOCK','provider':provider.provider_id,'model':provider.model_id,
             'network_used':False,'external_api_used':False,'cost_usd':0.0,
             'source_refs':refs,'canonical_input_sha256':_sha_bytes(canonical_json.encode('utf-8')),
             'generated_content_sha256':_sha_text(content),
             'semantic_model_sha256':semantic_hash(semantic_model),'semantic_model_schema_id':semantic_model.get('schema_id'),'owner_semantic_reviewed':bool(semantic_model.get('owner_semantic_reviewed')),
             'owner_review_required':True,'approval_required_before_source_write':True,
+            'generation_request':request.to_dict(),'candidate_envelope':candidate_meta,'provider_contract':'GenerationProvider',
         }
         return content,derivation
 

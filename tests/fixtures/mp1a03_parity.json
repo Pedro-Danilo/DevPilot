@@ -1,0 +1,26 @@
+{
+  "schema_id": "devpilot.mp1a03.parity-fixtures.v1",
+  "version": "1.0.0",
+  "cases": [
+    {
+      "stage_id": "product-vision",
+      "expected_content_sha256": "4dc84c8d61ddf79f5a092acdc2209957d35ae19d4338a58671100dbb42c33b13",
+      "upstream": {}
+    },
+    {
+      "stage_id": "scope",
+      "expected_content_sha256": "2bf7f06bea48dcdffe26e4489f4b1c32054014efcdbfd8b570ddf954bb9638ca",
+      "upstream": {
+        "product-vision": "---\n# Product Vision\n\nFrozen fixture vision.\n"
+      }
+    },
+    {
+      "stage_id": "requirements",
+      "expected_content_sha256": "f2a7b8a76562e66e949cb06f3ec088bf88993b114b0205737d180b3a9124ef31",
+      "upstream": {
+        "product-vision": "---\n# Product Vision\n\nFrozen fixture vision.\n",
+        "scope": "---\n# MVP Scope\n\nFrozen fixture scope.\n"
+      }
+    }
+  ]
+}

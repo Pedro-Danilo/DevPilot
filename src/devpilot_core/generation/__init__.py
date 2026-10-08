@@ -6,6 +6,7 @@ and MP-0D adds provider runtime governance/provenance/observability contracts wi
 """
 
 from .compatibility import wrap_technical_design_candidate
+from .product_definition import DeterministicProductDefinitionProvider, artifact_type_for_stage
 from .dependencies import (
     ArtifactAuthorityRecord,
     ArtifactDependencyProfile,
@@ -109,4 +110,6 @@ __all__ = [
     "provider_authority_surface",
     "provider_runtime_span",
     "wrap_technical_design_candidate",
+    "DeterministicProductDefinitionProvider",
+    "artifact_type_for_stage",
 ]
