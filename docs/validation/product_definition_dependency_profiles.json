@@ -1,0 +1,169 @@
+{
+  "schema_id": "devpilot.product-definition.dependency-profiles.v1",
+  "version": "1.0.0",
+  "status": "approved",
+  "profiles": [
+    {
+      "profile_id": "product-vision-inputs",
+      "artifact_type": "product-vision",
+      "profile_version": "1.0.0",
+      "required_upstream": [
+        {
+          "artifact_type": "project-context",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "business-need",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "owner-constraints",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        }
+      ],
+      "optional_supporting": [],
+      "decision_register_types": [
+        "owner-decision"
+      ],
+      "policy_refs": [
+        "MP_V2_ARTIFACT_DEPENDENCY_PROFILE_STANDARD_v1_0_0_APPROVED.md"
+      ],
+      "allowed_namespaces": [
+        "project"
+      ],
+      "excluded_sources": [
+        "outputs/*",
+        "*draft*"
+      ],
+      "max_context_tokens": 4096,
+      "grounding_step_id": null,
+      "grounding_required": false
+    },
+    {
+      "profile_id": "mvp-scope-inputs",
+      "artifact_type": "mvp-scope",
+      "profile_version": "1.0.0",
+      "required_upstream": [
+        {
+          "artifact_type": "product-vision",
+          "min_authority_rank": 100,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "project-context",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "owner-decision-register",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        }
+      ],
+      "optional_supporting": [],
+      "decision_register_types": [
+        "owner-decision"
+      ],
+      "policy_refs": [
+        "MP_V2_ARTIFACT_DEPENDENCY_PROFILE_STANDARD_v1_0_0_APPROVED.md"
+      ],
+      "allowed_namespaces": [
+        "project"
+      ],
+      "excluded_sources": [
+        "outputs/*",
+        "*draft*"
+      ],
+      "max_context_tokens": 6144,
+      "grounding_step_id": null,
+      "grounding_required": false
+    },
+    {
+      "profile_id": "requirements-inputs",
+      "artifact_type": "requirements-specification",
+      "profile_version": "1.0.0",
+      "required_upstream": [
+        {
+          "artifact_type": "product-vision",
+          "min_authority_rank": 100,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "mvp-scope",
+          "min_authority_rank": 100,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "decision-register",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        },
+        {
+          "artifact_type": "constraints",
+          "min_authority_rank": 80,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        }
+      ],
+      "optional_supporting": [
+        {
+          "artifact_type": "business-need",
+          "min_authority_rank": 50,
+          "required_lifecycle": "FROZEN",
+          "max_age_days": null,
+          "namespace": "project",
+          "allow_unknown_freshness": true
+        }
+      ],
+      "decision_register_types": [
+        "owner-decision",
+        "constraint-decision"
+      ],
+      "policy_refs": [
+        "MP_V2_ARTIFACT_DEPENDENCY_PROFILE_STANDARD_v1_0_0_APPROVED.md"
+      ],
+      "allowed_namespaces": [
+        "project"
+      ],
+      "excluded_sources": [
+        "outputs/*",
+        "*draft*"
+      ],
+      "max_context_tokens": 8192,
+      "grounding_step_id": null,
+      "grounding_required": false
+    }
+  ]
+}

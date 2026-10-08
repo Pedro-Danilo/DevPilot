@@ -1,0 +1,137 @@
+{
+  "valid_payloads": {
+    "product-vision": {
+      "schema_id": "devpilot.product-definition.product-vision.v1",
+      "problem": "Teams lack traceable local-first engineering assistance.",
+      "vision": "Provide governed local-first assisted engineering.",
+      "mvp_outcomes": [
+        "Traceable product-definition workflow"
+      ],
+      "indicators": [
+        "Owner can inspect lineage"
+      ],
+      "claims": [
+        {
+          "claim": "Local-first is an Owner constraint.",
+          "source_refs": [
+            "owner-constraints#local-first"
+          ]
+        }
+      ],
+      "assumptions": [
+        "Pilot volume remains bounded."
+      ],
+      "open_questions": [
+        "Which KPI threshold closes Pilot B?"
+      ]
+    },
+    "mvp-scope": {
+      "schema_id": "devpilot.product-definition.mvp-scope.v1",
+      "vision_ref": "product-vision#sha256:abc",
+      "in_scope": [
+        "Product-definition workflow"
+      ],
+      "out_of_scope": [
+        "ExternalModel execution"
+      ],
+      "constraints": [
+        "Local-first"
+      ],
+      "claims": [
+        {
+          "claim": "ExternalModel remains disabled.",
+          "source_refs": [
+            "program#external-model-disabled"
+          ]
+        }
+      ],
+      "assumptions": [],
+      "open_questions": []
+    },
+    "requirements-specification": {
+      "schema_id": "devpilot.product-definition.requirements.v1",
+      "vision_ref": "product-vision#sha256:abc",
+      "scope_ref": "mvp-scope#sha256:def",
+      "functional_requirements": [
+        {
+          "id": "RF-001",
+          "statement": "The system shall preserve lineage.",
+          "source_refs": [
+            "mvp-scope#traceability"
+          ],
+          "acceptance_criteria": [
+            "Lineage references are queryable."
+          ]
+        }
+      ],
+      "non_functional_requirements": [
+        {
+          "id": "RNF-001",
+          "statement": "The workflow shall remain local-first.",
+          "source_refs": [
+            "owner-constraints#local-first"
+          ],
+          "acceptance_criteria": [
+            "No external network call occurs."
+          ]
+        }
+      ],
+      "constraints": [
+        "ExternalModel disabled"
+      ],
+      "assumptions": [],
+      "open_questions": []
+    }
+  },
+  "invalid_payloads": {
+    "product-vision-unsupported-claim": {
+      "schema_id": "devpilot.product-definition.product-vision.v1",
+      "problem": "x",
+      "vision": "y",
+      "mvp_outcomes": [
+        "z"
+      ],
+      "indicators": [
+        "i"
+      ],
+      "claims": [
+        {
+          "claim": "Invented fact",
+          "source_refs": []
+        }
+      ],
+      "assumptions": [],
+      "open_questions": []
+    },
+    "requirements-missing-acceptance": {
+      "schema_id": "devpilot.product-definition.requirements.v1",
+      "vision_ref": "v",
+      "scope_ref": "s",
+      "functional_requirements": [
+        {
+          "id": "RF-001",
+          "statement": "x",
+          "source_refs": [
+            "s#1"
+          ],
+          "acceptance_criteria": []
+        }
+      ],
+      "non_functional_requirements": [
+        {
+          "id": "RNF-001",
+          "statement": "y",
+          "source_refs": [
+            "s#2"
+          ],
+          "acceptance_criteria": [
+            "ok"
+          ]
+        }
+      ],
+      "constraints": [],
+      "assumptions": [],
+      "open_questions": []
+    }
+  }
+}

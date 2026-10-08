@@ -386,3 +386,38 @@ class ArtifactDependencyResolver:
             "network_used": bool((pack.get("safety") or {}).get("network_used", False)),
             "external_api_used": bool((pack.get("safety") or {}).get("external_api_used", False)),
         }
+
+
+DEFAULT_PRODUCT_DEFINITION_DEPENDENCY_PROFILES_PATH = Path("docs/validation/product_definition_dependency_profiles.json")
+
+def load_product_definition_dependency_profiles(root: Path, path: str | Path = DEFAULT_PRODUCT_DEFINITION_DEPENDENCY_PROFILES_PATH) -> tuple[ArtifactDependencyProfile, ...]:
+    """Load MP-1 Product Definition dependency contracts into the existing resolver model.
+
+    The data file is a contract catalog only; resolution remains exclusively in
+    :class:`ArtifactDependencyResolver`. Unknown or malformed rows fail closed.
+    """
+    root = Path(root).resolve()
+    payload = json.loads((root / Path(path)).read_text(encoding="utf-8"))
+    if payload.get("schema_id") != "devpilot.product-definition.dependency-profiles.v1" or payload.get("status") != "approved":
+        raise ArtifactDependencyResolutionError("product definition dependency profile catalog is not approved")
+    profiles: list[ArtifactDependencyProfile] = []
+    seen: set[str] = set()
+    for item in payload.get("profiles", []):
+        profile_id = _non_empty(item.get("profile_id"), "profile_id")
+        if profile_id in seen:
+            raise ArtifactDependencyResolutionError(f"duplicate dependency profile: {profile_id}")
+        seen.add(profile_id)
+        def req(row: Mapping[str, Any]) -> DependencyRequirement:
+            return DependencyRequirement(artifact_type=str(row.get("artifact_type") or ""), min_authority_rank=int(row.get("min_authority_rank", 0)), required_lifecycle=str(row.get("required_lifecycle") or "FROZEN"), max_age_days=row.get("max_age_days"), namespace=row.get("namespace"), allow_unknown_freshness=bool(row.get("allow_unknown_freshness", False)))
+        profiles.append(ArtifactDependencyProfile(profile_id=profile_id, artifact_type=str(item.get("artifact_type") or ""), profile_version=str(item.get("profile_version") or "1.0.0"), required_upstream=tuple(req(row) for row in item.get("required_upstream", [])), optional_supporting=tuple(req(row) for row in item.get("optional_supporting", [])), decision_register_types=tuple(str(v) for v in item.get("decision_register_types", [])), policy_refs=tuple(str(v) for v in item.get("policy_refs", [])), allowed_namespaces=tuple(str(v) for v in item.get("allowed_namespaces", [])), excluded_sources=tuple(str(v) for v in item.get("excluded_sources", [])), max_context_tokens=int(item.get("max_context_tokens", 4096)), grounding_step_id=item.get("grounding_step_id"), grounding_required=bool(item.get("grounding_required", False))))
+    expected = {"product-vision", "mvp-scope", "requirements-specification"}
+    actual = {p.artifact_type for p in profiles}
+    if actual != expected:
+        raise ArtifactDependencyResolutionError(f"product definition dependency profiles incomplete: {sorted(actual)}")
+    return tuple(profiles)
+
+def select_product_definition_dependency_profile(root: Path, artifact_type: str) -> ArtifactDependencyProfile:
+    matches = [p for p in load_product_definition_dependency_profiles(root) if p.artifact_type == artifact_type]
+    if len(matches) != 1:
+        raise ArtifactDependencyResolutionError(f"dependency profile unavailable or ambiguous: {artifact_type}")
+    return matches[0]

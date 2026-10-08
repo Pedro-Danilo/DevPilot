@@ -13,6 +13,8 @@ from .dependencies import (
     ArtifactDependencyResolver,
     DependencyRequirement,
     ResolvedArtifactContext,
+    load_product_definition_dependency_profiles,
+    select_product_definition_dependency_profile,
 )
 from .runtime import (
     FallbackDecision,
@@ -67,6 +69,8 @@ __all__ = [
     "ArtifactDependencyResolver",
     "DependencyRequirement",
     "ResolvedArtifactContext",
+    "load_product_definition_dependency_profiles",
+    "select_product_definition_dependency_profile",
     "DeterministicEquivalenceHarness",
     "EquivalenceContract",
     "EquivalenceMode",

@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/product_definition_dependency_profiles.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PRODUCT-DEFINITION-DEPENDENCY-PROFILES-V1",
+  "title": "DevPilot Product Definition Dependency Profiles v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "version",
+    "status",
+    "profiles"
+  ],
+  "properties": {
+    "schema_id": {
+      "const": "devpilot.product-definition.dependency-profiles.v1"
+    },
+    "version": {
+      "const": "1.0.0"
+    },
+    "status": {
+      "const": "approved"
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "$ref": "#/$defs/profile"
+      }
+    }
+  },
+  "$defs": {
+    "req": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_type",
+        "min_authority_rank",
+        "required_lifecycle"
+      ],
+      "properties": {
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "min_authority_rank": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_lifecycle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "max_age_days": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "namespace": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allow_unknown_freshness": {
+          "type": "boolean"
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "artifact_type",
+        "profile_version",
+        "required_upstream",
+        "optional_supporting",
+        "decision_register_types",
+        "policy_refs",
+        "allowed_namespaces",
+        "excluded_sources",
+        "max_context_tokens",
+        "grounding_step_id",
+        "grounding_required"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "required_upstream": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/req"
+          }
+        },
+        "optional_supporting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/req"
+          }
+        },
+        "decision_register_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "policy_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_namespaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "excluded_sources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "max_context_tokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "grounding_step_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "grounding_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

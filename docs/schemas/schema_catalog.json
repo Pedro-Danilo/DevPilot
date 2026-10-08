@@ -5,7 +5,7 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-09-24",
+  "updated": "2026-10-08",
   "sprint": "DEVPL-GSDLC-12-A",
   "preliminary": true,
   "purpose": "Authoritative local schema catalog including GSDLC-06-A Model Capability Catalog contract.",
@@ -4107,7 +4107,63 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "DEVPL-GSDLC-13-C-01-PRECODE-STRUCTURE-DERIVATION-CORRECTIVE"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PRODUCT-VISION-PAYLOAD-V1",
+      "title": "DevPilot Product Vision Payload v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/product_vision_payload.schema.json",
+      "description": "MP-1A-02 structured Product Vision payload contract with grounded claim source refs and explicit uncertainty.",
+      "status": "registered",
+      "contract": "ProductVisionPayload",
+      "owner": "Ordóñez",
+      "sprint": "MP-1A-02",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "MP-1A-02"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MVP-SCOPE-PAYLOAD-V1",
+      "title": "DevPilot MVP Scope Payload v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/mvp_scope_payload.schema.json",
+      "description": "MP-1A-02 structured MVP Scope payload contract with FROZEN Vision binding and grounded claims.",
+      "status": "registered",
+      "contract": "MvpScopePayload",
+      "owner": "Ordóñez",
+      "sprint": "MP-1A-02",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "MP-1A-02"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-REQUIREMENTS-PAYLOAD-V1",
+      "title": "DevPilot Requirements Payload v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/requirements_payload.schema.json",
+      "description": "MP-1A-02 structured Requirements payload contract with source-bound RF/RNF and acceptance criteria.",
+      "status": "registered",
+      "contract": "RequirementsPayload",
+      "owner": "Ordóñez",
+      "sprint": "MP-1A-02",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "MP-1A-02"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PRODUCT-DEFINITION-DEPENDENCY-PROFILES-V1",
+      "title": "DevPilot Product Definition Dependency Profiles v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/product_definition_dependency_profiles.schema.json",
+      "description": "MP-1A-02 dependency-profile catalog contract for Product Vision, MVP Scope and Requirements authoritative upstream selection.",
+      "status": "registered",
+      "contract": "ProductDefinitionDependencyProfiles",
+      "owner": "Ordóñez",
+      "sprint": "MP-1A-02",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "MP-1A-02"
     }
   ],
-  "schemas_total": 287
+  "schemas_total": 291
 }

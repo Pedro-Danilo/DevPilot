@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP-0F",
+  "current_micro_sprint": "MP-1A-02",
   "current_phase": "DEVPL-MULTIPROVIDER-V2-MP-0",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
@@ -38987,6 +38987,116 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "MP-1A-02-DEPENDENCY-PROFILES",
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [
+        "docs/schemas/product_definition_dependency_profiles.schema.json"
+      ],
+      "notes": [
+        "MP-1A-02 professional Product Definition contract."
+      ],
+      "owner": "MP-1A-02",
+      "path": "docs/validation/product_definition_dependency_profiles.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp1a02_product_definition_profiles.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1",
+        "MP-1A",
+        "MP-1A-02"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "MP-1A-02-PRODUCT-VISION-PAYLOAD-SCHEMA",
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "MP-1A-02 professional Product Definition contract."
+      ],
+      "owner": "MP-1A-02",
+      "path": "docs/schemas/product_vision_payload.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp1a02_product_definition_profiles.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1",
+        "MP-1A",
+        "MP-1A-02"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "MP-1A-02-MVP-SCOPE-PAYLOAD-SCHEMA",
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "MP-1A-02 professional Product Definition contract."
+      ],
+      "owner": "MP-1A-02",
+      "path": "docs/schemas/mvp_scope_payload.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp1a02_product_definition_profiles.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1",
+        "MP-1A",
+        "MP-1A-02"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "derived_documents": [],
+      "doc_id": "MP-1A-02-REQUIREMENTS-PAYLOAD-SCHEMA",
+      "domain": "multiprovider.product-definition",
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "MP-1A-02 professional Product Definition contract."
+      ],
+      "owner": "MP-1A-02",
+      "path": "docs/schemas/requirements_payload.schema.json",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_mp1a02_product_definition_profiles.py"
+      ],
+      "roadmap_milestones": [
+        "MP-1",
+        "MP-1A",
+        "MP-1A-02"
+      ],
+      "status_required": "implemented-initial",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -39412,7 +39522,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "MP-0F-FINAL-CLOSURE",
+  "last_updated_by": "MP-1A-02-WINDOWS",
   "mp_0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_0_c_successor_commit": "0ff309cf686438dada6e64f0d4714584f3c312a3",
   "mp_0_d_full_regression_runs": 0,
@@ -39423,7 +39533,7 @@
   "mp_0_e_successor_commit": "0eb19e3fc58eca90ed126f3b552d1a3187ee233b",
   "mp_0_f_full_regression_runs": 1,
   "mp_0_f_progressive_disclosure": "IMPLEMENTED / WINDOWS-EVIDENCE-PASS",
-  "mp_0_f_status": "FULL-FAIL-PRESERVED / COMPOSITE-RECOVERY-CANDIDATE",
+  "mp_0_f_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED/PROMOTED",
   "mp_v2_baseline_commit": "758b04be867ca24ed5eda2614ce4053c669076ef",
   "mp_v2_branch": "evolution/multiprovider-v2",
   "mp_v2_mp0_a_status": "CLOSED/PASS+FINDING/WINDOWS-VALIDATED",
@@ -39432,7 +39542,7 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
-  "next_micro_sprint": "MP-1A",
+  "next_micro_sprint": "MP-1A-03",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -41968,23 +42078,23 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1561,
+    "critical_sources_total": 1565,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1657,
-    "documents_with_required_tests_total": 1657,
+    "documents_total": 1661,
+    "documents_with_required_tests_total": 1661,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 33,
-    "last_updated_by": "MP-0F",
-    "machine_readable_source_total": 821,
+    "last_updated_by": "MP-1A-02-WINDOWS",
+    "machine_readable_source_total": 825,
     "markdown_json_pairs_total": 78,
     "mutations_performed": false,
     "network_used": false,
     "source_of_truth_total": 619
   },
-  "updated": "2026-10-07",
-  "updated_at": "2026-10-07",
+  "updated": "2026-10-08",
+  "updated_at": "2026-10-08",
   "updated_by": "MP-0F",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
@@ -42040,5 +42150,11 @@
   "ux_p0_source_repo": "repo_DevPilot_Local_435_DEVPL_UX_P0_D_CROSS_SURFACE_OPERATIONAL_PATTERNS_WINDOWS_VALIDATED_CANDIDATE.zip",
   "ux_p0_source_sha256": "3b07e305c1acf2980f9299d09a1f78c90f6420a070b9b57c3ad24d083fa32805",
   "ux_p0_status": "CLOSED/PASS/WINDOWS-VALIDATED",
-  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip"
+  "ux_p0_successor_repo": "repo_DevPilot_Local_436_DEVPL_UX_P0_E_PRE_PILOT_PRODUCTIZATION_RC_WINDOWS_VALIDATED_CANDIDATE.zip",
+  "mp_1a_01_status": "CLOSED/PASS+FINDING/WINDOWS-ADJUDICATED",
+  "mp_1a_02_status": "PASS/WINDOWS-VALIDATED/OWNER-ADJUDICATION-READY",
+  "mp_1a_02_full_regression_runs": 0,
+  "mp_1a_02_windows_validation_status": "PASS",
+  "mp_1a_02_focal_status": "PASS",
+  "mp_1a_02_impact_status": "PASS"
 }

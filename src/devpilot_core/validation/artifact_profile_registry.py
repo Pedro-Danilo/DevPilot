@@ -107,6 +107,29 @@ class ArtifactProfileRegistry:
         for profile_id in extra_in_json:
             findings.append(Finding(id="ARTIFACT_PROFILE_EXTRA_IN_JSON", message=f"JSON profile has no Python fallback counterpart: {profile_id}", severity=Severity.WARNING, metadata={"profile_id": profile_id}))
 
+        professional_ids = {"product-vision", "mvp-scope", "requirements-specification"}
+        for profile in profiles:
+            if profile.id not in professional_ids:
+                continue
+            required_metadata = {
+                "payload_schema_ref": profile.payload_schema_ref,
+                "semantic_rules": profile.semantic_rules,
+                "completeness_rules": profile.completeness_rules,
+                "prohibited_unsupported_claims": profile.prohibited_unsupported_claims,
+                "quality_gates": profile.quality_gates,
+                "human_review_checklist": profile.human_review_checklist,
+                "downstream_semantics": profile.downstream_semantics,
+            }
+            missing = sorted(name for name, value in required_metadata.items() if not value)
+            if not profile.upstream_trace_required:
+                missing.append("upstream_trace_required")
+            if missing:
+                findings.append(Finding(id="ARTIFACT_PROFILE_PROFESSIONAL_METADATA_MISSING", message=f"Professional Product Definition profile is incomplete: {profile.id}", severity=Severity.BLOCK, metadata={"profile_id": profile.id, "missing": missing}))
+            if profile.payload_schema_ref and not (self.root / profile.payload_schema_ref).exists():
+                findings.append(Finding(id="ARTIFACT_PROFILE_PAYLOAD_SCHEMA_MISSING", message=f"Payload schema is missing for professional profile: {profile.id}", severity=Severity.BLOCK, path=profile.payload_schema_ref, metadata={"profile_id": profile.id}))
+            if "grounded-claims-only" not in profile.quality_gates and "grounded-requirements-only" not in profile.quality_gates:
+                findings.append(Finding(id="ARTIFACT_PROFILE_GROUNDING_GATE_MISSING", message=f"Professional profile lacks a grounded-claim quality gate: {profile.id}", severity=Severity.BLOCK, metadata={"profile_id": profile.id}))
+
         blocking = any(f.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR} for f in findings)
         data = {
             "summary": {
