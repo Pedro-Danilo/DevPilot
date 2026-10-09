@@ -280,8 +280,13 @@ function renderPlanningJourney(planning: Record<string, any>): HTMLElement {
   const cycle=(planning.story_cycle ?? {}) as Record<string,any>;
   const story=document.createElement('p'); story.className='project-status-current-story'; story.dataset.currentStoryStatus=String(current?.status ?? 'NONE'); story.textContent=current?`Current story · ${String(current.story_id ?? 'UNKNOWN')} · ${String(current.status ?? 'UNKNOWN')} · seq ${String(current.sequence ?? 0)}`:'Current story · no active story execution';
   const cycleState=document.createElement('p'); cycleState.className='project-status-muted'; cycleState.dataset.storyCycleStatus=String(cycle.status ?? 'UNKNOWN'); cycleState.textContent=cycle.next_selection_ready===true?'Story cycle · STORY_COMPLETE · siguiente story/sprint listo para selección':'Story cycle · story activa o selección siguiente todavía no habilitada';
-  const link=document.createElement('a'); link.href='/planning/roadmap'; link.dataset.routeId=PLANNING_ROADMAP_ROUTE_ID; link.className='button-link'; link.textContent=cycle.next_selection_ready===true?'Continuar con siguiente story/sprint':planning.journey_state==='IMPLEMENTING_READY'?'Revisar planning congelado':'Continuar Planning Workbench';
-  panel.append(title,state,text,coverage,story,cycleState,link); return panel;
+  const link=document.createElement('a');
+  const nextStoryReady=cycle.next_selection_ready===true;
+  const cycleTarget=String(cycle.navigation_target??'');
+  const cycleDestination=nextStoryReady?(navigationPathFromServerTarget(cycleTarget)??'/story/code'):'/planning/roadmap';
+  link.href=cycleDestination; link.dataset.routeId=nextStoryReady?(cycleTarget||'ui.story-code-workbench'):PLANNING_ROADMAP_ROUTE_ID; link.className='button-link'; link.textContent=nextStoryReady?'Continuar con siguiente story READY':planning.journey_state==='IMPLEMENTING_READY'?'Revisar planning congelado':'Continuar Planning Workbench';
+  const hint=document.createElement('p'); hint.className='project-status-muted'; hint.textContent=nextStoryReady?'La selección/activación se realiza en Story Code Workbench. Planning permanece FROZEN y puede revisarse desde la navegación superior.':'Planning sigue siendo la autoridad para Roadmap → Backlog → Sprint.';
+  panel.append(title,state,text,coverage,story,cycleState,link,hint); return panel;
 }
 
 function renderSignals(status: GuidedSdlcProjectStatus): HTMLElement {
