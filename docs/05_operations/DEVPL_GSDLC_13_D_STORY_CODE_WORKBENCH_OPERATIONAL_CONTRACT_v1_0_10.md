@@ -291,6 +291,16 @@ The RF-002 provider is intentionally bounded and fail-closed:
 
 The UI must not disable the proposal action merely because source exists. It may call the provider and display an explicit fail-closed explanation if the current Story/baseline is unsupported. When a supported RF-002 proposal exists, `Aceptar propuesta → Draft Set` is enabled only after the proposal quality gate passes.
 
+Human review of an incremental proposal must distinguish **baseline source** from the **proposed delta** before ACCEPT:
+
+- `files=N` is the number of paths in the current proposal delta, not a platform-wide maximum per Story;
+- for RF-002, `files=4` means exactly `2 EDIT + 2 CREATE`;
+- an existing path affected by an `EDIT` must expose both `SOURCE` and `PROPOSAL EDIT` variants as separately reviewable entries;
+- a new path must expose `PROPOSAL CREATE`;
+- proposal variants are read-only until ACCEPT and their operation selector reflects the real proposal operation;
+- the editable `SOURCE` view is an explicit Manual override and must not be visually confused with the DevPilot proposal;
+- ACCEPT materializes the full reviewed proposal as Draft Set; it is not authority to write source.
+
 ### D05 first-attempt preservation
 
 The original `13-D-05/RUN_01` evidence in which `story-rf-002` reached `IN_PROGRESS` while the proposal action was disabled is preserved as first-attempt evidence. Installing this corrective must not reset StoryExecution, rewrite Pilot A project source from the operator, or repeat D01/D04 work. The corrected UI must recover the same StoryExecution and continue from implementation proposal review.
