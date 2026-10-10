@@ -38246,12 +38246,12 @@
       ]
     },
     {
-      "classification": "source-of-truth",
+      "classification": "historical",
       "criticality": "P0",
       "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
       "domain": "operations.story-code",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "owner": "Ordóñez",
       "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_10.md",
       "required_tests": [
@@ -38283,6 +38283,34 @@
       "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-D-05-incremental-implementation-proposal.md",
       "required_tests": [
         "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-05"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
+      "domain": "operations.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "owner": "Ordóñez",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_11.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py",
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py",
+        "tests/test_devpl_gsdlc_13_d_05_source_change_review_state.py"
       ],
       "roadmap_milestones": [
         "DEVPL-GSDLC-13",
@@ -38701,7 +38729,7 @@
   "gsdlc_13_d_05_multiprovider_stop_commit": "54085701f39670ec460a80a6b3f9097a9e61a3d1",
   "gsdlc_13_d_05_platform_base_commit": "bca1ec0570ec721288c4af841edf60c84a755730",
   "gsdlc_13_d_05_project_story": "story-rf-002/IN_PROGRESS",
-  "gsdlc_13_d_05_status": "ACTIVE-CORRECTIVE/COR-106-PENDING-WINDOWS",
+  "gsdlc_13_d_05_status": "ACTIVE-CORRECTIVE/COR-108-PENDING-WINDOWS",
   "gsdlc_13_d_execution_source_commit": "aaa1931d6322782d39d6ea8ca848117e5e9343ff",
   "gsdlc_13_d_execution_source_repo": "repo_462_13D03_JOB_RUNTIME_WINDOWS_CANDIDATE.zip",
   "gsdlc_13_d_execution_source_sha256": "da39a32760e74206926b53f4e773e4eb0f3de5bbc969e9ba71ab04501a05bc40",
@@ -41261,15 +41289,15 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1537,
+    "critical_sources_total": 1538,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1633,
-    "documents_with_required_tests_total": 1633,
+    "documents_total": 1634,
+    "documents_with_required_tests_total": 1634,
     "external_api_used": false,
     "generated_runtime_total": 0,
-    "historical_total": 34,
-    "last_updated_by": "DEVPL-GSDLC-13-D-05-COR-103-EOL-AGNOSTIC",
+    "historical_total": 35,
+    "last_updated_by": "DEVPL-GSDLC-13-D-05-COR-108-SOURCE-CHANGE-REVIEW-STATE",
     "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,

@@ -31,10 +31,10 @@ def test_proposal_summary_explains_delta_counts_instead_of_implying_file_cap() -
     assert "files=${implementationProposal.files.length} (${editTotal} EDIT + ${createTotal} CREATE)" in view
 
 
-def test_source_registry_tracks_cor106_review_contract() -> None:
+def test_source_registry_tracks_cor108_review_contract() -> None:
     import json
     registry = json.loads((ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8"))
-    assert registry["gsdlc_13_d_05_status"] == "ACTIVE-CORRECTIVE/COR-106-PENDING-WINDOWS"
-    active = [row for row in registry["documents"] if row.get("path") == "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_10.md"]
+    assert registry["gsdlc_13_d_05_status"] == "ACTIVE-CORRECTIVE/COR-108-PENDING-WINDOWS"
+    active = [row for row in registry["documents"] if row.get("path") == "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_11.md"]
     assert len(active) == 1
     assert "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py" in active[0]["required_tests"]
