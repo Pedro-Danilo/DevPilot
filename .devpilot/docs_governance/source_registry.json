@@ -6740,6 +6740,35 @@
       ]
     },
     {
+      "doc_id": "ADR-13D05-CONTEXTUAL-PROVIDER",
+      "path": "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md",
+      "owner": "DEVPL-GSDLC-13-D-05",
+      "domain": "sdlc.story-code",
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_05_general_provider.py",
+        "tests/test_devpl_gsdlc_13_d_05_general_model_route.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-D-05"
+      ],
+      "status_required": "proposed-for-owner-windows-validation",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Supersedes v1.0.11 without modifying historic file; baseline repo_464, abandoned COR-112."
+      ],
+      "frontmatter_required": true
+    },
+    {
       "classification": "source-of-truth",
       "criticality": "P0",
       "derived_documents": [
@@ -6893,6 +6922,29 @@
         "DEVPL-GSDLC-13",
         "DEVPL-GSDLC-13-D",
         "13-D-04"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "historical",
+      "criticality": "P0",
+      "doc_id": "ADR-DEVPL-GSDLC-13-D-05-INCREMENTAL-IMPLEMENTATION-PROPOSAL",
+      "domain": "architecture.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "historical",
+      "owner": "Ordóñez",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-D-05-incremental-implementation-proposal.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-05"
       ],
       "status_required": "approved",
       "sync_rules": [
@@ -8070,6 +8122,91 @@
         "frontmatter_status",
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "historical",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
+      "domain": "operations.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "historical",
+      "owner": "Ordóñez",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_10.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py",
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-05"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "historical",
+      "criticality": "P0",
+      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
+      "domain": "operations.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "historical",
+      "owner": "Ordóñez",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_11.md",
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py",
+        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
+        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
+        "tests/test_devpl_gsdlc_09_c_source_change.py",
+        "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py",
+        "tests/test_devpl_gsdlc_13_d_05_source_change_review_state.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13",
+        "DEVPL-GSDLC-13-D",
+        "13-D-05"
+      ],
+      "status_required": "approved",
+      "sync_rules": [
+        "frontmatter_status",
+        "test_must_pass"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-GSDLC-13-D-WORKBENCH-CONTRACT-V112",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_12.md",
+      "owner": "DEVPL-GSDLC-13-D-05",
+      "domain": "sdlc.story-code",
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "derived_documents": [],
+      "machine_readable_counterparts": [],
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_gsdlc_13_d_05_general_provider.py",
+        "tests/test_devpl_gsdlc_13_d_05_general_model_route.py",
+        "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-GSDLC-13-D-05"
+      ],
+      "status_required": "proposed-for-owner-windows-validation",
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "notes": [
+        "Supersedes v1.0.11 without modifying historic file; baseline repo_464, abandoned COR-112."
+      ],
+      "frontmatter_required": true
     },
     {
       "classification": "historical",
@@ -38244,84 +38381,6 @@
       "sync_rules": [
         "test_must_pass"
       ]
-    },
-    {
-      "classification": "historical",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
-      "domain": "operations.story-code",
-      "frontmatter_required": true,
-      "lifecycle": "historical",
-      "owner": "Ordóñez",
-      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_10.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py",
-        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
-        "tests/test_devpl_gsdlc_09_c_source_change.py",
-        "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-D",
-        "13-D-05"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "frontmatter_status",
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "ADR-DEVPL-GSDLC-13-D-05-INCREMENTAL-IMPLEMENTATION-PROPOSAL",
-      "domain": "architecture.story-code",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "owner": "Ordóñez",
-      "path": "docs/02_architecture/adrs/ADR-DEVPL-GSDLC-13-D-05-incremental-implementation-proposal.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-D",
-        "13-D-05"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "frontmatter_status",
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-GSDLC-13-D-STORY-CODE-WORKBENCH-OPERATIONAL-CONTRACT",
-      "domain": "operations.story-code",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "owner": "Ordóñez",
-      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_11.md",
-      "required_tests": [
-        "tests/test_devpl_gsdlc_13_d_05_incremental_proposal.py",
-        "tests/test_devpl_gsdlc_13_d_02_implementation_proposal_bridge.py",
-        "tests/test_devpl_gsdlc_09_b_code_workbench.py",
-        "tests/test_devpl_gsdlc_09_c_source_change.py",
-        "tests/test_devpl_gsdlc_13_d_05_proposal_review_ux.py",
-        "tests/test_devpl_gsdlc_13_d_05_source_change_review_state.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-GSDLC-13",
-        "DEVPL-GSDLC-13-D",
-        "13-D-05"
-      ],
-      "status_required": "approved",
-      "sync_rules": [
-        "frontmatter_status",
-        "test_must_pass"
-      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -38729,7 +38788,7 @@
   "gsdlc_13_d_05_multiprovider_stop_commit": "54085701f39670ec460a80a6b3f9097a9e61a3d1",
   "gsdlc_13_d_05_platform_base_commit": "bca1ec0570ec721288c4af841edf60c84a755730",
   "gsdlc_13_d_05_project_story": "story-rf-002/IN_PROGRESS",
-  "gsdlc_13_d_05_status": "ACTIVE-CORRECTIVE/COR-108-PENDING-WINDOWS",
+  "gsdlc_13_d_05_status": "ACTIVE-CORRECTIVE/GENERAL-113-PENDING-WINDOWS",
   "gsdlc_13_d_execution_source_commit": "aaa1931d6322782d39d6ea8ca848117e5e9343ff",
   "gsdlc_13_d_execution_source_repo": "repo_462_13D03_JOB_RUNTIME_WINDOWS_CANDIDATE.zip",
   "gsdlc_13_d_execution_source_sha256": "da39a32760e74206926b53f4e773e4eb0f3de5bbc969e9ba71ab04501a05bc40",
@@ -38752,7 +38811,7 @@
   "gsdlc_validation_policy_status": "approved/active",
   "gsdlc_validation_policy_version": "1.0.0",
   "last_registered_sprint": "DEVPL-GSDLC-08-E",
-  "last_updated_by": "DEVPL-GSDLC-13-D-05-COR-106-PROPOSAL-REVIEW-UX",
+  "last_updated_by": "DEVPL-GSDLC-13-D-05-GENERAL-113",
   "next_micro_sprint": "DEVPL-GSDLC-13-B",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -41289,15 +41348,15 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1538,
+    "critical_sources_total": 1540,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1634,
-    "documents_with_required_tests_total": 1634,
+    "documents_total": 1636,
+    "documents_with_required_tests_total": 1636,
     "external_api_used": false,
     "generated_runtime_total": 0,
-    "historical_total": 35,
-    "last_updated_by": "DEVPL-GSDLC-13-D-05-COR-108-SOURCE-CHANGE-REVIEW-STATE",
+    "historical_total": 37,
+    "last_updated_by": "DEVPL-GSDLC-13-D-05-GENERAL-113",
     "machine_readable_source_total": 818,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
@@ -41306,7 +41365,7 @@
   },
   "updated": "2026-10-09",
   "updated_at": "2026-10-09",
-  "updated_by": "DEVPL-GSDLC-13-D-05-COR-103-EOL-AGNOSTIC",
+  "updated_by": "DEVPL-GSDLC-13-D-05-GENERAL-113",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",

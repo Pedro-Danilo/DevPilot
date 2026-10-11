@@ -135,8 +135,8 @@ def test_d05_rf002_existing_source_gets_incremental_deterministic_proposal(tmp_p
     assert result["ok"] is True
     proposal = result["data"]["proposal"]
     assert proposal["story_id"] == "story-rf-002"
-    assert proposal["provider"]["model_id"] == "deterministic-story-incremental-template-v1"
-    assert proposal["provider"]["proposal_mode"] == "incremental-existing-source"
+    assert proposal["provider"]["model_id"] == "governed-contextual-provider-v1"
+    assert proposal["provider"]["proposal_mode"] == "contextual-existing-source"
     assert proposal["quality"]["ready_for_draft_materialization"] is True
     assert [x["operation"] for x in proposal["files"]].count("EDIT") == 2
     assert [x["operation"] for x in proposal["files"]].count("CREATE") == 2
@@ -186,8 +186,8 @@ def test_d05_rf002_accept_materializes_mixed_edit_create_drafts_without_source_w
 def test_d05_existing_source_ui_keeps_deterministic_proposal_action_available() -> None:
     view = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
     assert "sourceRowsTotal!==0" not in view
-    assert "provider incremental bounded" in view
-    assert "Evalúa un provider incremental source-aware" in view
+    assert "provider contextual gobernado" in view
+    assert "Evalúa la ruta contextual de implementación" in view
     assert "INCREMENTAL_GENERATOR_ID" in (ROOT / "src/devpilot_core/application/story_implementation_candidate_service.py").read_text(encoding="utf-8")
 
 

@@ -63,12 +63,13 @@ def test_sequence_exposes_single_next_governed_action() -> None:
         assert text in seq
 
 
-def test_registry_promotes_cor108_contract_without_mutating_history() -> None:
+def test_registry_promotes_contextual_successor_without_mutating_history() -> None:
     registry = json.loads((ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8"))
-    assert registry["gsdlc_13_d_05_status"] == "ACTIVE-CORRECTIVE/COR-108-PENDING-WINDOWS"
+    assert registry["gsdlc_13_d_05_status"] == "ACTIVE-CORRECTIVE/GENERAL-113-PENDING-WINDOWS"
     by_path = {row.get("path"): row for row in registry["documents"]}
-    old = by_path["docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_10.md"]
-    new = by_path["docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_11.md"]
-    assert old["classification"] == "historical" and old["lifecycle"] == "historical"
-    assert new["classification"] == "source-of-truth" and new["lifecycle"] == "active"
-    assert "tests/test_devpl_gsdlc_13_d_05_source_change_review_state.py" in new["required_tests"]
+    for version in ("v1_0_10", "v1_0_11"):
+        old = by_path[f"docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_{version}.md"]
+        assert old["classification"] == "historical" and old["lifecycle"] == "historical"
+    current = by_path["docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_12.md"]
+    assert current["classification"] == "source-of-truth" and current["lifecycle"] == "active"
+    assert "tests/test_devpl_gsdlc_13_d_05_general_provider.py" in current["required_tests"]

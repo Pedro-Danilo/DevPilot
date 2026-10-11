@@ -50,6 +50,7 @@ class StoryImplementationCandidateApplicationService:
     SCHEMA_ID = "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-CANDIDATE-V2"
     GENERATOR_ID = "deterministic-story-implementation-template-v2.1"
     INCREMENTAL_GENERATOR_ID = "deterministic-story-incremental-template-v1"
+    GENERAL_GENERATOR_ID = "governed-contextual-provider-v1"
 
     def __init__(self, root: Path, *, context_resolver, code_workbench: CodeWorkbenchApplicationService) -> None:
         self.root = Path(root).resolve()
@@ -139,20 +140,18 @@ class StoryImplementationCandidateApplicationService:
         else:
             proposal_mode = "incremental-existing-source"
             generator_id = self.INCREMENTAL_GENERATOR_ID
-            incremental = self._incremental_rf002_files(
-                story_id=story_id, title=title, namespace=namespace, acceptance=acceptance, source_rows=source_rows
+            generator_id = self.GENERAL_GENERATOR_ID
+            from devpilot_core.application.story_general_provider import GeneralStoryProvider
+            selected = GeneralStoryProvider(self).propose(
+                story_id=story_id, title=title, requirement=requirement, acceptance=acceptance,
+                test_intent=test_intent, namespace=namespace, source_rows=source_rows,
+                architecture=architecture, story_context=story_context,
             )
-            if isinstance(incremental, CommandResult):
-                return incremental
-            files = incremental
-            quality = self._incremental_quality_report(files, story_id=story_id)
-            rationale = [
-                "D05 requires the next Story to repeat D02 over an existing governed source baseline.",
-                "RF-002 is implemented as a bounded incremental delta over the reusable Product/ProductRepository baseline created by RF-001.",
-                "Existing files are bound by exact source_id + SHA-256 preimages; new files remain CREATE drafts. ACCEPT still performs runtime-draft mutation only.",
-                "The provider does not invent product fields: RF-002 reads only products already represented by the existing opaque Product contract and filters by the governed available flag.",
-                "Manual and agent-assisted routes remain available as overrides; deterministic incremental proposal is the default DevPilot-produced content path for this supported Story.",
-            ]
+            if isinstance(selected, CommandResult):
+                return selected
+            files, quality, rationale, route_meta = selected
+            proposal_mode = "contextual-existing-source"
+
         if not quality["ready_for_draft_materialization"]:
             return self._block(
                 command,
@@ -199,6 +198,7 @@ class StoryImplementationCandidateApplicationService:
                 "network_used": False,
                 "external_api_used": False,
                 "cost_usd": 0.0,
+                **(route_meta if source_total else {}),
             },
             "technology": technology,
             "quality": quality,
@@ -224,7 +224,7 @@ class StoryImplementationCandidateApplicationService:
                 "apply_authority": False,
                 "approval_authority": False,
                 "git_authority": False,
-                "network_used": False,
+                "network_used": bool(route_meta.get("network_used")) if source_total else False,
                 "external_api_used": False,
             },
             "created_at_utc": _now(),
@@ -256,7 +256,7 @@ class StoryImplementationCandidateApplicationService:
         provider = proposal.get("provider") if isinstance(proposal.get("provider"), dict) else {}
         quality = proposal.get("quality") if isinstance(proposal.get("quality"), dict) else {}
         model_id = str(provider.get("model_id") or "")
-        if model_id not in {self.GENERATOR_ID, self.INCREMENTAL_GENERATOR_ID} or quality.get("ready_for_draft_materialization") is not True:
+        if model_id not in {self.GENERATOR_ID, self.INCREMENTAL_GENERATOR_ID, self.GENERAL_GENERATOR_ID} or quality.get("ready_for_draft_materialization") is not True:
             return self._block(
                 command,
                 "GSDLC13D02_IMPLEMENTATION_OBSOLETE_PROPOSAL_BLOCK",
@@ -493,7 +493,7 @@ class StoryImplementationCandidateApplicationService:
     ) -> list[dict[str, Any]] | CommandResult:
         command = "story implementation candidate propose"
         normalized_title = " ".join(str(title or "").lower().split())
-        if story_id != "story-rf-002" and not ("consultar" in normalized_title and "productos" in normalized_title):
+        if not ("consultar" in normalized_title and "productos" in normalized_title):
             return self._block(
                 command,
                 "GSDLC13D05_INCREMENTAL_PROVIDER_UNSUPPORTED_BLOCK",
@@ -535,6 +535,8 @@ class StoryImplementationCandidateApplicationService:
             )
         app_path = f"src/{namespace}/application/list_available_products.py"
         test_path = "tests/test_list_available_products.py"
+        if app_path in by_path or test_path in by_path:
+            return self._block(command, "GSDLC13D05_CAPABILITY_ALREADY_IMPLEMENTED_BLOCK", "Product-list capability targets already exist; do not overwrite or duplicate existing behavior.")
         return [
             self._file(
                 domain_path,
@@ -567,6 +569,251 @@ class StoryImplementationCandidateApplicationService:
                 artifact_role="test",
             ),
         ]
+
+    def _incremental_rf003_files(
+        self, *, story_id: str, title: str, namespace: str,
+        requirement: dict[str, Any], acceptance: dict[str, Any], source_rows: list[dict[str, Any]],
+    ) -> list[dict[str, Any]] | CommandResult:
+        """Generate an RF-003-only successor against exact persisted RF-002 source preimages."""
+        command = "story implementation candidate propose"
+        statement = " ".join(str(requirement.get("content") or title or "").lower().split())
+        if not ("modificar" in statement and "producto" in statement):
+            return self._block(command, "GSDLC13D05_RF003_REQUIREMENT_BLOCK",
+                               "RF-003 successor requires the frozen modify-products requirement; do not infer another Story.")
+        by_path = {str(row.get("relative_path") or ""): row for row in source_rows}
+        domain_path = f"src/{namespace}/domain/product.py"
+        repository_path = f"src/{namespace}/infrastructure/sqlite_product_repository.py"
+        app_path = f"src/{namespace}/application/modify_product.py"
+        test_path = "tests/test_modify_product.py"
+        required = [domain_path, repository_path,
+                    f"src/{namespace}/application/create_product.py",
+                    f"src/{namespace}/application/list_available_products.py",
+                    "tests/test_list_available_products.py"]
+        missing = [path for path in required if path not in by_path]
+        if missing or app_path in by_path or test_path in by_path:
+            return self._block(command, "GSDLC13D05_RF003_BASELINE_BLOCK",
+                               "RF-003 requires the committed RF-001/RF-002 baseline and absent RF-003 CREATE targets.",
+                               metadata={"missing": missing, "already_existing": [p for p in (app_path, test_path) if p in by_path]})
+        sources = []
+        for path in (domain_path, repository_path):
+            fetched = self.code.read_source(str(by_path[path].get("source_id") or ""))
+            if not fetched.ok:
+                return self._dependency_block(command, fetched, "GSDLC13D05_RF003_SOURCE_READ_BLOCK")
+            sources.append(dict((fetched.data or {}).get("source") or {}))
+        domain, repository = sources
+        try:
+            domain_after = self._rf003_domain_content(str(domain.get("content") or ""))
+            repository_after = self._rf003_repository_content(str(repository.get("content") or ""))
+        except ValueError as exc:
+            return self._block(command, "GSDLC13D05_RF003_BASELINE_SHAPE_BLOCK", str(exc))
+        domain_after = domain_after.replace("RF-003", story_id)
+        repository_after = repository_after.replace("RF-003", story_id)
+        return [
+            self._file(domain_path, domain_after, operation="EDIT", artifact_role="domain",
+                       rationale="RF-003: governed update_available port on existing ProductRepository.",
+                       source_id=str(domain.get("source_id") or ""), source_preimage_sha256=str(domain.get("sha256") or "")),
+            self._file(app_path, self._rf003_application_module(story_id, title, namespace, acceptance),
+                       artifact_role="application", rationale="RF-003: authorized modification of opaque attributes only."),
+            self._file(repository_path, repository_after, operation="EDIT", artifact_role="infrastructure",
+                       rationale="RF-003: parameterized transactional UPDATE restricted to available product IDs.",
+                       source_id=str(repository.get("source_id") or ""), source_preimage_sha256=str(repository.get("sha256") or "")),
+            self._file(test_path, self._rf003_test_module(story_id, namespace, acceptance),
+                       artifact_role="test", rationale="TEST-003: authorization, persisted change, missing/unavailable protection and RF-002 coherence."),
+        ]
+
+    @classmethod
+    def _rf003_domain_content(cls, content: str) -> str:
+        marker = (
+            '    def list_available(self) -> list[Product]:\n'
+            '        """RF-002: Return currently available products without mutating repository state."""\n'
+            '        ...\n'
+        )
+        addition = (
+            '\n    def update_available(self, product: Product) -> bool:\n'
+            '        """RF-003: Replace attributes only if an available product with this ID still exists."""\n'
+            '        ...\n'
+        )
+        if "def update_available(self, product: Product) -> bool:" in content:
+            raise ValueError("RF-003 target already implemented: do not duplicate update_available.")
+        return cls._append_after_structural_block(content, marker, addition,
+            error="RF-003 needs the exact governed RF-002 ProductRepository.list_available port.")
+
+    @classmethod
+    def _rf003_repository_content(cls, content: str) -> str:
+        marker = (
+            '    def list_available(self) -> list[Product]:\n'
+            '        """RF-002: Read all products currently marked available, ordered by stable product identity."""\n'
+            '        rows = self.connection.execute(\n'
+            '            "SELECT product_id, attributes_json, available FROM products WHERE available = 1 ORDER BY product_id"\n'
+            '        ).fetchall()\n'
+            '        return [\n'
+            '            Product(product_id=str(row[0]), attributes=json.loads(row[1]), available=bool(row[2]))\n'
+            '            for row in rows\n'
+            '        ]\n'
+        )
+        addition = (
+            '\n    def update_available(self, product: Product) -> bool:\n'
+            '        """RF-003: Atomically replace attributes on a currently available Product only."""\n'
+            '        if not product.available:\n'
+            '            return False\n'
+            '        with self.connection:\n'
+            '            cursor = self.connection.execute(\n'
+            '                "UPDATE products SET attributes_json = ? WHERE product_id = ? AND available = 1",\n'
+            '                (json.dumps(dict(product.attributes), sort_keys=True, ensure_ascii=False), product.product_id),\n'
+            '            )\n'
+            '        return cursor.rowcount == 1\n'
+        )
+        if "def update_available(self, product: Product) -> bool:" in content:
+            raise ValueError("RF-003 target already implemented: do not duplicate update_available.")
+        return cls._append_after_structural_block(content, marker, addition,
+            error="RF-003 needs the exact governed RF-002 SQLite adapter/list_available implementation.")
+
+    @classmethod
+    def _rf003_application_module(cls, story_id: str, title: str, namespace: str, acceptance: dict[str, Any]) -> str:
+        ac = " ".join(str(acceptance.get("content") or "").split())[:400]
+        doc = cls._module_docstring(
+            title="Modify-available-product application service for RF-003.",
+            purpose="Allow an authorized actor to replace opaque attributes of an existing available product.",
+            responsibilities=["Reject unauthorized actors before repository access.",
+                              "Read the existing available Product and retain its identity/availability flag.",
+                              "Persist the requested attributes atomically and verify the observed update."],
+            boundaries=["Does not introduce undeclared product fields or edit product identity.",
+                        "Does not modify withdrawn products or create missing ones.",
+                        "No external API, network, approval/apply/Git authority or UI coupling."],
+            traceability=[f"Story: {story_id} — {title}", "Requirement: RF-003", f"Acceptance oracle: {ac}",
+                          "Architecture: ARC-C02 + ARC-C03 + ARC-C04", "Test intent: TEST-003"],
+        )
+        return f'''{doc}
+
+from __future__ import annotations
+
+from src.{namespace}.application.create_product import AuthorizationRequired
+from src.{namespace}.domain.product import Product, ProductAttributes, ProductRepository
+
+
+class ProductNotModifiable(LookupError):
+    """An RF-003 target does not exist or is no longer available."""
+
+
+class ModifyProductService:
+    """Application boundary for RF-003 product-attribute updates."""
+
+    def __init__(self, repository: ProductRepository) -> None:
+        self.repository = repository
+
+    def execute(self, *, actor_authorized: bool, product_id: str, attributes: ProductAttributes) -> Product:
+        """Update attributes while preserving identity and available status."""
+        if not actor_authorized:
+            raise AuthorizationRequired("authorized actor required")
+        existing = self.repository.get(product_id)
+        if existing is None or not existing.available:
+            raise ProductNotModifiable("product not available for modification")
+        updated = Product(product_id=existing.product_id, attributes=dict(attributes), available=True)
+        if not self.repository.update_available(updated):
+            raise ProductNotModifiable("product changed before modification")
+        observed = self.repository.get(product_id)
+        if observed != updated:
+            raise RuntimeError("modified product was not observable after persistence")
+        return observed
+'''
+
+    @classmethod
+    def _rf003_test_module(cls, story_id: str, namespace: str, acceptance: dict[str, Any]) -> str:
+        ac = " ".join(str(acceptance.get("content") or "").split())[:400]
+        doc = cls._module_docstring(
+            title="Acceptance-focused tests for RF-003 available-product modification.",
+            purpose="Verify authorized attribute updates and compatibility with RF-001/RF-002 on local SQLite.",
+            responsibilities=["Reject unauthorized modifications without writes.",
+                              "Persist requested changes while retaining product ID and availability.",
+                              "Refuse missing/withdrawn products and preserve RF-002 read behavior."],
+            boundaries=["No invented SKU, price, stock or other governed business fields.",
+                        "Use in-memory SQLite, no network/external APIs.",
+                        "Focal tests only; never run Full Regression automatically."],
+            traceability=[f"Story: {story_id}", "Requirement: RF-003", f"Acceptance oracle: {ac}", "Test intent: TEST-003"],
+        )
+        return f'''{doc}
+
+import sqlite3
+
+import pytest
+
+from src.{namespace}.application.create_product import AuthorizationRequired
+from src.{namespace}.application.list_available_products import ListAvailableProductsService
+from src.{namespace}.application.modify_product import ModifyProductService, ProductNotModifiable
+from src.{namespace}.domain.product import Product
+from src.{namespace}.infrastructure.sqlite_product_repository import SQLiteProductRepository
+
+
+def test_rf003_authorization_does_not_write() -> None:
+    repo = SQLiteProductRepository(sqlite3.connect(":memory:"))
+    repo.add(Product(product_id="p", attributes={{"value": "original"}}, available=True))
+    with pytest.raises(AuthorizationRequired):
+        ModifyProductService(repo).execute(actor_authorized=False, product_id="p", attributes={{"value": "new"}})
+    assert repo.get("p").attributes == {{"value": "original"}}
+
+
+def test_rf003_update_persists_and_rf002_reflects_change() -> None:
+    repo = SQLiteProductRepository(sqlite3.connect(":memory:"))
+    repo.add(Product(product_id="p", attributes={{"value": "original"}}, available=True))
+    observed = ModifyProductService(repo).execute(actor_authorized=True, product_id="p", attributes={{"value": "updated"}})
+    assert observed == Product(product_id="p", attributes={{"value": "updated"}}, available=True)
+    assert ListAvailableProductsService(repo).execute(actor_authorized=True) == [observed]
+
+
+@pytest.mark.parametrize("missing_or_unavailable", ["missing", "unavailable"])
+def test_rf003_refuses_missing_or_unavailable(missing_or_unavailable: str) -> None:
+    repo = SQLiteProductRepository(sqlite3.connect(":memory:"))
+    repo.add(Product(product_id="withdrawn", attributes={{"value": "original"}}, available=False))
+    before = repo.get("withdrawn")
+    with pytest.raises(ProductNotModifiable):
+        ModifyProductService(repo).execute(actor_authorized=True,
+            product_id="withdrawn" if missing_or_unavailable == "unavailable" else "missing",
+            attributes={{"value": "new"}})
+    assert repo.get("withdrawn") == before
+'''
+
+    @staticmethod
+    def _rf003_quality_report(files: list[dict[str, Any]]) -> dict[str, Any]:
+        sections = ("Purpose:", "Responsibilities:", "Boundaries:", "Traceability:")
+        doc_ok = True
+        syntax_ok = True
+        for row in files:
+            try:
+                tree = ast.parse(str(row.get("content") or ""))
+                doc = ast.get_docstring(tree) or ""
+                doc_ok &= all(k in doc for k in sections)
+            except SyntaxError:
+                syntax_ok = False
+                doc_ok = False
+        operations = [str(row.get("operation") or "") for row in files]
+        paths = {str(row.get("target_path") or "") for row in files}
+        preimages = all(bool(row.get("source_id")) and bool(row.get("source_preimage_sha256"))
+                        for row in files if row.get("operation") == "EDIT")
+        roles = {str(row.get("artifact_role") or "") for row in files}
+        trace = all(str(story_id) in str(row.get("content") or "") for row in files)
+        behavior = (any("update_available" in str(row.get("content") or "") for row in files)
+                    and any("ModifyProductService" in str(row.get("content") or "") for row in files)
+                    and any("test_rf003_refuses_missing_or_unavailable" in str(row.get("content") or "") for row in files))
+        ready = (syntax_ok and doc_ok and preimages and trace and behavior and len(paths) == 4
+                 and operations.count("EDIT") == 2 and operations.count("CREATE") == 2
+                 and roles == {"domain", "application", "infrastructure", "test"})
+        return {
+            "ready_for_draft_materialization": ready,
+            "provider_mode": "incremental-existing-source",
+            "story_supported": True,
+            "python_syntax_pass": syntax_ok,
+            "docstring_contract_pass": doc_ok,
+            "source_preimages_bound": preimages,
+            "artifact_roles": sorted(roles),
+            "traceability_rf003": trace,
+            "modify_product_behavior": behavior,
+            "business_field_invention": False,
+            "network_used": False,
+            "external_api_used": False,
+            "known_limitations": ["Provider bounded to RF-003 and exact governed RF-002 source shape.",
+                                  "Only opaque product attributes may change; a separate RF-004 handles withdrawals.",
+                                  "Owner approval/09-C apply/Quality/Git authority are never granted by the provider."],
+        }
 
     @staticmethod
     def _append_after_structural_block(content: str, marker_lf: str, addition_lf: str, *, error: str) -> str:
@@ -774,8 +1021,7 @@ def test_authorized_actor_observes_only_available_products() -> None:
         behavior_ok = any("list_available" in str(row.get("content") or "") for row in files) and any("ListAvailableProductsService" in str(row.get("content") or "") for row in files)
         docstrings_pass = all(x["module_docstring_present"] and x["required_sections_present"] for x in docstrings)
         ready = (
-            story_id == "story-rf-002"
-            and syntax_pass
+            syntax_pass
             and docstrings_pass
             and set(operations) == {"EDIT", "CREATE"}
             and operations.count("EDIT") == 2

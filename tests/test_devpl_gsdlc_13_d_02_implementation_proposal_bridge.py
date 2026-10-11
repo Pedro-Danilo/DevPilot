@@ -230,7 +230,7 @@ def test_d02_transport_rbac_ui_and_multifile_bridge_are_registered() -> None:
     view = (ROOT / "ui/web/src/pages/StoryCodeWorkbenchView.ts").read_text(encoding="utf-8")
     for marker in (
         "integrated-source-tree",
-        "Árbol unificado para source real, propuesta DevPilot y Draft Set runtime-only",
+        "Árbol unificado con variantes explícitas SOURCE / PROPOSAL / DRAFT",
         "Proponer implementación desde contexto",
         "Aceptar propuesta → Draft Set",
         "PROPOSAL",
@@ -345,8 +345,9 @@ def test_d02_session_expiry_feedback_and_compact_tree_contract() -> None:
         "proposalReviewFile",
         "actions.hidden=true",
         "actions.hidden=false",
-        "b=button(name)",
-        "aria-label',`${entry.state} · ${entry.path}`",
+        "const b=button(entry.label)",
+        "b.setAttribute('aria-label',`${entry.state}${entry.operation?",
+        " · ${entry.path}`);",
     ):
         assert marker in view
     assert "button(`${entry.state} · ${name}`)" not in view
