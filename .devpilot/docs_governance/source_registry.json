@@ -6740,15 +6740,19 @@
       ]
     },
     {
-      "doc_id": "ADR-13D05-CONTEXTUAL-PROVIDER",
-      "path": "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md",
-      "owner": "DEVPL-GSDLC-13-D-05",
-      "domain": "sdlc.story-code",
       "classification": "source-of-truth",
       "criticality": "P0",
-      "lifecycle": "active",
       "derived_documents": [],
+      "doc_id": "ADR-13D05-CONTEXTUAL-PROVIDER",
+      "domain": "sdlc.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "active",
       "machine_readable_counterparts": [],
+      "notes": [
+        "Supersedes v1.0.11 without modifying historic file; baseline repo_464, abandoned COR-112."
+      ],
+      "owner": "DEVPL-GSDLC-13-D-05",
+      "path": "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md"
       ],
@@ -6762,11 +6766,7 @@
       "status_required": "proposed-for-owner-windows-validation",
       "sync_rules": [
         "test_must_pass"
-      ],
-      "notes": [
-        "Supersedes v1.0.11 without modifying historic file; baseline repo_464, abandoned COR-112."
-      ],
-      "frontmatter_required": true
+      ]
     },
     {
       "classification": "source-of-truth",
@@ -8179,15 +8179,19 @@
       ]
     },
     {
-      "doc_id": "DEVPL-GSDLC-13-D-WORKBENCH-CONTRACT-V112",
-      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_12.md",
-      "owner": "DEVPL-GSDLC-13-D-05",
-      "domain": "sdlc.story-code",
       "classification": "source-of-truth",
       "criticality": "P0",
-      "lifecycle": "active",
       "derived_documents": [],
+      "doc_id": "DEVPL-GSDLC-13-D-WORKBENCH-CONTRACT-V112",
+      "domain": "sdlc.story-code",
+      "frontmatter_required": true,
+      "lifecycle": "active",
       "machine_readable_counterparts": [],
+      "notes": [
+        "Supersedes v1.0.11 without modifying historic file; baseline repo_464, abandoned COR-112."
+      ],
+      "owner": "DEVPL-GSDLC-13-D-05",
+      "path": "docs/05_operations/DEVPL_GSDLC_13_D_STORY_CODE_WORKBENCH_OPERATIONAL_CONTRACT_v1_0_12.md",
       "related_adrs": [
         "docs/02_architecture/adrs/ADR-13D05-contextual-provider.md"
       ],
@@ -8202,11 +8206,7 @@
       "status_required": "proposed-for-owner-windows-validation",
       "sync_rules": [
         "test_must_pass"
-      ],
-      "notes": [
-        "Supersedes v1.0.11 without modifying historic file; baseline repo_464, abandoned COR-112."
-      ],
-      "frontmatter_required": true
+      ]
     },
     {
       "classification": "historical",
@@ -38381,6 +38381,409 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-AUTHORITY-OVERLAY",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": ".devpilot/docs_governance/rebaseline_p0_overlay.json",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "ADR-DEVPL-REB-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-AUDIT-SYNC1-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/AUDIT_SYNC1_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-AUTHORITY-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/AUTHORITY_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-BACKLOG-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/BACKLOG_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-BRIDGE-GF-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/BRIDGE_GF_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-BRIDGE-MP-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/BRIDGE_MP_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-CONTRACT-MAP-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/CONTRACT_MAP_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-DECISION-116",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/DECISION_116.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-GATES-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/GATES_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-INDEX-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/INDEX_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-118-P0-PUBLICATION",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/P0_PUBLICATION_118.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-PROMPT-P0-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/PROMPT_P0_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-ROADMAP-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/ROADMAP_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-117-SPRINT-P0-117",
+      "domain": "program.rebaseline.p0",
+      "lifecycle": "active",
+      "notes": [
+        "P0 authority overlay: MP worktree physically frozen; G1 requires Windows promotion and receipt."
+      ],
+      "owner": "DEVPL-REB-117-P0",
+      "path": "docs/program_rebaseline_117/SPRINT_P0_117.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -41251,6 +41654,12 @@
     "uoc_011_status": "closed/PASS",
     "updated_at": "2026-08-09T09:18:00-05:00"
   },
+  "reb117_d05": "PENDING_PARTIAL_ACCEPTANCE_ADJUDICATION",
+  "reb117_d06": "NOT_STARTED",
+  "reb117_full_regression_runs": 0,
+  "reb117_mp_source_registry": "PENDING_MP_IMPORT",
+  "reb117_mp_stop": "ACTIVE",
+  "reb117_p0_status": "APPROVED_RECEIPT_GATED",
   "registry_id": "devpilot-documentation-source-registry",
   "rules": {
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true,
@@ -41348,20 +41757,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1540,
+    "critical_sources_total": 1163,
     "deprecated_total": 0,
     "derived_total": 179,
-    "documents_total": 1636,
-    "documents_with_required_tests_total": 1636,
+    "documents_total": 1651,
+    "documents_with_required_tests_total": 1651,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 37,
-    "last_updated_by": "DEVPL-GSDLC-13-D-05-GENERAL-113",
-    "machine_readable_source_total": 818,
+    "last_updated_by": "DEVPL-REB-117-P0-COR-118-PROPOSED",
+    "machine_readable_source_total": 819,
     "markdown_json_pairs_total": 75,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 602
+    "source_of_truth_total": 616
   },
   "updated": "2026-10-09",
   "updated_at": "2026-10-09",
