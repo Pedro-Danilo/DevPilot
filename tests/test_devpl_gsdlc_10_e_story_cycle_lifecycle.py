@@ -153,14 +153,16 @@ def test_10e_project_status_projects_story_done_as_next_story_or_sprint_ready(ru
         "status": "STORY_COMPLETE",
         "next_selection_ready": True,
         "next_kind": "NEXT_STORY_OR_SPRINT",
-        "navigation_target": "planning-roadmap",
+        "navigation_target": "ui.story-code-workbench",
         "reason_code": "CURRENT_STORY_DONE",
         "read_only": True,
         "server_authoritative": True,
         "source_mutations_performed": False,
     }
     page=(ROOT/'ui/web/src/pages/ProjectStatusView.ts').read_text(encoding='utf-8')
-    assert 'Continuar con siguiente story/sprint' in page
+    assert 'Continuar con siguiente story READY' in page
+    assert "navigationPathFromServerTarget(cycleTarget)" in page
+    assert "La selección/activación se realiza en Story Code Workbench" in page
     assert 'data.storyCycleStatus' not in page
     assert 'story.dataset.currentStoryStatus' in page
     assert 'cycleState.dataset.storyCycleStatus' in page

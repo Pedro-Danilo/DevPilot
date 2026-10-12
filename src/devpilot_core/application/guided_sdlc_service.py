@@ -381,7 +381,7 @@ class GuidedSDLCApplicationService:
                     "status": "STORY_COMPLETE",
                     "next_selection_ready": True,
                     "next_kind": "NEXT_STORY_OR_SPRINT",
-                    "navigation_target": "planning-roadmap",
+                    "navigation_target": "ui.story-code-workbench",
                     "reason_code": "CURRENT_STORY_DONE",
                     "read_only": True,
                     "server_authoritative": True,
