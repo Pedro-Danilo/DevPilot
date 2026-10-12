@@ -1,17 +1,18 @@
 {
-  "schema_id": "devpilot.program_rebaseline.p0_authority_overlay.v1",
-  "version": "1.0.0",
-  "status": "APPROVED_PUBLICATION_GATED",
-  "owner_decision": "OWNER-APPROVAL-2026-10-11-REBASELINE-116",
-  "baseline": {
-    "det_head": "e5ed25922aa3fb7b1fc7ed9f738ff1ca8a666218",
-    "pilot_head": "0f5f1518f3f76034c1367fe60d637c6d69fa78f8",
-    "mp_stop_head": "54085701f39670ec460a80a6b3f9097a9e61a3d1"
-  },
   "authority": {
-    "published_track": "official/devpilot-local",
-    "mp_registry_state": "PENDING_MP_IMPORT",
+    "g0": "APPROVED",
+    "g1": "CLOSED/PASS",
+    "g2": "CLOSED/PARTIAL_ACCEPTANCE",
+    "g3": "CLOSED/PASS_WITH_DOCUMENTED_LIMITS",
+    "g4a": "CLOSED/PASS_WITH_FINDINGS",
+    "g4b": "APPROVED/OWNER_PROMOTION_CONFIRMED",
+    "g5": "TECHNICAL_PASS_OWNER_RATIFICATION_PENDING",
+    "mp_1b": "BLOCKED/PROGRAM_SUCCESSOR_PENDING",
+    "mp_registry_state": "IMPORTED_AT_SYNC1/1690_ENTRIES",
     "multiprovider_stop": "ACTIVE",
+    "published_track": "evolution/multiprovider-v2"
+  },
+  "authority_at_sync1_merge": {
     "g0": "APPROVED",
     "g1": "EXTERNAL_RECEIPT_GATED",
     "g2": "PENDING",
@@ -19,139 +20,155 @@
     "g4a": "PENDING",
     "g4b": "PENDING",
     "g5": "PENDING",
-    "mp_1b": "BLOCKED"
+    "mp_1b": "BLOCKED",
+    "mp_registry_state": "PENDING_MP_IMPORT",
+    "multiprovider_stop": "ACTIVE",
+    "published_track": "official/devpilot-local"
   },
-  "prospective_override_only": true,
+  "baseline": {
+    "det_head": "e5ed25922aa3fb7b1fc7ed9f738ff1ca8a666218",
+    "mp_stop_head": "54085701f39670ec460a80a6b3f9097a9e61a3d1",
+    "pilot_head": "0f5f1518f3f76034c1367fe60d637c6d69fa78f8"
+  },
   "historical_greenfield": [
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13-D-Artefactos_ajustados/ajuste-post-MP-1A-04/SPRINT_13D_v1_3_APPROVED_REBOUND.md",
       "sha256": "0c32220e8bd99e827bc97c082e4020f37c15324265c96d07cb531e14ab2cf83f",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13-D-Artefactos_ajustados/ajuste-post-MP-1A-04/PROTOCOL_13D_v1_2_APPROVED_REBOUND.md",
       "sha256": "76920b5c3026f2526a7e7bf388ebddf27d5bea5263a23010b420ad8fe8576aac",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13-D-Artefactos_ajustados/ajuste-post-MP-1A-04/RUNBOOK_13D_v1_2_APPROVED_REBOUND.md",
       "sha256": "5ce8f80c210fe77d2feb65fef81137ff272cd04bf08d2be79f5614692dd0c239",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13-D-Artefactos_ajustados/ajuste-post-MP-1A-04/PROMPT_13D_v1_3_APPROVED_REBOUND.md",
       "sha256": "ed6761cae8707bcdbb3c6366d69d4f5ebea5829df6e8d8f28f44588aedc3a265",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/03_DEVPL_GREENFIELD_E2E_PRODUCT_ACCEPTANCE_CHARTER_v1_1_0_APPROVED.md",
       "sha256": "38ca67caef4cff52ec4f3c63356c8523bf072c190ec051dc039c86e7fffce592",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13_GREENFIELD_PILOT_PROJECT_BRIEF_v1_1_0_APPROVED.md",
       "sha256": "63934890e18058c9d9ae9f663c438bd71f014884bf546c3c2edbfafb466c9d9a",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13_GREENFIELD_REAL_PRODUCT_ACCEPTANCE_ROADMAP_v1_1_0_APPROVED.md",
       "sha256": "2b9c23c4d90c5fe32b49c35f5114680706b1f3173ce39685336f871663379df2",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_BACKLOG_v1_1_0_APPROVED.md",
       "sha256": "93794e2dca16a0f33b01ac6bdbcc82082ee5cf4a8ef7e1d301fcb12657854a63",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/DEVPL_GSDLC_13_ACCEPTANCE_EVIDENCE_PLAN_v1_1_0_APPROVED.md",
       "sha256": "c89b4932673c919c53fb4c0590fa221768cd978f512f32f4cd401cdcea8b6481",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/sprints_prompts/SPRINT_DEVPL_GSDLC_13_E_v1_1_0_APPROVED.md",
       "sha256": "d481855d3ffbc2d762f0a7a390cfe83e8aed942787f790aa792d07ebb953dedd",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/04_DEVPL_GSDLC_13_REAL_PRODUCT_ACCEPTANCE_REBASELINE_v2_1_0_APPROVED.md",
       "sha256": "34673212b0bbf31351425a1a9e254e9446190bd0135ecaf7886647cbe08802f8",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "DEVPL_GSDLC_13/sprints_prompts/05_PROMPT_DEVPL_GSDLC_13_E_v1_1_0_APPROVED.md",
       "sha256": "382c40ce374b96f5e8b67dc9402ea143c04f6f85917d938893bfd89fb2035894",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     }
   ],
   "historical_multiprovider": [
     {
+      "original_preserved": true,
       "path": "04_ Execution_packages-sprints_prompts/MP_1_Product_definition/STOP_MULTIPROVIDER_AFTER_MP_1A_v1_0_0_APPROVED.md",
       "sha256": "d8fa8bdba9e67743a404f2649da6047d52aac784c33f13e7d2ebce3c9a358bfa",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "01_architecture_governance/MP_V2_SYNCHRONIZATION_GATE_PROTOCOL_v1_0_0_APPROVED.md",
       "sha256": "d4d12c3b13ee5bf987c746f4ae6ee9b3a41ac6b07064158eb1e1013503eb83a6",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "01_architecture_governance/ADR-MP-V2-008-branch-worktree-sync-and-final-convergence_v1_0_0_APPROVED.md",
       "sha256": "ddd92f731ebc0928253b4af947e9640fa8f4805db158c15daa797b4182d0af31",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "01_architecture_governance/MP_V2_PILOT_STRATEGY_AND_ACCEPTANCE_CHARTER_v1_0_0_APPROVED.md",
       "sha256": "54e7d393252a678ed1c92170a9eafee604d93ce52a210aa9df5256be9a2e5806",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "01_architecture_governance/MP_V2_SOURCE_REGISTRY_AND_DOCUMENTATION_REBIND_PLAN_v1_0_0_APPROVED.md",
       "sha256": "3a07013822b5fb3469f011af6cbe4a049dfcbf462eed33b24be9444058ed2693",
-      "supersession": "prospective-clauses-only",
-      "original_preserved": true
+      "supersession": "prospective-clauses-only"
     },
     {
+      "original_preserved": true,
       "path": "00_program/DEVPL_MULTIPROVIDER_IMPLEMENTATION_PROGRAM_v2_1_0_APPROVED.md",
       "sha256": "8a968bf3519107347850c96b4d3ad2cde75f2bafc59921f967b09f8a1bfd6e58",
-      "supersession": "preserve-original-no-premature-wave-replan",
-      "original_preserved": true
+      "supersession": "preserve-original-no-premature-wave-replan"
     },
     {
+      "original_preserved": true,
       "path": "03_backlog_waves/MP_V2_MASTER_ROADMAP_v1_0_0_APPROVED.md",
       "sha256": "685c45e299eb1399e8bafe862d4d8cec0f65a654a2a40cce04dc44bbbc941a4e",
-      "supersession": "preserve-original-no-premature-wave-replan",
-      "original_preserved": true
+      "supersession": "preserve-original-no-premature-wave-replan"
     },
     {
+      "original_preserved": true,
       "path": "03_backlog_waves/MP_V2_MASTER_BACKLOG_v1_0_0_APPROVED.md",
       "sha256": "d16716f4a98ee151f12836ea59331a6e567f37c76c2e29d91ce5ea706646e6a9",
-      "supersession": "preserve-original-no-premature-wave-replan",
-      "original_preserved": true
+      "supersession": "preserve-original-no-premature-wave-replan"
     },
     {
+      "original_preserved": true,
       "path": "03_backlog_waves/MP_V2_WAVE_DEPENDENCY_MATRIX_v1_0_0_APPROVED.md",
       "sha256": "465e264c7cde763df94012223b02ec529fec8f611a86fe93f5b33a8e6693a395",
-      "supersession": "preserve-original-no-premature-wave-replan",
-      "original_preserved": true
+      "supersession": "preserve-original-no-premature-wave-replan"
     }
   ],
+  "owner_decision": "OWNER-APPROVAL-2026-10-11-REBASELINE-116",
+  "post_g5_handoff": {
+    "d06": "PASS_WITH_DOCUMENTED_LIMITS",
+    "external_model": "NOT_AUTHORIZED",
+    "pilot_a_mvp": "NOT_COMPLETE",
+    "source_head": "1806665881a432231462ecfed51f3e342e365be3",
+    "successor": "docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md"
+  },
+  "prospective_override_only": true,
   "published_documents": [
     {
       "path": "docs/02_architecture/adrs/ADR-DEVPL-REB-117.md",
@@ -209,5 +226,9 @@
       "path": "docs/program_rebaseline_117/SPRINT_P0_117.md",
       "sha256": "de094fffc8d7ab4d7e304e683adc07e3e64270f240f21fb25012b56a591a1c88"
     }
-  ]
+  ],
+  "schema_id": "devpilot.program_rebaseline.p0_authority_overlay.v1",
+  "status": "APPROVED/P0_CLOSED/POST_G5_SUCCESSOR_LINKED",
+  "status_at_sync1_merge": "APPROVED_PUBLICATION_GATED",
+  "version": "1.0.0"
 }

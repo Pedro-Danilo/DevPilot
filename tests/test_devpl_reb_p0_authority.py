@@ -17,9 +17,9 @@ def test_p0_overlay_preserves_stop_and_has_historical_provenance():
     doc = load(OVERLAY)
     assert doc["schema_id"] == "devpilot.program_rebaseline.p0_authority_overlay.v1"
     assert doc["authority"]["multiprovider_stop"] == "ACTIVE"
-    assert doc["authority"]["mp_registry_state"] == "PENDING_MP_IMPORT"
-    assert doc["authority"]["mp_1b"] == "BLOCKED"
-    assert doc["authority"]["g1"] == "EXTERNAL_RECEIPT_GATED"
+    assert doc["authority_at_sync1_merge"]["mp_registry_state"] == "PENDING_MP_IMPORT"
+    assert doc["authority_at_sync1_merge"]["mp_1b"] == "BLOCKED"
+    assert doc["authority_at_sync1_merge"]["g1"] == "EXTERNAL_RECEIPT_GATED"
     assert doc["prospective_override_only"] is True
     assert len(doc["historical_greenfield"]) >= 10
     assert len(doc["historical_multiprovider"]) >= 5

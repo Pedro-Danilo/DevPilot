@@ -18,7 +18,7 @@ def test_sync1_registry_retains_both_historic_authorities_and_identity():
     assert len(pairs)>=1686
     assert r['last_registered_sprint']==s['last_registered_sprint']
     assert r['mp_1a_last_registered_sprint_at_sync1']=='MP-1A-04'
-    assert r['reb117_sync1_state']=='CANDIDATE_PENDING_WINDOWS_VALIDATION_AND_G5'
+    assert r['reb117_sync1_state_at_merge']=='CANDIDATE_PENDING_WINDOWS_VALIDATION_AND_G5'
     assert all(any(d['path']==path for d in r['documents']) and (ROOT/path).is_file() for path in [
       'src/devpilot_core/generation/contracts.py',
       'src/devpilot_core/application/story_general_provider.py',
