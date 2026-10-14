@@ -6,10 +6,10 @@
     "g3": "CLOSED/PASS_WITH_DOCUMENTED_LIMITS",
     "g4a": "CLOSED/PASS_WITH_FINDINGS",
     "g4b": "APPROVED/OWNER_PROMOTION_CONFIRMED",
-    "g5": "TECHNICAL_PASS_OWNER_RATIFICATION_PENDING",
-    "mp_1b": "BLOCKED/PROGRAM_SUCCESSOR_PENDING",
-    "mp_registry_state": "IMPORTED_AT_SYNC1/1690_ENTRIES",
-    "multiprovider_stop": "ACTIVE",
+    "g5": "OWNER_RATIFIED_TECHNICAL_ONLY",
+    "mp_1b": "BLOCKED_UNTIL_SPECIFIC_INCREMENT_APPROVAL",
+    "mp_registry_state": "PROGRAM_132_PUBLISHED/1750_ENTRIES",
+    "multiprovider_stop": "OWNER_LIFTED_INCREMENT_GATES_REMAIN",
     "published_track": "evolution/multiprovider-v2"
   },
   "authority_at_sync1_merge": {
@@ -24,6 +24,19 @@
     "mp_registry_state": "PENDING_MP_IMPORT",
     "multiprovider_stop": "ACTIVE",
     "published_track": "official/devpilot-local"
+  },
+  "authority_post_g5_pre_132": {
+    "g0": "APPROVED",
+    "g1": "CLOSED/PASS",
+    "g2": "CLOSED/PARTIAL_ACCEPTANCE",
+    "g3": "CLOSED/PASS_WITH_DOCUMENTED_LIMITS",
+    "g4a": "CLOSED/PASS_WITH_FINDINGS",
+    "g4b": "APPROVED/OWNER_PROMOTION_CONFIRMED",
+    "g5": "TECHNICAL_PASS_OWNER_RATIFICATION_PENDING",
+    "mp_1b": "BLOCKED/PROGRAM_SUCCESSOR_PENDING",
+    "mp_registry_state": "IMPORTED_AT_SYNC1/1690_ENTRIES",
+    "multiprovider_stop": "ACTIVE",
+    "published_track": "evolution/multiprovider-v2"
   },
   "baseline": {
     "det_head": "e5ed25922aa3fb7b1fc7ed9f738ff1ca8a666218",
@@ -160,6 +173,19 @@
       "supersession": "preserve-original-no-premature-wave-replan"
     }
   ],
+  "mp132_successor": {
+    "cor130_ratified": true,
+    "evidence": "R00_02_EVIDENCE_143.zip / SHA=84362e62c7051e31fa6fc59c9c687b0f7222d60f7c0eeec2737395e43b19a168",
+    "external_egress": "DENIED",
+    "g5_ratified": true,
+    "global_stop": "OWNER_LIFTED_INCREMENT_GATES_REMAIN",
+    "location": "B@D:\\Projects\\DevPilot_Local",
+    "mp_1b": "NOT_AUTHORIZED",
+    "owner_approval": "DEVPL-MP-132-OWNER-APPROVAL-133",
+    "owner_program_path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/07_DECISION_OWNER_PROGRAMA_133.md",
+    "source_head": "8db5b44694abcced3231183e05731e732f5b8f24",
+    "v131": "SUPERSEDED_FOR_PLANNING/HISTORICAL_ONLY"
+  },
   "owner_decision": "OWNER-APPROVAL-2026-10-11-REBASELINE-116",
   "post_g5_handoff": {
     "d06": "PASS_WITH_DOCUMENTED_LIMITS",
@@ -228,7 +254,7 @@
     }
   ],
   "schema_id": "devpilot.program_rebaseline.p0_authority_overlay.v1",
-  "status": "APPROVED/P0_CLOSED/POST_G5_SUCCESSOR_LINKED",
+  "status": "APPROVED/P0_CLOSED/MP132_PROGRAM_PUBLICATION_SUCCESSOR",
   "status_at_sync1_merge": "APPROVED_PUBLICATION_GATED",
   "version": "1.0.0"
 }

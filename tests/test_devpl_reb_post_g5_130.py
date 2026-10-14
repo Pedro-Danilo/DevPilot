@@ -18,20 +18,21 @@ def test_current_and_historical_authorities_are_separate():
     assert r['reb117_mp_stop'].startswith('ACTIVE') and r['reb117_mp_1b'].startswith('BLOCKED')
     assert r['current_phase']==s['current_phase']
     assert r['current_repo']==s['current_repo']=='evolution/multiprovider-v2'
-    assert r['current_micro_sprint']==s['current_micro_sprint']=='NONE/MP_PROGRAM_SUCCESSOR_PENDING'
+    assert r['current_micro_sprint']==s['current_micro_sprint']=='MP132-R00-03/AUTHORITY-PUBLICATION'
     assert r['mp_last_completed_micro_sprint']==s['mp_last_completed_micro_sprint']=='MP-1A-04'
     assert r['last_registered_sprint']==s['last_registered_sprint']=='DEVPL-GSDLC-08-E'
-    assert o['authority']['g5']=='TECHNICAL_PASS_OWNER_RATIFICATION_PENDING'
+    assert o['authority_post_g5_pre_132']['g5']=='TECHNICAL_PASS_OWNER_RATIFICATION_PENDING'
+    assert o['authority']['g5']=='OWNER_RATIFIED_TECHNICAL_ONLY'
     assert o['authority']['mp_1b'].startswith('BLOCKED')
     assert o['authority_at_sync1_merge']['g5']=='PENDING'
     assert s['current_phase_at_sync1_merge']=='DEVPL-GSDLC-13'
-    assert s['mp_stop_status']=='ACTIVE'
+    assert s['mp_stop_status']=='OWNER_LIFTED_INCREMENT_GATES_REMAIN'
     assert s['mp_1b_activation'].startswith('BLOCKED')
 
 def test_no_synthetic_delivery_claims_and_documents_registered():
     r=read('.devpilot/docs_governance/source_registry.json')
     pairs={(x['doc_id'],x['path']) for x in r['documents']}
-    assert len(pairs)==len(r['documents'])==1693
+    assert len(pairs)==len(r['documents'])==1752
     for doc_id,path in [
        ('DEVPL-REB-POST-G5-130','docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md'),
        ('DEVPL-MP-OWNER-REBIND-130','docs/program_rebaseline_117/DECISION_OWNER_REBIND_130.md'),
