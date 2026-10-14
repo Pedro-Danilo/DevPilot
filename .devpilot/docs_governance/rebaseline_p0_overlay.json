@@ -8,7 +8,7 @@
     "g4b": "APPROVED/OWNER_PROMOTION_CONFIRMED",
     "g5": "OWNER_RATIFIED_TECHNICAL_ONLY",
     "mp_1b": "BLOCKED_UNTIL_SPECIFIC_INCREMENT_APPROVAL",
-    "mp_registry_state": "PROGRAM_132_PUBLISHED/1750_ENTRIES",
+    "mp_registry_state": "PROGRAM_132_PUBLISHED/1752_ENTRIES",
     "multiprovider_stop": "OWNER_LIFTED_INCREMENT_GATES_REMAIN",
     "published_track": "evolution/multiprovider-v2"
   },
