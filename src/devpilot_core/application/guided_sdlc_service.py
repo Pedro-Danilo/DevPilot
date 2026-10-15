@@ -5,6 +5,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.guided_sdlc import AdvisorContext, ExecutionModeAdvisor, GuidedSDLCService, ProjectProgressEngine, ReconciliationError, WorkflowEngineError
+from devpilot_core.guided_sdlc.workflow_status_projection import project_workflow_status
 from devpilot_core.guided_sdlc.repository import WorkspaceEngineeringStateStoreError
 from devpilot_core.story_execution import StoryExecutionStore
 
@@ -225,6 +226,7 @@ class GuidedSDLCApplicationService:
                     "workspace_id": None,
                     "project_status": unknown.status.to_payload(),
                     "next_action": unknown.next_action.to_payload(),
+                    "workflow_status": project_workflow_status(unknown.status.to_payload(), unknown.next_action.to_payload(), "EMPTY"),
                     "read_only": True,
                     "actor_neutral": True,
                     "network_used": False,
@@ -409,6 +411,7 @@ class GuidedSDLCApplicationService:
                 "workspace_id": resolved,
                 "project_status": status_payload,
                 "next_action": next_payload,
+                "workflow_status": project_workflow_status(status_payload, next_payload, ui_state, lifecycle_reconciliation),
                 "lifecycle_reconciliation": lifecycle_reconciliation,
                 "read_only": True,
                 "actor_neutral": True,

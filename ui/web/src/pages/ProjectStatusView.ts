@@ -1,5 +1,5 @@
 import { DevPilotApiClient, DevPilotApiError } from '../api/client';
-import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData, MiasiApplicabilityStatus } from '../api/types';
+import type { GuidedSdlcNextAction, GuidedSdlcProjectStatus, GuidedSdlcProjectStatusResponseData, MiasiApplicabilityStatus, WorkflowStatusProjection } from '../api/types';
 import { renderStepActionAdvisor, renderStepActionAdvisorError } from '../components/StepActionAdvisor';
 import { renderReconciliationSummary } from './ConflictResolutionView';
 import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
@@ -44,7 +44,9 @@ async function loadProjectStatus(root: HTMLElement, content: HTMLElement, tokenP
       api.reconciliationStatus(),
     ]);
     const data = response.data;
+    const workflow = data.workflow_status;
     const statePanel = renderState(data);
+    root.dataset.workflowStatus = workflow?.status ?? 'UNKNOWN';
     const planningClosure =
       planningResult.status === 'fulfilled'
         ? { ...(((planningResult.value.data as any).planning_closure ?? {}) as Record<string, any>) }
@@ -155,6 +157,7 @@ function renderState(data: GuidedSdlcProjectStatusResponseData): HTMLElement {
   const state = normalizeUiState(data.ui_state);
   const status = data.project_status ?? {};
   const next = data.next_action ?? {};
+  const workflow = data.workflow_status;
   if (state === 'empty') return renderEmpty(status, next);
   if (state === 'unknown') return renderUnknown(status, next);
 
@@ -186,15 +189,15 @@ function renderState(data: GuidedSdlcProjectStatusResponseData): HTMLElement {
     blocker: blockerExplanation,
     recoveryHref: '/recovery',
   }));
-  wrapper.append(renderOverview(status, state));
-  wrapper.append(renderNextAction(next));
+  wrapper.append(renderOverview(status, state, workflow));
+  wrapper.append(renderNextAction(next, workflow));
   wrapper.append(renderSignals(status));
   wrapper.append(renderMiasi(status.miasi ?? {}));
   wrapper.append(renderBlockers(status));
   return wrapper;
 }
 
-function renderOverview(status: GuidedSdlcProjectStatus, state: string): HTMLElement {
+function renderOverview(status: GuidedSdlcProjectStatus, state: string, workflow?: WorkflowStatusProjection): HTMLElement {
   const panel = document.createElement('article');
   panel.className = 'panel project-status-card project-status-card--overview';
   const heading = document.createElement('div');
@@ -203,7 +206,8 @@ function renderOverview(status: GuidedSdlcProjectStatus, state: string): HTMLEle
   title.textContent = 'Estado de ingeniería';
   const badge = document.createElement('span');
   badge.className = `project-status-state project-status-state--${state}`;
-  badge.textContent = humanState(state);
+  badge.dataset.workflowStatus = workflow?.status ?? 'UNKNOWN';
+  badge.textContent = `Gate ${workflow?.status ?? 'UNKNOWN'} · ${humanState(state)}`;
   heading.append(title, badge);
 
   const preCodePercent = asNumber(status.pre_code_profile?.percent);
@@ -232,13 +236,14 @@ function renderOverview(status: GuidedSdlcProjectStatus, state: string): HTMLEle
   return panel;
 }
 
-function renderNextAction(action: GuidedSdlcNextAction): HTMLElement {
+function renderNextAction(action: GuidedSdlcNextAction, workflow?: WorkflowStatusProjection): HTMLElement {
   const panel = document.createElement('article');
   panel.className = 'panel project-status-card project-status-card--next';
   const title = document.createElement('h3');
   title.textContent = 'Próxima acción';
   const kind = document.createElement('p');
   kind.className = 'project-status-next-kind';
+  panel.dataset.workflowStatus = workflow?.status ?? 'UNKNOWN';
   kind.textContent = safe(action.kind, 'INSPECT_STATE');
   const explanation = document.createElement('p');
   explanation.textContent = safe(action.explanation, 'No existe una acción determinística disponible todavía.');
@@ -248,14 +253,14 @@ function renderNextAction(action: GuidedSdlcNextAction): HTMLElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'project-status-continue';
-  button.textContent = 'Continuar';
+  button.textContent = action.kind === 'COMPLETE' ? 'Ver cierre' : 'Continuar';
   const target = safe(action.navigation_target, 'project-status');
   const destination = navigationPathFromServerTarget(target);
-  const canNavigate = action.available === true && action.mutating !== true && destination !== null;
+  const canNavigate = action.available === true && action.mutating !== true && destination !== null && (action.kind === 'COMPLETE' ? workflow?.terminal_cta_enabled === true : workflow?.continue_cta_enabled === true);
   if (!canNavigate) {
     button.disabled = true;
     button.setAttribute('aria-disabled', 'true');
-    const disabled = safe(action.disabled_reason, action.mutating ? 'La acción requiere una ola futura o aprobación.' : 'Destino todavía no disponible en la UI.');
+    const disabled = safe(action.disabled_reason, workflow?.status !== 'READY' ? 'Gate pendiente: CTA inhabilitado hasta readiness acreditada.' : 'Destino o autorización todavía no disponible.');
     button.title = disabled;
     const note = document.createElement('p');
     note.className = 'project-status-disabled-reason';

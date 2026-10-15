@@ -70,4 +70,5 @@ def test_guided_expert_ui_and_unknown_cost():
 def test_documentary_active_pointers_only():
     for f in ('.devpilot/docs_governance/source_registry.json','.devpilot/project_state.json'):
         o=json.loads((ROOT/f).read_text())
-        assert o['current_micro_sprint']=='MP132-R01-12/OBSERVABILITY-ORIGIN'
+        # Active pointers are successor-owned; historical R01-12 must not pin current R01-13.
+        assert o['current_micro_sprint'].startswith('MP132-R01-')

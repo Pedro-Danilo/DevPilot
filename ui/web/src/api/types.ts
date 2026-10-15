@@ -867,7 +867,22 @@ export interface GuidedSdlcProjectStatus {
   reason?: string | null;
 }
 
+export interface WorkflowStatusProjection {
+  schema: 'MP132.R01.13.workflow-status.v1';
+  status: 'READY' | 'PENDING' | 'BLOCKED' | 'UNKNOWN';
+  gate_ui_state: string;
+  next_action_id: string;
+  next_action_reason: string;
+  source_state_fingerprint: string | null;
+  terminal_ready: boolean;
+  terminal_cta_enabled: boolean;
+  continue_cta_enabled: boolean;
+  read_only: true;
+  source_authority: string;
+}
+
 export interface GuidedSdlcProjectStatusResponseData {
+  workflow_status?: WorkflowStatusProjection;
   ui_state: 'READY' | 'EMPTY' | 'BLOCKED' | 'REVALIDATION_REQUIRED' | 'STALE' | 'UNKNOWN' | string;
   workspace_id?: string | null;
   project_status: GuidedSdlcProjectStatus;
