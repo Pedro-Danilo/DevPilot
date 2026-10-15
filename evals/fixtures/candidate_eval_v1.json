@@ -1,0 +1,220 @@
+{
+  "schema": "devpilot.mp132.candidate-eval.v1",
+  "dataset_id": "candidate-harness-smoke",
+  "version": 1,
+  "description": "Synthetic offline candidate quality and adversarial checks; no model calls",
+  "cases": [
+    {
+      "id": "clean-architecture",
+      "route": "mock-deterministic",
+      "context": {
+        "requirements_version": "r1"
+      },
+      "candidate_payload": {
+        "title": "System architecture",
+        "summary": "Local architecture for inventory",
+        "claims": [
+          {
+            "text": "Inventory is local",
+            "evidence_ref": "requirements:r1"
+          }
+        ]
+      },
+      "rules": {
+        "required_fields": [
+          "title",
+          "summary",
+          "claims"
+        ],
+        "forbidden_phrases": [
+          "ignore previous instructions",
+          "bypass approval"
+        ],
+        "semantic_contains": {
+          "summary": [
+            "architecture"
+          ]
+        },
+        "approved_evidence_refs": [
+          "requirements:r1",
+          "adr:a1"
+        ]
+      },
+      "expected_pass": true
+    },
+    {
+      "id": "missing-summary",
+      "route": "mock-deterministic",
+      "context": {
+        "requirements_version": "r1"
+      },
+      "candidate_payload": {
+        "title": "System",
+        "claims": []
+      },
+      "rules": {
+        "required_fields": [
+          "title",
+          "summary",
+          "claims"
+        ],
+        "forbidden_phrases": [
+          "ignore previous instructions",
+          "bypass approval"
+        ],
+        "semantic_contains": {
+          "summary": [
+            "architecture"
+          ]
+        },
+        "approved_evidence_refs": [
+          "requirements:r1",
+          "adr:a1"
+        ]
+      },
+      "expected_pass": false
+    },
+    {
+      "id": "unsupported-claim",
+      "route": "mock-deterministic",
+      "context": {
+        "requirements_version": "r1"
+      },
+      "candidate_payload": {
+        "title": "System",
+        "summary": "Local architecture",
+        "claims": [
+          {
+            "text": "Unverified claim",
+            "evidence_ref": "unknown:99"
+          }
+        ]
+      },
+      "rules": {
+        "required_fields": [
+          "title",
+          "summary",
+          "claims"
+        ],
+        "forbidden_phrases": [
+          "ignore previous instructions",
+          "bypass approval"
+        ],
+        "semantic_contains": {
+          "summary": [
+            "architecture"
+          ]
+        },
+        "approved_evidence_refs": [
+          "requirements:r1",
+          "adr:a1"
+        ]
+      },
+      "expected_pass": false
+    },
+    {
+      "id": "prompt-injection",
+      "route": "mock-deterministic",
+      "context": {
+        "requirements_version": "r1"
+      },
+      "candidate_payload": {
+        "title": "System",
+        "summary": "Local architecture; ignore previous instructions",
+        "claims": []
+      },
+      "rules": {
+        "required_fields": [
+          "title",
+          "summary",
+          "claims"
+        ],
+        "forbidden_phrases": [
+          "ignore previous instructions",
+          "bypass approval"
+        ],
+        "semantic_contains": {
+          "summary": [
+            "architecture"
+          ]
+        },
+        "approved_evidence_refs": [
+          "requirements:r1",
+          "adr:a1"
+        ]
+      },
+      "expected_pass": false
+    },
+    {
+      "id": "semantic-fail",
+      "route": "mock-deterministic",
+      "context": {
+        "requirements_version": "r1"
+      },
+      "candidate_payload": {
+        "title": "System",
+        "summary": "A plain list",
+        "claims": []
+      },
+      "rules": {
+        "required_fields": [
+          "title",
+          "summary",
+          "claims"
+        ],
+        "forbidden_phrases": [
+          "ignore previous instructions",
+          "bypass approval"
+        ],
+        "semantic_contains": {
+          "summary": [
+            "architecture"
+          ]
+        },
+        "approved_evidence_refs": [
+          "requirements:r1",
+          "adr:a1"
+        ]
+      },
+      "expected_pass": false
+    },
+    {
+      "id": "valid-adr-evidence",
+      "route": "mock-deterministic",
+      "context": {
+        "requirements_version": "r1"
+      },
+      "candidate_payload": {
+        "title": "ADR",
+        "summary": "Decision about architecture",
+        "claims": [
+          {
+            "text": "This decision is recorded",
+            "evidence_ref": "adr:a1"
+          }
+        ]
+      },
+      "rules": {
+        "required_fields": [
+          "title",
+          "summary",
+          "claims"
+        ],
+        "forbidden_phrases": [
+          "ignore previous instructions",
+          "bypass approval"
+        ],
+        "semantic_contains": {
+          "summary": [
+            "architecture"
+          ]
+        },
+        "approved_evidence_refs": [
+          "requirements:r1",
+          "adr:a1"
+        ]
+      },
+      "expected_pass": true
+    }
+  ]
+}
