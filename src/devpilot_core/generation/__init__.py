@@ -39,6 +39,7 @@ from .equivalence import (
     EquivalenceMode,
     EquivalenceResult,
 )
+from .lifecycle_store import CandidateLifecycleConflict, CandidateLifecycleStore
 from .contracts import (
     ArtifactCandidateEnvelope,
     CandidateComparisonGroup,
@@ -63,6 +64,8 @@ from .contracts import (
 )
 
 __all__ = [
+    "CandidateLifecycleConflict",
+    "CandidateLifecycleStore",
     "ArtifactCandidateEnvelope",
     "ArtifactAuthorityRecord",
     "ArtifactDependencyProfile",
