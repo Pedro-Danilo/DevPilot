@@ -83,3 +83,7 @@ __all__ = [
     "render_documentation_governance_markdown",
     "run_docs_governance_quality_subgate",
 ]
+
+from .markdown_publication import GovernedMarkdownPublisher, MarkdownPublication
+
+__all__.extend(["GovernedMarkdownPublisher", "MarkdownPublication"])
