@@ -39,6 +39,9 @@ from .equivalence import (
     EquivalenceMode,
     EquivalenceResult,
 )
+from .route_policy import (
+    FallbackQuality, TaskRouteRule, WorkloadEstimate, GovernedTaskRouteDecision, GenerationRoutePolicy,
+)
 from .lifecycle_store import CandidateLifecycleConflict, CandidateLifecycleStore
 from .contracts import (
     ArtifactCandidateEnvelope,
@@ -64,6 +67,7 @@ from .contracts import (
 )
 
 __all__ = [
+    "FallbackQuality", "TaskRouteRule", "WorkloadEstimate", "GovernedTaskRouteDecision", "GenerationRoutePolicy",
     "CandidateLifecycleConflict",
     "CandidateLifecycleStore",
     "ArtifactCandidateEnvelope",
