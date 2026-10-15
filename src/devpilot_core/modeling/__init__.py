@@ -49,3 +49,7 @@ from .external_provider_enablement import (
 )
 
 from devpilot_core.modeling.model_router_v2 import RoutingRuntimeState, RouteEvaluation, GovernedModelRouteDecision, ModelRouterV2
+
+# R01-03 offline capability negotiation (does not replace ModelRouterV2)
+from .negotiation import (AdapterCapabilities, CapabilityRequest, NegotiatedCapability, LocalStubModelAdapter, OfflineCapabilityNegotiator, NegotiationBlocked, default_offline_negotiator)
+__all__ += ["AdapterCapabilities", "CapabilityRequest", "NegotiatedCapability", "LocalStubModelAdapter", "OfflineCapabilityNegotiator", "NegotiationBlocked", "default_offline_negotiator"]
