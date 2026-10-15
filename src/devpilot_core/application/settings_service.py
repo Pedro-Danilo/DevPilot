@@ -75,6 +75,12 @@ class SettingsApplicationService:
         self.context_resolver = context_resolver or UiWorkspaceContextResolver(self.root)
         self.external_enablement = ExternalProviderEnablementService(self.root)
 
+    @property
+    def persistent(self):
+        """R01-10 governed plan-only store; not a provider runtime action."""
+        from .persistent_settings import PersistentSettingsStore
+        return PersistentSettingsStore(self.root)
+
     def workspace(self) -> CommandResult:
         context = self.context_resolver.resolve()
         project_path = context.project_file if context.valid and context.project_file else self.root / ".devpilot" / "project.yaml"

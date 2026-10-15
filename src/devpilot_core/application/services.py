@@ -1326,6 +1326,27 @@ class ApplicationService:
             findings=findings,
         )
 
+    def settings_effective(self, *, key: str, workspace_id: str | None = None, project_id: str | None = None) -> dict[str, Any]:
+        """Pure projection; no writes, no enablement or network side effects."""
+        return self.settings.persistent.effective(key=key, workspace_id=workspace_id, project_id=project_id)
+
+    def settings_persistent_plan(self, *, scope: str, scope_id: str, key: str, value: Any, expected_revision: int) -> dict[str, Any]:
+        return self.settings.persistent.plan(scope=scope, scope_id=scope_id, key=key, value=value, expected_revision=expected_revision).to_dict()
+
+    def settings_persistent_apply_authenticated(self, *, scope: str, scope_id: str, key: str, value: Any,
+            expected_revision: int, principal: AuthenticatedPrincipal, session: SessionContext,
+            approve_write: bool = False, workspace_id: str | None = None) -> dict[str, Any]:
+        return self.settings.persistent.apply(scope=scope, scope_id=scope_id, key=key, value=value,
+            expected_revision=expected_revision, principal=principal, session=session,
+            approve_write=approve_write, workspace_id=workspace_id)
+
+    def settings_persistent_rollback_authenticated(self, *, scope: str, scope_id: str, key: str,
+            target_revision: int, expected_revision: int, principal: AuthenticatedPrincipal,
+            session: SessionContext, approve_write: bool = False, workspace_id: str | None = None) -> dict[str, Any]:
+        return self.settings.persistent.rollback(scope=scope, scope_id=scope_id, key=key,
+            target_revision=target_revision, expected_revision=expected_revision,
+            principal=principal, session=session, approve_write=approve_write, workspace_id=workspace_id)
+
     def settings_provider_plan(self, *, provider_id: str, changes: dict[str, Any] | None = None, actor: str = "ui-local", reason: str = "Settings UI plan-only provider change") -> CommandResult:
         return self.settings.provider_plan(provider_id=provider_id, changes=changes, actor=actor, reason=reason)
 
