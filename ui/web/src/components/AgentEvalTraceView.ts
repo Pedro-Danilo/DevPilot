@@ -25,7 +25,7 @@ export function renderAgentEvalTraceView(data?: unknown): string {
       <strong>${escapeHtml(String(trace.step_id ?? 'step'))} · ${escapeHtml(String(trace.human_decision ?? 'PENDING'))}</strong><br/>
       <small>agent/runtime: ${escapeHtml(String(trace.agent_role ?? 'unknown'))} / ${escapeHtml(String(trace.runtime_agent ?? 'unknown'))}</small><br/>
       <small>provider/model/access-route: ${escapeHtml(String(trace.provider ?? 'unknown'))} / ${escapeHtml(String(trace.model ?? 'unknown'))} / ${escapeHtml(String(trace.access_route ?? 'unknown'))}</small><br/>
-      <small>tokens: ${escapeHtml(String(trace.tokens_total ?? 0))} · cost known: ${trace.cost_known === true ? 'YES' : 'NO'} · cost USD: ${escapeHtml(String(trace.estimated_cost_usd ?? 0))}</small><br/>
+      <small>tokens: ${escapeHtml(String(trace.tokens_total ?? 'NOT_AVAILABLE'))} · cost origin: ${trace.cost_known === true ? 'EVIDENCE_DECLARED' : 'NOT_AVAILABLE'} · cost USD: ${trace.cost_known === true && typeof trace.estimated_cost_usd === 'number' ? escapeHtml(String(trace.estimated_cost_usd)) : 'NOT_AVAILABLE'}</small><br/>
       <small>sources: ${escapeHtml(sources.map((item) => `${item.path}@${String(item.sha256 ?? '').slice(0, 12)}`).join(' · ') || 'none')}</small><br/>
       <small>auto approval: ${trace.auto_approval === true ? 'YES' : 'NO'} · source write: ${trace.source_write === true ? 'YES' : 'NO'} · tool authority granted: ${trace.tool_authority_granted === true ? 'YES' : 'NO'}</small>
     </article>`;

@@ -77,6 +77,31 @@ function routeChoiceLabel(choice: MultiproviderRouteChoice): string {
   return 'VISIBLE · NO EXECUTION';
 }
 
+function safeOrigin(value: unknown): Record<string, unknown> {
+  return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
+}
+
+function renderOriginObservability(foundation: MultiproviderFoundationData): string {
+  const origin = safeOrigin((foundation as unknown as Record<string, unknown>).origin_observability);
+  const cost = safeOrigin(origin.cost);
+  const state = String(cost.status ?? 'NOT_AVAILABLE');
+  const amount = cost.usd;
+  const costText = (state === 'RECEIPT_REPORTED' || state === 'ZERO_NO_EXECUTION') && typeof amount === 'number' && Number.isFinite(amount)
+    ? `USD ${amount.toFixed(6)} (${state})`
+    : 'NOT_AVAILABLE · sin medición real';
+  return `<article class="card provider-origin-observability" data-provider-origin="${escapeHtml(String(origin.source ?? 'NOT_AVAILABLE'))}">
+    <h4>Origen y costo de la ruta · ${escapeHtml(String(origin.source ?? 'NOT_AVAILABLE'))}</h4>
+    <p class="muted">Guided: procedencia vinculada a recibo ${origin.receipt_linked === true ? 'verificado' : 'no disponible'}; no se confunde preview con ejecución real.</p>
+    <dl class="compact-definition-list">
+      <dt>Provider / modelo</dt><dd>${escapeHtml(String(origin.provider ?? 'NOT_AVAILABLE'))} / ${escapeHtml(String(origin.model ?? 'NOT_AVAILABLE'))}</dd>
+      <dt>Ruta / resultado</dt><dd>${escapeHtml(String(origin.provider_class ?? 'NOT_AVAILABLE'))} · ${escapeHtml(String(origin.status ?? 'NOT_AVAILABLE'))}</dd>
+      <dt>Fallback / error</dt><dd>${escapeHtml(String(origin.fallback ?? 'NOT_AVAILABLE'))} / ${escapeHtml(String(origin.error ?? 'NOT_AVAILABLE'))}</dd>
+      <dt>Costo verificable</dt><dd>${escapeHtml(costText)}</dd>
+    </dl>
+    <details><summary>Expert · hashes y procedencia redactada</summary><pre>${safeJsonForHtml(origin)}</pre></details>
+  </article>`;
+}
+
 function renderMultiproviderFoundation(foundation?: MultiproviderFoundationData): string {
   if (!foundation) {
     return `
@@ -161,7 +186,7 @@ function renderMultiproviderFoundation(foundation?: MultiproviderFoundationData)
           <dt>Dependency profile</dt><dd>${escapeHtml(String(runtime.dependency_profile_version ?? 'n/a'))}</dd>
           <dt>Fallback visible</dt><dd>${escapeHtml(String(((runtime.fallback ?? {}) as Record<string, unknown>).reason ?? 'not-applied'))}</dd>
         </dl>
-        <pre>${safeJsonForHtml({ runtime_provenance: runtime, execution_receipt: receipt, authority_boundary: foundation.authority_boundary })}</pre>
+        <pre>${safeJsonForHtml((foundation as unknown as Record<string, unknown>).origin_observability ?? { status: "NOT_AVAILABLE" })}</pre>
       </details>
     </section>`;
 }
@@ -247,6 +272,7 @@ export function renderModelSettingsView(
         <p class="muted"><strong>Scope:</strong> instalación DevPilot · <strong>Persistencia:</strong> lectura/proyección · <strong>Authority:</strong> Model Gateway + policy · <strong>Efecto:</strong> ninguno al consultar.</p>
         <details><summary>Expert · Model Gateway summary JSON</summary><pre>${safeJsonForHtml(summary)}</pre></details>
       </header>
+      ${foundation ? renderOriginObservability(foundation) : '<article class="card provider-origin-observability">Origen y costo: NOT_AVAILABLE</article>'}
       ${renderMultiproviderFoundation(foundation)}
       <details class="card controlled-model-eval">
         <summary>Diagnóstico runtime · simulación de routing controlada</summary>

@@ -25,6 +25,7 @@ from devpilot_core.modeling.contracts import ModelRoutingRequest, RouteLocality
 from devpilot_core.modeling.external_provider_enablement import ExternalProviderEnablementService
 from devpilot_core.modeling.model_router_v2 import ModelRouterV2, RoutingRuntimeState
 from devpilot_core.modeling.providers import ProviderRegistry
+from devpilot_core.application.observability_origin import project_provider_origin
 
 
 def _freshness_state(value: str) -> str:
@@ -372,6 +373,7 @@ class ModelGatewaySettingsService:
             "candidate": candidate.to_dict(),
             "runtime_provenance": runtime_provenance.to_dict(),
             "execution_receipt": receipt.to_dict(),
+            "origin_observability": project_provider_origin(runtime_provenance.to_dict(), receipt.to_dict(), demonstration=True),
             "grounding": {
                 "label": "ContextPack grounding",
                 "context_sha256": context_hash,
