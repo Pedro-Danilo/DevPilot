@@ -1,7 +1,7 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP132-R00-03/AUTHORITY-PUBLICATION",
-  "current_phase": "DEVPL-MP-SUCCESSOR-132/R00-AUTHORITY-REBIND",
+  "current_micro_sprint": "MP132-R01-01/STORY-BRIDGE",
+  "current_phase": "DEVPL-MP-SUCCESSOR-132/R01-KERNEL",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
     {
@@ -41512,11 +41512,13 @@
     "external_egress": "DENIED",
     "g5": "OWNER_RATIFIED_TECHNICAL_ONLY",
     "global_stop": "OWNER_LIFTED_INCREMENT_GATES_REMAIN",
+    "m0_closure": "M0_CLOSED_PASS_WITH_FINDINGS/COR151",
     "mp_1b": "BLOCKED_UNTIL_SPECIFIC_INCREMENT_APPROVAL",
     "program": "DEVPL_MP_SUCCESSOR_132_v1_1_0_OWNER",
     "program_path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/07_DECISION_OWNER_PROGRAMA_133.md",
     "published_owner_docs": 57,
     "r00_02_gate": "MIGRATED_B_PASS",
+    "r1_execution_scope": "R01_01_ONLY_OWNER_APPROVED",
     "scope": "OWNER_APPROVED_PROGRAM",
     "source_head": "8db5b44694abcced3231183e05731e732f5b8f24",
     "v131": "SUPERSEDED_FOR_PLANNING/HISTORICAL_ONLY"
@@ -41565,7 +41567,7 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
-  "next_micro_sprint": "STOP-MULTIPROVIDER",
+  "next_micro_sprint": "MP132-R01-02/CANDIDATE-LIFECYCLE",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",

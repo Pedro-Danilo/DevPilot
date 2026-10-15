@@ -180,9 +180,11 @@
     "g5_ratified": true,
     "global_stop": "OWNER_LIFTED_INCREMENT_GATES_REMAIN",
     "location": "B@D:\\Projects\\DevPilot_Local",
+    "m0_closure": "M0_CLOSED_PASS_WITH_FINDINGS/COR151",
     "mp_1b": "NOT_AUTHORIZED",
     "owner_approval": "DEVPL-MP-132-OWNER-APPROVAL-133",
     "owner_program_path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/07_DECISION_OWNER_PROGRAMA_133.md",
+    "r1_execution_scope": "R01_01_ONLY_OWNER_APPROVED",
     "source_head": "8db5b44694abcced3231183e05731e732f5b8f24",
     "v131": "SUPERSEDED_FOR_PLANNING/HISTORICAL_ONLY"
   },

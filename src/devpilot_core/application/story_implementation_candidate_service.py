@@ -231,6 +231,11 @@ class StoryImplementationCandidateApplicationService:
             "human_decision": None,
             "draft_ids": [],
         }
+        from devpilot_core.generation.story_bridge import project_story_proposal
+        try:
+            proposal["generation_bridge"] = project_story_proposal(proposal)
+        except (ValueError, TypeError, KeyError) as exc:
+            return self._block(command, "MP132_R01_01_STORY_BRIDGE_BLOCK", f"Typed Story bridge rejected this proposal: {exc}")
         self._save(workspace, workspace_id, proposal)
         return self._pass(command, "Deterministic implementation proposal created from StoryContextPack + frozen Architecture; source/draft mutations=false.", {"proposal": proposal})
 
