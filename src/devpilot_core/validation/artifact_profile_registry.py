@@ -80,6 +80,11 @@ class ArtifactProfileRegistry:
         from devpilot_core.validation.project_profile import ProjectApplicability
         return ProjectApplicability(self).evaluate(facts, waivers)
 
+    def evaluate_coverage(self, rules: tuple["CoverageRule", ...], *, stage: str, documents_root: Path | None = None) -> dict[str, Any]:
+        """Read-only project coverage; profile selection stays canonical here."""
+        from devpilot_core.validation.artifact_coverage_gate import ArtifactCoverageGate
+        return ArtifactCoverageGate(self, documents_root or self.root).evaluate(rules, stage=stage)
+
     def status(self) -> CommandResult:
         """Validate and summarize the data-driven artifact profile registry."""
 
