@@ -463,6 +463,19 @@ export class DevPilotApiClient {
     });
   }
 
+  // R01-11: session/cookie + CSRF path. Never authorize writes via API token only.
+  async persistentSettingsEffective(key: string, scope: string, scopeId: string, workspaceId?: string, projectId?: string): Promise<DevPilotApplicationResponse> {
+    return this.authJson<DevPilotApplicationResponse>(`/settings/persistent/effective${this.query({ key, scope, scope_id: scopeId, workspace_id: workspaceId, project_id: projectId })}`, { method: 'GET' });
+  }
+
+  async persistentSettingsPlan(payload: { scope: string; scope_id: string; key: string; value: string | number; expected_revision: number; workspace_id?: string }): Promise<DevPilotApplicationResponse> {
+    return this.authJson<DevPilotApplicationResponse>('/settings/persistent/plan', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } });
+  }
+
+  async persistentSettingsApply(payload: { scope: string; scope_id: string; key: string; value: string | number; expected_revision: number; workspace_id?: string; approve_write: true }): Promise<DevPilotApplicationResponse> {
+    return this.authJson<DevPilotApplicationResponse>('/settings/persistent/apply', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } });
+  }
+
   async settingsWorkspace(): Promise<DevPilotApplicationResponse> {
     return this.get('/settings/workspace', { retryNetworkErrors: true });
   }

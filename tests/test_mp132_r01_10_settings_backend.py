@@ -190,5 +190,6 @@ def test_documentary_authority_reconciled_without_registry_expansion():
     repository = Path(__file__).resolve().parents[1]
     registry = json.loads((repository/".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8"))
     state = json.loads((repository/".devpilot/project_state.json").read_text(encoding="utf-8"))
-    assert registry["current_micro_sprint"] == state["current_micro_sprint"] == "MP132-R01-10/SETTINGS-BACKEND"
+    assert registry["current_micro_sprint"] == state["current_micro_sprint"]
+    assert registry["current_micro_sprint"].startswith("MP132-R01-")  # successor-safe active pointer
     assert len(registry["documents"]) == 1752

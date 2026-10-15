@@ -325,6 +325,10 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/approvals/{approval_id}/approve"): ApiRoutePolicy("approvals.approve", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
     ("POST", "/api/v1/approvals/{approval_id}/deny"): ApiRoutePolicy("approvals.deny", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
     ("POST", "/api/v1/actions/dry-run"): ApiRoutePolicy("ui.actions.dry_run", "read", "protected-dry-run"),
+    # MP132 R01-11: session-only scoped settings; owner write authorized by server RBAC and store.
+    ("GET", "/api/v1/settings/persistent/effective"): ApiRoutePolicy("settings.persistent.effective", "read", "protected-human-session-settings"),
+    ("POST", "/api/v1/settings/persistent/plan"): ApiRoutePolicy("settings.persistent.plan", "read", "protected-human-session-settings-plan"),
+    ("POST", "/api/v1/settings/persistent/apply"): ApiRoutePolicy("settings.persistent.apply", "read", "protected-owner-session-settings-write"),
     ("GET", "/api/v1/settings/workspace"): ApiRoutePolicy("settings.workspace", "read", "protected-settings-read", path_subject=".devpilot/project.yaml"),
     ("GET", "/api/v1/settings/providers"): ApiRoutePolicy("settings.providers", "read", "protected-settings-read", path_subject=".devpilot/providers.yaml"),
     ("GET", "/api/v1/settings/model-gateway"): ApiRoutePolicy("settings.model_gateway", "read", "protected-settings-read", path_subject=".devpilot/modeling/model_capability_catalog.json"),

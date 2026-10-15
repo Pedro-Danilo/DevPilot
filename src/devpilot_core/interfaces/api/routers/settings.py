@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from devpilot_core.application import ApplicationService
+from devpilot_core.application.persistent_settings import SettingsDenied, SettingsConflict
 
 from ..dependencies import get_application_service
 from ..models import dispatch_application_request
@@ -44,6 +45,79 @@ def settings_policy(service: ApplicationService = Depends(get_application_servic
 @router.post("/api/v1/settings/providers/plan")
 def settings_provider_plan(body: ProviderPlanBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _json(*dispatch_application_request(service, operation="settings.providers.plan", payload=body.model_dump()))
+
+
+# R01-11: authenticated, bounded HTTP adapter to the R01-10 authority.
+# Legacy token authentication alone does not grant a human session or Owner writes.
+class PersistentSettingsBody(BaseModel):
+    scope: str = "platform"
+    scope_id: str = "platform"
+    key: str = "ui.detail_level"
+    value: Any = "guided"
+    expected_revision: int = Field(default=0, ge=0)
+    approve_write: bool = False
+    workspace_id: str | None = None
+
+
+def _settings_reply(operation: str, data: dict[str, Any], status: int = 200) -> JSONResponse:
+    return _json({"contract": "DevPilotApplicationResponse", "operation": operation,
+                  "ok": status == 200, "exit_code": 0 if status == 200 else 4,
+                  "message": "Settings operation completed." if status == 200 else "Settings operation denied.",
+                  "data": data, "findings": []}, status)
+
+
+def _settings_principal(request: Request):
+    principal, session = _session(request)
+    if principal is None or session is None:
+        raise SettingsDenied("AUTHENTICATED_SESSION_REQUIRED")
+    return principal, session
+
+
+def _settings_read_scope(principal, *, scope: str, scope_id: str, workspace_id: str | None = None) -> None:
+    # Read/plan permissions are scoped too: no cross-workspace enumeration.
+    if scope == "workspace" and scope_id not in principal.workspace_scopes:
+        raise SettingsDenied("WORKSPACE_RBAC_DENY")
+    if scope == "project" and (not workspace_id or workspace_id not in principal.workspace_scopes):
+        raise SettingsDenied("PROJECT_WORKSPACE_RBAC_DENY")
+
+
+
+@router.get("/api/v1/settings/persistent/effective")
+def persistent_effective(request: Request, key: str = "ui.detail_level", scope: str = "platform", scope_id: str = "platform", workspace_id: str | None = None,
+                         project_id: str | None = None, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    try:
+        principal, _ = _settings_principal(request)
+        _settings_read_scope(principal,scope=scope,scope_id=scope_id,workspace_id=workspace_id)
+        effective = service.settings_effective(key=key, workspace_id=workspace_id, project_id=project_id)
+        probe = service.settings_persistent_plan(scope=scope, scope_id=scope_id, key=key, value=effective["effective_value"], expected_revision=0)
+        return _settings_reply("settings.persistent.effective", {**effective, "target_revision": probe["current_revision"]})
+    except SettingsDenied:
+        return _settings_reply("settings.persistent.effective", {"reason": "READ_DENIED"}, 403)
+
+
+@router.post("/api/v1/settings/persistent/plan")
+def persistent_plan(request: Request, body: PersistentSettingsBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    try:
+        principal, _ = _settings_principal(request)
+        _settings_read_scope(principal,scope=body.scope,scope_id=body.scope_id,workspace_id=body.workspace_id)
+        data = service.settings_persistent_plan(scope=body.scope, scope_id=body.scope_id, key=body.key, value=body.value, expected_revision=body.expected_revision)
+        return _settings_reply("settings.persistent.plan", data, 200 if data["permitted"] else 409)
+    except SettingsDenied:
+        return _settings_reply("settings.persistent.plan", {"reason": "PLAN_DENIED"}, 403)
+
+
+@router.post("/api/v1/settings/persistent/apply")
+def persistent_apply(request: Request, body: PersistentSettingsBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    try:
+        principal, session = _settings_principal(request)
+        data = service.settings_persistent_apply_authenticated(scope=body.scope, scope_id=body.scope_id,
+            key=body.key, value=body.value, expected_revision=body.expected_revision,
+            principal=principal, session=session, approve_write=body.approve_write, workspace_id=body.workspace_id)
+        return _settings_reply("settings.persistent.apply", data)
+    except SettingsConflict:
+        return _settings_reply("settings.persistent.apply", {"reason": "REVISION_CONFLICT"}, 409)
+    except SettingsDenied:
+        return _settings_reply("settings.persistent.apply", {"reason": "AUTH_OR_POLICY_DENY"}, 403)
 
 
 class ModelGatewayEvalBody(BaseModel):

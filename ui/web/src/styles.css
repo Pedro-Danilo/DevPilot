@@ -1767,3 +1767,17 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 .source-change-owner-review-confirmation{display:flex;align-items:flex-start;gap:.55rem;padding:.7rem;border:1px solid var(--border-color,#d6dbe5);border-radius:.55rem;cursor:pointer;font-weight:600}
 .source-change-owner-review-confirmation input{width:auto;margin:.15rem 0 0;flex:0 0 auto}
 .story-test-plan-owner-guide{border-width:2px;margin:.5rem 0}.story-test-plan-owner-guide h4{margin-top:0}.story-test-plan-owner-guide .code-draft-status{margin-top:.45rem}.story-test-plan-owner-guide+.code-workbench-actions input[data-test-plan-review-reason],.story-test-plan-owner-guide+.code-workbench-actions input[data-test-plan-waiver-reason]{min-width:min(100%,22rem);flex:1 1 22rem}
+
+/* MP132 R01-11: readable, keyboard-accessible scoped Settings Home. */
+.settings-home-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; border-bottom:1px solid var(--border-color, #737d8a); padding-bottom:.75rem; }
+.settings-home-tabs [role="tab"] { min-height:44px; padding:.65rem 1rem; border-radius:.6rem; }
+.settings-home-tabs [aria-selected="true"] { outline:2px solid currentColor; font-weight:700; }
+.settings-persist-form { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:.8rem; }
+.settings-persist-form label { display:grid; gap:.35rem; min-width:0; }
+.settings-persist-form :is(input,select) { width:100%; min-height:42px; max-width:100%; }
+.settings-action-row { display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; margin-top:1rem; }
+.settings-action-row label { display:flex; align-items:center; gap:.4rem; }
+.settings-action-row button { min-height:44px; }
+.persistent-settings-home { overflow-wrap:anywhere; max-width:100%; }
+.persistent-settings-home pre { overflow:auto; white-space:pre-wrap; }
+[hidden] { display:none !important; }

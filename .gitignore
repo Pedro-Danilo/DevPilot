@@ -94,5 +94,8 @@ ui/web/test-results/
 # DEVPL-GSDLC-02-B local human authentication runtime (credentials/sessions)
 .devpilot/auth/
 
+# R01-10/11 generated persistent settings database (runtime only; never source)
+.devpilot/runtime/settings/
+
 # GSDLC-06-C external provider runtime enablement state/audit
 .devpilot/runtime/provider_enablement/

@@ -5180,6 +5180,58 @@
       "risk_level": "medium",
       "route_id": "api.story-implementation.proposal.decision",
       "workspace_scope_required": true
+    },
+    {
+      "access_class": "authenticated-settings-read-plan",
+      "allowed_roles": [
+        "owner",
+        "developer",
+        "operator"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "GET",
+      "operation": "settings.persistent.effective",
+      "path": "/api/v1/settings/persistent/effective",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.persistent.effective",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-settings-read-plan",
+      "allowed_roles": [
+        "owner",
+        "developer",
+        "operator"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.persistent.plan",
+      "path": "/api/v1/settings/persistent/plan",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.settings.persistent.plan",
+      "workspace_scope_required": false
+    },
+    {
+      "access_class": "authenticated-owner-settings-write",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "settings.persistent.apply",
+      "path": "/api/v1/settings/persistent/apply",
+      "public": false,
+      "risk_level": "high",
+      "route_id": "api.settings.persistent.apply",
+      "workspace_scope_required": false
     }
   ],
   "runtime_enforced": true,
@@ -5526,9 +5578,9 @@
     "gsdlc_12_b_legacy_token_allowed_total": 0,
     "gsdlc_12_b_reconciliation_policies_total": 3,
     "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
-    "human_session_required_total": 170,
+    "human_session_required_total": 173,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 246,
+    "route_policies_total": 249,
     "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
@@ -5538,7 +5590,8 @@
     "gsdlc_13_c_03_miasi_applicability_policies_total": 1,
     "gsdlc_13_c_04_planning_authoring_policies_total": 4,
     "gsdlc_13_d_01_story_activation_policies_total": 3,
-    "gsdlc_13_d_02_implementation_proposal_policies_total": 2
+    "gsdlc_13_d_02_implementation_proposal_policies_total": 2,
+    "r01_11_persistent_settings_policies_total": 3
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-10-01",
