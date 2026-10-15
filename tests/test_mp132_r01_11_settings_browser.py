@@ -81,8 +81,27 @@ def test_ui_has_accessible_sections_and_safe_client_boundary():
     page=(ROOT/'ui/web/src/pages/SettingsView.ts').read_text(encoding='utf-8')
     client=(ROOT/'ui/web/src/api/client.ts').read_text(encoding='utf-8')
     assert 'aria-live' in home and 'settings-write-confirm' in home and 'settings-plan-preview' in home
-    assert 'aria-selected' in page and "event.key==='ArrowRight'" in page and "event.key!=='ArrowLeft'" in page
+    assert "setAttribute('role','group')" in page and "setAttribute('aria-pressed'" in page
+    assert 'tab.tabIndex' not in page and "'ArrowRight', 'ArrowLeft', 'Home', 'End'" in page
+    assert 'activateTab(id)' in page and "focus({ preventScroll: true })" in page
+    assert 'void refresh();' in page and 'if (client.token) void refresh()' not in page
     assert "activeSettingsTab!=='providers'" in page and "activeSettingsTab!=='ai'" in page
     assert 'authJson<DevPilotApplicationResponse>' in client
     assert 'approve_write:true' in home
     assert 'settings/providers/revoke' in client and 'settings/persistent/apply' in client
+
+
+def test_keyboard_navigation_follows_native_button_group_contract():
+    page=(ROOT/'ui/web/src/pages/SettingsView.ts').read_text(encoding='utf-8')
+    css=(ROOT/'ui/web/src/styles.css').read_text(encoding='utf-8')
+    assert "tab.setAttribute('aria-pressed'" in page
+    assert "tab.addEventListener('click', () => activateTab(id))" in page
+    assert "tab.addEventListener('keydown'" in page
+    assert "root.querySelector<HTMLButtonElement>" in page
+    assert 'settings-home-tabs [data-settings-tab]:focus-visible' in css
+
+
+def test_focus_capture_precedes_dom_rebuild():
+    page=(ROOT/'ui/web/src/pages/SettingsView.ts').read_text(encoding='utf-8')
+    draw=page.split('function draw(): void {',1)[1]
+    assert draw.index('const focusedTab =') < draw.index('root.replaceChildren()')

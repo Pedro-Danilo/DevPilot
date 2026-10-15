@@ -1770,8 +1770,8 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 
 /* MP132 R01-11: readable, keyboard-accessible scoped Settings Home. */
 .settings-home-tabs { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; border-bottom:1px solid var(--border-color, #737d8a); padding-bottom:.75rem; }
-.settings-home-tabs [role="tab"] { min-height:44px; padding:.65rem 1rem; border-radius:.6rem; }
-.settings-home-tabs [aria-selected="true"] { outline:2px solid currentColor; font-weight:700; }
+.settings-home-tabs [data-settings-tab] { min-height:44px; padding:.65rem 1rem; border-radius:.6rem; }
+.settings-home-tabs [aria-pressed="true"] { outline:2px solid currentColor; font-weight:700; }
 .settings-persist-form { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:.8rem; }
 .settings-persist-form label { display:grid; gap:.35rem; min-width:0; }
 .settings-persist-form :is(input,select) { width:100%; min-height:42px; max-width:100%; }
@@ -1781,3 +1781,6 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 .persistent-settings-home { overflow-wrap:anywhere; max-width:100%; }
 .persistent-settings-home pre { overflow:auto; white-space:pre-wrap; }
 [hidden] { display:none !important; }
+
+/* COR-165: native button group remains keyboard-operable and visibly focused. */
+.settings-home-tabs [data-settings-tab]:focus-visible { outline: 3px solid #133972; outline-offset: 3px; }

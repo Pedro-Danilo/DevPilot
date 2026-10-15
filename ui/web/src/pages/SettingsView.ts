@@ -289,6 +289,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   }
 
   function draw(): void {
+    const focusedTab = (document.activeElement as HTMLElement | null)?.dataset?.settingsTab;
     root.replaceChildren();
     const heading = document.createElement('div');
     heading.className = 'section-heading-row';
@@ -304,14 +305,38 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     refreshButton.addEventListener('click', () => void refresh());
     heading.append(intro, refreshButton);
     root.append(heading);
-    const tabs = document.createElement('nav');tabs.className='settings-home-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Áreas de Configuración');
+    const tabs = document.createElement('div');tabs.className='settings-home-tabs';tabs.setAttribute('role','group');tabs.setAttribute('aria-label','Áreas de Configuración');
     const labels: Array<[typeof activeSettingsTab,string]> = [['overview','Resumen'],['preferences','Preferencias'],['providers','Proveedores'],['ai','Modelos y agentes']];
-    for(const [id,label] of labels){const tab=document.createElement('button');tab.type='button';tab.setAttribute('role','tab');tab.dataset.settingsTab=id;tab.setAttribute('aria-selected',String(activeSettingsTab===id));tab.setAttribute('aria-controls','settings-panel-'+id);tab.tabIndex=activeSettingsTab===id?0:-1;tab.textContent=label;tab.addEventListener('click',()=>{activeSettingsTab=id;draw();});tab.addEventListener('keydown',(event)=>{if(event.key!=='ArrowRight'&&event.key!=='ArrowLeft')return;event.preventDefault();const index=labels.findIndex(([key])=>key===id);activeSettingsTab=labels[(index+(event.key==='ArrowRight'?1:labels.length-1))%labels.length][0];draw();root.querySelector<HTMLElement>(`[data-settings-tab="${activeSettingsTab}"]`)?.focus();});tabs.append(tab);}
+    const activateTab = (id: typeof activeSettingsTab): void => {
+      activeSettingsTab = id;
+      draw();
+      root.querySelector<HTMLButtonElement>(`[data-settings-tab="${id}"]`)?.focus({ preventScroll: true });
+    };
+    for (const [id, label] of labels) {
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.id = 'settings-tab-' + id;
+      tab.dataset.settingsTab = id;
+      tab.setAttribute('aria-pressed', String(activeSettingsTab === id));
+      tab.setAttribute('aria-controls', 'settings-panel-' + id);
+      tab.textContent = label;
+      // All four native buttons are sequential Tab stops; arrows are additional shortcuts.
+      tab.addEventListener('click', () => activateTab(id));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const index = labels.findIndex(([key]) => key === id);
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? labels.length - 1
+          : (index + (event.key === 'ArrowRight' ? 1 : labels.length - 1)) % labels.length;
+        activateTab(labels[next][0]);
+      });
+      tabs.append(tab);
+    }
     root.append(tabs);
     root.append(renderPhaseNotice(state));
     const workspacePanel=renderWorkspaceContextPanel(state.portfolio, state.errors.portfolio, state.durations.portfolio);
     workspacePanel.hidden=activeSettingsTab!=='overview';root.append(workspacePanel);
-    persistentHome.id='settings-panel-preferences';persistentHome.setAttribute('role','tabpanel');persistentHome.hidden = activeSettingsTab !== 'preferences';root.append(persistentHome);
+    persistentHome.id='settings-panel-preferences';persistentHome.setAttribute('role','region');persistentHome.setAttribute('aria-labelledby','settings-tab-preferences');persistentHome.hidden = activeSettingsTab !== 'preferences';root.append(persistentHome);
 
     const grid = document.createElement('div');
     grid.className = 'grid two-cols';
@@ -320,7 +345,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       renderDataCard('Política de plataforma', 'PolicyEngine, CostGuard y MIASI policy matrix de DevPilot.', state.policy, state.errors.policy, state.durations.policy),
       renderDataCard('Postura de seguridad', 'Token requerido, CORS local restrictivo y capacidades sensibles deshabilitadas.', state.securityPosture, state.errors.securityPosture, state.durations.securityPosture, true)
     );
-    const contextSection=disclosure('platform-context', 'Contexto técnico, policy y seguridad', grid);contextSection.id='settings-panel-overview';contextSection.setAttribute('role','tabpanel');contextSection.hidden=activeSettingsTab!=='overview';root.append(contextSection);
+    const contextSection=disclosure('platform-context', 'Contexto técnico, policy y seguridad', grid);contextSection.id='settings-panel-overview';contextSection.setAttribute('role','region');contextSection.setAttribute('aria-labelledby','settings-tab-overview');contextSection.hidden=activeSettingsTab!=='overview';root.append(contextSection);
 
     const providerGrid = document.createElement('div');
     providerGrid.className = 'grid two-cols';
@@ -347,7 +372,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     `;
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());
     providerGrid.append(providers, editor);
-    const providerSection=disclosure('provider-configuration', 'Providers y plan de configuración', providerGrid);providerSection.id='settings-panel-providers';providerSection.setAttribute('role','tabpanel');providerSection.hidden=activeSettingsTab!=='providers';root.append(providerSection);
+    const providerSection=disclosure('provider-configuration', 'Providers y plan de configuración', providerGrid);providerSection.id='settings-panel-providers';providerSection.setAttribute('role','region');providerSection.setAttribute('aria-labelledby','settings-tab-providers');providerSection.hidden=activeSettingsTab!=='providers';root.append(providerSection);
 
     const aiControlCenter = document.createElement('section');
     aiControlCenter.innerHTML = renderAIControlCenterShell({
@@ -388,11 +413,14 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     aiControlCenter.querySelectorAll<HTMLElement>('[data-provider-revoke]').forEach((button) => {
       button.addEventListener('click', () => void providerKillSwitch(button.dataset.providerRevoke || '', true));
     });
-    aiControlCenter.id='settings-panel-ai';aiControlCenter.setAttribute('role','tabpanel');aiControlCenter.hidden=activeSettingsTab!=='ai';root.append(aiControlCenter);
+    aiControlCenter.id='settings-panel-ai';aiControlCenter.setAttribute('role','region');aiControlCenter.setAttribute('aria-labelledby','settings-tab-ai');aiControlCenter.hidden=activeSettingsTab!=='ai';root.append(aiControlCenter);
+    // An asynchronous refresh redraw must not silently discard keyboard focus.
+    if (focusedTab) root.querySelector<HTMLButtonElement>(`[data-settings-tab="${focusedTab}"]`)?.focus({ preventScroll: true });
   }
 
   draw();
-  if (client.token) void refresh();
+  // An authenticated browser may use a session cookie without a legacy API token.
+  void refresh();
   return root;
 }
 
