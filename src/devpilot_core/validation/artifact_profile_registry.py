@@ -72,6 +72,14 @@ class ArtifactProfileRegistry:
 
         return generic
 
+    def evaluate_project_applicability(self, facts: "ProjectFacts", *, waivers: tuple["Waiver", ...] = ()) -> dict[str, Any]:
+        """Project-scoped PESP evaluation using this single canonical profile registry.
+
+        No change to historical structural Markdown selection or catalog schema.
+        """
+        from devpilot_core.validation.project_profile import ProjectApplicability
+        return ProjectApplicability(self).evaluate(facts, waivers)
+
     def status(self) -> CommandResult:
         """Validate and summarize the data-driven artifact profile registry."""
 
