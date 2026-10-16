@@ -20,6 +20,7 @@ R01_HARDWARE_MATRIX = Path('research/devpl_gsdlc/r01/c/hardware_fit_matrix.json'
 class LocalProviderDiscoveryOptions:
     probe: bool = False
     provider_ids: tuple[str, ...] = LOCAL_PROVIDER_IDS_V2
+    probe_timeout_seconds: float | None = None
 
 
 class LocalProviderDiscoveryService:
@@ -124,7 +125,7 @@ class LocalProviderDiscoveryService:
         probe_attempted = False
         probe_status = 'not-requested'
         error_type = None
-        if self.options.probe and decision.ok:
+        if self.options.probe and decision.ok and not self.registry.used_example and self.registry.source_path != "built-in-defaults":
             probe_attempted = True
             health = self._adapter(provider_id, config).health()
             hs = dict((health.data or {}).get('summary') or {})
@@ -161,10 +162,11 @@ class LocalProviderDiscoveryService:
 
     def _adapter(self, provider_id: str, config):
         limits = self.policy.limits_for(provider_id)
+        timeout = min(limits.timeout_seconds, self.options.probe_timeout_seconds) if self.options.probe_timeout_seconds is not None else limits.timeout_seconds
         if provider_id == 'ollama':
-            return OllamaAdapter(config, timeout_seconds=limits.timeout_seconds, max_response_bytes=limits.max_response_bytes, max_models=limits.max_models)
+            return OllamaAdapter(config, timeout_seconds=timeout, max_response_bytes=limits.max_response_bytes, max_models=limits.max_models)
         if provider_id == 'lmstudio':
-            return LMStudioAdapter(config, timeout_seconds=limits.timeout_seconds, max_response_bytes=limits.max_response_bytes, max_models=limits.max_models)
+            return LMStudioAdapter(config, timeout_seconds=timeout, max_response_bytes=limits.max_response_bytes, max_models=limits.max_models)
         if provider_id == 'openai-compatible-local':
             return OpenAICompatibleLocalAdapter(config, self.policy)
         raise ValueError(provider_id)

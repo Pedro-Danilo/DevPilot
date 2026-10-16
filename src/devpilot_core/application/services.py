@@ -1220,6 +1220,9 @@ class ApplicationService:
     def settings_providers(self, *, prefer_example: bool = False) -> CommandResult:
         return self.settings.providers(prefer_example=prefer_example)
 
+    def settings_local_readiness(self, *, probe: bool = False) -> dict[str, Any]:
+        return self.settings.local_model_readiness(probe=probe)
+
     def settings_model_gateway(self, *, preview_input_tokens: int = 1200, preview_output_tokens: int = 300) -> CommandResult:
         return self.settings.model_gateway_settings(preview_input_tokens=preview_input_tokens, preview_output_tokens=preview_output_tokens)
 
@@ -2982,6 +2985,7 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-MP132-R11-01", "GET", "/api/v1/settings/persistent/effective", "settings.persistent.effective", ["Session-bound typed effective preference; no write or runtime authority."]),
         ("APP-ROUTE-MP132-R11-02", "POST", "/api/v1/settings/persistent/plan", "settings.persistent.plan", ["Session-bound preview only; no write."]),
         ("APP-ROUTE-MP132-R11-03", "POST", "/api/v1/settings/persistent/apply", "settings.persistent.apply", ["Owner-only CAS-versioned local SQLite write; provider runtime unchanged."]),
+        ("APP-ROUTE-R02-02-01", "POST", "/api/v1/settings/local-model-readiness/probe", "settings.local_model_readiness.probe", ["Human session and Owner RBAC; explicit bounded loopback health only; no inference, writes or enablement."]),
         ("APP-ROUTE-027", "GET", "/api/v1/settings/providers", "settings.providers", ["Active Sprint 72 Settings route; providers are redacted and read-only."]),
         ("APP-ROUTE-132", "GET", "/api/v1/settings/model-gateway", "settings.model_gateway", ["GSDLC-06-E ModelSettingsView projection; credentials redacted and route/tool authority separated."]),
         ("APP-ROUTE-133", "POST", "/api/v1/settings/model-gateway/evaluate", "settings.model_gateway.evaluate", ["GSDLC-06-E human-session controlled mock/local/fake-external evaluation; no real external network."]),

@@ -142,6 +142,8 @@ class SettingsApplicationService:
         if policy_path.is_file():
             discovery = LocalProviderDiscoveryService(self.root, LocalProviderDiscoveryOptions(probe=False)).build()
             redacted_data["local_provider_health"] = _redact_settings_value((discovery.data or {}).get("report", {}))
+            from devpilot_core.modeling.local_model_readiness import project_local_readiness
+            redacted_data["local_model_readiness"] = project_local_readiness(self.root, probe=False)
             summary["local_provider_health_available"] = True
             summary["local_provider_health_probe_requested"] = False
         else:
@@ -161,6 +163,10 @@ class SettingsApplicationService:
             findings=findings,
         )
 
+
+    def local_model_readiness(self, *, probe: bool = False) -> dict[str, Any]:
+        from devpilot_core.modeling.local_model_readiness import project_local_readiness
+        return project_local_readiness(self.root, probe=probe)
 
     def agent_runtime_settings(self) -> CommandResult:
         from devpilot_core.agents import AgentRoleBindingCatalog

@@ -5232,6 +5232,22 @@
       "risk_level": "high",
       "route_id": "api.settings.persistent.apply",
       "workspace_scope_required": false
+    },
+    {
+      "route_id": "api.settings.local-model-readiness.probe",
+      "method": "POST",
+      "path": "/api/v1/settings/local-model-readiness/probe",
+      "operation": "settings.local_model_readiness.probe",
+      "access_class": "authenticated-local-health-probe",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "public": false,
+      "risk_level": "medium",
+      "workspace_scope_required": false
     }
   ],
   "runtime_enforced": true,

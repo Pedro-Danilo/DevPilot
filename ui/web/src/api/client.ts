@@ -537,6 +537,10 @@ export class DevPilotApiClient {
     return this.post('/settings/providers/revoke', { provider_id: providerId, reason }, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
   }
 
+  async probeLocalModelReadiness(): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/local-model-readiness/probe', {}, { timeoutMs: 20000 });
+  }
+
   async settingsProviders(): Promise<DevPilotApplicationResponse> {
     return this.get('/settings/providers', {
       timeoutMs: PROVIDER_SETTINGS_READ_TIMEOUT_MS,

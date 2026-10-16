@@ -330,6 +330,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/settings/persistent/plan"): ApiRoutePolicy("settings.persistent.plan", "read", "protected-human-session-settings-plan"),
     ("POST", "/api/v1/settings/persistent/apply"): ApiRoutePolicy("settings.persistent.apply", "read", "protected-owner-session-settings-write"),
     ("GET", "/api/v1/settings/workspace"): ApiRoutePolicy("settings.workspace", "read", "protected-settings-read", path_subject=".devpilot/project.yaml"),
+    ("POST", "/api/v1/settings/local-model-readiness/probe"): ApiRoutePolicy("settings.local_model_readiness.probe", "read", "protected-human-session-local-probe"),
     ("GET", "/api/v1/settings/providers"): ApiRoutePolicy("settings.providers", "read", "protected-settings-read", path_subject=".devpilot/providers.yaml"),
     ("GET", "/api/v1/settings/model-gateway"): ApiRoutePolicy("settings.model_gateway", "read", "protected-settings-read", path_subject=".devpilot/modeling/model_capability_catalog.json"),
     ("GET", "/api/v1/settings/agent-runtime"): ApiRoutePolicy("settings.agent_runtime", "read", "protected-settings-read", path_subject=".devpilot/agents/agent_role_binding_catalog.json"),

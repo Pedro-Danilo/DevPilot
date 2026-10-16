@@ -13,6 +13,7 @@ import { runBounded } from '../utils/async';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 import { renderAIControlCenterShell } from '../components/AIControlCenterView';
 import { renderModelSettingsView } from '../components/ModelSettingsView';
+import { renderLocalReadiness } from '../components/LocalReadinessView';
 import { renderAgentRuntimeView } from '../components/AgentRuntimeView';
 import { renderRagProvenanceView } from '../components/RagProvenanceView';
 import { renderSkillToolPolicyView } from '../components/SkillToolPolicyView';
@@ -69,6 +70,9 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   if (uoc011Fixture) return uoc011Fixture;
   const persistentHome = renderPersistentSettingsHome(() => new DevPilotApiClient({ token: token() }));
   let activeSettingsTab: 'overview' | 'preferences' | 'providers' | 'ai' = 'overview';
+  let localReadiness: any = null;
+  let localProbeBusy = false;
+  let localProbeNotice = ''; 
   const state: SettingsState = {
     phase: 'idle',
     providerPlanPhase: 'idle',
@@ -353,6 +357,20 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     providers.className = 'card';
     providers.innerHTML = `<span class="badge ${status(state.providers, state.errors.providers).toLowerCase()}">${status(state.providers, state.errors.providers)}</span><h3>Providers de plataforma</h3><p>Listado seguro de DevPilot sin secretos ni activación externa accidental. ${durationLabel(state.durations.providers)}</p>${renderProviderSettings(state.providers)}<pre>${safeJsonForHtml(state.providers?.data?.summary ?? { detail: 'Sin providers cargados.' })}</pre>`;
 
+    if (!localReadiness) localReadiness = state.providers?.data?.local_model_readiness || null;
+    const readiness = renderLocalReadiness(localReadiness, localProbeBusy, localProbeNotice);
+    readiness.querySelector('#settings-probe-local-models')?.addEventListener('click', async () => {
+      if (localProbeBusy) return;
+      localProbeBusy = true; localProbeNotice = 'Comprobando exclusivamente endpoints configurados y autorizados en loopback.'; draw();
+      try {
+        const response = await new DevPilotApiClient({ token: token() }).probeLocalModelReadiness();
+        if (!response.ok) throw new Error(response.message || 'Health check denegado');
+        localReadiness = response.data;
+        localProbeNotice = 'PASS: health observado. No se ejecutaron inferencias ni se habilitaron proveedores.';
+      } catch (error) { localProbeNotice = 'BLOCK: ' + (error instanceof Error ? error.message : 'Comprobación no disponible'); }
+      finally { localProbeBusy = false; draw(); }
+    });
+    providerGrid.append(readiness);
     const loading = state.providerPlanPhase === 'loading';
     const editor = document.createElement('article');
     editor.className = 'card';

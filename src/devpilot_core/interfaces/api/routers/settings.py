@@ -37,6 +37,16 @@ def settings_providers(prefer_example: bool = Query(default=False), service: App
     return _json(*dispatch_application_request(service, operation="settings.providers", payload={"prefer_example": prefer_example}))
 
 
+@router.post("/api/v1/settings/local-model-readiness/probe")
+def settings_local_model_probe(request: Request, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    try:
+        _settings_principal(request)
+    except SettingsDenied:
+        return _settings_reply("settings.local_model_readiness.probe", {"reason": "HUMAN_SESSION_REQUIRED"}, 401)
+    # Server RBAC middleware restricts this POST to a human Owner; CSRF is enforced there.
+    return _settings_reply("settings.local_model_readiness.probe", service.settings_local_readiness(probe=True))
+
+
 @router.get("/api/v1/settings/policy")
 def settings_policy(service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _json(*dispatch_application_request(service, operation="settings.policy", payload={}))

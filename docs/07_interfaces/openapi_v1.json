@@ -12580,6 +12580,25 @@
           }
         }
       }
+    },
+    "/api/v1/settings/local-model-readiness/probe": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Settings Local Model Probe",
+        "operationId": "settings_local_model_probe_api_v1_settings_local_model_readiness_probe_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-devpilot": {
