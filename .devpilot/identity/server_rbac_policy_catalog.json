@@ -5264,6 +5264,22 @@
       "public": false,
       "risk_level": "high",
       "workspace_scope_required": false
+    },
+    {
+      "route_id": "api.settings.lmstudio.product-definition.candidate",
+      "method": "POST",
+      "path": "/api/v1/settings/lmstudio/product-definition/candidate",
+      "operation": "settings.lmstudio.product_definition.candidate",
+      "access_class": "owner-explicit-local-real-inference",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "public": false,
+      "risk_level": "high",
+      "workspace_scope_required": false
     }
   ],
   "runtime_enforced": true,

@@ -44,3 +44,20 @@ export function renderOllamaCandidatePanel(busy: boolean, notice: string, receip
   if(receipt){ const summary=document.createElement('pre');summary.id='r0203-receipt';summary.textContent=JSON.stringify({status:receipt.status,stage:receipt.stage,model:receipt.model,candidate_id:receipt.candidate?.candidate_id,latency_ms:receipt.latency_ms,source_writes:receipt.source_writes,external_api_calls:receipt.external_api_calls,content_sha256:receipt.candidate_sha256},null,2);section.append(summary); const preview=document.createElement('pre');preview.id='r0203-content';preview.className='r0203-preview';preview.textContent=String(receipt.candidate?.payload?.content || 'Sin contenido acreditado'); section.append(preview); }
   return section;
 }
+
+export function renderLmstudioCandidatePanel(busy: boolean, notice: string, receipt: any): HTMLElement {
+  const section=document.createElement('section');section.className='card';section.dataset.devpilotUiContract='ui.lmstudio-real-candidate';
+  const title=document.createElement('h3');title.textContent='Laboratorio LM Studio real · Product Definition';
+  const intro=document.createElement('p');intro.textContent='Ensayo opcional con datos ficticios. Requiere LM Studio iniciado y el modelo ya instalado. No activa proveedores, no escribe documentos del proyecto y no publica FROZEN.';
+  const modelLabel=document.createElement('label');modelLabel.textContent='Modelo LM Studio cargado (escríbelo exactamente)';
+  const input=document.createElement('input');input.id='r0204-model';input.value='';input.autocomplete='off';input.disabled=busy;modelLabel.append(input);
+  const caseLabel=document.createElement('label');caseLabel.textContent='Caso sintético';
+  const selection=document.createElement('select');selection.id='r0204-case';selection.disabled=busy;
+  for(const [id,label] of [['vision','Vision'],['scope','MVP Scope'],['requirements','Requirements']]){ const option=document.createElement('option');option.value=id;option.textContent=label;selection.append(option); }
+  caseLabel.append(selection);
+  const button=document.createElement('button');button.id='r0204-run';button.type='button';button.disabled=busy;button.textContent=busy?'Esperando al modelo…':'Ejecutar un candidato real (solo localhost)';
+  const status=document.createElement('p');status.id='r0204-result';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.textContent=notice || 'IDLE · Sin inferencia. Cada clic ejecuta como máximo una solicitud si el modelo está instalado.';
+  section.append(title,intro,modelLabel,caseLabel,button,status);
+  if(receipt){ const summary=document.createElement('pre');summary.id='r0204-receipt';summary.textContent=JSON.stringify({status:receipt.status,stage:receipt.stage,model:receipt.model,candidate_id:receipt.candidate?.candidate_id,latency_ms:receipt.latency_ms,source_writes:receipt.source_writes,external_api_calls:receipt.external_api_calls,content_sha256:receipt.candidate_sha256},null,2);section.append(summary); const preview=document.createElement('pre');preview.id='r0204-content';preview.className='r0204-preview';preview.textContent=String(receipt.candidate?.payload?.content || 'Sin contenido acreditado'); section.append(preview); }
+  return section;
+}

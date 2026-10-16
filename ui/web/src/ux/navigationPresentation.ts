@@ -21,7 +21,7 @@ export const NAVIGATION_GROUPS: readonly NavigationGroupDefinition[] = Object.fr
   { id: 'build-validate', label: 'Build & Validate', guidedLabel: 'Construir y validar', description: 'Historias, aprobaciones, jobs y calidad.', paths: ['/story/code', '/approvals', '/jobs', '/quality'] },
   { id: 'release', label: 'Release', guidedLabel: 'Release', description: 'Readiness, package, lifecycle, metadata y cierre.', paths: ['/release/readiness', '/release/package', '/release/lifecycle', '/release/metadata', '/release/closure'] },
   { id: 'recover', label: 'Recover', guidedLabel: 'Recuperar', description: 'Reanudar trabajo y reconciliar cambios externos.', paths: ['/recovery', '/reconciliation'] },
-  { id: 'ai', label: 'AI', guidedLabel: 'IA', description: 'Operaciones IA/RAG gobernadas.', paths: ['/ai'] },
+  { id: 'ai', label: 'AI', guidedLabel: 'IA', description: 'Operaciones IA/RAG gobernadas.', paths: ['/ai', '/model-lab'] },
   { id: 'diagnostics', label: 'Diagnostics', guidedLabel: 'Diagnóstico', description: 'Reportes y trazas disponibles bajo progressive disclosure.', paths: ['/reports', '/traces'] },
   { id: 'global', label: 'Global', guidedLabel: 'Global', description: 'Configuración, cuenta y ayuda.', paths: ['/settings', '/account', '/help'] },
 ]);
@@ -75,6 +75,7 @@ export function navigationPathFromServerTarget(target: string | null | undefined
     'ui.reports': '/reports',
     'ui.traces': '/traces',
     'ui.settings': '/settings',
+    'ui.model-lab': '/model-lab',
     'ui.account-role': '/account',
     'ui.help': '/help',
   };

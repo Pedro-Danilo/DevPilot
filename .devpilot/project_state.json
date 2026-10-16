@@ -16,7 +16,7 @@
   "connector_write_enabled": false,
   "control_plane_enabled": false,
   "credentials_required": false,
-  "current_micro_sprint": "MP132-R02-03/OLLAMA-REAL-CANDIDATE",
+  "current_micro_sprint": "MP132-R02-04/LM-STUDIO-PARITY",
   "current_micro_sprint_at_sync1_merge": "DEVPL-GSDLC-13-A",
   "current_phase": "DEVPL-MP-SUCCESSOR-132/R01-KERNEL",
   "current_phase_at_sync1_merge": "DEVPL-GSDLC-13",
@@ -2235,7 +2235,7 @@
   "network_used": false,
   "next_backlog_planned": true,
   "next_backlog_status": "approved/post-h-eval-002",
-  "next_micro_sprint": "R02_04_NOT_AUTHORIZED",
+  "next_micro_sprint": "R02_05_NOT_AUTHORIZED",
   "next_sprint": "POST-H-EVAL-002",
   "notes": [
     "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",

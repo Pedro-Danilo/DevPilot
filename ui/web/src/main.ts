@@ -16,6 +16,7 @@ import { renderConflictResolutionView } from './pages/ConflictResolutionView';
 import { renderAiOperationsView } from './pages/AiOperationsView';
 import { renderApprovalCenterView } from './pages/ApprovalCenterView';
 import { renderSettingsView } from './pages/SettingsView';
+import { renderModelLabView } from './pages/ModelLabView';
 import { renderWorkspaceDocumentsView } from './pages/WorkspaceDocumentsView';
 import { renderProjectStatusView } from './pages/ProjectStatusView';
 import { renderPreCodeWizardView } from './pages/PreCodeWizardView';
@@ -60,6 +61,7 @@ const UI_ROUTES: UiRoute[] = [
   { path: '/ai', routeId: 'ui.ai', title: 'IA / RAG', scope: 'project' },
   { path: '/approvals', routeId: 'ui.approvals', title: 'Approval Center', scope: 'entry-or-project' },
   { path: '/settings', routeId: 'ui.settings', title: 'Configuración', scope: 'global' },
+  { path: '/model-lab', routeId: 'ui.model-lab', title: 'Laboratorio de modelos', scope: 'global' },
   { path: '/account', routeId: 'ui.account-role', title: 'Cuenta / Roles', scope: 'global' },
   { path: '/help', routeId: 'ui.help', title: 'Ayuda', scope: 'global' },
 ];
@@ -177,6 +179,7 @@ function renderApplication(target: HTMLElement, session: AuthSessionContext): vo
     else if (route.path === '/ai') page.append(renderAiOperationsView(() => readStoredToken()));
     else if (route.path === '/approvals') page.append(renderApprovalCenterView({ tokenProvider: () => readStoredToken(), session, handoffApprovalId: handoffApprovalId || undefined }));
     else if (route.path === '/settings') page.append(renderSettingsView(new DevPilotApiClient({ token: readStoredToken() }), () => readStoredToken()));
+    else if (route.path === '/model-lab') page.append(renderModelLabView(() => readStoredToken()));
     else if (route.path === '/account') page.append(renderAccountRoleView(session));
     else if (route.path === '/help') page.append(renderHelpSystemView());
   }

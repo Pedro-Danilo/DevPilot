@@ -1225,6 +1225,11 @@ class ApplicationService:
         return OllamaProductDefinitionEvaluation(self.settings.root).run(
             case_id=case_id, model=model, request_id=request_id, execute=execute)
 
+    def settings_lmstudio_product_candidate(self, *, case_id: str, model: str, request_id: str, execute: bool = False) -> dict[str, Any]:
+        from devpilot_core.generation.lmstudio_product_definition import LMStudioProductDefinitionEvaluation
+        return LMStudioProductDefinitionEvaluation(self.settings.root).run(
+            case_id=case_id, model=model, request_id=request_id, execute=execute)
+
     def settings_local_readiness(self, *, probe: bool = False) -> dict[str, Any]:
         return self.settings.local_model_readiness(probe=probe)
 

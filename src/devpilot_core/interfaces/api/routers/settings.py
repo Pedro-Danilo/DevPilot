@@ -70,6 +70,23 @@ def ollama_product_definition_candidate(request: Request, body: OllamaCandidateB
         return _settings_reply("settings.ollama.product_definition.candidate", {"reason": exc.code}, 422)
 
 
+# API compatibility name retained under settings; the UI execution lives in /model-lab.
+@router.post("/api/v1/settings/lmstudio/product-definition/candidate")
+def lmstudio_product_definition_candidate(request: Request, body: OllamaCandidateBody,
+                                         service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    try:
+        _settings_principal(request)
+    except SettingsDenied:
+        return _settings_reply("settings.lmstudio.product_definition.candidate", {"reason": "HUMAN_SESSION_REQUIRED"}, 401)
+    from devpilot_core.generation.ollama_product_definition import LocalCandidateBlock
+    try:
+        result = service.settings_lmstudio_product_candidate(
+            case_id=body.case_id, model=body.model, request_id=body.request_id, execute=body.execute)
+        return _settings_reply("settings.lmstudio.product_definition.candidate", result)
+    except LocalCandidateBlock as exc:
+        return _settings_reply("settings.lmstudio.product_definition.candidate", {"reason": exc.code}, 422)
+
+
 @router.get("/api/v1/settings/policy")
 def settings_policy(service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _json(*dispatch_application_request(service, operation="settings.policy", payload={}))

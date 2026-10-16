@@ -13,7 +13,7 @@ import { runBounded } from '../utils/async';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 import { renderAIControlCenterShell } from '../components/AIControlCenterView';
 import { renderModelSettingsView } from '../components/ModelSettingsView';
-import { renderLocalReadiness, renderOllamaCandidatePanel } from '../components/LocalReadinessView';
+import { renderLocalReadiness } from '../components/LocalReadinessView';
 import { renderAgentRuntimeView } from '../components/AgentRuntimeView';
 import { renderRagProvenanceView } from '../components/RagProvenanceView';
 import { renderSkillToolPolicyView } from '../components/SkillToolPolicyView';
@@ -73,9 +73,6 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   let localReadiness: any = null;
   let localProbeBusy = false;
   let localProbeNotice = '';
-  let candidateBusy = false;
-  let candidateNotice = '';
-  let candidateReceipt: any = null; 
   const state: SettingsState = {
     phase: 'idle',
     providerPlanPhase: 'idle',
@@ -374,28 +371,9 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       finally { localProbeBusy = false; draw(); }
     });
     providerGrid.append(readiness);
-    const candidatePanel=renderOllamaCandidatePanel(candidateBusy,candidateNotice,candidateReceipt);
-    candidatePanel.querySelector('#r0203-run')?.addEventListener('click', async () => {
-      if(candidateBusy) return;
-      const model=(candidatePanel.querySelector<HTMLInputElement>('#r0203-model')?.value || '').trim();
-      const caseId=(candidatePanel.querySelector<HTMLSelectElement>('#r0203-case')?.value || 'vision');
-      if(!model){candidateNotice='BLOCK: escribe el modelo local exacto';draw();return;}
-      if(!window.confirm(`Ejecutar una inferencia local real para ${caseId} con ${model}? No publica documentos.`))return;
-      candidateBusy=true;candidateNotice='Consultando exclusivamente Ollama local…';
-      // Keep the DOM intact while the user reviews the result; do not recreate or lose controls.
-      const button=candidatePanel.querySelector<HTMLButtonElement>('#r0203-run');if(button)button.disabled=true;
-      const label=candidatePanel.querySelector<HTMLElement>('#r0203-result');if(label)label.textContent=candidateNotice;
-      try{
-        const bytes=new Uint8Array(16);crypto.getRandomValues(bytes);
-        const id=Array.from(bytes).map(v=>v.toString(16).padStart(2,'0')).join('');
-        const response=await new DevPilotApiClient({token:token()}).ollamaProductCandidate({case_id:caseId,model,request_id:id,execute:true});
-        if(!response.ok)throw new Error(String(response.data?.reason || response.message || 'Candidato rechazado'));
-        candidateReceipt=response.data;
-        candidateNotice='PASS: candidato real generado sin publicar ni habilitar proveedor; evaluación humana pendiente.';
-      }catch(error){candidateNotice='BLOCK: '+(error instanceof Error?error.message:'Modelo no disponible');}
-      finally{candidateBusy=false;draw();}
-    });
-    providerGrid.append(candidatePanel);
+    const labLink=document.createElement('article');labLink.className='card';
+    labLink.innerHTML='<h3>Laboratorio de modelos</h3><p>Las inferencias y las comparaciones pertenecen a una superficie de ensayo separada de Configuración.</p><p><a href="/model-lab" id="settings-open-model-lab">Abrir laboratorio de modelos →</a></p>';
+    providerGrid.append(labLink);
     const loading = state.providerPlanPhase === 'loading';
     const editor = document.createElement('article');
     editor.className = 'card';
@@ -415,7 +393,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     `;
     editor.querySelector('#settings-plan-provider')?.addEventListener('click', () => void planProvider());
     providerGrid.append(providers, editor);
-    const providerSection=disclosure('provider-configuration', 'Providers y plan de configuración', providerGrid);providerSection.id='settings-panel-providers';providerSection.setAttribute('role','region');providerSection.setAttribute('aria-labelledby','settings-tab-providers');providerSection.hidden=activeSettingsTab!=='providers';root.append(providerSection);
+    const providerSection=document.createElement('section');providerSection.className='settings-section-active';providerSection.dataset.settingsSection='provider-configuration';const providerHeading=document.createElement('h3');providerHeading.textContent='Proveedores y plan de configuración';providerSection.append(providerHeading,providerGrid);providerSection.id='settings-panel-providers';providerSection.setAttribute('role','region');providerSection.setAttribute('aria-labelledby','settings-tab-providers');providerSection.hidden=activeSettingsTab!=='providers';root.append(providerSection);
 
     const aiControlCenter = document.createElement('section');
     aiControlCenter.innerHTML = renderAIControlCenterShell({

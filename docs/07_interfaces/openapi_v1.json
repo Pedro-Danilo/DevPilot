@@ -12618,6 +12618,25 @@
           }
         }
       }
+    },
+    "/api/v1/settings/lmstudio/product-definition/candidate": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "One Shot LMStudio Synthetic Product Definition Candidate",
+        "operationId": "lmstudio_product_definition_candidate_api_v1_settings_lmstudio_product_definition_candidate_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-devpilot": {

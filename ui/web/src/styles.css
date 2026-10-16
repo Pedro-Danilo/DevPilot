@@ -1788,3 +1788,11 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 
 /* R02-03: bounded untrusted candidate preview; never create horizontal overflow. */
 .r0203-preview { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 420px; overflow-y: auto; }
+
+/* R02-04: active settings area remains visible; no nested undiscoverable accordion. */
+.settings-home-tabs button[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: 2px; font-weight: 750; text-decoration: underline; text-underline-offset: .3em; }
+.settings-section-active { min-width: 0; width: 100%; }
+.settings-section-active > h3 { margin: 1rem 0; }
+.model-lab-panel { min-width: 0; }
+.model-lab-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px),1fr)); gap:1rem; }
+.model-lab-grid pre { white-space: pre-wrap; overflow-wrap: anywhere; max-width:100%; }
