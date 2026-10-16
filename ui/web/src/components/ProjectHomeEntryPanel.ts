@@ -1,6 +1,6 @@
 // DevPilot UI route contract: ui.dashboard
 import type { AuthSessionContext } from '../api/types';
-import { beginProjectEntryJourney, readProjectEntryResumeState, readProjectJourneyContext } from '../api/client';
+import { beginProjectEntryJourney, DevPilotApiClient, readProjectEntryResumeState, readProjectJourneyContext, readStoredToken } from '../api/client';
 import { renderCriticalPathGuidance, renderTechnicalDisclosure } from './CriticalPathGuidance';
 
 interface EntryCard {
@@ -14,7 +14,7 @@ const ENTRY_CARDS: EntryCard[] = [
   {
     mode: 'CREATE_NEW',
     title: 'Crear nuevo proyecto',
-    description: 'Define el workspace, revisa el plan exacto y materializa Git/.venv/metadata solo después de approval.',
+    description: 'Explica la necesidad de negocio, elige un workspace nuevo y revisa el bootstrap neutral antes de aprobarlo. No instala dependencias ni fija tecnología.',
     outcome: 'Workspace nuevo, verificado y registrado.',
   },
   {
@@ -41,7 +41,7 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
   header.className = 'project-home__header';
   const eyebrow = document.createElement('p');
   eyebrow.className = 'project-home__eyebrow';
-  eyebrow.textContent = 'GSDLC-03-E · inicio de proyecto';
+  eyebrow.textContent = 'Proyectos · crear, abrir y retomar';
   const title = document.createElement('h1');
   title.id = 'project-home-title';
   title.textContent = '¿Qué quieres hacer?';
@@ -121,12 +121,19 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
   const activeResumeTitle = document.createElement('strong');
   activeResumeTitle.textContent = '¿Ya estabas trabajando en un proyecto?';
   const activeResumeText = document.createElement('span');
-  activeResumeText.textContent = 'Recupera el contexto desde la autoridad local sin crear, importar ni reabrir el proyecto.';
+  activeResumeText.textContent = 'Consultando el proyecto activo registrado en DevPilot…';
+  activeResumeText.dataset.serverActiveProject = 'loading';
+  activeResumeText.setAttribute('role', 'status');
   const activeResumeLink = document.createElement('a');
   activeResumeLink.className = 'button-secondary';
   activeResumeLink.href = '/project/status?recover_project_context=server-active';
-  activeResumeLink.textContent = 'Retomar proyecto activo →';
+  activeResumeLink.textContent = 'Ver estado del proyecto activo →';
+  activeResumeLink.setAttribute('aria-describedby', 'active-project-identity');
+  activeResumeText.id = 'active-project-identity';
   activeProjectResume.append(activeResumeTitle, activeResumeText, activeResumeLink);
+  // Home never adopts a project using browser storage. This read-only status
+  // projection is used only to label the server-selected project for the Owner.
+  void describeActiveProjectFromServer(session, activeResumeText, activeResumeLink);
 
   const resume = document.createElement('div');
   resume.className = 'project-home__resume';
@@ -157,4 +164,27 @@ export function renderProjectHomeEntryPanel(session: AuthSessionContext): HTMLEl
   if (resumeState) section.append(resume);
   section.append(cards, steps);
   return section;
+}
+
+
+async function describeActiveProjectFromServer(session: AuthSessionContext, label: HTMLElement, link: HTMLAnchorElement): Promise<void> {
+  const scope = new Set((session.principal.workspace_scopes ?? []).map(String));
+  try {
+    const response = await new DevPilotApiClient({ token: readStoredToken() }).projectStatus();
+    const status = response.data;
+    const workspaceId = String(status?.workspace_id ?? '').trim();
+    const projectId = String(status?.project_status?.project_id ?? '').trim();
+    const valid = response.ok === true && status.read_only === true && status.actor_neutral === true
+      && status.network_used === false && status.external_api_used === false
+      && status.mutations_performed === false && workspaceId.length > 0
+      && scope.has(workspaceId) && projectId.length > 0 && projectId.toLowerCase() !== 'unknown'
+      && !['EMPTY', 'UNKNOWN'].includes(String(status.ui_state));
+    if (!valid) throw new Error('Server-active project is not confirmed in this session');
+    label.textContent = `Proyecto registrado: ${projectId} · Estado ${status.ui_state}. Al retomar, DevPilot volverá a comprobar el contexto y tus permisos.`;
+    label.dataset.serverActiveProject = 'verified';
+    link.title = `Abrir el estado de ${projectId}`;
+  } catch {
+    label.textContent = 'No fue posible identificar de forma segura el proyecto activo. Puedes solicitar su recuperación; DevPilot verificará la identidad y los permisos antes de abrirlo.';
+    label.dataset.serverActiveProject = 'unverified';
+  }
 }

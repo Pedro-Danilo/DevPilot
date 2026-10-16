@@ -134,7 +134,7 @@ def test_sync_pointers_leave_legacy_records_untouched():
     assert registry['current_micro_sprint']==state['current_micro_sprint']
     assert registry['current_micro_sprint'] in {
         'MP132-R01-14/PROJECT-LAYOUT', 'MP132-R01-15/M1-MATURITY-GATE',
-        'MP132-R02-01/AUDIT-DOC-DRIFT', 'MP132-R02-02/LOCAL-MODEL-READINESS', 'MP132-R02-03/OLLAMA-REAL-CANDIDATE', 'MP132-R02-04/LM-STUDIO-PARITY'
+        'MP132-R02-01/AUDIT-DOC-DRIFT', 'MP132-R02-02/LOCAL-MODEL-READINESS', 'MP132-R02-03/OLLAMA-REAL-CANDIDATE', 'MP132-R02-04/LM-STUDIO-PARITY', 'MP132-R02-05/PILOT-B-ENTRY-RESUME'
     }
     assert len(registry['documents'])==1752
 

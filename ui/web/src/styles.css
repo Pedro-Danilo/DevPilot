@@ -1796,3 +1796,17 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 .model-lab-panel { min-width: 0; }
 .model-lab-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px),1fr)); gap:1rem; }
 .model-lab-grid pre { white-space: pre-wrap; overflow-wrap: anywhere; max-width:100%; }
+
+/* MP132 R02-05: make the durable project identity readable without clipping the CTA. */
+.project-home__active-resume > [data-server-active-project] {
+  min-width: 0; overflow-wrap: anywhere; line-height: 1.5;
+}
+.project-home__active-resume [data-server-active-project="verified"] {
+  font-weight: 600; color: var(--dp-color-text);
+}
+@media (max-width: 850px) {
+  .project-home__active-resume { grid-template-columns: minmax(0,1fr); }
+  .project-home__active-resume > strong, .project-home__active-resume > span,
+  .project-home__active-resume > a { grid-column: 1; grid-row: auto; }
+  .project-home__active-resume > a { width: 100%; justify-content: center; }
+}

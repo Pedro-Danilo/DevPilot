@@ -75,3 +75,17 @@ Este backlog está **aprobado para priorización y planificación**. Sus ítems 
 - R02-04: `SPRINT_EXECUTION_APPROVED` exclusivamente para paridad opcional LM Studio, `OWNER_APPROVED` para su prompt, ejecución sobre el HEAD R02-03 indicado; no supone habilitación global ni requerimiento de instalación de LM Studio.
 - LM Studio ausente → `DEFERRED_WITH_REASON`, nunca `REAL_PASS` ni bloqueo del futuro M2 con Ollama. Laboratorio de inferencia separado de Configuración por UX; sin activar R02-05.
 - R02-05 y posteriores: `NOT_AUTHORIZED`. Mantener históricos y 1.752 entradas Source Registry inmutables.
+
+## Actualización de ejecución R02-05 — COR178 (Owner individual)
+
+- Entrada canónica: `735ecfd82e9604a4755fd7d4e7c386976984ed71` (R02-04 Windows PASS_WITH_FINDINGS; LM Studio `DEFERRED_WITH_REASON`).
+- `R02-05/PILOT-B-ENTRY-RESUME`: `SPRINT_EXECUTION_APPROVED`, solo la unidad B0. `R02-06`: `NOT_AUTHORIZED`.
+- Se reutilizan los mecanismos existentes de `CREATE_NEW` neutral, PathGuard, dry-run, revalidación, aprobación, bootstrap y runtime registry persistente.
+- El cambio R02-05 es la evidencia/control de entrada de Pilot B por la interfaz y la identidad clara del proyecto activo en Home; no inicia B1 ni establece RF, stack, scaffold o proveedor por defecto.
+- El baseline de planificación histórico no se reescribe. El sucesor Git solo se acredita cuando Windows apruebe browser, B0 creado por UI y Git normal.
+- Los defectos de select de modelo y espaciado del Laboratorio de modelos (`R02-04`) permanecen findings UX; no se introducen modificaciones de modelo en esta unidad.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+
+**AC adicional R02-05 B0:** la UI recoge ID, nombre, root final y necesidad; el operador no pregunta ni fija estos datos. Antes de abrir Project Entry captura sólo el catálogo de workspaces persistido; después descubre exactamente un registro nuevo y valida project.yaml/registration/state/Git/neutralidad y el mismo ID/root tras reiniciar API. La autorización PathGuard es para parent de instalación previamente consentido y acotado, no para el destino particular. R02-06 sigue `NOT_AUTHORIZED`. Los R02-01..04 quedan cerrados en sus recibos Windows sin reabrirlos.

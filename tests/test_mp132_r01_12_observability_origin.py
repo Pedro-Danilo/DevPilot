@@ -71,4 +71,4 @@ def test_documentary_active_pointers_only():
     for f in ('.devpilot/docs_governance/source_registry.json','.devpilot/project_state.json'):
         o=json.loads((ROOT/f).read_text())
         # Active pointers are successor-owned; historical R01-12 must not pin current R01-13.
-        assert o['current_micro_sprint'].startswith(('MP132-R01-', 'MP132-R02-01/', 'MP132-R02-02/', 'MP132-R02-03/', 'MP132-R02-04/'))
+        assert o['current_micro_sprint'].startswith(('MP132-R01-', 'MP132-R02-01/', 'MP132-R02-02/', 'MP132-R02-03/', 'MP132-R02-04/', 'MP132-R02-05/'))

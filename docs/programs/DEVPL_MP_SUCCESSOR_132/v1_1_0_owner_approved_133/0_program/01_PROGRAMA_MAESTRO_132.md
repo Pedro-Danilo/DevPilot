@@ -89,3 +89,19 @@ No se retoma Pilot A, SYNC-1, SYNC-2 ni MP-1B histórico; no se autoriza renombr
 - R02-04: `SPRINT_EXECUTION_APPROVED` exclusivamente para paridad opcional LM Studio, `OWNER_APPROVED` para su prompt, ejecución sobre el HEAD R02-03 indicado; no supone habilitación global ni requerimiento de instalación de LM Studio.
 - LM Studio ausente → `DEFERRED_WITH_REASON`, nunca `REAL_PASS` ni bloqueo del futuro M2 con Ollama. Laboratorio de inferencia separado de Configuración por UX; sin activar R02-05.
 - R02-05 y posteriores: `NOT_AUTHORIZED`. Mantener históricos y 1.752 entradas Source Registry inmutables.
+
+## Actualización de ejecución R02-05 — COR178 (Owner individual)
+
+- Entrada canónica: `735ecfd82e9604a4755fd7d4e7c386976984ed71` (R02-04 Windows PASS_WITH_FINDINGS; LM Studio `DEFERRED_WITH_REASON`).
+- `R02-05/PILOT-B-ENTRY-RESUME`: `SPRINT_EXECUTION_APPROVED`, solo la unidad B0. `R02-06`: `NOT_AUTHORIZED`.
+- Se reutilizan los mecanismos existentes de `CREATE_NEW` neutral, PathGuard, dry-run, revalidación, aprobación, bootstrap y runtime registry persistente.
+- El cambio R02-05 es la evidencia/control de entrada de Pilot B por la interfaz y la identidad clara del proyecto activo en Home; no inicia B1 ni establece RF, stack, scaffold o proveedor por defecto.
+- El baseline de planificación histórico no se reescribe. El sucesor Git solo se acredita cuando Windows apruebe browser, B0 creado por UI y Git normal.
+- Los defectos de select de modelo y espaciado del Laboratorio de modelos (`R02-04`) permanecen findings UX; no se introducen modificaciones de modelo en esta unidad.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+
+La regla vinculante es `UI_FIRST_PILOT_B_V1`: toda acción del proyecto Pilot B B0–B7 debe originarse en la UI normal de DevPilot; el backend puede ejecutar herramientas gobernadas (Git, Python, jobs, packaging, deploy, rollback), pero el operador humano no sustituye ningún workflow del piloto con CLI, editores externos, DevTools o scripts. La consola se limita al arranque/parada de API/UI hasta disponer de instalador, preconfiguración operacional de la instalación, auditoría y correctivos sobre **la plataforma**. `operator_project_writes=0`, `normal_user_terminal_escapes=0`, `journey_actions_via_devpilot_ui=true`.
+
+**Condición E2E:** el mismo workspace/ID persiste de intake a release y evolución; no equivalen a aceptación las acciones manuales que compensen capacidades faltantes. Release, deploy, health y rollback deben iniciarse en UI; la aplicación desplegada se ejecuta autónomamente sin depender de DevPilot. ADR sucesora `ADR-MP-132-012.md`; M2–M6/M10 verifican continuidad y origen.

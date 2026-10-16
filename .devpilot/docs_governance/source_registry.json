@@ -1,7 +1,7 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP132-R02-04/LM-STUDIO-PARITY",
-  "current_phase": "DEVPL-MP-SUCCESSOR-132/R01-KERNEL",
+  "current_micro_sprint": "MP132-R02-05/PILOT-B-ENTRY-RESUME",
+  "current_phase": "DEVPL-MP-SUCCESSOR-132/R02-PRODUCT-DEFINITION",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
     {
@@ -41567,7 +41567,7 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
-  "next_micro_sprint": "R02_05_NOT_AUTHORIZED",
+  "next_micro_sprint": "R02_06_NOT_AUTHORIZED",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",

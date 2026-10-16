@@ -42,7 +42,7 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
     recoveryHref:'/',
   });
   const intro=document.createElement('div'); intro.className='project-entry-hero';
-  const eyebrow=document.createElement('p'); eyebrow.className='project-entry-eyebrow'; eyebrow.textContent='GSDLC-03-E · browser-complete project entry';
+  const eyebrow=document.createElement('p'); eyebrow.className='project-entry-eyebrow'; eyebrow.textContent='Entrada de proyecto · plan y aprobación';
   const h=document.createElement('h2'); h.textContent='Crear / Abrir / Importar con plan, approval y recuperación';
   const p=document.createElement('p'); p.textContent='El navegador guía el journey completo: parámetros → dry-run → preimage → approval → execute → verificación → Estado del proyecto. PowerShell no forma parte del flujo normal del usuario.';
   intro.append(eyebrow,h,p);
@@ -50,11 +50,12 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   const form=document.createElement('form'); form.className='project-entry-form'; form.noValidate=true;
   const mode=selectField('Modo de entrada','entry-mode',[['CREATE_NEW','Crear nuevo'],['OPEN_EXISTING','Abrir existente'],['IMPORT_GIT','Importar Git']]);
   mode.select.value=options.initialMode ?? 'CREATE_NEW';
-  const projectId=inputField('Project ID','project-id','gsdlc03e-demo'); const projectName=inputField('Nombre','project-name','GSDLC 03-E demo'); const target=inputField('Ruta destino / workspace *','target-root','');
+  const projectId=inputField('Project ID','project-id',''); const projectName=inputField('Nombre','project-name',''); const target=inputField('Ruta destino / workspace *','target-root','');
   const businessNeed=textareaField('Necesidad de negocio / problema a resolver *','business-need','Describe qué necesita resolver el usuario o negocio. No diseñes todavía la solución ni el stack.'); businessNeed.wrapper.classList.add('project-entry-create-only');
   const modelPolicy=selectField('Model policy del proyecto','model-policy',[['mock-no-api','Mock / sin API externa · baseline del piloto']]); modelPolicy.wrapper.classList.add('project-entry-create-only');
   const constraintsConfirm=checkboxField('Confirmo constraints del piloto','project-constraints-confirm','Local-first; cloud no obligatorio; operator_project_writes=0; shell arbitrario, red silenciosa y remote Git execute deshabilitados.'); constraintsConfirm.wrapper.classList.add('project-entry-create-only');
   const techDecision=document.createElement('p'); techDecision.className='project-entry-hint project-entry-create-only'; techDecision.textContent='Tecnología: PENDIENTE. B-02 crea un Project Shell neutral. El stack y sus dependencias se decidirán después de Architecture mediante una decisión gobernada; este bootstrap no crea frontend/backend/.venv ni manifests tecnológicos.';
+  const projectEntryB0Note=document.createElement('p'); projectEntryB0Note.className='project-entry-hint project-entry-create-only'; projectEntryB0Note.dataset.pilotBEntry = 'neutral'; projectEntryB0Note.textContent='Para Pilot B B0, usa un ID y una carpeta NUEVOS dentro de una raíz autorizada. La necesidad describe el problema del negocio; no copies el proyecto inventario/ventas ni decidas stack en esta etapa.';
   const sourceKind=selectField('Tipo de origen Git','git-source-kind',[['local-path','Repositorio local'],['remote-url','URL remota · ejecución deshabilitada']]);
   const source=inputField('Ruta / URL de origen Git','git-source-location','');
   sourceKind.wrapper.classList.add('project-entry-import-only'); source.wrapper.classList.add('project-entry-import-only');
@@ -66,7 +67,7 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   const buttons=document.createElement('div'); buttons.className='project-entry-actions';
   const dry=document.createElement('button'); dry.type='submit'; dry.textContent='Generar dry-run';
   const revalidate=document.createElement('button'); revalidate.type='button'; revalidate.textContent='Revalidar preimage'; revalidate.disabled=true;
-  buttons.append(dry,revalidate); form.append(grid,techDecision,modeHint,hint,effects,buttons);
+  buttons.append(dry,revalidate); form.append(grid,techDecision,projectEntryB0Note,modeHint,hint,effects,buttons);
 
   const status=document.createElement('div'); status.className='project-entry-status'; status.setAttribute('role','status'); status.setAttribute('aria-live','polite');
   const result=document.createElement('div'); result.className='project-entry-result'; result.dataset.state='empty';
@@ -79,7 +80,7 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   const execHelp=document.createElement('p'); execHelp.textContent='La mutación requiere sesión humana owner y una aprobación vinculada al mismo plan/preimage. Cualquier cambio de parámetros invalida el estado previo.';
   const roleNotice=document.createElement('p'); roleNotice.className='project-entry-role-notice'; roleNotice.setAttribute('role','note'); roleNotice.textContent=canExecute?'Rol owner efectivo: approval/execute puede habilitarse después de revalidación.':`Rol efectivo: ${session.principal.roles.join(', ')||'sin rol'}. Dry-run/revisión puede estar disponible, pero approval/execute bootstrap requiere owner.`;
   const approvalId=inputField('Approval ID','bootstrap-approval-id',''); approvalId.input.readOnly=true; approvalId.input.placeholder='Se completa al solicitar approval';
-  const approvalReason=inputField('Motivo de aprobación','bootstrap-approval-reason','Materializar el plan GSDLC-03-E revisado');
+  const approvalReason=inputField('Motivo de aprobación','bootstrap-approval-reason','Crear el proyecto nuevo tras revisar el plan exacto y su ubicación');
   const execActions=document.createElement('div'); execActions.className='project-entry-actions';
   const requestApproval=document.createElement('button'); requestApproval.type='button'; requestApproval.textContent='Solicitar approval'; requestApproval.disabled=true;
   const verifyApproval=document.createElement('button'); verifyApproval.type='button'; verifyApproval.textContent='Verificar approval'; verifyApproval.disabled=true; verifyApproval.className='button-secondary';
@@ -106,7 +107,7 @@ export function renderProjectEntryDryRunView(options: ProjectEntryViewOptions): 
   const clearPersistedEntry=()=>{clearProjectEntryResumeState();clearApprovalCenterEntryHandoff();};
   const persistEntry=(approvalOverride?:string)=>{if(!lastIntake||!lastDryRun||!lastBootstrapPlan||!lastPlan||!lastPreimage)return;saveProjectEntryResumeState(session,{entry_mode:mode.select.value as EntryMode,intake:lastIntake,dry_run:lastDryRun,bootstrap_plan:lastBootstrapPlan,plan_hash:lastPlan,preimage_hash:lastPreimage,approval_id:(approvalOverride ?? approvalId.input.value.trim()) || undefined});};
   const invalidatePlan=()=>{if(lastPlan||lastPreimage||revalidated||approvalId.input.value){dirtySincePlan=true;lastIntake=null;lastDryRun=null;lastBootstrapPlan=null;lastPlan='';lastPreimage='';revalidate.disabled=true;clearPersistedEntry();lockExecution('STALE · parámetros cambiaron; genera nuevo dry-run');status.textContent='STALE: los parámetros cambiaron. El plan/approval anterior quedó invalidado; genera un nuevo dry-run.';result.replaceChildren();result.dataset.state='empty';}};
-  const syncMode=()=>{const isImport=mode.select.value==='IMPORT_GIT';const isCreate=mode.select.value==='CREATE_NEW';sourceKind.wrapper.hidden=!isImport;source.wrapper.hidden=!isImport;sourceKind.select.disabled=!isImport;source.input.disabled=!isImport;for(const el of [businessNeed.wrapper,modelPolicy.wrapper,constraintsConfirm.wrapper,techDecision]) el.hidden=!isCreate;businessNeed.textarea.disabled=!isCreate;modelPolicy.select.disabled=!isCreate;constraintsConfirm.input.disabled=!isCreate;modeHint.textContent=MODE_GUIDANCE[mode.select.value as EntryMode];invalidatePlan();};
+  const syncMode=()=>{const isImport=mode.select.value==='IMPORT_GIT';const isCreate=mode.select.value==='CREATE_NEW';sourceKind.wrapper.hidden=!isImport;source.wrapper.hidden=!isImport;sourceKind.select.disabled=!isImport;source.input.disabled=!isImport;for(const el of [businessNeed.wrapper,modelPolicy.wrapper,constraintsConfirm.wrapper,techDecision,projectEntryB0Note]) el.hidden=!isCreate;businessNeed.textarea.disabled=!isCreate;modelPolicy.select.disabled=!isCreate;constraintsConfirm.input.disabled=!isCreate;modeHint.textContent=MODE_GUIDANCE[mode.select.value as EntryMode];invalidatePlan();};
   mode.select.addEventListener('change',syncMode);
   for(const input of [projectId.input,projectName.input,target.input,source.input,businessNeed.textarea]) input.addEventListener('input',invalidatePlan);
   sourceKind.select.addEventListener('change',invalidatePlan); modelPolicy.select.addEventListener('change',invalidatePlan); constraintsConfirm.input.addEventListener('change',invalidatePlan);
