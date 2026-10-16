@@ -34,3 +34,14 @@ class ProjectEntryPlanningApplicationService:
             timeout_seconds=timeout_seconds,
         )
         return service.build_bootstrap_plan({"intake": dict(intake)})
+
+    def logical_layout_preview(self, *, intake: Mapping[str, Any], timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS) -> CommandResult:
+        """Reuse the governed neutral BootstrapPlan; read-only R01-14 projection."""
+        from devpilot_core.workspace.project_layout import ProjectLayoutPlanner
+
+        planned = self.bootstrap_plan(intake=intake, timeout_seconds=timeout_seconds)
+        if not planned.ok:
+            return planned
+        return ProjectLayoutPlanner(self.root, allowed_roots=configured_external_workspace_roots()).preview(
+            intake=intake, bootstrap_plan=planned.data["bootstrap_plan"]
+        )

@@ -16,7 +16,7 @@
   "connector_write_enabled": false,
   "control_plane_enabled": false,
   "credentials_required": false,
-  "current_micro_sprint": "MP132-R01-13/STATUS-PROJECTION",
+  "current_micro_sprint": "MP132-R01-14/PROJECT-LAYOUT",
   "current_micro_sprint_at_sync1_merge": "DEVPL-GSDLC-13-A",
   "current_phase": "DEVPL-MP-SUCCESSOR-132/R01-KERNEL",
   "current_phase_at_sync1_merge": "DEVPL-GSDLC-13",
