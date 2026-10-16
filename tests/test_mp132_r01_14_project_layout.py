@@ -130,8 +130,11 @@ def test_existing_original_intake_v1_not_confused_with_neutral(tmp_path):
 def test_sync_pointers_leave_legacy_records_untouched():
     registry=json.loads((ROOT/'.devpilot/docs_governance/source_registry.json').read_text())
     state=json.loads((ROOT/'.devpilot/project_state.json').read_text())
-    assert registry['current_micro_sprint']=='MP132-R01-14/PROJECT-LAYOUT'
-    assert state['current_micro_sprint']=='MP132-R01-14/PROJECT-LAYOUT'
+    # The active pointer advances with later R01 increments; historical content stays immutable.
+    assert registry['current_micro_sprint']==state['current_micro_sprint']
+    assert registry['current_micro_sprint'] in {
+        'MP132-R01-14/PROJECT-LAYOUT', 'MP132-R01-15/M1-MATURITY-GATE'
+    }
     assert len(registry['documents'])==1752
 
 
