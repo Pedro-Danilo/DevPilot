@@ -47,6 +47,29 @@ def settings_local_model_probe(request: Request, service: ApplicationService = D
     return _settings_reply("settings.local_model_readiness.probe", service.settings_local_readiness(probe=True))
 
 
+class OllamaCandidateBody(BaseModel):
+    case_id: str = Field(default="vision", max_length=32)
+    model: str = Field(default="", max_length=100)
+    request_id: str = Field(default="", max_length=32)
+    execute: bool = False
+
+
+@router.post("/api/v1/settings/ollama/product-definition/candidate")
+def ollama_product_definition_candidate(request: Request, body: OllamaCandidateBody,
+                                       service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    try:
+        _settings_principal(request)
+    except SettingsDenied:
+        return _settings_reply("settings.ollama.product_definition.candidate", {"reason": "HUMAN_SESSION_REQUIRED"}, 401)
+    from devpilot_core.generation.ollama_product_definition import LocalCandidateBlock
+    try:
+        result = service.settings_ollama_product_candidate(
+            case_id=body.case_id, model=body.model, request_id=body.request_id, execute=body.execute)
+        return _settings_reply("settings.ollama.product_definition.candidate", result)
+    except LocalCandidateBlock as exc:
+        return _settings_reply("settings.ollama.product_definition.candidate", {"reason": exc.code}, 422)
+
+
 @router.get("/api/v1/settings/policy")
 def settings_policy(service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _json(*dispatch_application_request(service, operation="settings.policy", payload={}))

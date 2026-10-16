@@ -13,7 +13,7 @@ import { runBounded } from '../utils/async';
 import { renderWorkspaceContextPanel } from '../components/WorkspaceContextPanel';
 import { renderAIControlCenterShell } from '../components/AIControlCenterView';
 import { renderModelSettingsView } from '../components/ModelSettingsView';
-import { renderLocalReadiness } from '../components/LocalReadinessView';
+import { renderLocalReadiness, renderOllamaCandidatePanel } from '../components/LocalReadinessView';
 import { renderAgentRuntimeView } from '../components/AgentRuntimeView';
 import { renderRagProvenanceView } from '../components/RagProvenanceView';
 import { renderSkillToolPolicyView } from '../components/SkillToolPolicyView';
@@ -72,7 +72,10 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
   let activeSettingsTab: 'overview' | 'preferences' | 'providers' | 'ai' = 'overview';
   let localReadiness: any = null;
   let localProbeBusy = false;
-  let localProbeNotice = ''; 
+  let localProbeNotice = '';
+  let candidateBusy = false;
+  let candidateNotice = '';
+  let candidateReceipt: any = null; 
   const state: SettingsState = {
     phase: 'idle',
     providerPlanPhase: 'idle',
@@ -371,6 +374,28 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
       finally { localProbeBusy = false; draw(); }
     });
     providerGrid.append(readiness);
+    const candidatePanel=renderOllamaCandidatePanel(candidateBusy,candidateNotice,candidateReceipt);
+    candidatePanel.querySelector('#r0203-run')?.addEventListener('click', async () => {
+      if(candidateBusy) return;
+      const model=(candidatePanel.querySelector<HTMLInputElement>('#r0203-model')?.value || '').trim();
+      const caseId=(candidatePanel.querySelector<HTMLSelectElement>('#r0203-case')?.value || 'vision');
+      if(!model){candidateNotice='BLOCK: escribe el modelo local exacto';draw();return;}
+      if(!window.confirm(`Ejecutar una inferencia local real para ${caseId} con ${model}? No publica documentos.`))return;
+      candidateBusy=true;candidateNotice='Consultando exclusivamente Ollama local…';
+      // Keep the DOM intact while the user reviews the result; do not recreate or lose controls.
+      const button=candidatePanel.querySelector<HTMLButtonElement>('#r0203-run');if(button)button.disabled=true;
+      const label=candidatePanel.querySelector<HTMLElement>('#r0203-result');if(label)label.textContent=candidateNotice;
+      try{
+        const bytes=new Uint8Array(16);crypto.getRandomValues(bytes);
+        const id=Array.from(bytes).map(v=>v.toString(16).padStart(2,'0')).join('');
+        const response=await new DevPilotApiClient({token:token()}).ollamaProductCandidate({case_id:caseId,model,request_id:id,execute:true});
+        if(!response.ok)throw new Error(String(response.data?.reason || response.message || 'Candidato rechazado'));
+        candidateReceipt=response.data;
+        candidateNotice='PASS: candidato real generado sin publicar ni habilitar proveedor; evaluación humana pendiente.';
+      }catch(error){candidateNotice='BLOCK: '+(error instanceof Error?error.message:'Modelo no disponible');}
+      finally{candidateBusy=false;draw();}
+    });
+    providerGrid.append(candidatePanel);
     const loading = state.providerPlanPhase === 'loading';
     const editor = document.createElement('article');
     editor.className = 'card';

@@ -1220,6 +1220,11 @@ class ApplicationService:
     def settings_providers(self, *, prefer_example: bool = False) -> CommandResult:
         return self.settings.providers(prefer_example=prefer_example)
 
+    def settings_ollama_product_candidate(self, *, case_id: str, model: str, request_id: str, execute: bool = False) -> dict[str, Any]:
+        from devpilot_core.generation.ollama_product_definition import OllamaProductDefinitionEvaluation
+        return OllamaProductDefinitionEvaluation(self.settings.root).run(
+            case_id=case_id, model=model, request_id=request_id, execute=execute)
+
     def settings_local_readiness(self, *, probe: bool = False) -> dict[str, Any]:
         return self.settings.local_model_readiness(probe=probe)
 

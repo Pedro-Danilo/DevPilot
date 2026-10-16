@@ -537,6 +537,10 @@ export class DevPilotApiClient {
     return this.post('/settings/providers/revoke', { provider_id: providerId, reason }, { timeoutMs: PROVIDER_PLAN_TIMEOUT_MS });
   }
 
+  async ollamaProductCandidate(payload: { case_id: string; model: string; request_id: string; execute: boolean }): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/ollama/product-definition/candidate', payload, { timeoutMs: 100000 });
+  }
+
   async probeLocalModelReadiness(): Promise<DevPilotApplicationResponse> {
     return this.post('/settings/local-model-readiness/probe', {}, { timeoutMs: 20000 });
   }

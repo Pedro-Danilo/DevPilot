@@ -191,5 +191,5 @@ def test_documentary_authority_reconciled_without_registry_expansion():
     registry = json.loads((repository/".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8"))
     state = json.loads((repository/".devpilot/project_state.json").read_text(encoding="utf-8"))
     assert registry["current_micro_sprint"] == state["current_micro_sprint"]
-    assert registry["current_micro_sprint"].startswith(("MP132-R01-", "MP132-R02-01/", "MP132-R02-02/"))  # successor-safe active pointer
+    assert registry["current_micro_sprint"].startswith(("MP132-R01-", "MP132-R02-01/", "MP132-R02-02/", "MP132-R02-03/"))  # successor-safe active pointer
     assert len(registry["documents"]) == 1752

@@ -1,0 +1,52 @@
+{
+  "schema": "MP132.R02.03.dataset.v1",
+  "dataset_id": "product-definition-local-synthetic-v1",
+  "version": 1,
+  "cases": [
+    {
+      "id": "vision",
+      "stage": "product-vision",
+      "artifact_type": "product-vision",
+      "context": "Una cooperativa necesita registrar solicitudes de préstamo de manera local, permitir consulta de estado por número de solicitud y proteger datos personales.",
+      "required_terms": [
+        "solicitud",
+        "privacidad"
+      ],
+      "evidence_ref": "fixture:loan-business-need-v1"
+    },
+    {
+      "id": "scope",
+      "stage": "scope",
+      "artifact_type": "mvp-scope",
+      "context": "Visión aprobada simulada: registrar solicitudes, consultar estado, limitar acceso por rol y auditar decisiones. No existe integración bancaria autorizada.",
+      "required_terms": [
+        "solicitud",
+        "rol"
+      ],
+      "evidence_ref": "fixture:loan-vision-v1"
+    },
+    {
+      "id": "requirements",
+      "stage": "requirements",
+      "artifact_type": "requirements-specification",
+      "context": "Alcance sintético: registrar solicitudes, consultar estado con rol autorizado y conservar auditoría. Incluir criterios verificables y protección de datos.",
+      "required_terms": [
+        "solicitud",
+        "criterio"
+      ],
+      "evidence_ref": "fixture:loan-scope-v1"
+    }
+  ],
+  "negative_cases": [
+    {
+      "id": "schema-invalid",
+      "kind": "invalid-json",
+      "expected": "PARSE_BLOCKED"
+    },
+    {
+      "id": "unsupported-reference",
+      "kind": "invented-source-ref",
+      "expected": "SCHEMA_BLOCKED"
+    }
+  ]
+}

@@ -1785,3 +1785,6 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
 /* COR-165: native button group remains keyboard-operable and visibly focused. */
 .settings-local-readiness-row { border-top: 1px solid var(--border-color, #cbd5e1); padding: 0.75rem 0; min-width: 0; overflow-wrap: anywhere; }
 .settings-home-tabs [data-settings-tab]:focus-visible { outline: 3px solid #133972; outline-offset: 3px; }
+
+/* R02-03: bounded untrusted candidate preview; never create horizontal overflow. */
+.r0203-preview { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 420px; overflow-y: auto; }

@@ -12599,6 +12599,25 @@
           }
         }
       }
+    },
+    "/api/v1/settings/ollama/product-definition/candidate": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "One Shot Ollama Synthetic Product Definition Candidate",
+        "operationId": "ollama_product_definition_candidate_api_v1_settings_ollama_product_definition_candidate_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-devpilot": {
