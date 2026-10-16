@@ -39,3 +39,9 @@ M0 program authority + Git; M1 kernel/policy/profiles básicos y neg suites; M2 
 ## Condición de producto profesional
 
 No bastan 144 unit tests de integración, build Vite ni nuevo Git merge. Es indispensable demostrar un proyecto desde necesidad hasta release y recuperación por UI normal, sin escribir source del piloto mediante scripts de operador.
+
+## Actualización operativa MP132 post-M1 — R02-01
+
+**Matriz de madurez vigente.** R01 primera vertical determinista: `PASS_WITH_FINDINGS`, no E2E multi-modelo; local real / semantic judge / grounded RAG real: `NOT_TESTED`; externo `DENIED`. M2 no evaluado y R02-02..10 no autorizados.
+
+**Autoridad:** esta sección actualiza el *estado operativo*, no modifica el `status: OWNER_APPROVED_PROGRAM` de la aprobación histórica Owner-133, ni autoriza R02-02. Source Registry mantiene el `doc_id` y `path` originales.

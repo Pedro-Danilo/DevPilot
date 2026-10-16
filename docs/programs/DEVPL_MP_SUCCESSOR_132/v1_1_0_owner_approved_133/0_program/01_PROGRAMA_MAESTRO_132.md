@@ -67,3 +67,9 @@ Roadmap R0–R10 se conserva, con **R1 fundacional acotado** (contratos y primer
 ## 8. Exclusiones y límites honestos
 
 No se retoma Pilot A, SYNC-1, SYNC-2 ni MP-1B histórico; no se autoriza renombrar una rama, activar agentes, comprar API o ejecutar modelos remotos; no se afirma certificación regulatoria/enterprise; no hay aceptación industrial hasta pruebas de producto completo, seguridad, portabilidad, recuperación y evaluación independiente. No se inventarán métricas sin hardware/dataset/presupuesto aprobados.
+
+## Actualización operativa MP132 post-M1 — R02-01
+
+**Programa post M1.** Madurez M1 `PASS_WITH_FINDINGS`, 14 recibos, 3 browser attestations; modelos locales reales `NOT_TESTED`, externos `DENIED`; único micro-sprint activo R02-01. No elevar M2 por esta auditoría.
+
+**Autoridad:** esta sección actualiza el *estado operativo*, no modifica el `status: OWNER_APPROVED_PROGRAM` de la aprobación histórica Owner-133, ni autoriza R02-02. Source Registry mantiene el `doc_id` y `path` originales.

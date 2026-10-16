@@ -53,3 +53,9 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+## Actualización operativa MP132 post-M1 — R02-01
+
+**Autoridad R02 y progreso.** R02 desagregado en 10 incrementos aprobados únicamente para planificación. **Solo R02-01** tiene aprobación Owner individual para ejecutarse en cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc. R02-02..10 conservan ejecución denegada; modelo L real `NOT_TESTED`, externas `DENIED`.
+
+**Autoridad:** esta sección actualiza el *estado operativo*, no modifica el `status: OWNER_APPROVED_PROGRAM` de la aprobación histórica Owner-133, ni autoriza R02-02. Source Registry mantiene el `doc_id` y `path` originales.

@@ -52,3 +52,9 @@ Ver `0_program/06_GUIA_LECTURA_132.md`: recorre visión → límites → decisio
 ## 5. Lo que todavía no está autorizado
 
 **Autorizado y ratificado ahora:** programa 132 para planeación, ADRs para arquitectura, cierre administrativo G5/COR-130 y levantamiento del STOP **global** por decisión Owner. **No autorizado sin nuevo gate:** sprint, cambio de HEAD, publicación al Source Registry, migración Git efectiva, proveedor externo, gasto API, habilitación de agente o cambio al Pilot B. Cada incremento exige audit-first, alcance, límites y aprobación; `GLOBAL_STOP_LIFTED` no implica `EXECUTE_ALL`.
+
+## Actualización operativa MP132 post-M1 — R02-01
+
+**Índice activo y jerarquía post-M1.** R01 CLOSED/PASS_WITH_FINDINGS; R02-01 ONLY SPRINT_EXECUTION_APPROVED; R02-02..10 DRAFT/NOT_AUTHORIZED. Ver el programa sucesor documental `DEVPL_MP_132_POST_M1_R02_172.zip`; éste no es un sello Git por sí mismo.
+
+**Autoridad:** esta sección actualiza el *estado operativo*, no modifica el `status: OWNER_APPROVED_PROGRAM` de la aprobación histórica Owner-133, ni autoriza R02-02. Source Registry mantiene el `doc_id` y `path` originales.

@@ -37,3 +37,9 @@ R0 program/Git/authority → R1 Candidate/Route/PESP/Coverage/Settings mínimo �
 ## Replanificación
 
 Si auditoría declara `NO-OP`, cerrar item con receipt, sin commit nuevo. Si descubre dependencia contradictoria, bloquear el sprint y publicar successor de dependencias/roadmap con Owner; no reordenar silenciosamente a mitad de ejecución.
+
+## Actualización operativa MP132 post-M1 — R02-01
+
+**Dependencia de ejecución R02-01.** M1 cerrado en cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc. R02-01 = auditoría y reconciliación; R02-02 readiness depende de Windows PASS y Owner individual; no instalar proveedor ni activar red en R02-01.
+
+**Autoridad:** esta sección actualiza el *estado operativo*, no modifica el `status: OWNER_APPROVED_PROGRAM` de la aprobación histórica Owner-133, ni autoriza R02-02. Source Registry mantiene el `doc_id` y `path` originales.
