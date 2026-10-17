@@ -9171,6 +9171,114 @@
         "ollama",
         "synthetic-dataset"
       ]
+    },
+    {
+      "application_service_required": true,
+      "auth_required": true,
+      "connector_write_allowed": false,
+      "destructive_action_allowed": false,
+      "dry_run_only": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "local_state_mutation_allowed": false,
+      "method": "GET",
+      "mutations_allowed": false,
+      "notes": [
+        "R02-06 Owner-only, active Pilot B B0 server-bound; candidate receipts runtime-only; no FROZEN approval; local Ollama explicit opt-in."
+      ],
+      "operation": "settings.pilot_b.comparison.status",
+      "owner": "interfaces.api.settings",
+      "path": "/api/v1/settings/pilot-b/comparison",
+      "path_subject": null,
+      "plugin_execution_allowed": false,
+      "policy_action": "read",
+      "policy_check_required": true,
+      "policy_sensitivity": "owner-pilot-b-context-bound-review",
+      "public": false,
+      "remote_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "route_id": "api.settings.pilot-b.comparison.status",
+      "router_module": "settings",
+      "source_mutation_allowed": false,
+      "tags": [
+        "settings",
+        "r02-06",
+        "pilot-b",
+        "dl-comparison"
+      ]
+    },
+    {
+      "application_service_required": true,
+      "auth_required": true,
+      "connector_write_allowed": false,
+      "destructive_action_allowed": false,
+      "dry_run_only": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "local_state_mutation_allowed": true,
+      "method": "POST",
+      "mutations_allowed": false,
+      "notes": [
+        "R02-06 Owner-only, active Pilot B B0 server-bound; candidate receipts runtime-only; no FROZEN approval; local Ollama explicit opt-in."
+      ],
+      "operation": "settings.pilot_b.comparison.candidate",
+      "owner": "interfaces.api.settings",
+      "path": "/api/v1/settings/pilot-b/comparison/candidate",
+      "path_subject": null,
+      "plugin_execution_allowed": false,
+      "policy_action": "read",
+      "policy_check_required": true,
+      "policy_sensitivity": "owner-pilot-b-context-bound-review",
+      "public": false,
+      "remote_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "route_id": "api.settings.pilot-b.comparison.candidate",
+      "router_module": "settings",
+      "source_mutation_allowed": false,
+      "tags": [
+        "settings",
+        "r02-06",
+        "pilot-b",
+        "dl-comparison"
+      ]
+    },
+    {
+      "application_service_required": true,
+      "auth_required": true,
+      "connector_write_allowed": false,
+      "destructive_action_allowed": false,
+      "dry_run_only": false,
+      "external_api_allowed": false,
+      "local_only": true,
+      "local_state_mutation_allowed": true,
+      "method": "POST",
+      "mutations_allowed": false,
+      "notes": [
+        "R02-06 Owner-only, active Pilot B B0 server-bound; candidate receipts runtime-only; no FROZEN approval; local Ollama explicit opt-in."
+      ],
+      "operation": "settings.pilot_b.comparison.review",
+      "owner": "interfaces.api.settings",
+      "path": "/api/v1/settings/pilot-b/comparison/review",
+      "path_subject": null,
+      "plugin_execution_allowed": false,
+      "policy_action": "read",
+      "policy_check_required": true,
+      "policy_sensitivity": "owner-pilot-b-context-bound-review",
+      "public": false,
+      "remote_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "high",
+      "route_id": "api.settings.pilot-b.comparison.review",
+      "router_module": "settings",
+      "source_mutation_allowed": false,
+      "tags": [
+        "settings",
+        "r02-06",
+        "pilot-b",
+        "dl-comparison"
+      ]
     }
   ],
   "safety": {
@@ -9261,14 +9369,14 @@
     "post_h_015_c_operator_dashboard_route_registered": true,
     "post_h_016_d_portfolio_status_route_registered": true,
     "preliminary": true,
-    "protected_routes_total": 242,
+    "protected_routes_total": 248,
     "public_routes_total": 7,
     "read_only_routes_total": 129,
     "read_only_workspace_document_routes_total": 7,
     "recursive_report_discovery": true,
     "remote_execution_allowed_total": 0,
     "remote_execution_routes_total": 0,
-    "routes_total": 251,
+    "routes_total": 255,
     "runtime_evidence_only_routes_total": 1,
     "scoped_observability": true,
     "security_posture_routes_total": 1,
@@ -9307,7 +9415,8 @@
     "gsdlc_13_c_04_planning_authoring_routes_total": 4,
     "gsdlc_13_d_01_story_activation_routes_total": 3,
     "gsdlc_13_d_02_implementation_proposal_routes_total": 2,
-    "r01_11_persistent_settings_routes_total": 3
+    "r01_11_persistent_settings_routes_total": 3,
+    "r02_06_comparison_routes_total": 3
   },
   "updated": "2026-10-01",
   "updated_by": "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-PROPOSAL-CORRECTIVE"

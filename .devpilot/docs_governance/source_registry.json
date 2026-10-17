@@ -41073,6 +41073,34 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "ADR-MP132-R02-06-B0-COMPARISON",
+      "domain": "sdlc.product-definition",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "R02-06 bridge: runtime-only decision; not authority to freeze or publish."
+      ],
+      "owner": "product-owner",
+      "path": "docs/02_architecture/adrs/ADR-MP132-R02-06-b0-comparison.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-MP132-R02-06-b0-comparison.md"
+      ],
+      "required_tests": [
+        "tests/test_mp132_r02_06_pilot_b_comparison.py"
+      ],
+      "roadmap_milestones": [
+        "MP132-R02-06"
+      ],
+      "status_required": "accepted-for-local-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -44124,24 +44152,24 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1656,
+    "critical_sources_total": 1657,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1752,
-    "documents_with_required_tests_total": 1752,
+    "documents_total": 1753,
+    "documents_with_required_tests_total": 1753,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 54,
-    "last_updated_by": "MP132-R00-03-AUTHORITY-REBIND",
+    "last_updated_by": "MP132-R02-06-LOCAL-CANDIDATE",
     "machine_readable_source_total": 829,
     "markdown_json_pairs_total": 80,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 703
+    "source_of_truth_total": 704
   },
   "updated": "2026-10-14",
   "updated_at": "2026-10-08",
-  "updated_by": "MP-0F",
+  "updated_by": "MP132-R02-06-LOCAL-CANDIDATE",
   "ux_p0_a_full_regression_runs": 0,
   "ux_p0_a_status": "CLOSED/PASS/WINDOWS-VALIDATED",
   "ux_p0_a_successor_commit": "013cc84f0df9eff1fb750b542644bfd0c7dc8717",

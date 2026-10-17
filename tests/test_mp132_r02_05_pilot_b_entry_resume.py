@@ -94,5 +94,5 @@ def test_active_pointer_and_contract_historical_scope() -> None:
     assert p['current_micro_sprint']==r['current_micro_sprint']=='MP132-R02-05/PILOT-B-ENTRY-RESUME'
     assert p['next_micro_sprint']==r['next_micro_sprint']=='R02_06_NOT_AUTHORIZED'
     assert p['current_phase']==r['current_phase']=='DEVPL-MP-SUCCESSOR-132/R02-PRODUCT-DEFINITION'
-    assert len(r['documents'])==r['summary']['documents_total']==1752
+    assert len(r['documents'])==r['summary']['documents_total'] >= 1752  # R02-05 historical minimum; later ADRs are additive
     assert p['external_api_allowed'] is False

@@ -377,3 +377,77 @@ def settings_provider_disable(request: Request, body: ProviderDisableBody, servi
 @router.post("/api/v1/settings/providers/revoke")
 def settings_provider_revoke(request: Request, body: ProviderDisableBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
     return _disable_or_revoke(request,body,service,revoke=True)
+
+
+# R02-06 — comparison is a review-only runtime workflow, separate from FROZEN authority.
+class PilotBComparisonCandidateBody(BaseModel):
+    stage: str = Field(pattern=r"^(vision|scope|requirements)$")
+    route: str = Field(pattern=r"^(deterministic|local-model)$")
+    model: str = Field(default="", max_length=100)
+    execute: bool = False
+
+
+class PilotBComparisonReviewBody(BaseModel):
+    stage: str = Field(pattern=r"^(vision|scope|requirements)$")
+    candidate_id: str = Field(min_length=6, max_length=140)
+    classification: str = Field(pattern=r"^(EQUIVALENT|REDUCED|MODEL_REQUIRED)$")
+    reason: str = Field(min_length=20, max_length=2000)
+    expected_input_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+def _pilot_b_service(request: Request):
+    from devpilot_core.generation.pilot_b_comparison import PilotBComparisonService
+    return PilotBComparisonService(request.app.state.devpilot_root)
+
+
+def _pilot_b_authority(request: Request):
+    principal = getattr(request.state, "authenticated_principal", None)
+    session = getattr(request.state, "authenticated_session_context", None)
+    if principal is None or session is None or "owner" not in request.app.state.application_service.rbac.canonical_roles(principal):
+        raise SettingsDenied("R02_06_OWNER_HUMAN_SESSION_REQUIRED")
+    return principal
+
+
+@router.get("/api/v1/settings/pilot-b/comparison")
+def pilot_b_comparison_status(request: Request, stage: str = Query(default="vision")) -> JSONResponse:
+    from devpilot_core.generation.pilot_b_comparison import ComparisonBlock
+    try:
+        _pilot_b_authority(request)
+    except SettingsDenied:
+        return _settings_reply("settings.pilot_b.comparison.status", {"reason": "OWNER_SESSION_REQUIRED"}, 403)
+    try:
+        return _settings_reply("settings.pilot_b.comparison.status", _pilot_b_service(request).status(stage=stage))
+    except ComparisonBlock as exc:
+        return _settings_reply("settings.pilot_b.comparison.status", {"reason": exc.code}, 409)
+
+
+@router.post("/api/v1/settings/pilot-b/comparison/candidate")
+def pilot_b_comparison_candidate(request: Request, body: PilotBComparisonCandidateBody) -> JSONResponse:
+    from devpilot_core.generation.pilot_b_comparison import ComparisonBlock
+    try:
+        _pilot_b_authority(request)
+    except SettingsDenied:
+        return _settings_reply("settings.pilot_b.comparison.candidate", {"reason": "OWNER_SESSION_REQUIRED"}, 403)
+    try:
+        return _settings_reply("settings.pilot_b.comparison.candidate",
+            _pilot_b_service(request).generate(stage=body.stage, route=body.route,
+                model=body.model, execute=body.execute))
+    except ComparisonBlock as exc:
+        return _settings_reply("settings.pilot_b.comparison.candidate", {"reason": exc.code}, 409)
+
+
+@router.post("/api/v1/settings/pilot-b/comparison/review")
+def pilot_b_comparison_review(request: Request, body: PilotBComparisonReviewBody) -> JSONResponse:
+    from devpilot_core.generation.pilot_b_comparison import ComparisonBlock
+    try:
+        principal = _pilot_b_authority(request)
+    except SettingsDenied:
+        return _settings_reply("settings.pilot_b.comparison.review", {"reason": "OWNER_SESSION_REQUIRED"}, 403)
+    try:
+        return _settings_reply("settings.pilot_b.comparison.review",
+            _pilot_b_service(request).select(stage=body.stage, candidate_id=body.candidate_id,
+                classification=body.classification, reason=body.reason,
+                owner_id=principal.actor_id,
+                expected_input_sha256=body.expected_input_sha256))
+    except ComparisonBlock as exc:
+        return _settings_reply("settings.pilot_b.comparison.review", {"reason": exc.code}, 409)

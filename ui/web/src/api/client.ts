@@ -545,6 +545,19 @@ export class DevPilotApiClient {
     return this.post('/settings/ollama/product-definition/candidate', payload, { timeoutMs: 100000 });
   }
 
+  // R02-06: owner-bound comparison, no approval/FROZEN authority.
+  async pilotBComparisonStatus(stage: 'vision'|'scope'|'requirements'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/settings/pilot-b/comparison?stage=${encodeURIComponent(stage)}`);
+  }
+
+  async pilotBComparisonCandidate(payload: {stage:string;route:string;model:string;execute:boolean}): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/pilot-b/comparison/candidate',payload,{timeoutMs:100000});
+  }
+
+  async pilotBComparisonReview(payload: {stage:string;candidate_id:string;classification:string;reason:string;expected_input_sha256:string}): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/pilot-b/comparison/review',payload,{timeoutMs:20000});
+  }
+
   async probeLocalModelReadiness(): Promise<DevPilotApplicationResponse> {
     return this.post('/settings/local-model-readiness/probe', {}, { timeoutMs: 20000 });
   }

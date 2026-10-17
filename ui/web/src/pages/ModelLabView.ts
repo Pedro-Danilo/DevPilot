@@ -1,5 +1,6 @@
 import { DevPilotApiClient } from '../api/client';
 import { renderOllamaCandidatePanel, renderLmstudioCandidatePanel } from '../components/LocalReadinessView';
+import { renderPilotBComparisonPanel } from '../components/PilotBComparisonPanel';
 
 /** Bounded model experiments; configuration never triggers inference. */
 export function renderModelLabView(token: () => string): HTMLElement {
@@ -26,7 +27,7 @@ export function renderModelLabView(token: () => string): HTMLElement {
       node.querySelector<HTMLButtonElement>(`#${prefix}-run`)?.addEventListener('click',()=>void run(provider,node));
       wrap.append(node);
     }
-    root.append(title,desc,back,info,wrap);
+    root.append(title,renderPilotBComparisonPanel(token),desc,back,info,wrap);
   }
   async function run(provider:'ollama'|'lmstudio', node:HTMLElement):Promise<void>{
     if(busy[provider])return;

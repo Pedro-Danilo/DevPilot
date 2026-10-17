@@ -5280,6 +5280,54 @@
       "public": false,
       "risk_level": "high",
       "workspace_scope_required": false
+    },
+    {
+      "route_id": "api.settings.pilot-b.comparison.status",
+      "method": "GET",
+      "path": "/api/v1/settings/pilot-b/comparison",
+      "operation": "settings.pilot_b.comparison.status",
+      "access_class": "owner-pilot-b-context-bound-review",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "public": false,
+      "risk_level": "medium",
+      "workspace_scope_required": false
+    },
+    {
+      "route_id": "api.settings.pilot-b.comparison.candidate",
+      "method": "POST",
+      "path": "/api/v1/settings/pilot-b/comparison/candidate",
+      "operation": "settings.pilot_b.comparison.candidate",
+      "access_class": "owner-pilot-b-context-bound-review",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "public": false,
+      "risk_level": "high",
+      "workspace_scope_required": false
+    },
+    {
+      "route_id": "api.settings.pilot-b.comparison.review",
+      "method": "POST",
+      "path": "/api/v1/settings/pilot-b/comparison/review",
+      "operation": "settings.pilot_b.comparison.review",
+      "access_class": "owner-pilot-b-context-bound-review",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "public": false,
+      "risk_level": "high",
+      "workspace_scope_required": false
     }
   ],
   "runtime_enforced": true,
@@ -5626,9 +5674,9 @@
     "gsdlc_12_b_legacy_token_allowed_total": 0,
     "gsdlc_12_b_reconciliation_policies_total": 3,
     "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
-    "human_session_required_total": 173,
+    "human_session_required_total": 179,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 249,
+    "route_policies_total": 255,
     "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
@@ -5639,7 +5687,8 @@
     "gsdlc_13_c_04_planning_authoring_policies_total": 4,
     "gsdlc_13_d_01_story_activation_policies_total": 3,
     "gsdlc_13_d_02_implementation_proposal_policies_total": 2,
-    "r01_11_persistent_settings_policies_total": 3
+    "r01_11_persistent_settings_policies_total": 3,
+    "r02_06_comparison_policies_total": 3
   },
   "unmapped_legacy_roles": [],
   "updated": "2026-10-01",
