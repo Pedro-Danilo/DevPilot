@@ -860,6 +860,8 @@ def execute_one(root: Path, workspace_id: str, context:dict[str,Any], adapter: A
             content=obj.get("body")
             if obj.get("plan_hash")!=plan_hash or not isinstance(content,str) or obj.get("sha256")!=sha(content) or validate_unit(content,unit):
                 raise ValueError("R0207_SEGMENT_CHECKPOINT_DRIFT")
+            from devpilot_core.application.r02_09_resilience import verify_checkpoint_receipts
+            verify_checkpoint_receipts(folder,unit["id"],plan_hash,model)
             segments[unit["id"]]=content
         elif next_unit is None:next_unit=unit
     if next_unit is not None and next_unit["kind"]=="global":
@@ -878,6 +880,8 @@ def execute_one(root: Path, workspace_id: str, context:dict[str,Any], adapter: A
             segments["GLOBAL"]=body
             next_unit=None
     if next_unit is not None:
+        from devpilot_core.application.r02_09_resilience import begin_call, transition, guard_replay
+        guard_replay(folder, next_unit["id"], plan_hash, model)
         diagnostics=folder/"diagnostics"
         if diagnostics.is_symlink(): raise ValueError("R0210_DIAGNOSTIC_SYMLINK_BLOCK")
         attempts = list(diagnostics.glob(next_unit["id"]+".attempt-*.json")) if diagnostics.is_dir() else []
@@ -919,11 +923,22 @@ def execute_one(root: Path, workspace_id: str, context:dict[str,Any], adapter: A
             options["num_predict"]=1400  # only GLOBAL: room for per-RNF proof and each SC-AC
             if len(attempts)==2:
                 options["num_ctx"]=6144  # preserve frozen criteria and template together
-        reply=adapter._post_json('/api/generate',{'model':model,'prompt':prompt,'stream':False,
-                'options':options},task=response_task)
+        receipt=begin_call(folder,plan_hash=plan_hash,unit_id=next_unit["id"],
+                           model=model,attempt=len(attempts)+1)
+        try:
+            reply=adapter._post_json('/api/generate',{'model':model,'prompt':prompt,'stream':False,
+                    'options':options},task=response_task)
+        except Exception as exc:
+            # The server may have processed the call before the transport died:
+            # never pretend that an unknown result was a successful candidate.
+            transition(receipt,"UNKNOWN")
+            record_failure("R0209_LOCAL_CALL_OUTCOME_UNKNOWN",[])
+            raise ValueError("R0209_LOCAL_CALL_OUTCOME_UNKNOWN") from exc
+        transition(receipt,"RESPONSE_RECEIVED")
         if not reply.ok:
             _failure_receipt(folder,next_unit,plan_hash,model,"R0207_SEGMENT_PROVIDER_FAILED",[],time.monotonic()-started,getattr(reply,"metadata",{}))
             record_failure("R0207_SEGMENT_PROVIDER_FAILED",[])
+            transition(receipt,"FAILED")
             raise ValueError("R0207_SEGMENT_PROVIDER_FAILED")
         raw=(reply.metadata or {}).get("response")
         if not isinstance(raw,str):raw=""
@@ -931,11 +946,13 @@ def execute_one(root: Path, workspace_id: str, context:dict[str,Any], adapter: A
         if (reply.metadata or {}).get("done_reason")=="length":
             _failure_receipt(folder,next_unit,plan_hash,model,"R0207_SEGMENT_TRUNCATED",[],time.monotonic()-started,reply.metadata)
             record_failure("R0207_SEGMENT_TRUNCATED",[])
+            transition(receipt,"FAILED")
             raise ValueError("R0207_SEGMENT_TRUNCATED")
         cleaned,security=safety(body)
         if security.get("content_safety")!="PASS":
             _failure_receipt(folder,next_unit,plan_hash,model,"R0207_SEGMENT_SECURITY_HOLD",[],time.monotonic()-started,reply.metadata)
             record_failure("R0207_SEGMENT_SECURITY_HOLD",[])
+            transition(receipt,"FAILED")
             raise ValueError("R0207_SEGMENT_SECURITY_HOLD")
         if next_unit["kind"] == "global":
             candidate, identity_binding, identity_findings = bind_global_nfr_ids(cleaned, next_unit)
@@ -947,6 +964,7 @@ def execute_one(root: Path, workspace_id: str, context:dict[str,Any], adapter: A
                              findings,time.monotonic()-started,reply.metadata,
                              safe_field_diagnostics(candidate, findings))
             record_failure("R0207_SEGMENT_NOT_CONFORMANT",findings)
+            transition(receipt,"FAILED")
             raise ValueError("R0207_SEGMENT_NOT_CONFORMANT")
         atomic_json(folder/(next_unit["id"]+".json"),{"plan_hash":plan_hash,"unit_id":next_unit["id"],
                      "sha256":sha(candidate),"body":candidate,"model":model,"profile":PROFILE_VERSION,
@@ -954,6 +972,7 @@ def execute_one(root: Path, workspace_id: str, context:dict[str,Any], adapter: A
                      "prompt_revision":("r0214-global-coverage-recovery-v1" if next_unit["kind"]=="global" and len(attempts)==2 else "r0213-global-grounded-v1"),
                      "timing":{k:(reply.metadata or {})[k] for k in ("eval_count","eval_duration","total_duration","done_reason") if k in (reply.metadata or {}) and isinstance((reply.metadata or {})[k],(int,str))}})
         segments[next_unit["id"]]=candidate
+        transition(receipt,"COMPLETED")
     completed=len(segments)
     status="COMPLETE" if completed==len(units) else "IN_PROGRESS"
     active={"status":status,"completed":completed,"total":len(units),"model":model,"plan_hash":plan_hash}

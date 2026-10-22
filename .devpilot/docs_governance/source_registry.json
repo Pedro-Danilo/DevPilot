@@ -41120,6 +41120,26 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "ADR-MP132-R02-09-LOCAL-CALL-RECOVERY",
+      "domain": "sdlc.product-definition",
+      "lifecycle": "active",
+      "notes": [
+        "R02-09: pre-call receipts bind local inference to exact input; UNKNOWN is fail-closed, no second authority over FROZEN."
+      ],
+      "owner": "product-owner",
+      "path": "docs/02_architecture/adrs/ADR-MP132-R02-09-local-call-recovery.md",
+      "required_tests": [
+        "tests/test_mp132_r02_09_resilience.py",
+        "tests/test_mp132_r02_09_live_fault.py"
+      ],
+      "status_required": "accepted-for-r02-09-owner-implementation",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -44171,20 +44191,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1658,
+    "critical_sources_total": 1659,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1754,
-    "documents_with_required_tests_total": 1754,
+    "documents_total": 1755,
+    "documents_with_required_tests_total": 1755,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 36,
-    "last_updated_by": "MP132-R02-07-LOCAL-CANDIDATE",
+    "last_updated_by": "MP132-R02-09-LOCAL-FAILURE-RESILIENCE",
     "machine_readable_source_total": 829,
     "markdown_json_pairs_total": 80,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 705
+    "source_of_truth_total": 706
   },
   "updated": "2026-10-14",
   "updated_at": "2026-10-08",

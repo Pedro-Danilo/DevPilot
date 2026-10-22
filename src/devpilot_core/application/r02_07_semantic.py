@@ -780,12 +780,29 @@ def _run_locked(root:Path,stage_id:str,model:str,dst:Path,adapter:Any,cfg:Any,co
         health=OllamaAdapter(provider_config=cfg,timeout_seconds=3,max_response_bytes=65536).health()
         if not health.ok or model not in (health.data.get('models') or []):raise ValueError('R0207_MODEL_NOT_AVAILABLE')
         seed=42 + (int(context.get('predecessor_sha256','0')[:8] or '0',16)%100003)
-        response=adapter._post_json('/api/generate',{'model':model,'prompt':prompt,
-            'stream':False,'options':{**(REQUIREMENTS_INFERENCE_OPTIONS if stage_id=='requirements' else {'temperature':0.2,'num_predict':3200,'num_ctx':4096}),'seed':seed}},task=ModelTask.GENERATE)
+        # R02-09: durable direct-stage attempt boundary (Vision/Scope).
+        # Requirements use segmented or independently receipted repair flows.
+        direct_receipt=None
+        if stage_id in ('product-vision','scope'):
+            from devpilot_core.application.r02_09_resilience import begin_call, transition, guard_replay
+            direct_folder=dst.parent/'direct_model_calls'/input_hash
+            guard_replay(direct_folder,'DIRECT',input_hash,model)
+            prior=list((direct_folder/'model_call_receipts').glob('DIRECT.attempt-*.json')) if (direct_folder/'model_call_receipts').is_dir() else []
+            if len(prior)>=2:raise ValueError('R0209_DIRECT_CALL_BUDGET_EXHAUSTED')
+            direct_receipt=begin_call(direct_folder,plan_hash=input_hash,unit_id='DIRECT',model=model,attempt=len(prior)+1)
+        try:
+            response=adapter._post_json('/api/generate',{'model':model,'prompt':prompt,
+                'stream':False,'options':{**(REQUIREMENTS_INFERENCE_OPTIONS if stage_id=='requirements' else {'temperature':0.2,'num_predict':3200,'num_ctx':4096}),'seed':seed}},task=ModelTask.GENERATE)
+        except Exception as exc:
+            if direct_receipt:
+                transition(direct_receipt,'UNKNOWN')
+            raise ValueError('R0209_LOCAL_CALL_OUTCOME_UNKNOWN') from exc
+        if direct_receipt:transition(direct_receipt,'RESPONSE_RECEIVED')
         if not response.ok:
             failure_metadata=dict(response.metadata or {})
             failure_metadata['elapsed_ms']=round((time.monotonic()-start)*1000)
             _record_generation_failure(dst,context,model,'R0207_MODEL_GENERATION_FAILED',failure_metadata)
+            if direct_receipt:transition(direct_receipt,'FAILED')
             raise ValueError('R0207_MODEL_GENERATION_FAILED')
         raw=response.metadata.get('response')
         try:
@@ -794,6 +811,7 @@ def _run_locked(root:Path,stage_id:str,model:str,dst:Path,adapter:Any,cfg:Any,co
             failure_metadata=dict(response.metadata or {})
             failure_metadata['elapsed_ms']=round((time.monotonic()-start)*1000)
             _record_generation_failure(dst,context,model,str(exc),failure_metadata)
+            if direct_receipt:transition(direct_receipt,'FAILED')
             raise
     # The generative model writes semantic body. The deterministic control plane
     # owns immutable document identifiers/frontmatter, never model-provided metadata.
@@ -871,4 +889,6 @@ def _run_locked(root:Path,stage_id:str,model:str,dst:Path,adapter:Any,cfg:Any,co
             f.flush();os.fsync(f.fileno())
     except FileExistsError:
         return json.loads(dst.read_text(encoding='utf-8'))
+    if pre_generated_body is None and direct_receipt:
+        transition(direct_receipt,'COMPLETED')
     return result
