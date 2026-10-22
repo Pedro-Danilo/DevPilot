@@ -104,8 +104,63 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       approvalEffect:'El approval autoriza únicamente el plan/diff actual; no salta validación ni freeze.',
       recoveryHref:'/recovery',
     });
+    // R02-08: an advisory, read-only audit of the first three FROZEN stages.
+    // Never use its result to grant authority or silently reopen a FROZEN.
+    const coverage=(preCode as PreCodeWizardProjection & {product_definition_coverage?: {
+      result?:string;scope_capability_ids?:string[];untraced_scope_ids?:string[];
+      findings?:Array<{rule_id:string;severity:string;observed:string;remediation:string}>;
+      reference_evidence?:Array<{capability_id:string;scope_ref:string;scope_excerpt:string;requirement_rf:string|null;requirement_ref:string|null;requirement_excerpt:string;origin_verified:boolean;semantic_verified:boolean}>;
+      cross_artifact_links?:Array<unknown>;
+      limitations?:string[];model_calls?:number;automatic_semantic_approval?:boolean;
+    }|null}).product_definition_coverage;
+    let coveragePanel:HTMLElement|null=null;
+    if(coverage){
+      const pane=document.createElement('section');pane.className='panel';pane.dataset.productDefinitionCoverage='true';
+      const head=document.createElement('h3');head.textContent='Cobertura y coherencia de Product Definition';
+      const state=document.createElement('p');state.className='notice notice--info';
+      state.textContent=`Auditoría de solo lectura · ${coverage.result??'REVIEW_REQUIRED'} · ${coverage.scope_capability_ids?.length??0} capacidades · ${coverage.untraced_scope_ids?.length??0} sin RF de origen · 0 llamadas al modelo.`;
+      pane.append(head,state);
+      const guided=document.createElement('div');guided.className='guided-only';guided.dataset.coverageGuided='true';
+      const explanation=document.createElement('p');explanation.textContent='DevPilot comprueba si cada capacidad del MVP tiene un requisito relacionado. Esto no demuestra que ambos textos signifiquen lo mismo. La revisión no cambia los documentos ya aprobados ni impide avanzar por Architecture.';
+      guided.append(explanation);
+      const next=document.createElement('p');next.textContent='Para revisar las dudas, abre Documentos y compara Vision, MVP Scope y Requirements. La aplicabilidad de IA se decidirá mediante MIASI en su checkpoint, no aquí.';
+      guided.append(next);
+      const docLink=document.createElement('a');docLink.href='/workspace/documents';docLink.textContent='Abrir Documentos para comparar las fuentes →';guided.append(docLink);
+      const shortList=document.createElement('ul');
+      for(const finding of (coverage.findings??[]).slice(0,8)){
+        const li=document.createElement('li');li.textContent=finding.rule_id==='CROSS_ARTIFACT_SEMANTICS_UNPROVEN'?'Pendiente: revisar que Vision, Scope y Requirements describan la misma solución.':finding.rule_id==='PRODUCT_AI_APPLICABILITY_UNVERIFIED'?'Pendiente: determinar en MIASI si el producto entregado incluye IA; usar IA para redactar documentos no implica que el producto la incorpore.':`${finding.rule_id}: ${finding.observed}`;shortList.append(li);
+      }
+      guided.append(shortList);pane.append(guided);
+      const expert=document.createElement('div');expert.className='expert-only';expert.dataset.coverageExpert='true';
+      const explanationExpert=document.createElement('p');explanationExpert.textContent='Evidencia literal Scope → RF: presencia comprobada por Origen en el RF, equivalencia semántica NO certificada. Vision → Scope carece todavía de un dictamen semántico vinculado.';
+      expert.append(explanationExpert);
+      const rows=coverage.reference_evidence??[];
+      if(rows.length){
+        const list=document.createElement('ol');list.dataset.coverageReferenceEvidence='true';
+        for(const ref of rows){
+          const li=document.createElement('li');
+          const title=document.createElement('strong');title.textContent=`${ref.capability_id} → ${ref.requirement_rf??'SIN RF'} · ${ref.origin_verified?'origen literal verificado':'falta origen'} · semántica pendiente`;
+          const scope=document.createElement('p');scope.textContent=`${ref.scope_ref}: ${ref.scope_excerpt}`;
+          const req=document.createElement('p');req.textContent=`${ref.requirement_ref??'Sin RF'}: ${ref.requirement_excerpt||'Sin comportamiento asociado'}`;
+          li.append(title,scope,req);list.append(li);
+        }
+        expert.append(list);
+      }
+      const findings=coverage.findings??[];
+      if(findings.length){
+        const h=document.createElement('h4');h.textContent='Hallazgos técnicos y remediación';const items=document.createElement('ul');items.dataset.productDefinitionFindings='true';
+        for(const issue of findings.slice(0,12)){
+          const item=document.createElement('li');item.textContent=`${issue.severity} · ${issue.rule_id}: ${issue.observed}. Siguiente acción: ${issue.remediation}`;items.append(item);
+        }
+        expert.append(h,items);
+      }
+      const d=document.createElement('a');d.href='/workspace/documents';d.textContent='Consultar fuentes originales en Documentos →';expert.append(d);
+      pane.append(expert);coveragePanel=pane;
+    }
     const skipFeedback=document.createElement('div'); skipFeedback.className='pre-code-stepper__feedback'; skipFeedback.setAttribute('aria-live','assertive');
-    body.append(summary,guide,stageStepper(preCode.stages,preCode.current_stage_id,(attempted)=>{
+    body.append(summary);
+    if(coveragePanel)body.append(coveragePanel);
+    body.append(guide,stageStepper(preCode.stages,preCode.current_stage_id,(attempted)=>{
       skipFeedback.replaceChildren(statusBox('block',`BLOCK: ${attempted.label} todavía no está habilitada. Completa y congela la etapa actual antes de avanzar; no se ejecutó ninguna mutación.`));
       skipFeedback.tabIndex=-1; skipFeedback.focus();
     }),skipFeedback);

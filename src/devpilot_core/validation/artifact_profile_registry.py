@@ -85,6 +85,11 @@ class ArtifactProfileRegistry:
         from devpilot_core.validation.artifact_coverage_gate import ArtifactCoverageGate
         return ArtifactCoverageGate(self, documents_root or self.root).evaluate(rules, stage=stage)
 
+    def evaluate_product_definition(self, documents_root: Path, inputs: "ProductDefinitionInput") -> dict[str, Any]:
+        """MP132 R02-08: profile-first Product Definition audit; no new authority."""
+        from devpilot_core.validation.product_definition_coverage import evaluate_product_definition
+        return evaluate_product_definition(self, documents_root, inputs)
+
     def status(self) -> CommandResult:
         """Validate and summarize the data-driven artifact profile registry."""
 

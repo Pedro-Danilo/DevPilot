@@ -569,7 +569,38 @@ class PreCodeWizardApplicationService:
         adr_bundle=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=workspace_id,state=state)
         from .r02_07_segmented import progress as segmented_progress
         segmented_status=segmented_progress(self.root,workspace_id) if current and current['stage_id']=='requirements' else None
-        return {'segmented_progress':segmented_status, 'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+        return {'product_definition_coverage':(self._product_definition_coverage(state,workspace_root) if workspace_id in set(workspace_scopes) else None), 'segmented_progress':segmented_status, 'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+
+    def _product_definition_coverage(self, state:dict[str,Any], workspace_root:Path)->dict[str,Any]|None:
+        """A188 read-only post-FROZEN audit; never changes readiness or lifecycle.
+
+        This projection reads server-authoritative stage receipts and compares
+        their exact approved bytes before handing evidence to the canonical
+        ArtifactProfileRegistry. Its REVIEW is not a new freeze requirement.
+        """
+        from devpilot_core.validation.product_definition_coverage import FrozenProof, ProductDefinitionInput
+        stages=(('product-vision','product-vision'),('scope','mvp-scope'),('requirements','requirements-specification'))
+        if any(str(self._stage_state(state,k).get('status') or '')!='FROZEN' for k,_ in stages):
+            return None
+        proofs={}; accepts={}
+        for stage_id,typ in stages:
+            row=self._stage_state(state,stage_id)
+            path=(workspace_root/str(self._stage_by_id[stage_id]['relative_path'])).resolve()
+            if not path.is_relative_to(workspace_root.resolve()) or not path.is_file():
+                continue
+            bytes_now=path.read_bytes()
+            expected=str(row.get('approved_sha256') or '')
+            digest=_sha_bytes(bytes_now)
+            if expected and digest==expected:
+                proofs[typ]=FrozenProof(_sha_text(bytes_now.decode('utf-8-sig')),
+                    'pre-code-runtime:'+str(row.get('approval_id') or '')+':'+str(row.get('execution_id') or ''))
+                if row.get('approval_id') and row.get('review_id'):
+                    accepts[typ]=(str(row['approval_id']),str(row['review_id']))
+            else:
+                # Do not construct a trusted proof for an invalid state.
+                proofs[typ]=FrozenProof('0'*64,'pre-code-runtime:HASH_DRIFT')
+        return self.profiles.evaluate_product_definition(workspace_root,ProductDefinitionInput(
+            frozen=proofs,semantic_acceptance=accepts))
 
     def _readiness_payload(self,state:dict[str,Any],workspace_id:str,workspace_root:Path,*,miasi:dict[str,Any]|None=None)->dict[str,Any]:
         blockers=[]; artifacts=[]
