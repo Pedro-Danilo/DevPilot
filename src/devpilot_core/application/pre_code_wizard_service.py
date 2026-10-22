@@ -28,6 +28,7 @@ from .workspace_edit_plan_service import ZERO_SHA256
 from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationService
 from .pre_code_technical_design import C02_STAGES, C02_MODEL, C02_SCHEMA, derive_technical_stage, validate_technical_artifact
 from .pre_code_adr_bundle_service import ArchitectureAdrBundleService
+from .r02_07_semantic import generate_local_guided, quality_findings, persist_owner_revision
 from .pre_code_semantic_model import (
     build_candidate_model,
     normalize_owner_model,
@@ -119,7 +120,7 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC13C01_STRUCTURE_SCOPE_BLOCK','Active workspace scope is required to reconcile governed document namespaces.',metadata={'workspace_id':workspace_id})
         return self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
 
-    def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], semantic_model: dict[str, Any] | None = None) -> CommandResult:
+    def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], semantic_model: dict[str, Any] | None = None, model: str = "") -> CommandResult:
         command='guided pre-code save draft'
         context=self._context()
         if isinstance(context,CommandResult): return context
@@ -131,8 +132,8 @@ class PreCodeWizardApplicationService:
         normalized_mode=str(mode or '').upper()
         if normalized_mode not in stage['allowed_modes']:
             return self._block(command,'GSDLC05E_MODE_POLICY_BLOCK','Selected authoring mode is not allowed for the current stage.',metadata={'stage_id':stage_id,'mode':normalized_mode})
-        if normalized_mode not in {'MANUAL','IMPORT','DEVPL_MOCK'}:
-            return self._block(command,'GSDLC05E_MODE_BLOCK','Only governed MANUAL/IMPORT/DEVPL_MOCK modes are available.')
+        if normalized_mode not in {'MANUAL','IMPORT','DEVPL_MOCK','LOCAL_MODEL'}:
+            return self._block(command,'GSDLC05E_MODE_BLOCK','Only governed MANUAL/IMPORT/DEVPL_MOCK/LOCAL_MODEL modes are available.')
         state=self._load_state(workspace_id)
         adr_gate=self._adr_companion_gate(state=state,workspace_root=workspace_root,requested_stage_id=stage_id)
         if adr_gate is not None:return adr_gate
@@ -175,6 +176,49 @@ class PreCodeWizardApplicationService:
                 generated=self._derive_local_proposal(stage_id=stage_id,workspace_id=workspace_id,workspace_root=workspace_root,state=state)
                 if isinstance(generated,CommandResult): return generated
                 content,derivation=generated
+        elif normalized_mode=='LOCAL_MODEL':
+            if workspace_id not in set(workspace_scopes):
+                return self._block(command,'R0207_WORKSPACE_SCOPE_DENY','Owner workspace scope required for local authoring.')
+            if stage_id not in {'product-vision','scope','requirements'}:
+                return self._block(command,'R0207_STAGE_DENY','Local model authoring is restricted to Product Definition.')
+            if row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} and content.strip() and str(row.get('mode'))=='LOCAL_MODEL':
+                derivation=deepcopy(row.get('derivation') or {})
+                derivation['owner_edited']=True
+                derivation['owner_edited_content_sha256']=_sha_text(content)
+                try:
+                    derivation['owner_revision']=persist_owner_revision(self.root,workspace_id=workspace_id,stage_id=stage_id,generation=derivation,content=content)
+                except ValueError as exc:
+                    return self._block(command,str(exc),'No se pudo conservar revisión Markdown inmutable.')
+            elif row.get('status') in {'MISSING','DRAFT','FINDINGS'} and not content.strip():
+                # An explicit empty-body request on an unapproved local DRAFT is
+                # a new semantic alternative; the previous Markdown and receipt
+                # stay immutable. Never regenerate an approval-ready or FROZEN row.
+                if row.get('status')!='MISSING' and str(row.get('mode'))!='LOCAL_MODEL':
+                    return self._block(command,'R0207_ALTERNATIVE_MODE_DENY','Solo se puede crear una alternativa de un DRAFT local existente.')
+                if row.get('plan_id') or row.get('approval_id'):
+                    return self._block(command,'R0207_ALTERNATIVE_PLAN_DENY','El DRAFT tiene plan o approval; no regenerar.')
+                try:
+                    predecessor_sha=str((row.get('derivation') or {}).get('candidate_sha256') or '') if row.get('status')!='MISSING' else ''
+                    if predecessor_sha and (not re.fullmatch(r'[0-9a-f]{64}',predecessor_sha) or _sha_text(str(row.get('content') or ''))!=predecessor_sha):
+                        # Owner-edited drafts have their own lineage; their provenance
+                        # must be verified before requesting a new local candidate.
+                        predecessor_sha=''
+                    generated=generate_local_guided(self.root,workspace_id=workspace_id,
+                        workspace_root=workspace_root, stage_id=stage_id,model=model,
+                        predecessor_sha256=predecessor_sha,
+                        previous_content=str(row.get('content') or '') if predecessor_sha else '')
+                except ValueError as exc:
+                    return self._block(command,str(exc),'Local model candidate could not be generated safely.')
+                if generated.get('partial'):
+                    return self._pass(command,'R0207_SEGMENT_PROGRESS_PASS',
+                        'Unidad de Requirements validada; continuar generación segmentada. No existe un nuevo DRAFT todavía.',
+                        {'segmented_progress':generated['progress'],'source_mutations_performed':False})
+                content=generated['content']
+                derivation=generated['provenance']
+                if row.get('status')!='MISSING' and row.get('derivation',{}).get('candidate_sha256')==derivation.get('candidate_sha256'):
+                    return self._block(command,'R0207_ALTERNATIVE_UNCHANGED','La propuesta ya existe; edita el Markdown o selecciona otro modelo. No se duplicó la inferencia.')
+            else:
+                return self._block(command,'R0207_GENERATION_RETRY_DENY','Use the existing local model DRAFT for review/edit; do not silently regenerate.')
         elif not content.strip():
             return self._block(command,'GSDLC05E_EMPTY_DRAFT_BLOCK','Draft content is required for MANUAL/IMPORT.')
         structure=self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
@@ -186,11 +230,11 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC05E_TARGET_PARENT_BLOCK','The project bootstrap must provide the governed document parent directory before authoring.',metadata={'relative_path':stage['relative_path']})
         base_sha=_sha_bytes(target.read_bytes()) if target.is_file() else ZERO_SHA256
         artifact_id='precode_'+hashlib.sha256(f"{workspace_id}|{stage_id}|{_sha_bytes(content.encode())}".encode()).hexdigest()[:24]
-        lifecycle_source='AGENT_ASSISTED' if normalized_mode=='DEVPL_MOCK' else normalized_mode
+        lifecycle_source='AGENT_ASSISTED' if normalized_mode in {'DEVPL_MOCK','LOCAL_MODEL'} else normalized_mode
         draft=self.lifecycle.create_draft(
             artifact_id=artifact_id,relative_path=str(stage['relative_path']),content=content,source_type=lifecycle_source,
             base_commit=self._base_commit(workspace_root),actor=actor,actor_role=actor_role,session_principal=session_principal,
-            reviewer=actor,reviewer_role=actor_role,source_label='DevPilot deterministic local proposal / Owner-reviewed' if normalized_mode=='DEVPL_MOCK' else f'GSDLC-05-E {normalized_mode} browser DRAFT',
+            reviewer=actor,reviewer_role=actor_role,source_label='DevPilot local model candidate / Owner-reviewed' if normalized_mode=='LOCAL_MODEL' else ('DevPilot deterministic local proposal / Owner-reviewed' if normalized_mode=='DEVPL_MOCK' else f'GSDLC-05-E {normalized_mode} browser DRAFT'),
             source_reference=f'pre-code:{workspace_id}:{stage_id}:{normalized_mode.lower()}',
         )
         if not draft.ok:return draft
@@ -215,6 +259,42 @@ class PreCodeWizardApplicationService:
         row=self._stage_state(state,stage_id)
         if row.get('status') not in {'DRAFT','FINDINGS'} or not isinstance(row.get('artifact'),dict):
             return self._block(command,'GSDLC05E_DRAFT_REQUIRED_BLOCK','Save a current-stage DRAFT before validation/review.')
+        if row.get('mode')=='LOCAL_MODEL' and self._candidate_content_binding(row)['status']!='PASS':
+            return self._block(command,'R0207_CANDIDATE_CONTENT_BINDING_BLOCK',
+                               'El Markdown visible no concuerda con el candidato/revisión y el hash persistido; detener antes del approval.')
+        if workspace_id=='admon_empresa_unipersonal_con_agentes' and stage_id in {'product-vision','scope','requirements'}:
+            # Derive review facts from the same trusted B0 as generation; never
+            # trust claims of source authorization inside model Markdown.
+            source_path=workspace_root/'.devpilot/project.yaml'
+            if not source_path.is_file() or source_path.is_symlink():
+                return self._block(command,'R0207_REVIEW_SOURCE_UNAVAILABLE','B0 confiable no disponible durante revisión.')
+            try:
+                source_need=str(parse_project_yaml_metadata(source_path).get('business_need') or '')
+            except (OSError,ValueError,TypeError,KeyError):
+                return self._block(command,'R0207_REVIEW_SOURCE_UNAVAILABLE','No se pudo recuperar B0 para validación.')
+            if not source_need.strip():
+                return self._block(command,'R0207_REVIEW_SOURCE_UNAVAILABLE','B0 vacío: revisión bloqueada.')
+            quality_scope=''
+            if stage_id=='requirements':
+                # FROZEN is a runtime lifecycle authority, not the YAML status
+                # string inside a versioned document. Validate both identity and
+                # hash before using the source for the quality decision.
+                from .r02_07_semantic import _read_frozen, _sha
+                try:
+                    scope_hash,_=_read_frozen(self.root,workspace_id,'scope')
+                    scope_file=workspace_root/'docs/00_product/mvp_scope.md'
+                    if scope_file.is_symlink() or not scope_file.is_file():raise ValueError('scope_unavailable')
+                    scope_blob=scope_file.read_bytes()
+                    if _sha(scope_blob)!=scope_hash:raise ValueError('scope_drift')
+                    quality_scope=scope_blob.decode('utf-8-sig')
+                except (OSError,UnicodeError,ValueError):
+                    return self._block(command,'R0218_REVIEW_FROZEN_SCOPE_UNAVAILABLE',
+                        'No se puede comprobar el Scope FROZEN para evaluar Requirements.')
+            professional=quality_findings(stage_id,str(row.get('content') or ''),source_need=source_need,scope_text=quality_scope)
+            if professional:
+                findings=[Finding('R0207_DOCUMENT_QUALITY_BLOCK','El documento no cumple el perfil profesional de esta etapa.',Severity.BLOCK,metadata={'quality_findings':professional})]
+                findings.extend(Finding(item['id'],item['message'],Severity.BLOCK) for item in professional)
+                return CommandResult(command,False,ExitCode.BLOCK,'Revisión documental bloqueada; corregir el DRAFT sin modificar source.',data={},findings=findings)
         if str(row.get('mode') or '')=='DEVPL_MOCK':
             model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
             if stage_id in C02_STAGES:
@@ -487,7 +567,9 @@ class PreCodeWizardApplicationService:
         current_row=self._stage_state(state,current['stage_id']) if current else {}
         current_derivation=current_row.get('derivation') if isinstance(current_row.get('derivation'),dict) else {}
         adr_bundle=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=workspace_id,state=state)
-        return {'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+        from .r02_07_segmented import progress as segmented_progress
+        segmented_status=segmented_progress(self.root,workspace_id) if current and current['stage_id']=='requirements' else None
+        return {'segmented_progress':segmented_status, 'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _readiness_payload(self,state:dict[str,Any],workspace_id:str,workspace_root:Path,*,miasi:dict[str,Any]|None=None)->dict[str,Any]:
         blockers=[]; artifacts=[]
@@ -598,8 +680,38 @@ class PreCodeWizardApplicationService:
     @staticmethod
     def _stage_state(state:dict[str,Any],stage_id:str)->dict[str,Any]: return state['stages'][stage_id]
     @staticmethod
+    def _candidate_content_binding(row:dict[str,Any])->dict[str,Any]:
+        """Server-side correlation of visible DRAFT to immutable candidate provenance.
+
+        The original model Markdown remains immutable. Owner revisions have a
+        separate expected digest. This is not a semantic quality PASS.
+        """
+        if row.get('mode') != 'LOCAL_MODEL' or row.get('status') not in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'}:
+            return {'status':'NOT_APPLICABLE'}
+        derived=row.get('derivation') if isinstance(row.get('derivation'),dict) else {}
+        content=row.get('content')
+        if not isinstance(content,str) or not content:
+            return {'status':'BLOCK','reason':'MISSING_DRAFT_TEXT'}
+        actual=_sha_text(content)  # Git-style logical Markdown hash (LF)
+        physical_sha=_sha_bytes(content.encode('utf-8'))  # persisted runtime receipt uses exact bytes
+        original=str(derived.get('candidate_sha256') or '')
+        path=str(derived.get('candidate_path') or '')
+        if not re.fullmatch(r'[0-9a-f]{64}',original) or not re.fullmatch(r'cand-[0-9a-f]{64}\.md',path):
+            return {'status':'BLOCK','reason':'CANDIDATE_PROVENANCE_MISSING'}
+        edited=bool(derived.get('owner_edited'))
+        expected=str(derived.get('owner_edited_content_sha256') or '') if edited else original
+        recorded=str(row.get('content_sha256') or '')
+        consistent=(actual==expected and physical_sha==recorded)
+        return {'status':'PASS' if consistent else 'BLOCK',
+                'reason':'MATCH' if consistent else 'CONTENT_PROVENANCE_DRIFT',
+                'visible_sha256':actual,'candidate_sha256':original,'candidate_path':path,
+                'owner_edited':edited,'expected_sha256':expected,
+                'model':str(derived.get('model') or '')}
+
+    @staticmethod
     def _public_stage(row:dict[str,Any],stage:dict[str,Any])->dict[str,Any]:
-        return {'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'base_sha256':row.get('base_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
+        return {'candidate_content_binding':PreCodeWizardApplicationService._candidate_content_binding(row),
+                'stage_id':stage['stage_id'],'order':stage['order'],'label':stage['label'],'relative_path':stage['relative_path'],'profile_id':stage['profile_id'],'advisor_step':stage['advisor_step'],'allowed_modes':list(stage['allowed_modes']),'status':row.get('status'),'mode':row.get('mode'),'content_sha256':row.get('content_sha256'),'base_sha256':row.get('base_sha256'),'draft_content':row.get('content') if row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} else None,'derivation':dict(row.get('derivation') or {}) if isinstance(row.get('derivation'),dict) else None,'review_id':row.get('review_id'),'plan_id':row.get('plan_id'),'plan_hash':row.get('plan_hash'),'diff':row.get('diff'),'execution_id':row.get('execution_id'),'approval_id':row.get('approval_id'),'approved_sha256':row.get('approved_sha256'),'findings':list(row.get('findings') or []),'validation':dict(row.get('validation') or {})}
     def _ensure_semantic_model(self, *, stage_id: str, workspace_id: str, workspace_root: Path, state: dict[str, Any], submitted: dict[str, Any] | None) -> dict[str, Any] | CommandResult:
         command='guided pre-code semantic model'
         existing=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None

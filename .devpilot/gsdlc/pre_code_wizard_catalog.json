@@ -14,9 +14,10 @@
       "profile_id": "product-vision",
       "advisor_step": "business-analysis",
       "allowed_modes": [
-        "DEVPL_MOCK",
+        "LOCAL_MODEL",
         "MANUAL",
-        "IMPORT"
+        "IMPORT",
+        "DEVPL_MOCK"
       ]
     },
     {
@@ -27,9 +28,10 @@
       "profile_id": "mvp-scope",
       "advisor_step": "business-analysis",
       "allowed_modes": [
-        "DEVPL_MOCK",
+        "LOCAL_MODEL",
         "MANUAL",
-        "IMPORT"
+        "IMPORT",
+        "DEVPL_MOCK"
       ]
     },
     {
@@ -40,9 +42,10 @@
       "profile_id": "requirements-specification",
       "advisor_step": "requirements",
       "allowed_modes": [
-        "DEVPL_MOCK",
+        "LOCAL_MODEL",
         "MANUAL",
-        "IMPORT"
+        "IMPORT",
+        "DEVPL_MOCK"
       ]
     },
     {

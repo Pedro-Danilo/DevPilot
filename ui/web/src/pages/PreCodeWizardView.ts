@@ -66,6 +66,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
 
   function render(preCode: PreCodeWizardProjection, message?: string): void {
     body.replaceChildren();
+    const partial=(preCode as PreCodeWizardProjection & {segmented_progress?:{completed:number;total:number;model:string;status:string}}).segmented_progress;
     const summary=document.createElement('section'); summary.className='panel pre-code-wizard__summary'; summary.dataset.status=preCode.status;
     const currentStage=preCode.stages.find((row)=>row.stage_id===preCode.current_stage_id);
     const sh=document.createElement('h3'); sh.textContent='Preparación antes de programar';
@@ -73,6 +74,11 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     const technical=renderTechnicalDisclosure('Ver readiness y controles técnicos',`Estado: ${preCode.status} · Readiness estricta: ${preCode.readiness.status} · MIASI: ${preCode.miasi.status} · gate ${preCode.miasi.gate_status} · riesgo ${preCode.miasi.risk_level}.`);
     technical.classList.add('pre-code-wizard__technical');
     summary.append(sh,sp,technical);
+    if(partial && partial.status==='IN_PROGRESS'){
+      const progress=document.createElement('p');progress.className='notice notice--info';progress.dataset.preCodeSegmentProgress='true';
+      progress.textContent=`Requirements: ${partial.completed}/${partial.total} unidades guardadas con ${partial.model}. Selecciona el mismo modelo y pulsa una vez «Crear alternativa mejorada» para reanudar la secuencia automática; no existe DRAFT nuevo hasta completar el ensamblado.`;
+      summary.append(progress);
+    }
     if(message){ const m=document.createElement('p'); m.className='notice notice--pass'; m.textContent=message; summary.append(m); }
     const currentStatus=currentStage?.status ?? 'UNKNOWN';
     const sevenFrozen=preCode.readiness.mandatory_stages_frozen===preCode.readiness.mandatory_stages_total;
@@ -184,9 +190,10 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     const actions=preCode.advisor?.actions ?? [];
 
     const authoring=actionGroup('Cómo crear el DRAFT');
+    if((stage.allowed_modes as string[]).includes('LOCAL_MODEL')) authoring.append(simpleActionCard('Generar propuesta con IA local','Un candidato Markdown trazable, sin publicar ni aprobar automáticamente.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'LOCAL_MODEL')));
     if(stage.allowed_modes.includes('DEVPL_MOCK')){
       const c02=['architecture','security','test-strategy','traceability'].includes(stage.stage_id);
-      authoring.append(simpleActionCard(c02?'DevPilot local · grounding ContextPack':'DevPilot local',c02?'Genera un baseline técnico trazable desde artefactos FROZEN y ContextPack v2 local como grounding suplementario. No ejecuta LLM ni API externa; el Owner revisa/edita y aprueba.':'Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','RECOMENDADO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
+      authoring.append(simpleActionCard(c02?'DevPilot local · grounding ContextPack':'Referencia determinística (diagnóstico)',c02?'Genera un baseline técnico trazable desde artefactos FROZEN y ContextPack v2 local como grounding suplementario. No ejecuta LLM ni API externa; el Owner revisa/edita y aprueba.':'Genera una propuesta determinística desde Project Context y artefactos FROZEN, sin red ni API externa.','DIAGNÓSTICO',true,()=>selectAuthoringMode(editor,'DEVPL_MOCK')));
     }
     const manual=actions.find((row)=>row.kind==='MANUAL');
     if(stage.allowed_modes.includes('MANUAL')) authoring.append(simpleActionCard('Manual / Paste','Escribe o pega el contenido dentro del editor gobernado de esta etapa.',manual?.availability ?? 'AVAILABLE',manual?.executable ?? true,()=>selectAuthoringMode(editor,'MANUAL')));
@@ -224,7 +231,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     return card;
   }
 
-  function selectAuthoringMode(editor:HTMLElement,value:'DEVPL_MOCK'|'MANUAL'|'IMPORT'):void{
+  function selectAuthoringMode(editor:HTMLElement,value:'DEVPL_MOCK'|'MANUAL'|'IMPORT'|'LOCAL_MODEL'):void{
     const mode=editor.querySelector<HTMLSelectElement>('[data-pre-code-authoring-mode]');
     if(!mode || !Array.from(mode.options).some((row)=>row.value===value))return;
     mode.value=value; mode.dispatchEvent(new Event('change'));
@@ -282,33 +289,200 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const form=document.createElement('div'); form.className='pre-code-stage__editor';
       const modeLabel=document.createElement('label'); modeLabel.textContent='Modo de autoría';
       const mode=document.createElement('select'); mode.dataset.preCodeAuthoringMode='true'; mode.setAttribute('aria-label','Modo de autoría');
-      for(const value of stage.allowed_modes){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?(stage.order>=4?'DevPilot · Diseño local + RAG / sin API':'DevPilot · Mock local / sin API'):value==='MANUAL'?'Manual':'Importar archivo local'; mode.append(option); }
+      for(const value of stage.allowed_modes as string[]){ const option=document.createElement('option'); option.value=value; option.textContent=value==='DEVPL_MOCK'?(stage.order>=4?'DevPilot · Diseño local + RAG / sin API':'DevPilot · Mock local / sin API'):value==='MANUAL'?'Manual':value==='LOCAL_MODEL'?'Modelo local · asistente de redacción':'Importar archivo local'; mode.append(option); }
       if(stage.mode && stage.allowed_modes.includes(stage.mode)) mode.value=stage.mode;
+      // R02-07/COR192: the dropdown is populated through existing Owner-gated
+      // local readiness. Never accept an arbitrary model name or remote endpoint.
+      const modelLabel=document.createElement('label'); modelLabel.textContent='Modelo Ollama instalado';modelLabel.htmlFor=`pre-code-model-${stage.stage_id}`;
+      const modelInput=document.createElement('select'); modelInput.setAttribute('aria-label','Modelo local instalado');modelInput.id=`pre-code-model-${stage.stage_id}`; modelInput.dataset.r0207Model='true';
+      const modelNotice=document.createElement('p'); modelNotice.setAttribute('role','status'); modelNotice.setAttribute('aria-live','polite');
+      const reloadModels=button('Consultar modelos instalados',async()=>{await loadInstalledModels();}); reloadModels.type='button';
+      const modelControls=document.createElement('div');modelControls.className='pre-code-model-controls';modelControls.style.display='flex';modelControls.style.flexWrap='wrap';modelControls.style.gap='0.75rem';modelControls.style.alignItems='center';
+      modelInput.style.minWidth='min(100%, 19rem)';modelInput.style.flex='1 1 19rem';reloadModels.className='button-link';
+      modelControls.append(modelInput,reloadModels);
+      const modelPanel=document.createElement('div');modelPanel.append(modelLabel,modelControls,modelNotice);modelPanel.hidden=mode.value!=='LOCAL_MODEL';
+      let modelProbeBusy=false;
+      const setModelOptions=(models:string[], selected?:string)=>{
+        modelInput.replaceChildren();const choice=document.createElement('option');choice.value='';choice.textContent='Selecciona un modelo instalado';modelInput.append(choice);
+        for(const name of models){const option=document.createElement('option');option.value=name;option.textContent=name;modelInput.append(option);}
+        modelInput.value=(selected&&models.includes(selected))?selected:(models.length===1?models[0]:'');
+        save.disabled=!correlationOK || draftBusy || (mode.value==='LOCAL_MODEL' && stage.status==='MISSING' && !modelInput.value);
+      };
+      async function loadInstalledModels():Promise<void>{
+        if(modelProbeBusy)return;modelProbeBusy=true;reloadModels.disabled=true;modelInput.disabled=true;
+        modelNotice.textContent='Consultando Ollama local, sin inferencia ni API externa…';
+        const previous=modelInput.value;
+        try{
+          const reply=await client().probeLocalModelReadiness();
+          if(!reply.ok)throw new Error(formatFindings(reply));
+          const providers=(reply.data as {providers?:Array<{provider_id?:string;healthy?:boolean;models?:string[]}>}).providers??[];
+          const ollama=providers.find((item)=>item.provider_id==='ollama');
+          const names=ollama?.healthy===true?(ollama.models??[]).filter((s)=>/^[a-zA-Z0-9][a-zA-Z0-9_.:/-]{0,99}$/.test(s)).slice(0,32):[];
+          setModelOptions([...new Set(names)],previous||String((stage.derivation as {model?:string}|null)?.model??''));
+          modelNotice.textContent=names.length?`PASS: ${names.length} modelo(s) disponible(s) en Ollama. Selecciona uno antes de generar.`:'BLOCK: Ollama no responde o no se encontraron modelos instalados. No se ejecutó inferencia.';
+          reloadModels.hidden=names.length>0;
+        }catch(error){setModelOptions([]);reloadModels.hidden=false;modelNotice.textContent='BLOCK: '+(error instanceof Error?error.message:'No fue posible consultar Ollama.');}
+        finally{modelProbeBusy=false;reloadModels.disabled=false;modelInput.disabled=false;}
+      }
+      modelInput.addEventListener('change',()=>{save.disabled=!correlationOK || draftBusy || (mode.value==='LOCAL_MODEL' && stage.status==='MISSING' && !modelInput.value);});
+
       const textLabel=document.createElement('label'); textLabel.htmlFor=`pre-code-${stage.stage_id}`; textLabel.textContent='Propuesta del artefacto';
       const textarea=document.createElement('textarea'); textarea.dataset.preCodeAuthoringContent='true'; textarea.id=`pre-code-${stage.stage_id}`; textarea.rows=20; textarea.spellcheck=false; textarea.value=stage.draft_content??'';
+      // Correlate the editor with the server-authoritative candidate receipt.
+      // Never call a near-identical generation a successful semantic refinement.
+      const binding=(stage as PreCodeWizardStage & {candidate_content_binding?: {
+        status?:string;reason?:string;visible_sha256?:string;candidate_sha256?:string;
+        candidate_path?:string;owner_edited?:boolean;model?:string
+      }}).candidate_content_binding;
+      const active=document.createElement('div'); active.dataset.preCodeActiveCandidate='true';
+      active.setAttribute('role','status'); active.setAttribute('aria-live','polite');
+      const localDraft=String(stage.mode)==='LOCAL_MODEL'&&stage.status!=='MISSING';
+      const correlationOK=!localDraft || binding?.status==='PASS';
+      const short=(v?:string)=>v?`${v.slice(0,12)}…`: 'no disponible';
+      active.className=correlationOK?'notice notice--info':'notice notice--block';
+      if(localDraft){
+        active.textContent=correlationOK
+          ? `Candidato activo verificado · ${binding?.candidate_path??'sin ruta'} · modelo ${binding?.model??'desconocido'} · SHA Markdown ${short(binding?.visible_sha256)} · origen ${short(binding?.candidate_sha256)}${binding?.owner_edited?' · edición Owner':''}`
+          : `BLOCK: Markdown/editor y procedencia no concuerdan (${binding?.reason??'sin recibo'}). No validar, aprobar ni generar otra alternativa hasta reconciliar el estado.`;
+        form.append(active);
+      }
+      const nearDuplicate=Boolean((stage.derivation as {near_duplicate_predecessor?:boolean}|null)?.near_duplicate_predecessor);
+      if(nearDuplicate){
+        const warning=document.createElement('p');warning.className='notice notice--warning';
+        warning.dataset.preCodeNearDuplicate='true';
+        warning.textContent='La nueva alternativa es casi idéntica a la anterior: se conservó su trazabilidad, pero no demuestra una mejora semántica. Considera revisar/editar el Markdown en lugar de repetir la inferencia.';
+        form.append(warning);
+      }
       textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';
       const fileLabel=document.createElement('label'); fileLabel.textContent='Archivo local para IMPORT';
       const file=document.createElement('input'); file.dataset.preCodeAuthoringFile='true'; file.type='file'; file.accept='.md,text/markdown,text/plain'; file.hidden=mode.value!=='IMPORT'; fileLabel.hidden=file.hidden;
-      const save=button(mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):'Guardar DRAFT',async()=>{
+      let draftBusy=false;
+      const nearButtonStatus=document.createElement('span'); nearButtonStatus.dataset.preCodeDraftProgress='true';
+      nearButtonStatus.setAttribute('role','status'); nearButtonStatus.setAttribute('aria-live','polite');
+      nearButtonStatus.style.marginLeft='0.75rem'; nearButtonStatus.style.fontWeight='600';
+      const segmentProgress=(preCode as PreCodeWizardProjection & {segmented_progress?:{
+        completed:number;total:number;model:string;status:string
+      }}).segmented_progress;
+      // COR208: Each HTTP request is one bounded inference on the server, but a
+      // single Owner gesture drives the sequence. Persisted checkpoints stay
+      // authoritative and survive reload; never maintain hidden local receipts.
+      const segmentMeter=document.createElement('progress');
+      segmentMeter.dataset.preCodeSegmentMeter='true';
+      segmentMeter.max=segmentProgress?.total || 1;
+      segmentMeter.value=segmentProgress?.completed || 0;
+      segmentMeter.style.width='min(100%, 19rem)';
+      segmentMeter.style.verticalAlign='middle';
+      const segmentMeterBox=document.createElement('div');
+      segmentMeterBox.dataset.preCodeSegmentMeterBox='true';
+      segmentMeterBox.style.margin='0.65rem 0';
+      segmentMeterBox.hidden=stage.stage_id!=='requirements'||!segmentProgress;
+      segmentMeterBox.append(segmentMeter);
+      if(stage.stage_id==='requirements' && segmentProgress?.status==='IN_PROGRESS'){
+        nearButtonStatus.textContent=`Requirements: ${segmentProgress.completed}/${segmentProgress.total} unidades conservadas. Una acción continúa la secuencia.`;
+      }else if(stage.stage_id==='requirements' && segmentProgress?.status==='COMPLETE'){
+        nearButtonStatus.textContent=`Requirements: ${segmentProgress.completed}/${segmentProgress.total} unidades completas; revisar DRAFT ensamblado.`;
+      }
+      const setSegmentMeter=(completed:number,total:number):void=>{
+        segmentMeterBox.hidden=false;segmentMeter.max=total;segmentMeter.value=completed;
+        nearButtonStatus.textContent=`Requirements: ${completed}/${total} unidades validadas. Continuando automáticamente…`;
+      };
+      async function runRequirementsSequence(model:string):Promise<void>{
+        // No autonomous retries; at most 12 Scope capabilities and one global
+        // unit. A failed or uncertain response stops immediately, preserving
+        // server-side checkpoints. On refresh, the Owner explicitly resumes.
+        const limit=13;
+        let previous=segmentProgress?.status==='IN_PROGRESS'?segmentProgress.completed:0;
+        // A completed old 6-unit profile is not the active COR209 plan.
+        // Do not announce an old denominator while a new profile is loading.
+        let activeTotal=segmentProgress?.status==='IN_PROGRESS'?segmentProgress.total:undefined;
+        if(segmentProgress?.status==='IN_PROGRESS' && segmentProgress.model!==model){
+          throw new Error(`BLOCK: existe una secuencia parcial con ${segmentProgress.model}. Selecciona ese modelo antes de reanudar; no crees otro plan accidental.`);
+        }
+        for(let i=0;i<limit;i++){
+          nearButtonStatus.textContent=`⏳ Generando Requirements: unidad ${previous+1} de ${activeTotal ?? 'total por confirmar'}…`;
+          const result=await client().preCodeDraft(stage.stage_id,{mode:'LOCAL_MODEL',content:'',semantic_model:null,model});
+          if(!result.ok)throw new Error(formatFindings(result));
+          const seg=(result.data as {segmented_progress?:{
+            completed:number;total:number;model?:string;status?:string
+          }}|undefined)?.segmented_progress;
+          if(!seg){
+            await load('Requirements ensamblado como un único DRAFT Markdown; revisa íntegramente el contenido antes de validar.');
+            return;
+          }
+          if(!Number.isInteger(seg.completed)||!Number.isInteger(seg.total)||seg.total<1||seg.total>limit||
+              seg.completed<=previous||seg.completed>=seg.total||seg.model!==model||seg.status!=='IN_PROGRESS'){
+            throw new Error('BLOCK: progreso segmentado inconsistente. Verifica el estado persistido antes de reanudar.');
+          }
+          previous=seg.completed;
+          activeTotal=seg.total;
+          setSegmentMeter(seg.completed,seg.total);
+        }
+        throw new Error('BLOCK: se alcanzó el límite finito de unidades; conserva checkpoints y revisa el plan.');
+      }
+      function setDraftBusy(value:boolean,inference=false):void{
+        draftBusy=value; save.disabled=!correlationOK || value || Boolean(inbox) || (mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value);
+        alternative.disabled=value || !modelInput.value;
+        mode.disabled=value; modelInput.disabled=value; textarea.readOnly=value;
+        save.setAttribute('aria-busy',String(value)); alternative.setAttribute('aria-busy',String(value));
+        nearButtonStatus.textContent=value?(inference?'⏳ Generando documento con el modelo local. No vuelvas a pulsar; puede tardar varios minutos.':'⏳ Guardando revisión del DRAFT…'):'';
+        if(value){save.textContent=inference?'Generando…':'Guardando…';alternative.textContent='Generando…';}
+        else{updateSaveLabel();alternative.textContent='Crear alternativa mejorada con modelo local';}
+      }
+      const save=button(mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'?'Generar DRAFT con modelo local':'Guardar DRAFT',async()=>{
+        if(draftBusy)return;
+        setDraftBusy(true,mode.value==='LOCAL_MODEL'&&stage.status==='MISSING');
         setFeedback(feedback,'loading',mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generando propuesta completa desde el contexto gobernado; sin red ni API externa…':'Guardando revisión del Owner sin escribir source…'):'Guardando DRAFT sin escribir source…');
-        if(!await ensureLiveHumanSession(feedback)) return;
+        if(!await ensureLiveHumanSession(feedback)){setDraftBusy(false);return;}
         try{
           const devpilot=mode.value==='DEVPL_MOCK';
-          const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK',content:devpilot?(stage.status==='MISSING'?'':textarea.value):textarea.value,semantic_model:null});
+          if(mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value){setFeedback(feedback,'block','Selecciona un modelo Ollama instalado antes de generar.');return;}
+          const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK'|'LOCAL_MODEL',content:devpilot?(stage.status==='MISSING'?'':textarea.value):mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'?'':textarea.value,semantic_model:null,model:mode.value==='LOCAL_MODEL'?modelInput.value.trim():''});
           if(!r.ok) throw new Error(formatFindings(r));
-          await load(devpilot?(stage.status==='MISSING'?'Propuesta completa generada como DRAFT. Revísala; source todavía no fue mutado.':'Revisión del Owner guardada como DRAFT gobernado. Cualquier plan anterior quedó invalidado.'):'DRAFT persistido server-side; source todavía no fue mutado.');
+          const seg=(r.data as {segmented_progress?:{completed:number;total:number}}|undefined)?.segmented_progress;
+          if(seg){await load(`PASS: Requirements ${seg.completed}/${seg.total} unidades validadas. No se ha publicado DRAFT ni escrito source. Pulsa una vez para continuar.`);return;}
+          await load(mode.value==='LOCAL_MODEL'?(stage.status==='MISSING'?'Propuesta Ollama registrada como DRAFT. Revisa contenido, calidad y procedencia antes del diff.':'Revisión humana de propuesta local guardada; plan previo invalidado.') : devpilot?(stage.status==='MISSING'?'Propuesta completa generada como DRAFT. Revísala; source todavía no fue mutado.':'Revisión del Owner guardada como DRAFT gobernado. Cualquier plan anterior quedó invalidado.'):'DRAFT persistido server-side; source todavía no fue mutado.');
         }catch(e){await renderGovernedError(feedback,e);}
+        finally{setDraftBusy(false);}
       });
-      const updateSaveLabel=()=>{file.hidden=mode.value!=='IMPORT';fileLabel.hidden=file.hidden;textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';save.textContent=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):'Guardar DRAFT';};
-      mode.addEventListener('change',updateSaveLabel);
+      const alternative=button('Crear alternativa mejorada con modelo local',async()=>{
+        if(draftBusy)return;
+        if(!modelInput.value){setFeedback(feedback,'block','Selecciona un modelo instalado.');return;}
+        if(textarea.value!==String(stage.draft_content??'')){
+          setFeedback(feedback,'block','Hay cambios sin guardar en el Markdown. Guarda la revisión humana antes de generar una alternativa.');return;
+        }
+        if(!window.confirm(stage.stage_id==='requirements'?'Se conservará el DRAFT anterior. DevPilot generará automáticamente las unidades pendientes, con un máximo finito de 13 solicitudes y sin reintentos ante BLOCK. Mantén abierta esta pestaña. ¿Iniciar o reanudar?':'Se conservará el candidato Markdown original. Se solicitará una alternativa con el modelo seleccionado, sin aprobar ni escribir el documento FROZEN. ¿Continuar?'))return;
+        setDraftBusy(true,true);
+        setFeedback(feedback,'loading',stage.stage_id==='requirements'?'Generación segmentada automática en curso. Checkpoints persistentes; no cerrar ni recargar la página.':'Ollama genera una alternativa Markdown. La versión anterior permanece inmutable…');
+        try{
+          if(!await ensureLiveHumanSession(feedback))return;
+          if(stage.stage_id==='requirements'){
+            await runRequirementsSequence(modelInput.value.trim());
+          }else{
+            const result=await client().preCodeDraft(stage.stage_id,{mode:'LOCAL_MODEL',content:'',semantic_model:null,model:modelInput.value.trim()});
+            if(!result.ok)throw new Error(formatFindings(result));
+            await load('Alternativa nueva conservada como DRAFT Markdown. Revisa las diferencias antes de aprobar; el original sigue inmutable.');
+          }
+        }catch(error){
+          nearButtonStatus.textContent='BLOCK: secuencia detenida. Checkpoints anteriores conservados; no se hicieron reintentos.';
+          await renderGovernedError(feedback,error);
+        }
+        finally{setDraftBusy(false);}
+      });
+      alternative.hidden=!(mode.value==='LOCAL_MODEL'&&stage.status==='DRAFT'&&['product-vision','scope','requirements'].includes(stage.stage_id));
+      if(!correlationOK){alternative.disabled=true;save.disabled=true;}
+      setModelOptions([]);
+      const updateSaveLabel=()=>{alternative.hidden=!(mode.value==='LOCAL_MODEL'&&stage.status==='DRAFT'&&['product-vision','scope','requirements'].includes(stage.stage_id));modelPanel.hidden=mode.value!=='LOCAL_MODEL';file.hidden=mode.value!=='IMPORT';fileLabel.hidden=file.hidden;textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';save.textContent=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'?'Generar DRAFT con modelo local':'Guardar DRAFT';save.disabled=!correlationOK || (mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value);if(!correlationOK)alternative.disabled=true;};
+      mode.addEventListener('change',()=>{updateSaveLabel();if(mode.value==='LOCAL_MODEL')void loadInstalledModels();});
+      if(mode.value==='LOCAL_MODEL')void loadInstalledModels();
       file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
       const review=button('Validar y preparar diff',async()=>{
+        if(!correlationOK){setFeedback(feedback,'block','El editor no coincide con el recibo de candidato. No se solicitó revisión.');return;}
         setFeedback(feedback,'loading','Ejecutando validadores y plan inmutable…');
         if(!await ensureLiveHumanSession(feedback)) return; try{ const r=await client().preCodeReview(stage.stage_id); if(!r.ok){ setFeedback(feedback,'block',formatFindings(r)); return; } await load('Validación PASS; plan/diff inmutable listo para approval.'); }catch(e){await renderGovernedError(feedback,e);}
       });
-      review.disabled=stage.status==='MISSING' || Boolean(inbox);
+      review.disabled=!correlationOK || stage.status==='MISSING' || Boolean(inbox);
       if(inbox) review.title='Resuelve y guarda las decisiones pendientes antes de validar el DRAFT.';
-      form.append(modeLabel,mode,fileLabel,file,textLabel,textarea);
+      form.append(modeLabel,mode,modelPanel,fileLabel,file,textLabel,textarea);
       if(inbox){
         form.append(inbox.element);
         form.append(button('Guardar decisiones y regenerar propuesta',async()=>{
@@ -328,12 +502,12 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const c01SemanticStage=stage.order<=3;
       regenerate.hidden=!(c01SemanticStage && stage.status==='DRAFT' && mode.value==='DEVPL_MOCK' && !inbox);
       mode.addEventListener('change',()=>{regenerate.hidden=!(c01SemanticStage && stage.status==='DRAFT' && mode.value==='DEVPL_MOCK' && !inbox);});
-      form.append(save,regenerate,review); section.append(form);
+      form.append(save,alternative,nearButtonStatus,segmentMeterBox,regenerate,review); section.append(form);
       if(preCode.semantic_model)section.append(semanticAdvancedDetails(preCode.semantic_model));
       if(stage.derivation){
-        const d=stage.derivation; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
+        const d=stage.derivation as typeof stage.derivation & {owner_revision?: {candidate_path?:string};candidate_path?:string}; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
         const rag=Boolean(d.rag_execution_used);
-        provenance.textContent=`Propuesta DevPilot local · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · RAG local ${rag?'sí':'no'}${d.rag_grounding_status?` (${d.rag_grounding_status})`:''} · LLM ejecutado ${d.model_execution_used?'sí':'no'} · agente ejecutado ${d.agent_execution_used?'sí':'no'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
+        provenance.textContent=`Candidato Markdown · archivo ${d.owner_revision?.candidate_path??d.candidate_path??"DRAFT"} · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · RAG local ${rag?'sí':'no'}${d.rag_grounding_status?` (${d.rag_grounding_status})`:''} · LLM ejecutado ${d.model_execution_used?'sí':'no'} · agente ejecutado ${d.agent_execution_used?'sí':'no'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
         section.append(provenance);
         if(stage.stage_id==='architecture' && Array.isArray(d.decision_summary) && d.decision_summary.length){
           const decisions=document.createElement('section'); decisions.className='pre-code-architecture-decisions'; decisions.dataset.architectureDecisionSummary='true';
@@ -357,12 +531,12 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       }
       plan.append(meta);
       if(stage.diff?.content){ const diff=document.createElement('pre'); diff.className='pre-code-plan__diff'; diff.dataset.diffSha256=stage.diff.sha256; diff.textContent=stage.diff.content; plan.append(diff); const warning=document.createElement('p'); warning.className='muted'; warning.textContent='Si cambia el DRAFT o una decisión semántica, este plan/diff deja de representar el cambio aprobado y debe generarse de nuevo.'; plan.append(warning); }
-      if(stage.mode==='DEVPL_MOCK' && stage.draft_content){
+      if((stage.mode==='DEVPL_MOCK'||(stage.mode as string)==='LOCAL_MODEL') && stage.draft_content){
         const edit=document.createElement('details'); edit.className='pre-code-plan-edit';
         const es=document.createElement('summary'); es.textContent='Editar propuesta antes de aprobar';
         const ep=document.createElement('p'); ep.className='muted'; ep.textContent='Guardar una edición invalida este plan/diff y obliga a validar de nuevo.';
         const et=document.createElement('textarea'); et.rows=18; et.value=stage.draft_content; et.setAttribute('aria-label','Editar DRAFT antes de approval');
-        edit.append(es,ep,et,button('Guardar edición e invalidar plan',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const r=await client().preCodeDraft(stage.stage_id,{mode:'DEVPL_MOCK',content:et.value,semantic_model:null});if(!r.ok)throw new Error(formatFindings(r));await load('Edición guardada. El plan anterior fue invalidado; vuelve a validar y revisar el nuevo diff.');}catch(e){await renderGovernedError(feedback,e);}}));
+        edit.append(es,ep,et,button('Guardar edición e invalidar plan',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const r=await client().preCodeDraft(stage.stage_id,{mode:stage.mode as 'DEVPL_MOCK'|'LOCAL_MODEL',content:et.value,semantic_model:null});if(!r.ok)throw new Error(formatFindings(r));await load('Edición guardada. El plan anterior fue invalidado; vuelve a validar y revisar el nuevo diff.');}catch(e){await renderGovernedError(feedback,e);}}));
         plan.append(edit);
       }
       if(!stage.approval_id){

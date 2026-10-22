@@ -107,8 +107,10 @@ def test_catalog_is_seven_stage_sequential_and_preserves_manual_import_with_c01_
     assert payload["profile_id"] == "guided-pre-code-manual-v1"
     assert [row["stage_id"] for row in payload["stages"]] == [x[0] for x in STAGES]
     assert [row["order"] for row in payload["stages"]] == list(range(1, 8))
-    assert payload["stages"][0]["allowed_modes"] == ["DEVPL_MOCK", "MANUAL", "IMPORT"]
-    assert all(set(row["allowed_modes"]).issubset({"MANUAL", "IMPORT", "DEVPL_MOCK"}) for row in payload["stages"])
+    assert payload["stages"][0]["allowed_modes"] == ["LOCAL_MODEL", "MANUAL", "IMPORT", "DEVPL_MOCK"]
+    assert all(set(row["allowed_modes"]).issubset({"MANUAL", "IMPORT", "DEVPL_MOCK", "LOCAL_MODEL"}) for row in payload["stages"])
+    assert all(row["allowed_modes"][0]=="LOCAL_MODEL" for row in payload["stages"][:3])
+    assert all("LOCAL_MODEL" not in row["allowed_modes"] for row in payload["stages"][3:])
     assert all("DEVPL_MOCK" in row["allowed_modes"] for row in payload["stages"][:3])
     assert all("DEVPL_MOCK" in row["allowed_modes"] for row in payload["stages"][3:])
 

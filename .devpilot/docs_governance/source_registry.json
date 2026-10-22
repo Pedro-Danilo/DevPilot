@@ -41101,6 +41101,25 @@
       "sync_rules": [
         "test_must_pass"
       ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "ADR-MP132-R02-07-GUIDED-AUTHORING",
+      "domain": "sdlc.product-definition",
+      "lifecycle": "active",
+      "notes": [
+        "R02-07: LOCAL_MODEL proposal-only; canonical pre-code lifecycle unchanged."
+      ],
+      "owner": "product-owner",
+      "path": "docs/02_architecture/adrs/ADR-MP132-R02-07-guided-authoring.md",
+      "required_tests": [
+        "tests/test_mp132_r02_07_guided_semantic.py"
+      ],
+      "status_required": "accepted-for-windows-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -44152,20 +44171,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1657,
+    "critical_sources_total": 1658,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1753,
-    "documents_with_required_tests_total": 1753,
+    "documents_total": 1754,
+    "documents_with_required_tests_total": 1754,
     "external_api_used": false,
     "generated_runtime_total": 0,
-    "historical_total": 54,
-    "last_updated_by": "MP132-R02-06-LOCAL-CANDIDATE",
+    "historical_total": 36,
+    "last_updated_by": "MP132-R02-07-LOCAL-CANDIDATE",
     "machine_readable_source_total": 829,
     "markdown_json_pairs_total": 80,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 704
+    "source_of_truth_total": 705
   },
   "updated": "2026-10-14",
   "updated_at": "2026-10-08",

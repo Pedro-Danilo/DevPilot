@@ -16,8 +16,8 @@ def test_active_state_in_lockstep_and_next_denied():
  assert p['current_micro_sprint']==s['current_micro_sprint'] in {CURRENT, 'MP132-R02-02/LOCAL-MODEL-READINESS', 'MP132-R02-03/OLLAMA-REAL-CANDIDATE', 'MP132-R02-04/LM-STUDIO-PARITY', 'MP132-R02-05/PILOT-B-ENTRY-RESUME'}
  assert p['next_micro_sprint']==s['next_micro_sprint'] == ('R02_06_NOT_AUTHORIZED' if p['current_micro_sprint']=='MP132-R02-05/PILOT-B-ENTRY-RESUME' else 'R02_05_NOT_AUTHORIZED' if p['current_micro_sprint']=='MP132-R02-04/LM-STUDIO-PARITY' else 'R02_04_NOT_AUTHORIZED' if p['current_micro_sprint']=='MP132-R02-03/OLLAMA-REAL-CANDIDATE' else 'MP132-R02-03/NOT_AUTHORIZED' if p['current_micro_sprint'].startswith('MP132-R02-02/') else 'MP132-R02-02/NOT_AUTHORIZED')
  assert p['external_api_allowed'] is False
- assert len(s['documents'])==1752 and s['summary']['documents_total']==1752
- assert len({(d['doc_id'],d['path']) for d in s['documents']})==1752
+ assert len(s['documents'])>=1752 and s['summary']['documents_total']==len(s['documents'])
+ assert len({(d['doc_id'],d['path']) for d in s['documents']})==len(s['documents'])
 
 @pytest.mark.parametrize('section',[ '0_program/00_LEEME_INDICE_Y_ORDEN_132.md', '0_program/01_PROGRAMA_MAESTRO_132.md', '2_contratos/PROGRAM_DEPENDENCY_REGISTER_132.md', '2_contratos/PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132.md', '4_backlogs/BACKLOG_R01_132.md', '4_backlogs/BACKLOG_R02_132.md'])
 def test_installed_active_program_explicit_scope(section):

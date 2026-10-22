@@ -16,9 +16,10 @@ router = APIRouter(tags=["guided-sdlc"])
 
 
 class PreCodeDraftBody(BaseModel):
-    mode: str = Field(pattern=r"^(MANUAL|IMPORT|DEVPL_MOCK)$")
+    mode: str = Field(pattern=r"^(MANUAL|IMPORT|DEVPL_MOCK|LOCAL_MODEL)$")
     content: str = Field(default="", max_length=1048576)
     semantic_model: dict[str, Any] | None = None
+    model: str = Field(default="", max_length=100)
 
 
 class PreCodeApprovalBody(BaseModel):
@@ -166,7 +167,7 @@ def guided_pre_code_draft(request: Request, stage_id: str, body: PreCodeDraftBod
     if error: return error
     assert identity is not None
     principal=identity["principal"]
-    return _pre_code_content_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.draft", payload={"stage_id":stage_id,"mode":body.mode,"content":body.content,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"],"semantic_model":body.semantic_model}))
+    return _pre_code_content_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.draft", payload={"stage_id":stage_id,"mode":body.mode,"content":body.content,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"],"semantic_model":body.semantic_model,"model":body.model}))
 
 
 @router.post("/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review")

@@ -279,8 +279,11 @@ export class DevPilotApiClient {
     return this.get('/guided-sdlc/pre-code', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
   }
 
-  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK'; content: string; semantic_model?: import('./types').PreCodeSemanticModel | null }): Promise<DevPilotApplicationResponse> {
-    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/draft`, payload, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
+  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | 'LOCAL_MODEL'; content: string; model?: string; semantic_model?: import('./types').PreCodeSemanticModel | null }): Promise<DevPilotApplicationResponse> {
+    // Allow CPU-only Ollama extra bounded time for longer dependent documents.
+    // Backend ends first; the UI must leave time to receive the governed result.
+    const localBudgetMs = stageId === 'scope' ? 495000 : stageId === 'requirements' ? 555000 : 225000;
+    return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/draft`, payload, { timeoutMs: payload.mode === 'LOCAL_MODEL' && !payload.content.trim() ? localBudgetMs : READINESS_REQUEST_TIMEOUT_MS });
   }
 
   async preCodeReview(stageId: string): Promise<DevPilotApplicationResponse> {
@@ -1103,7 +1106,8 @@ export class DevPilotApiClient {
     let attempt = 0;
     while (true) {
       try {
-        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs), attempt + 1);
+        const localLongDraft = init.method === 'POST' && /^\/guided-sdlc\/pre-code\/stages\/(?:scope|requirements)\/draft$/.test(path);
+        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs, localLongDraft ? 560000 : MAX_REQUEST_TIMEOUT_MS), attempt + 1);
       } catch (error) {
         if (!isTransientNetworkError(error) || attempt >= retryDelays.length) throw error;
         await sleep(retryDelays[attempt]);
@@ -1677,7 +1681,7 @@ function sleep(delayMs: number): Promise<void> {
   return new Promise((resolve) => globalThis.setTimeout(resolve, Math.max(0, delayMs)));
 }
 
-function normalizeTimeout(value: number | undefined): number {
+function normalizeTimeout(value: number | undefined, maxTimeoutMs: number = MAX_REQUEST_TIMEOUT_MS): number {
   if (!Number.isFinite(value)) return DEFAULT_REQUEST_TIMEOUT_MS;
-  return Math.max(1000, Math.min(Number(value), MAX_REQUEST_TIMEOUT_MS));
+  return Math.max(1000, Math.min(Number(value), maxTimeoutMs));
 }
