@@ -17,6 +17,8 @@ from devpilot_core.generation import DeterministicProductDefinitionProvider, Gen
 from devpilot_core.policy.path_guard import PathGuard
 from devpilot_core.miasi.applicability import MIASIApplicabilityEvaluator
 from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
+from devpilot_core.validation.project_profile import ProjectFacts
+from devpilot_core.rag.technical_context_profile import TechnicalSource, resolve_technical_context
 from devpilot_core.validators.artifact import extract_headings, normalize_heading
 from devpilot_core.validators.frontmatter import parse_frontmatter_text, validate_frontmatter_document
 from devpilot_core.workspace.runtime_project_context import parse_project_yaml_metadata
@@ -800,6 +802,7 @@ class PreCodeWizardApplicationService:
         document_date=self._project_document_date(workspace_root)
         refs=[{'path':'.devpilot/project.yaml','sha256':_sha_text(project_text),'kind':'project-context'}]
         upstream:dict[str,str]={}
+        verified_technical_sources: list[TechnicalSource] = []
         required_upstream={
             'product-vision':(),
             'scope':('product-vision',),
@@ -825,6 +828,8 @@ class PreCodeWizardApplicationService:
             text=_canonical_text(source_bytes.decode('utf-8'))
             upstream[source_id]=text
             refs.append({'path':str(source_stage['relative_path']),'sha256':_sha_text(text),'approved_sha256':approved_sha,'kind':'frozen-input'})
+            if stage_id == 'architecture':
+                verified_technical_sources.append(TechnicalSource(stage=source_id,path=str(source_stage['relative_path']).replace('\\','/'),raw_bytes=source_bytes,expected_sha256=approved_sha,lifecycle='FROZEN'))
         semantic_model=state.get('semantic_model') if isinstance(state.get('semantic_model'),dict) else None
         if stage_id in C02_STAGES:
             try:
@@ -835,6 +840,23 @@ class PreCodeWizardApplicationService:
             except ValueError as exc:
                 return self._block(command,'GSDLC13C02_DERIVATION_INPUT_BLOCK',str(exc),metadata={'stage_id':stage_id})
             derivation=dict(technical)
+            if stage_id == 'architecture':
+                try:
+                    technical_context=resolve_technical_context(self.root,sources=tuple(verified_technical_sources),facts=ProjectFacts(project_id=project_id,revision=1,product_has_ai=None))
+                except ValueError as exc:
+                    return self._block(command,'MP132_R03_02_CONTEXT_BLOCK',str(exc),metadata={'stage_id':stage_id})
+                # Store only a provenance receipt; do not persist project source text.
+                derivation['technical_context_profile']={
+                    'profile_id':technical_context['profile_id'],
+                    'profile_version':technical_context['profile_version'],
+                    'status':technical_context['status'],
+                    'context_sha256':technical_context['context_sha256'],
+                    'project_context_sha256':technical_context['project_context_sha256'],
+                    'source_refs':technical_context['source_refs'],
+                    'pesp':technical_context['pesp'],
+                    'truncated_stages':technical_context['truncated_stages'],
+                    'safety':technical_context['safety'],
+                }
             derivation['source_refs']=refs + list(technical.get('rag_source_refs') or [])
             derivation['owner_review_required']=True; derivation['approval_required_before_source_write']=True
             return content,derivation

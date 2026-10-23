@@ -13,8 +13,8 @@ def data(name):return json.loads((ROOT/name).read_text(encoding='utf8'))
 
 def test_active_state_in_lockstep_and_next_denied():
  p=data('.devpilot/project_state.json');s=data('.devpilot/docs_governance/source_registry.json')
- assert p['current_micro_sprint']==s['current_micro_sprint'] == 'MP132-R03-01/DOC-RECONCILIATION'
- assert p['next_micro_sprint']==s['next_micro_sprint'] == 'R03_02_NOT_AUTHORIZED'
+ assert p['current_micro_sprint']==s['current_micro_sprint'] == 'MP132-R03-02/TECH-CONTEXT-PROFILE'
+ assert p['next_micro_sprint']==s['next_micro_sprint'] == 'R03_03_NOT_AUTHORIZED'
  assert p['external_api_allowed'] is False
  assert len(s['documents'])>=1752 and s['summary']['documents_total']==len(s['documents'])
  assert len({(d['doc_id'],d['path']) for d in s['documents']})==len(s['documents'])
@@ -43,7 +43,7 @@ def test_no_runtime_egress_or_pilot_mutation_claimed():
  p=data('.devpilot/project_state.json')
  for k in ('external_api_allowed','external_api_used','connector_write_enabled'):
   assert p[k] is False
- assert p['current_micro_sprint']=='MP132-R03-01/DOC-RECONCILIATION'  # current-active; R02-01 remains historical
+ assert p['current_micro_sprint']=='MP132-R03-02/TECH-CONTEXT-PROFILE'  # current-active successor; R02-01 remains historical
 
 
 def test_first_real_d_provider_candidate_is_non_mutative(tmp_path):

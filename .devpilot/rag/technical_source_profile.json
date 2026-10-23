@@ -1,0 +1,25 @@
+{
+  "profile_id": "TECHNICAL_RAG_SOURCE_PROFILE",
+  "profile_version": "1.0.0",
+  "owner": "MP132-R03-02",
+  "status": "approved-read-only",
+  "required_stages": ["product-vision", "scope", "requirements"],
+  "optional_stages": ["adr", "security-risk"],
+  "source_authority": "Existing PreCode FROZEN lifecycle, source hash and PESP; no second publisher",
+  "selection_priority": ["current-frozen-project-upstream", "current-project-adr", "current-security-risk"],
+  "exclude": ["superseded", "historical", "unregistered", "poisoned", "hash-drift", "non-UTF8"],
+  "limits": {
+    "max_sources": 12,
+    "max_source_chars": 28000,
+    "max_context_chars": 50000,
+    "max_source_bytes": 262144
+  },
+  "security": {
+    "local_only": true,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "llm_executed": false,
+    "agent_source_writes": false,
+    "project_frozen_writes": false
+  }
+}
