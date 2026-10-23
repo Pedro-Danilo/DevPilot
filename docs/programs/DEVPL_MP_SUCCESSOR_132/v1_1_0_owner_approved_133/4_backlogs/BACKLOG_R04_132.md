@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R4 — MIASI contextual y planificación continua
@@ -51,3 +55,21 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+B3: roadmap/backlog/sprint/stories y cambios de alcance se derivan, editan, aprueban, versionan y recuperan por UI. Un documento generado fuera de DevPilot no satisface acceptance.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+**Planning de software entregable:** `MP131-R4-02` migra de candidato D/L por defecto a candidato L opcionalmente alternativo y perfil profesional de roadmap/outcomes, dependencias, priorización justificada y slicing. `MP131-R4-03` conserva JSON canónico; Owner revisa Markdown con round-trip explícito y sin doble autoridad. `MP131-R4-04`/`MP132-R4-06` incorporan **Release/Increment Plan** vinculado al roadmap/backlog/sprint, con outcomes, métricas, `IN/OUT`, dependencias, acceptance scenarios, test refs y evidence; no confundir FROZEN del Sprint con incremento aceptado. `MP132-R4-07` habilita planificación continua con successor al cambiar release, sin congelar todos los sprints futuros. `MP132-R4-08` aplica MIASI a componentes agentic de Pilot B solo cuando correspondan. Aceptación M4: primer incremento y sprint realizables, prioridad/estimates con explicación y read-only markdown portable.
+
+---
+
+## Enmienda 188 — criterios prospectivos R04
+
+**Enmienda 188 Owner-approved (2026-10-22)**. Autoridad `MP132-OWNER-DECISION-188`; contrato `2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. Complementa 187/ADR-013; se aplica prospectivamente por olas, sin alterar recibos históricos, ni autorizar ejecución de un sprint o proveedor E.
+
+**Owner de esta ola:** Especializar Planning: hitos, story slicing, DoR/DoD, dependencias y capacidades trazables a alcance/arquitectura; no convertir recomendaciones de calendario en bloqueos materiales ni obligar modelos E.

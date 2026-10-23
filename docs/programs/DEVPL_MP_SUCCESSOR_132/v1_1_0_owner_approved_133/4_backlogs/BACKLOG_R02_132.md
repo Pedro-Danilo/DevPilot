@@ -12,6 +12,13 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+current_execution_baseline: "cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc"
+r01_gate: "CLOSED_PASS_WITH_FINDINGS"
+r02_execution_authority: false
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R2 — Product Definition y modelo local real
@@ -54,12 +61,54 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
 
+
+---
+
+## Adenda sucesora post-M1 — 15-10-2026 (no retroactiva)
+
+- **Baseline Git publicado:** `cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc` (`evolution/multiprovider-v2`), sucesor de `feaac2723c1f8a467f5cdb7d456e4e7679dd0f82` por R01-15/COR-171. - **R01:** 15/15 incrementos aceptados; 16 IDs propietarios cubiertos; cierre M1 `PASS_WITH_FINDINGS` con 108 tests focales y 8 del operador PASS en Windows. - **Evidencia:** `RESULT_171.json`, `M1_REPORT_171.json`, `R01_15_EVIDENCE.zip`, `repo_R01_15_CLEAN.zip` y SHA256. - **Autoridad:** R02 se desagrega sólo para planificación. Ningún `SPRINT_EXECUTION_APPROVED`, ningún push, bootstrap Pilot B, inferencia local, external egress o MP-1B queda autorizado por esta adenda. - **Limitaciones:** `model_local_real=NOT_TESTED`, `semantic_llm_judge=NOT_TESTED`, `rag_groundedness_real=NOT_TESTED`, `external_real=DENIED`; no confundir pruebas de servicio con un recorrido completo Product Definition UI.
+- **Cobertura de los diez IDs:** MP131-R2-01..06 y MP132-R2-07..10 conservan su identidad, prioridades y AC originales. Ver matriz de asignación y dependencias en `BACKLOG_R02/00_PLAN_R02_172.md`; 10 borradores ejecutables, aprobación Owner individual pendiente.
+- **Entrada:** R01 completo con M1 PASS_WITH_FINDINGS, sin modelos L reales probados, sin modificación del Pilot B. Salida M2 solo por Ollama/LM Studio real + B0/B1 UI/Markdown FROZEN y negativas; no por tests mocks.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+**AC adicional R02-05 B0:** la UI recoge ID, nombre, root final y necesidad; el operador no pregunta ni fija estos datos. Antes de abrir Project Entry captura sólo el catálogo de workspaces persistido; después descubre exactamente un registro nuevo y valida project.yaml/registration/state/Git/neutralidad y el mismo ID/root tras reiniciar API. La autorización PathGuard es para parent de instalación previamente consentido y acotado, no para el destino particular. R02-06 sigue `NOT_AUTHORIZED`. Los R02-01..04 quedan cerrados en sus recibos Windows sin reabrirlos.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+**Rebase tras R02-06 (sin renumeración):** R02-01..06 permanecen ejecutados; el cierre R02-06 `PASS_WITH_FINDINGS` acredita nueve recibos (D/L/Owner), seis capturas y Git, **no** documentos semánticos FROZEN. R02-07 implementará ruta L inicialmente única, Markdown Owner edit/review y quality gate mínimo por Vision/Scope/Requirements **antes** de FROZEN. Modelo ausente/insuficiente → estado honesto + Manual/Import, alternativa L bajo demanda o E solo cuando R8 habilite egreso; no `D semantic` ni D/L obligatorios.
+
+R02-08 amplía Coverage/PESP/grounding/calidad cruzada sin descongelar artefactos por cosmética; R02-09 prueba fallos de inferencia, sesión/reinicio y reintentos no duplicados; R02-10 comprueba B0→B1 real con tres Markdown FROZEN y L real competente, sin comparar obligatoriamente modelos. Calidad básica previa a FROZEN es hard dependency y calidad ampliada posterior aporta auditoría. Status de futuros sprints se conserva `DRAFT_*` hasta aprobación individual. Los IDs propietarios originales se conservan.
+
+---
+
+## Rebinding de Product Definition bajo A188
+
+R02-07 = `CLOSED/PASS_WITH_FINDINGS`, DevPilot `3a0a170f3c646e9955966576dd9212d3f87450e6`, Pilot B `04ca8f83618176f5b14470bcaa092f979e3b6e72`; tres documentos FROZEN. R02-08 es el propietario de Coverage/PESP semántico de Product Definition, **no** del pipeline general para todas las etapas. Sus AC prospectivos requieren revisar Vision→Scope→Requirements en modo read-only, inconsistencias materiales, N/A y CONDITIONAL, grounding y un segundo dominio, sin hardcode de Pilot B ni juicio D omnisciente. Status ejecutable de sprint/prompt conserva DRAFT hasta aprobación individual; no se amplía R02-08 a R03–R10.
+
+---
+
+## Adenda de cierre R02 → planificación R03 — 2026-10-22
+
+**Cierre acreditado y no retroactivo:** `R02-10 = CLOSED/PASS_WITH_FINDINGS`, M2 `PASS_WITH_FINDINGS`, `BACKLOG_R02_132 = CLOSED/PASS_WITH_FINDINGS`, HEAD `1f15fa5b770db37c684e870a49572dcb569bd3a4` (upstream `origin/evolution/multiprovider-v2`), baseline oficial `repo_R02_10_CLEAN_1f15fa5b770d.zip` (SHA-256 `cc8327cb5cf5413187625cd6d59986c2972a260bd72b776ee30833090a72d743`), evidencia R02-10 SHA `9d2d7859849f385c440899c9cfdce72df43bd4de1aea3ef17bd0890f91c08e3d`. Pruebas focales R02-10: 52 PASS, 0 FAIL, 0 SKIP; Full Regression 0.
+
+**Límites permanentes:** el modelo local + revisión Owner produjo tres FROZEN; no demuestra calidad autónoma de primera propuesta ni equivalencia semántica profunda. Capturas pre/post reinicio idénticas: continuidad apoyada en consola HTTP 200 y narración Owner, no en cambio visual. Se conserva recibo histórico `api.json` BLOCK por inicio duplicado (fue un fallo de la guía), sin reescribirlo como PASS. No se midió calidad multi-modelo independiente, API E permanece DENY. No se alteran los tres FROZEN de Pilot B.
+
+**Transición:** dependencia M2→R03 liberada para **planificación únicamente**. La desagregación R03 es `DRAFT_EXECUTION_GATED` por sprint; cada prompt `DRAFT_AWAITING_OWNER_INCREMENT_APPROVAL`; no otorga source writes, scaffold, red, proveedor E ni autorización colectiva. El primer sprint R03_01 ejecutará reconciliación de documentación activa y Source Registry, con inventario de drift real vs histórico. Se mantiene UI-first y `operator_project_writes=0`.
+
+Los diez sprints ejecutados R02_01..R02_10 se clasifican `DONE_ACCEPTED` en la matriz de cierre sucesora; los IDs R2 heredados conservan propiedad, AC y precedencia. LM Studio opcional permanece documentado por su recibo específico, sin falsa afirmación de paridad general. No reescribir frontmatter histórico de 2026-10-13.
+
+## Registro histórico R02 conservado — recuperación R03-01 COR2
+
+Esta sección conserva literalmente antecedentes R02 del repositorio predecesor `1f15fa5b770d` que fueron omitidos al reconciliar R03. **Es historia, no autoridad operativa vigente**: los estados y las autorizaciones actuales son los establecidos por las adendas R03/A189 anteriores y el estado de ejecución de DevPilot. No revive sprints ni concede permisos.
+
 ## Actualización operativa MP132 post-M1 — R02-01
 
 **Autoridad R02 y progreso.** R02 desagregado en 10 incrementos aprobados únicamente para planificación. **Solo R02-01** tiene aprobación Owner individual para ejecutarse en cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc. R02-02..10 conservan ejecución denegada; modelo L real `NOT_TESTED`, externas `DENIED`.
 
 **Autoridad:** esta sección actualiza el *estado operativo*, no modifica el `status: OWNER_APPROVED_PROGRAM` de la aprobación histórica Owner-133, ni autoriza R02-02. Source Registry mantiene el `doc_id` y `path` originales.
-
 
 ## Adenda de estado operativo — R02-03/COR-176 (sucesora, no retroactiva)
 
@@ -67,7 +116,6 @@ Este backlog está **aprobado para priorización y planificación**. Sus ítems 
 - **Autorización individual vigente:** únicamente `R02_03_OLLAMA_REAL_CANDIDATE_SPRINT.md` = `SPRINT_EXECUTION_APPROVED` y su prompt = `OWNER_APPROVED`; baseline R02-02 acreditado y rama `evolution/multiprovider-v2`. Este bloque NO constituye recepción Windows de R02-03.
 - **Gate de salida R02-03:** al menos tres candidatas sintéticas generadas mediante invocación **real** a Ollama en loopback, con procedencia, hashes, recibos JSON, revisión browser, negativas y ninguna publicación FROZEN ni cambio de enabled global. Hasta observarlo, `LOCAL_PASS/WINDOWS_PENDING`; `EVALUATED`/`ELIGIBLE` NO se conceden automáticamente.
 - **Límites:** R02-04 a R02-10 = `DRAFT/NOT_AUTHORIZED`; proveedores externos y MP-1B = `DENIED/NOT_AUTHORIZED`; M2 no declarado. Se conservan todos los `doc_id`, el status histórico `OWNER_APPROVED_PROGRAM` y los 1.752 registros del Source Registry.
-
 
 ## Adenda R02-04 — ejecución individual 2026-10-16
 
@@ -84,8 +132,3 @@ Este backlog está **aprobado para priorización y planificación**. Sus ítems 
 - El cambio R02-05 es la evidencia/control de entrada de Pilot B por la interfaz y la identidad clara del proyecto activo en Home; no inicia B1 ni establece RF, stack, scaffold o proveedor por defecto.
 - El baseline de planificación histórico no se reescribe. El sucesor Git solo se acredita cuando Windows apruebe browser, B0 creado por UI y Git normal.
 - Los defectos de select de modelo y espaciado del Laboratorio de modelos (`R02-04`) permanecen findings UX; no se introducen modificaciones de modelo en esta unidad.
-
-## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
-
-
-**AC adicional R02-05 B0:** la UI recoge ID, nombre, root final y necesidad; el operador no pregunta ni fija estos datos. Antes de abrir Project Entry captura sólo el catálogo de workspaces persistido; después descubre exactamente un registro nuevo y valida project.yaml/registration/state/Git/neutralidad y el mismo ID/root tras reiniciar API. La autorización PathGuard es para parent de instalación previamente consentido y acotado, no para el destino particular. R02-06 sigue `NOT_AUTHORIZED`. Los R02-01..04 quedan cerrados en sus recibos Windows sin reabrirlos.

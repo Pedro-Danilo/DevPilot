@@ -56,3 +56,21 @@ Esta matriz responde a las dos revisiones arquitectónicas que precedieron la so
 ## 2. Regla antirregresión de decisiones
 
 Si un futuro backlog, ADR o prompt reemplaza una de estas decisiones, debe citar `DEC-XX`, proponer su sucesor y justificar compatibilidad o migración; nunca se introduce una excepción silenciosa. La tabla no sustituye contratos: sirve como checklist programático de cobertura.
+
+
+---
+
+## Decisión M1 post-Windows — 15-10-2026
+
+- R01-15/COR171 `CLOSED/WINDOWS_PASS_WITH_FINDINGS`, `M1_REPORT_171.json`: `PASS_WITH_FINDINGS`; HEAD `cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc`.
+- R01 backlog cerrado para alcance de primera vertical determinista, sin afirmar modelos reales ni E2E integral Pilot B.
+- R02 desagregado en diez micro-sprints y diez prompts **DRAFT**; Owner no ha dado aprobación de ejecución individual. Esta decisión autoriza preparación documental exclusivamente.
+- Primera mutación R02: drift documental ACTIVO a reconciliar por completo (test/estado/registros/diff por impacto), preservando documentos y evidencias históricas.
+
+---
+
+## Registro de incorporación A188
+
+- `MP132-OWNER-DECISION-188`: **APPROVED**, 2026-10-22; objeto enmienda `12_ENMIENDA_188_APROBADA.md`, ADR-016 y nuevo contrato transversal. Se adoptan sin superseder ADR-013/187 ni autorizar sprints.
+- Source code R02-07: commit `3a0a170f3c646e9955966576dd9212d3f87450e6`; el cierre ya ocurrió y no se reabre.
+- A188 introduce evaluación de generalización por perfil, prueba multi-dominio y ahorro del esfuerzo Owner. Se asigna a olas sucesoras sin nuevo backlog duplicado.

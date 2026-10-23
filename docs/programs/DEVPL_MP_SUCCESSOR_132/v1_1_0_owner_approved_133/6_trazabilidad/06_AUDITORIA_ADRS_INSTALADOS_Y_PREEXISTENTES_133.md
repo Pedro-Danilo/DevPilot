@@ -51,3 +51,10 @@ prior_adr_package_sha256: "b0136f245556b05687204e8ef4c3226547bb485d318e3485740e1
 ## Límites y resultado
 
 `ADR_REVIEW_PASS_WITH_IMPLEMENTATION_GAPS`: las decisiones resultan compatibles en diseño con las fuentes examinadas; **no** se demuestra que estén implementadas. El cierre de auditoría habilita aceptación arquitectónica, no releases, providers E o source writes. Un futuro gate A0/A1 debe inspeccionar HEAD y stores Windows actuales antes del primer delta.
+
+
+---
+
+## Actualización de alcance — 15-10-2026
+
+Este inventario describe ADRs instaladas en el HEAD original de su auditoría 133. R01-01..15 incorporó ADRs/decisiones adicionales documentadas en los bundles R01, y el gate M1 está implementado en `src/devpilot_core/maturity/r01_m1_gate.py` (no se ha inventado una nueva ADR M1). Antes de implementar R02-01 la auditoría literal debe comparar ADRs vivas del HEAD `cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc` con el catálogo documental y publicar el mapa de autoridad/vigencia. No actualizar historia ni completar por inferencia.

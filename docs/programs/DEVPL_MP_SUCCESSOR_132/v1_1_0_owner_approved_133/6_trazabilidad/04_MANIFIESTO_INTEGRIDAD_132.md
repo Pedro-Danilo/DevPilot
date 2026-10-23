@@ -85,3 +85,10 @@ execution_authority: false
 - `G5/COR130`: `OWNER_RATIFIED`, sin nuevas pruebas ni reescritura de artefactos históricos.
 - Git alternativa B: `OWNER_ACCEPTED_CONDITIONAL_PREFLIGHT`, sin ejecución.
 - `SPRINT_AUTHORIZED=false`, `SOURCE_MUTATION_AUTHORIZED=false`, `PROMOTION_AUTHORIZED=false`, `EXTERNAL_EGRESS_ENABLED=false`.
+
+
+---
+
+## Adenda post-M1 — alcance del manifiesto
+
+Este manifiesto conserva las huellas del **paquete original v132**, no se debe aplicar como tabla de verificación del sucesor documental actualizado. El paquete sucesor posterior a M1 se verifica exclusivamente con `6_trazabilidad/08_MANIFIESTO_SUCCESOR_POST_M1_172.md` y el SHA256 del nuevo ZIP. Baseline Git referenciado: `cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc`. Ni actas selladas ni recibos M1 se modifican por esta nota.

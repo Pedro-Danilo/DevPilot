@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R6 — Release, portabilidad y operación
@@ -51,3 +55,21 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+B5: el Owner inicia release plan, packaging, deploy, health/smoke, backup/restore y rollback desde DevPilot UI. El producto resultante debe operar independientemente fuera de la plataforma. Un script manual para suplir una acción no cumple M6.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+**Release por incrementos aceptados:** `MP131-R6-01` revisa Release Plan semántico L (alternativas optativas), validado por reglas/Owner; `MP131-R6-02..04` y `MP132-R6-06..08` exigen build reproducible, lock/SBOM, artefacto portable, deploy/health/rollback, restore verificado, release notes y runbook según PESP. Release se inicia desde UI de DevPilot, pero el **producto liberado** opera sin DevPilot. `RELEASE_READY` no deriva de un commit o ZIP de evidencia; requiere demostración funcional posterior al deploy y retorno controlado.
+
+---
+
+## Enmienda 188 — criterios prospectivos R06
+
+**Enmienda 188 Owner-approved (2026-10-22)**. Autoridad `MP132-OWNER-DECISION-188`; contrato `2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. Complementa 187/ADR-013; se aplica prospectivamente por olas, sin alterar recibos históricos, ni autorizar ejecución de un sprint o proveedor E.
+
+**Owner de esta ola:** Especializar Release/Operations: evidencia reproducible de build/deploy/rollback/runbook y restricciones PESP; pruebas de operabilidad y trazabilidad con entrega, sin promover automáticamente por texto generado.

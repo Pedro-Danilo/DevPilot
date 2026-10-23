@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Markdown durable, autoridad y portabilidad
@@ -33,3 +37,19 @@ Campos de publicación: `doc_id`, `artifact_type`, `revision`, `content_authorit
 ## Quality gates
 
 Atomic publish, failure injection, hash provenance y lectura offline; sin doble autoridad, sin overwrites FROZEN, sin logs privados; restauración desde ZIP debe poder compilar/arrancar bajo Technology Profile documentado.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+**Revisión humana obligatoriamente Markdown:** cada propuesta narrativa seleccionable tiene archivo real `.md`, `candidate_id`, `revision`, `content_sha256`, `source_context_sha256`, `provider/model/prompt`, estado `DRAFT/REVIEWED/SELECTED/SUPERSEDED`, y lineage; copia de preview puede ser read-only, pero la edición Owner en UI produce revisión nueva con su propio hash. Prohibido editar un candidato histórico in-place o autoaprobar por el proveedor. Comparación de dos Markdown es optativa.
+
+**Planning con autoridad estructurada:** el Owner revisa/edita una representación Markdown proyectada; DevPilot valida que los cambios se traduzcan explícita, reversiblemente y sin pérdida al JSON canónico mediante un workflow; el `.md` de Planning no puede convertirse por accidente en otra autoridad editable. Si un campo no puede round-trip, bloquear con explicación y ofrecer editor semántico de ese campo, no fingir persistencia. FROZEN publica una proyección humana hash-bound; stores estructurados siguen siendo única autoridad de estado.
+
+Una publicación requiere quality gate específico, dependencias fresh, diff/preimage, approval Owner aplicable, apply atómico y `freeze_receipt`; controles de LF/CRLF comparan correctamente blobs Git y conversiones de archive sin false drift. Un archivo `.md` no se considera FROZEN por existir físicamente.
+
+---
+
+## Frontera de publicación conforme A188
+
+Separar respuesta L/E/agent (`GENERATED` no confiable), candidato inmutable (`ADMITTED_FOR_OWNER_REVIEW`), calidad (`QUALITY_ACCEPTABLE`) y decisión aprobada (`APPROVED/FROZEN`) mediante el publisher/lifecycle existentes. Guardar perfil, fuentes upstream, hashes de revisión y pruebas; no publicar source desde el texto del modelo ni permitir reescrituras de FROZEN. Cambios editoriales inocuos no crean gates o approvals adicionales.

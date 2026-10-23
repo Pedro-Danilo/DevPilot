@@ -1,23 +1,22 @@
 """MP132 R00-03: verify governance authority without authorizing runtime operations."""
 from pathlib import Path
 import json,hashlib,re
+from devpilot_core.docs_governance.mp132_historical import load_verified_r00_at_close
 ROOT=Path(__file__).resolve().parents[1]
 PREFIX="docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/"
 def obj(rel):return json.loads((ROOT/rel).read_text(encoding="utf-8"))
 def test_mp132_57_documents_byte_verified():
-    r=obj('.devpilot/docs_governance/source_registry.json');rows=[x for x in r['documents'] if x['path'].startswith(PREFIX)]
+    frozen=load_verified_r00_at_close(ROOT)
+    r=frozen['registry'];rows=frozen['rows']
     assert len(rows)==57
     assert len({x['doc_id'] for x in rows})==len({x['path'] for x in rows})==57
-    raw=(ROOT/PREFIX/'6_trazabilidad/04_MANIFIESTO_INTEGRIDAD_132.md').read_text(encoding='utf-8')
-    for row in rows:
-        p=ROOT/row['path'];assert p.is_file()
-        b=p.read_bytes(); assert b.startswith(b'---')
-        if not p.name.startswith('04_MANIFIESTO'):
-            rel=row['path'][len(PREFIX):]
-            assert re.search(r'^\| `'+re.escape(rel)+r'` \| '+str(len(b))+r' \| `'+hashlib.sha256(b).hexdigest()+r'` \|$',raw,re.M),rel
-        assert row['required_tests']==['tests/test_mp132_r00_03_authority.py']
+    # Strict original SHA-256 checks are performed by the verifier for all 56
+    # non-self-hashed documents against the real R00 manifest (canonical LF).
+    # The 57 original files, registry, state and overlay are all attested.
+    assert len(frozen['provenance']['files'])==60
 def test_mp132_authority_reconciled_and_guards_closed():
-    r=obj('.devpilot/docs_governance/source_registry.json');s=obj('.devpilot/project_state.json');o=obj('.devpilot/docs_governance/rebaseline_p0_overlay.json')
+    frozen=load_verified_r00_at_close(ROOT)
+    r=frozen['registry'];s=frozen['state'];o=frozen['overlay']
     assert len(r['documents'])==1752
     assert r['summary']['documents_total']==1752
     assert r['current_phase']==s['current_phase']=='DEVPL-MP-SUCCESSOR-132/R00-AUTHORITY-REBIND'

@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R9 — Productización, UX y resiliencia real
@@ -52,3 +56,21 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+El launcher/instalador DevPilot de R9 es una evolución de operación de la plataforma. Mientras no exista, se autoriza consola únicamente para levantar API/UI, auditoría y correctivos de DevPilot, no para implementar ni desplegar Pilot B.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+Productizar Guided para mantener tareas principales cerca de sus acciones: generación L, edición/revisión Markdown, mensajes PASS/BLOCK locales y recuperación tras caducidad de sesión sin perder borrador; laboratorios comparativos en Expert/Settings y **opcionales**. Proyectar progreso por objetivo/incremento/sprint/story/release; conservar historiales D/L y no mostrar estados PENDING contradictorios con aprobaciones. Reinicios/resume/crash/no-double submit y falso drift por LF/CRLF son regresiones focales de operador y producto, no motivos de adjudicaciones repetitivas.
+
+---
+
+## Enmienda 188 — criterios prospectivos R09
+
+**Enmienda 188 Owner-approved (2026-10-22)**. Autoridad `MP132-OWNER-DECISION-188`; contrato `2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. Complementa 187/ADR-013; se aplica prospectivamente por olas, sin alterar recibos históricos, ni autorizar ejecución de un sprint o proveedor E.
+
+**Owner de esta ola:** Proteger UX/recuperación y discoverability de hallazgos de calidad: reportes material vs editorial, recibos y reproceso focal; evitar loops autónomos, falsos bloqueos y exceso de autorizaciones.

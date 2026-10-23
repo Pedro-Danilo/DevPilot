@@ -13,8 +13,8 @@ def data(name):return json.loads((ROOT/name).read_text(encoding='utf8'))
 
 def test_active_state_in_lockstep_and_next_denied():
  p=data('.devpilot/project_state.json');s=data('.devpilot/docs_governance/source_registry.json')
- assert p['current_micro_sprint']==s['current_micro_sprint'] in {CURRENT, 'MP132-R02-02/LOCAL-MODEL-READINESS', 'MP132-R02-03/OLLAMA-REAL-CANDIDATE', 'MP132-R02-04/LM-STUDIO-PARITY', 'MP132-R02-05/PILOT-B-ENTRY-RESUME'}
- assert p['next_micro_sprint']==s['next_micro_sprint'] == ('R02_06_NOT_AUTHORIZED' if p['current_micro_sprint']=='MP132-R02-05/PILOT-B-ENTRY-RESUME' else 'R02_05_NOT_AUTHORIZED' if p['current_micro_sprint']=='MP132-R02-04/LM-STUDIO-PARITY' else 'R02_04_NOT_AUTHORIZED' if p['current_micro_sprint']=='MP132-R02-03/OLLAMA-REAL-CANDIDATE' else 'MP132-R02-03/NOT_AUTHORIZED' if p['current_micro_sprint'].startswith('MP132-R02-02/') else 'MP132-R02-02/NOT_AUTHORIZED')
+ assert p['current_micro_sprint']==s['current_micro_sprint'] == 'MP132-R03-01/DOC-RECONCILIATION'
+ assert p['next_micro_sprint']==s['next_micro_sprint'] == 'R03_02_NOT_AUTHORIZED'
  assert p['external_api_allowed'] is False
  assert len(s['documents'])>=1752 and s['summary']['documents_total']==len(s['documents'])
  assert len({(d['doc_id'],d['path']) for d in s['documents']})==len(s['documents'])
@@ -43,7 +43,7 @@ def test_no_runtime_egress_or_pilot_mutation_claimed():
  p=data('.devpilot/project_state.json')
  for k in ('external_api_allowed','external_api_used','connector_write_enabled'):
   assert p[k] is False
- assert p['current_micro_sprint'] in {CURRENT, 'MP132-R02-02/LOCAL-MODEL-READINESS', 'MP132-R02-03/OLLAMA-REAL-CANDIDATE', 'MP132-R02-04/LM-STUDIO-PARITY', 'MP132-R02-05/PILOT-B-ENTRY-RESUME'}
+ assert p['current_micro_sprint']=='MP132-R03-01/DOC-RECONCILIATION'  # current-active; R02-01 remains historical
 
 
 def test_first_real_d_provider_candidate_is_non_mutative(tmp_path):

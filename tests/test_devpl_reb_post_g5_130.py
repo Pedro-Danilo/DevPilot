@@ -1,6 +1,7 @@
 """Post-G5 current authority and historical lineage; no model execution."""
 from pathlib import Path
 import json
+from devpilot_core.docs_governance.mp132_historical import load_verified_r00_at_close
 ROOT=Path(__file__).resolve().parents[1]
 
 def read(path):
@@ -10,6 +11,9 @@ def test_current_and_historical_authorities_are_separate():
     r=read('.devpilot/docs_governance/source_registry.json')
     s=read('.devpilot/project_state.json')
     o=read('.devpilot/docs_governance/rebaseline_p0_overlay.json')
+    historical=load_verified_r00_at_close(ROOT)
+    assert historical['registry']['current_micro_sprint']==historical['state']['current_micro_sprint']=='MP132-R00-03/AUTHORITY-PUBLICATION'
+    assert historical['registry']['current_phase']==historical['state']['current_phase']=='DEVPL-MP-SUCCESSOR-132/R00-AUTHORITY-REBIND'
     assert r['reb117_sync1_state_at_merge']=='CANDIDATE_PENDING_WINDOWS_VALIDATION_AND_G5'
     assert r['reb117_sync1_state']=='G5_TECHNICAL_PASS_OWNER_RATIFICATION_PENDING'
     assert r['reb117_d05']=='CLOSED/PARTIAL_ACCEPTANCE/NOT_MVP'
@@ -18,7 +22,7 @@ def test_current_and_historical_authorities_are_separate():
     assert r['reb117_mp_stop'].startswith('ACTIVE') and r['reb117_mp_1b'].startswith('BLOCKED')
     assert r['current_phase']==s['current_phase']
     assert r['current_repo']==s['current_repo']=='evolution/multiprovider-v2'
-    assert r['current_micro_sprint']==s['current_micro_sprint']=='MP132-R00-03/AUTHORITY-PUBLICATION'
+    assert r['current_micro_sprint']==s['current_micro_sprint']=='MP132-R03-01/DOC-RECONCILIATION'
     assert r['mp_last_completed_micro_sprint']==s['mp_last_completed_micro_sprint']=='MP-1A-04'
     assert r['last_registered_sprint']==s['last_registered_sprint']=='DEVPL-GSDLC-08-E'
     assert o['authority_post_g5_pre_132']['g5']=='TECHNICAL_PASS_OWNER_RATIFICATION_PENDING'
@@ -31,8 +35,10 @@ def test_current_and_historical_authorities_are_separate():
 
 def test_no_synthetic_delivery_claims_and_documents_registered():
     r=read('.devpilot/docs_governance/source_registry.json')
+    historical=load_verified_r00_at_close(ROOT)
     pairs={(x['doc_id'],x['path']) for x in r['documents']}
-    assert len(pairs)==len(r['documents'])==1752
+    assert len(historical['registry']['documents'])==1752
+    assert len(pairs)==len(r['documents'])==1762
     for doc_id,path in [
        ('DEVPL-REB-POST-G5-130','docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md'),
        ('DEVPL-MP-OWNER-REBIND-130','docs/program_rebaseline_117/DECISION_OWNER_REBIND_130.md'),

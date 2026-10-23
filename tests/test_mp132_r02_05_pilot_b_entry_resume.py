@@ -91,8 +91,9 @@ def test_entry_is_business_first_neutral_and_no_demo_defaults() -> None:
 def test_active_pointer_and_contract_historical_scope() -> None:
     p=json.loads((ROOT/'.devpilot/project_state.json').read_text())
     r=json.loads((ROOT/'.devpilot/docs_governance/source_registry.json').read_text())
-    assert p['current_micro_sprint']==r['current_micro_sprint']=='MP132-R02-05/PILOT-B-ENTRY-RESUME'
-    assert p['next_micro_sprint']==r['next_micro_sprint']=='R02_06_NOT_AUTHORIZED'
-    assert p['current_phase']==r['current_phase']=='DEVPL-MP-SUCCESSOR-132/R02-PRODUCT-DEFINITION'
+    # Historical R02-05 does not own mutable current pointers after R02/M2 closeout.
+    assert p['current_micro_sprint']==r['current_micro_sprint']=='MP132-R03-01/DOC-RECONCILIATION'
+    assert p['next_micro_sprint']==r['next_micro_sprint']=='R03_02_NOT_AUTHORIZED'
+    assert p['current_phase']==r['current_phase']=='DEVPL-MP-SUCCESSOR-132/R03-ARCHITECTURE-RISK-SCAFFOLD'
     assert len(r['documents'])==r['summary']['documents_total'] >= 1752  # R02-05 historical minimum; later ADRs are additive
     assert p['external_api_allowed'] is False

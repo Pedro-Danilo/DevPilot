@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R8 — Proveedores externos y Pilot C
@@ -51,3 +55,17 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+Proveedores E permanecen completamente **opt-in** y `DENY` hasta ADR externa, secretos por referencia, CostGuard, política de egreso y aprobación específica. En autoría semántica E es un **candidato alternativo bajo demanda**, no fallback automático ni segundo candidato obligatorio. `MP131-R8-04`/`MP132-R8-08` evalúan paridad de schemas, grounding/calidad/latencia/costo sobre casos comparables cuando se solicite comparación, nunca contra D extractivo como equivalente profesional. Pilot C es aislado y debe demostrar negativos de red y presupuesto sin contaminar B.
+
+---
+
+## Enmienda 188 — criterios prospectivos R08
+
+**Enmienda 188 Owner-approved (2026-10-22)**. Autoridad `MP132-OWNER-DECISION-188`; contrato `2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. Complementa 187/ADR-013; se aplica prospectivamente por olas, sin alterar recibos históricos, ni autorizar ejecución de un sprint o proveedor E.
+
+**Owner de esta ola:** Proveedores E opt-in solo con consentimiento de privacidad/egress, medición de costo/latencia y beneficio frente a L+determinístico. Un modelo avanzado no sustituye validación verificable ni el lifecycle.

@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R10 — Aceptación independiente industrial
@@ -53,3 +57,21 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+## Adenda Owner UI-first 179 — UI_FIRST_PILOT_B_V1
+
+Auditoría M10: trazar misma identidad B0–B7 y recibos de UI para bootstrap, pre-code, planning, code, tests, Git, release, deploy/health, rollback y evolución. Contadores `operator_project_writes=0` y `normal_user_terminal_escapes=0`; demos/fixtures no reemplazan la cadena real.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+La aceptación independiente verifica B0→B7 a través de **incrementos funcionales** y releases recuperables. `MP132-R10-09` reinterpreta D/L por tarea: D permanece para estructuración/controles, L/E para autoría semántica; comparación es herramienta **opcional**, no requisito transversal ni prueba de equivalencia con template. `MP132-R10-08` audita MIPSoftware con PESP/quality/documentation por alcance y MIASI solo por componente real. M10 distingue STORY_DONE, INCREMENT_ACCEPTED y RELEASE_READY, con demo del segundo dominio, negativos de permisos/egreso y límites de madurez sin afirmaciones no evidenciadas.
+
+---
+
+## Enmienda 188 — criterios prospectivos R10
+
+**Enmienda 188 Owner-approved (2026-10-22)**. Autoridad `MP132-OWNER-DECISION-188`; contrato `2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. Complementa 187/ADR-013; se aplica prospectivamente por olas, sin alterar recibos históricos, ni autorizar ejecución de un sprint o proveedor E.
+
+**Owner de esta ola:** La aceptación industrial requiere dataset de más de un dominio, métrica de correcciones técnicas Owner, falsos PASS/BLOCK, trazabilidad FROZEN, pruebas por perfil y evidencia de modelos/agentes/E usados realmente. No atribuir calidad industrial a un piloto supervisado.

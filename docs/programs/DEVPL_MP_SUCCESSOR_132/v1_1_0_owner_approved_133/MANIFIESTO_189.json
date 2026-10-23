@@ -1,0 +1,175 @@
+{
+  "schema": "MP132.R02R03.planning.amendment.189.v1",
+  "original_files": 216,
+  "updated_files": 244,
+  "modified": [
+    {
+      "path": "0_program/00_LEEME_INDICE_Y_ORDEN_132.md",
+      "before_sha256": "c9f875db0d96445d80d7f5fb2c783206c78b7570280433e15ced9be4b62a35e2",
+      "after_sha256": "57569a198ea198554de64de423db32ebf5ac2f5223a91b8c2f3c58f043cbb619"
+    },
+    {
+      "path": "0_program/01_PROGRAMA_MAESTRO_132.md",
+      "before_sha256": "00cae17e126e4ff4c3f7c30be5a767681b6442955a3695b1958b414b7ead3501",
+      "after_sha256": "269d94aac1619df91faed33c9e84229d132753c02e66a9b2f0c1a6d3c7dcb4b2"
+    },
+    {
+      "path": "0_program/02_ROADMAP_INDUSTRIAL_132.md",
+      "before_sha256": "99fdc2cfaf1846ba53c9f595050d95e79abdc0d3f36118b5117cd5f0de81d975",
+      "after_sha256": "1a8d065c96c1d149f1d47174c46985c2ad5504fe00e8925f232798a80e419bb6"
+    },
+    {
+      "path": "2_contratos/PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132.md",
+      "before_sha256": "c828ff916b45cda4de689ca48d9445241fe10137f01b9f6002fd3ceaa0462817",
+      "after_sha256": "289b8d6d1626194d8fa74c070916d529f972fac34339791718727941560ea4ee"
+    },
+    {
+      "path": "2_contratos/PROGRAM_DEPENDENCY_REGISTER_132.md",
+      "before_sha256": "7276776120a9a76594501c6dc3b24f90791b140494013b4a9d2d354fe8fa357c",
+      "after_sha256": "fe3e63241dcd0404aa4cc6003386da55d4543c88c6f3271c34e799ae000bac7d"
+    },
+    {
+      "path": "4_backlogs/BACKLOG_R02_132.md",
+      "before_sha256": "d4f5165da7fc804ca30f69b0e445acb86cc6922e99d07594530df0b51cefeb00",
+      "after_sha256": "5a8728a345f2cf3e89114c8269d8fb51664756a501616f0775629cdef2b8f819"
+    },
+    {
+      "path": "4_backlogs/BACKLOG_R03_132.md",
+      "before_sha256": "fa0fe9f634acbca3380509742dbd44ff156b7f352c0b58404f41c71a6f681cc7",
+      "after_sha256": "e1d8719cbc5ee7578023642b6c784d4d5d5c347deb7d4f08dc80304da9a95b91"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R02/00_PLAN_R02_172.md",
+      "before_sha256": "470001d55a2c80e97378b0217e842cc82993126e45c3678c445bd78619db431b",
+      "after_sha256": "9599c8bef8123fd12dc1f1e169fd46ea3de040b31c683c4d9f35b99b5261f21d"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R02/CHECKPOINT_R02_172.md",
+      "before_sha256": "e49652db8db431fb3b526e597cc95ddec5cada02b850aeddd079612c95d19d54",
+      "after_sha256": "38d7074393a3b144658b5b29988d3755dcf4ebfcddc34fa8d87c588671cb7590"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R02/LEEME_R02_172.md",
+      "before_sha256": "b3b0e629ebf858e62093ae95371be4a44234bc2141ab3b808076b26b9ceb2b03",
+      "after_sha256": "c40c6845a0501a70a22e7ddffc2385323ec3fc5351f406a8cdeb2198d5e195d3"
+    }
+  ],
+  "added": [
+    {
+      "path": "6_trazabilidad/15_R02_CLOSEOUT_R03_PLAN_189.md",
+      "sha256": "ec6e70514569b53373f8fdcd022c180d1f23e9eac47f1ac34392111b429be9b3"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R02/R02_CLOSEOUT_189.md",
+      "sha256": "4eb789ca26f45d95cb06c87571c9bd20a352e1e7be96c3aff52870e213c1f35a"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/00_PLAN_R03_189.md",
+      "sha256": "16839052d616090b25ffa54477958c6e49e75cafcd6e76924a70c40c48291801"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/01_REGLAS_R03_189.md",
+      "sha256": "6254e81c9caa1dee7a45b53ecc980cd0b81080d1cf94a758f9d373ce5ed3b163"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_01_DOC_RECONCILIATION_SPRINT.md",
+      "sha256": "e6c833667e28229c4dc725e1bb5c4a47c3810bb40db1ddf9a928ea3b64e8f4be"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_02_TECH_CONTEXT_PROFILE_SPRINT.md",
+      "sha256": "9ae1bf26bcf13b3aa86e037969ea546a600eacc2663f63233686c3d006b08258"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_03_ARCHITECTURE_AUTHORING_SPRINT.md",
+      "sha256": "25601ac3e0dc18fce7412cae332f218fb1dd001805e0e560d1eb99f877dda0e6"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_04_TECH_DECISION_ADR_SPRINT.md",
+      "sha256": "fa9b11885fd110a7a92c76e8e94a9c5e1c7d466d3db96e960a83833b1fef7e9f"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_05_CONDITIONAL_TECH_ARTIFACTS_SPRINT.md",
+      "sha256": "3be4e038495e8f62b6e2a8c1b4689708c77eacdd5c2289413bfbe9281075ab28"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_06_SECURITY_TEST_TRACE_SPRINT.md",
+      "sha256": "c042d9dcafced03a0d4ceb27f3a7438905f512cc3b99f78772e5b117f170cad1"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_07_TECH_FROZEN_SUCCESSOR_SPRINT.md",
+      "sha256": "af0b2eedc42aa9a010ddce6d86f1e0c4fcbd036ed11bbbcb0d3d3441c8aadbc1"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_08_SCAFFOLD_PLAN_SPRINT.md",
+      "sha256": "fdbdc48aa05606e53a69f902030be2368d7fa1c6bf3adc040a2318a341a964a1"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_09_SCAFFOLD_EXECUTION_SPRINT.md",
+      "sha256": "d48b51d98e7366ca04020df770ad3e9dc90f7a56f549fee6b91dc86200747bb3"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_10_TECH_EVAL_HARDENING_SPRINT.md",
+      "sha256": "589ba363b82b0e94b4f3301317d8823ac1ac8f01308414200bb458cdf84490e2"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_11_M3_GATE_SPRINT.md",
+      "sha256": "ffcf181039afffd3f673804b55895fb7a00aed02def7060925f47a85895934d1"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_01_DOC_RECONCILIATION_PROMPT.md",
+      "sha256": "b4c54a21159505bd6aad1ce3999f92d04f9a6a0e770a3daafb828fd8ef6267b5"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_02_TECH_CONTEXT_PROFILE_PROMPT.md",
+      "sha256": "2777654ccc968a92d81a3e7ce86ff1df27eb07cc15f5c74bd0d8f3b18605e29c"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_03_ARCHITECTURE_AUTHORING_PROMPT.md",
+      "sha256": "a6ddf5bcc2f09a92af43641b1d852e6e21fde46ca0d5f1080b61bf5748709b4d"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_04_TECH_DECISION_ADR_PROMPT.md",
+      "sha256": "46f695eb2c868c9dcf4b7fa2175c7a12a00eac6609c8a42b988a2051d2e1444a"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_05_CONDITIONAL_TECH_ARTIFACTS_PROMPT.md",
+      "sha256": "fc4cf40051f540dda367c34af5e499e5b6ba7e55b9bb745d04f4f1c3bc24b04c"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_06_SECURITY_TEST_TRACE_PROMPT.md",
+      "sha256": "8cc56a9dbfb45f7be4ded0b551bf79790120f13c57b336d19cd43503d1b29c46"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_07_TECH_FROZEN_SUCCESSOR_PROMPT.md",
+      "sha256": "09d9906b8000bdae099254317b21980a0b3cbd9b1ed75aea68af240709e2d33f"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_08_SCAFFOLD_PLAN_PROMPT.md",
+      "sha256": "a2d2f8bea1bb420c2a71f7626849b118f1d32e98a7d84f16dc89357ef05d307a"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_09_SCAFFOLD_EXECUTION_PROMPT.md",
+      "sha256": "e6735b8b0f3e44662e70fea5f3788ee3ba2ff9851d14f56798e268e7e4aea480"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_10_TECH_EVAL_HARDENING_PROMPT.md",
+      "sha256": "c46a9f3dcf402b00bb7a0b09156f4589557d15479f94c3d055891a37965f6a57"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_11_M3_GATE_PROMPT.md",
+      "sha256": "273d8c110de089d047da043e523cb46561d2a631fde55a41d7af3d65bc94c53d"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/CHECKPOINT_R03_189.md",
+      "sha256": "eb5fb1e85277af0e82793b176b93b34bc2922bd7fdaa18828943f2c5f2604722"
+    },
+    {
+      "path": "7_ Execution_packages-sprints_prompts/BACKLOG_R03/LEEME_R03_189.md",
+      "sha256": "c98cbdddbe2b7338797cc8468e1120e4abba89dd7836e001e563bd4e57da867b"
+    }
+  ],
+  "unchanged_count": 206,
+  "baseline_git_head": "1f15fa5b770db37c684e870a49572dcb569bd3a4",
+  "baseline_git_archive_sha256": "cc8327cb5cf5413187625cd6d59986c2972a260bd72b776ee30833090a72d743",
+  "execution_authority": false
+}

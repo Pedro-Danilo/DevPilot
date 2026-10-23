@@ -12,6 +12,13 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+current_execution_baseline: "cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc"
+r01_gate: "CLOSED_PASS_WITH_FINDINGS"
+r02_execution_authority: false
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Capacidades de modelos, datasets y aceptación real
@@ -33,3 +40,25 @@ Un provider E requiere additionally privacy/egress/cost gate y Pilot C. Prompts,
 ## Evidence
 
 Dataset y prompts versionados, input/output/context hashes, model, seed si aplica, error/retry/fallback, test/coverage y Owner decision; sin copiar secretos a logs. Pilot B eval L real y 2do dominio contra overfitting RF001–003.
+
+
+---
+
+## Adenda sucesora post-M1 — 15-10-2026 (no retroactiva)
+
+- **Baseline Git publicado:** `cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc` (`evolution/multiprovider-v2`), sucesor de `feaac2723c1f8a467f5cdb7d456e4e7679dd0f82` por R01-15/COR-171. - **R01:** 15/15 incrementos aceptados; 16 IDs propietarios cubiertos; cierre M1 `PASS_WITH_FINDINGS` con 108 tests focales y 8 del operador PASS en Windows. - **Evidencia:** `RESULT_171.json`, `M1_REPORT_171.json`, `R01_15_EVIDENCE.zip`, `repo_R01_15_CLEAN.zip` y SHA256. - **Autoridad:** R02 se desagrega sólo para planificación. Ningún `SPRINT_EXECUTION_APPROVED`, ningún push, bootstrap Pilot B, inferencia local, external egress o MP-1B queda autorizado por esta adenda. - **Limitaciones:** `model_local_real=NOT_TESTED`, `semantic_llm_judge=NOT_TESTED`, `rag_groundedness_real=NOT_TESTED`, `external_real=DENIED`; no confundir pruebas de servicio con un recorrido completo Product Definition UI.
+- Para R02 las clases `SUPPORTED`, `CONFIGURED`, `HEALTHY`, `EVALUATED`, `ELIGIBLE_FOR_TASK` **no son intercambiables**. La aceptación de modelo local requiere llamada real, salida estructurada, dataset controlado, fuente/contexto, trazas, negativa de capability/timeout y prueba de que D sigue disponible sin L. El evaluador determinista de R01-09 se reutiliza, pero sus reglas no acreditan una evaluación semántica profunda.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+Agregar evaluación **por etapa** y por tarea, no ranking genérico de modelos: `vision_quality`, `scope_boundary_quality`, `requirements_testability`, `architecture_drivers`, `planning_feasibility`, `code_change_quality`; registrar `model_id`, versión, hardware, contexto/hash, prompt/schema version, latencia, formato, idioma, cobertura de hechos, afirmaciones no soportadas y costo real o `NOT_AVAILABLE`. Un provider con JSON válido pero que parafrasea B0 es `CANDIDATE_INSUFFICIENT`, no `ELIGIBLE_FOR_PROFESSIONAL_AUTHORING`. Métricas automáticas complementan revisión Owner, nunca sustituyen pruebas verificables ni inventan benchmarks. Comparación de dos modelos optativa y asociada al mismo contexto/perfil; evitar juez LLM autoaprobador.
+
+
+---
+## Enmienda 188 aprobada — calidad de redacción por tipo (ADOPTADA — autoridad programática)
+
+El dataset de capacidad de autoría necesita `artifact_type/profile_version`, dos dominios representativos, evidencias de referencia, negativos de falsos PASS, falsos BLOCK, tasa de edición técnica del Owner, decisiones de negocio no resueltas, corrección entre artefactos y pruebas del artefacto (e.g. RF→test). `task_eligible` se decide por resultados medidos del modelo y límites de riesgo, no por HEALTHY/JSON PASS. Medir beneficio marginal de agente/E frente a salida L revisada, junto con costo, latencia y privacidad. No inventar umbrales de industrialidad.
+
+**Autoridad:** `MP132-A188`, aprobada por Owner el 2026-10-22; aplicación según `ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. No constituye ejecución R02-08 ni habilitación de E.

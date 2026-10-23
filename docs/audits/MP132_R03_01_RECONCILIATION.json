@@ -1,0 +1,56 @@
+{
+  "before": {
+    "baseline_head": "1f15fa5b770db37c684e870a49572dcb569bd3a4",
+    "registry_documents": 1755,
+    "current_phase": "DEVPL-MP-SUCCESSOR-132/R02-PRODUCT-DEFINITION",
+    "current_micro_sprint": "MP132-R02-05/PILOT-B-ENTRY-RESUME",
+    "next_micro_sprint": "R02_06_NOT_AUTHORIZED",
+    "duplicate_active_authorities": [
+      "DEVPL-FULL-REGRESSION-V2-3",
+      "DEVPL-GSDLC-10"
+    ],
+    "canonical_program_docs": 57
+  },
+  "after": {
+    "documents_total": 1762,
+    "current_micro_sprint": "MP132-R03-01/DOC-RECONCILIATION",
+    "next_micro_sprint": "R03_02_NOT_AUTHORIZED",
+    "canonical_program_docs": 247,
+    "demoted_duplicate_authority_paths": [
+      "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_2_0.md",
+      "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md"
+    ],
+    "new_registry_active_program_paths": [
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/12_ENMIENDA_188_APROBADA.md",
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/13_DECISION_OWNER_188.md",
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR_MP132_016_CALIDAD_ARTEFACTOS_188.md",
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md",
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_01_DOC_RECONCILIATION_SPRINT.md",
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_01_DOC_RECONCILIATION_PROMPT.md",
+      "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/16_R03_01_APPROVAL_BINDING.md"
+    ],
+    "external_api_allowed": false,
+    "pilot_b_project_writes": 0
+  },
+  "historical_integrity_reconciliation": {
+    "source": "Owner-attached repo_MP132_R00_03_77cdf9af323d_CLEAN.zip",
+    "source_archive_sha256": "c5f24e5824338957d368b0310685d74afc60ad70a083d363bdb56b85cf5a784f",
+    "source_sidecar_sha256_match": true,
+    "source_crc": "PASS",
+    "frozen_at_close": "docs/audits/MP132_R00_03_AT_CLOSE_VERIFIED.zip",
+    "frozen_sha256": "49761fbe4df17c82c994e24d9f9a01239966bb5112d2a167ce83a5ea46ac396f",
+    "r00_registry_records_exact": 1752,
+    "r00_documents_exact": 57,
+    "approved_manifest_canonical_lf_matches": "56/56",
+    "r03_registry_records_exact": 1762,
+    "historical_tests_local_direct_invocation": "6/6_PASS",
+    "historical_assertions_preserved": "R00 exact counts, phase, micro-sprint and SHA; successor current-active independently exact",
+    "crlf_lf_policy": "Content hash checked after newline canonicalization; original archive bytes retained and hashed independently"
+  },
+  "scope": "candidate/local; Windows validation and real Git operations pending",
+  "limitations": [
+    "The supplied ZIP and sidecar attest the historical archive bytes; the full Git commit was not independently read from Windows history.",
+    "Focused pytest must still PASS on canonical Windows environment before selective commit/push.",
+    "No full regression or user-facing UI changes were performed."
+  ]
+}

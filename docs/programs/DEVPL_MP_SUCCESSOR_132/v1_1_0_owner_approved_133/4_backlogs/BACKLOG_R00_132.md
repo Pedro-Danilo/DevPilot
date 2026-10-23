@@ -1,9 +1,10 @@
 ---
 doc_id: DEVPL-MP-SUCCESSOR-132-BACKLOG_R00_132
 title: "Backlog R0 — Autoridad y topología Git"
-version: "1.1.0"
+version: "1.1.1-r00-succ"
 status: "OWNER_APPROVED_PROGRAM"
-baseline_commit: "8db5b44694abcced3231183e05731e732f5b8f24"
+baseline_commit: "66ab2e6227072c951b5bd2ac9160e8515b1b9fc0"
+historical_baseline_commit: "8db5b44694abcced3231183e05731e732f5b8f24"
 owner: "Owner DevPilot"
 supersedes_program: "DEVPL_MP_SUCCESSOR_131 v1.0.0"
 execution_authority: false
@@ -11,6 +12,7 @@ approval_revision: 1
 approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
+successor_execution_authority: false
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ---
 
@@ -52,3 +54,15 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+
+---
+
+## Addendum operacional M0→R1 — sucesor de planificación (14-10-2026)
+
+- **Asunto:** Backlog R00.
+- **Actualización concreta:** 9 ítems: 8 DONE_ACCEPTED y R0-09 DEFERRED_TO_R2_WITH_REASON; gate M0 cerrado por COR-151 sin modificar fuente histórica.
+- **Evidencia vinculada:** COR-143 (migración B), R00-03/COR-145 (publicación 57 documentos), R00-04/COR-147 (auditoría Settings), COR-150 (paridad 1752), COR-151 (cierre Owner M0).
+- **HEAD de autoridad técnica:** `66ab2e6227072c951b5bd2ac9160e8515b1b9fc0`. Las referencias a `8db5b44694abcced3231183e05731e732f5b8f24` y los indicadores `STOP ACTIVE` en secciones históricas no se reescriben como si fueran estados presentes.
+- **Autoridad:** copia sucesora propuesta para adopción documental posterior; no constituye un commit, promoción Git, autorización de R1, de MP-1B, de modelo/API externa ni una aceptación funcional de Settings.
+- **Transferencias vigentes:** `MP132-R0-09` → R2 para mediciones reales; UX Settings pendiente de reproducción y validación; egress externo DENY; no duplicar ownership entre olas.

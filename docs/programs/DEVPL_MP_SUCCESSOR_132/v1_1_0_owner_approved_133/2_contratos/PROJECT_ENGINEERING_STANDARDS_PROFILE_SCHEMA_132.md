@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Estándares MIPSoftware/MIASI, perfiles y excepciones
@@ -33,3 +37,15 @@ Web sencilla → MIASI N/A justificado; web con agente tool-write → MIASI y To
 ## No técnico
 
 Es un perfil de ingeniería por proyecto, como una lista personalizada de controles basada en necesidades reales, no un requisito de redactar cincuenta documentos iguales.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+Vincular PESP a `risk_class`, `quality_profile`, `technology_profile`, `artifact_coverage`, `documentation_plan`, `test_strategy`, `release_readiness`, `deployment_profile` y `operations_requirements` de cada incremento. El resultado de aplicabilidad debe diferenciar REQUIRED/CONDITIONAL/RECOMMENDED/N/A razonado/UNKNOWN; Owner decide excepciones importantes, no revisiones mecánicas. Construcción necesita DoR, tests, security y control de dependencias; release requiere instalación/runbook/backup/restore según riesgo; MIASI se impone por capacidades agentic **del producto** confirmado, nunca por uso de LLM en DevPilot.
+
+---
+
+## Aplicabilidad PESP y perfiles de autoría A188
+
+PESP decide `REQUIRED/CONDITIONAL/RECOMMENDED/NOT_APPLICABLE` con evidencia; el contrato de autoría `artifact_type/profile_version` es independiente del proyecto y se activa solo para artefactos aplicables. No imponer calidad de Construction a documentos de Vision; no crear archivos de relleno para N/A ni escalar estilo a BLOCK. Contexto faltante de negocio se registra como `UNKNOWN` y se consulta al Owner solamente si material.

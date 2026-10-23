@@ -12,6 +12,9 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+current_execution_baseline: "cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc"
+r01_gate: "CLOSED_PASS_WITH_FINDINGS"
+r02_execution_authority: false
 ---
 
 # Ruta sugerida de lectura para entender el programa completo
@@ -37,3 +40,17 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Para un lector no técnico
 
 PESP = la lista de normas que debe respetar un proyecto concreto; Coverage Gate = control que impide avanzar si falta algo realmente obligatorio; Candidate = propuesta que aún no ha modificado el proyecto; FROZEN = versión aprobada inmutable; Successor = versión nueva que conserva la anterior; Worktree = carpeta de trabajo distinta que comparte el mismo repositorio Git; Egress = envío de información a servicios externos.
+
+
+---
+
+## Adenda sucesora post-M1 — 15-10-2026 (no retroactiva)
+
+- **Baseline Git publicado:** `cd0bce59ec2bf4a7ae7e50a555c1c8a1bd85facc` (`evolution/multiprovider-v2`), sucesor de `feaac2723c1f8a467f5cdb7d456e4e7679dd0f82` por R01-15/COR-171. - **R01:** 15/15 incrementos aceptados; 16 IDs propietarios cubiertos; cierre M1 `PASS_WITH_FINDINGS` con 108 tests focales y 8 del operador PASS en Windows. - **Evidencia:** `RESULT_171.json`, `M1_REPORT_171.json`, `R01_15_EVIDENCE.zip`, `repo_R01_15_CLEAN.zip` y SHA256. - **Autoridad:** R02 se desagrega sólo para planificación. Ningún `SPRINT_EXECUTION_APPROVED`, ningún push, bootstrap Pilot B, inferencia local, external egress o MP-1B queda autorizado por esta adenda. - **Limitaciones:** `model_local_real=NOT_TESTED`, `semantic_llm_judge=NOT_TESTED`, `rag_groundedness_real=NOT_TESTED`, `external_real=DENIED`; no confundir pruebas de servicio con un recorrido completo Product Definition UI.
+- Secuencia de transición: M1 report → cierre R01 → backlog R02 → Plan R02 → matriz de 10 sprints/prompts → primera auditoría de repo y evidencia local.
+
+---
+
+## Actualización de lectura tras A188
+
+Antes de iniciar nuevos sprints, consultar decisión Owner `13_DECISION_OWNER_188.md`, enmienda `12_ENMIENDA_188_APROBADA.md`, ADR-016 y contrato transversal de autoría/calidad. Leer ADR-013/187 y enmienda 187 como antecedentes no reemplazados. R02-08 permanece DRAFT hasta autorización individual; no ejecutar a partir de una simple referencia en el índice.

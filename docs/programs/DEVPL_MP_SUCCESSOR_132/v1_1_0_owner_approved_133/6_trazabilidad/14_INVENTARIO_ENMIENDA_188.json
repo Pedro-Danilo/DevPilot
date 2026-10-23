@@ -1,0 +1,338 @@
+{
+  "schema": "MP132_A188_FILE_DELTA_V1",
+  "source_zip": "DEVPL_MP_132_UI_FIRST_187_AJUSTADO(4).zip",
+  "source_file_count": 210,
+  "new_file_count": 216,
+  "reference_baseline": "3a0a170f3c646e9955966576dd9212d3f87450e6",
+  "owner_approval": "MP132-OWNER-DECISION-188",
+  "date": "2026-10-22",
+  "preserved_sha256": {
+    "0_program/03_SUPERSESSION_AUTORIDAD_Y_GATES_132.md": "b170e47f082ccd320e683b2ad722dd1c84ef0548f58423d976462ab2faf927c6",
+    "0_program/07_DECISION_OWNER_PROGRAMA_133.md": "50ba77294069ea0bcbcf4f43437952d7d6b452584b2a55b51f802c744fb3e596",
+    "0_program/08_DECISION_OWNER_G5_COR130_STOP_133.md": "784803370baa1fd6059785d8d4659b1a4f265bf8f636fdc95920d7528d2c5727",
+    "0_program/09_DECISION_OWNER_GIT_B_CONDICIONAL_133.md": "2eaada432bc9d808a6fb5a1633c8e053be981aa3ee40358071f464ea818f6c91",
+    "0_program/10_DECISION_OWNER_ADRS_133.md": "cccea89b0fa06a161b98232ea31e4714b7f559df5c9ba54ff09c8f2078884cb8",
+    "0_program/11_ADDENDA_UI_FIRST_179.md": "800777eb4724a631cd96512aa3875a9d953534c0a3aac3408493d46e726384a0",
+    "1_arquitectura/ADR-MP-132-001.md": "16a49a941f45739ce8a58fcaef44f54f240a9dbc1728ffe82e1386eb6e5241ca",
+    "1_arquitectura/ADR-MP-132-002.md": "4f18f94a868a8003addaface0f160297a808745d5e5f4e3b904a00a896934560",
+    "1_arquitectura/ADR-MP-132-003.md": "60bef780d3d4d60c6e6a0204ef173f8f251e1ef6964f3868e1a107010ea686f2",
+    "1_arquitectura/ADR-MP-132-004.md": "b78a14b2e1be152f476f64aac572a1cebd85d218f52ac1868fb0e0bd66b8d28a",
+    "1_arquitectura/ADR-MP-132-005.md": "146f4500cc38836a5aedee93578e8bb5f2f7e3f4fe9e24da1c1366fa78986c5e",
+    "1_arquitectura/ADR-MP-132-006.md": "35fff24aa98abbe949af9cb531765d6fa3dae9a75468a1930ca5b66938af2b62",
+    "1_arquitectura/ADR-MP-132-007.md": "74b7cd864f0c2ed3ef80976ac5724b0952f27ab9cb57a0a61a3c4395453dcaa5",
+    "1_arquitectura/ADR-MP-132-008.md": "e51603a712bbdd632c2b321d29e6430776d2ec2d8b8ea03419f9b67e8d8ca239",
+    "1_arquitectura/ADR-MP-132-009.md": "c12d19e3d2a88c43917e371fb3bb81fc55cefb50393654ca273a319259fdbb21",
+    "1_arquitectura/ADR-MP-132-010.md": "f1fdba2ee55f12a1a69a9b3d2eaec3919b7829490b237d25074ca3cb769afe89",
+    "1_arquitectura/ADR-MP-132-011.md": "92f0a9ec46ceaced591c8cf5a374161ba48acf8220e607ca71f47e4b9a10cecf",
+    "1_arquitectura/ADR-MP-132-012.md": "588b3ab64e03e44fd890b06f655b006b5fafb584d244127dac9e7d3047ff7dee",
+    "1_arquitectura/ADR_MP132_008_S1_141.md": "fd0baa6e87518aea3986d336218efe6d7c8c937d3fdec2afef701a4ee23b1bc9",
+    "1_arquitectura/ADR_MP132_012_179.md": "588b3ab64e03e44fd890b06f655b006b5fafb584d244127dac9e7d3047ff7dee",
+    "1_arquitectura/ADR_MP132_013_SEMANTIC_AUTHORING_187.md": "1d36e1977f723a305b33e5f930880fbe86706093d258b02fc24367ca8ccb5a1e",
+    "1_arquitectura/ADR_MP132_014_INCREMENT_DELIVERY_187.md": "fc570ae81cadeb436d5ab6bb078144bfe0a452e0d47fcfc8194713753d7f4e45",
+    "1_arquitectura/ADR_MP132_015_TECH_CONSTRUCTION_187.md": "6793457ae1dbe8447e4d9bb1bf458a287f1a0aaed144f17c4d9f7ab016302fa1",
+    "1_arquitectura/ADR_R01_03_155.md": "c140fd94db46c8ea1c9e1fe3461b8b00844bfbd4949af058f0402a65f6e871df",
+    "1_arquitectura/ADR_R01_04_156.md": "ed1b3ffa15dbeee3d1f996ba73179f00b13a68cff517ede6f1b780b7a5df39a3",
+    "1_arquitectura/ADR_R01_05_157.md": "3e0a4a78a744682b088f859fd36e8733c207f136e907b2ea7f6f3c384edef772",
+    "1_arquitectura/ADR_R01_06_158.md": "d3076101fa2b875268838c8c191fb170ab625367749ec505d20ab7feabb34a3a",
+    "1_arquitectura/ADR_R01_07_159.md": "e281fbd5539a45b6c42fce5744c62179ccb43bedc5e5cdb6a9ab22eb93850d28",
+    "1_arquitectura/ADR_R01_08_161.md": "671ec4cf4e713c25f0fdd46fd4fa80f2f3f50a7d7ce96930f3ae2de8796405a9",
+    "1_arquitectura/ADR_R01_09_162.md": "30c8acc93281fa4ffc66597f11464de972e10e6943cca2450bbf15fd1a270e88",
+    "1_arquitectura/ADR_R01_10_163.md": "a6cb295b5f54e1a76bd342e62c1ba35c55e273fd95ca0f7f82b7162ad0ce8cd4",
+    "1_arquitectura/ADR_R01_11_164.md": "19dc121087b15781b1b0680e1a3e4d15238fc9223dbdb92d48113ce6ffcbce98",
+    "1_arquitectura/ADR_R01_12_167.md": "2b3722f8b1b8710ebe229599486d5682708671a3746bd20bbe1f0b0eb9077587",
+    "1_arquitectura/ADR_R01_13_168.md": "a5e223bd899b1c19afc79de372c15e5a15949fda83e545457fdc9b0be3cb225b",
+    "1_arquitectura/ADR_R01_14_170.md": "1c74c3eed77611962e2a87b647d8583985d5af26c290e4223dc41bfc3cf6799d",
+    "1_arquitectura/ADR_R02_02_175.md": "1d63eb76de5d1579412ae3ba9cc35cc9b175483aa08cd90ddc4ad278d5cf5f55",
+    "2_contratos/CONFIGURATION_AUTHORITY_MATRIX_132.md": "00bece351a69535ec09b3ec9bc97159d9eafba12380a1a81fbee05edf18aa851",
+    "3_gobernanza/00_AUDIT_FIRST_REUSE_FIRST_132.md": "257072b524c2b5c1ce903a8a3ddf06eb1a08dbf9027252de0f90fc2d67b39cdb",
+    "3_gobernanza/02_ESTRATEGIA_GIT_WORKTREE_132.md": "3f6af894da6c1e865f629cf8916854e3fa63082e4424f6d67f6abc5c4d0c04f9",
+    "3_gobernanza/03_LEDGER_UX_Y_POLITICA_DE_ABSORCION_132.md": "1700081cb469ff897895b844bafd18d96d677fa314b0159e1971363c694110ae",
+    "4_backlogs/BACKLOG_R00_132.md": "3087ab8336b926d271d531da8f0bd120f0d236d6a041fe3ef34b0b5ce6862594",
+    "4_backlogs/BACKLOG_R01_132.md": "f57394171393e3237aeec80a89eec3317460ed0fa929422c3642ffb444777691",
+    "5_pilotos/01_PILOT_C_EXTERNAL_132.md": "0bbf3e6e8cd13c549e311bf33b1704370f3069aafc727fb069a9ab93257fd89f",
+    "6_trazabilidad/00_FUENTES_VERIFICADAS_Y_METODO_132.md": "299bc38613c43580b1f57a4a4fa0b4ca151a1348872af43b250f89968372297c",
+    "6_trazabilidad/01_MAPA_CONSERVACION_Y_SUPERSESSION_132.md": "aa5d14694f76d334329ae2dc89a7d7a1246d7c389b929fd6a50e447766f29c5c",
+    "6_trazabilidad/02_CIERRE_COR130_Y_LIMITES_132.md": "1566843504fa6ce4afdf622a769cbc44135004e3798fa4b9e03a6b85c42d6426",
+    "6_trazabilidad/03_ANCLAS_CODIGO_Y_ESTANDARES_132.md": "194b1edb1dca4512a34ce4282bcfa760f514ad0335078e7edd3c61ca4aba0f64",
+    "6_trazabilidad/04_MANIFIESTO_INTEGRIDAD_132.md": "c1c375b1dfc047e1b7bf43bffdaf8c4027969c6888c7b9c70500c82286a86041",
+    "6_trazabilidad/06_AUDITORIA_ADRS_INSTALADOS_Y_PREEXISTENTES_133.md": "b82cd7c59241a0aa9ec9401aa5d6287eb1bf90a918b9be153139827db2fbca52",
+    "6_trazabilidad/07_TRANSICION_AUTORIDAD_Y_ESTADO_RUNTIME_133.md": "fa0566ac08211c5dc55dcd38ca299dadfc825a1803d0d0e0fb5f1e3cd7f9cf1c",
+    "6_trazabilidad/08_MANIFIESTO_SUCCESOR_POST_M1_172.md": "f921fc9b48ea595affd5aded537ef0946a3622f89295b148cab0f517a7686809",
+    "6_trazabilidad/10_MANIFIESTO_UI_FIRST_179.md": "1b0c3807c12b603c368117096714242e15c439e3e2c42899291bd5ae54caf34d",
+    "6_trazabilidad/11_MANIFIESTO_ENMIENDA_POST_R02_06_187.md": "18dcf6a6a9e98e707c1e204a1cb3d545ab509aa7d79180ce8f13976e7d3abb97",
+    "6_trazabilidad/11_RELACION_AJUSTES_UI_FIRST_179.md": "1c560b65599f800aeca170c3efaf525891dabcb02c14a861f97d512bfa57aa13",
+    "6_trazabilidad/12_INVENTARIO_ARCHIVOS_ENMIENDA_187.json": "9f26057f7a6b1413b16f3378239ba3832536fcbb2cd013e464b068cd8514ddcd",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/00_PLAN_DESAGREGACION_R00_134.md": "e2686ec4211d0a2df01cfa8fde58aa6bb6c36c412a2d0344e4de1d177ce0c182",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/01_LECTURA_Y_REGLAS_COMPARTIDAS_134.md": "64480e92c9535a36dc46ecb20d2e3d578d8a97750b387b11ff5be0637ab7690d",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_MP132_R00_01_PREFLIGHT_AUTHORITY_GIT_134.md": "0dfccb4d625d03d209cbba8089b1e9b90b12427c401732fc59688b7d9536361c",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_MP132_R00_02_GIT_LOCATION_DECISION_134.md": "cc32a667c6c74e94078c51865ac94a73e5edd19568ad6f8ef9c55094fa5a88f2",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_MP132_R00_03_PRIMER_BASELINE_AUTHORITY_REBIND_134.md": "74f0e7e0c3e019e7cef12682fcafbfed4d1b743612d3c92f7012ecfa565fc8ee",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_MP132_R00_04_SETTINGS_METRICS_AUDIT_134.md": "0a211fb47e9b98714b2619dc8cbc9f8097503c018341c35e31276a954c6e43d1",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_MP132_R00_05_M0_CIERRE_HANDOFF_134.md": "6ec7cb9f7a9b989e03ebcd765407f3487c3999774dd6d912f9d7f2d33d1b7849",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_R00_01_APPROVED_135.md": "3d4bd1c4730c7dce83f2f99b8f4dd5416e73dfade4384c70bdb8553436ca8bc7",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_R00_02_APPROVED_140.md": "497ef9b58c3f3350ac37da2a98b8c92cffc7e484b1ca5d2d0d5ae426d5a6e7cb",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_R00_02_B_SUCCESSOR_141.md": "69f3039a8721608a95aac736686525628649f9fd29e17c16f242ad5e4688aca3",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_R00_03_APPROVED_144.md": "1638f52cce0a8ae3ae7fd575b183060e96417947465cce02e1b7d5b0088376fb",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/1_sprints/SPRINT_R00_04_APPROVED_146.md": "30a42684341c03b06485bb4121201b78fde64e5b1bf8a6a10cfa42fa0be77af5",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_MP132_R00_01_PREFLIGHT_AUTHORITY_GIT_134.md": "cda6cb45b9a88ab9f711c5ab49159ac8ce42f7f18eebb9d83d5a9b69018eff94",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_MP132_R00_02_GIT_LOCATION_DECISION_134.md": "6ca5b171556d27f54e5f9be7d8bf7d5cab73124615c34ec456a2b3754c6daf13",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_MP132_R00_03_PRIMER_BASELINE_AUTHORITY_REBIND_134.md": "094af70c9fab600ddee1d70840fd0338aef197020e4980bb69b924df2861eda4",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_MP132_R00_04_SETTINGS_METRICS_AUDIT_134.md": "6ff87c35105e52e57833818645f03d18d6027554572eb49df68f985a306e39ef",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_MP132_R00_05_M0_CIERRE_HANDOFF_134.md": "0a2312200f9ff2fa12398716ce6f62c5dc3e8e02ce81b4ec182e434cf8af4ddf",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_R00_01_APPROVED_135.md": "a74a6246991829a5427b4742352d86f3f98839c5b86cdd08d28ef96405e00c2a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_R00_02_APPROVED_140.md": "ebe6a8a45ce3a4796366f7293e34b1d615fdc0fb55c8621236b37ede3e923aac",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_R00_02_B_SUCCESSOR_141.md": "f9c8a2dc73d4bfc8689f8d093c15d2aa569b41224ec102e00861c6c7fadfb760",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_R00_03_APPROVED_144.md": "bcd5a47b34c7260050ae2e2630f06c71c18fd2a5a9f3148c38ed85248e151b37",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/2_prompts/PROMPT_R00_04_APPROVED_146.md": "5aa8e79006529199b0b8f6019d8e72e664dff867493b5edad04fcf5bae8d7bff",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/CHECKPOINT_CONTINUIDAD_R00_134.md": "92c93c0c2c2a86e63ac7535206890689ac3ca900306fe8de52a0e149d9da377f",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/LECTURA_LITERAL_FUENTES_134.md": "ef7d650deab1b4318d7d83563a31343b1c871b757c43504134a9e5f9610ed1e4",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/MATRIZ_R00_COBERTURA_Y_GATES_134.md": "dfba9ecb0082bb6a19e28359fe76e736275a7d902c107a425e57df2e86717f87",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R00/VEREDICTO_M0_R00_152.md": "4641433e14026f130e1f76d6e7bcffd03f5acf9c2f16b0c97002f481274d381e",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_01_HIGIENE_Y_STORY_BRIDGE_SPRINT.md": "9223d3db901b0da14d1b9ef4a2ac99e8213a6d0742e80b791a338d624763144b",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_02_CANDIDATE_LIFECYCLE_SPRINT.md": "580a6d69800799e1b467f4ae6576d4ca54c02b145def63bbaf1a15b52d133bff",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_03_MODEL_ADAPTER_SPRINT.md": "3c001df5fc4172d173400ceccc7ad1fd30c965ea33f5b954351207554d1cba6a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_04_ROUTE_POLICY_SPRINT.md": "2c2aa011a400353966292a2d90d0cff14858a86d6fe58a900c80638cceeff5e7",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_05_PESP_PROFILES_SPRINT.md": "8e79a503070eecb53d40a62a1f1b1bb235d8bddba480dfdd7175c1598164baee",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_06_COVERAGE_GATE_SPRINT.md": "7938f98a147e022d375d032d7fad9afa236a7a9d75a631a2af4afd3fcfbf1ca5",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_07_MARKDOWN_PUBLICATION_SPRINT.md": "b77863cb9820347c3aed49dc56ed755b474a3eb4df7bda748e4857f1a4925718",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_08_FROZEN_SUCCESSOR_SPRINT.md": "6d13016b87af116516a9a5ca13acd6db2c3f2499b00309b28b98eb829f19915f",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_09_EVAL_HARNESS_SPRINT.md": "a7c3526864e44ced607e448c862a46f80fc6de8ad786e420d75f03b85d7584d9",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_10_SETTINGS_BACKEND_SPRINT.md": "76bd1f04093ef2074e70169ac7c7bdbdcfa1b5861e44d6c3af832d14e3e55e67",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_11_SETTINGS_BROWSER_SPRINT.md": "e103c39aaf38cd26621310f790df25d30de33689f73b2c5adcca18ed0c3d5d05",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_12_OBSERVABILITY_ORIGIN_SPRINT.md": "18bb10b5c0f9d3a479d9ba9eba0796eefc2757dac1a90e58b3da30526a14fdd9",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_13_STATUS_PROJECTION_SPRINT.md": "bcdf1dab32bdd710eae5d0bdd8fe1cba4858cebbb9ade04654da71ef52a31f5b",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_14_PROJECT_LAYOUT_SPRINT.md": "c1f354cbcfb44bbbc70455a28eb7383dce60093d77852175e9582386f2011e5d",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/R01_15_M1_MATURITY_GATE_SPRINT.md": "84e5a0537e4fad3c0cf3a782be2092081bd813554151ab6134ac78baf8d21d74",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_01_APPROVED_153.md": "8a3ff64a57f1f249a9712f1ce15d8fb5604a5e5890c0f8c051080dae7427609a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_02_APPROVED_154.md": "a811cd4e6cf01a39ce6574d81dc72eb558a99ac0a4571c4e44fe862d1e510082",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_03_APPROVED_155.md": "54ba879c39f753200675dbcfe64435f3466671fe30014b69a1f3c9e51f9d1e0e",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_04_APPROVED_156.md": "f321cbffab808a65ac03856a882faecae654e9a1999e40fddbe692438edf1665",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_05_APPROVED_157.md": "41ad7892cbdde7a580cca4cc2f998f86abad220c1a42a2b827a63f07f422b6f6",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_06_APPROVED_158.md": "0bd185909a9b7a2d7d1dbbbe968a479c31f5de79fe3ad236ce47752f0032dd2c",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_07_APPROVED_159.md": "0e60c90ef6146de587b313b042d4bda3c55d066a7156dc9eb07f192c2cf17786",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_08_APPROVED_161.md": "14d0b3cb13708c57b3fa09e3144b1ac38234656053c3b29b87ba849ec26e458f",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_09_APPROVED_162.md": "5c612c1fdac5a57cd80dbe5da7b940b0d5d6d5e5fdd66ba349a46d07863f78c6",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_10_APPROVED_163.md": "a5d14edade43a7d5b20460006e1d7ae6b9196f958c467ccf51fa447339398201",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_11_APPROVED_164.md": "7d91de340d565a9279d940d2ad39a6cefa9d8a8690b001fe048aee3778689fc8",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_12_APPROVED_167.md": "f4c18d3921dd37837f2133c4933aaa7f97c4dd0e6c7d765a1577f5d63b9731f4",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_13_APPROVED_168.md": "01270457a78447c68b77b70039dde5782ab95a22950c19086b7526fda00ae3bc",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_14_APPROVED_170.md": "6a0c741f098f3c35bb82a5c6dc8fb91ddb93b8e731b6806ed6180b2301cf20a6",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/02_sprints/SPRINT_R01_15_APPROVED_171.md": "68fd8d818c59b117cedf75107af28a13d345769e07e99dfad87ab24daec46623",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_01_APPROVED_153.md": "7e84d7404debc5e8aa272966ad86b9b299be4ee4210847530d78fc3b4d3a51fb",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_02_APPROVED_154.md": "6b2c8e9cb45626958e186dbd52fc43234f7a08e3069d5282cf588bec685a77e2",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_03_APPROVED_155.md": "e767c79960e9f7de9b8379f3214a09d32ad34a9c3166927c84c7ef1e7af43ab5",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_04_APPROVED_156.md": "4fde2a40bf19a2ae6d3da84a8f0a426f7c4743412125f39479d192505de19d1a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_05_APPROVED_157.md": "2cb83121ce308dde9113995238f64af1ed667f7dd73bb7f1541e37e2e35020c2",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_06_APPROVED_158.md": "45241862c921cda12d2de3de2ded3bc80c4aaf530816e6a4347f1fbefbccb5a0",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_07_APPROVED_159.md": "9143a7b68f7ab4e94669057e3c432b20576145c4647ac5140334cbdddae82b81",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_08_APPROVED_161.md": "792438f6a8803a1e64bb372042933140217b90dd8579351004d4c4488614f201",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_09_APPROVED_162.md": "28896edaa5c7a114d176cfe471831bf1526f46620c27db3da038f16f270dbde3",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_10_APPROVED_163.md": "f458b0c7d96dfb6742facf250615bfaced7bc4787df205ff76c5733288a9f87c",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_11_APPROVED_164.md": "ffa1000f99a10a15028c3b14c9dbb25a2475d9890dbe0aa17f4b56e02bb6d66f",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_12_APPROVED_167.md": "240847e26e9887e7fbc75fa748573acfe08d3d140ef313faf7fdd3af55367183",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_13_APPROVED_168.md": "5b47fb0a91e2db00298498c1d2f2238377dc354550ff79879ea20001f4c67846",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_14_APPROVED_170.md": "969d470299a181cc8bafbedc2f066366a9e9a4945b0abb1af6349b87bece6f84",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/PROMPT_R01_15_APPROVED_171.md": "44fb62360bfa6ee7ac7b8b6b27c2b6648c8dd07e112cb2c693dad058eab37255",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_01_HIGIENE_Y_STORY_BRIDGE_PROMPT.md": "abcec40dfb0fbea1da4ef3953f2c621c22958c7bd8c72783c9321506c81af7c7",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_02_CANDIDATE_LIFECYCLE_PROMPT.md": "edecc4e301f619c84e10720e81c37ef6d31f397ec6d01c0b8b56198488473ec6",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_03_MODEL_ADAPTER_PROMPT.md": "56af780b57c8a9db2c21922a322319fe6e3dbc96fc7f9830f55c0714052575c4",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_04_ROUTE_POLICY_PROMPT.md": "e55781984817e6d204c43f9dd7305e007fa4841250e5269422cb5e1259c505e0",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_05_PESP_PROFILES_PROMPT.md": "945353443196e77fce00c4ff312146506874d15eb110b19929dea5620a9add39",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_06_COVERAGE_GATE_PROMPT.md": "269881c341ba3b4f373b3ab266c7cc44d04b484b67c2f9d06ca170c6765deaf0",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_07_MARKDOWN_PUBLICATION_PROMPT.md": "600440ce406b633cd816955fd895c185cfcfceb71f0dd1e8d754c67eaafb1b71",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_08_FROZEN_SUCCESSOR_PROMPT.md": "553e7dccfa4d845e6e12eb4b0a2b373066310555a202ff4fd730d635158d87c8",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_09_EVAL_HARNESS_PROMPT.md": "6348be77afa5119e32fe09fc84c3f53632a57f2d99109210d1ea3a377c001783",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_10_SETTINGS_BACKEND_PROMPT.md": "eac704a6782fd12749fc0e0cf1683a855813c7208429e9c09aab939887352ca1",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_11_SETTINGS_BROWSER_PROMPT.md": "32e430fe07860dfaf5b13c7f34a2e3a872a267f73aaf028131cf29e4771b248a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_12_OBSERVABILITY_ORIGIN_PROMPT.md": "9447522642c6f0ad62ab21c19cafd89d9f0e2349d81fc6a8d91f549c4c00a4cb",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_13_STATUS_PROJECTION_PROMPT.md": "adee98d6db52c5bbc67b4936862df1f3831d99a271c709a18e0567fc7e337813",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_14_PROJECT_LAYOUT_PROMPT.md": "0f01bbef69083c7e6fb0bd2465cc84667002074256f04f290f51308b4ac8290c",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/03_prompts/R01_15_M1_MATURITY_GATE_PROMPT.md": "4f1571246088eabb058bafc3a7cadba36c92543ea74713702f5dc087487cf519",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/LEEME_152.md": "c3340a722678682cea7ff4b43b6a83b9cf9ee556d825f9b88b5781c6853460f0",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/PLAN_DESAGREGACION_R01_152.md": "dc6fab84f677c4c040d108d2f3b9d3dd25d0bcd7b39616c74d850dc7dd03b92a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R01/R01_CLOSEOUT_172.md": "418aa9a4b0b683cf553d54463ae1371298a23afca3f985b3660f3406609c3751",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_01_AUDIT_AND_DOC_DRIFT_SPRINT.md": "0ee1bd71f81535a7a71217eb517f45422f564630e8f49b360182d43b387dfa6e",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_02_LOCAL_MODEL_READINESS_SPRINT.md": "9fa3bda7e849979e6a51c370c5282e128162b1614a58a97485fcc088a8ea6257",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_03_OLLAMA_REAL_CANDIDATE_SPRINT.md": "0606904b609e2c1d68b244516db7eccbef386ba5bfa24691fe17a4d121107662",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_04_LM_STUDIO_PARITY_SPRINT.md": "65478e4db574d9f2fe8bf9245b9b191dc43d8199bfcfeb955f24feaf077b28b7",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_05_PILOT_B_ENTRY_RESUME_SPRINT.md": "b55cf099da1b27b982fd307b9cb07fe91f8e16aa42c4633eaa2541904d881aa2",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_06_DL_COMPARISON_AND_REVIEW_SPRINT.md": "42c39ae3766f773e3758ae45af9bd1aeb760d9071caefb6a8ce851097c4f7a65",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_07_FROZEN_PRECODE_DOCUMENTS_SPRINT.md": "1d2dd9254ac5bc2138ca7d03fcb5b671d8a95f20d7f8212c2a2749ccf3519835",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_09_LOCAL_FAILURE_RESILIENCE_SPRINT.md": "6f442dd8d5c0a5ae531d487a4f1ea79d08730051045dab9028a86db1a524ca40",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_10_M2_PILOT_B_GATE_SPRINT.md": "1eb6d05c066528fdc659527a2f176bcd5fe4301dca95bdbb6b0336eb16de43ee",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/SPRINT_R02_01_APPROVED_173.md": "007a842e4bd3631e5cef1915ae31ca1767788a9c3ed5c3f651504e662a51a6bb",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/SPRINT_R02_02_APPROVED_175.md": "82642082eb69e6b8bd4dd3a7922ba9fb9e43221318c050cd6472348088ae47d0",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/SPRINT_R02_03_APPROVED_176.md": "8b99a1291d55c89db7fa94505ee7b7686f84851aaf9d88f5e4603f4f33082458",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/SPRINT_R02_04_APPROVED_177.md": "262dc31aec37350eec6dba6ee4e3f818b7b005d33e38e4c15e0e9fc396ccc435",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/SPRINT_R02_05_APPROVED_178.md": "20c1d3d4f2cbf59acb4b32bf199ae35b1af03a20005170260ff4d3f84097e135",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/PROMPT_R02_01_APPROVED_173.md": "bc836b9c5264587bf9bae01bfc8cf4bd52cc77b3d860dfeb8547dc3f9dff56c1",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/PROMPT_R02_02_APPROVED_175.md": "dfd35d66bada92904a5fae946904f0079528c8be12bf6256a221205ba83f788b",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/PROMPT_R02_03_APPROVED_176.md": "0804d3f318769433b559ddd796a9b05457540e3b2659621d2a3ee341b25db5e7",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/PROMPT_R02_04_APPROVED_177.md": "4119bbf24b7234a204c0382f29546bc8786e6c63d200b6c7b8f01995123b0a99",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/PROMPT_R02_05_APPROVED_178.md": "1906e319602dad79c908d137952d8847037badc69167bc12ad625adf33db83d6",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_01_AUDIT_AND_DOC_DRIFT_PROMPT.md": "04a2d7a1b6de274c2a8e8f63c7f0b61b7a6a79242f04ac0abc36a8d0324e817c",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_02_LOCAL_MODEL_READINESS_PROMPT.md": "bf16b3ca4a01a264ab15a2286ddc78185687567f328c374393acbee4b0b7453f",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_03_OLLAMA_REAL_CANDIDATE_PROMPT.md": "8c3b3216fd0b3e282a2a1eb4f710110da1b213890ad77fa8ed1e0bef27384a4a",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_04_LM_STUDIO_PARITY_PROMPT.md": "982beccfe46e903d8412eeaf222a1a633e5bc973d78a3425ac5ad4ff812e17b9",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_05_PILOT_B_ENTRY_RESUME_PROMPT.md": "6c030c45cb99794fbd65ca2cbde5ea7d3bc3c95cb3c553051dced58d0e2bb711",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_06_DL_COMPARISON_AND_REVIEW_PROMPT.md": "bab0f0fe99d57776b9b314e3bd5c0745533cb0aabf352bc01f34c3a5f363ad00",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_07_FROZEN_PRECODE_DOCUMENTS_PROMPT.md": "93ab876e42a558db1767db036b7c5a3e7228fe48bb5a98319f242f618b03dbfa",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_09_LOCAL_FAILURE_RESILIENCE_PROMPT.md": "4fc3a423681b363168f97539b7532201ae80fd3b06f8ba60347b61176baa20df",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_10_M2_PILOT_B_GATE_PROMPT.md": "20952351f0600ed8b03723dc9e08c299bc1e41b4397be44cc98126962e07db2c",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/CHECKPOINT_R02_172.md": "e49652db8db431fb3b526e597cc95ddec5cada02b850aeddd079612c95d19d54",
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/LEEME_R02_172.md": "b3b0e629ebf858e62093ae95371be4a44234bc2141ab3b808076b26b9ceb2b03",
+    "DICTAMEN_UI_FIRST_MP132_179.md": "751d541bc48acd56bc29b21e38d616159340204502eb595be1908cc276bdde7a",
+    "IMPACTO_R00_03_141.md": "444c7d2ddb57d52a5aa8fa9b24b8934f6962407dce3ad57dc6cbec725d1f27a1",
+    "RELACION_AJUSTES_172.md": "e863486593dc6b85142649454e7721295f379a5741267fe8de9659b41a46a3bb",
+    "temporal/GUIA_UNICA_WINDOWS.md": "52a31606790b6d1ac6723113d098c76b5d576660e111f82058d5ddaf2204ee6f"
+  },
+  "modified": {
+    "2_contratos/ARTIFACT_CATALOG_AND_COVERAGE_CONTRACT_132.md": {
+      "before_sha256": "33291c4a2d6e1a4946c95c5e62f206d1fb71d1b32d46d9d4ffbd9f90e80cce78",
+      "after_sha256": "291dff3ac068d0f484725560d8634e065d6ee6e2b22bb887ab006ae422e59612"
+    },
+    "2_contratos/GENERATION_ROUTE_POLICY_CONTRACT_132.md": {
+      "before_sha256": "ef770b59561cba804f8a4ffdf921277ec819bf5d6d17f0d91369a791a943375b",
+      "after_sha256": "fedd6471ff374a89230fcc63b26ceb0330b8047b315bff6750588ba656c912a0"
+    },
+    "2_contratos/MODEL_CAPABILITY_AND_EVAL_CONTRACT_132.md": {
+      "before_sha256": "d5e5211a8b5bc58bcc886f6a812894415395d0f02099b05b9fd6548b1db68245",
+      "after_sha256": "d1133b83217854a8399dee87763273e2bafee1abf23153a3acbb4f82e0e97fe4"
+    },
+    "0_program/00_LEEME_INDICE_Y_ORDEN_132.md": {
+      "before_sha256": "4a5c2e4c6236ab323076260da3f1fdb38ea35c1b3bf38ffcd18e5bc75fd225cf",
+      "after_sha256": "c9f875db0d96445d80d7f5fb2c783206c78b7570280433e15ced9be4b62a35e2"
+    },
+    "0_program/01_PROGRAMA_MAESTRO_132.md": {
+      "before_sha256": "41598a5443619e9836a78f44b4681d0d1d41d9571ad00b11ad8839fa9fc841a4",
+      "after_sha256": "00cae17e126e4ff4c3f7c30be5a767681b6442955a3695b1958b414b7ead3501"
+    },
+    "0_program/02_ROADMAP_INDUSTRIAL_132.md": {
+      "before_sha256": "41a74c3d00af4b3a30f3de78657d3a60b7f02d26fec5412fa7c5b17068c0fd2f",
+      "after_sha256": "99fdc2cfaf1846ba53c9f595050d95e79abdc0d3f36118b5117cd5f0de81d975"
+    },
+    "0_program/04_DECISIONES_PENDIENTES_Y_PREPARACION_132.md": {
+      "before_sha256": "477ecfbccd2333d0e471e709fc4de5e973cf5add231c240162595b692e980236",
+      "after_sha256": "63b85ebb9f2b911d6f5a5da85d8dab33adc233d0b8399321179dbd51c8b91965"
+    },
+    "0_program/05_CONTROL_DE_DECISIONES_DE_REVISION_132.md": {
+      "before_sha256": "433001e85dae554153b980b5283b864c640bfb586a209f3f0c10cf3459bb41d9",
+      "after_sha256": "819a0c6022871f060472b2b173d4e7af4e5681541895a7dd2ddbd0e222ad38e9"
+    },
+    "0_program/06_GUIA_LECTURA_132.md": {
+      "before_sha256": "a1f58cc91311ca2c3dcec3b99e37130b625c12df5733de4d0a5226b75d8a8c71",
+      "after_sha256": "0c5432c3abffe3dcec380a3e8a4dbc11a7eba927569c24be765f54b4ceae9a19"
+    },
+    "2_contratos/PROGRAM_AUTHORITY_AND_DECISION_REGISTER_132.md": {
+      "before_sha256": "7133e7ffcdd9ed7270480a7fe4b3c04994282b09daf97d5b30f06890a652495a",
+      "after_sha256": "23d349e0037fc164f865dbe2a0f5f370ad0713707265adf349fa7dd04e24c49d"
+    },
+    "2_contratos/PROGRAM_DEPENDENCY_REGISTER_132.md": {
+      "before_sha256": "f40efe45bc0a8e4d1d456758178fd6c6a80dff08f491e45edb34b98399827c9b",
+      "after_sha256": "7276776120a9a76594501c6dc3b24f90791b140494013b4a9d2d354fe8fa357c"
+    },
+    "2_contratos/PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132.md": {
+      "before_sha256": "e582a8ee70a68a87bf5cefce06f791939df5e8b1be32995121fad90b4b9e96e5",
+      "after_sha256": "c828ff916b45cda4de689ca48d9445241fe10137f01b9f6002fd3ceaa0462817"
+    },
+    "2_contratos/PROJECT_ENGINEERING_STANDARDS_PROFILE_SCHEMA_132.md": {
+      "before_sha256": "0d71dc92a68af63b46a52fcd8afd664b52b40cd1daaf90221f80fb2d2c50bb35",
+      "after_sha256": "e93b8ebd3355308c7773440fcd38f98d5209a606e79f42481e6952819aa49033"
+    },
+    "2_contratos/DOCUMENT_PUBLICATION_AND_VERSIONING_CONTRACT_132.md": {
+      "before_sha256": "1416678501b081d00505be3df4a3578818d442458ba0a505d057d5f7b5ce10a2",
+      "after_sha256": "17e9b04523943f5911e6f61d79f8d016a6074a23130e6e05444ec15c22809247"
+    },
+    "2_contratos/CHANGE_IMPACT_AND_SUCCESSOR_CONTRACT_132.md": {
+      "before_sha256": "e6073c8ed0f4b2337ff1fd1f47d251144ab1f90cae70d4cbd2bf40f7d2d72932",
+      "after_sha256": "c29d0a6967e59e06cdf68626b76abc767ed099c0a6b7455ca7f3690f33b535d7"
+    },
+    "3_gobernanza/01_MATRIZ_RIESGOS_Y_DECISIONES_132.md": {
+      "before_sha256": "3667dc3d3729ca862653028f271e62999b8d2c3959e7f942bea1b5fe029205e4",
+      "after_sha256": "e2ac65700e31257a22c31cb6e87e6c859dcd9685e54442a866ede16afc614081"
+    },
+    "4_backlogs/00_INDICE_BACKLOGS_Y_PRIORIDADES_132.md": {
+      "before_sha256": "fc67ef6e6459df03de8efbc8fcca40cf9f198e1f15a5506e904424345488dd4d",
+      "after_sha256": "8bf586e6fd2da93133fe5f877344abf2594baa9e28cb3eb76cdd9785b527c485"
+    },
+    "4_backlogs/BACKLOG_R02_132.md": {
+      "before_sha256": "083b4ab1fb2245e45c40adcb03db0dfe4ad67beae0e2048c41d14832b1887e5e",
+      "after_sha256": "d4f5165da7fc804ca30f69b0e445acb86cc6922e99d07594530df0b51cefeb00"
+    },
+    "4_backlogs/BACKLOG_R03_132.md": {
+      "before_sha256": "11de76b62773338a1e9874482abae66ba6ffa28c31f76efc653eb46e8f05c4ce",
+      "after_sha256": "fa0fe9f634acbca3380509742dbd44ff156b7f352c0b58404f41c71a6f681cc7"
+    },
+    "4_backlogs/BACKLOG_R04_132.md": {
+      "before_sha256": "7b0f2bb154df3e73da11395cdf6b9277b854e53e4562c7ce161e3e0d996631f2",
+      "after_sha256": "6cf51fb21a17f63dc79f2f9e6d2dd65c4d697c9590a0896295baac142022dfe0"
+    },
+    "4_backlogs/BACKLOG_R05_132.md": {
+      "before_sha256": "520d8fcfe019399ce78735151f3f07e2871ddf83a3794325de41b249bfce18a7",
+      "after_sha256": "4ab1471d0940797997c278b1c57d3dad80de81f637618c004c756585eaa857a7"
+    },
+    "4_backlogs/BACKLOG_R06_132.md": {
+      "before_sha256": "4033137960ebeee0d19595968ff0cea57084c39d34277aaa05a1fd583c00ed9f",
+      "after_sha256": "d272c3318e7c87992b05ae3bd211d4a0c8f354c3e21be30ec072e6f519cc6bc3"
+    },
+    "4_backlogs/BACKLOG_R07_132.md": {
+      "before_sha256": "1f4900e5a662c63365297472821cc7c1b534dd8bfcc664c21e28375274e6b4ec",
+      "after_sha256": "be52e257904f9313220d08fdb9aa21f37c3e908cc835f3c3a90c9a3832b94bce"
+    },
+    "4_backlogs/BACKLOG_R08_132.md": {
+      "before_sha256": "ca5d17e4595cb033cc3b3545d68083e79cc381275ff2ab8fdc7c315f4f44da2e",
+      "after_sha256": "48ebf838dd0a63dc8acfdeeca10644a0424bd437f808b4803ad7c84c5ddbadb7"
+    },
+    "4_backlogs/BACKLOG_R09_132.md": {
+      "before_sha256": "d3bdef41f25ca32e8e8f82b8731386c85834a3f4461257b9ce0df7ff3cccba38",
+      "after_sha256": "2f80f3c494944cc777273143cd3a63242d9955bc0ddbefd1bd5f0336835d3ee7"
+    },
+    "4_backlogs/BACKLOG_R10_132.md": {
+      "before_sha256": "f1115687328120c96883b9c646ef2e50de0d430e795f52960a0936bb45405f90",
+      "after_sha256": "1b8cc45da106a26eb57d90eca45646e7e89a54e497fd4188e198a2a55e6552d3"
+    },
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/02_sprints/R02_08_PRODUCT_COVERAGE_SEMANTIC_SPRINT.md": {
+      "before_sha256": "1e8e9986db8db0af19b373ca6a2847e33e9bb63d658d452dde4a4c3bbbbd56f4",
+      "after_sha256": "f294ddc45d97dad49bed5ea395ca2c35e5c0f0715692f89b0493f698cf1e9fbb"
+    },
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/03_prompts/R02_08_PRODUCT_COVERAGE_SEMANTIC_PROMPT.md": {
+      "before_sha256": "b790b4f9bddb14e270bc03b646acdd5042bdaeb8d4a85dc091b180a866185541",
+      "after_sha256": "b0a9f97b91a980bc67b253b51425616f4fdcf0227e4ba2d56a5b6b9e3c03da1f"
+    },
+    "2_contratos/SOFTWARE_INCREMENT_AND_DELIVERY_CONTRACT_132.md": {
+      "before_sha256": "679a49efd98c644739fe364d15e618e34926dec723e6e5fec486c5ead2e34821",
+      "after_sha256": "a8e9b4f834f7dcf3340e9d3ef41df6ed3d3cc17efe6c6f4d7c5b22572bf165be"
+    },
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/00_PLAN_R02_172.md": {
+      "before_sha256": "6a561d1b3f819392d693b229fd2b5ce9f59b0b50a7a9d4408323750a843df408",
+      "after_sha256": "470001d55a2c80e97378b0217e842cc82993126e45c3678c445bd78619db431b"
+    },
+    "7_ Execution_packages-sprints_prompts/BACKLOG_R02/01_REGLAS_R02_172.md": {
+      "before_sha256": "9e69e76f5bea4089aab2158f60200d21862e7f48d6cdf4310820bd70bd039a9c",
+      "after_sha256": "70f149a207fe7bc5552df3e912f2d72ae06eea92942d48872dc56a963f95c29d"
+    },
+    "5_pilotos/00_PILOT_B_CHARTER_132.md": {
+      "before_sha256": "6d8a2469bf9490c09276299015bf0b11adffb514e4160e507f813e3e80c23534",
+      "after_sha256": "fa76d1fcbec63997997c6d701d99460b322ae6ac70d4bf871afb5b0dce2af775"
+    }
+  },
+  "added": {
+    "0_program/12_ENMIENDA_188_APROBADA.md": {
+      "after_sha256": "42f6c5b8dc844d18f8ebd25d1aa05f0a76fe7853892cfd16e01219c3a34712f7"
+    },
+    "0_program/13_DECISION_OWNER_188.md": {
+      "after_sha256": "38c09e0a3468cf9314cff2bad21298a87a0bc76a07d5130dc8361e8b6483195b"
+    },
+    "1_arquitectura/ADR_MP132_016_CALIDAD_ARTEFACTOS_188.md": {
+      "after_sha256": "99365d879c65c76c5a63955201d6ebb69accea9f5db3c31fa2cd12174ec5070e"
+    },
+    "2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md": {
+      "after_sha256": "47a459fc20f1c947175b03bba901e5e92191d9648cd65b2c29e2167d56e9c718"
+    }
+  },
+  "additional_added_paths_without_embedded_sha256": [
+    "6_trazabilidad/13_MANIFIESTO_ENMIENDA_188.md",
+    "6_trazabilidad/14_INVENTARIO_ENMIENDA_188.json"
+  ],
+  "additional_digest_policy": "Hashes de este manifiesto y de su inventario verificables por el ZIP externo y su .sha256; se evita dependencia circular."
+}

@@ -1,7 +1,7 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP132-R02-05/PILOT-B-ENTRY-RESUME",
-  "current_phase": "DEVPL-MP-SUCCESSOR-132/R02-PRODUCT-DEFINITION",
+  "current_micro_sprint": "MP132-R03-01/DOC-RECONCILIATION",
+  "current_phase": "DEVPL-MP-SUCCESSOR-132/R03-ARCHITECTURE-RISK-SCAFFOLD",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
     {
@@ -767,6 +767,34 @@
     {
       "classification": "source-of-truth",
       "criticality": "P0",
+      "doc_id": "ADR-DEVPL-MP-POST-SYNC1-130",
+      "domain": "architecture.governance",
+      "lifecycle": "active",
+      "notes": [
+        "Post-G5 metadata successor, not authorization to execute MP-1B or external provider."
+      ],
+      "owner": "DEVPL-MP-POST-G5-130",
+      "path": "docs/02_architecture/adrs/ADR-DEVPL-MP-POST-SYNC1-130.md",
+      "related_adrs": [
+        "docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md"
+      ],
+      "required_tests": [
+        "tests/test_devpl_reb_post_g5_130.py",
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "MP-SUCCESSOR-PENDING"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
       "doc_id": "ADR-DEVPL-REB-117",
       "domain": "program.rebaseline.p0",
       "lifecycle": "active",
@@ -1167,6 +1195,92 @@
         "DEVPL-GSDLC-08-A"
       ],
       "status_required": "accepted",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "ADR-MP132-016-A188",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Approved policy or individually approved R03-01; no authority to execute future sprints or external APIs."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR_MP132_016_CALIDAD_ARTEFACTOS_188.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM_ADR",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "derived_documents": [],
+      "doc_id": "ADR-MP132-R02-06-B0-COMPARISON",
+      "domain": "sdlc.product-definition",
+      "frontmatter_required": true,
+      "lifecycle": "active",
+      "machine_readable_counterparts": [],
+      "notes": [
+        "R02-06 bridge: runtime-only decision; not authority to freeze or publish."
+      ],
+      "owner": "product-owner",
+      "path": "docs/02_architecture/adrs/ADR-MP132-R02-06-b0-comparison.md",
+      "related_adrs": [
+        "docs/02_architecture/adrs/ADR-MP132-R02-06-b0-comparison.md"
+      ],
+      "required_tests": [
+        "tests/test_mp132_r02_06_pilot_b_comparison.py"
+      ],
+      "roadmap_milestones": [
+        "MP132-R02-06"
+      ],
+      "status_required": "accepted-for-local-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "ADR-MP132-R02-07-GUIDED-AUTHORING",
+      "domain": "sdlc.product-definition",
+      "lifecycle": "active",
+      "notes": [
+        "R02-07: LOCAL_MODEL proposal-only; canonical pre-code lifecycle unchanged."
+      ],
+      "owner": "product-owner",
+      "path": "docs/02_architecture/adrs/ADR-MP132-R02-07-guided-authoring.md",
+      "required_tests": [
+        "tests/test_mp132_r02_07_guided_semantic.py"
+      ],
+      "status_required": "accepted-for-windows-candidate",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P1",
+      "doc_id": "ADR-MP132-R02-09-LOCAL-CALL-RECOVERY",
+      "domain": "sdlc.product-definition",
+      "lifecycle": "active",
+      "notes": [
+        "R02-09: pre-call receipts bind local inference to exact input; UNKNOWN is fail-closed, no second authority over FROZEN."
+      ],
+      "owner": "product-owner",
+      "path": "docs/02_architecture/adrs/ADR-MP132-R02-09-local-call-recovery.md",
+      "required_tests": [
+        "tests/test_mp132_r02_09_resilience.py",
+        "tests/test_mp132_r02_09_live_fault.py"
+      ],
+      "status_required": "accepted-for-r02-09-owner-implementation",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -2164,16 +2278,17 @@
       "sync_rules": []
     },
     {
-      "classification": "source-of-truth",
+      "classification": "historical",
       "criticality": "P0",
       "derived_documents": [],
       "doc_id": "DEVPL-FULL-REGRESSION-V2-3",
       "domain": "governance.testing",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "machine_readable_counterparts": [],
       "notes": [
-        "Owner-approved insertion of BR between C and D after C Amdahl NO-GO."
+        "Owner-approved insertion of BR between C and D after C Amdahl NO-GO.",
+        "R03-01: previous approved version retained historically; newer active version is authoritative."
       ],
       "owner": "FRX-v2.3",
       "path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_2_0.md",
@@ -2185,6 +2300,7 @@
         "FRX-v2.3-BR"
       ],
       "status_required": "approved",
+      "successor_path": "docs/backlogs/DEVPL_FULL_REGRESSION_V2_3_SAFE_PARALLELISM_BACKLOG_v1_4_0.md",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -15947,16 +16063,17 @@
       ]
     },
     {
-      "classification": "source-of-truth",
+      "classification": "historical",
       "criticality": "P0",
       "derived_documents": [],
       "doc_id": "DEVPL-GSDLC-10",
       "domain": "gsdlc.integrated-quality",
       "frontmatter_required": true,
-      "lifecycle": "active",
+      "lifecycle": "historical",
       "machine_readable_counterparts": [],
       "notes": [
-        "Current approved/rebound GSDLC-10 backlog authority."
+        "Current approved/rebound GSDLC-10 backlog authority.",
+        "R03-01: previous approved version retained historically; newer active version is authoritative."
       ],
       "owner": "Ordóñez",
       "path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_0_APPROVED_REBOUND_REPO414.md",
@@ -15969,6 +16086,7 @@
         "DEVPL-GSDLC-10-A"
       ],
       "status_required": "approved",
+      "successor_path": "DEVPL-GSDLC-10_integrated_quality_tests_git_and_evidence_v1_4_1_APPROVED_REBOUND_REPO415.md",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -19384,6 +19502,1153 @@
     },
     {
       "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-ADR-MP132-008-S1-141",
+      "domain": "architecture.governance.mp132",
+      "lifecycle": "active",
+      "notes": [
+        "Successor technical interpretation; G-R00-02 MIGRATED_B_PASS; no new authorization to execute R00-03."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/02_architecture/adrs/ADR_MP132_008_S1_141.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_REQUESTED/WINDOWS_ADJUDICATED_R00_02",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-ADR-MP132-008-S2-142",
+      "domain": "architecture.governance.mp132",
+      "lifecycle": "active",
+      "notes": [
+        "Successor technical interpretation; G-R00-02 MIGRATED_B_PASS; no new authorization to execute R00-03."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/02_architecture/adrs/ADR_MP132_008_S2_142.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_REQUESTED/WINDOWS_ADJUDICATED_R00_02",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-ADRS-INSTALLED-AUDIT-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/06_AUDITORIA_ADRS_INSTALADOS_Y_PREEXISTENTES_133.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "AUDITED_FOR_OWNER_ARCHITECTURE_ACCEPTANCE",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-ADRS-OWNER-ACCEPTANCE-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/10_DECISION_OWNER_ADRS_133.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-APPROVED-MANIFEST-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/04_MANIFIESTO_INTEGRIDAD_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM_INTEGRITY_MANIFEST",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-AUTHORITY-TRANSITION-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/07_TRANSICION_AUTORIDAD_Y_ESTADO_RUNTIME_133.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_DECISION_EFFECTIVE_REPO_REBIND_PENDING",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-G5-COR130-STOP-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/08_DECISION_OWNER_G5_COR130_STOP_133.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_RATIFIED_GLOBAL_STOP_LIFTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-GIT-B-CONDITIONAL-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/09_DECISION_OWNER_GIT_B_CONDICIONAL_133.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED_CONDITIONAL_PREFLIGHT",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-132-OWNER-APPROVAL-133",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/07_DECISION_OWNER_PROGRAMA_133.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-OWNER-REBIND-130",
+      "domain": "program.rebaseline.post_g5",
+      "lifecycle": "active",
+      "notes": [
+        "Post-G5 metadata successor, not authorization to execute MP-1B or external provider."
+      ],
+      "owner": "DEVPL-MP-POST-G5-130",
+      "path": "docs/program_rebaseline_117/DECISION_OWNER_REBIND_130.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_reb_post_g5_130.py",
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "MP-SUCCESSOR-PENDING"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_AUDIT_FIRST_REUSE_FIRST_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/00_AUDIT_FIRST_REUSE_FIRST_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_FUENTES_VERIFICADAS_Y_METODO_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/00_FUENTES_VERIFICADAS_Y_METODO_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_INDICE_BACKLOGS_Y_PRIORIDADES_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/00_INDICE_BACKLOGS_Y_PRIORIDADES_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_LEEME_INDICE_Y_ORDEN_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/00_LEEME_INDICE_Y_ORDEN_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_PILOT_B_CHARTER_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/5_pilotos/00_PILOT_B_CHARTER_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_MAPA_CONSERVACION_Y_SUPERSESSION_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/01_MAPA_CONSERVACION_Y_SUPERSESSION_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_MATRIZ_RIESGOS_Y_DECISIONES_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/01_MATRIZ_RIESGOS_Y_DECISIONES_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_PILOT_C_EXTERNAL_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/5_pilotos/01_PILOT_C_EXTERNAL_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_PROGRAMA_MAESTRO_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/01_PROGRAMA_MAESTRO_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-02_CIERRE_COR130_Y_LIMITES_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/02_CIERRE_COR130_Y_LIMITES_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-02_ESTRATEGIA_GIT_WORKTREE_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/02_ESTRATEGIA_GIT_WORKTREE_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-02_ROADMAP_INDUSTRIAL_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/02_ROADMAP_INDUSTRIAL_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-03_ANCLAS_CODIGO_Y_ESTANDARES_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/03_ANCLAS_CODIGO_Y_ESTANDARES_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-03_LEDGER_UX_Y_POLITICA_DE_ABSORCION_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/03_LEDGER_UX_Y_POLITICA_DE_ABSORCION_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-03_SUPERSESSION_AUTORIDAD_Y_GATES_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/03_SUPERSESSION_AUTORIDAD_Y_GATES_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-04_DECISIONES_PENDIENTES_Y_PREPARACION_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/04_DECISIONES_PENDIENTES_Y_PREPARACION_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-05_CONTROL_DE_DECISIONES_DE_REVISION_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/05_CONTROL_DE_DECISIONES_DE_REVISION_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-06_GUIA_LECTURA_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/06_GUIA_LECTURA_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-001",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-001.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-002",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-002.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-003",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-003.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-004",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-004.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-005",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-005.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-006",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-006.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-007",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-007.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-008",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-008.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-009",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-009.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-010",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-010.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-011",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-011.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_ACCEPTED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-ARTIFACT_CATALOG_AND_COVERAGE_CONTRACT_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/ARTIFACT_CATALOG_AND_COVERAGE_CONTRACT_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R00_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R00_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R01_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R01_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R02_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R02_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R03_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R03_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R04_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R04_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R05_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R05_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R06_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R06_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R07_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R07_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R08_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R08_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R09_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R09_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R10_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R10_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-CHANGE_IMPACT_AND_SUCCESSOR_CONTRACT_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/CHANGE_IMPACT_AND_SUCCESSOR_CONTRACT_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-CONFIGURATION_AUTHORITY_MATRIX_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/CONFIGURATION_AUTHORITY_MATRIX_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-DOCUMENT_PUBLICATION_AND_VERSIONING_CONTRACT_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/DOCUMENT_PUBLICATION_AND_VERSIONING_CONTRACT_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-GENERATION_ROUTE_POLICY_CONTRACT_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/GENERATION_ROUTE_POLICY_CONTRACT_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-MODEL_CAPABILITY_AND_EVAL_CONTRACT_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/MODEL_CAPABILITY_AND_EVAL_CONTRACT_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROGRAM_AUTHORITY_AND_DECISION_REGISTER_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROGRAM_AUTHORITY_AND_DECISION_REGISTER_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROGRAM_DEPENDENCY_REGISTER_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROGRAM_DEPENDENCY_REGISTER_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROJECT_ENGINEERING_STANDARDS_PROFILE_SCHEMA_132",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "OWNER-133 program approval governs planning only; individual execution remains gated."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROJECT_ENGINEERING_STANDARDS_PROFILE_SCHEMA_132.md",
+      "required_tests": [
+        "tests/test_mp132_r00_03_authority.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
       "criticality": "P1",
       "doc_id": "DEVPL-OPS-002",
       "domain": "operations",
@@ -20494,6 +21759,32 @@
       "roadmap_milestones": [
         "DEVPL-REB-117",
         "P0"
+      ],
+      "status_required": "approved/execution-gated",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "DEVPL-REB-POST-G5-130",
+      "domain": "program.rebaseline.post_g5",
+      "lifecycle": "active",
+      "notes": [
+        "Post-G5 metadata successor, not authorization to execute MP-1B or external provider."
+      ],
+      "owner": "DEVPL-MP-POST-G5-130",
+      "path": "docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md",
+      "related_adrs": [],
+      "required_tests": [
+        "tests/test_devpl_reb_post_g5_130.py",
+        "tests/test_devpl_reb_p0_authority.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "roadmap_milestones": [
+        "DEVPL-REB-117",
+        "MP-SUCCESSOR-PENDING"
       ],
       "status_required": "approved/execution-gated",
       "sync_rules": [
@@ -23658,6 +24949,120 @@
         "MP-0F"
       ],
       "status_required": "implemented/windows-validated/closure-ready",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-A188-APPROVED",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Approved policy or individually approved R03-01; no authority to execute future sprints or external APIs."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/12_ENMIENDA_188_APROBADA.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM_AMENDMENT",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-ARTIFACT-AUTHORING-QUALITY-188",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Approved policy or individually approved R03-01; no authority to execute future sprints or external APIs."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM_CONTRACT",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-OWNER-DECISION-188",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Approved policy or individually approved R03-01; no authority to execute future sprints or external APIs."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/13_DECISION_OWNER_188.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "OWNER_APPROVED_PROGRAM_ONLY",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-R03-01-OWNER-APPROVAL-BINDING",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Only R03-01 individually authorized; not yet Windows validated"
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/16_R03_01_APPROVAL_BINDING.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "OWNER_APPROVED_SPRINT_ONLY_WINDOWS_PENDING",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-R03_01_DOC_RECONCILIATION-PROMPT",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Approved policy or individually approved R03-01; no authority to execute future sprints or external APIs."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_01_DOC_RECONCILIATION_PROMPT.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "OWNER_APPROVED",
+      "sync_rules": [
+        "test_must_pass"
+      ]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-R03_01_DOC_RECONCILIATION-SPRINT",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "notes": [
+        "Approved policy or individually approved R03-01; no authority to execute future sprints or external APIs."
+      ],
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_01_DOC_RECONCILIATION_SPRINT.md",
+      "required_tests": [
+        "tests/test_mp132_r03_01_doc_reconciliation.py"
+      ],
+      "status_required": "SPRINT_EXECUTION_APPROVED",
       "sync_rules": [
         "test_must_pass"
       ]
@@ -39872,1274 +41277,6 @@
       "sync_rules": [
         "test_must_pass"
       ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-REB-POST-G5-130",
-      "domain": "program.rebaseline.post_g5",
-      "lifecycle": "active",
-      "notes": [
-        "Post-G5 metadata successor, not authorization to execute MP-1B or external provider."
-      ],
-      "owner": "DEVPL-MP-POST-G5-130",
-      "path": "docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_reb_post_g5_130.py",
-        "tests/test_devpl_reb_p0_authority.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-REB-117",
-        "MP-SUCCESSOR-PENDING"
-      ],
-      "status_required": "approved/execution-gated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-OWNER-REBIND-130",
-      "domain": "program.rebaseline.post_g5",
-      "lifecycle": "active",
-      "notes": [
-        "Post-G5 metadata successor, not authorization to execute MP-1B or external provider."
-      ],
-      "owner": "DEVPL-MP-POST-G5-130",
-      "path": "docs/program_rebaseline_117/DECISION_OWNER_REBIND_130.md",
-      "related_adrs": [],
-      "required_tests": [
-        "tests/test_devpl_reb_post_g5_130.py",
-        "tests/test_devpl_reb_p0_authority.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-REB-117",
-        "MP-SUCCESSOR-PENDING"
-      ],
-      "status_required": "approved/execution-gated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "ADR-DEVPL-MP-POST-SYNC1-130",
-      "domain": "architecture.governance",
-      "lifecycle": "active",
-      "notes": [
-        "Post-G5 metadata successor, not authorization to execute MP-1B or external provider."
-      ],
-      "owner": "DEVPL-MP-POST-G5-130",
-      "path": "docs/02_architecture/adrs/ADR-DEVPL-MP-POST-SYNC1-130.md",
-      "related_adrs": [
-        "docs/program_rebaseline_117/POST_G5_AUTHORITY_REBIND_130.md"
-      ],
-      "required_tests": [
-        "tests/test_devpl_reb_post_g5_130.py",
-        "tests/test_devpl_reb_p0_authority.py",
-        "tests/test_documentation_source_registry_schema.py"
-      ],
-      "roadmap_milestones": [
-        "DEVPL-REB-117",
-        "MP-SUCCESSOR-PENDING"
-      ],
-      "status_required": "approved/execution-gated",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_LEEME_INDICE_Y_ORDEN_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/00_LEEME_INDICE_Y_ORDEN_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_PROGRAMA_MAESTRO_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/01_PROGRAMA_MAESTRO_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-02_ROADMAP_INDUSTRIAL_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/02_ROADMAP_INDUSTRIAL_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-03_SUPERSESSION_AUTORIDAD_Y_GATES_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/03_SUPERSESSION_AUTORIDAD_Y_GATES_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-04_DECISIONES_PENDIENTES_Y_PREPARACION_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/04_DECISIONES_PENDIENTES_Y_PREPARACION_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-05_CONTROL_DE_DECISIONES_DE_REVISION_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/05_CONTROL_DE_DECISIONES_DE_REVISION_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-06_GUIA_LECTURA_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/06_GUIA_LECTURA_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-OWNER-APPROVAL-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/07_DECISION_OWNER_PROGRAMA_133.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-G5-COR130-STOP-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/08_DECISION_OWNER_G5_COR130_STOP_133.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_RATIFIED_GLOBAL_STOP_LIFTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-GIT-B-CONDITIONAL-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/09_DECISION_OWNER_GIT_B_CONDICIONAL_133.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED_CONDITIONAL_PREFLIGHT",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-ADRS-OWNER-ACCEPTANCE-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/0_program/10_DECISION_OWNER_ADRS_133.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-001",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-001.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-002",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-002.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-003",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-003.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-004",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-004.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-005",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-005.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-006",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-006.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-007",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-007.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-008",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-008.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-009",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-009.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-010",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-010.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ADR-MP-132-011",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/1_arquitectura/ADR-MP-132-011.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_ACCEPTED",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-ARTIFACT_CATALOG_AND_COVERAGE_CONTRACT_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/ARTIFACT_CATALOG_AND_COVERAGE_CONTRACT_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-CHANGE_IMPACT_AND_SUCCESSOR_CONTRACT_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/CHANGE_IMPACT_AND_SUCCESSOR_CONTRACT_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-CONFIGURATION_AUTHORITY_MATRIX_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/CONFIGURATION_AUTHORITY_MATRIX_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-DOCUMENT_PUBLICATION_AND_VERSIONING_CONTRACT_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/DOCUMENT_PUBLICATION_AND_VERSIONING_CONTRACT_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-GENERATION_ROUTE_POLICY_CONTRACT_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/GENERATION_ROUTE_POLICY_CONTRACT_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-MODEL_CAPABILITY_AND_EVAL_CONTRACT_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/MODEL_CAPABILITY_AND_EVAL_CONTRACT_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROGRAM_ACCEPTANCE_AND_MATURITY_MATRIX_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROGRAM_AUTHORITY_AND_DECISION_REGISTER_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROGRAM_AUTHORITY_AND_DECISION_REGISTER_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROGRAM_DEPENDENCY_REGISTER_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROGRAM_DEPENDENCY_REGISTER_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-PROJECT_ENGINEERING_STANDARDS_PROFILE_SCHEMA_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/2_contratos/PROJECT_ENGINEERING_STANDARDS_PROFILE_SCHEMA_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_AUDIT_FIRST_REUSE_FIRST_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/00_AUDIT_FIRST_REUSE_FIRST_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_MATRIZ_RIESGOS_Y_DECISIONES_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/01_MATRIZ_RIESGOS_Y_DECISIONES_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-02_ESTRATEGIA_GIT_WORKTREE_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/02_ESTRATEGIA_GIT_WORKTREE_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-03_LEDGER_UX_Y_POLITICA_DE_ABSORCION_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/3_gobernanza/03_LEDGER_UX_Y_POLITICA_DE_ABSORCION_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_INDICE_BACKLOGS_Y_PRIORIDADES_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/00_INDICE_BACKLOGS_Y_PRIORIDADES_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R00_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R00_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R01_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R01_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R02_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R02_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R03_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R03_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R04_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R04_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R05_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R05_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R06_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R06_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R07_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R07_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R08_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R08_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R09_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R09_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-BACKLOG_R10_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/4_backlogs/BACKLOG_R10_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_PILOT_B_CHARTER_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/5_pilotos/00_PILOT_B_CHARTER_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_PILOT_C_EXTERNAL_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/5_pilotos/01_PILOT_C_EXTERNAL_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-00_FUENTES_VERIFICADAS_Y_METODO_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/00_FUENTES_VERIFICADAS_Y_METODO_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-01_MAPA_CONSERVACION_Y_SUPERSESSION_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/01_MAPA_CONSERVACION_Y_SUPERSESSION_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-02_CIERRE_COR130_Y_LIMITES_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/02_CIERRE_COR130_Y_LIMITES_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-SUCCESSOR-132-03_ANCLAS_CODIGO_Y_ESTANDARES_132",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/03_ANCLAS_CODIGO_Y_ESTANDARES_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-APPROVED-MANIFEST-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/04_MANIFIESTO_INTEGRIDAD_132.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_APPROVED_PROGRAM_INTEGRITY_MANIFEST",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-ADRS-INSTALLED-AUDIT-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/06_AUDITORIA_ADRS_INSTALADOS_Y_PREEXISTENTES_133.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "AUDITED_FOR_OWNER_ARCHITECTURE_ACCEPTANCE",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-AUTHORITY-TRANSITION-133",
-      "domain": "governance.mp132.program",
-      "lifecycle": "active",
-      "notes": [
-        "OWNER-133 program approval governs planning only; individual execution remains gated."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/6_trazabilidad/07_TRANSICION_AUTORIDAD_Y_ESTADO_RUNTIME_133.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_DECISION_EFFECTIVE_REPO_REBIND_PENDING",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-ADR-MP132-008-S1-141",
-      "domain": "architecture.governance.mp132",
-      "lifecycle": "active",
-      "notes": [
-        "Successor technical interpretation; G-R00-02 MIGRATED_B_PASS; no new authorization to execute R00-03."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/02_architecture/adrs/ADR_MP132_008_S1_141.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_REQUESTED/WINDOWS_ADJUDICATED_R00_02",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P0",
-      "doc_id": "DEVPL-MP-132-ADR-MP132-008-S2-142",
-      "domain": "architecture.governance.mp132",
-      "lifecycle": "active",
-      "notes": [
-        "Successor technical interpretation; G-R00-02 MIGRATED_B_PASS; no new authorization to execute R00-03."
-      ],
-      "owner": "Owner DevPilot",
-      "path": "docs/02_architecture/adrs/ADR_MP132_008_S2_142.md",
-      "required_tests": [
-        "tests/test_mp132_r00_03_authority.py"
-      ],
-      "status_required": "OWNER_REQUESTED/WINDOWS_ADJUDICATED_R00_02",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P1",
-      "derived_documents": [],
-      "doc_id": "ADR-MP132-R02-06-B0-COMPARISON",
-      "domain": "sdlc.product-definition",
-      "frontmatter_required": true,
-      "lifecycle": "active",
-      "machine_readable_counterparts": [],
-      "notes": [
-        "R02-06 bridge: runtime-only decision; not authority to freeze or publish."
-      ],
-      "owner": "product-owner",
-      "path": "docs/02_architecture/adrs/ADR-MP132-R02-06-b0-comparison.md",
-      "related_adrs": [
-        "docs/02_architecture/adrs/ADR-MP132-R02-06-b0-comparison.md"
-      ],
-      "required_tests": [
-        "tests/test_mp132_r02_06_pilot_b_comparison.py"
-      ],
-      "roadmap_milestones": [
-        "MP132-R02-06"
-      ],
-      "status_required": "accepted-for-local-candidate",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P1",
-      "doc_id": "ADR-MP132-R02-07-GUIDED-AUTHORING",
-      "domain": "sdlc.product-definition",
-      "lifecycle": "active",
-      "notes": [
-        "R02-07: LOCAL_MODEL proposal-only; canonical pre-code lifecycle unchanged."
-      ],
-      "owner": "product-owner",
-      "path": "docs/02_architecture/adrs/ADR-MP132-R02-07-guided-authoring.md",
-      "required_tests": [
-        "tests/test_mp132_r02_07_guided_semantic.py"
-      ],
-      "status_required": "accepted-for-windows-candidate",
-      "sync_rules": [
-        "test_must_pass"
-      ]
-    },
-    {
-      "classification": "source-of-truth",
-      "criticality": "P1",
-      "doc_id": "ADR-MP132-R02-09-LOCAL-CALL-RECOVERY",
-      "domain": "sdlc.product-definition",
-      "lifecycle": "active",
-      "notes": [
-        "R02-09: pre-call receipts bind local inference to exact input; UNKNOWN is fail-closed, no second authority over FROZEN."
-      ],
-      "owner": "product-owner",
-      "path": "docs/02_architecture/adrs/ADR-MP132-R02-09-local-call-recovery.md",
-      "required_tests": [
-        "tests/test_mp132_r02_09_resilience.py",
-        "tests/test_mp132_r02_09_live_fault.py"
-      ],
-      "status_required": "accepted-for-r02-09-owner-implementation",
-      "sync_rules": [
-        "test_must_pass"
-      ]
     }
   ],
   "frx_v2_2_d_status": "CLOSED/PASS",
@@ -41634,7 +41771,7 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
-  "next_micro_sprint": "R02_06_NOT_AUTHORIZED",
+  "next_micro_sprint": "R03_02_NOT_AUTHORIZED",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -44191,22 +44328,22 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1659,
+    "critical_sources_total": 1666,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1755,
-    "documents_with_required_tests_total": 1755,
+    "documents_total": 1762,
+    "documents_with_required_tests_total": 1762,
     "external_api_used": false,
     "generated_runtime_total": 0,
-    "historical_total": 36,
-    "last_updated_by": "MP132-R02-09-LOCAL-FAILURE-RESILIENCE",
+    "historical_total": 38,
+    "last_updated_by": "MP132-R03-01-DOC-RECONCILIATION-CANDIDATE",
     "machine_readable_source_total": 829,
     "markdown_json_pairs_total": 80,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 706
+    "source_of_truth_total": 711
   },
-  "updated": "2026-10-14",
+  "updated": "2026-10-23",
   "updated_at": "2026-10-08",
   "updated_by": "MP132-R02-06-LOCAL-CANDIDATE",
   "ux_p0_a_full_regression_runs": 0,

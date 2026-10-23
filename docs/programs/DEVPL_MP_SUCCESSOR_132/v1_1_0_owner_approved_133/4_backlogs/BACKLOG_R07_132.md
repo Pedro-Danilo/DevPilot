@@ -12,6 +12,10 @@ approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
+planning_amendment_id: "MP132-AMENDMENT-POST-R02-06-187"
+planning_amendment_date: "2026-10-17"
+planning_amendment_baseline: "b666c5641c1b8231c5b609216f64490a72ff1763"
+planning_amendment_execution_authority: false
 ---
 
 # Backlog R7 — Agentes/handoffs delimitados
@@ -51,3 +55,17 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Aclaración de autoridad Owner-133
 
 Este backlog está **aprobado para priorización y planificación**. Sus ítems aún no equivalen a tareas ejecutables o aceptadas. La auditoría focal y una orden de alcance específica determinan `READY_AFTER_AUDIT` y `AUTHORIZED`. Los ítems R0 de ratificación se consideran satisfechos **documentalmente** por Owner-133, pero la publicación operativa de autoridad todavía debe verificarse en Windows.
+
+---
+
+## Enmienda programática post-R02-06 · 187
+
+MIASI debe aplicarse a componentes inteligentes **del producto** (Agent/Tool/Memory/Autonomy), con Agent/Tool/Eval Cards y políticas por riesgo; la presencia de LLM en el flujo de autoría de DevPilot no hace obligatorio MIASI para módulos convencionales. Handoffs y reviews read-only se integran como sugerencias semánticas sin permisos automáticos; el incremento agentic de Pilot B exige pruebas adversariales y aceptación del resultado funcional integrado, sin mutaciones de stock/precio/publicidad sin autorización.
+
+---
+
+## Enmienda 188 — criterios prospectivos R07
+
+**Enmienda 188 Owner-approved (2026-10-22)**. Autoridad `MP132-OWNER-DECISION-188`; contrato `2_contratos/ARTIFACT_AUTHORING_QUALITY_CONTRACT_188.md` y ADR-MP132-016. Complementa 187/ADR-013; se aplica prospectivamente por olas, sin alterar recibos históricos, ni autorizar ejecución de un sprint o proveedor E.
+
+**Owner de esta ola:** Agentes aplican crítica/repair y acciones delimitadas, con permisos, dry-run, budget e intervención Owner solo en actos sensibles. No reintroducir agentes como publishers ni autorizar escritura no gobernada.

@@ -1,9 +1,10 @@
 ---
 doc_id: DEVPL-MP-SUCCESSOR-132-01_MATRIZ_RIESGOS_Y_DECISIONES_132
 title: "Matriz de riesgos 132 y decisiones de mitigación"
-version: "1.1.0"
-status: "OWNER_APPROVED_PROGRAM"
-baseline_commit: "8db5b44694abcced3231183e05731e732f5b8f24"
+version: "1.1.1-r00-succ"
+status: "SUCCESSOR_DRAFT_FOR_OWNER_REVIEW"
+baseline_commit: "66ab2e6227072c951b5bd2ac9160e8515b1b9fc0"
+historical_baseline_commit: "8db5b44694abcced3231183e05731e732f5b8f24"
 owner: "Owner DevPilot"
 supersedes_program: "DEVPL_MP_SUCCESSOR_131 v1.0.0"
 execution_authority: false
@@ -11,6 +12,7 @@ approval_revision: 1
 approval_date: "2026-10-13"
 approved_by: "Owner Ordóñez (instrucción explícita en conversación)"
 approval_scope: "PROGRAMMATIC_PLANNING_ONLY"
+successor_execution_authority: false
 owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ---
 
@@ -49,3 +51,21 @@ owner_decision_ref: "DEVPL-MP-132-OWNER-APPROVAL-133"
 ## Distinción de evidencias
 
 `OPEN` de riesgo no equivale a bug reproducido hoy. El ledger v1.32 contiene estados históricos, algunos ya resueltos; antes de source correction se revisa HEAD vivo y se registra ID. Riesgos programáticos de datos/seguridad se mantienen priorizados aunque no exista todavía exploit demostrado. El Owner decide de manera independiente cualquier aceptación de riesgo residual.
+
+
+---
+
+## Addendum operacional M0→R1 — sucesor de planificación (14-10-2026)
+
+- **Asunto:** Riesgos.
+- **Actualización concreta:** Carry-forward Settings UI NOT_TESTED, persistencia ausente; drift histórico vs vigente, mediciones R0-09 transferidas R2.
+- **Evidencia vinculada:** COR-143 (migración B), R00-03/COR-145 (publicación 57 documentos), R00-04/COR-147 (auditoría Settings), COR-150 (paridad 1752), COR-151 (cierre Owner M0).
+- **HEAD de autoridad técnica:** `66ab2e6227072c951b5bd2ac9160e8515b1b9fc0`. Las referencias a `8db5b44694abcced3231183e05731e732f5b8f24` y los indicadores `STOP ACTIVE` en secciones históricas no se reescriben como si fueran estados presentes.
+- **Autoridad:** copia sucesora propuesta para adopción documental posterior; no constituye un commit, promoción Git, autorización de R1, de MP-1B, de modelo/API externa ni una aceptación funcional de Settings.
+- **Transferencias vigentes:** `MP132-R0-09` → R2 para mediciones reales; UX Settings pendiente de reproducción y validación; egress externo DENY; no duplicar ownership entre olas.
+
+---
+
+## Riesgos comprobados R02-07 y respuesta A188
+
+Riesgos sucesores: `RISK-A188-01` salida JSON válida pero semántica errónea (falso PASS), `RISK-A188-02` falso BLOCK por forma inocua del documento, `RISK-A188-03` hardcode de Pilot B en autoría, `RISK-A188-04` bucles locales costosos y escalada E no autorizada, `RISK-A188-05` deriva entre artefactos FROZEN y descendientes. Mitigación: perfil por tipo, fuente y reglas verificables, severidad proporcional, límites por intento, prueba de segundo dominio, change impact y autorización E explícita. Propietario de ejecución por ola; no crear nueva autoridad de Quality Gate.
