@@ -23,7 +23,7 @@ def test_original_history_and_current_counts_remain_exact() -> None:
     assert len(historical["rows"]) == 57
     assert historical["provenance"]["source_archive_sha256"] == SOURCE_ARCHIVE_SHA
     assert len(current["documents"]) == current["summary"]["documents_total"] >= 1762
-    assert current["current_micro_sprint"] == "MP132-R03-02/TECH-CONTEXT-PROFILE"
+    assert current["current_micro_sprint"] == "MP132-R03-03/ARCHITECTURE-AUTHORING"
     assert historical["registry"]["current_micro_sprint"] == "MP132-R00-03/AUTHORITY-PUBLICATION"
 
 

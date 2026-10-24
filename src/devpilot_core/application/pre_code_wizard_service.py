@@ -31,6 +31,7 @@ from .workspace_edit_execution_service import WorkspaceEditExecutionApplicationS
 from .pre_code_technical_design import C02_STAGES, C02_MODEL, C02_SCHEMA, derive_technical_stage, validate_technical_artifact
 from .pre_code_adr_bundle_service import ArchitectureAdrBundleService
 from .r02_07_semantic import generate_local_guided, quality_findings, persist_owner_revision
+from .r03_03_architecture import generate_local_architecture, persist_architecture_revision, architecture_quality
 from .pre_code_semantic_model import (
     build_candidate_model,
     normalize_owner_model,
@@ -73,6 +74,27 @@ def _canonical_text(text: str) -> str:
 
 def _sha_text(text: str) -> str:
     return _sha_bytes(_canonical_text(text).encode('utf-8'))
+
+
+def _architecture_draft_quality(content: str, upstream: dict[str, str], required_headings: tuple[str, ...]) -> dict[str, Any]:
+    """Advisory receipt for the *current* DRAFT, including the review profile.
+
+    The ten model generation units are historical provenance, not the exact
+    set of mandatory headings for the downstream ArtifactReview gate.
+    """
+    report = architecture_quality(content, upstream)
+    headings = [normalize_heading(m.group(1)) for m in re.finditer(
+        r'^##\s+(.+?)\s*$', _canonical_text(content), re.M)]
+    missing = [item for item in required_headings
+               if not any(normalize_heading(item) in name for name in headings)]
+    for item in missing:
+        report['checks'].append({'rule_id': 'ARTIFACT_PROFILE_REQUIRED_SECTION',
+                                 'status': 'BLOCK',
+                                 'message': f'Falta sección exigida por ArtifactReview: {item}.'})
+    if missing:
+        report['disposition'] = 'BLOCK'
+    report['content_sha256'] = _sha_text(content)
+    return report
 
 
 class PreCodeWizardApplicationService:
@@ -122,7 +144,7 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC13C01_STRUCTURE_SCOPE_BLOCK','Active workspace scope is required to reconcile governed document namespaces.',metadata={'workspace_id':workspace_id})
         return self._reconcile_governed_parents(workspace_id=workspace_id,workspace_root=workspace_root)
 
-    def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], semantic_model: dict[str, Any] | None = None, model: str = "") -> CommandResult:
+    def save_draft(self, *, stage_id: str, content: str, mode: str, actor: str, actor_role: str, session_principal: str, effective_roles: list[str], workspace_scopes: list[str], semantic_model: dict[str, Any] | None = None, model: str = "", regenerate: bool = False) -> CommandResult:
         command='guided pre-code save draft'
         context=self._context()
         if isinstance(context,CommandResult): return context
@@ -136,6 +158,8 @@ class PreCodeWizardApplicationService:
             return self._block(command,'GSDLC05E_MODE_POLICY_BLOCK','Selected authoring mode is not allowed for the current stage.',metadata={'stage_id':stage_id,'mode':normalized_mode})
         if normalized_mode not in {'MANUAL','IMPORT','DEVPL_MOCK','LOCAL_MODEL'}:
             return self._block(command,'GSDLC05E_MODE_BLOCK','Only governed MANUAL/IMPORT/DEVPL_MOCK/LOCAL_MODEL modes are available.')
+        if regenerate and (normalized_mode!='LOCAL_MODEL' or stage_id!='architecture' or content.strip()):
+            return self._block(command,'R0303_REGENERATION_SCOPE_DENY','Regeneración segmentada explícita solo para Architecture local sin contenido enviado.')
         state=self._load_state(workspace_id)
         adr_gate=self._adr_companion_gate(state=state,workspace_root=workspace_root,requested_stage_id=stage_id)
         if adr_gate is not None:return adr_gate
@@ -181,44 +205,86 @@ class PreCodeWizardApplicationService:
         elif normalized_mode=='LOCAL_MODEL':
             if workspace_id not in set(workspace_scopes):
                 return self._block(command,'R0207_WORKSPACE_SCOPE_DENY','Owner workspace scope required for local authoring.')
-            if stage_id not in {'product-vision','scope','requirements'}:
-                return self._block(command,'R0207_STAGE_DENY','Local model authoring is restricted to Product Definition.')
+            if stage_id not in {'product-vision','scope','requirements','architecture'}:
+                return self._block(command,'R0303_STAGE_DENY','Local model authoring is not enabled for this stage.')
             if row.get('status') in {'DRAFT','FINDINGS','APPROVAL_REQUIRED'} and content.strip() and str(row.get('mode'))=='LOCAL_MODEL':
                 derivation=deepcopy(row.get('derivation') or {})
                 derivation['owner_edited']=True
                 derivation['owner_edited_content_sha256']=_sha_text(content)
                 try:
-                    derivation['owner_revision']=persist_owner_revision(self.root,workspace_id=workspace_id,stage_id=stage_id,generation=derivation,content=content)
+                    if stage_id=='architecture':
+                        derivation['owner_revision']=persist_architecture_revision(self.root,workspace_id=workspace_id,provenance=derivation,content=content)
+                    else:
+                        derivation['owner_revision']=persist_owner_revision(self.root,workspace_id=workspace_id,stage_id=stage_id,generation=derivation,content=content)
                 except ValueError as exc:
                     return self._block(command,str(exc),'No se pudo conservar revisión Markdown inmutable.')
             elif row.get('status') in {'MISSING','DRAFT','FINDINGS'} and not content.strip():
+                if stage_id=='architecture':
+                    if row.get('status')!='MISSING':
+                        if (not regenerate or row.get('status')!='DRAFT' or row.get('mode')!='LOCAL_MODEL'
+                                or row.get('plan_id') or row.get('approval_id') or not str(row.get('content') or '').strip()):
+                            return self._block(command,'R0303_ALTERNATIVE_POLICY_DENY','Solo se puede crear una alternativa explícita del DRAFT local no aprobado de Architecture; conserva la versión anterior.')
+                    elif regenerate:
+                        return self._block(command,'R0303_REGENERATION_MISSING_DENY','Una nueva generación inicial no es una regeneración.')
+                    verified=[]; trusted_upstream={}
+                    for source_id in ('product-vision','scope','requirements'):
+                        source_row=self._stage_state(state,source_id)
+                        source_path=workspace_root/str(self._stage_by_id[source_id]['relative_path'])
+                        if source_row.get('status')!='FROZEN' or not source_path.is_file() or source_path.is_symlink():
+                            return self._block(command,'R0303_UPSTREAM_NOT_FROZEN','Faltan artefactos upstream FROZEN verificados.')
+                        source_bytes=source_path.read_bytes()
+                        approved=str(source_row.get('approved_sha256') or '')
+                        if not _SHA.fullmatch(approved) or _sha_bytes(source_bytes)!=approved:
+                            return self._block(command,'R0303_UPSTREAM_HASH_DRIFT','El origen FROZEN cambió desde approval.')
+                        verified.append(TechnicalSource(stage=source_id,path=str(self._stage_by_id[source_id]['relative_path']),raw_bytes=source_bytes,expected_sha256=approved,lifecycle='FROZEN'))
+                        trusted_upstream[source_id]=_canonical_text(source_bytes.decode('utf-8-sig'))
+                    project_yaml=workspace_root/'.devpilot/project.yaml'
+                    if not project_yaml.is_file() or project_yaml.is_symlink():
+                        return self._block(command,'R0303_PROJECT_CONTEXT_REQUIRED','No existe Project Context confiable.')
+                    try:
+                        metadata=parse_project_yaml_metadata(project_yaml)
+                        context=resolve_technical_context(self.root,sources=tuple(verified),
+                            facts=ProjectFacts(project_id=workspace_id,revision=1,product_has_ai=None))
+                        generated=generate_local_architecture(self.root,workspace_id=workspace_id,
+                            project_name=str(metadata.get('project_name') or workspace_id),
+                            context=context,upstream=trusted_upstream,model=model,
+                            allow_successor=regenerate)
+                    except (ValueError,OSError,UnicodeError,KeyError) as exc:
+                        return self._block(command,'R0303_GENERATION_BLOCK',str(exc))
+                    if generated.get('partial'):
+                        return self._pass(command,'R0303_SEGMENT_PROGRESS_PASS',
+                            'Unidad Architecture conservada; continúa generación acotada sin escribir source.',
+                            {'segmented_progress':generated['progress'],'source_mutations_performed':False})
+                    content=generated['content'];derivation=generated['provenance']
+                    if regenerate:
+                        derivation['predecessor_content_sha256']=_sha_text(str(row.get('content') or ''))
+                        derivation['owner_requested_alternative']=True
+                else:
                 # An explicit empty-body request on an unapproved local DRAFT is
                 # a new semantic alternative; the previous Markdown and receipt
                 # stay immutable. Never regenerate an approval-ready or FROZEN row.
-                if row.get('status')!='MISSING' and str(row.get('mode'))!='LOCAL_MODEL':
-                    return self._block(command,'R0207_ALTERNATIVE_MODE_DENY','Solo se puede crear una alternativa de un DRAFT local existente.')
-                if row.get('plan_id') or row.get('approval_id'):
-                    return self._block(command,'R0207_ALTERNATIVE_PLAN_DENY','El DRAFT tiene plan o approval; no regenerar.')
-                try:
-                    predecessor_sha=str((row.get('derivation') or {}).get('candidate_sha256') or '') if row.get('status')!='MISSING' else ''
-                    if predecessor_sha and (not re.fullmatch(r'[0-9a-f]{64}',predecessor_sha) or _sha_text(str(row.get('content') or ''))!=predecessor_sha):
-                        # Owner-edited drafts have their own lineage; their provenance
-                        # must be verified before requesting a new local candidate.
-                        predecessor_sha=''
-                    generated=generate_local_guided(self.root,workspace_id=workspace_id,
-                        workspace_root=workspace_root, stage_id=stage_id,model=model,
-                        predecessor_sha256=predecessor_sha,
-                        previous_content=str(row.get('content') or '') if predecessor_sha else '')
-                except ValueError as exc:
-                    return self._block(command,str(exc),'Local model candidate could not be generated safely.')
-                if generated.get('partial'):
-                    return self._pass(command,'R0207_SEGMENT_PROGRESS_PASS',
-                        'Unidad de Requirements validada; continuar generación segmentada. No existe un nuevo DRAFT todavía.',
-                        {'segmented_progress':generated['progress'],'source_mutations_performed':False})
-                content=generated['content']
-                derivation=generated['provenance']
-                if row.get('status')!='MISSING' and row.get('derivation',{}).get('candidate_sha256')==derivation.get('candidate_sha256'):
-                    return self._block(command,'R0207_ALTERNATIVE_UNCHANGED','La propuesta ya existe; edita el Markdown o selecciona otro modelo. No se duplicó la inferencia.')
+                    if row.get('status')!='MISSING' and str(row.get('mode'))!='LOCAL_MODEL':
+                        return self._block(command,'R0207_ALTERNATIVE_MODE_DENY','Solo se puede crear una alternativa de un DRAFT local existente.')
+                    if row.get('plan_id') or row.get('approval_id'):
+                        return self._block(command,'R0207_ALTERNATIVE_PLAN_DENY','El DRAFT tiene plan o approval; no regenerar.')
+                    try:
+                        predecessor_sha=str((row.get('derivation') or {}).get('candidate_sha256') or '') if row.get('status')!='MISSING' else ''
+                        if predecessor_sha and (not re.fullmatch(r'[0-9a-f]{64}',predecessor_sha) or _sha_text(str(row.get('content') or ''))!=predecessor_sha):
+                            predecessor_sha=''
+                        generated=generate_local_guided(self.root,workspace_id=workspace_id,
+                            workspace_root=workspace_root, stage_id=stage_id,model=model,
+                            predecessor_sha256=predecessor_sha,
+                            previous_content=str(row.get('content') or '') if predecessor_sha else '')
+                    except ValueError as exc:
+                        return self._block(command,str(exc),'Local model candidate could not be generated safely.')
+                    if generated.get('partial'):
+                        return self._pass(command,'R0207_SEGMENT_PROGRESS_PASS',
+                            'Unidad de Requirements validada; continuar generación segmentada. No existe un nuevo DRAFT todavía.',
+                            {'segmented_progress':generated['progress'],'source_mutations_performed':False})
+                    content=generated['content']
+                    derivation=generated['provenance']
+                    if row.get('status')!='MISSING' and row.get('derivation',{}).get('candidate_sha256')==derivation.get('candidate_sha256'):
+                        return self._block(command,'R0207_ALTERNATIVE_UNCHANGED','La propuesta ya existe; edita el Markdown o selecciona otro modelo. No se duplicó la inferencia.')
             else:
                 return self._block(command,'R0207_GENERATION_RETRY_DENY','Use the existing local model DRAFT for review/edit; do not silently regenerate.')
         elif not content.strip():
@@ -231,6 +297,32 @@ class PreCodeWizardApplicationService:
         if not target.parent.is_dir() or target.parent.is_symlink():
             return self._block(command,'GSDLC05E_TARGET_PARENT_BLOCK','The project bootstrap must provide the governed document parent directory before authoring.',metadata={'relative_path':stage['relative_path']})
         base_sha=_sha_bytes(target.read_bytes()) if target.is_file() else ZERO_SHA256
+        if normalized_mode=='LOCAL_MODEL' and stage_id=='architecture':
+            # Recalculate after every Owner edit. Never display a BLOCK from a
+            # previous Ollama candidate as if it described the saved revision.
+            verified_sources: dict[str, str] = {}
+            frozen_drift = False
+            for source_id in ('product-vision','scope','requirements'):
+                source_row=self._stage_state(state,source_id)
+                source_path=workspace_root/str(self._stage_by_id[source_id]['relative_path'])
+                try:
+                    if source_row.get('status')!='FROZEN' or not source_path.is_file() or source_path.is_symlink():
+                        frozen_drift=True; continue
+                    source_bytes=source_path.read_bytes()
+                    if _sha_bytes(source_bytes)!=source_row.get('approved_sha256'):
+                        frozen_drift=True; continue
+                    verified_sources[source_id]=_canonical_text(source_bytes.decode('utf-8-sig'))
+                except (OSError,UnicodeError):
+                    frozen_drift=True
+            profile=self.profiles.select(Path(str(stage['relative_path'])))
+            fresh=_architecture_draft_quality(content,verified_sources,profile.required_headings)
+            if frozen_drift:
+                fresh['checks'].append({'rule_id':'FROZEN_SOURCE_UNAVAILABLE',
+                                        'status':'BLOCK',
+                                        'message':'Una fuente FROZEN no coincide con su estado gobernado.'})
+                fresh['disposition']='BLOCK'
+            derivation=dict(derivation or {})
+            derivation['quality_receipt']=fresh
         artifact_id='precode_'+hashlib.sha256(f"{workspace_id}|{stage_id}|{_sha_bytes(content.encode())}".encode()).hexdigest()[:24]
         lifecycle_source='AGENT_ASSISTED' if normalized_mode in {'DEVPL_MOCK','LOCAL_MODEL'} else normalized_mode
         draft=self.lifecycle.create_draft(
@@ -264,6 +356,20 @@ class PreCodeWizardApplicationService:
         if row.get('mode')=='LOCAL_MODEL' and self._candidate_content_binding(row)['status']!='PASS':
             return self._block(command,'R0207_CANDIDATE_CONTENT_BINDING_BLOCK',
                                'El Markdown visible no concuerda con el candidato/revisión y el hash persistido; detener antes del approval.')
+        if row.get('mode')=='LOCAL_MODEL' and stage_id=='architecture':
+            source_text={}
+            for source_id in ('product-vision','scope','requirements'):
+                frozen=self._stage_state(state,source_id)
+                path=workspace_root/str(self._stage_by_id[source_id]['relative_path'])
+                if (frozen.get('status')!='FROZEN' or not path.is_file() or path.is_symlink()
+                        or _sha_bytes(path.read_bytes()) != frozen.get('approved_sha256')):
+                    return self._block(command,'R0303_REVIEW_UPSTREAM_DRIFT','No se puede revisar Architecture con upstream cambiado.')
+                source_text[source_id]=_canonical_text(path.read_text(encoding='utf-8-sig'))
+            report=architecture_quality(str(row.get('content') or ''),source_text)
+            if report['disposition']=='BLOCK':
+                return self._block(command,'R0303_ARCH_QUALITY_BLOCK','Architecture tiene contradicciones o cobertura material faltante.',metadata={'quality_receipt':report})
+            report['content_sha256']=_sha_text(str(row.get('content') or ''))
+            row['derivation']['quality_receipt']=report
         if workspace_id=='admon_empresa_unipersonal_con_agentes' and stage_id in {'product-vision','scope','requirements'}:
             # Derive review facts from the same trusted B0 as generation; never
             # trust claims of source authorization inside model Markdown.
@@ -569,8 +675,11 @@ class PreCodeWizardApplicationService:
         current_row=self._stage_state(state,current['stage_id']) if current else {}
         current_derivation=current_row.get('derivation') if isinstance(current_row.get('derivation'),dict) else {}
         adr_bundle=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=workspace_id,state=state)
-        from .r02_07_segmented import progress as segmented_progress
-        segmented_status=segmented_progress(self.root,workspace_id) if current and current['stage_id']=='requirements' else None
+        from .r02_07_segmented import progress as requirements_progress
+        from .r03_03_segments import progress as architecture_progress
+        segmented_status=(requirements_progress(self.root,workspace_id) if current and current['stage_id']=='requirements'
+                          else architecture_progress(self.root,workspace_id) if current and current['stage_id']=='architecture'
+                          else None)
         return {'product_definition_coverage':(self._product_definition_coverage(state,workspace_root) if workspace_id in set(workspace_scopes) else None), 'segmented_progress':segmented_status, 'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _product_definition_coverage(self, state:dict[str,Any], workspace_root:Path)->dict[str,Any]|None:

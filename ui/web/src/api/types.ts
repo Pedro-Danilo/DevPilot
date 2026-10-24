@@ -1283,9 +1283,9 @@ export interface PreCodeWizardStage {
   relative_path: string;
   profile_id: string;
   advisor_step: string;
-  allowed_modes: Array<'MANUAL' | 'IMPORT' | 'DEVPL_MOCK'>;
+  allowed_modes: Array<'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | 'LOCAL_MODEL'>;
   status: 'MISSING' | 'DRAFT' | 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPLIED' | 'FROZEN' | string;
-  mode?: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | null;
+  mode?: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | 'LOCAL_MODEL' | null;
   draft_content?: string | null;
   derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; model_execution_used?: boolean; agent_execution_used?: boolean; rag_execution_used?: boolean; rag_grounding_status?: string; rag_context_pack_id?: string; rag_context_pack_sha256?: string; rag_citations?: Array<Record<string, unknown>>; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_edited?: boolean; owner_edited_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean; decision_summary?: Array<{ adr_id: string; title: string; decision: string; status: string; selection_basis?: string }> } | null;
   content_sha256?: string | null;

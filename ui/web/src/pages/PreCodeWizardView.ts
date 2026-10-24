@@ -76,7 +76,18 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     summary.append(sh,sp,technical);
     if(partial && partial.status==='IN_PROGRESS'){
       const progress=document.createElement('p');progress.className='notice notice--info';progress.dataset.preCodeSegmentProgress='true';
-      progress.textContent=`Requirements: ${partial.completed}/${partial.total} unidades guardadas con ${partial.model}. Selecciona el mismo modelo y pulsa una vez «Crear alternativa mejorada» para reanudar la secuencia automática; no existe DRAFT nuevo hasta completar el ensamblado.`;
+      const artifact=currentStage?.stage_id==='architecture'?'Architecture':'Requirements';
+      progress.textContent=`${artifact}: ${partial.completed}/${partial.total} unidades guardadas con ${partial.model}. No existe nuevo DRAFT hasta completar la secuencia; nunca reintentes una llamada con resultado incierto.`;
+      summary.append(progress);
+    }
+    if(partial?.status==='LEGACY_REQUIRES_RECONCILIATION' && currentStage?.stage_id==='architecture'){
+      const progress=document.createElement('p');progress.className='notice notice--warning';progress.dataset.preCodeLegacyProgress='true';
+      progress.textContent='Architecture C03 quedó interrumpida. El plan anterior y sus recibos permanecen intactos. C04 sólo abrirá un plan sucesor tras tu acción explícita si no existe trabajo ya completado.';
+      summary.append(progress);
+    }
+    if(partial?.status==='LEGACY_COMPLETE_REVIEW' && currentStage?.stage_id==='architecture'){
+      const progress=document.createElement('p');progress.className='notice notice--warning';progress.dataset.preCodeLegacyProgress='true';
+      progress.textContent='Architecture C04 conserva diez unidades completadas y un DRAFT original inmutable. C05 exige revisar y corregir su semántica; no se reejecutará el modelo para reemplazarlo automáticamente.';
       summary.append(progress);
     }
     if(message){ const m=document.createElement('p'); m.className='notice notice--pass'; m.textContent=message; summary.append(m); }
@@ -266,7 +277,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const action=actions.find((row)=>row.kind===kind);
       const label=kind==='AGENT'?'Agent':'RAG';
       const reasons=action?.disabled_reasons?.map((row)=>row.message).join(' · ') || 'Esta ruta avanzada no es necesaria para el baseline determinístico.';
-      const c02Note=stage.order>=4?(kind==='AGENT'?'Los agentes especializados existentes son capacidades gobernadas de análisis/review; aún no son providers de primer DRAFT de Pre-code.':'El DRAFT local de C-02 usa ContextPack v2 internamente; esta tarjeta representa una ruta RAG/agentic independiente todavía no integrada.'):'';
+      const c02Note=stage.order>=4?(kind==='AGENT'?'Los agentes de análisis/review no conceden permisos para publicar.':'El diseño técnico utiliza contexto local verificado; una ruta RAG/agent independiente no tiene autoridad de publicación.'):'';
       advanced.append(simpleActionCard(label,action?.availability==='AVAILABLE'?(action.purpose || 'Ruta agentic gobernada.'):`${c02Note} ${reasons}`.trim(),action?.availability ?? 'UNAVAILABLE',false));
     }
     section.append(authoring,auxiliary,advanced);
@@ -430,16 +441,22 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const segmentMeterBox=document.createElement('div');
       segmentMeterBox.dataset.preCodeSegmentMeterBox='true';
       segmentMeterBox.style.margin='0.65rem 0';
-      segmentMeterBox.hidden=stage.stage_id!=='requirements'||!segmentProgress;
+      segmentMeterBox.hidden=!['requirements','architecture'].includes(stage.stage_id)||!segmentProgress||['LEGACY_REQUIRES_RECONCILIATION','LEGACY_COMPLETE_REVIEW'].includes(segmentProgress.status||'');
       segmentMeterBox.append(segmentMeter);
       if(stage.stage_id==='requirements' && segmentProgress?.status==='IN_PROGRESS'){
         nearButtonStatus.textContent=`Requirements: ${segmentProgress.completed}/${segmentProgress.total} unidades conservadas. Una acción continúa la secuencia.`;
       }else if(stage.stage_id==='requirements' && segmentProgress?.status==='COMPLETE'){
         nearButtonStatus.textContent=`Requirements: ${segmentProgress.completed}/${segmentProgress.total} unidades completas; revisar DRAFT ensamblado.`;
+      }else if(stage.stage_id==='architecture' && segmentProgress?.status==='IN_PROGRESS'){
+        nearButtonStatus.textContent=`Architecture: ${segmentProgress.completed}/${segmentProgress.total} unidades conservadas; continúa sólo las pendientes.`;
+      }else if(stage.stage_id==='architecture' && segmentProgress?.status==='COMPLETE'){
+        nearButtonStatus.textContent=`Architecture: ${segmentProgress.completed}/${segmentProgress.total} unidades completas; revisa el DRAFT ensamblado.`;
+      }else if(stage.stage_id==='architecture' && segmentProgress?.status==='BLOCK'){
+        nearButtonStatus.textContent=`Architecture: ${segmentProgress.completed}/${segmentProgress.total} unidades previas; generación bloqueada. Sólo una alternativa sucesora explícita puede conservar las completadas.`;
       }
-      const setSegmentMeter=(completed:number,total:number):void=>{
+      const setSegmentMeter=(completed:number,total:number,artifact='Requirements'):void=>{
         segmentMeterBox.hidden=false;segmentMeter.max=total;segmentMeter.value=completed;
-        nearButtonStatus.textContent=`Requirements: ${completed}/${total} unidades validadas. Continuando automáticamente…`;
+        nearButtonStatus.textContent=`${artifact}: ${completed}/${total} unidades conservadas. Continuando automáticamente…`;
       };
       async function runRequirementsSequence(model:string):Promise<void>{
         // No autonomous retries; at most 12 Scope capabilities and one global
@@ -474,9 +491,40 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         }
         throw new Error('BLOCK: se alcanzó el límite finito de unidades; conserva checkpoints y revisa el plan.');
       }
+      async function runArchitectureSequence(model:string, regenerate=false):Promise<void>{
+        // Ten short, receipt-backed units; output tokens and inference timeout
+        // are bounded on the server. No retry on network or HTTP uncertainty.
+        const limit=10;
+        const resumable=['IN_PROGRESS','BLOCK'].includes(segmentProgress?.status||'');
+        let previous=resumable?segmentProgress!.completed:0;
+        if(resumable && segmentProgress?.model!==model){
+          throw new Error(`BLOCK: Architecture conserva unidades anteriores con ${segmentProgress.model}; selecciona el mismo modelo.`);
+        }
+        for(let i=0;i<limit;i++){
+          nearButtonStatus.textContent=`⏳ Architecture: generando unidad ${previous+1} de ${limit}; no cierres ni recargues.`;
+          const result=await client().preCodeDraft(stage.stage_id,{mode:'LOCAL_MODEL',content:'',semantic_model:null,model,regenerate});
+          if(!result.ok)throw new Error(formatFindings(result));
+          const seg=(result.data as {segmented_progress?:{
+            completed:number;total:number;model?:string;status?:string
+          }}|undefined)?.segmented_progress;
+          if(!seg){
+            await load('Architecture ensamblado en un DRAFT Markdown; revisa cada decisión, ausencia de secciones y trazabilidad antes del diff.');
+            return;
+          }
+          if(!Number.isInteger(seg.completed)||seg.total!==limit||seg.completed<=previous||
+              seg.completed>=limit||seg.model!==model||seg.status!=='IN_PROGRESS'){
+            throw new Error('BLOCK: progreso Architecture inconsistente; conservar recibos y detener inferencia.');
+          }
+          previous=seg.completed;
+          setSegmentMeter(previous,limit,'Architecture');
+        }
+        throw new Error('BLOCK: se agotó el límite de Architecture sin recibir un DRAFT; conservar evidencia.');
+      }
       function setDraftBusy(value:boolean,inference=false):void{
         draftBusy=value; save.disabled=!correlationOK || value || Boolean(inbox) || (mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value);
         alternative.disabled=value || !modelInput.value;
+        // A server-side review must never race with an unfinished inference or save.
+        review.disabled=value || !correlationOK || stage.status==='MISSING' || Boolean(inbox);
         mode.disabled=value; modelInput.disabled=value; textarea.readOnly=value;
         save.setAttribute('aria-busy',String(value)); alternative.setAttribute('aria-busy',String(value));
         nearButtonStatus.textContent=value?(inference?'⏳ Generando documento con el modelo local. No vuelvas a pulsar; puede tardar varios minutos.':'⏳ Guardando revisión del DRAFT…'):'';
@@ -491,6 +539,9 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         try{
           const devpilot=mode.value==='DEVPL_MOCK';
           if(mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value){setFeedback(feedback,'block','Selecciona un modelo Ollama instalado antes de generar.');return;}
+          if(mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&stage.stage_id==='architecture'){
+            await runArchitectureSequence(modelInput.value.trim());return;
+          }
           const r=await client().preCodeDraft(stage.stage_id,{mode:mode.value as 'MANUAL'|'IMPORT'|'DEVPL_MOCK'|'LOCAL_MODEL',content:devpilot?(stage.status==='MISSING'?'':textarea.value):mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'?'':textarea.value,semantic_model:null,model:mode.value==='LOCAL_MODEL'?modelInput.value.trim():''});
           if(!r.ok) throw new Error(formatFindings(r));
           const seg=(r.data as {segmented_progress?:{completed:number;total:number}}|undefined)?.segmented_progress;
@@ -505,13 +556,15 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         if(textarea.value!==String(stage.draft_content??'')){
           setFeedback(feedback,'block','Hay cambios sin guardar en el Markdown. Guarda la revisión humana antes de generar una alternativa.');return;
         }
-        if(!window.confirm(stage.stage_id==='requirements'?'Se conservará el DRAFT anterior. DevPilot generará automáticamente las unidades pendientes, con un máximo finito de 13 solicitudes y sin reintentos ante BLOCK. Mantén abierta esta pestaña. ¿Iniciar o reanudar?':'Se conservará el candidato Markdown original. Se solicitará una alternativa con el modelo seleccionado, sin aprobar ni escribir el documento FROZEN. ¿Continuar?'))return;
+        if(!window.confirm(stage.stage_id==='requirements'?'Se conservará el DRAFT anterior. DevPilot generará automáticamente las unidades pendientes, con un máximo finito de 13 solicitudes y sin reintentos ante BLOCK. Mantén abierta esta pestaña. ¿Iniciar o reanudar?':stage.stage_id==='architecture'?'Se conservarán el DRAFT C04 y sus 10 recibos. Si existe un plan C06 BLOCK, se verificarán sus unidades completas y se copiarán sin repetir Ollama; la unidad fallida sólo se solicitará en un plan sucesor explícito. No se aprobará ni escribirá FROZEN. Puede tardar varios minutos. ¿Continuar?':'Se conservará el candidato Markdown original. Se solicitará una alternativa con el modelo seleccionado, sin aprobar ni escribir el documento FROZEN. ¿Continuar?'))return;
         setDraftBusy(true,true);
         setFeedback(feedback,'loading',stage.stage_id==='requirements'?'Generación segmentada automática en curso. Checkpoints persistentes; no cerrar ni recargar la página.':'Ollama genera una alternativa Markdown. La versión anterior permanece inmutable…');
         try{
           if(!await ensureLiveHumanSession(feedback))return;
           if(stage.stage_id==='requirements'){
             await runRequirementsSequence(modelInput.value.trim());
+          }else if(stage.stage_id==='architecture'){
+            await runArchitectureSequence(modelInput.value.trim(),true);
           }else{
             const result=await client().preCodeDraft(stage.stage_id,{mode:'LOCAL_MODEL',content:'',semantic_model:null,model:modelInput.value.trim()});
             if(!result.ok)throw new Error(formatFindings(result));
@@ -523,14 +576,15 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
         }
         finally{setDraftBusy(false);}
       });
-      alternative.hidden=!(mode.value==='LOCAL_MODEL'&&stage.status==='DRAFT'&&['product-vision','scope','requirements'].includes(stage.stage_id));
+      alternative.hidden=!(mode.value==='LOCAL_MODEL'&&stage.status==='DRAFT'&&['product-vision','scope','requirements','architecture'].includes(stage.stage_id));
       if(!correlationOK){alternative.disabled=true;save.disabled=true;}
       setModelOptions([]);
-      const updateSaveLabel=()=>{alternative.hidden=!(mode.value==='LOCAL_MODEL'&&stage.status==='DRAFT'&&['product-vision','scope','requirements'].includes(stage.stage_id));modelPanel.hidden=mode.value!=='LOCAL_MODEL';file.hidden=mode.value!=='IMPORT';fileLabel.hidden=file.hidden;textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';save.textContent=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'?'Generar DRAFT con modelo local':'Guardar DRAFT';save.disabled=!correlationOK || (mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value);if(!correlationOK)alternative.disabled=true;};
+      const updateSaveLabel=()=>{alternative.hidden=!(mode.value==='LOCAL_MODEL'&&stage.status==='DRAFT'&&['product-vision','scope','requirements','architecture'].includes(stage.stage_id));modelPanel.hidden=mode.value!=='LOCAL_MODEL';file.hidden=mode.value!=='IMPORT';fileLabel.hidden=file.hidden;textarea.placeholder=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Pulsa “Generar propuesta con DevPilot”. DevPilot mostrará primero el DRAFT completo.':'Revisa y edita directamente la propuesta completa si lo necesitas.'):'Escribe o pega aquí el contenido del artefacto. No incluyas secretos.';save.textContent=mode.value==='DEVPL_MOCK'?(stage.status==='MISSING'?'Generar propuesta con DevPilot':'Guardar revisión del Owner'):mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'?'Generar DRAFT con modelo local':'Guardar DRAFT';save.disabled=!correlationOK || (mode.value==='LOCAL_MODEL'&&stage.status==='MISSING'&&!modelInput.value);if(!correlationOK)alternative.disabled=true;};
       mode.addEventListener('change',()=>{updateSaveLabel();if(mode.value==='LOCAL_MODEL')void loadInstalledModels();});
       if(mode.value==='LOCAL_MODEL')void loadInstalledModels();
       file.addEventListener('change',async()=>{ const selected=file.files?.[0]; if(selected) textarea.value=await selected.text(); });
       const review=button('Validar y preparar diff',async()=>{
+        if(draftBusy){setFeedback(feedback,'block','Espera a que termine la generación o el guardado antes de validar.');return;}
         if(!correlationOK){setFeedback(feedback,'block','El editor no coincide con el recibo de candidato. No se solicitó revisión.');return;}
         setFeedback(feedback,'loading','Ejecutando validadores y plan inmutable…');
         if(!await ensureLiveHumanSession(feedback)) return; try{ const r=await client().preCodeReview(stage.stage_id); if(!r.ok){ setFeedback(feedback,'block',formatFindings(r)); return; } await load('Validación PASS; plan/diff inmutable listo para approval.'); }catch(e){await renderGovernedError(feedback,e);}
@@ -560,10 +614,20 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       form.append(save,alternative,nearButtonStatus,segmentMeterBox,regenerate,review); section.append(form);
       if(preCode.semantic_model)section.append(semanticAdvancedDetails(preCode.semantic_model));
       if(stage.derivation){
-        const d=stage.derivation as typeof stage.derivation & {owner_revision?: {candidate_path?:string};candidate_path?:string}; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
+        const d=stage.derivation as typeof stage.derivation & {owner_revision?: {candidate_path?:string};candidate_path?:string;quality_receipt?: {disposition?:string;checks?:Array<{rule_id:string;status:string;message:string}>}}; const provenance=document.createElement('div'); provenance.className='notice notice--info'; provenance.dataset.preCodeDerivation='true';
         const rag=Boolean(d.rag_execution_used);
         provenance.textContent=`Candidato Markdown · archivo ${d.owner_revision?.candidate_path??d.candidate_path??"DRAFT"} · provider ${d.provider??'devpilot-local'} · modelo ${d.model??'deterministic-semantic-model-template-v3'} · RAG local ${rag?'sí':'no'}${d.rag_grounding_status?` (${d.rag_grounding_status})`:''} · LLM ejecutado ${d.model_execution_used?'sí':'no'} · agente ejecutado ${d.agent_execution_used?'sí':'no'} · red ${d.network_used?'sí':'no'} · API externa ${d.external_api_used?'sí':'no'} · costo USD ${String(d.cost_usd??0)} · edición Owner ${d.owner_edited?'sí':'no'} · revisión humana obligatoria.`;
         section.append(provenance);
+        if(stage.stage_id==='architecture' && d.quality_receipt){
+          const quality=d.quality_receipt as {disposition?:string;checks?:Array<{rule_id:string;status:string;message:string}>};
+          const box=document.createElement('section');box.className='notice notice--warning';box.dataset.architectureProfileReview='true';
+          const heading=document.createElement('strong');heading.textContent=`Perfil Architecture v1.0.0 · ${quality.disposition??'REVIEW_REQUIRED'}`;
+          const summary=document.createElement('p');summary.textContent='Estructura y procedencia no certifican calidad profesional. Revisa drivers, alternativas, trazabilidad, riesgos y decisiones materiales antes del approval.';
+          box.append(heading,summary);
+          const checks=(quality.checks??[]).filter(item=>item.status!=='PASS');
+          if(checks.length){const ul=document.createElement('ul');for(const item of checks){const li=document.createElement('li');li.textContent=`${item.status} · ${item.rule_id}: ${item.message}`;ul.append(li);}box.append(ul);}
+          section.append(box);
+        }
         if(stage.stage_id==='architecture' && Array.isArray(d.decision_summary) && d.decision_summary.length){
           const decisions=document.createElement('section'); decisions.className='pre-code-architecture-decisions'; decisions.dataset.architectureDecisionSummary='true';
           const dh=document.createElement('h4'); dh.textContent='Decisiones incluidas en Architecture';

@@ -1,6 +1,6 @@
 {
   "created_by": "POST-H-009-A",
-  "current_micro_sprint": "MP132-R03-02/TECH-CONTEXT-PROFILE",
+  "current_micro_sprint": "MP132-R03-03/ARCHITECTURE-AUTHORING",
   "current_phase": "DEVPL-MP-SUCCESSOR-132/R03-ARCHITECTURE-RISK-SCAFFOLD",
   "current_repo": "evolution/multiprovider-v2",
   "documents": [
@@ -25080,6 +25080,42 @@
     {
       "classification": "source-of-truth",
       "criticality": "P0",
+      "doc_id": "MP132-R03_03_ARCHITECTURE_AUTHORING-SPRINT",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/7_ Execution_packages-sprints_prompts/BACKLOG_R03/02_sprints/R03_03_ARCHITECTURE_AUTHORING_SPRINT.md",
+      "required_tests": ["tests/test_mp132_r03_03_architecture.py"],
+      "status_required": "SPRINT_EXECUTION_APPROVED",
+      "sync_rules": ["test_must_pass"]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
+      "doc_id": "MP132-R03_03_ARCHITECTURE_AUTHORING-PROMPT",
+      "domain": "governance.mp132.program",
+      "lifecycle": "active",
+      "owner": "Owner DevPilot",
+      "path": "docs/programs/DEVPL_MP_SUCCESSOR_132/v1_1_0_owner_approved_133/7_ Execution_packages-sprints_prompts/BACKLOG_R03/03_prompts/R03_03_ARCHITECTURE_AUTHORING_PROMPT.md",
+      "required_tests": ["tests/test_mp132_r03_03_architecture.py"],
+      "status_required": "OWNER_APPROVED",
+      "sync_rules": ["test_must_pass"]
+    },
+    {
+      "classification": "machine-readable-source",
+      "criticality": "P0",
+      "doc_id": "MP132-R03-03-ARCHITECTURE-AUTHORING-PROFILE",
+      "domain": "governance.authoring",
+      "lifecycle": "active",
+      "owner": "Owner DevPilot",
+      "path": ".devpilot/gsdlc/architecture_authoring_profile.json",
+      "required_tests": ["tests/test_mp132_r03_03_architecture.py"],
+      "status_required": "ACTIVE_FOR_R03_03",
+      "sync_rules": ["test_must_pass"]
+    },
+    {
+      "classification": "source-of-truth",
+      "criticality": "P0",
       "doc_id": "MP132-R03_02_TECH_CONTEXT_PROFILE-PROMPT",
       "domain": "governance.mp132.program",
       "lifecycle": "active",
@@ -41831,7 +41867,7 @@
   "mp_v2_mp0_c_full_regression_runs": 0,
   "mp_v2_mp0_c_status": "CLOSED / PASS+FINDING / WINDOWS-VALIDATED / PROMOTED",
   "mp_v2_test_mp0a_001_disposition": "RESOLVED-IN-MP0D",
-  "next_micro_sprint": "R03_03_NOT_AUTHORIZED",
+  "next_micro_sprint": "R03_04_NOT_AUTHORIZED",
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
@@ -44388,20 +44424,20 @@
   "schema_version": "1.0",
   "status": "implemented-initial/windows-validated",
   "summary": {
-    "critical_sources_total": 1671,
+    "critical_sources_total": 1674,
     "deprecated_total": 0,
     "derived_total": 184,
-    "documents_total": 1767,
-    "documents_with_required_tests_total": 1767,
+    "documents_total": 1770,
+    "documents_with_required_tests_total": 1770,
     "external_api_used": false,
     "generated_runtime_total": 0,
     "historical_total": 38,
-    "last_updated_by": "MP132-R03-02-TECH-CONTEXT-CANDIDATE",
-    "machine_readable_source_total": 830,
+    "last_updated_by": "MP132-R03-03-ARCHITECTURE-AUTHORING",
+    "machine_readable_source_total": 831,
     "markdown_json_pairs_total": 80,
     "mutations_performed": false,
     "network_used": false,
-    "source_of_truth_total": 715
+    "source_of_truth_total": 717
   },
   "updated": "2026-10-23",
   "updated_at": "2026-10-08",

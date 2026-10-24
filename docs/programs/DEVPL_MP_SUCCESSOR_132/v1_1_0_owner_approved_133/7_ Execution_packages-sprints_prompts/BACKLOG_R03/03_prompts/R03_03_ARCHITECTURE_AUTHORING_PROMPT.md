@@ -1,15 +1,15 @@
 ---
 doc_id: MP132-R03_03_ARCHITECTURE_AUTHORING-PROMPT
-status: DRAFT_AWAITING_OWNER_INCREMENT_APPROVAL
+status: OWNER_APPROVED
 version: 1.0.0
 sprint_ref: 02_sprints/R03_03_ARCHITECTURE_AUTHORING_SPRINT.md
-baseline_reference: 1f15fa5b770db37c684e870a49572dcb569bd3a4
-execution_authority: false
-owner_increment_approval: PENDING
+baseline_reference: b9a655c13afff1d22da0dcdcfeec2998002fa3bb
+execution_authority: true
+owner_increment_approval: APPROVED_2026_10_23
 ---
 # Prompt operativo — R03_03_ARCHITECTURE_AUTHORING
 
-**Ejecútese SOLO después de aprobación Owner individual.** Antes de modificar código, lee literalmente el programa vigente, `BACKLOG_R03_132.md`, el sprint hermano, contratos A187/A188 y ADR-013/016, el repo real de HEAD aprobado y evidencias predecesoras. Si cualquier archivo falta, BLOCK especificando cual: no suplirlo con suposiciones.
+**Aprobado individualmente por el Owner el 2026-10-23.** Ejecutar R03-03 sobre `b9a655c13afff1d22da0dcdcfeec2998002fa3bb`; conservar aprobaciones específicas para red externa, dependencias o mutaciones sensibles. Antes de modificar código, leer literalmente programa, backlog, contratos A187/A188, ADR-013/016 y evidencia previa.
 
 **Objetivo:** TechnicalDesignCandidate y perfil Architecture.
 

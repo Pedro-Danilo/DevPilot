@@ -56,6 +56,7 @@
       "profile_id": "architecture-document",
       "advisor_step": "architecture",
       "allowed_modes": [
+        "LOCAL_MODEL",
         "DEVPL_MOCK",
         "MANUAL",
         "IMPORT"

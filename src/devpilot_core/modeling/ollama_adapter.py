@@ -97,6 +97,16 @@ class OllamaAdapter(ModelAdapter):
         prompt = request.prompt or request.text or ""
         model = request.model or self.provider_config.default_model
         payload = {"model": model, "prompt": prompt, "stream": False}
+        # Per-request bounded output for local engineering authoring. The
+        # historical adapter remains unchanged for callers without options;
+        # never accept arbitrary Ollama configuration from browser input.
+        opts=request.metadata.get('ollama_options') if isinstance(request.metadata,dict) else None
+        if opts is not None:
+            if (not isinstance(opts,dict) or set(opts)!={'num_predict'} or
+                    type(opts.get('num_predict')) is not int or
+                    not 32<=opts['num_predict']<=512):
+                raise ValueError('OLLAMA_BOUNDED_GENERATION_OPTIONS_INVALID')
+            payload['options']={'num_predict':opts['num_predict']}
         response = self._post_json("/api/generate", payload, task=ModelTask.GENERATE)
         if not response.ok:
             return response
@@ -119,6 +129,9 @@ class OllamaAdapter(ModelAdapter):
                 "localhost_only": True,
                 "prompt_redacted": True,
                 "response_keys": sorted(str(key) for key in response.metadata.keys()),
+                # Only a provider completion discriminator: never attach raw
+                # private prompt/response body to exported model receipts.
+                "stop_reason": str(response.metadata.get("done_reason") or "not_available"),
             },
         )
 

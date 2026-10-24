@@ -1,12 +1,12 @@
 ---
 doc_id: MP132-R03_03_ARCHITECTURE_AUTHORING-SPRINT
-status: DRAFT_EXECUTION_GATED
+status: SPRINT_EXECUTION_APPROVED
 version: 1.0.0
 owner: Owner DevPilot
 planning_authority: MP132-A188 + R02-M2-CLOSEOUT-189
-execution_authority: false
-baseline_reference: 1f15fa5b770db37c684e870a49572dcb569bd3a4
-owner_increment_approval: PENDING
+execution_authority: true
+baseline_reference: b9a655c13afff1d22da0dcdcfeec2998002fa3bb
+owner_increment_approval: APPROVED_2026_10_23
 ---
 # R03_03_ARCHITECTURE_AUTHORING — TechnicalDesignCandidate y perfil Architecture
 
@@ -16,7 +16,7 @@ owner_increment_approval: PENDING
 ## B. Precondiciones y audit-first
 - R03_02 CLOSED/PASS or PASS_WITH_FINDINGS + new Git HEAD. Antes de ejecutar: obtener HEAD y diff reales de Windows; releer contratos y archivos afectados en repo y Project runtime. Rebind sprint/prompt al HEAD vigente; probar compatibilidad con A187/A188.
 - Repo DevPilot `evolution/multiprovider-v2`; mismo Pilot B FROZEN, `operator_project_writes=0`, tres consolas foreground únicamente para validación de UI.
-- **Estado DRAFT**, sin permiso de escribir source o instalar dependencias hasta autorización explícita individual del Owner de este sprint y prompt.
+- **Autorización Owner individual del 2026-10-23:** código de R03-03 autorizado; dependencias nuevas, efectos en Pilot B y acciones sensibles continúan sujetos a aprobación material.
 
 ## C. Scope acotado
 Autoría L local por ModelAdapter + plantilla y `ArchitectureProfile` A188; drivers, requisitos, límites, riesgos, alternativas/decisiones materialmente relevantes, datos/API/UX condicionales; candidate no publica.

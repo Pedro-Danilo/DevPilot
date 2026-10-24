@@ -1,0 +1,29 @@
+{
+  "schema_id": "mp132.r03_03.architecture_authoring_profile.v1",
+  "artifact_type": "architecture-document",
+  "profile_version": "1.0.0",
+  "status": "ACTIVE_FOR_R03_03",
+  "authoring_route": "LOCAL_MODEL_OR_MANUAL_REVIEW",
+  "requirements": ["drivers", "requirement-allocation", "component-boundaries", "data-consistency", "technology-alternatives", "material-adrs", "security-and-operational-risks", "upstream-trace"],
+  "conditional": ["data-model", "api-contract", "ux-contract", "miasi-controls"],
+  "source_authority": ["product-vision:FROZEN", "scope:FROZEN", "requirements:FROZEN"],
+  "quality_policy": {
+    "BLOCK": "demonstrated source drift, prohibited action, material contradiction or missing required structure",
+    "REVIEW_REQUIRED": "semantic grounding, inferred design choice or missing project fact not mechanically provable",
+    "WARN": "nonmaterial presentation issue",
+    "PASS": "only an individual rule that was actually checked"
+  },
+  "model_policy": {
+    "provider": "ollama",
+    "external_api": false,
+    "network_scope": "loopback",
+    "calls_per_owner_action_max": 10,
+    "timeout_seconds_per_unit": 165,
+    "ui_timeout_ms_per_unit": 225000,
+    "max_output_tokens_per_unit": 384,
+    "segment_contract_revision": "r0303-architecture-segments-v3",
+    "max_output_chars": 36000,
+    "quality_boundary": "Ten completed model calls prove execution, not completeness or professional quality; clipped sections BLOCK review."
+  },
+  "owner_boundary": "One governed Architecture review and approval; no second publisher or ADR approval for decisions already explicit in Architecture."
+}

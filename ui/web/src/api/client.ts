@@ -279,10 +279,12 @@ export class DevPilotApiClient {
     return this.get('/guided-sdlc/pre-code', { retryNetworkErrors: true, timeoutMs: READINESS_REQUEST_TIMEOUT_MS }) as unknown as Promise<DevPilotApplicationResponse<import('./types').PreCodeWizardResponseData>>;
   }
 
-  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | 'LOCAL_MODEL'; content: string; model?: string; semantic_model?: import('./types').PreCodeSemanticModel | null }): Promise<DevPilotApplicationResponse> {
+  async preCodeDraft(stageId: string, payload: { mode: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | 'LOCAL_MODEL'; content: string; model?: string; semantic_model?: import('./types').PreCodeSemanticModel | null; regenerate?: boolean }): Promise<DevPilotApplicationResponse> {
     // Allow CPU-only Ollama extra bounded time for longer dependent documents.
     // Backend ends first; the UI must leave time to receive the governed result.
-    const localBudgetMs = stageId === 'scope' ? 495000 : stageId === 'requirements' ? 555000 : 225000;
+    // Architecture C07: backend bounds each unit at 200s; keep 25s transport
+    // margin and stay below the shared 240s hard cap, without auto-retry.
+    const localBudgetMs = stageId === 'scope' ? 495000 : stageId === 'requirements' ? 555000 : stageId === 'architecture' ? 225000 : 225000;
     return this.post(`/guided-sdlc/pre-code/stages/${encodeURIComponent(stageId)}/draft`, payload, { timeoutMs: payload.mode === 'LOCAL_MODEL' && !payload.content.trim() ? localBudgetMs : READINESS_REQUEST_TIMEOUT_MS });
   }
 
@@ -1136,10 +1138,14 @@ export class DevPilotApiClient {
       });
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
+        const uncertainDraft = /^\/guided-sdlc\/pre-code\/stages\/architecture\/draft$/.test(path);
         throw new DevPilotApiError(
-          `Tiempo de espera agotado en ${path} después de ${timeoutMs} ms. Selecciona Reintentar o verifica la API local.`,
+          uncertainDraft
+            ? `Architecture: tiempo de espera agotado tras ${timeoutMs} ms; resultado incierto. NO REINTENTES. Detén la validación y conserva los recibos.`
+            : `Tiempo de espera agotado en ${path} después de ${timeoutMs} ms. Selecciona Reintentar o verifica la API local.`,
           408,
-          { state: 'timeout', timeout_ms: timeoutMs, endpoint: path, action: 'retry' },
+          { state: uncertainDraft ? 'execution_unknown' : 'timeout', timeout_ms: timeoutMs,
+            endpoint: path, action: uncertainDraft ? 'reconcile_before_retry' : 'retry' },
           path,
           Math.round(performance.now() - startedAt)
         );
