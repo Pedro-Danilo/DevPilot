@@ -1,15 +1,15 @@
 ---
 doc_id: MP132-R03_04_TECH_DECISION_ADR-PROMPT
-status: DRAFT_AWAITING_OWNER_INCREMENT_APPROVAL
-version: 1.0.0
+status: OWNER_APPROVED
+version: 1.0.2
 sprint_ref: 02_sprints/R03_04_TECH_DECISION_ADR_SPRINT.md
-baseline_reference: 1f15fa5b770db37c684e870a49572dcb569bd3a4
-execution_authority: false
-owner_increment_approval: PENDING
+baseline_reference: df6a5dcbb6eeb112008db1373d2e975cbc60b18f
+execution_authority: true
+owner_increment_approval: APPROVED_2026_10_24
 ---
 # Prompt operativo — R03_04_TECH_DECISION_ADR
 
-**Ejecútese SOLO después de aprobación Owner individual.** Antes de modificar código, lee literalmente el programa vigente, `BACKLOG_R03_132.md`, el sprint hermano, contratos A187/A188 y ADR-013/016, el repo real de HEAD aprobado y evidencias predecesoras. Si cualquier archivo falta, BLOCK especificando cual: no suplirlo con suposiciones.
+**Aprobación Owner individual recibida el 2026-10-24, exclusivamente para R03_04.** Se leyó el programa A190, `BACKLOG_R03_132.md`, el sprint hermano, A187/A188/A190, ADR-013/015/016, el repositorio C11 y sus recibos. Baseline autenticado: `df6a5dcbb6eeb112008db1373d2e975cbc60b18f`. Windows debe comprobar HEAD real antes de aplicar. La ejecución no autoriza un approval/apply/freeze de Pilot B.
 
 **Objetivo:** Selección tecnológica y ADR companion.
 
@@ -27,3 +27,16 @@ owner_increment_approval: PENDING
 **Fronteras:** no auto-install, no stack predeterminado ni Owner approval cosmético. Históricos se preservan; FROZEN nunca se reescriben in-place; Owner sólo autoriza decisiones materiales. No Full Regression sin excepción documentada. No emitir falso PASS por cobertura estructural.
 
 **Salida:** ZIP + SHA, guía única, cambios source/tests/docs estrictamente necesarios, matrix REUSE/DELTA, registro de pruebas/negativos y criterios PASS/BLOCK. No pedir al operador decisiones adicionales si pueden derivarse de la evidencia.
+
+## Ejecución ajustada a contrato real (A190 y cierre C11)
+
+1. Reusar `PreCodeWizardApplicationService` y su approval normal de Architecture; el servicio antiguo `ArchitectureAdrBundleService` solo gobierna materialización C02 histórica. Su ampliación de source write se reserva al lifecycle/successor correspondiente, sin un segundo approval tecnológico.
+2. Proyecto Architecture L guardado: proyectar en API una vista **solo lectura** de alternativas, motivación, coste/soporte/seguridad, ADRs propuestas, evidencias y hallazgos. UI Guided y Expert comparten la misma autoridad, sin ejecutar modelo.
+3. Si una ADR material se estructura con Contexto/Decisión/Alternativas/Consecuencias, conservar ID, resumen y hash de sección; si no hay ADR estructurada, solicitar revisión humana sin inventar un BLOCK global. `NOT_APPLICABLE` con razón explícita cuando proceda.
+4. Gate previo a review: rechazar inequívocamente propuesta que ordene auto-instalar dependencias o reclame aprobación previa inexistente; en otros casos `REVIEW_REQUIRED` hasta evaluación Owner. No reabrir planes históricos de C09 ni limpiar recibos.
+5. Sólo mostrar `APPROVED_WITH_ARCHITECTURE` tras comprobar estado FROZEN y bytes aprobados. No se escribe ADR standalone ni se asume que el approval del DRAFT fue aprobado efectivamente.
+6. Focal sin full regression: tests positivos/negativos con dos dominios, tests Architecture impactados y build UI. En Windows verificar panel UI y crear dos capturas; no se exige generar un nuevo candidato L ni mutar Project runtime para demostrar el panel.
+
+## Autoridad de la ampliación Owner C02 (2026-10-25) — sustituye la instrucción read-only anterior
+
+La propuesta `R03_04_C02_PROPOSAL.md` está **APROBADA individualmente por Owner**. Los puntos 1–6 previos sirven como historia del checkpoint C00/C01, no como veto a la nueva funcionalidad. Implementar y demostrar generación **real** con Ollama local de 2–3 Technology Options independientes, selección Owner explícita y ADR material con modelo; conservar ambos candidatos con hashes y recibos. Conciliar una nueva Architecture DRAFT anulando el plan histórico, reusar review/approval/apply/freeze y extender el escritor multiarchivo ya gobernado para Technology Options + ADR tras FROZEN. El operador Windows debe detenerse con BLOCK legítimo ante drift, salida L defectuosa o negativa del Owner; no convertirlo en PASS artificial. Capturas guiadas, focal, documentos de ingeniería sincronizados, Git/baseline posterior al PASS; ninguna llamada L obliga instalación, publicación ni llamada externa.

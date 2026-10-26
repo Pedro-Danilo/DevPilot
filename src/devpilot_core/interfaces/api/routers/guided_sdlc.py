@@ -39,6 +39,14 @@ class PreCodeMiasiApplicabilityBody(BaseModel):
     evidence_refs: list[str] = Field(default_factory=list, max_length=32)
 
 
+class TechnologyActionBody(BaseModel):
+    action: str = Field(pattern=r"^(generate_options|owner_revise_options|select_option|generate_adr|owner_revise_adr|reconcile)$")
+    option_id: str = Field(default="", pattern=r"^(|T[1-3])$")
+    model: str = Field(default="", max_length=100)
+    successor: bool = False
+    content: str = Field(default='', max_length=16500)
+
+
 def _pre_code_identity(request: Request, service: ApplicationService):
     principal = getattr(request.state, "authenticated_principal", None)
     session = getattr(request.state, "authenticated_session_context", None)
@@ -169,6 +177,20 @@ def guided_pre_code_draft(request: Request, stage_id: str, body: PreCodeDraftBod
     assert identity is not None
     principal=identity["principal"]
     return _pre_code_content_json(dispatch_application_request(service, operation="guided_sdlc.pre_code.draft", payload={"stage_id":stage_id,"mode":body.mode,"content":body.content,"actor":principal.actor_id,"actor_role":identity["role"],"session_principal":principal.actor_id,"effective_roles":identity["roles"],"workspace_scopes":identity["scopes"],"semantic_model":body.semantic_model,"model":body.model,"regenerate":body.regenerate}))
+
+
+@router.post("/api/v1/guided-sdlc/pre-code/technology-action")
+def guided_pre_code_technology_action(request: Request, body: TechnologyActionBody, service: ApplicationService = Depends(get_application_service)) -> JSONResponse:
+    identity,error=_pre_code_identity(request,service)
+    if error:return error
+    assert identity is not None
+    principal=identity["principal"]
+    return _pre_code_transition_json(dispatch_application_request(service,
+        operation="guided_sdlc.pre_code.technology_action",
+        payload={"action":body.action,"option_id":body.option_id,"model":body.model,
+                 "successor":body.successor,"content":body.content,"actor":principal.actor_id,
+                 "actor_role":identity["role"],"session_principal":principal.actor_id,
+                 "effective_roles":identity["roles"],"workspace_scopes":identity["scopes"]}))
 
 
 @router.post("/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review")

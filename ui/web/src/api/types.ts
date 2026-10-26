@@ -1330,6 +1330,34 @@ export interface ArchitectureAdrBundleProjection {
   message?: string;
 }
 
+export interface TechnologyDecisionProjection {
+  schema_id: string;
+  status: 'BLOCK' | 'REVIEW_REQUIRED' | string;
+  read_only: true;
+  semantic_quality_certified: false;
+  source_mutations_performed: false;
+  dependency_installation_performed: false;
+  separate_technology_approval_required: false;
+  candidate_content_sha256: string;
+  upstream_refs: Array<{ stage: string; sha256: string; path?: string }>;
+  technology_excerpt: string;
+  material_adr_count: number;
+  material_adr_applicability: string;
+  adrs: Array<{ adr_id: string; title: string; proposal: string; rationale: string; alternatives: string; consequences: string; cost: string; support: string; security: string; relative_path: string; source_section_sha256: string; disposition: string }>;
+  findings: Array<{ rule_id: string; severity: 'BLOCK' | 'REVIEW_REQUIRED' | string; message: string }>;
+  approval_lineage: { state: string; architecture_approval_id?: string | null; architecture_sha256?: string | null };
+}
+
+export interface R0304LocalAuthoringProjection {
+  status: string;
+  selected_option_id?: string | null;
+  architecture_reconciled: boolean;
+  technology?: { status?: string; candidate_sha256?: string; content?: string; model?: string; human_review_required?: boolean; origin?: string; revision_of_sha256?: string; created_by?: string };
+  adr?: { status?: string; candidate_sha256?: string; content?: string; model?: string; human_review_required?: boolean; origin?: string; revision_of_sha256?: string; created_by?: string };
+  technology_path?: string;
+  adr_path?: string;
+}
+
 export interface PreCodeWizardProjection {
   schema_id: string;
   profile_id: string;
@@ -1351,6 +1379,8 @@ export interface PreCodeWizardProjection {
   };
   readiness: PreCodeReadiness;
   architecture_adr_bundle?: ArchitectureAdrBundleProjection;
+  technology_decision?: TechnologyDecisionProjection | null;
+  r03_04_authoring?: R0304LocalAuthoringProjection | null;
   transition_trace_ref: string;
   server_authoritative: true;
   normal_user_powershell_required: 0;

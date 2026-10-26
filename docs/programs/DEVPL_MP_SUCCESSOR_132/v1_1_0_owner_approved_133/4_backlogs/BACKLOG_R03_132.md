@@ -85,3 +85,15 @@ La desagregación R03 queda especificada en `7_ Execution_packages-sprints_promp
 **Actualización de autorización 2026-10-23:** el Owner aprobó individualmente `R03_01_DOC_RECONCILIATION` (`SPRINT_EXECUTION_APPROVED`) y su prompt (`OWNER_APPROVED`), limitados al baseline `1f15fa5b...`. Su ejecución y cierre Windows aún no están probados; R03_02..11 siguen DRAFT. El párrafo anterior describe el estado histórico de la planificación A189 del 2026-10-22.
 
 **Sucesor de cierre y autorización individual, 2026-10-23:** la afirmación anterior era verdadera antes de COR3; quedó superada por evidencia Windows y el cierre técnico R03-01 `PASS_WITH_FINDINGS` (HEAD `9c51d987a696...`). Owner aprobó ahora solo R03-02, rebindeado al mismo HEAD y en espera de validación Windows. R03-03..11 siguen sin autorización. Autoridad trazable: `6_trazabilidad/17_R03_01_CLOSURE_R03_02_AUTHORITY.md`. No se reescriben evidencias históricas.
+
+## A190 y checkpoint de ejecución — 2026-10-24
+
+La política A190 quedó activada en R03_03 y será especializada en R03_04–R03_07 por el sprint propietario; no confiere aprobación a los futuros. R03_03 cerró `PASS_WITH_FINDINGS` con C11 Windows, commit/push `df6a5dcbb6eeb112008db1373d2e975cbc60b18f` y ZIP baseline `git archive HEAD` verificado. Architecture Pilot B continúa en revisión semántica, sin aprobación/apply/freeze del artefacto. El Owner autorizó individualmente **solo R03_04** sobre ese baseline para propuestas tecnológicas y ADR materiales dentro del mismo approval Architecture, sin instalar dependencias. R03_05+ permanecen no autorizados.
+
+## Decisión Owner R03_04_C02 — 2026-10-25
+
+C01 (tarjetas abatibles en Pre-code Guided/Expert) queda PASS/CLOSED. Se amplía el **mismo sprint R03_04** antes de cerrarlo: Ollama local debe generar un Technology Options independiente con 2–3 stacks y una ADR material, Owner selecciona una opción en UI, una revisión sucesora Architecture DRAFT invalida el plan anterior y la publicación de documentos `technology_options.md` y `adrs/ADR-001-*.md` se hace bajo el publisher multiarchivo y approval normal ya existente. Prohibido confundir candidata con FROZEN, publicar automáticamente, instalar dependencias, suponer calidad semántica o delegar redacción Owner. La siguiente ola R03_05+ no queda autorizada. Fuente: `R03_04_C02_PROPOSAL.md` aprobado por Owner, sprint/prompt R03_04 v1.0.2.
+
+## Decisión Owner R03_04_C02 — 2026-10-25
+
+C01 (tarjetas abatibles en Pre-code Guided/Expert) queda PASS/CLOSED. Se amplía el **mismo sprint R03_04** antes de cerrarlo: Ollama local debe generar un Technology Options independiente con 2–3 stacks y una ADR material, Owner selecciona una opción en UI, una revisión sucesora Architecture DRAFT invalida el plan anterior y la publicación de documentos `technology_options.md` y `adrs/ADR-001-*.md` se hace bajo el publisher multiarchivo y approval normal ya existente. Prohibido confundir candidata con FROZEN, publicar automáticamente, instalar dependencias, suponer calidad semántica o delegar redacción Owner. La siguiente ola R03_05+ no queda autorizada. Fuente: `R03_04_C02_PROPOSAL.md` aprobado por Owner, sprint/prompt R03_04 v1.0.2.

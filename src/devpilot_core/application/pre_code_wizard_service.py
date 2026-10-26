@@ -32,6 +32,9 @@ from .pre_code_technical_design import C02_STAGES, C02_MODEL, C02_SCHEMA, derive
 from .pre_code_adr_bundle_service import ArchitectureAdrBundleService
 from .r02_07_semantic import generate_local_guided, quality_findings, persist_owner_revision
 from .r03_03_architecture import generate_local_architecture, persist_architecture_revision, architecture_quality
+from .r03_04_tech_decision import inspect_technology_decisions
+from .r03_04_local_authoring import (R0304LocalAuthoring, _OPTION, _sha as _r0304_sha,
+    adr_prompt, compose_architecture, technology_prompt, validate_technology, validate_adr)
 from .pre_code_semantic_model import (
     build_candidate_model,
     normalize_owner_model,
@@ -116,6 +119,7 @@ class PreCodeWizardApplicationService:
         self.reviews = reviews
         self.executions = executions
         self.adr_bundle = ArchitectureAdrBundleService(self.root, approval_auth_store=approval_auth_store)
+        self.technology_authoring = R0304LocalAuthoring(self.root)
         self.lifecycle = ArtifactLifecycleService(self.root)
         self.profiles = ArtifactProfileRegistry(self.root)
         self.advisor = ExecutionModeAdvisor(self.root)
@@ -131,6 +135,8 @@ class PreCodeWizardApplicationService:
         workspace_id, workspace_root = context
         state = self._load_state(workspace_id)
         projection = self._projection(state, workspace_id, workspace_root, effective_roles, workspace_scopes)
+        if workspace_id in set(workspace_scopes):
+            projection['r03_04_authoring'] = self._technology_public(state)
         return self._pass('guided pre-code status', 'GSDLC05E_PRE_CODE_STATUS_PASS', 'Pre-code wizard state projected from server-authoritative runtime state.', {'pre_code': projection})
 
     def reconcile_structure(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
@@ -323,6 +329,9 @@ class PreCodeWizardApplicationService:
                 fresh['disposition']='BLOCK'
             derivation=dict(derivation or {})
             derivation['quality_receipt']=fresh
+            derivation['technology_decision_receipt']=inspect_technology_decisions(
+                content,source_refs=derivation.get('upstream_refs') or derivation.get('source_refs') or [],
+                lifecycle='DRAFT')
         artifact_id='precode_'+hashlib.sha256(f"{workspace_id}|{stage_id}|{_sha_bytes(content.encode())}".encode()).hexdigest()[:24]
         lifecycle_source='AGENT_ASSISTED' if normalized_mode in {'DEVPL_MOCK','LOCAL_MODEL'} else normalized_mode
         draft=self.lifecycle.create_draft(
@@ -351,8 +360,20 @@ class PreCodeWizardApplicationService:
         current=self._current_stage(state)
         if current is None or current['stage_id']!=stage_id:return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Only the current mandatory stage can enter review.')
         row=self._stage_state(state,stage_id)
-        if row.get('status') not in {'DRAFT','FINDINGS'} or not isinstance(row.get('artifact'),dict):
-            return self._block(command,'GSDLC05E_DRAFT_REQUIRED_BLOCK','Save a current-stage DRAFT before validation/review.')
+        if stage_id=='architecture' and row.get('mode')=='LOCAL_MODEL' and not self._technology_binding_valid(state,row):
+            return self._block(command,'R0304_TECH_RECONCILIATION_REQUIRED',
+                'Genera Technology Options con modelo local, selecciona una opción, genera ADR y concilia Architecture antes de validar.')
+        # An existing approval must never be rebound to a newly generated plan.
+        # An unapproved APPROVAL_REQUIRED stage may be re-reviewed explicitly
+        # when its immutable edit plan has expired or vanished on API restart.
+        status=str(row.get('status') or '')
+        renewal=status=='APPROVAL_REQUIRED' and not row.get('approval_id')
+        if (status not in {'DRAFT','FINDINGS'} and not renewal) or not isinstance(row.get('artifact'),dict):
+            return self._block(command,'GSDLC05E_DRAFT_REQUIRED_BLOCK',
+                'Only a DRAFT/FINDINGS or unapproved APPROVAL_REQUIRED stage can be reviewed.')
+        if renewal and row['artifact'].get('state')!='DRAFT':
+            return self._block(command,'GSDLC05E_RENEWAL_ARTIFACT_STATE_BLOCK',
+                'Plan renewal requires the preserved server-authoritative DRAFT artifact.')
         if row.get('mode')=='LOCAL_MODEL' and self._candidate_content_binding(row)['status']!='PASS':
             return self._block(command,'R0207_CANDIDATE_CONTENT_BINDING_BLOCK',
                                'El Markdown visible no concuerda con el candidato/revisión y el hash persistido; detener antes del approval.')
@@ -370,6 +391,16 @@ class PreCodeWizardApplicationService:
                 return self._block(command,'R0303_ARCH_QUALITY_BLOCK','Architecture tiene contradicciones o cobertura material faltante.',metadata={'quality_receipt':report})
             report['content_sha256']=_sha_text(str(row.get('content') or ''))
             row['derivation']['quality_receipt']=report
+            decision_report=inspect_technology_decisions(
+                str(row.get('content') or ''),
+                source_refs=(row.get('derivation') or {}).get('upstream_refs') or
+                            (row.get('derivation') or {}).get('source_refs') or [],
+                lifecycle='DRAFT')
+            row['derivation']['technology_decision_receipt']=decision_report
+            if decision_report['status']=='BLOCK':
+                return self._block(command,'R0304_TECH_DECISION_MATERIAL_BLOCK',
+                    'Technology/ADR propone una acción material o una aprobación no fundada.',
+                    metadata={'findings':[x for x in decision_report['findings'] if x['severity']=='BLOCK']})
         if workspace_id=='admon_empresa_unipersonal_con_agentes' and stage_id in {'product-vision','scope','requirements'}:
             # Derive review facts from the same trusted B0 as generation; never
             # trust claims of source authorization inside model Markdown.
@@ -424,6 +455,8 @@ class PreCodeWizardApplicationService:
         review=(result.data or {}).get('review') if isinstance(result.data,dict) else None
         if isinstance(review,dict):
             row['review_id']=review.get('review_id'); row['status']=str(review.get('status') or 'FINDINGS'); row['findings']=list(review.get('findings') or []); row['validation']=dict(review.get('validation') or {}); row['updated_at']=_now()
+            # A failed successor review must not retain an obsolete plan/hash/diff.
+            row['plan_id']=None; row['plan_hash']=None; row['diff']=None
             plan=review.get('plan') if isinstance(review.get('plan'),dict) else None
             if plan:
                 row['plan_id']=plan.get('plan_id'); row['plan_hash']=plan.get('plan_hash'); row['diff']=plan.get('diff') or plan.get('unified_diff') or plan.get('preview')
@@ -440,6 +473,8 @@ class PreCodeWizardApplicationService:
         state=self._load_state(workspace_id); current=self._current_stage(state)
         if current is None or current['stage_id']!=stage_id:return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Only current stage can request approval.')
         row=self._stage_state(state,stage_id)
+        if stage_id=='architecture' and row.get('mode')=='LOCAL_MODEL' and not self._technology_binding_valid(state,row):
+            return self._block(command,'R0304_TECH_APPROVAL_BINDING_BLOCK','El plan Architecture no incluye una elección L/ADR actual y verificable. No reutilices un plan anterior.')
         if row.get('status')!='APPROVAL_REQUIRED' or not row.get('plan_id') or not row.get('plan_hash'):
             return self._block(command,'GSDLC05E_APPROVAL_PLAN_REQUIRED_BLOCK','Current stage must pass validation and produce an immutable plan before approval.')
         result=self.executions.request_apply_approval(plan_id=str(row['plan_id']),plan_hash=str(row['plan_hash']),actor=actor,reason=str(reason or 'Approve governed pre-code artifact apply.'),ttl_minutes=30)
@@ -466,6 +501,8 @@ class PreCodeWizardApplicationService:
         state=self._load_state(workspace_id); current=self._current_stage(state)
         if current is None or current['stage_id']!=stage_id:return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Only current stage can be applied.')
         row=self._stage_state(state,stage_id)
+        if stage_id=='architecture' and row.get('mode')=='LOCAL_MODEL' and not self._technology_binding_valid(state,row):
+            return self._block(command,'R0304_TECH_APPLY_BINDING_BLOCK','Architecture/Technology/ADR cambió desde el plan; preparar una revisión sucesora.')
         required=['plan_id','plan_hash','approval_id','review_id']
         if row.get('status')!='APPROVAL_REQUIRED' or any(not row.get(k) for k in required):return self._block(command,'GSDLC05E_APPLY_BINDING_BLOCK','Current stage lacks review/plan/approval binding.')
         result=self.executions.apply(plan_id=str(row['plan_id']),plan_hash=str(row['plan_hash']),approval_id=str(row['approval_id']),actor=actor)
@@ -487,6 +524,8 @@ class PreCodeWizardApplicationService:
         state=self._load_state(workspace_id); current=self._current_stage(state)
         if current is None or current['stage_id']!=stage_id:return self._block(command,'GSDLC05E_STAGE_SKIP_BLOCK','Only the current mandatory stage can be frozen.')
         row=self._stage_state(state,stage_id)
+        if stage_id=='architecture' and row.get('mode')=='LOCAL_MODEL' and not self._technology_binding_valid(state,row):
+            return self._block(command,'R0304_TECH_FREEZE_BINDING_BLOCK','No congelar Architecture con decisiones tecnológicas no conciliadas.')
         if row.get('status') != 'APPLIED':
             return self._block(command,'GSDLC05E_APPLY_REQUIRED_BLOCK','Freeze requires the current stage to have an approved applied execution.')
         if str(row.get('review_id') or '')!=str(review_id or '') or str(row.get('execution_id') or '')!=str(execution_id or ''):
@@ -562,6 +601,191 @@ class PreCodeWizardApplicationService:
         event={'event':'C01_RETEST_REOPENED','actor':actor,'actor_role':actor_role,'reason':str(reason or 'Selective retest after approved corrective'),'state_archive':str(state_archive.relative_to(self.root)).replace('\\','/'),'trace_archive':str(trace_archive.relative_to(self.root)).replace('\\','/') if trace_archive else None,'project_source_mutations':0,'at':_now()}
         self._append_trace(workspace_id,event)
         return self._pass(command,'GSDLC13C01_RETEST_REOPEN_PASS','C-01 runtime state reopened for an exact selective retest; prior evidence archived and managed project source bytes preserved.',{'workspace_id':workspace_id,'state_archive':event['state_archive'],'trace_archive':event['trace_archive'],'project_source_mutations':0})
+
+    def technology_action(self, *, action: str, actor: str, actor_role: str,
+                          session_principal: str, effective_roles: list[str],
+                          workspace_scopes: list[str], option_id: str = '',
+                          model: str = '', successor: bool = False, content: str = '') -> CommandResult:
+        """One governed UI endpoint for the four explicit R03-04 authoring actions."""
+        command = 'guided pre-code technology local authoring'
+        context = self._context()
+        if isinstance(context, CommandResult): return context
+        workspace_id, workspace_root = context
+        identity = self._identity(actor,actor_role,session_principal,effective_roles)
+        if identity is not None: return identity
+        if workspace_id not in set(workspace_scopes):
+            return self._block(command,'R0304_WORKSPACE_SCOPE_DENY','La sesión Owner no tiene alcance al proyecto activo.')
+        state = self._load_state(workspace_id)
+        current = self._current_stage(state)
+        row = self._stage_state(state,'architecture')
+        if not current or current['stage_id']!='architecture' or row.get('mode')!='LOCAL_MODEL':
+            return self._block(command,'R0304_LOCAL_ARCHITECTURE_REQUIRED','Las opciones requieren Architecture LOCAL_MODEL como etapa actual.')
+        if row.get('status') not in ('DRAFT','APPROVAL_REQUIRED') or row.get('approval_id'):
+            return self._block(command,'R0304_ARCHITECTURE_LOCKED','Architecture ya tiene approval o fue aplicada; no reescribir decisiones sin sucesor gobernado.')
+        if not str(row.get('content') or '').strip() or _sha_text(str(row['content']))!=str(row.get('content_sha256') or ''):
+            return self._block(command,'R0304_ARCHITECTURE_CANDIDATE_DRIFT','El Markdown Architecture no coincide con su estado persistido.')
+        authoring = dict(state.get('r03_04_authoring') or {})
+        tech = dict(authoring.get('technology') or {})
+        selected = str(authoring.get('selected_option_id') or '')
+        adr = dict(authoring.get('adr') or {})
+        try:
+            if action in ('select_option','generate_adr','owner_revise_adr','reconcile'):
+                if (tech.get('schema_id')!='mp132.r03_04.technology_options.v3'
+                        or validate_technology(str(tech.get('content') or ''))):
+                    raise ValueError('R0304_TECH_P5_CANDIDATE_REGENERATE_P6')
+            if action == 'reconcile':
+                if (adr.get('schema_id')!='mp132.r03_04.material_adr.v3'
+                        or validate_adr(str(adr.get('content') or ''))):
+                    raise ValueError('R0304_ADR_INCOMPLETE_REGENERATE')
+            if action == 'generate_options':
+                frozen = self._r0304_frozen_context(state,workspace_root)
+                project_file=workspace_root/'.devpilot/project.yaml'
+                if not project_file.is_file() or project_file.is_symlink():
+                    raise ValueError('R0304_PROJECT_CONTEXT_REQUIRED')
+                name=str(parse_project_yaml_metadata(project_file).get('project_name') or workspace_id)
+                prompt=technology_prompt(name,str(row['content']),frozen)
+                request = {'upstream_sha':{key:_sha_text(value) for key,value in frozen.items()},
+                           'architecture_sha':str(row['content_sha256']),
+                           'prompt_sha256':_sha_text(prompt),
+                           'context_profile':'r03_04.evidence_selection.v1',
+                           'profile_version':'2.3.0'}
+                reply = self.technology_authoring.infer(workspace_id=workspace_id,kind='technology',
+                    input_binding=request,prompt=prompt,
+                    model=model or str((row.get('derivation') or {}).get('model') or ''),
+                    successor=successor,explicit_owner_action=True)
+                if str(tech.get('candidate_sha256') or '') != reply['candidate_sha256']:
+                    authoring={'technology':reply,'selected_option_id':None,'adr':None,
+                               'reconciled_architecture_sha256':None,'status':'TECH_OPTIONS_DRAFT'}
+                else:
+                    authoring['technology']=reply
+            elif action == 'owner_revise_options':
+                self._r0304_frozen_context(state,workspace_root)
+                reply=self.technology_authoring.owner_revision(
+                    workspace_id=workspace_id,kind='technology',content=content,parent=tech,actor=actor)
+                if reply.get('candidate_sha256')!=tech.get('candidate_sha256'):
+                    authoring={'technology':reply,'selected_option_id':None,'adr':None,
+                               'reconciled_architecture_sha256':None,'status':'TECH_OPTIONS_DRAFT'}
+                    self._append_trace(workspace_id,{'event':'R0304_OWNER_TECH_REVISION',
+                        'actor':actor,'before_sha256':tech.get('candidate_sha256'),
+                        'after_sha256':reply['candidate_sha256'],'at':_now()})
+            elif action == 'select_option':
+                self.technology_authoring.bound_candidate(workspace_id,tech)
+                choices={m.group(1).upper() for m in _OPTION.finditer(str(tech.get('content') or ''))}
+                if option_id not in choices:
+                    raise ValueError('R0304_UNKNOWN_OPTION_DENY')
+                if selected != option_id:
+                    authoring.update({'selected_option_id':option_id,'adr':None,
+                                      'reconciled_architecture_sha256':None,'status':'OWNER_OPTION_SELECTED'})
+                authoring['selected_by']=actor
+                authoring['selection_at']=_now()
+            elif action == 'generate_adr':
+                technology=self.technology_authoring.bound_candidate(workspace_id,tech)
+                if not selected or selected not in {m.group(1).upper() for m in _OPTION.finditer(technology)}:
+                    raise ValueError('R0304_OWNER_SELECTION_REQUIRED')
+                inputs={'technology_sha':tech['candidate_sha256'],'selected_option_id':selected,
+                        'architecture_sha':row['content_sha256'],'profile_version':'2.3.0',
+                        'context_profile':'r03_04.evidence_selection.v1'}
+                prompt=adr_prompt(str(row['content']),technology,selected)
+                inputs['prompt_sha256']=_sha_text(prompt)
+                reply=self.technology_authoring.infer(workspace_id=workspace_id,kind='adr',
+                    input_binding=inputs,prompt=prompt,
+                    model=model or str((row.get('derivation') or {}).get('model') or ''),
+                    successor=successor,explicit_owner_action=True)
+                authoring.update({'adr':reply,'reconciled_architecture_sha256':None,
+                                  'status':'ADR_DRAFT'})
+            elif action == 'owner_revise_adr':
+                if not selected:
+                    raise ValueError('R0304_OWNER_SELECTION_REQUIRED')
+                technology=self.technology_authoring.bound_candidate(workspace_id,tech)
+                if selected not in {m.group(1).upper() for m in _OPTION.finditer(technology)}:
+                    raise ValueError('R0304_OWNER_SELECTION_DRIFT')
+                if not re.search(r'\b'+re.escape(selected)+r'\b',content,re.I):
+                    raise ValueError('R0304_OWNER_ADR_SELECTION_MISMATCH')
+                reply=self.technology_authoring.owner_revision(
+                    workspace_id=workspace_id,kind='adr',content=content,parent=adr,actor=actor)
+                if reply.get('candidate_sha256')!=adr.get('candidate_sha256'):
+                    authoring.update({'adr':reply,'reconciled_architecture_sha256':None,
+                                      'status':'ADR_DRAFT'})
+                    self._append_trace(workspace_id,{'event':'R0304_OWNER_ADR_REVISION',
+                        'actor':actor,'before_sha256':adr.get('candidate_sha256'),
+                        'after_sha256':reply['candidate_sha256'],'at':_now()})
+            elif action == 'reconcile':
+                technology=self.technology_authoring.bound_candidate(workspace_id,tech)
+                decision=self.technology_authoring.bound_candidate(workspace_id,adr)
+                if not selected or selected not in {m.group(1).upper() for m in _OPTION.finditer(technology)}:
+                    raise ValueError('R0304_OWNER_SELECTION_REQUIRED')
+                replacement=compose_architecture(str(row['content']),technology,selected,decision,
+                                                  tech['candidate_sha256'],adr['candidate_sha256'])
+                if _sha_text(replacement)==str(row['content_sha256']):
+                    if self._technology_binding_valid(state,row):
+                        return self._pass(command,'R0304_ARCHITECTURE_ALREADY_BOUND_PASS',
+                                          'Architecture ya incluye la selección exacta; no se repitió ninguna inferencia.',
+                                          {'r03_04_authoring':self._technology_public(state),'source_mutations_performed':False})
+                    raise ValueError('R0304_SAME_CONTENT_WITHOUT_BINDING_BLOCK')
+                saved=self.save_draft(stage_id='architecture',content=replacement,mode='LOCAL_MODEL',
+                    actor=actor,actor_role=actor_role,session_principal=session_principal,
+                    effective_roles=effective_roles,workspace_scopes=workspace_scopes)
+                if not saved.ok: return saved
+                state=self._load_state(workspace_id)
+                row=self._stage_state(state,'architecture')
+                binding={'technology_sha256':tech['candidate_sha256'],'selected_option_id':selected,
+                         'adr_sha256':adr['candidate_sha256'],'architecture_sha256':row['content_sha256']}
+                row['derivation']=dict(row.get('derivation') or {})
+                row['derivation']['technology_selection']=binding
+                authoring['reconciled_architecture_sha256']=row['content_sha256']
+                authoring['status']='ARCHITECTURE_REVIEW_REQUIRED'
+                self._append_trace(workspace_id,{'event':'R0304_OWNER_TECHNOLOGY_SELECTED',
+                    'actor':actor,'plan_invalidated':bool((saved.data or {}).get('plan_invalidated')),
+                    'binding':binding,'at':_now()})
+            else:
+                return self._block(command,'R0304_ACTION_UNKNOWN','Operación Technology/ADR no permitida.')
+        except (ValueError, OSError, UnicodeError, KeyError, TypeError) as exc:
+            return self._block(command,'R0304_LOCAL_AUTHORING_BLOCK',str(exc))
+        state['r03_04_authoring']=authoring
+        state['updated_at']=_now()
+        self._write_state(workspace_id,state)
+        return self._pass(command,'R0304_LOCAL_AUTHORING_PASS',
+            'Modelo local ejecutado o decisión Owner conservada; la publicación requiere approval gobernado.',
+            {'r03_04_authoring':self._technology_public(state),'source_mutations_performed':False,
+             'network_scope':'loopback' if action in ('generate_options','generate_adr') else 'none'})
+
+    def _r0304_frozen_context(self,state:dict[str,Any],workspace_root:Path)->dict[str,str]:
+        frozen={}
+        for source_id in ('product-vision','scope','requirements'):
+            row=self._stage_state(state,source_id)
+            target=workspace_root/str(self._stage_by_id[source_id]['relative_path'])
+            approved=str(row.get('approved_sha256') or '')
+            if (row.get('status')!='FROZEN' or not _SHA.fullmatch(approved)
+                    or not target.is_file() or target.is_symlink()
+                    or _sha_bytes(target.read_bytes())!=approved):
+                raise ValueError('R0304_UPSTREAM_FROZEN_DRIFT:'+source_id)
+            frozen[source_id]=_canonical_text(target.read_text(encoding='utf-8-sig'))
+        return frozen
+
+    @staticmethod
+    def _technology_binding_valid(state:dict[str,Any],row:dict[str,Any])->bool:
+        auth=state.get('r03_04_authoring') or {}
+        decision=(row.get('derivation') or {}).get('technology_selection') or {}
+        tech=auth.get('technology') or {}; adr=auth.get('adr') or {}
+        return (bool(auth.get('reconciled_architecture_sha256'))
+            and auth.get('reconciled_architecture_sha256')==row.get('content_sha256')
+            and decision.get('architecture_sha256')==row.get('content_sha256')
+            and decision.get('technology_sha256')==tech.get('candidate_sha256')
+            and decision.get('adr_sha256')==adr.get('candidate_sha256')
+            and decision.get('selected_option_id')==auth.get('selected_option_id')
+            and tech.get('status')=='COMPLETE' and adr.get('status')=='COMPLETE')
+
+    @staticmethod
+    def _technology_public(state:dict[str,Any])->dict[str,Any]:
+        auth=state.get('r03_04_authoring') or {}
+        tech=auth.get('technology') or {}; adr=auth.get('adr') or {}
+        return {'status':auth.get('status') or 'NOT_STARTED','selected_option_id':auth.get('selected_option_id'),
+                'architecture_reconciled':bool(auth.get('reconciled_architecture_sha256')),
+                'technology':{key:tech.get(key) for key in ('status','candidate_file','candidate_sha256','content','model','tokens_estimated','quality_certified','human_review_required','origin','revision_of_sha256','created_by')},
+                'adr':{key:adr.get(key) for key in ('status','candidate_file','candidate_sha256','content','model','tokens_estimated','quality_certified','human_review_required','origin','revision_of_sha256','created_by')},
+                'model_execution_used':bool(tech.get('model_execution_used')),
+                'project_source_mutations':0,'technology_path':'docs/02_architecture/technology_options.md',
+                'adr_path':'docs/02_architecture/adrs/ADR-001-*.md'}
 
     def architecture_adrs_prepare(self, *, actor: str, actor_role: str, session_principal: str, effective_roles: list[str]) -> CommandResult:
         command='guided pre-code architecture ADRs prepare'
@@ -674,13 +898,28 @@ class PreCodeWizardApplicationService:
         readiness=self._readiness_payload(state,workspace_id,workspace_root,miasi=miasi)
         current_row=self._stage_state(state,current['stage_id']) if current else {}
         current_derivation=current_row.get('derivation') if isinstance(current_row.get('derivation'),dict) else {}
+        technology_decision=None
+        architecture_row=self._stage_state(state,'architecture')
+        if str(architecture_row.get('content') or '').strip():
+            architecture_derivation=architecture_row.get('derivation') if isinstance(architecture_row.get('derivation'),dict) else {}
+            frozen_sha=str(architecture_row.get('approved_sha256') or '')
+            frozen_proven=False
+            if architecture_row.get('status')=='FROZEN' and frozen_sha:
+                target=workspace_root/str(self._stage_by_id['architecture']['relative_path'])
+                frozen_proven=target.is_file() and not target.is_symlink() and _sha_bytes(target.read_bytes())==frozen_sha
+            technology_decision=inspect_technology_decisions(
+                str(architecture_row.get('content') or ''),
+                source_refs=architecture_derivation.get('upstream_refs') or architecture_derivation.get('source_refs') or [],
+                lifecycle=str(architecture_row.get('status') or 'DRAFT'),
+                architecture_approval_id=str(architecture_row.get('approval_id') or ''),
+                frozen_sha256=frozen_sha,source_sha256_verified=frozen_proven)
         adr_bundle=self.adr_bundle.projection(workspace_root=workspace_root,workspace_id=workspace_id,state=state)
         from .r02_07_segmented import progress as requirements_progress
         from .r03_03_segments import progress as architecture_progress
         segmented_status=(requirements_progress(self.root,workspace_id) if current and current['stage_id']=='requirements'
                           else architecture_progress(self.root,workspace_id) if current and current['stage_id']=='architecture'
                           else None)
-        return {'product_definition_coverage':(self._product_definition_coverage(state,workspace_root) if workspace_id in set(workspace_scopes) else None), 'segmented_progress':segmented_status, 'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
+        return {'product_definition_coverage':(self._product_definition_coverage(state,workspace_root) if workspace_id in set(workspace_scopes) else None), 'segmented_progress':segmented_status, 'technology_decision':technology_decision, 'schema_id':'devpilot.gsdlc05e.pre_code_projection.v1','profile_id':self.catalog['profile_id'],'readiness_semantics':self.catalog.get('readiness_semantics'),'workspace_id':workspace_id,'status':state.get('status','NOT_STARTED'),'current_stage_id':current['stage_id'] if current else None,'current_stage_order':current['order'] if current else None,'stages':[self._public_stage(self._stage_state(state,x['stage_id']),x) for x in self._stages],'semantic_model':deepcopy(state.get('semantic_model')) if isinstance(state.get('semantic_model'),dict) else None,'advisor':advisor_payload,'miasi':miasi,'readiness':readiness,'architecture_adr_bundle':adr_bundle,'transition_trace_ref':f'outputs/pre_code_wizard/gsdlc_05_e/{workspace_id}/transition_trace.jsonl','server_authoritative':True,'normal_user_powershell_required':0,'external_operator_project_writes':0,'network_used':False,'external_api_used':False,'model_execution_used':bool(current_derivation.get('model_execution_used',False)),'agent_execution_used':bool(current_derivation.get('agent_execution_used',False)),'rag_execution_used':bool(current_derivation.get('rag_execution_used',False)),'deterministic_local_derivation_available':bool(current and 'DEVPL_MOCK' in current.get('allowed_modes',[]))}
 
     def _product_definition_coverage(self, state:dict[str,Any], workspace_root:Path)->dict[str,Any]|None:
         """A188 read-only post-FROZEN audit; never changes readiness or lifecycle.

@@ -24,6 +24,7 @@ ADR_APPLY_TOOL = "workspace.edit.apply"
 ZERO_SHA256 = "0" * 64
 ADR_ROOT = Path("docs/02_architecture/adrs")
 ARCH_PATH = Path("docs/02_architecture/architecture_document.md")
+TECH_PATH = Path("docs/02_architecture/technology_options.md")
 _ADR_HEADING = re.compile(r"^###\s+(ADR-\d{3})\s+[—-]\s+(.+?)\s*$", re.M)
 
 
@@ -80,10 +81,12 @@ class ArchitectureAdrBundleService:
     def projection(self, *, workspace_root: Path, workspace_id: str, state: dict[str, Any]) -> dict[str, Any]:
         arch = dict((state.get("stages") or {}).get("architecture") or {})
         derivation=arch.get("derivation") if isinstance(arch.get("derivation"),dict) else {}
-        if str(arch.get("status") or "") != "FROZEN" or str(arch.get("mode") or "") != "DEVPL_MOCK" or not str(derivation.get("schema_id") or "").startswith("devpilot.gsdlc13c02"):
+        deterministic = (str(arch.get("mode") or "") == "DEVPL_MOCK" and str(derivation.get("schema_id") or "").startswith("devpilot.gsdlc13c02"))
+        locally_authored = (str(arch.get("mode") or "") == "LOCAL_MODEL" and bool(derivation.get("technology_selection")))
+        if str(arch.get("status") or "") != "FROZEN" or not (deterministic or locally_authored):
             return {"status": "NOT_APPLICABLE", "required": False, "ready": False, "adrs": []}
         runtime = dict(state.get("architecture_adr_bundle") or {})
-        expected = self._expected_from_frozen(workspace_root=workspace_root, workspace_id=workspace_id, arch=arch)
+        expected = self._expected_from_frozen(workspace_root=workspace_root, workspace_id=workspace_id, arch=arch, state=state)
         if isinstance(expected, CommandResult):
             return {
                 "status": "BLOCK",
@@ -140,9 +143,9 @@ class ArchitectureAdrBundleService:
         derivation=arch.get("derivation") if isinstance(arch.get("derivation"),dict) else {}
         if str(arch.get("status") or "") != "FROZEN":
             return self._block(command, "GSDLC13C02_ADR_ARCHITECTURE_FROZEN_REQUIRED_BLOCK", "Architecture must be FROZEN before standalone ADR materialization can be planned.")
-        if str(arch.get("mode") or "") != "DEVPL_MOCK" or not str(derivation.get("schema_id") or "").startswith("devpilot.gsdlc13c02"):
-            return self._block(command, "GSDLC13C02_ADR_C02_DERIVATION_REQUIRED_BLOCK", "ADR companion materialization is bounded to the C-02 deterministic Architecture derivation; generic MANUAL/IMPORT lifecycle remains unchanged.")
-        expected = self._expected_from_frozen(workspace_root=workspace_root, workspace_id=workspace_id, arch=arch)
+        if not ((str(arch.get("mode") or "") == "DEVPL_MOCK" and str(derivation.get("schema_id") or "").startswith("devpilot.gsdlc13c02")) or (str(arch.get("mode") or "") == "LOCAL_MODEL" and derivation.get("technology_selection"))):
+            return self._block(command, "R0304_TECH_AUTHORING_LINEAGE_REQUIRED", "La materialización de Technology/ADR exige Architecture local conciliada o derivación determinística C-02 vigente.")
+        expected = self._expected_from_frozen(workspace_root=workspace_root, workspace_id=workspace_id, arch=arch, state=state)
         if isinstance(expected, CommandResult):
             return expected
         parity = self._source_parity(workspace_root, expected["adrs"])
@@ -301,7 +304,8 @@ class ArchitectureAdrBundleService:
                     target.relative_to(workspace_root.resolve())
                 except ValueError:
                     raise RuntimeError(f"target escaped workspace: {change['relative_path']}")
-                if target.parent != (workspace_root / ADR_ROOT).resolve() or not target.parent.is_dir() or target.parent.is_symlink():
+                allowed_parents = {(workspace_root / ADR_ROOT).resolve(), (workspace_root / TECH_PATH.parent).resolve()}
+                if target.parent not in allowed_parents or not target.parent.is_dir() or target.parent.is_symlink():
                     raise RuntimeError(f"governed ADR parent invalid: {change['relative_path']}")
                 fd, raw_tmp = tempfile.mkstemp(prefix=f".{target.name}.", suffix=".tmp", dir=str(target.parent))
                 tmp = Path(raw_tmp)
@@ -422,7 +426,7 @@ class ArchitectureAdrBundleService:
         # validity at apply time; recovery verifies persisted decision + exact binding.
         return True
 
-    def _expected_from_frozen(self, *, workspace_root: Path, workspace_id: str, arch: dict[str, Any]) -> dict[str, Any] | CommandResult:
+    def _expected_from_frozen(self, *, workspace_root: Path, workspace_id: str, arch: dict[str, Any], state: dict[str, Any] | None = None) -> dict[str, Any] | CommandResult:
         command = "guided pre-code architecture ADR bundle"
         path = workspace_root / ARCH_PATH
         if not path.is_file():
@@ -435,6 +439,11 @@ class ArchitectureAdrBundleService:
         updated = str(parsed.frontmatter.get("updated") or "1970-01-01")
         owner = str(parsed.frontmatter.get("owner") or "local-owner")
         approval_id = str(arch.get("approval_id") or "")
+        derivation=arch.get('derivation') if isinstance(arch.get('derivation'),dict) else {}
+        if arch.get('mode')=='LOCAL_MODEL' and derivation.get('technology_selection'):
+            return self._expected_local_from_frozen(workspace_root=workspace_root,workspace_id=workspace_id,
+                arch=arch,state=state or {},approved_sha=actual_sha,approval_id=approval_id,
+                owner=owner,updated=updated,architecture_content=content)
         extracted = self._extract_adrs(parsed.body)
         if isinstance(extracted, CommandResult):
             return extracted
@@ -451,6 +460,79 @@ class ArchitectureAdrBundleService:
             standalone = self._render_standalone(adr_id=adr_id, title=title, body=body, owner=owner, updated=updated, architecture_sha256=actual_sha, architecture_approval_id=approval_id, architecture_path=ARCH_PATH.as_posix())
             adrs.append({"adr_id": adr_id, "title": title, "relative_path": rel, "content": standalone, "proposed_sha256": _sha_bytes(standalone.encode("utf-8"))})
         return {"workspace_id": workspace_id, "architecture_sha256": actual_sha, "architecture_approval_id": approval_id, "adrs": adrs}
+
+    def _expected_local_from_frozen(self, *, workspace_root: Path, workspace_id: str,
+                                    arch: dict[str, Any], state: dict[str, Any],
+                                    approved_sha: str, approval_id: str,
+                                    owner: str, updated: str,
+                                    architecture_content: str) -> dict[str, Any] | CommandResult:
+        """Derive two genuine L-authored documents from the frozen Owner selection.
+
+        This only builds exact candidate bytes. Existing prepare/approval/apply
+        owns the single governed multi-file source-write transaction.
+        """
+        command='guided pre-code technology/ADR bundle'
+        from .r03_04_local_authoring import R0304LocalAuthoring, _ADR, _OPTION
+        authoring=dict(state.get('r03_04_authoring') or {})
+        selected=str(authoring.get('selected_option_id') or '')
+        technology=dict(authoring.get('technology') or {})
+        adr=dict(authoring.get('adr') or {})
+        binding=(arch.get('derivation') or {}).get('technology_selection') or {}
+        # Runtime DRAFT digest and published source digest are distinct authorities:
+        # the plan writer adds/finalizes frontmatter on apply. Never equate their
+        # physical bytes (nor LF/CRLF representation) to the DRAFT content digest.
+        bound_draft_sha=str(arch.get('content_sha256') or '')
+        if (technology.get('status')!='COMPLETE' or adr.get('status')!='COMPLETE'
+                or not approval_id or not re.fullmatch(r'[0-9a-f]{64}',bound_draft_sha)
+                or binding.get('architecture_sha256')!=bound_draft_sha
+                or binding.get('technology_sha256')!=technology.get('candidate_sha256')
+                or binding.get('adr_sha256')!=adr.get('candidate_sha256')
+                or binding.get('selected_option_id')!=selected
+                or authoring.get('reconciled_architecture_sha256')!=bound_draft_sha):
+            return self._block(command,'R0304_LOCAL_FROZEN_BINDING_DRIFT',
+                'Architecture FROZEN no coincide con selección, Technology Options y ADR generadas.')
+        try:
+            generator=R0304LocalAuthoring(self.root)
+            tech_text=generator.bound_candidate(workspace_id,technology)
+            adr_text=generator.bound_candidate(workspace_id,adr)
+        except (ValueError,OSError,UnicodeError) as exc:
+            return self._block(command,'R0304_LOCAL_CANDIDATE_DRIFT',str(exc))
+        if (selected not in {m.group(1).upper() for m in _OPTION.finditer(tech_text)}
+                or not _ADR.search(adr_text)
+                or str(technology['candidate_sha256']) not in architecture_content
+                or str(adr['candidate_sha256']) not in architecture_content):
+            return self._block(command,'R0304_ARCHITECTURE_BINDING_MISSING',
+                'Architecture FROZEN debe incluir el SHA exacto de las propuestas de modelo aprobadas.')
+        if any(path.is_symlink() or not path.is_dir() for path in (
+                workspace_root / ADR_ROOT, workspace_root / TECH_PATH.parent)):
+            return self._block(command,'R0304_GOVERNED_PARENT_REQUIRED',
+                'Falta la carpeta de documentos Architecture o ADR gobernada.')
+        def header(doc_id: str,title: str,source_sha: str) -> str:
+            return ('---\n'+f'doc_id: "{doc_id}"\n'+f'title: "{title}"\n'
+                    +'status: "frozen"\nversion: "1.0.0"\n'+f'owner: "{owner}"\n'
+                    +f'updated: "{updated}"\n'+f'approval: "inherited-from-architecture:{approval_id}"\n'
+                    +f'source_architecture_sha256: "{approved_sha}"\n'
+                    +f'local_model_candidate_sha256: "{source_sha}"\n---\n\n')
+        tech_body=(header('TECHNOLOGY_OPTIONS', 'Technology Options — Architecture',technology['candidate_sha256'])
+                   +tech_text+'\n\n## Selección y autoridad\n\n'
+                   +f'- Selección Owner: **{selected}**.\n'
+                   +f'- Architecture FROZEN: `{approved_sha}`; approval `{approval_id}`.\n'
+                   +'- Costos estimados de ejecución local: NOT_AVAILABLE. No instala dependencias.\n')
+        adr_match=_ADR.search(adr_text);assert adr_match is not None
+        adr_id='ADR-'+adr_match.group(1);title=adr_match.group(2).strip()
+        adr_body=(header(adr_id,f'{adr_id} — {title}',adr['candidate_sha256'])
+                  +adr_text+'\n\n## Proveniencia\n\n'
+                  +f'- Technology Options SHA-256: `{technology["candidate_sha256"]}`; opción `{selected}`.\n'
+                  +f'- Architecture FROZEN SHA-256: `{approved_sha}`; approval `{approval_id}`.\n'
+                  +'- Documento creado por modelo local, evaluado por Owner y materializado únicamente desde plan aprobado.\n')
+        rows=[]
+        for item_id, name, rel, output in (
+            ('TECH-OPTIONS','Technology Options',TECH_PATH.as_posix(),tech_body),
+            (adr_id,title,(ADR_ROOT / f'{adr_id}-{_safe_slug(title)}.md').as_posix(),adr_body)):
+            rows.append({'adr_id':item_id,'title':name,'relative_path':rel,
+                         'content':output,'proposed_sha256':_sha_bytes(output.encode('utf-8'))})
+        return {'workspace_id':workspace_id,'architecture_sha256':approved_sha,
+                'architecture_approval_id':approval_id,'adrs':rows}
 
     def _extract_adrs(self, body: str) -> list[dict[str, str]] | CommandResult:
         command = "guided pre-code architecture ADR bundle"
@@ -519,7 +601,7 @@ class ArchitectureAdrBundleService:
         if not plan or _canonical_sha({k: v for k, v in plan.items() if k != "plan_hash"}) != str(plan.get("plan_hash") or ""):
             return self._block(command, "GSDLC13C02_ADR_PLAN_TAMPER_BLOCK", "Stored ADR bundle plan hash no longer matches its immutable content.")
         arch = dict((state.get("stages") or {}).get("architecture") or {})
-        expected = self._expected_from_frozen(workspace_root=workspace_root, workspace_id=str(plan.get("workspace_id") or ""), arch=arch)
+        expected = self._expected_from_frozen(workspace_root=workspace_root, workspace_id=str(plan.get("workspace_id") or ""), arch=arch, state=state)
         if isinstance(expected, CommandResult):
             return expected
         if str(expected["architecture_sha256"]) != str(plan.get("architecture_sha256") or ""):

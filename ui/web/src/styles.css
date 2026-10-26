@@ -1810,3 +1810,20 @@ button, .primary-nav__links a { min-height: var(--dp-control-min-target); }
   .project-home__active-resume > a { grid-column: 1; grid-row: auto; }
   .project-home__active-resume > a { width: 100%; justify-content: center; }
 }
+
+
+/* P6: separate actions and candidate output without redesigning the workbench. */
+.pre-code-technology-options { display:flex; flex-wrap:wrap; gap:.75rem; margin-block:1rem 1.5rem; }
+.pre-code-technology-decisions [data-r0304-local-authoring] > details { margin-block:1rem; }
+.pre-code-technology-decisions [data-r0304-local-authoring] > button { margin-block:.5rem; }
+
+/* P7: local feedback is next to its button and Markdown cannot escape panel bounds. */
+.pre-code-technology-decisions [data-r0304-local-authoring] { min-width:0; max-width:100%; }
+.pre-code-technology-decisions [data-r0304-local-authoring] > details { min-width:0; max-width:100%; }
+.pre-code-technology-decisions [data-r0304-local-authoring] > details pre {
+  white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word;
+  max-width:100%; min-width:0; box-sizing:border-box; overflow-x:auto;
+}
+.pre-code-r0304-feedback:empty { display:none; }
+.pre-code-r0304-feedback:not(:empty) { margin:.75rem 0; }
+.pre-code-r0304-editor { display:block; box-sizing:border-box; width:100%; max-width:100%; min-width:0; white-space:pre-wrap; overflow-wrap:anywhere; margin-block:.5rem 1rem; }

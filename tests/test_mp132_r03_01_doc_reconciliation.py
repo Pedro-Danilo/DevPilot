@@ -27,7 +27,8 @@ def test_owner_approval_does_not_authorize_future_sprints() -> None:
     assert "status: OWNER_APPROVED" in (base / "03_prompts/R03_02_TECH_CONTEXT_PROFILE_PROMPT.md").read_text(encoding="utf-8")
     assert "status: SPRINT_EXECUTION_APPROVED" in (base / "02_sprints/R03_03_ARCHITECTURE_AUTHORING_SPRINT.md").read_text(encoding="utf-8")
     assert "status: OWNER_APPROVED" in (base / "03_prompts/R03_03_ARCHITECTURE_AUTHORING_PROMPT.md").read_text(encoding="utf-8")
-    assert "status: DRAFT_EXECUTION_GATED" in (base / "02_sprints/R03_04_TECH_DECISION_ADR_SPRINT.md").read_text(encoding="utf-8")
+    assert "status: SPRINT_EXECUTION_APPROVED" in (base / "02_sprints/R03_04_TECH_DECISION_ADR_SPRINT.md").read_text(encoding="utf-8")
+    assert "status: OWNER_APPROVED" in (base / "03_prompts/R03_04_TECH_DECISION_ADR_PROMPT.md").read_text(encoding="utf-8")
     state = json.loads((ROOT / ".devpilot/project_state.json").read_text(encoding="utf-8"))
     assert state["current_micro_sprint"] == CURRENT
     assert state["next_micro_sprint"] == NEXT

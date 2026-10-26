@@ -734,6 +734,23 @@
       "workspace_scope_source": "active-server-context"
     },
     {
+      "access_class": "authenticated-pre-code-mutation",
+      "allowed_roles": [
+        "owner"
+      ],
+      "deny_by_default": true,
+      "human_session_required": true,
+      "legacy_token_allowed": false,
+      "method": "POST",
+      "operation": "guided_sdlc.pre_code.technology_action",
+      "path": "/api/v1/guided-sdlc/pre-code/technology-action",
+      "public": false,
+      "risk_level": "medium",
+      "route_id": "api.guided-sdlc.pre-code.technology-action",
+      "workspace_scope_required": true,
+      "workspace_scope_source": "active-server-context"
+    },
+    {
       "access_class": "authenticated-read",
       "allowed_roles": [
         "owner",
@@ -5674,9 +5691,9 @@
     "gsdlc_12_b_legacy_token_allowed_total": 0,
     "gsdlc_12_b_reconciliation_policies_total": 3,
     "gsdlc_12_b_stale_duplicate_action_policy_removed": true,
-    "human_session_required_total": 179,
+    "human_session_required_total": 180,
     "legacy_token_allowed_total": 69,
-    "route_policies_total": 255,
+    "route_policies_total": 256,
     "sensitive_action_policies_total": 20,
     "unmapped_routes_total": 0,
     "unmapped_sensitive_actions_total": 0,
@@ -5688,11 +5705,12 @@
     "gsdlc_13_d_01_story_activation_policies_total": 3,
     "gsdlc_13_d_02_implementation_proposal_policies_total": 2,
     "r01_11_persistent_settings_policies_total": 3,
-    "r02_06_comparison_policies_total": 3
+    "r02_06_comparison_policies_total": 3,
+    "r03_04_technology_authoring_policies_total": 1
   },
   "unmapped_legacy_roles": [],
-  "updated": "2026-10-01",
-  "updated_by": "DEVPL-GSDLC-13-D-02-IMPLEMENTATION-PROPOSAL-CORRECTIVE",
+  "updated": "2026-10-25",
+  "updated_by": "R03_04_C02_P2_WIN",
   "version": "1.3.1",
   "workspace": {
     "cross_workspace_effect": "DENY",

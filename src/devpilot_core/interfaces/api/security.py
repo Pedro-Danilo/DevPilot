@@ -274,6 +274,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/planning/closure"): ApiRoutePolicy("planning.closure.status", "read", "protected-human-session-project-planning-read"),
     ("GET", "/api/v1/guided-sdlc/pre-code"): ApiRoutePolicy("guided_sdlc.pre_code.status", "read", "protected-human-session-gsdlc-05-e-pre-code"),
     ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/draft"): ApiRoutePolicy("guided_sdlc.pre_code.draft", "read", "protected-human-session-gsdlc-05-e-pre-code"),
+    ("POST", "/api/v1/guided-sdlc/pre-code/technology-action"): ApiRoutePolicy("guided_sdlc.pre_code.technology_action", "read", "protected-human-session-gsdlc-05-e-pre-code"),
     ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/review"): ApiRoutePolicy("guided_sdlc.pre_code.review", "read", "protected-human-session-gsdlc-05-e-pre-code"),
     ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/approval-request"): ApiRoutePolicy("guided_sdlc.pre_code.approval_request", "read", "protected-human-session-gsdlc-05-e-pre-code"),
     ("POST", "/api/v1/guided-sdlc/pre-code/stages/{stage_id}/apply"): ApiRoutePolicy("guided_sdlc.pre_code.apply", "read", "protected-human-session-gsdlc-05-e-pre-code"),

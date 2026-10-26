@@ -42,3 +42,7 @@ UI propone Markdown editable con provenance, deterministic gate y negativos para
 
 ## H. Fuera de alcance
 No avanzar a la siguiente unidad ni ola automáticamente; no ejecutar R04 ni liberar API E o publicar software del Pilot B por cuenta de este sprint.
+
+## I. Adenda A190 aprobada y cierre Windows C11
+
+El Owner ratificó A190 para el correctivo R03_03 C06: upstream FROZEN y decisiones Owner, presupuesto de llamadas/unidades, salida L no confiable, cortes y contradicciones materiales, alternativas inmutables y reentrada; no se modifica la verificación SHA de bytes de recibos reales por un fixture que escribió LF/CRLF diferentes. Tras correcciones C06–C10, C11 informó `PASS_WITH_FINDINGS` con commit local y remoto `df6a5dcbb6eeb112008db1373d2e975cbc60b18f`, baseline SHA-256 `0e2de50a23d88d6d404d2981cd54a8b8d11cc06eed4071d2c22575c3f077c524`. La candidata Architecture del Pilot B permanece en revisión humana, sin adjudicar calidad profesional final ni promocionar a FROZEN. Solo con evidencia posterior el Owner autorizó R03_04 de modo separado.

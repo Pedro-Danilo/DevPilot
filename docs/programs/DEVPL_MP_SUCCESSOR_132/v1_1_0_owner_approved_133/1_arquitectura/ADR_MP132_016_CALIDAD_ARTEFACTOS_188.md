@@ -34,3 +34,7 @@ Dos proyectos de dominios distintos; candidato correcto y errado por tipo; depen
 
 ## Límites de vigencia
 Adoptada en diseño programático, no equivale a implementación de ese pipeline en todas las olas. No sustituye ADR-013/187; las etapas conservan propietarios, PESP y autoridades existentes. No conceder un PASS absoluto por juicio del mismo modelo que redacta. No reutilizar decisiones Owner de otro artefacto ni gate técnico inocuo como autorización material.
+
+## Extensión ratificada A190 — adelantar controles al punto de autoría
+
+La decisión `MP132-OWNER-DECISION-A190` complementa esta ADR: desde R03_03 se integra por impacto un núcleo *pequeño* de selección de hechos FROZEN/decisiones aprobadas, presupuesto, segmentación verificable, candidata/alternativa inmutable, validación de truncamiento y contradicción material, severidad proporcionada, recibo y reentrada. **No** se crea un nuevo Quality Gate/publisher/almacén ni se reimplementan once perfiles simultáneamente. R03_04–07 especializa ADR/Technology, artefactos condicionales, Security/Test Strategy/Traceability y successor. Solo cambios efectivos de norma o riesgo activan decisiones Owner; no se simula una revisión profesional omnisciente.

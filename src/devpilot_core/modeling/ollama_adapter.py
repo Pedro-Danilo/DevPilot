@@ -104,7 +104,7 @@ class OllamaAdapter(ModelAdapter):
         if opts is not None:
             if (not isinstance(opts,dict) or set(opts)!={'num_predict'} or
                     type(opts.get('num_predict')) is not int or
-                    not 32<=opts['num_predict']<=512):
+                    not 32<=opts['num_predict']<=768):
                 raise ValueError('OLLAMA_BOUNDED_GENERATION_OPTIONS_INVALID')
             payload['options']={'num_predict':opts['num_predict']}
         response = self._post_json("/api/generate", payload, task=ModelTask.GENERATE)

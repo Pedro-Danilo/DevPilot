@@ -308,6 +308,12 @@ export class DevPilotApiClient {
     return this.post('/guided-sdlc/pre-code/architecture-adrs/prepare', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
+  async preCodeTechnologyAction(payload: { action: 'generate_options' | 'owner_revise_options' | 'select_option' | 'generate_adr' | 'owner_revise_adr' | 'reconcile'; option_id?: string; model?: string; successor?: boolean; content?: string }): Promise<DevPilotApplicationResponse> {
+    // A real Ollama inference is deliberately one request with no automatic retry.
+    const remoteInference = payload.action === 'generate_options' || payload.action === 'generate_adr';
+    return this.post('/guided-sdlc/pre-code/technology-action', payload, { timeoutMs: remoteInference ? 450000 : READINESS_REQUEST_TIMEOUT_MS });
+  }
+
   async preCodeArchitectureAdrsApprovalRequest(reason = 'Approve standalone ADR materialization from frozen Architecture.'): Promise<DevPilotApplicationResponse> {
     return this.post('/guided-sdlc/pre-code/architecture-adrs/approval-request', { reason }, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
