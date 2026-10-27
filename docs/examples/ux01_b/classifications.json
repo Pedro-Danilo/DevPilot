@@ -1,0 +1,26 @@
+{
+  "evidence_kind": "OFFLINE_SYNTHETIC_FIXTURES",
+  "real_ollama_executed": false,
+  "real_owner_decision": false,
+  "external_api_used": false,
+  "classifications": {
+    "architecture": {
+      "quality_level": "REVIEW_REQUIRED",
+      "structural_disposition": "STRUCTURALLY_VALID",
+      "candidate_sha256": "b542704182da89be04ef998b288a77bda4ba2be8f05ca785e35a44a8711f8055",
+      "findings": []
+    },
+    "technology_options": {
+      "quality_level": "REVIEW_REQUIRED",
+      "structural_disposition": "STRUCTURALLY_VALID",
+      "candidate_sha256": "36c042152ffde96a607f38d90c8fe560c5eb9db45e05d08c9403e94a25856af3",
+      "findings": []
+    },
+    "adr": {
+      "quality_level": "REVIEW_REQUIRED",
+      "structural_disposition": "STRUCTURALLY_VALID",
+      "candidate_sha256": "2ff6d3b7acb1a4df9fe7f97968919ec9e8000bb02db924bd9044a861e4fc5dd9",
+      "findings": []
+    }
+  }
+}

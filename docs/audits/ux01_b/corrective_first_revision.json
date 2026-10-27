@@ -1,0 +1,8 @@
+{
+  "scope": "Revision used by initial 70 unique selected cases, before adding explicit ADR B0 cache binding",
+  "sha256": {
+    "src/devpilot_core/application/pre_code_wizard_service.py": "125af5e1fe906e03d1b1a4de6fbf872f4fc4823773b7c0bbcd87ee6a94266bb3",
+    "src/devpilot_core/application/r03_04_quality_contract.py": "0a1cc22f94a732c8d661bb48b46038f1b267be120e6b6a2513ca0cbeaa3d6739",
+    "tests/test_r03_04_ux01_b_corrective.py": "7cbf7fc0b5f2276d22b04cc50c27806be13dc91eb6ff13b6f4fcb8cdbfb057cc"
+  }
+}

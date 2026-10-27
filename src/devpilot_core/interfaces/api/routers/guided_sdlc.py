@@ -40,11 +40,14 @@ class PreCodeMiasiApplicabilityBody(BaseModel):
 
 
 class TechnologyActionBody(BaseModel):
-    action: str = Field(pattern=r"^(generate_options|owner_revise_options|select_option|generate_adr|owner_revise_adr|reconcile)$")
+    action: str = Field(pattern=r"^(generate_options|owner_revise_options|select_option|generate_adr|owner_revise_adr|reconcile|export_handoff|adr_not_applicable)$")
     option_id: str = Field(default="", pattern=r"^(|T[1-3])$")
     model: str = Field(default="", max_length=100)
     successor: bool = False
     content: str = Field(default='', max_length=16500)
+    artifact_kind: str = Field(default='architecture', pattern=r'^(architecture|technology_options|adr)$')
+    expected_sha256: str = Field(default='', pattern=r'^(|[0-9a-f]{64})$')
+    generation_epoch: str = Field(default='', max_length=128)
 
 
 def _pre_code_identity(request: Request, service: ApplicationService):
@@ -189,6 +192,7 @@ def guided_pre_code_technology_action(request: Request, body: TechnologyActionBo
         operation="guided_sdlc.pre_code.technology_action",
         payload={"action":body.action,"option_id":body.option_id,"model":body.model,
                  "successor":body.successor,"content":body.content,"actor":principal.actor_id,
+                 "artifact_kind":body.artifact_kind,"expected_sha256":body.expected_sha256,"generation_epoch":body.generation_epoch,
                  "actor_role":identity["role"],"session_principal":principal.actor_id,
                  "effective_roles":identity["roles"],"workspace_scopes":identity["scopes"]}))
 

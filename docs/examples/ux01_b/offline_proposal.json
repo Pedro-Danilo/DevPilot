@@ -1,0 +1,42 @@
+{
+  "markdown": "# ADR-001 — Tecnología para ventas locales\n## Contexto\nRF-002 requiere persistir venta y existencias para una sola propietaria.\n## Decisión\nEl Owner elige T1 Python con SQLite para el MVP local y su carga actual.\n## Alternativas\nT2 se descarta por operación de servidor adicional sin beneficio comprobado.\n## Consecuencias\nPositivo: mantenimiento menor. Consecuencia negativa: límites al crecer\nla concurrencia, que requiere una migración planificada.\n## Riesgos y mitigaciones\nRF-002: verificar rollback de venta y stock ante fallo de persistencia; probar restauración en un entorno aislado. Frecuencia y objetivos de recuperación: UNKNOWN, pendientes del Owner.\n## Reversibilidad\nRevisar al superar la concurrencia prevista y comprobar costos de migración.\n",
+  "candidate_sha256": "d3d02b19d7a59c1075fb175bff9b776fca378257a7a83f81ff2066c34bdeb445",
+  "parent_candidate_id": "offline-fixture-adr",
+  "parent_sha256": "2ff6d3b7acb1a4df9fe7f97968919ec9e8000bb02db924bd9044a861e4fc5dd9",
+  "generation_epoch": "offline-example-1",
+  "sources": [
+    {
+      "source_id": "product-vision",
+      "sha256": "19d7f4e96915c3d7b6a167bc54fc0d4bf2a389768e82e562ad485d1bbb8adcfe",
+      "verified": "true"
+    },
+    {
+      "source_id": "scope",
+      "sha256": "9308bbb6f0689331d68accbe12397afea6b2868d679d118debe31ec95698b483",
+      "verified": "true"
+    },
+    {
+      "source_id": "requirements",
+      "sha256": "eda4410c2a07f2e2aada84c98467d1dc528984523a6c5f73e58d32edab396cfc",
+      "verified": "true"
+    }
+  ],
+  "owner_decision": {
+    "option_id": "T1",
+    "sha256": "36c042152ffde96a607f38d90c8fe560c5eb9db45e05d08c9403e94a25856af3",
+    "immutable": true
+  },
+  "owner_constraints": [
+    {
+      "source_id": "requirements",
+      "source_sha256": "eda4410c2a07f2e2aada84c98467d1dc528984523a6c5f73e58d32edab396cfc",
+      "text": "RF-001 registra productos. RF-002 guarda ventas y descontar stock de modo transaccional. RNF-001 exige uso local y autorización del Owner para acciones sensibles. Ninguna publicación sin aprobación humana."
+    }
+  ],
+  "changed_section_id": "riesgos-y-mitigaciones",
+  "actor": "OFFLINE_SIMULATED_CONSUMER",
+  "quality_level": "REVIEW_REQUIRED",
+  "external_api_used": false,
+  "professional_reviewed": false,
+  "requires_authenticated_owner_review": true
+}

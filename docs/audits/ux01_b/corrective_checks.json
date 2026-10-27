@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-27",
+  "timezone": "America/Bogota",
+  "status": "PASS_FOCAL_PENDING_OWNER_REVIEW",
+  "workspace": "C:\\Users\\Pedro\\.codex\\worktrees\\047c\\DevPilot_Local",
+  "baseline": "09b07c8d5afab66eda9c2fad4c65e9686607f275",
+  "recovered_snapshot": "aff2dfd1c1e05ce3dc86c03d93858abe93d34723",
+  "functional_paths_changed_from_snapshot": [
+    "src/devpilot_core/application/pre_code_wizard_service.py",
+    "src/devpilot_core/application/r03_04_quality_contract.py"
+  ],
+  "recovered_files_unchanged": 20,
+  "original_source_zip_sha256_unchanged": "0eb9f3844330b02996f01ecf41c71973e5b6afc919458b6006e02c875afcc764",
+  "git_diff_check": "PASS",
+  "corrective_patch_reverse_apply_check": "PASS (check only; no application)",
+  "unique_successful_tests": 71,
+  "new_corrective_tests": 18,
+  "failures": 0,
+  "unresolved_setup_errors": 0,
+  "runs": [
+    {
+      "xml": "corrective_initial_setup.xml",
+      "suite": {
+        "name": "pytest",
+        "errors": "33",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "70",
+        "time": "9.082",
+        "timestamp": "2026-10-27T11:22:14.853750-05:00",
+        "hostname": "DESKTOP-BKQ8PJI"
+      },
+      "passed_count": 37
+    },
+    {
+      "xml": "corrective_focal.xml",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "33",
+        "time": "15.408",
+        "timestamp": "2026-10-27T11:22:43.488239-05:00",
+        "hostname": "DESKTOP-BKQ8PJI"
+      },
+      "passed_count": 33
+    },
+    {
+      "xml": "corrective_adr_binding.xml",
+      "suite": {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "3",
+        "time": "3.683",
+        "timestamp": "2026-10-27T11:28:06.020761-05:00",
+        "hostname": "DESKTOP-BKQ8PJI"
+      },
+      "passed_count": 3
+    }
+  ],
+  "unique_pass_by_suite": {
+    "tests.test_r03_04_ux01_b_corrective": 18,
+    "tests.test_r03_04_ux01_a_quality_contract": 18,
+    "tests.test_r03_04_p7_owner_revision": 5,
+    "tests.test_r03_04_ux01_b_pipeline": 22,
+    "tests.test_r03_04_p8_action_dispatch": 7,
+    "tests.test_mp132_r03_04_c02_p5_flow": 1
+  },
+  "test_selection": "Only corrective tests and directly affected contract/pipeline/C02 flow/Owner revision/API dispatch; later ADR binding change retested with its new case and two impacted flow cases.",
+  "initial_setup_issue": "Missing outputs parent; 37 passed and 33 fixture setup errors; only those 33 retried after creating parent in current worktree.",
+  "test_revision_note": "Initial 70 unique cases used hashes preserved in corrective_first_revision.json. Final ADR input binding adds normalized B0 hash; new cache case and two impacted flow cases passed on final revision. No claim that all 71 were rerun on identical final bytes.",
+  "historical_132_xml_sha256": "fa112eb44a196b85394ada04310c90e4239dac67ecc2a113db3760bf269590d2",
+  "sha256": {
+    "src/devpilot_core/application/pre_code_wizard_service.py": "be115ca889bcad7223faad5ce32606d7a57269e5b849e89d8b5391b6d31cc01c",
+    "src/devpilot_core/application/r03_04_quality_contract.py": "0a1cc22f94a732c8d661bb48b46038f1b267be120e6b6a2513ca0cbeaa3d6739",
+    "tests/test_r03_04_ux01_b_corrective.py": "52cf99345eb65895a0364aceb2bace0b243edd222a6c5a1118b5840bd7d2f40b",
+    "docs/audits/ux01_b/UX01_B_OLLAMA_CHECK.md": "e6bc615be6fbc5931f2925d63f04f291a61324259540d7eeb6513a31b2d8c11f",
+    "UX01_B_RESULT.md": "98bf92a7b339b015c38714b8604256563c7d0dbe5b3140edae88f84c7799b3a2",
+    "docs/audits/ux01_b/UX01_B_CHECKPOINT.md": "694e06420d43f5cc26f963607bbe8c3fd2bca36dadae42861939faddb7a19375",
+    "docs/audits/ux01_b/UX01_B_CORRECTIVE.patch": "d521937b1f616497b57c18e929713af1e69f0cdd7a1039532d3dace78362dbca"
+  },
+  "staged_count": 0,
+  "tracked_modified_count": 9,
+  "untracked_count_including_this_record": 27,
+  "git_visible_paths": [
+    ".devpilot/gsdlc/architecture_authoring_profile.json",
+    "UX01_B_RESULT.md",
+    "UX01_B_SOURCE_REVIEW.zip",
+    "docs/02_architecture/UX01_B_API_CONTRACT.md",
+    "docs/audits/ux01_b/UX01_B_CHECKPOINT.md",
+    "docs/audits/ux01_b/UX01_B_CORRECTIVE.patch",
+    "docs/audits/ux01_b/UX01_B_OLLAMA_CHECK.md",
+    "docs/audits/ux01_b/corrective_adr_binding.xml",
+    "docs/audits/ux01_b/corrective_checks.json",
+    "docs/audits/ux01_b/corrective_first_revision.json",
+    "docs/audits/ux01_b/corrective_focal.xml",
+    "docs/audits/ux01_b/corrective_initial_setup.xml",
+    "docs/audits/ux01_b/corrective_retry_nodes.txt",
+    "docs/audits/ux01_b/documentation_checks.json",
+    "docs/audits/ux01_b/focal.xml",
+    "docs/audits/ux01_b/reconciliation.json",
+    "docs/examples/ux01_b/README.md",
+    "docs/examples/ux01_b/adr.md",
+    "docs/examples/ux01_b/adr_refined_offline.md",
+    "docs/examples/ux01_b/architecture.md",
+    "docs/examples/ux01_b/classifications.json",
+    "docs/examples/ux01_b/handoff.json",
+    "docs/examples/ux01_b/offline_proposal.json",
+    "docs/examples/ux01_b/sources.json",
+    "docs/examples/ux01_b/technology_options.md",
+    "scripts/ux01_b_offline_example.py",
+    "src/devpilot_core/application/pre_code_adr_bundle_service.py",
+    "src/devpilot_core/application/pre_code_wizard_service.py",
+    "src/devpilot_core/application/r03_03_architecture.py",
+    "src/devpilot_core/application/r03_03_segments.py",
+    "src/devpilot_core/application/r03_04_local_authoring.py",
+    "src/devpilot_core/application/r03_04_quality_contract.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+    "tests/test_r03_04_ux01_b_corrective.py",
+    "tests/test_r03_04_ux01_b_pipeline.py"
+  ],
+  "refs_local": {
+    "HEAD": "09b07c8d5afab66eda9c2fad4c65e9686607f275",
+    "refs/heads/evolution/multiprovider-v2": "09b07c8d5afab66eda9c2fad4c65e9686607f275",
+    "refs/remotes/origin/evolution/multiprovider-v2": "09b07c8d5afab66eda9c2fad4c65e9686607f275"
+  },
+  "remote_live_state": "UNKNOWN; no query",
+  "main_repository": "Not modified; existing interpreter reused read-only with bytecode disabled and imports from 047c/src.",
+  "real_ollama_run": false,
+  "external_api_used": false,
+  "full_regression": false,
+  "owner_review": "PENDING",
+  "limitations": [
+    "Generic prose checks are explicit-marker/repeated-body heuristics, not semantic certification.",
+    "Whitespace normalization applies only to parsed B0 prose; rewording is not inferred equivalent.",
+    "Guard covers candidate actions; no new apply/freeze validation is claimed.",
+    "Original 132-run lacks pre-test hashes, as recorded in reconciliation.json."
+  ]
+}

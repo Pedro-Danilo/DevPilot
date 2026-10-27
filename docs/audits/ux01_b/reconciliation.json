@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-27",
+  "baseline": "09b07c8d5afab66eda9c2fad4c65e9686607f275",
+  "recovered_snapshot": "aff2dfd1c1e05ce3dc86c03d93858abe93d34723",
+  "original_thread": "01a17ccb-e86a-7e42-90ee-338ebdd63ae1",
+  "snapshot_files_exact": 22,
+  "historical_focal_suite": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "132",
+    "time": "12.527",
+    "timestamp": "2026-10-27T05:19:34.935824-05:00",
+    "hostname": "DESKTOP-BKQ8PJI"
+  },
+  "historical_ux01_b_cases": 22,
+  "tests_rerun": 0,
+  "offline_reproduction": "PASS_LOGICAL_EQUIVALENCE",
+  "reproduction_eol_only_changes_restored": [
+    "docs/examples/ux01_b/adr_refined_offline.md",
+    "docs/examples/ux01_b/classifications.json",
+    "docs/examples/ux01_b/handoff.json",
+    "docs/examples/ux01_b/offline_proposal.json"
+  ],
+  "files": [
+    {
+      "path": ".devpilot/gsdlc/architecture_authoring_profile.json",
+      "sha256": "057d3fb63c8441908031904f6e0ed69e2243641bae881c353656c8ed9b2ff224"
+    },
+    {
+      "path": "docs/02_architecture/UX01_B_API_CONTRACT.md",
+      "sha256": "0d864291c46d6e833a1fe8d56c8b7f9ff7d6f89765b0e2bccb533e1def2ac58b"
+    },
+    {
+      "path": "docs/audits/ux01_b/focal.xml",
+      "sha256": "fa112eb44a196b85394ada04310c90e4239dac67ecc2a113db3760bf269590d2"
+    },
+    {
+      "path": "docs/examples/ux01_b/README.md",
+      "sha256": "44057bb3b5636625aaa0813669b9450ea573e5eeb11157e2b00e52fb5fc87094"
+    },
+    {
+      "path": "docs/examples/ux01_b/adr.md",
+      "sha256": "2ff6d3b7acb1a4df9fe7f97968919ec9e8000bb02db924bd9044a861e4fc5dd9"
+    },
+    {
+      "path": "docs/examples/ux01_b/adr_refined_offline.md",
+      "sha256": "d3d02b19d7a59c1075fb175bff9b776fca378257a7a83f81ff2066c34bdeb445"
+    },
+    {
+      "path": "docs/examples/ux01_b/architecture.md",
+      "sha256": "b542704182da89be04ef998b288a77bda4ba2be8f05ca785e35a44a8711f8055"
+    },
+    {
+      "path": "docs/examples/ux01_b/classifications.json",
+      "sha256": "2170b3c35cd4c4b33d753e5d8ab7131a24c8595e8cc85d6d7ba083d4c91c58dc"
+    },
+    {
+      "path": "docs/examples/ux01_b/handoff.json",
+      "sha256": "4c38223eadba7e15bdf0d5e26566508281bc1101e7b1b02fc618d470a1c925a1"
+    },
+    {
+      "path": "docs/examples/ux01_b/offline_proposal.json",
+      "sha256": "f0292126457f585e847f7d50e365fc980d992a6ba73b0be423242438366fd4fc"
+    },
+    {
+      "path": "docs/examples/ux01_b/sources.json",
+      "sha256": "5efb32d4b4f3200f8af0cfdadae18101c8cc9ad9bf3bbff9de09e4ea734bede8"
+    },
+    {
+      "path": "docs/examples/ux01_b/technology_options.md",
+      "sha256": "36c042152ffde96a607f38d90c8fe560c5eb9db45e05d08c9403e94a25856af3"
+    },
+    {
+      "path": "scripts/ux01_b_offline_example.py",
+      "sha256": "4ddc64866add51990890eaa56578a1a23c1d7400d495e6ae066c8cf26c880eeb"
+    },
+    {
+      "path": "src/devpilot_core/application/pre_code_adr_bundle_service.py",
+      "sha256": "7b7358c0e26dceacbff8befed177817634a0490b7c6242c981d98acbcf650293"
+    },
+    {
+      "path": "src/devpilot_core/application/pre_code_wizard_service.py",
+      "sha256": "e70ffcf818f24a9c64b987052f3c36b6d3dc4e5fa96eac3768610fe7fe0a0c4d"
+    },
+    {
+      "path": "src/devpilot_core/application/r03_03_architecture.py",
+      "sha256": "ea33b1821d0f2569b2216c9c84abc7e9a282328d61d063be2c4945706696bdf3"
+    },
+    {
+      "path": "src/devpilot_core/application/r03_03_segments.py",
+      "sha256": "5f0c9cf531c64e203b33cb6902711e480a6cf0ee47c52f28e4e38bd398865c1e"
+    },
+    {
+      "path": "src/devpilot_core/application/r03_04_local_authoring.py",
+      "sha256": "ba33c6d21540b352280abf73231517680ec52a1648e25613a9407ab3951c8561"
+    },
+    {
+      "path": "src/devpilot_core/application/r03_04_quality_contract.py",
+      "sha256": "6a37d648fb93b9af81ae2687cdf9f7c09a7da574c0b3405b219cc9cfd6842c46"
+    },
+    {
+      "path": "src/devpilot_core/application/services.py",
+      "sha256": "dc4da0a72533dcacd5be2bd7926e05a4c9d96d840aa885c34c2948d879f61df5"
+    },
+    {
+      "path": "src/devpilot_core/interfaces/api/routers/guided_sdlc.py",
+      "sha256": "db6ffaabc3e3da17e2cd8edf047a6b34682d9f2bc471f056256c356902f650ee"
+    },
+    {
+      "path": "tests/test_r03_04_ux01_b_pipeline.py",
+      "sha256": "0b4a6cf35d4ca097ac6217d22949d1dcfc76aac3918001422edd161f2fffe51d"
+    }
+  ],
+  "limitation": "No pre-test hash manifest existed; correspondence uses archived execution order, matching final diff statistics and recovered snapshot. Current hashes anchor recovered candidate, not retroactive test attestation."
+}

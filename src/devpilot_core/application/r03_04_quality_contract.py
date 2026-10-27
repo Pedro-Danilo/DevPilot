@@ -211,6 +211,23 @@ def assess_artifact(
             issue("UX01_A_SECTION_NOT_SUBSTANTIVE", "REVIEW_REQUIRED",
                   found["section_id"], f"Sin desarrollo material: {required}.",
                   "Explicar decisiones, ejemplos, límites y tradeoffs concretos.")
+    # Narrow text checks expose repairable boilerplate; they do not establish
+    # semantic correctness or certify the sections that have no such marker.
+    section_bodies = [" ".join(body[s["body_start"]:s["end"]].split()) for s in sections]
+    repairs = {
+        "componentes-y-limites": "Asignar responsabilidades y límites a componentes; describir un flujo RF/RNF y sus errores.",
+        "datos-y-consistencia": "Concretar datos, transacción, idempotencia y recuperación de un flujo exigido por las fuentes.",
+        "riesgos-y-mitigaciones": "Relacionar un riesgo concreto con su mitigación y una comprobación; declarar UNKNOWN sin inventar cifras.",
+        "alternativas": "Explicar qué alternativa se descarta, por qué y con qué driver verificable frente a la elección Owner.",
+    }
+    for section, text in zip(sections, section_bodies):
+        repeated = len(text) >= 35 and section_bodies.count(text) > 1
+        pending = re.search(r"(?i)pendiente de (?:justificar|detallar|definir)|detalles del dominio", text)
+        if repeated or pending:
+            issue("UX01_B_SECTION_BOILERPLATE", "REVIEW_REQUIRED", section["section_id"],
+                  "El cuerpo se repite en otras secciones o declara desarrollo pendiente; necesita revisión contextual.",
+                  f"En {section['heading']}: " + repairs.get(section["section_id"],
+                      "Sustituir el texto repetido o pendiente por una explicación propia de esta sección, vinculada a una fuente/RF/RNF; conservar UNKNOWN donde falten hechos."))
     if _PLACEHOLDER.search(body):
         issue("UX01_A_PLACEHOLDER", "REVIEW_REQUIRED", "GLOBAL",
               "Queda un marcador sin resolver.", "Precisar la brecha o declararla UNKNOWN.")
@@ -241,19 +258,24 @@ def assess_artifact(
                     f"opción {row.group(1)}".casefold())),
                 _slug(f"Opción {row.group(1)}"),
             )
-            chunk = body[row.end():option_matches[index+1].start()
-                         if index+1 < len(option_matches) else len(body)]
+            boundary = next((s["end"] for s in sections if s["start"] == row.start()), len(body))
+            chunk = body[row.end():boundary]
             match = re.search(r"(?im)^\s*[-*]\s*\*\*Stack:\*\*\s*(.+)$", chunk)
             signature = re.sub(r"\s+", " ", match.group(1).strip().casefold()) if match else ""
+            # Reordering the same technologies does not create an alternative.
+            technologies = sorted(set(re.findall(
+                r"python|sqlite|postgresql|mysql|java\b|node(?:\.js)?|typescript|redis|mongodb",
+                signature)))
+            comparison_signature = "|".join(technologies) if technologies else signature
             if not signature:
                 issue("UX01_A_TECH_STACK_UNSPECIFIED", "REVIEW_REQUIRED", section,
                       "No se identifica stack concreto.",
                       "Identificar backend, almacenamiento y UI/operación.")
-            elif signature in stack_signatures:
+            elif comparison_signature in stack_signatures:
                 issue("UX01_A_TECH_DUPLICATE_STACK", "REVIEW_REQUIRED", section,
                       "Otra alternativa repite el mismo stack sin diferencia comprobable.",
                       "Contrastar una opción materialmente diferente.")
-            stack_signatures.add(signature)
+            stack_signatures.add(comparison_signature)
             axes = {}
             for axis, pattern in COMPARISON_AXES:
                 evidence = re.search(pattern, chunk)
@@ -422,3 +444,60 @@ def scoped_section_refinement(packet: Mapping[str, Any], *,
     if amended == old_content:
         raise ValueError("UX01_A_REFINEMENT_NO_CHANGE")
     return body[:chosen["body_start"]] + amended + body[chosen["end"]:]
+
+
+def candidate_quality(kind: str, markdown: str, *, frozen: Mapping[str, str],
+                      hashes: Mapping[str, str], candidate_id: str,
+                      epoch: str, actor: str, model: str = "UNKNOWN",
+                      parent_id: str | None = None, before_owner=None,
+                      selected_option_id=None, selected_option_sha256=None) -> dict[str, Any]:
+    """UX01-B integration DTO; caller supplies lifecycle-verified source hashes."""
+    report = assess_artifact(
+        kind, markdown, frozen_sources=frozen, verified_source_hashes=hashes,
+        candidate_id=candidate_id, runtime_status="DRAFT", document_id=kind,
+        revision_id=candidate_id, author_actor=actor, model_id=model,
+        owner_phase="after_owner" if before_owner else "before_owner",
+        selected_option_id=selected_option_id,
+        selected_option_sha256=selected_option_sha256,
+    )
+    report["generation_epoch"] = epoch
+    report["parent_candidate_id"] = parent_id
+    report["owner_constraints"] = [
+        {"source_id": name, "source_sha256": hashes.get(name, "UNKNOWN"), "text": line}
+        for name, text in frozen.items() for line in text.splitlines()
+        if re.search(r"(?i)aprobaci[oó]n|advisory|D-\d+|autorizaci[oó]n|local.first", line)
+    ]
+    return {"current": report, "before_owner": before_owner or report}
+
+
+def export_candidate_handoff(quality: Mapping[str, Any], markdown: str) -> dict[str, Any]:
+    report = quality["current"]
+    # The exact decision and every section quoting an upstream Owner decision
+    # are immutable in the offline proposal. A new decision needs normal lifecycle.
+    body = logical_text(markdown)
+    locked = tuple(s["section_id"] for s in report["sections"]
+                   if s["section_id"] == "decision" or re.search(
+                       r"\bD-\d+\b", body[s["body_start"]:s["end"]]))
+    packet = handoff_packet(report, body, locked_section_ids=locked)
+    packet.update({"generation_epoch": report["generation_epoch"],
+                   "parent_candidate_id": report["parent_candidate_id"],
+                   "before_owner": quality["before_owner"],
+                   "business_need": report.get("business_need", {"text":"UNKNOWN"}),
+                   "owner_constraints": report["owner_constraints"],
+                   "professional_reviewed": False})
+    return packet
+
+
+def offline_section_proposal(packet: Mapping[str, Any], *, section_id: str,
+                             replacement: str) -> dict[str, Any]:
+    """Simulated offline consumer result, never persisted or accepted implicitly."""
+    amended = scoped_section_refinement(packet, section_id=section_id, replacement=replacement)
+    return {"markdown": amended, "candidate_sha256": logical_sha256(amended),
+            "parent_candidate_id": packet["candidate_id"],
+            "parent_sha256": packet["candidate_sha256"],
+            "generation_epoch": packet["generation_epoch"],
+            "sources": packet["sources"], "owner_decision": packet["owner_decision"],
+            "owner_constraints": packet["owner_constraints"], "changed_section_id": section_id,
+            "actor": "OFFLINE_SIMULATED_CONSUMER", "quality_level": "REVIEW_REQUIRED",
+            "external_api_used": False, "professional_reviewed": False,
+            "requires_authenticated_owner_review": True}

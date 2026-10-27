@@ -1,0 +1,5 @@
+{
+  "product-vision": "Una persona opera ventas locales sin instalaciones físicas.",
+  "scope": "MVP productos, registro de ventas y bajo stock; agentes solo asesoría.",
+  "requirements": "RF-001 registra productos. RF-002 guarda ventas y descontar stock de modo transaccional. RNF-001 exige uso local y autorización del Owner para acciones sensibles. Ninguna publicación sin aprobación humana."
+}

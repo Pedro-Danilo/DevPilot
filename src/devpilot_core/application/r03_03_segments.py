@@ -1,12 +1,13 @@
 """R03-03: short, bounded, receipted Architecture authoring on local models.
 
 C05 supports bounded future authoring while retaining all C03/C04 receipts.
-One explicit Owner gesture may drive up to ten distinct, bounded units.
+Each explicit Owner gesture drives at most one bounded unit; prior units are reused.
 """
 from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 import re
 from typing import Any
@@ -124,11 +125,19 @@ def _fact_pack(upstream: dict[str, str], source_refs: list[dict[str, Any]],
 def _prompt(pack: dict[str, Any], project_name: str, number: int) -> str:
     _, headings = UNITS[number]
     target = '\n'.join(f'## {title}' for title in headings)
+    obligations = {
+        'Componentes y límites': 'Responsabilidades, límites y flujos del dominio; agentes advisory-only si aplica.',
+        'Datos y consistencia': 'Transacción atómica venta-stock si aplica; idempotencia, rollback y recuperación de errores.',
+        'Seguridad y riesgos': 'Autenticación, autorización, privacidad, despliegue local, backups y recuperación.',
+        'Drivers': 'MVP, RNF, operación, restricciones reales y diferidos; UNKNOWN para datos ausentes.',
+    }
     instruction = (
         'Actúa como arquitecto de software de nivel profesional. Proyecto: '+project_name+'\n'
         f'Unidad {number+1}/{len(UNITS)} de Architecture. Redacta SOLO Markdown en español con '
         'esta sección exacta y su cabecera:\n'+target+'\n'
+        + obligations.get(headings[0], 'Referencias Markdown RF/RNF por sección, límites y asuntos abiertos.')+' '
         'Máximo 90 palabras para esta única sección; concluye TODAS las frases con puntuación final. '
+        'Cita referencias Markdown de RF/RNF y fuentes por sección. '
         'Prioriza decisiones Owner aprobadas y límites de Scope; evita enumeraciones generales. '
         'No añadas frontmatter, JSON ni fences. Cada decisión técnica debe separar hecho verificado, '
         'alternativa, tradeoff y decisión pendiente de Owner. No inventes stack/plataformas/datos, '
@@ -330,10 +339,19 @@ def generate(root: Path, *, workspace_id: str, project_name: str, context: dict[
     from .r03_03_architecture import _atomic_json, _json_sha, _sha, architecture_quality
     root = Path(root)
     pack = _fact_pack(upstream, list(context['source_refs']), context.get('pesp'))
+    if context.get('business_need'):
+        from .r03_04_context_pack import excerpt
+        b0, _ = excerpt('B0', context['business_need'], budget=1200)
+        pack['text'] += '\n'+b0
     request = {'profile_version':profile['profile_version'], 'context_sha256':context['context_sha256'],
                'project_context_hash':context['project_context_sha256'],
                'upstream_refs':context['source_refs'], 'model':model,'provider':'ollama',
                'prompt_revision':REVISION}
+    if context.get('business_need'):
+        request['business_need_sha256'] = _sha(_canonical(context['business_need']).encode())
+        request['ux01_prompt_revision'] = 'b1'
+    if context.get('generation_epoch'):
+        request['generation_epoch'] = context['generation_epoch']
     key = _json_sha(request)
     old_request = {**request, 'prompt_revision':BLOCKED_REVISION}
     old_key = _json_sha(old_request)
@@ -359,7 +377,13 @@ def generate(root: Path, *, workspace_id: str, project_name: str, context: dict[
             legacy_archive=_resume_blocked_v3(folder,pointer,active,
                  old_key=old_key,new_key=key,model=model)
         elif active.get('plan_key') != key or active.get('model') != model:
-            raise ValueError('R0303_SEGMENT_PLAN_OR_MODEL_DRIFT')
+            if not allow_successor or active.get('status') != 'COMPLETE' or not context.get('generation_epoch'):
+                raise ValueError('R0303_SEGMENT_PLAN_OR_MODEL_DRIFT')
+            archived = folder / ('epoch-' + active['plan_key'] + '.json')
+            if not archived.exists():
+                _atomic_json(archived,active)
+            _atomic_json(pointer,{'status':'IN_PROGRESS','revision':REVISION,
+                'plan_key':key,'model':model,'completed':0,'parent_plan_key':active['plan_key']})
         elif active.get('status') == 'BLOCK':
             raise ValueError('R0303_SEGMENT_PREVIOUS_BLOCK_NO_RETRY')
     if adapter is None:
@@ -408,6 +432,7 @@ def generate(root: Path, *, workspace_id: str, project_name: str, context: dict[
             _atomic_json(unit_file, {'status':'IN_PROGRESS','plan_key':key,'unit':index+1,
                                      'model':model,'calls_started':1})
             try:
+                started = time.monotonic()
                 result = adapter.generate(ModelCallRequest(task=ModelTask.GENERATE,provider='ollama',
                     model=model,prompt=_prompt(pack, project_name, index),dry_run=False,
                     metadata={'ollama_options':{'num_predict':MAX_OUTPUT_TOKENS}}))
@@ -427,7 +452,9 @@ def generate(root: Path, *, workspace_id: str, project_name: str, context: dict[
                 with output_file.open('xb') as stream:
                     stream.write(text.encode('utf-8'));stream.flush();os.fsync(stream.fileno())
                 _atomic_json(unit_file, {'status':'COMPLETE','plan_key':key,'unit':index+1,
-                    'model':model,'calls_started':1,'output_sha256':_sha(text.encode('utf-8')),
+                    'model':model,'calls_started':1,'elapsed_ms':round((time.monotonic()-started)*1000),
+                    'actor':context.get('actor','UNKNOWN'),'generation_epoch':context.get('generation_epoch') or key,
+                    'output_sha256':_sha(text.encode('utf-8')),
                     'missing_headings':gaps,'tokens_estimated':result.tokens_estimated,
                     'max_output_tokens':MAX_OUTPUT_TOKENS,'timeout_seconds':UNIT_TIMEOUT_SECONDS,
                     'stop_reason':str(result.metadata.get('stop_reason','')),
@@ -478,6 +505,12 @@ def generate(root: Path, *, workspace_id: str, project_name: str, context: dict[
             'model_execution_used':True,'agent_execution_used':False,'external_api_used':False,
             'network_used':True,'network_scope':'loopback','owner_review_required':True,
             'approval_required_before_source_write':True,'source_mutations_performed':False}
+        from .r03_04_quality_contract import candidate_quality, logical_sha256
+        provenance['ux01_quality'] = candidate_quality('architecture',content,
+            frozen=upstream,hashes={k:logical_sha256(v) for k,v in upstream.items()},
+            candidate_id=digest,epoch=context.get('generation_epoch') or key,
+            actor=context.get('actor','ollama'),model=model,parent_id=context.get('parent_candidate_id'))
+        _atomic_json(plan_dir/'candidate.json',provenance)
         _atomic_json(pointer, {'status':'COMPLETE','revision':REVISION,'plan_key':key,
                                'model':model,'completed':len(UNITS)})
         return {'content':content,'provenance':provenance}

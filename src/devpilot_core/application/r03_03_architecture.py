@@ -10,6 +10,7 @@ import json
 import os
 import re
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -145,6 +146,9 @@ def architecture_prompt(*, context: dict[str, Any], project_name: str) -> str:
             'Distingue hecho FROZEN, propuesta técnica, riesgo, alternativa y decisión pendiente. '
             'No inventes stack, roles, API, datos sensibles, flujos móviles, métricas, regulaciones ni autoridad de agentes. '
             'Asigna responsabilidades y límites a componentes para cada RF/RNF existente. '
+            'Explica flujo de venta e inventario atómico si las fuentes lo requieren, rollback, idempotencia y errores. '
+            'Detalla autenticación, autorización, límites advisory-only, operación local, backup/restore, RNF y diferidos. '
+            'Cita RF/RNF y fuentes Markdown por sección; números desconocidos = UNKNOWN. '
             'Explica consistencia transaccional cuando proceda, controles para acciones sensibles y criterios verificables. '
             'ADRs solo para decisiones materiales con contexto, alternativas, rationale y consecuencias; '
             'no instales dependencias. Datos/API/UX pueden ser NOT_APPLICABLE con razón basada en el caso. '
@@ -161,6 +165,7 @@ def generate_local_architecture(root: Path, *, workspace_id: str, project_name: 
 
     Failures preserve any prior candidate; a lock prevents concurrent double calls.
     """
+    started = time.monotonic()
     root = Path(root)
     profile = architecture_profile(root)
     if not MODEL_RE.fullmatch(model) or '://' in model:
@@ -179,6 +184,12 @@ def generate_local_architecture(root: Path, *, workspace_id: str, project_name: 
             # compare against its raw source hash; the caller already verified it.
             if not _SHA.fullmatch(str(row.get('sha256', ''))):
                 raise ValueError('R0303_FROZEN_REF_INVALID')
+    if context.get('business_need'):
+        from .r03_04_context_pack import excerpt
+        context = dict(context)
+        b0, _ = excerpt('B0', context['business_need'], budget=1200)
+        context['sources'] = [*context['sources'], {'stage':'B0',
+            'sha256':_sha(_normalized(context['business_need']).encode()),'text':b0,'required':False}]
     # A long verified FROZEN graph cannot be safely squeezed into one LLM
     # prompt. Keep the truncation signal honest and use bounded, receipted
     # Architecture units over a deterministic, fully indexed fact capsule.
@@ -190,6 +201,9 @@ def generate_local_architecture(root: Path, *, workspace_id: str, project_name: 
     request = {'profile_version': profile['profile_version'], 'project_context_hash':context['project_context_sha256'],
                'context_sha256':context['context_sha256'], 'upstream_refs':refs,
                'model':model, 'provider':'ollama', 'prompt_revision':'r0303-architecture-v1'}
+    if context.get('business_need'):
+        request['business_need_sha256'] = _sha(_normalized(context['business_need']).encode())
+        request['prompt_revision'] = 'ux01-b-architecture-v1'
     key = _json_sha(request)
     folder = root/'outputs/mp132_r03_03'/workspace_id
     receipt = folder/f'{key}.json'
@@ -245,12 +259,17 @@ def generate_local_architecture(root: Path, *, workspace_id: str, project_name: 
         provenance = {'schema_id':'mp132.r03_03.architecture_candidate.v1','mode':'LOCAL_MODEL',
             'provider':'ollama','model':model,'profile_version':'1.0.0',
             'candidate_sha256':digest,'generated_content_sha256':digest,'candidate_path':name,
-            'input_hash':key,'upstream_refs':refs,'project_context_hash':context['project_context_sha256'],
+            'input_hash':key,'elapsed_ms':round((time.monotonic()-started)*1000),
+            'actor':context.get('actor','UNKNOWN'),'upstream_refs':refs,'project_context_hash':context['project_context_sha256'],
             'technical_context_hash':context['context_sha256'],'quality_receipt':review,
             'tokens_estimated':result.tokens_estimated,'cost_usd':result.cost_estimate_usd,
             'model_execution_used':True,'agent_execution_used':False,'external_api_used':False,
             'network_used':True,'network_scope':'loopback','owner_review_required':True,
             'approval_required_before_source_write':True,'source_mutations_performed':False}
+        from .r03_04_quality_contract import candidate_quality, logical_sha256
+        provenance['ux01_quality'] = candidate_quality('architecture',content,
+            frozen=upstream,hashes={k:logical_sha256(v) for k,v in upstream.items()},
+            candidate_id=digest,epoch=key,actor='ollama',model=model)
         target = folder/name
         if target.exists() and target.read_bytes() != blob:
             raise ValueError('R0303_CANDIDATE_COLLISION')

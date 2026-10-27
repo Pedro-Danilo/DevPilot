@@ -1,0 +1,275 @@
+{
+  "schema_id": "mp132.r03_04.ux01_artifact_quality.v1.handoff",
+  "candidate_id": "offline-fixture-adr",
+  "document_id": "adr",
+  "revision_id": "offline-fixture-adr",
+  "runtime_status": "DRAFT",
+  "provenance": {
+    "author_actor": "OFFLINE_SYNTHETIC_FIXTURE",
+    "model_id": "NO_MODEL_EXECUTED",
+    "validation_engine": "mp132.r03_04.ux01_artifact_quality.v1"
+  },
+  "quality_snapshot_phase": "before_owner",
+  "candidate_sha256": "2ff6d3b7acb1a4df9fe7f97968919ec9e8000bb02db924bd9044a861e4fc5dd9",
+  "markdown": "# ADR-001 — Tecnología para ventas locales\n## Contexto\nRF-002 requiere persistir venta y existencias para una sola propietaria.\n## Decisión\nEl Owner elige T1 Python con SQLite para el MVP local y su carga actual.\n## Alternativas\nT2 se descarta por operación de servidor adicional sin beneficio comprobado.\n## Consecuencias\nPositivo: mantenimiento menor. Consecuencia negativa: límites al crecer\nla concurrencia, que requiere una migración planificada.\n## Riesgos y mitigaciones\nCopias verificadas y transacciones atómicas protegen frente a corrupción.\n## Reversibilidad\nRevisar al superar la concurrencia prevista y comprobar costos de migración.\n",
+  "sources": [
+    {
+      "source_id": "product-vision",
+      "sha256": "19d7f4e96915c3d7b6a167bc54fc0d4bf2a389768e82e562ad485d1bbb8adcfe",
+      "verified": "true"
+    },
+    {
+      "source_id": "scope",
+      "sha256": "9308bbb6f0689331d68accbe12397afea6b2868d679d118debe31ec95698b483",
+      "verified": "true"
+    },
+    {
+      "source_id": "requirements",
+      "sha256": "eda4410c2a07f2e2aada84c98467d1dc528984523a6c5f73e58d32edab396cfc",
+      "verified": "true"
+    }
+  ],
+  "section_map": [
+    {
+      "section_id": "contexto",
+      "heading": "Contexto",
+      "start": 43,
+      "body_start": 54,
+      "end": 128,
+      "body_sha256": "3cfd13533e3f2607ce656449a4de92ee200a07788dfd7a8753fb04e84ddbf201",
+      "requirement_ids": [
+        "RF-002"
+      ],
+      "characters": 72
+    },
+    {
+      "section_id": "decision",
+      "heading": "Decisión",
+      "start": 128,
+      "body_start": 139,
+      "end": 213,
+      "body_sha256": "6ffe4155f818be2d2a5bb6b4411119b11f49707e55b25244ccefe36e6fb4067b",
+      "requirement_ids": [],
+      "characters": 72
+    },
+    {
+      "section_id": "alternativas",
+      "heading": "Alternativas",
+      "start": 213,
+      "body_start": 228,
+      "end": 306,
+      "body_sha256": "e16a312d6e040d896caa8fe6233a0a3501369f91ed979b8242901a43564ce90a",
+      "requirement_ids": [],
+      "characters": 76
+    },
+    {
+      "section_id": "consecuencias",
+      "heading": "Consecuencias",
+      "start": 306,
+      "body_start": 322,
+      "end": 452,
+      "body_sha256": "0e13102c9a6e3fed6dd0c41236e5881c715eb292b9ab8a0de864ddfef825e24e",
+      "requirement_ids": [],
+      "characters": 128
+    },
+    {
+      "section_id": "riesgos-y-mitigaciones",
+      "heading": "Riesgos y mitigaciones",
+      "start": 452,
+      "body_start": 477,
+      "end": 552,
+      "body_sha256": "1b14e36148e03e6a82a8e88d2eaeca53b25a490594b9dc75f07aea4daeab8034",
+      "requirement_ids": [],
+      "characters": 73
+    },
+    {
+      "section_id": "reversibilidad",
+      "heading": "Reversibilidad",
+      "start": 552,
+      "body_start": 569,
+      "end": 647,
+      "body_sha256": "75875a60e744c5b2ee7caf520bcbecb2251862c43149153b3471286a9013c626",
+      "requirement_ids": [],
+      "characters": 76
+    }
+  ],
+  "requirements_by_section": {
+    "contexto": [
+      "RF-002"
+    ],
+    "decision": [],
+    "alternativas": [],
+    "consecuencias": [],
+    "riesgos-y-mitigaciones": [],
+    "reversibilidad": []
+  },
+  "unknowns": [],
+  "owner_decision": {
+    "option_id": "T1",
+    "sha256": "36c042152ffde96a607f38d90c8fe560c5eb9db45e05d08c9403e94a25856af3",
+    "immutable": true
+  },
+  "comparative_technology_axes": [],
+  "locked_section_ids": [
+    "decision"
+  ],
+  "findings": [],
+  "section_tasks": [],
+  "blocking_issues": [],
+  "eligible_for_external_handoff": true,
+  "owner_questions": [],
+  "acceptance_criteria": [
+    "No drift de fuentes FROZEN/decisiones Owner verificadas",
+    "Solo se cambia la sección autorizada; demás hashes/IDs permanecen idénticos",
+    "El Owner revisa diffs y decide un nuevo estado mediante el lifecycle"
+  ],
+  "provider_transfer_boundary": "OFFLINE_ONLY; no ejecución ni permiso API delegado",
+  "quality_level": "REVIEW_REQUIRED",
+  "requires_authenticated_owner_review": true,
+  "external_api_used": false,
+  "project_source_mutations": 0,
+  "generation_epoch": "offline-example-1",
+  "parent_candidate_id": null,
+  "before_owner": {
+    "schema_id": "mp132.r03_04.ux01_artifact_quality.v1",
+    "profile_id": "adr",
+    "candidate_id": "offline-fixture-adr",
+    "document_id": "adr",
+    "revision_id": "offline-fixture-adr",
+    "provenance": {
+      "author_actor": "OFFLINE_SYNTHETIC_FIXTURE",
+      "model_id": "NO_MODEL_EXECUTED",
+      "validation_engine": "mp132.r03_04.ux01_artifact_quality.v1"
+    },
+    "owner_phase": "before_owner",
+    "candidate_sha256": "2ff6d3b7acb1a4df9fe7f97968919ec9e8000bb02db924bd9044a861e4fc5dd9",
+    "runtime_status": "DRAFT",
+    "sources": [
+      {
+        "source_id": "product-vision",
+        "sha256": "19d7f4e96915c3d7b6a167bc54fc0d4bf2a389768e82e562ad485d1bbb8adcfe",
+        "verified": "true"
+      },
+      {
+        "source_id": "scope",
+        "sha256": "9308bbb6f0689331d68accbe12397afea6b2868d679d118debe31ec95698b483",
+        "verified": "true"
+      },
+      {
+        "source_id": "requirements",
+        "sha256": "eda4410c2a07f2e2aada84c98467d1dc528984523a6c5f73e58d32edab396cfc",
+        "verified": "true"
+      }
+    ],
+    "sections": [
+      {
+        "section_id": "contexto",
+        "heading": "Contexto",
+        "start": 43,
+        "body_start": 54,
+        "end": 128,
+        "body_sha256": "3cfd13533e3f2607ce656449a4de92ee200a07788dfd7a8753fb04e84ddbf201",
+        "requirement_ids": [
+          "RF-002"
+        ],
+        "characters": 72
+      },
+      {
+        "section_id": "decision",
+        "heading": "Decisión",
+        "start": 128,
+        "body_start": 139,
+        "end": 213,
+        "body_sha256": "6ffe4155f818be2d2a5bb6b4411119b11f49707e55b25244ccefe36e6fb4067b",
+        "requirement_ids": [],
+        "characters": 72
+      },
+      {
+        "section_id": "alternativas",
+        "heading": "Alternativas",
+        "start": 213,
+        "body_start": 228,
+        "end": 306,
+        "body_sha256": "e16a312d6e040d896caa8fe6233a0a3501369f91ed979b8242901a43564ce90a",
+        "requirement_ids": [],
+        "characters": 76
+      },
+      {
+        "section_id": "consecuencias",
+        "heading": "Consecuencias",
+        "start": 306,
+        "body_start": 322,
+        "end": 452,
+        "body_sha256": "0e13102c9a6e3fed6dd0c41236e5881c715eb292b9ab8a0de864ddfef825e24e",
+        "requirement_ids": [],
+        "characters": 128
+      },
+      {
+        "section_id": "riesgos-y-mitigaciones",
+        "heading": "Riesgos y mitigaciones",
+        "start": 452,
+        "body_start": 477,
+        "end": 552,
+        "body_sha256": "1b14e36148e03e6a82a8e88d2eaeca53b25a490594b9dc75f07aea4daeab8034",
+        "requirement_ids": [],
+        "characters": 73
+      },
+      {
+        "section_id": "reversibilidad",
+        "heading": "Reversibilidad",
+        "start": 552,
+        "body_start": 569,
+        "end": 647,
+        "body_sha256": "75875a60e744c5b2ee7caf520bcbecb2251862c43149153b3471286a9013c626",
+        "requirement_ids": [],
+        "characters": 76
+      }
+    ],
+    "findings": [],
+    "requirement_trace": {
+      "contexto": [
+        "RF-002"
+      ],
+      "decision": [],
+      "alternativas": [],
+      "consecuencias": [],
+      "riesgos-y-mitigaciones": [],
+      "reversibilidad": []
+    },
+    "assumptions_and_unknowns": [],
+    "selected_owner_decision": {
+      "option_id": "T1",
+      "sha256": "36c042152ffde96a607f38d90c8fe560c5eb9db45e05d08c9403e94a25856af3",
+      "immutable": true
+    },
+    "technology_comparison": [],
+    "structural_disposition": "STRUCTURALLY_VALID",
+    "quality_level": "REVIEW_REQUIRED",
+    "handoff_ready": false,
+    "professional_reviewed": false,
+    "technical_context": null,
+    "owner_review_required": true,
+    "external_api_used": false,
+    "source_mutations_performed": false,
+    "generation_epoch": "offline-example-1",
+    "parent_candidate_id": null,
+    "owner_constraints": [
+      {
+        "source_id": "requirements",
+        "source_sha256": "eda4410c2a07f2e2aada84c98467d1dc528984523a6c5f73e58d32edab396cfc",
+        "text": "RF-001 registra productos. RF-002 guarda ventas y descontar stock de modo transaccional. RNF-001 exige uso local y autorización del Owner para acciones sensibles. Ninguna publicación sin aprobación humana."
+      }
+    ]
+  },
+  "business_need": {
+    "text": "UNKNOWN"
+  },
+  "owner_constraints": [
+    {
+      "source_id": "requirements",
+      "source_sha256": "eda4410c2a07f2e2aada84c98467d1dc528984523a6c5f73e58d32edab396cfc",
+      "text": "RF-001 registra productos. RF-002 guarda ventas y descontar stock de modo transaccional. RNF-001 exige uso local y autorización del Owner para acciones sensibles. Ninguna publicación sin aprobación humana."
+    }
+  ],
+  "professional_reviewed": false
+}

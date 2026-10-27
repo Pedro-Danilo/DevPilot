@@ -7,6 +7,7 @@ import re
 import subprocess
 import threading
 from copy import deepcopy
+from functools import wraps
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -32,6 +33,7 @@ from .pre_code_technical_design import C02_STAGES, C02_MODEL, C02_SCHEMA, derive
 from .pre_code_adr_bundle_service import ArchitectureAdrBundleService
 from .r02_07_semantic import generate_local_guided, quality_findings, persist_owner_revision
 from .r03_03_architecture import generate_local_architecture, persist_architecture_revision, architecture_quality
+from .r03_04_quality_contract import candidate_quality, export_candidate_handoff
 from .r03_04_tech_decision import inspect_technology_decisions
 from .r03_04_local_authoring import (R0304LocalAuthoring, _OPTION, _sha as _r0304_sha,
     adr_prompt, compose_architecture, technology_prompt, validate_technology, validate_adr)
@@ -77,6 +79,34 @@ def _canonical_text(text: str) -> str:
 
 def _sha_text(text: str) -> str:
     return _sha_bytes(_canonical_text(text).encode('utf-8'))
+
+
+def _require_current_business_need(record: dict[str, Any], current: dict[str, Any]) -> None:
+    # Compare the parsed B0 field, not project.yaml bytes: comments, unrelated
+    # metadata, EOL and prose whitespace do not change the business need.
+    previous = record.get('business_need') or {}
+    if not isinstance(previous.get('text'), str):
+        raise ValueError('UX01_B_BUSINESS_NEED_UNVERIFIED')
+    if ' '.join(previous['text'].split()) != ' '.join(current['text'].split()):
+        raise ValueError('UX01_B_BUSINESS_NEED_DRIFT')
+
+
+# Foreground service serialization prevents a completed inference from overwriting
+# a concurrent Owner choice/revision made from an older state snapshot.
+_TECH_ACTION_LOCK = threading.Lock()
+
+
+def _serialized_technology_action(method):
+    @wraps(method)
+    def guarded(self, **kwargs):
+        if not _TECH_ACTION_LOCK.acquire(blocking=False):
+            return self._block('guided pre-code technology local authoring',
+                               'UX01_B_ACTION_IN_PROGRESS', 'Operación en curso; consultar estado antes de continuar.')
+        try:
+            return method(self, **kwargs)
+        finally:
+            _TECH_ACTION_LOCK.release()
+    return guarded
 
 
 def _architecture_draft_quality(content: str, upstream: dict[str, str], required_headings: tuple[str, ...]) -> dict[str, Any]:
@@ -137,6 +167,10 @@ class PreCodeWizardApplicationService:
         projection = self._projection(state, workspace_id, workspace_root, effective_roles, workspace_scopes)
         if workspace_id in set(workspace_scopes):
             projection['r03_04_authoring'] = self._technology_public(state)
+            try:
+                projection['r03_04_authoring']['activity'] = self.technology_authoring.activity(workspace_id)
+            except (ValueError,OSError,UnicodeError) as exc:
+                projection['r03_04_authoring']['activity'] = [{'status':'BLOCK','error_code':str(exc)[:200]}]
         return self._pass('guided pre-code status', 'GSDLC05E_PRE_CODE_STATUS_PASS', 'Pre-code wizard state projected from server-authoritative runtime state.', {'pre_code': projection})
 
     def reconcile_structure(self, *, effective_roles: list[str], workspace_scopes: list[str]) -> CommandResult:
@@ -251,6 +285,14 @@ class PreCodeWizardApplicationService:
                         metadata=parse_project_yaml_metadata(project_yaml)
                         context=resolve_technical_context(self.root,sources=tuple(verified),
                             facts=ProjectFacts(project_id=workspace_id,revision=1,product_has_ai=None))
+                        context['actor'] = actor
+                        context['business_need'] = str(metadata.get('business_need') or 'UNKNOWN')
+                        context['business_need_source'] = {'source_id':'.devpilot/project.yaml',
+                            'sha256':_sha_bytes(project_yaml.read_bytes())}
+                        if regenerate:
+                            import uuid
+                            context['generation_epoch'] = (row.get('pending_generation_epoch') or uuid.uuid4().hex)
+                            context['parent_candidate_id'] = row.get('content_sha256')
                         generated=generate_local_architecture(self.root,workspace_id=workspace_id,
                             project_name=str(metadata.get('project_name') or workspace_id),
                             context=context,upstream=trusted_upstream,model=model,
@@ -258,10 +300,16 @@ class PreCodeWizardApplicationService:
                     except (ValueError,OSError,UnicodeError,KeyError) as exc:
                         return self._block(command,'R0303_GENERATION_BLOCK',str(exc))
                     if generated.get('partial'):
+                        if context.get('generation_epoch'):
+                            row['pending_generation_epoch'] = context['generation_epoch']
+                            self._write_state(workspace_id,state)
                         return self._pass(command,'R0303_SEGMENT_PROGRESS_PASS',
                             'Unidad Architecture conservada; continúa generación acotada sin escribir source.',
                             {'segmented_progress':generated['progress'],'source_mutations_performed':False})
                     content=generated['content'];derivation=generated['provenance']
+                    row.pop('pending_generation_epoch',None)
+                    derivation['generation_epoch'] = context.get('generation_epoch') or derivation.get('input_hash')
+                    derivation['business_need_source'] = context['business_need_source']
                     if regenerate:
                         derivation['predecessor_content_sha256']=_sha_text(str(row.get('content') or ''))
                         derivation['owner_requested_alternative']=True
@@ -328,6 +376,21 @@ class PreCodeWizardApplicationService:
                                         'message':'Una fuente FROZEN no coincide con su estado gobernado.'})
                 fresh['disposition']='BLOCK'
             derivation=dict(derivation or {})
+            epoch = str(derivation.get('generation_epoch') or derivation.get('input_hash') or _sha_text(content))
+            derivation['generation_epoch'] = epoch
+            previous_quality = derivation.get('ux01_quality') or {}
+            derivation['ux01_quality'] = candidate_quality(
+                'architecture',content,frozen=verified_sources,
+                hashes={k:_sha_text(v) for k,v in verified_sources.items()},
+                candidate_id=_sha_text(content),epoch=epoch,actor=actor,
+                model=str(derivation.get('model') or 'UNKNOWN'),
+                parent_id=(derivation.get('owner_revision') or {}).get('parent_candidate_sha256') or derivation.get('predecessor_content_sha256'),
+                before_owner=previous_quality.get('before_owner') if derivation.get('owner_edited') else None)
+            project_file = workspace_root/'.devpilot/project.yaml'
+            if project_file.is_file() and not project_file.is_symlink():
+                derivation['ux01_quality']['current']['business_need'] = {
+                    'source_id':'.devpilot/project.yaml','sha256':_sha_bytes(project_file.read_bytes()),
+                    'text':str(parse_project_yaml_metadata(project_file).get('business_need') or 'UNKNOWN')}
             derivation['quality_receipt']=fresh
             derivation['technology_decision_receipt']=inspect_technology_decisions(
                 content,source_refs=derivation.get('upstream_refs') or derivation.get('source_refs') or [],
@@ -602,10 +665,13 @@ class PreCodeWizardApplicationService:
         self._append_trace(workspace_id,event)
         return self._pass(command,'GSDLC13C01_RETEST_REOPEN_PASS','C-01 runtime state reopened for an exact selective retest; prior evidence archived and managed project source bytes preserved.',{'workspace_id':workspace_id,'state_archive':event['state_archive'],'trace_archive':event['trace_archive'],'project_source_mutations':0})
 
+    @_serialized_technology_action
     def technology_action(self, *, action: str, actor: str, actor_role: str,
                           session_principal: str, effective_roles: list[str],
                           workspace_scopes: list[str], option_id: str = '',
-                          model: str = '', successor: bool = False, content: str = '') -> CommandResult:
+                          model: str = '', successor: bool = False, content: str = '',
+                          artifact_kind: str = 'architecture', expected_sha256: str = '',
+                          generation_epoch: str = '') -> CommandResult:
         """One governed UI endpoint for the four explicit R03-04 authoring actions."""
         command = 'guided pre-code technology local authoring'
         context = self._context()
@@ -628,8 +694,83 @@ class PreCodeWizardApplicationService:
         tech = dict(authoring.get('technology') or {})
         selected = str(authoring.get('selected_option_id') or '')
         adr = dict(authoring.get('adr') or {})
+        initial_arch_sha = row['content_sha256']
+        initial_arch_status = row.get('status')
         try:
+            frozen = self._r0304_frozen_context(state,workspace_root)
+            hashes = {key:_sha_text(value) for key,value in frozen.items()}
+            epoch = str((row.get('derivation') or {}).get('generation_epoch') or
+                        (row.get('derivation') or {}).get('input_hash') or row['content_sha256'])
+            if generation_epoch and generation_epoch != epoch:
+                raise ValueError('UX01_B_STALE_EPOCH')
+            expected_current = row['content_sha256']
+            if action in ('select_option','owner_revise_options') or (action == 'export_handoff' and artifact_kind == 'technology_options'):
+                expected_current = tech.get('candidate_sha256')
+            elif action == 'owner_revise_adr' or (action == 'export_handoff' and artifact_kind == 'adr'):
+                expected_current = adr.get('candidate_sha256')
+            if expected_sha256 and expected_sha256 != expected_current:
+                raise ValueError('UX01_B_STALE_CANDIDATE')
+            if action != 'generate_options' and tech.get('generation_epoch') and tech['generation_epoch'] != epoch:
+                raise ValueError('UX01_B_STALE_TECHNOLOGY_EPOCH')
+            project_file = workspace_root/'.devpilot/project.yaml'
+            if not project_file.is_file() or project_file.is_symlink():
+                raise ValueError('R0304_PROJECT_CONTEXT_REQUIRED')
+            metadata = parse_project_yaml_metadata(project_file)
+            business_need = {'source_id':'.devpilot/project.yaml',
+                             'sha256':_sha_bytes(project_file.read_bytes()),
+                             'text':str(metadata.get('business_need') or 'UNKNOWN')}
+            quality_context = {'frozen':frozen, 'hashes':hashes, 'actor':actor,
+                               'business_need':business_need}
+            if action in ('select_option', 'generate_adr', 'reconcile',
+                          'owner_revise_options', 'owner_revise_adr'):
+                _require_current_business_need((tech.get('quality') or {}).get('current', {}), business_need)
+                if action in ('reconcile', 'owner_revise_adr'):
+                    _require_current_business_need((adr.get('quality') or {}).get('current', {}), business_need)
+            if action == 'adr_not_applicable':
+                if selected or adr or len(content.strip()) < 35:
+                    raise ValueError('UX01_B_ADR_MATERIALITY_REQUIRES_OWNER_RATIONALE')
+                authoring['adr_applicability'] = {'status':'NOT_APPLICABLE',
+                    'reason':content.strip(),'actor':actor,'at':_now(),
+                    'architecture_sha256':row['content_sha256'],'generation_epoch':epoch}
+                authoring['status'] = 'ADR_NOT_APPLICABLE'
+                state['r03_04_authoring'] = authoring
+                row.setdefault('derivation', {})['generation_epoch'] = epoch
+                self._write_state(workspace_id,state)
+                return self._pass(command,'UX01_B_ADR_NOT_APPLICABLE',
+                    'Owner registró ausencia de decisión material; ningún ADR generado.',
+                    {'adr_applicability':authoring['adr_applicability'],'source_mutations_performed':False})
+            if action == 'export_handoff':
+                if artifact_kind == 'architecture':
+                    body = str(row['content'])
+                    quality = (row.get('derivation') or {}).get('ux01_quality')
+                else:
+                    target = tech if artifact_kind == 'technology_options' else adr if artifact_kind == 'adr' else None
+                    if not target:
+                        raise ValueError('UX01_B_HANDOFF_CANDIDATE_MISSING')
+                    body = self.technology_authoring.bound_candidate(workspace_id,target)
+                    quality = target.get('quality')
+                if not quality:
+                    raise ValueError('UX01_B_HANDOFF_QUALITY_MISSING')
+                if {x['source_id']:x['sha256'] for x in quality['current']['sources']} != hashes:
+                    raise ValueError('UX01_B_HANDOFF_SOURCE_DRIFT')
+                _require_current_business_need(quality['current'], business_need)
+                if quality['current']['generation_epoch'] != epoch:
+                    raise ValueError('UX01_B_HANDOFF_EPOCH_DRIFT')
+                quality = deepcopy(quality)
+                quality['current']['selected_owner_decision'] = {
+                    'option_id':selected or 'UNKNOWN',
+                    'sha256':authoring.get('selected_technology_sha256') or 'UNKNOWN',
+                    'immutable':True}
+                packet = export_candidate_handoff(quality,body)
+                return self._pass(command,'UX01_B_OFFLINE_HANDOFF_EXPORTED',
+                    'Paquete offline; requiere revisión Owner, sin certificación profesional.',
+                    {'handoff':packet,'source_mutations_performed':False})
             if action in ('select_option','generate_adr','owner_revise_adr','reconcile'):
+                original_arch = (tech.get('input_binding') or {}).get('architecture_sha')
+                if original_arch and row['content_sha256'] not in (original_arch,authoring.get('reconciled_architecture_sha256')):
+                    raise ValueError('UX01_B_STALE_ARCHITECTURE')
+                if (tech.get('quality') or {}).get('current',{}).get('structural_disposition') == 'BLOCK':
+                    raise ValueError('UX01_B_TECH_QUALITY_BLOCK')
                 if (tech.get('schema_id')!='mp132.r03_04.technology_options.v3'
                         or validate_technology(str(tech.get('content') or ''))):
                     raise ValueError('R0304_TECH_P5_CANDIDATE_REGENERATE_P6')
@@ -643,17 +784,19 @@ class PreCodeWizardApplicationService:
                 if not project_file.is_file() or project_file.is_symlink():
                     raise ValueError('R0304_PROJECT_CONTEXT_REQUIRED')
                 name=str(parse_project_yaml_metadata(project_file).get('project_name') or workspace_id)
-                prompt=technology_prompt(name,str(row['content']),frozen)
+                prompt=technology_prompt(name,str(row['content']),frozen, business_need=str(parse_project_yaml_metadata(project_file).get('business_need') or 'UNKNOWN'))
                 request = {'upstream_sha':{key:_sha_text(value) for key,value in frozen.items()},
                            'architecture_sha':str(row['content_sha256']),
                            'prompt_sha256':_sha_text(prompt),
                            'context_profile':'r03_04.evidence_selection.v1',
-                           'profile_version':'2.3.0'}
+                           'profile_version':'2.3.0', 'generation_epoch':epoch}
+                if tech and not successor and (tech.get('input_binding') != request or tech.get('model') != (model or str((row.get('derivation') or {}).get('model') or ''))):
+                    raise ValueError('UX01_B_OPTIONS_SUCCESSOR_REQUIRED')
                 reply = self.technology_authoring.infer(workspace_id=workspace_id,kind='technology',
                     input_binding=request,prompt=prompt,
                     model=model or str((row.get('derivation') or {}).get('model') or ''),
-                    successor=successor,explicit_owner_action=True)
-                if str(tech.get('candidate_sha256') or '') != reply['candidate_sha256']:
+                    successor=successor,explicit_owner_action=True,quality_context=quality_context)
+                if tech.get('candidate_id') != reply.get('candidate_id') or str(tech.get('candidate_sha256') or '') != reply['candidate_sha256']:
                     authoring={'technology':reply,'selected_option_id':None,'adr':None,
                                'reconciled_architecture_sha256':None,'status':'TECH_OPTIONS_DRAFT'}
                 else:
@@ -673,24 +816,31 @@ class PreCodeWizardApplicationService:
                 choices={m.group(1).upper() for m in _OPTION.finditer(str(tech.get('content') or ''))}
                 if option_id not in choices:
                     raise ValueError('R0304_UNKNOWN_OPTION_DENY')
+                if selected and selected != option_id and not successor:
+                    raise ValueError('UX01_B_SELECTION_SUCCESSOR_REQUIRED')
                 if selected != option_id:
                     authoring.update({'selected_option_id':option_id,'adr':None,
                                       'reconciled_architecture_sha256':None,'status':'OWNER_OPTION_SELECTED'})
+                authoring['selected_technology_sha256']=tech['candidate_sha256']
+                authoring['selection_epoch']=epoch
                 authoring['selected_by']=actor
                 authoring['selection_at']=_now()
             elif action == 'generate_adr':
                 technology=self.technology_authoring.bound_candidate(workspace_id,tech)
                 if not selected or selected not in {m.group(1).upper() for m in _OPTION.finditer(technology)}:
                     raise ValueError('R0304_OWNER_SELECTION_REQUIRED')
+                if authoring.get('selected_technology_sha256') != tech['candidate_sha256'] or authoring.get('selection_epoch') != epoch:
+                    raise ValueError('UX01_B_OWNER_SELECTION_STALE')
                 inputs={'technology_sha':tech['candidate_sha256'],'selected_option_id':selected,
                         'architecture_sha':row['content_sha256'],'profile_version':'2.3.0',
-                        'context_profile':'r03_04.evidence_selection.v1'}
+                        'context_profile':'r03_04.evidence_selection.v1','generation_epoch':epoch,
+                        'business_need_sha256':_sha_text(' '.join(business_need['text'].split()))}
                 prompt=adr_prompt(str(row['content']),technology,selected)
                 inputs['prompt_sha256']=_sha_text(prompt)
                 reply=self.technology_authoring.infer(workspace_id=workspace_id,kind='adr',
                     input_binding=inputs,prompt=prompt,
                     model=model or str((row.get('derivation') or {}).get('model') or ''),
-                    successor=successor,explicit_owner_action=True)
+                    successor=successor,explicit_owner_action=True,quality_context=quality_context)
                 authoring.update({'adr':reply,'reconciled_architecture_sha256':None,
                                   'status':'ADR_DRAFT'})
             elif action == 'owner_revise_adr':
@@ -712,8 +862,15 @@ class PreCodeWizardApplicationService:
             elif action == 'reconcile':
                 technology=self.technology_authoring.bound_candidate(workspace_id,tech)
                 decision=self.technology_authoring.bound_candidate(workspace_id,adr)
+                if (adr.get('quality') or {}).get('current',{}).get('structural_disposition') == 'BLOCK':
+                    raise ValueError('UX01_B_ADR_QUALITY_BLOCK')
                 if not selected or selected not in {m.group(1).upper() for m in _OPTION.finditer(technology)}:
                     raise ValueError('R0304_OWNER_SELECTION_REQUIRED')
+                if authoring.get('selected_technology_sha256') != tech['candidate_sha256'] or authoring.get('selection_epoch') != epoch:
+                    raise ValueError('UX01_B_OWNER_SELECTION_STALE')
+                bound = adr.get('input_binding') or {}
+                if bound.get('selected_option_id') != selected or bound.get('technology_sha') != tech['candidate_sha256'] or bound.get('generation_epoch') != epoch:
+                    raise ValueError('UX01_B_ADR_LINEAGE_DRIFT')
                 replacement=compose_architecture(str(row['content']),technology,selected,decision,
                                                   tech['candidate_sha256'],adr['candidate_sha256'])
                 if _sha_text(replacement)==str(row['content_sha256']):
@@ -728,7 +885,9 @@ class PreCodeWizardApplicationService:
                 if not saved.ok: return saved
                 state=self._load_state(workspace_id)
                 row=self._stage_state(state,'architecture')
-                binding={'technology_sha256':tech['candidate_sha256'],'selected_option_id':selected,
+                binding={'generation_epoch':epoch,'technology_candidate_id':tech.get('candidate_id'),
+                         'adr_candidate_id':adr.get('candidate_id'),
+                         'technology_sha256':tech['candidate_sha256'],'selected_option_id':selected,
                          'adr_sha256':adr['candidate_sha256'],'architecture_sha256':row['content_sha256']}
                 row['derivation']=dict(row.get('derivation') or {})
                 row['derivation']['technology_selection']=binding
@@ -741,6 +900,44 @@ class PreCodeWizardApplicationService:
                 return self._block(command,'R0304_ACTION_UNKNOWN','Operación Technology/ADR no permitida.')
         except (ValueError, OSError, UnicodeError, KeyError, TypeError) as exc:
             return self._block(command,'R0304_LOCAL_AUTHORING_BLOCK',str(exc))
+        if action in ('generate_options','generate_adr'):
+            try:
+                if not project_file.is_file() or project_file.is_symlink():
+                    raise ValueError('R0304_PROJECT_CONTEXT_REQUIRED')
+                _require_current_business_need({'business_need':business_need}, {
+                    'text':str(parse_project_yaml_metadata(project_file).get('business_need') or 'UNKNOWN')})
+            except (ValueError, OSError, UnicodeError) as exc:
+                return self._block(command,'R0304_LOCAL_AUTHORING_BLOCK',str(exc))
+            latest = self._load_state(workspace_id)
+            latest_row = self._stage_state(latest,'architecture')
+            if (latest_row.get('content_sha256') != initial_arch_sha
+                    or latest_row.get('status') != initial_arch_status or latest_row.get('approval_id')):
+                return self._block(command,'UX01_B_STATE_CHANGED_DURING_INFERENCE',
+                                   'Candidato conservado; Architecture cambió durante la inferencia. Conciliar estado.')
+        try:
+            if action in ('owner_revise_options','owner_revise_adr'):
+                key = 'technology' if action == 'owner_revise_options' else 'adr'
+                revised = authoring[key]
+                parent = tech if key == 'technology' else adr
+                if revised['candidate_sha256'] == parent.get('candidate_sha256'):
+                    return self._pass(command,'UX01_B_OWNER_REVISION_UNCHANGED','Contenido idéntico; revisión conservada.',
+                        {'r03_04_authoring':self._technology_public(state),'source_mutations_performed':False})
+                revised['generation_epoch'] = epoch
+                revised['input_binding'] = parent.get('input_binding', {})
+                revised['candidate_id'] = revised.get('candidate_id') or revised['candidate_sha256']
+                revised['quality'] = candidate_quality(
+                    'technology_options' if key == 'technology' else 'adr', revised['content'],
+                    frozen=frozen,hashes=hashes,candidate_id=revised['candidate_id'],epoch=epoch,
+                    actor=actor,parent_id=parent.get('candidate_id'),
+                    before_owner=(parent.get('quality') or {}).get('before_owner'),
+                    selected_option_id=selected or None,
+                    selected_option_sha256=tech.get('candidate_sha256') if key == 'adr' else None)
+            if action in ('owner_revise_options','owner_revise_adr'):
+                revised['quality']['current']['business_need'] = business_need
+                self.technology_authoring.persist_revision_receipt(workspace_id,revised)
+        except (ValueError,OSError,UnicodeError,KeyError,TypeError) as exc:
+            return self._block(command,'UX01_B_REVISION_RECEIPT_BLOCK',str(exc))
+        row.setdefault('derivation', {})['generation_epoch'] = epoch
         state['r03_04_authoring']=authoring
         state['updated_at']=_now()
         self._write_state(workspace_id,state)
@@ -765,6 +962,12 @@ class PreCodeWizardApplicationService:
     @staticmethod
     def _technology_binding_valid(state:dict[str,Any],row:dict[str,Any])->bool:
         auth=state.get('r03_04_authoring') or {}
+        na = auth.get('adr_applicability') or {}
+        if (na.get('status') == 'NOT_APPLICABLE' and na.get('actor') and len(na.get('reason','')) >= 35
+                and not auth.get('selected_option_id') and not auth.get('adr')
+                and na.get('architecture_sha256') == row.get('content_sha256')
+                and na.get('generation_epoch') == (row.get('derivation') or {}).get('generation_epoch')):
+            return True
         decision=(row.get('derivation') or {}).get('technology_selection') or {}
         tech=auth.get('technology') or {}; adr=auth.get('adr') or {}
         return (bool(auth.get('reconciled_architecture_sha256'))
@@ -773,7 +976,12 @@ class PreCodeWizardApplicationService:
             and decision.get('technology_sha256')==tech.get('candidate_sha256')
             and decision.get('adr_sha256')==adr.get('candidate_sha256')
             and decision.get('selected_option_id')==auth.get('selected_option_id')
-            and tech.get('status')=='COMPLETE' and adr.get('status')=='COMPLETE')
+            and tech.get('status')=='COMPLETE' and adr.get('status')=='COMPLETE'
+            and (not decision.get('generation_epoch') or (
+                decision['generation_epoch']==(row.get('derivation') or {}).get('generation_epoch')
+                and decision['generation_epoch']==tech.get('generation_epoch')==adr.get('generation_epoch')
+                and decision.get('technology_candidate_id')==tech.get('candidate_id')
+                and decision.get('adr_candidate_id')==adr.get('candidate_id'))))
 
     @staticmethod
     def _technology_public(state:dict[str,Any])->dict[str,Any]:
@@ -781,8 +989,11 @@ class PreCodeWizardApplicationService:
         tech=auth.get('technology') or {}; adr=auth.get('adr') or {}
         return {'status':auth.get('status') or 'NOT_STARTED','selected_option_id':auth.get('selected_option_id'),
                 'architecture_reconciled':bool(auth.get('reconciled_architecture_sha256')),
-                'technology':{key:tech.get(key) for key in ('status','candidate_file','candidate_sha256','content','model','tokens_estimated','quality_certified','human_review_required','origin','revision_of_sha256','created_by')},
-                'adr':{key:adr.get(key) for key in ('status','candidate_file','candidate_sha256','content','model','tokens_estimated','quality_certified','human_review_required','origin','revision_of_sha256','created_by')},
+                'selected_technology_sha256':auth.get('selected_technology_sha256'),
+                'generation_epoch':auth.get('selection_epoch'),
+                'adr_applicability':auth.get('adr_applicability'),
+                'technology':{key:tech.get(key) for key in ('status','candidate_file','candidate_sha256','content','model','tokens_estimated','quality_certified','human_review_required','origin','revision_of_sha256','created_by','candidate_id','generation_epoch','quality','elapsed_ms','format_findings')},
+                'adr':{key:adr.get(key) for key in ('status','candidate_file','candidate_sha256','content','model','tokens_estimated','quality_certified','human_review_required','origin','revision_of_sha256','created_by','candidate_id','generation_epoch','quality','elapsed_ms','format_findings')},
                 'model_execution_used':bool(tech.get('model_execution_used')),
                 'project_source_mutations':0,'technology_path':'docs/02_architecture/technology_options.md',
                 'adr_path':'docs/02_architecture/adrs/ADR-001-*.md'}

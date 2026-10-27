@@ -491,6 +491,13 @@ class ArchitectureAdrBundleService:
                 or authoring.get('reconciled_architecture_sha256')!=bound_draft_sha):
             return self._block(command,'R0304_LOCAL_FROZEN_BINDING_DRIFT',
                 'Architecture FROZEN no coincide con selección, Technology Options y ADR generadas.')
+        if binding.get('generation_epoch'):
+            if (binding['generation_epoch'] != (arch.get('derivation') or {}).get('generation_epoch')
+                    or binding['generation_epoch'] != technology.get('generation_epoch')
+                    or binding['generation_epoch'] != adr.get('generation_epoch')
+                    or binding.get('technology_candidate_id') != technology.get('candidate_id')
+                    or binding.get('adr_candidate_id') != adr.get('candidate_id')):
+                return self._block(command,'UX01_B_COMPANION_EPOCH_DRIFT','Companion no coincide con la identidad conciliada.')
         try:
             generator=R0304LocalAuthoring(self.root)
             tech_text=generator.bound_candidate(workspace_id,technology)
