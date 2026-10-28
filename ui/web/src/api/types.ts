@@ -1287,7 +1287,7 @@ export interface PreCodeWizardStage {
   status: 'MISSING' | 'DRAFT' | 'FINDINGS' | 'APPROVAL_REQUIRED' | 'APPLIED' | 'FROZEN' | string;
   mode?: 'MANUAL' | 'IMPORT' | 'DEVPL_MOCK' | 'LOCAL_MODEL' | null;
   draft_content?: string | null;
-  derivation?: { schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; model_execution_used?: boolean; agent_execution_used?: boolean; rag_execution_used?: boolean; rag_grounding_status?: string; rag_context_pack_id?: string; rag_context_pack_sha256?: string; rag_citations?: Array<Record<string, unknown>>; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_edited?: boolean; owner_edited_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean; decision_summary?: Array<{ adr_id: string; title: string; decision: string; status: string; selection_basis?: string }> } | null;
+  derivation?: { generation_epoch?:string; ux01_quality?:ArtifactQualityDto; schema_id?: string; mode?: string; provider?: string; model?: string; network_used?: boolean; external_api_used?: boolean; cost_usd?: number; model_execution_used?: boolean; agent_execution_used?: boolean; rag_execution_used?: boolean; rag_grounding_status?: string; rag_context_pack_id?: string; rag_context_pack_sha256?: string; rag_citations?: Array<Record<string, unknown>>; source_refs?: Array<Record<string, unknown>>; source_context_sha256?: string; canonical_input_sha256?: string; generated_content_sha256?: string; owner_edited?: boolean; owner_edited_content_sha256?: string; owner_review_required?: boolean; approval_required_before_source_write?: boolean; decision_summary?: Array<{ adr_id: string; title: string; decision: string; status: string; selection_basis?: string }> } | null;
   content_sha256?: string | null;
   base_sha256?: string | null;
   review_id?: string | null;
@@ -1348,17 +1348,38 @@ export interface TechnologyDecisionProjection {
   approval_lineage: { state: string; architecture_approval_id?: string | null; architecture_sha256?: string | null };
 }
 
+
+export type ArchitectureDocumentKind = 'architecture'|'technology_options'|'adr';
+export interface ArtifactQualitySnapshot {
+  quality_level:string; handoff_ready?:boolean; professional_reviewed?:boolean;
+  sources?:unknown[]; findings:Array<{id:string;severity:string;section_id:string;why:string;suggested_fix:string}>;
+}
+export interface ArtifactQualityDto {current:ArtifactQualitySnapshot;before_owner:ArtifactQualitySnapshot;}
+export interface ArchitectureDocument {
+  content:string;status:string;source:string;sha256:string;can_edit:boolean;
+  candidate_id?:string;generation_epoch?:string;error_code?:string;quality?:ArtifactQualityDto|null;
+}
+export interface AuthoringCandidate {
+  status?:string;candidate_sha256?:string;candidate_id?:string;generation_epoch?:string;
+  content?:string;model?:string;human_review_required?:boolean;origin?:string;
+  revision_of_sha256?:string;created_by?:string;quality?:ArtifactQualityDto;
+}
+
 export interface R0304LocalAuthoringProjection {
+  activity?: Array<{kind?:string;status?:string;candidate_id?:string;model?:string;started_at?:string;elapsed_ms?:number;error_code?:string}>;
   status: string;
   selected_option_id?: string | null;
   architecture_reconciled: boolean;
-  technology?: { status?: string; candidate_sha256?: string; content?: string; model?: string; human_review_required?: boolean; origin?: string; revision_of_sha256?: string; created_by?: string };
-  adr?: { status?: string; candidate_sha256?: string; content?: string; model?: string; human_review_required?: boolean; origin?: string; revision_of_sha256?: string; created_by?: string };
+  technology?: AuthoringCandidate;
+  adr?: AuthoringCandidate;
   technology_path?: string;
   adr_path?: string;
 }
 
 export interface PreCodeWizardProjection {
+  project_name?:string;
+  architecture_inference_pending?:boolean;
+  architecture_workbench_documents?:Record<ArchitectureDocumentKind,ArchitectureDocument>;
   schema_id: string;
   profile_id: string;
   readiness_semantics: string;

@@ -308,7 +308,7 @@ export class DevPilotApiClient {
     return this.post('/guided-sdlc/pre-code/architecture-adrs/prepare', {}, { timeoutMs: READINESS_REQUEST_TIMEOUT_MS });
   }
 
-  async preCodeTechnologyAction(payload: { action: 'generate_options' | 'owner_revise_options' | 'select_option' | 'generate_adr' | 'owner_revise_adr' | 'reconcile'; option_id?: string; model?: string; successor?: boolean; content?: string }): Promise<DevPilotApplicationResponse> {
+  async preCodeTechnologyAction(payload: { action: 'generate_options' | 'owner_revise_options' | 'select_option' | 'generate_adr' | 'owner_revise_adr' | 'reconcile' | 'export_handoff' | 'adr_not_applicable'; option_id?: string; model?: string; successor?: boolean; content?: string; expected_sha256?: string; generation_epoch?: string; artifact_kind?: 'architecture'|'technology_options'|'adr' }): Promise<DevPilotApplicationResponse> {
     // A real Ollama inference is deliberately one request with no automatic retry.
     const remoteInference = payload.action === 'generate_options' || payload.action === 'generate_adr';
     return this.post('/guided-sdlc/pre-code/technology-action', payload, { timeoutMs: remoteInference ? 450000 : READINESS_REQUEST_TIMEOUT_MS });
@@ -1115,7 +1115,8 @@ export class DevPilotApiClient {
     while (true) {
       try {
         const localLongDraft = init.method === 'POST' && /^\/guided-sdlc\/pre-code\/stages\/(?:scope|requirements)\/draft$/.test(path);
-        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs, localLongDraft ? 560000 : MAX_REQUEST_TIMEOUT_MS), attempt + 1);
+        const localTechnology = init.method === 'POST' && path === '/guided-sdlc/pre-code/technology-action' && policy.timeoutMs === 450000;
+        return await this.requestOnce(path, init, normalizeTimeout(policy.timeoutMs ?? this.requestTimeoutMs, localLongDraft ? 560000 : localTechnology ? 450000 : MAX_REQUEST_TIMEOUT_MS), attempt + 1);
       } catch (error) {
         if (!isTransientNetworkError(error) || attempt >= retryDelays.length) throw error;
         await sleep(retryDelays[attempt]);

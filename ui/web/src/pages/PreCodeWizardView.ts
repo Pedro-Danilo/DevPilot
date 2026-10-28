@@ -2,6 +2,8 @@ import { armApprovalCenterArtifactReviewHandoff, DevPilotApiClient, DevPilotApiE
 import type { AuthSessionContext, DevPilotApplicationResponse, PreCodeSemanticModel, PreCodeSemanticItem, PreCodeWizardProjection, PreCodeWizardStage, TechnologyDecisionProjection } from '../api/types';
 import { renderCriticalPathGuidance, renderTechnicalDisclosure } from '../components/CriticalPathGuidance';
 
+import { renderArchitectureWorkbench } from '../components/ArchitectureWorkbench';
+
 const ROUTE_CONTRACT_ID = 'ui.pre-code-wizard';
 
 export function renderPreCodeWizardView(tokenProvider: () => string | null, session: AuthSessionContext): HTMLElement {
@@ -175,6 +177,12 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       skipFeedback.replaceChildren(statusBox('block',`BLOCK: ${attempted.label} todavía no está habilitada. Completa y congela la etapa actual antes de avanzar; no se ejecutó ninguna mutación.`));
       skipFeedback.tabIndex=-1; skipFeedback.focus();
     }),skipFeedback);
+    const architecture=preCode.stages.find(row=>row.stage_id==='architecture');
+    if(architecture && (preCode.current_stage_id==='architecture' || architecture.status!=='MISSING')){
+      body.append(renderArchitectureWorkbench({projection:preCode,session,client,refresh:load,
+        lifecycle:preCode.current_stage_id==='architecture'?stageEditor(architecture,preCode,true):undefined,
+        companion:preCode.architecture_adr_bundle?.required && !preCode.architecture_adr_bundle.ready?renderArchitectureAdrGate(preCode.architecture_adr_bundle):undefined}));
+    }
     if(!currentStage && preCode.readiness.mandatory_stages_frozen===preCode.readiness.mandatory_stages_total && preCode.status!=='PRE_CODE_READY') {
       body.append(renderC03ReadinessGate(preCode));
       return;
@@ -189,12 +197,9 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     if(!stage){ body.append(statusBox('block','BLOCK: no existe current stage determinístico.')); return; }
     const adrGate=preCode.architecture_adr_bundle;
     if(adrGate?.required && !adrGate.ready){
-      body.append(renderArchitectureAdrGate(adrGate));
       if(stage.order>4) return;
     }
-    if(stage.stage_id==='architecture' && preCode.technology_decision){
-      body.append(foldPreCodeSection('Decisiones tecnológicas y ADR · Architecture',renderTechnologyDecisions(preCode.technology_decision, preCode, stage),'technology',true));
-    }
+    if(stage.stage_id==='architecture') return;
     const editor=stageEditor(stage,preCode);
     if(preCode.advisor){
       body.append(foldPreCodeSection('Rutas para esta etapa',renderPreCodeActionGuide(stage,preCode,editor),'actions',false));
@@ -260,108 +265,6 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       const open=document.createElement('button'); open.type='button'; open.className='button-link'; open.textContent='Abrir Approval Center dirigido ↗'; open.addEventListener('click',()=>{armApprovalCenterArtifactReviewHandoff(session,approvalId);globalThis.open(`/approvals?handoff=artifact-review&approval_id=${encodeURIComponent(approvalId)}`,'_blank','noopener,noreferrer');}); section.append(open);
       section.append(button('Verificar approval y materializar ADRs',async()=>{if(!await ensureLiveHumanSession(feedback))return;try{const shown=await client().showApproval(approvalId);const status=String((shown.data as Record<string,unknown>)?.['approval']&&((shown.data as Record<string,unknown>)['approval'] as Record<string,unknown>)['status']||'');if(status!=='approved'){setFeedback(feedback,'block',`Approval todavía está ${status||'pending'}. No se escriben ADRs.`);return;}const r=await client().preCodeArchitectureAdrsApply();if(!r.ok)throw new Error(formatFindings(r));await load('ADRs standalone materializados con approval exacto. Security queda habilitada.');}catch(e){await renderGovernedError(feedback,e);}}));
     }
-    return section;
-  }
-
-  function renderTechnologyDecisions(report: TechnologyDecisionProjection, preCode: PreCodeWizardProjection, stage: PreCodeWizardStage): HTMLElement {
-    const section=document.createElement('section');section.className='panel pre-code-technology-decisions';
-    section.dataset.technologyDecisionWorkbench='true';section.dataset.status=report.status;
-    const title=document.createElement('h3');title.textContent='Decisiones tecnológicas y ADR · Architecture';
-    const status=document.createElement('p');status.className='notice notice--info';
-    status.textContent=`${report.status} · ${report.material_adr_count} ADR materiales estructuradas · ${report.approval_lineage.state==='APPROVED_WITH_ARCHITECTURE'?'Vinculadas a Architecture aprobada':'Propuestas, todavía no aprobadas'}.`;
-    const guide=document.createElement('p');guide.textContent='Las decisiones de Architecture son propuestas hasta su revisión y aprobación. Las alternativas y ADR pueden generarse con Ollama local; el Owner solo elige una opción. No se instalan dependencias ni se escribe documentación del proyecto antes del approval gobernado.';
-    section.append(title,status,guide);
-    const authoring=preCode.r03_04_authoring;
-    if(stage.mode==='LOCAL_MODEL' && (stage.status==='DRAFT'||stage.status==='APPROVAL_REQUIRED') && !stage.approval_id){
-      const workflow=document.createElement('section');workflow.className='panel';workflow.dataset.r0304LocalAuthoring='true';
-      const heading=document.createElement('h4');heading.textContent='Autoría local de Technology Options y ADR';
-      const feedback=document.createElement('div');feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');feedback.className='pre-code-r0304-feedback notice notice--info';workflow.append(heading,feedback);
-      let pending=false;
-      const architectureModel=String(stage.derivation?.model||'').trim();
-      const technologyModel=String(authoring?.technology?.model||'').trim();
-      const modelLabel=document.createElement('label');modelLabel.textContent='Modelo Ollama para Technology Options y ADR';
-      const modelSelect=document.createElement('select');modelSelect.dataset.r0304ModelSelect='true';
-      for(const value of [...new Set([architectureModel,technologyModel].filter(Boolean))]){
-        const item=document.createElement('option');item.value=value;item.textContent=`${value}${value===architectureModel?' (utilizado en Architecture)':''}`;modelSelect.append(item);
-      }
-      const other=document.createElement('option');other.value='__custom__';other.textContent='Otro modelo local instalado…';modelSelect.append(other);
-      const customModel=document.createElement('input');customModel.type='text';customModel.maxLength=100;customModel.placeholder='Nombre exacto, p. ej. gemma3:4b';customModel.dataset.r0304CustomModel='true';
-      modelSelect.value=technologyModel||architectureModel||'__custom__';customModel.hidden=modelSelect.value!=='__custom__';
-      modelSelect.addEventListener('change',()=>{customModel.hidden=modelSelect.value!=='__custom__';});
-      const chosenModel=()=>modelSelect.value==='__custom__'?customModel.value.trim():modelSelect.value;
-      modelLabel.append(modelSelect,customModel);workflow.append(modelLabel);
-      const modelHelp=document.createElement('p');modelHelp.className='muted';modelHelp.textContent='Por defecto se reutiliza el modelo de Architecture; puedes indicar otro nombre Ollama exacto si está instalado. DevPilot verifica disponibilidad antes de consumir un intento. No modifica tu configuración global.';workflow.append(modelHelp);
-      const invoke=async(action:'generate_options'|'owner_revise_options'|'select_option'|'generate_adr'|'owner_revise_adr'|'reconcile',option_id='',successor=false,ownerContent=''):Promise<void>=>{
-        if(pending||!await ensureLiveHumanSession(feedback))return;
-        if((action==='generate_options'||action==='generate_adr')&&!chosenModel()){
-          setFeedback(feedback,'block','Selecciona un modelo Ollama antes de generar. No se inició inferencia.');return;
-        }
-        pending=true;
-        for(const control of workflow.querySelectorAll<HTMLButtonElement>('button'))control.disabled=true;
-        feedback.textContent=(action==='generate_options'||action==='generate_adr')?'Generando con modelo local (puede tardar varios minutos). Mantén esta pestaña abierta; no vuelvas a pulsar.':(action==='owner_revise_options'||action==='owner_revise_adr')?'Guardando versión Owner como candidata sucesora (sin inferencia ni aprobación)…':'Guardando selección y conciliando estados…';
-        try{
-          const result=await client().preCodeTechnologyAction({action,option_id,model:chosenModel(),successor,content:ownerContent});
-          if(!result.ok)throw new Error(formatFindings(result));
-          await load(action==='reconcile'?'Architecture DRAFT sucesor conciliado. Revisa y valida el nuevo diff; el plan anterior ya no es vigente.':'Acción Technology/ADR conservada; revisa el candidato y su procedencia.');
-        }catch(error){pending=false;for(const control of workflow.querySelectorAll<HTMLButtonElement>('button'))control.disabled=false;await renderGovernedError(feedback,error);
-          const modelAttemptBlocked=/R0304_(?:OLLAMA_CALL_FAILED|GENERATED_STRUCTURE_BLOCK|MODEL_OUTPUT_FORMAT_BLOCK|PREVIOUS_CALL_UNCERTAIN_EXPLICIT_SUCCESSOR_REQUIRED)/.test(String(error));
-          if(modelAttemptBlocked&&(action==='generate_options'||action==='generate_adr')&&!successor&&!workflow.querySelector('[data-r0304-successor]')){
-            const retry=button('Crear alternativa sucesora explícita (solo tras BLOCK)',()=>invoke(action,'',true));retry.dataset.r0304Successor='true';workflow.append(retry);
-          }
-        }
-      };
-      const t=authoring?.technology, a=authoring?.adr;
-      workflow.append(button(t?.status==='COMPLETE'?'Regenerar opciones (alternativa sucesora explícita)':'1. Generar opciones tecnológicas con modelo local',()=>invoke('generate_options','',t?.status==='COMPLETE')));
-      if(t?.status==='COMPLETE'&&t.content){
-        const doc=document.createElement('details');const sum=document.createElement('summary');sum.textContent='Leer Technology Options generadas (revisión humana obligatoria)';const pre=document.createElement('pre');pre.textContent=t.content;doc.append(sum,pre);
-         const provenance=document.createElement('p');provenance.className='muted';provenance.textContent=t.origin==='OWNER_REVISION'?'Versión Owner derivada del candidato '+String(t.revision_of_sha256||'').slice(0,12):'Candidata del modelo local; no aprobada';
-         const ownerLabel=document.createElement('label');ownerLabel.textContent='Revisión Owner del Markdown completo (sin cambios automáticos en FROZEN)';
-         const edit=document.createElement('textarea');edit.value=t.content;edit.rows=17;edit.className='pre-code-r0304-editor';edit.setAttribute('aria-label','Technology Options para revisión Owner');
-         ownerLabel.append(edit);doc.append(provenance,ownerLabel,button('Guardar revisión Owner de Technology Options',()=>invoke('owner_revise_options','',false,edit.value)));
-         workflow.append(doc);
-        const choices=Array.from(t.content.matchAll(/^##\s+Opci[oó]n\s+(T[1-3])\s*[—–:-]\s*(.+)$/gim));
-        const options=document.createElement('div');options.className='pre-code-technology-options';
-        for(const choice of choices){const id=choice[1].toUpperCase();const choose=button(`${authoring?.selected_option_id===id?'Seleccionada:':'Elegir'} ${id} — ${choice[2].trim()}`,()=>invoke('select_option',id));choose.disabled=authoring?.selected_option_id===id;options.append(choose);}
-        workflow.append(options);
-      }
-      if(authoring?.selected_option_id){
-        const chosen=document.createElement('p');chosen.textContent=`Selección del Owner: ${authoring.selected_option_id}. Este acto no instala ni publica la tecnología.`;workflow.append(chosen);
-        workflow.append(button(a?.status==='COMPLETE'?'Regenerar ADR (sucesora explícita)':'2. Proponer ADR con modelo local',()=>invoke('generate_adr','',a?.status==='COMPLETE')));
-      }
-      if(a?.status==='COMPLETE'&&a.content){
-        const doc=document.createElement('details');const sum=document.createElement('summary');sum.textContent='Leer ADR generada (revisión humana obligatoria)';const pre=document.createElement('pre');pre.textContent=a.content;doc.append(sum,pre);
-         const ownerLabel=document.createElement('label');ownerLabel.textContent='Revisión Owner de ADR (debe identificar opción seleccionada)';
-         const edit=document.createElement('textarea');edit.value=a.content;edit.rows=13;edit.className='pre-code-r0304-editor';edit.setAttribute('aria-label','ADR para revisión Owner');
-         ownerLabel.append(edit);doc.append(ownerLabel,button('Guardar revisión Owner de ADR',()=>invoke('owner_revise_adr','',false,edit.value)));
-         workflow.append(doc);
-        if(!authoring?.architecture_reconciled)workflow.append(button('3. Incorporar elección y ADR al DRAFT Architecture',()=>invoke('reconcile')));
-      }
-      if(authoring?.architecture_reconciled){const ok=document.createElement('p');ok.className='notice notice--info';ok.textContent='Propuestas vinculadas al DRAFT. Completa la revisión y el approval de Architecture, y luego materializa sus dos documentos independientes mediante el plan multiarchivo gobernado.';workflow.append(ok);}
-      section.append(workflow);
-    }
-    if(report.adrs.length){
-      const list=document.createElement('ol');list.dataset.materialAdrCandidates='true';
-      for(const adr of report.adrs){
-        const item=document.createElement('li');
-        const heading=document.createElement('strong');heading.textContent=`${adr.adr_id} · ${adr.title}`;
-        const decision=document.createElement('p');decision.textContent=`Propuesta: ${adr.proposal||'Sin decisión clara'}`;
-        const alternatives=document.createElement('p');alternatives.textContent=`Alternativas: ${adr.alternatives||'No sustentadas'}`;
-        const effects=document.createElement('p');effects.textContent=`Consecuencias: ${adr.consequences||'No sustentadas'}`;
-        item.append(heading,decision,alternatives,effects);list.append(item);
-      }
-      section.append(list);
-    }else{
-      const empty=document.createElement('p');empty.textContent='No se identificaron ADRs estructuradas en este borrador. Esto no demuestra que no sean necesarias: revisa si existe una decisión material y, de ser así, documenta Contexto, Decisión, Alternativas y Consecuencias bajo una entrada ADR.';section.append(empty);
-    }
-    if(report.findings.length){
-      const issues=document.createElement('ul');issues.dataset.technologyDecisionFindings='true';
-      for(const check of report.findings){const li=document.createElement('li');li.textContent=`${check.severity} · ${check.message}`;issues.append(li);}
-      section.append(issues);
-    }
-    const expert=document.createElement('details');expert.className='expert-only';
-    const summary=document.createElement('summary');summary.textContent='Proveniencia y límites técnicos';
-    const facts=document.createElement('p');facts.textContent=`Candidato: ${report.candidate_content_sha256}. Referencias upstream: ${report.upstream_refs.map(ref=>`${ref.stage}=${ref.sha256}`).join(' · ')||'SIN VERIFICAR'}. Materialización ADR standalone: no realizada por esta proyección.`;
-    expert.append(summary,facts);section.append(expert);
     return section;
   }
 
@@ -460,7 +363,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     return {element:host,read:()=>draft};
   }
 
-  function stageEditor(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection): HTMLElement {
+  function stageEditor(stage: PreCodeWizardStage, preCode: PreCodeWizardProjection, canonicalSurface=false): HTMLElement {
     const section=document.createElement('section'); section.className='panel pre-code-stage'; section.dataset.stageId=stage.stage_id; section.dataset.stageStatus=stage.status;
     const heading=document.createElement('h3'); heading.textContent=`${stage.order}. ${stage.label}`;
     const path=document.createElement('p'); path.className='muted'; path.textContent=`Destino gobernado: ${stage.relative_path} · Estado ${stage.status}`;
@@ -468,7 +371,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
     const feedback=document.createElement('div'); feedback.dataset.preCodeStageFeedback='true'; feedback.setAttribute('role','status'); feedback.setAttribute('aria-live','polite'); section.append(feedback);
     const inbox=preCode.semantic_model && stage.status!=='MISSING' ? semanticDecisionInbox(preCode.semantic_model,stage.stage_id) : null;
 
-    if(['MISSING','DRAFT','FINDINGS'].includes(stage.status)){
+    if(!canonicalSurface && ['MISSING','DRAFT','FINDINGS'].includes(stage.status)){
       const form=document.createElement('div'); form.className='pre-code-stage__editor';
       const modeLabel=document.createElement('label'); modeLabel.textContent='Modo de autoría';
       const mode=document.createElement('select'); mode.dataset.preCodeAuthoringMode='true'; mode.setAttribute('aria-label','Modo de autoría');
@@ -767,7 +670,7 @@ export function renderPreCodeWizardView(tokenProvider: () => string | null, sess
       }
       plan.append(meta);
       if(stage.diff?.content){ const diff=document.createElement('pre'); diff.className='pre-code-plan__diff'; diff.dataset.diffSha256=stage.diff.sha256; diff.textContent=stage.diff.content; plan.append(diff); const warning=document.createElement('p'); warning.className='muted'; warning.textContent='Si cambia el DRAFT o una decisión semántica, este plan/diff deja de representar el cambio aprobado y debe generarse de nuevo.'; plan.append(warning); }
-      if((stage.mode==='DEVPL_MOCK'||(stage.mode as string)==='LOCAL_MODEL') && stage.draft_content){
+      if(!canonicalSurface && (stage.mode==='DEVPL_MOCK'||(stage.mode as string)==='LOCAL_MODEL') && stage.draft_content){
         const edit=document.createElement('details'); edit.className='pre-code-plan-edit';
         const es=document.createElement('summary'); es.textContent='Editar propuesta antes de aprobar';
         const ep=document.createElement('p'); ep.className='muted'; ep.textContent='Guardar una edición invalida este plan/diff y obliga a validar de nuevo.';

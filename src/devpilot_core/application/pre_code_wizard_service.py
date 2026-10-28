@@ -167,6 +167,17 @@ class PreCodeWizardApplicationService:
         projection = self._projection(state, workspace_id, workspace_root, effective_roles, workspace_scopes)
         if workspace_id in set(workspace_scopes):
             projection['r03_04_authoring'] = self._technology_public(state)
+            from .architecture_workbench_projection import project_documents
+            arch = self._stage_state(state, 'architecture')
+            projection['architecture_workbench_documents'] = project_documents(
+                workspace_root=workspace_root, arch=arch, authoring=state.get('r03_04_authoring') or {},
+                bundle=projection.get('architecture_adr_bundle') or {},
+                architecture_path=self._stage_by_id['architecture']['relative_path'],
+                current=projection.get('current_stage_id') == 'architecture', owner='owner' in effective_roles,
+                candidate_reader=lambda record: self.technology_authoring.bound_candidate(workspace_id, record))
+            projection['project_name'] = str(parse_project_yaml_metadata(workspace_root/'.devpilot/project.yaml').get('project_name') or workspace_id)
+            folder = self.root/'outputs/mp132_r03_03'/workspace_id
+            projection['architecture_inference_pending'] = any(folder.glob('*.lock')) or any(folder.glob('seg-*/plan.lock'))
             try:
                 projection['r03_04_authoring']['activity'] = self.technology_authoring.activity(workspace_id)
             except (ValueError,OSError,UnicodeError) as exc:
